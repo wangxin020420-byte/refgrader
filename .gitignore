@@ -1,0 +1,14 @@
+# Python virtual environment (pip install 重建即可)
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store

@@ -1,0 +1,95 @@
+[
+    {
+        "student_id": "E12314029_Q6",
+        "teacher_score": 4.0,
+        "model_scores_history": [
+            2,
+            10,
+            2
+        ],
+        "model_avg_score": 5,
+        "std_dev": 3.7712,
+        "blank_rate": 0.09,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": -1.0,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 5,
+        "requires_human_arbitration": true,
+        "reason_log": "各子项得分均为0分，但总分判定却出现2分与10分的矛盾。",
+        "human_review_hint": "各子项得分均为0分，但总分判定却出现2分与10分的矛盾。",
+        "facts": "{\"q6_p1_group1_bits\": \"12位\", \"q6_p1_group2_bits\": \"8位\", \"q6_p1_group3_bits\": \"16位\", \"q6_p1_group4_bits\": \"4位\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"40位\", \"q6_p1_bcf_bits\": \"8位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"57位\", \"q6_p2_control_memory_total_bits\": \"29184位\", \"q6_p2_control_memory_total_bytes\": \"3648B\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为4位，学生答12位"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为4位，学生答8位"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为5位，学生答16位"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为3位，学生答4位"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为156位，学生答40位"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为3位，学生答8位"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为168位，学生答57位"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为86016位，学生答29184位"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为10752字节，学生答3648B"
+                }
+            ],
+            "total_score": 2
+        }
+    }
+]

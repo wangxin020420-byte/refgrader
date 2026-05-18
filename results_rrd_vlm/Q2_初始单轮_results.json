@@ -1,0 +1,772 @@
+[
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级顺序是否正确，即A > D > C > E > B？",
+                "satisfied": true,
+                "reason": "学生答题中明确写出中断处理优先级为A>D>C>E>B，与要求一致"
+            },
+            {
+                "item": "中断源A的屏蔽字是否为11111？",
+                "satisfied": true,
+                "reason": "学生用“1 - - - -”表示A的屏蔽字，对应二进制11111，符合要求"
+            },
+            {
+                "item": "中断源B的屏蔽字是否为10000？",
+                "satisfied": false,
+                "reason": "学生书写B的屏蔽字为“0 1 0 0 0”，与要求的10000不符"
+            },
+            {
+                "item": "中断源C的屏蔽字是否为11100？",
+                "satisfied": false,
+                "reason": "学生书写C的屏蔽字为“0 1 1 0 0”，与要求的11100不符"
+            },
+            {
+                "item": "中断源D的屏蔽字是否为11110？",
+                "satisfied": false,
+                "reason": "学生书写D的屏蔽字为“0 1 1 1 0”，与要求的11110不符"
+            },
+            {
+                "item": "中断源E的屏蔽字是否为11011？",
+                "satisfied": false,
+                "reason": "学生书写E的屏蔽字为“0 1 0 0 1”，与要求的11011不符"
+            },
+            {
+                "item": "图表是否包含用户程序执行的表示？",
+                "satisfied": true,
+                "reason": "学生绘制的时序图中包含“用户程序”的标识"
+            },
+            {
+                "item": "图表是否包含中断A处理的表示？",
+                "satisfied": true,
+                "reason": "时序图中明确有“A程序”的处理段"
+            },
+            {
+                "item": "图表是否包含中断B处理的表示？",
+                "satisfied": true,
+                "reason": "时序图中明确有“B程序”的处理段"
+            },
+            {
+                "item": "图表是否包含中断C处理的表示？",
+                "satisfied": true,
+                "reason": "时序图中明确有“C程序”的处理段"
+            },
+            {
+                "item": "图表是否包含中断D处理的表示？",
+                "satisfied": true,
+                "reason": "时序图中明确有“D程序”的处理段"
+            },
+            {
+                "item": "图表是否包含中断E处理的表示？",
+                "satisfied": true,
+                "reason": "时序图中明确有“E程序”的处理段"
+            },
+            {
+                "item": "图表是否正确展示了中断处理的顺序，以反映给定的优先级（A > D > C > E > B）？",
+                "satisfied": true,
+                "reason": "时序图中中断处理顺序为A→D→C→E→B，与优先级顺序一致"
+            },
+            {
+                "item": "图表是否正确展示了抢占，即当CPU正在处理一个中断时，一个更高优先级的中断可以中断当前处理？",
+                "satisfied": true,
+                "reason": "时序图中D（优先级高于C）的处理段出现在C处理段之前，体现了高优先级中断对低优先级的抢占"
+            }
+        ],
+        "total_score": 16,
+        "feedback": "学生中断处理优先级顺序和时序图结构正确，但中断屏蔽字书写存在错误（B、C、D、E的屏蔽字不符合要求）",
+        "student_id": "E01914115_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级顺序是否正确，即A > D > C > E > B？",
+                "satisfied": true,
+                "reason": "学生答题中明确写出中断处理优先级顺序为A>D>C>E>B，与要求一致"
+            },
+            {
+                "item": "中断源A的屏蔽字是否为11111？",
+                "satisfied": true,
+                "reason": "学生屏蔽字表格中A行填写为1 1 1 1 1，符合要求"
+            },
+            {
+                "item": "中断源B的屏蔽字是否为10000？",
+                "satisfied": false,
+                "reason": "学生屏蔽字表格中B行填写为0 1 0 0 0，不符合10000的要求"
+            },
+            {
+                "item": "中断源C的屏蔽字是否为11100？",
+                "satisfied": false,
+                "reason": "学生屏蔽字表格中C行填写为0 1 1 0 1，不符合11100的要求"
+            },
+            {
+                "item": "中断源D的屏蔽字是否为11110？",
+                "satisfied": false,
+                "reason": "学生屏蔽字表格中D行填写为0 1 1 1 1，不符合11110的要求"
+            },
+            {
+                "item": "中断源E的屏蔽字是否为11011？",
+                "satisfied": false,
+                "reason": "学生屏蔽字表格中E行填写为0 1 0 0 1，不符合11011的要求"
+            },
+            {
+                "item": "图表是否包含用户程序执行的表示？",
+                "satisfied": true,
+                "reason": "学生图中左侧有“用户程序”的标注，包含用户程序执行的表示"
+            },
+            {
+                "item": "图表是否包含中断A处理的表示？",
+                "satisfied": true,
+                "reason": "学生图中包含A程序的处理块，表示中断A的处理"
+            },
+            {
+                "item": "图表是否包含中断B处理的表示？",
+                "satisfied": true,
+                "reason": "学生图中包含B程序的处理块，表示中断B的处理"
+            },
+            {
+                "item": "图表是否包含中断C处理的表示？",
+                "satisfied": true,
+                "reason": "学生图中包含C程序的处理块，表示中断C的处理"
+            },
+            {
+                "item": "图表是否包含中断D处理的表示？",
+                "satisfied": true,
+                "reason": "学生图中包含D程序的处理块，表示中断D的处理"
+            },
+            {
+                "item": "图表是否包含中断E处理的表示？",
+                "satisfied": true,
+                "reason": "学生图中包含E程序的处理块，表示中断E的处理"
+            },
+            {
+                "item": "图表是否正确展示了中断处理的顺序，以反映给定的优先级（A > D > C > E > B）？",
+                "satisfied": true,
+                "reason": "学生图中中断处理顺序为A→D→C→E→B，符合优先级要求"
+            },
+            {
+                "item": "图表是否正确展示了抢占，即当CPU正在处理一个中断时，一个更高优先级的中断可以中断当前处理？",
+                "satisfied": true,
+                "reason": "学生图中处理C级中断时，D级中断（更高优先级）中断了C的处理，正确展示了抢占"
+            }
+        ],
+        "total_score": 16,
+        "feedback": "学生中断处理优先级顺序和图表部分基本正确，但中断屏蔽字填写错误（B、C、D、E的屏蔽字不符合要求）",
+        "student_id": "E01914214_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级顺序是否正确，即A > D > C > E > B？",
+                "satisfied": true,
+                "reason": "学生答案中中断处理优先级顺序为A > D > C > E > B，与正确顺序一致"
+            },
+            {
+                "item": "中断源A的屏蔽字是否为11111？",
+                "satisfied": false,
+                "reason": "学生答案中A的屏蔽字未写为11111"
+            },
+            {
+                "item": "中断源B的屏蔽字是否为10000？",
+                "satisfied": false,
+                "reason": "学生答案中B的屏蔽字未写为10000"
+            },
+            {
+                "item": "中断源C的屏蔽字是否为11100？",
+                "satisfied": false,
+                "reason": "学生答案中C的屏蔽字未写为11100"
+            },
+            {
+                "item": "中断源D的屏蔽字是否为11110？",
+                "satisfied": false,
+                "reason": "学生答案中D的屏蔽字未写为11110"
+            },
+            {
+                "item": "中断源E的屏蔽字是否为11011？",
+                "satisfied": false,
+                "reason": "学生答案中E的屏蔽字未写为11011"
+            },
+            {
+                "item": "图表是否包含用户程序执行的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含用户程序的表示"
+            },
+            {
+                "item": "图表是否包含中断A处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含中断A处理的表示"
+            },
+            {
+                "item": "图表是否包含中断B处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含中断B处理的表示"
+            },
+            {
+                "item": "图表是否包含中断C处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含中断C处理的表示"
+            },
+            {
+                "item": "图表是否包含中断D处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含中断D处理的表示"
+            },
+            {
+                "item": "图表是否包含中断E处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含中断E处理的表示"
+            },
+            {
+                "item": "图表是否正确展示了中断处理的顺序，以反映给定的优先级（A > D > C > E > B）？",
+                "satisfied": false,
+                "reason": "学生图表未正确展示A > D > C > E > B的优先级顺序"
+            },
+            {
+                "item": "图表是否正确展示了抢占，即当CPU正在处理一个中断时，一个更高优先级的中断可以中断当前处理？",
+                "satisfied": false,
+                "reason": "学生图表未正确展示高优先级中断抢占低优先级中断的处理过程"
+            }
+        ],
+        "total_score": 11,
+        "feedback": "学生易错点在于中断屏蔽字书写错误，且图表未正确体现中断处理优先级顺序和抢占关系",
+        "student_id": "E01914290_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级顺序是否正确，即A > D > C > E > B？",
+                "satisfied": true,
+                "reason": "学生写的中断处理优先级顺序为A > D > C > E > B，与要求一致"
+            },
+            {
+                "item": "中断源A的屏蔽字是否为11111？",
+                "satisfied": false,
+                "reason": "学生写的中断源A的屏蔽字为“DCEB”，不是11111"
+            },
+            {
+                "item": "中断源B的屏蔽字是否为10000？",
+                "satisfied": false,
+                "reason": "学生写的中断源B的屏蔽字为“无”，不是10000"
+            },
+            {
+                "item": "中断源C的屏蔽字是否为11100？",
+                "satisfied": false,
+                "reason": "学生写的中断源C的屏蔽字为“EB”，不是11100"
+            },
+            {
+                "item": "中断源D的屏蔽字是否为11110？",
+                "satisfied": false,
+                "reason": "学生写的中断源D的屏蔽字为“CEB”，不是11110"
+            },
+            {
+                "item": "中断源E的屏蔽字是否为11011？",
+                "satisfied": false,
+                "reason": "学生写的中断源E的屏蔽字为“B”，不是11011"
+            },
+            {
+                "item": "图表是否包含用户程序执行的表示？",
+                "satisfied": true,
+                "reason": "学生图中标注了“用户程序”"
+            },
+            {
+                "item": "图表是否包含中断A处理的表示？",
+                "satisfied": true,
+                "reason": "学生图中标注了“A程序”"
+            },
+            {
+                "item": "图表是否包含中断B处理的表示？",
+                "satisfied": true,
+                "reason": "学生图中标注了“B程序”"
+            },
+            {
+                "item": "图表是否包含中断C处理的表示？",
+                "satisfied": true,
+                "reason": "学生图中标注了“C程序”"
+            },
+            {
+                "item": "图表是否包含中断D处理的表示？",
+                "satisfied": true,
+                "reason": "学生图中标注了“D程序”"
+            },
+            {
+                "item": "图表是否包含中断E处理的表示？",
+                "satisfied": true,
+                "reason": "学生图中标注了“E程序”"
+            },
+            {
+                "item": "图表是否正确展示了中断处理的顺序，以反映给定的优先级（A > D > C > E > B）？",
+                "satisfied": true,
+                "reason": "学生图中中断处理的顺序符合A > D > C > E > B的优先级"
+            },
+            {
+                "item": "图表是否正确展示了抢占，即当CPU正在处理一个中断时，一个更高优先级的中断可以中断当前处理？",
+                "satisfied": true,
+                "reason": "学生图中体现了更高优先级中断（如D中断C）的抢占处理"
+            }
+        ],
+        "total_score": 15,
+        "feedback": "学生正确判断了中断处理优先级顺序，但中断屏蔽字书写错误，图表基本包含各程序表示且顺序和抢占正确",
+        "student_id": "E02014181_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级顺序是否正确，即A > D > C > E > B？",
+                "satisfied": true,
+                "reason": "学生答案中中断处理优先级顺序为A>D>C>E>B，与评分细则要求一致"
+            },
+            {
+                "item": "中断源A的屏蔽字是否为11111？",
+                "satisfied": true,
+                "reason": "学生答案中A的屏蔽字为11111，符合要求"
+            },
+            {
+                "item": "中断源B的屏蔽字是否为10000？",
+                "satisfied": false,
+                "reason": "学生答案中B的屏蔽字为01000，与评分细则要求的10000不符"
+            },
+            {
+                "item": "中断源C的屏蔽字是否为11100？",
+                "satisfied": false,
+                "reason": "学生答案中C的屏蔽字为01101，与评分细则要求的11100不符"
+            },
+            {
+                "item": "中断源D的屏蔽字是否为11110？",
+                "satisfied": false,
+                "reason": "学生答案中D的屏蔽字为01111，与评分细则要求的11110不符"
+            },
+            {
+                "item": "中断源E的屏蔽字是否为11011？",
+                "satisfied": false,
+                "reason": "学生答案中E的屏蔽字为01001，与评分细则要求的11011不符"
+            },
+            {
+                "item": "图表是否包含用户程序执行的表示？",
+                "satisfied": true,
+                "reason": "学生图表中标注了“用户程序”，包含用户程序执行的表示"
+            },
+            {
+                "item": "图表是否包含中断A处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含A程序的表示"
+            },
+            {
+                "item": "图表是否包含中断B处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含B程序的表示"
+            },
+            {
+                "item": "图表是否包含中断C处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含C程序的表示"
+            },
+            {
+                "item": "图表是否包含中断D处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含D程序的表示"
+            },
+            {
+                "item": "图表是否包含中断E处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含E程序的表示"
+            },
+            {
+                "item": "图表是否正确展示了中断处理的顺序，以反映给定的优先级（A > D > C > E > B）？",
+                "satisfied": true,
+                "reason": "学生图表中中断处理顺序为A→D→C→E→B，符合优先级要求"
+            },
+            {
+                "item": "图表是否正确展示了抢占，即当CPU正在处理一个中断时，一个更高优先级的中断可以中断当前处理？",
+                "satisfied": true,
+                "reason": "学生图表中D（更高优先级）在C处理时抢占，符合抢占规则"
+            }
+        ],
+        "total_score": 16,
+        "feedback": "学生中断处理优先级顺序和图表顺序正确，但中断屏蔽字填写错误，导致部分分数丢失",
+        "student_id": "E12214006_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级顺序是否正确，即A > D > C > E > B？",
+                "satisfied": true,
+                "reason": "学生答题中明确写出中断处理优先级为A>D>C>E>B，与要求一致"
+            },
+            {
+                "item": "中断源A的屏蔽字是否为11111？",
+                "satisfied": true,
+                "reason": "学生答题中A的屏蔽字为11111，与要求一致"
+            },
+            {
+                "item": "中断源B的屏蔽字是否为10000？",
+                "satisfied": false,
+                "reason": "学生答题中B的屏蔽字为00000，与要求的10000不符"
+            },
+            {
+                "item": "中断源C的屏蔽字是否为11100？",
+                "satisfied": false,
+                "reason": "学生答题中C的屏蔽字为01101，与要求的11100不符"
+            },
+            {
+                "item": "中断源D的屏蔽字是否为11110？",
+                "satisfied": false,
+                "reason": "学生答题中D的屏蔽字为01111，与要求的11110不符"
+            },
+            {
+                "item": "中断源E的屏蔽字是否为11011？",
+                "satisfied": false,
+                "reason": "学生答题中E的屏蔽字为01001，与要求的11011不符"
+            },
+            {
+                "item": "图表是否包含用户程序执行的表示？",
+                "satisfied": true,
+                "reason": "学生答题的图表中包含“用户程序”的表示"
+            },
+            {
+                "item": "图表是否包含中断A处理的表示？",
+                "satisfied": true,
+                "reason": "学生答题的图表中包含“A程序”的表示"
+            },
+            {
+                "item": "图表是否包含中断B处理的表示？",
+                "satisfied": true,
+                "reason": "学生答题的图表中包含“B程序”的表示"
+            },
+            {
+                "item": "图表是否包含中断C处理的表示？",
+                "satisfied": true,
+                "reason": "学生答题的图表中包含“C程序”的表示"
+            },
+            {
+                "item": "图表是否包含中断D处理的表示？",
+                "satisfied": true,
+                "reason": "学生答题的图表中包含“D程序”的表示"
+            },
+            {
+                "item": "图表是否包含中断E处理的表示？",
+                "satisfied": true,
+                "reason": "学生答题的图表中包含“E程序”的表示"
+            },
+            {
+                "item": "图表是否正确展示了中断处理的顺序，以反映给定的优先级（A > D > C > E > B）？",
+                "satisfied": false,
+                "reason": "学生图表中中断处理顺序未按A>D>C>E>B排列（如C处理在D处理前），未正确反映优先级"
+            },
+            {
+                "item": "图表是否正确展示了抢占，即当CPU正在处理一个中断时，一个更高优先级的中断可以中断当前处理？",
+                "satisfied": false,
+                "reason": "学生图表中未正确展示高优先级中断对低优先级中断处理的抢占（如D处理时未体现C、E、B可被中断）"
+            }
+        ],
+        "total_score": 12,
+        "feedback": "学生中断处理优先级顺序正确，但中断屏蔽字填写错误，图表顺序未正确反映优先级且未正确展示抢占",
+        "student_id": "E12214023_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级顺序是否正确，即A > D > C > E > B？",
+                "satisfied": true,
+                "reason": "学生正确判断了中断处理优先级顺序为A > D > C > E > B"
+            },
+            {
+                "item": "中断源A的屏蔽字是否为11111？",
+                "satisfied": true,
+                "reason": "学生给出的A级中断屏蔽字为11111，符合要求"
+            },
+            {
+                "item": "中断源B的屏蔽字是否为10000？",
+                "satisfied": true,
+                "reason": "学生给出的B级中断屏蔽字为10000，符合要求"
+            },
+            {
+                "item": "中断源C的屏蔽字是否为11100？",
+                "satisfied": true,
+                "reason": "学生给出的C级中断屏蔽字为11100，符合要求"
+            },
+            {
+                "item": "中断源D的屏蔽字是否为11110？",
+                "satisfied": true,
+                "reason": "学生给出的D级中断屏蔽字为11110，符合要求"
+            },
+            {
+                "item": "中断源E的屏蔽字是否为11011？",
+                "satisfied": true,
+                "reason": "学生给出的E级中断屏蔽字为11011，符合要求"
+            },
+            {
+                "item": "图表是否包含用户程序执行的表示？",
+                "satisfied": true,
+                "reason": "图表中显示了用户程序的执行阶段"
+            },
+            {
+                "item": "图表是否包含中断A处理的表示？",
+                "satisfied": true,
+                "reason": "图表中包含中断A的处理块"
+            },
+            {
+                "item": "图表是否包含中断B处理的表示？",
+                "satisfied": true,
+                "reason": "图表中包含中断B的处理块"
+            },
+            {
+                "item": "图表是否包含中断C处理的表示？",
+                "satisfied": true,
+                "reason": "图表中包含中断C的处理块"
+            },
+            {
+                "item": "图表是否包含中断D处理的表示？",
+                "satisfied": true,
+                "reason": "图表中包含中断D的处理块"
+            },
+            {
+                "item": "图表是否包含中断E处理的表示？",
+                "satisfied": true,
+                "reason": "图表中包含中断E的处理块"
+            },
+            {
+                "item": "图表是否正确展示了中断处理的顺序，以反映给定的优先级（A > D > C > E > B）？",
+                "satisfied": true,
+                "reason": "图表中中断处理的顺序符合A > D > C > E > B的优先级"
+            },
+            {
+                "item": "图表是否正确展示了抢占，即当CPU正在处理一个中断时，一个更高优先级的中断可以中断当前处理？",
+                "satisfied": true,
+                "reason": "图表中显示高优先级中断（如D）中断了低优先级中断（如C）的处理，体现了抢占"
+            }
+        ],
+        "total_score": 20,
+        "feedback": "学生正确完成了中断处理优先级判断、屏蔽字设置及中断处理顺序图的绘制，所有评分项均满足要求",
+        "student_id": "E12214062_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级顺序是否正确，即A > D > C > E > B？",
+                "satisfied": true,
+                "reason": "学生写的中断处理优先级为A→D→C→E→B，与评分细则一致"
+            },
+            {
+                "item": "中断源A的屏蔽字是否为11111？",
+                "satisfied": true,
+                "reason": "学生给出的A级中断屏蔽字为11111，符合要求"
+            },
+            {
+                "item": "中断源B的屏蔽字是否为10000？",
+                "satisfied": false,
+                "reason": "学生给出的B级中断屏蔽字为01000，与评分细则要求的10000不符"
+            },
+            {
+                "item": "中断源C的屏蔽字是否为11100？",
+                "satisfied": false,
+                "reason": "学生给出的C级中断屏蔽字为01101，与评分细则要求的11100不符"
+            },
+            {
+                "item": "中断源D的屏蔽字是否为11110？",
+                "satisfied": false,
+                "reason": "学生给出的D级中断屏蔽字为01111，与评分细则要求的11110不符"
+            },
+            {
+                "item": "中断源E的屏蔽字是否为11011？",
+                "satisfied": false,
+                "reason": "学生给出的E级中断屏蔽字为01011，与评分细则要求的11011不符"
+            },
+            {
+                "item": "图表是否包含用户程序执行的表示？",
+                "satisfied": true,
+                "reason": "图中包含“用户程序”的表示"
+            },
+            {
+                "item": "图表是否包含中断A处理的表示？",
+                "satisfied": true,
+                "reason": "图中包含“A程序”的表示"
+            },
+            {
+                "item": "图表是否包含中断B处理的表示？",
+                "satisfied": true,
+                "reason": "图中包含“B程序”的表示"
+            },
+            {
+                "item": "图表是否包含中断C处理的表示？",
+                "satisfied": true,
+                "reason": "图中包含“C程序”的表示"
+            },
+            {
+                "item": "图表是否包含中断D处理的表示？",
+                "satisfied": true,
+                "reason": "图中包含“D程序”的表示"
+            },
+            {
+                "item": "图表是否包含中断E处理的表示？",
+                "satisfied": true,
+                "reason": "图中包含“E程序”的表示"
+            },
+            {
+                "item": "图表是否正确展示了中断处理的顺序，以反映给定的优先级（A > D > C > E > B）？",
+                "satisfied": false,
+                "reason": "图中中断处理顺序未正确反映A > D > C > E > B的优先级"
+            },
+            {
+                "item": "图表是否正确展示了抢占，即当CPU正在处理一个中断时，一个更高优先级的中断可以中断当前处理？",
+                "satisfied": false,
+                "reason": "图中未正确展示高优先级中断对低优先级处理的抢占关系"
+            }
+        ],
+        "total_score": 13,
+        "feedback": "学生在中断屏蔽字填写和中断处理顺序图绘制上存在多处错误，尤其是屏蔽字与优先级顺序的匹配问题",
+        "student_id": "E12214075_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级顺序是否正确，即A > D > C > E > B？",
+                "satisfied": true,
+                "reason": "学生答案中中断处理优先级顺序为A>D>C>E>B，与要求一致"
+            },
+            {
+                "item": "中断源A的屏蔽字是否为11111？",
+                "satisfied": true,
+                "reason": "学生答案中A的屏蔽字为11111，符合要求"
+            },
+            {
+                "item": "中断源B的屏蔽字是否为10000？",
+                "satisfied": false,
+                "reason": "学生答案中B的屏蔽字为01000，不符合要求"
+            },
+            {
+                "item": "中断源C的屏蔽字是否为11100？",
+                "satisfied": false,
+                "reason": "学生答案中C的屏蔽字为01101，不符合要求"
+            },
+            {
+                "item": "中断源D的屏蔽字是否为11110？",
+                "satisfied": false,
+                "reason": "学生答案中D的屏蔽字为01111，不符合要求"
+            },
+            {
+                "item": "中断源E的屏蔽字是否为11011？",
+                "satisfied": false,
+                "reason": "学生答案中E的屏蔽字为01001，不符合要求"
+            },
+            {
+                "item": "图表是否包含用户程序执行的表示？",
+                "satisfied": true,
+                "reason": "学生图表中标注了“用户程序”，包含该表示"
+            },
+            {
+                "item": "图表是否包含中断A处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中标注了“A程序”，包含该表示"
+            },
+            {
+                "item": "图表是否包含中断B处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中标注了“B程序”，包含该表示"
+            },
+            {
+                "item": "图表是否包含中断C处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中标注了“C程序”，包含该表示"
+            },
+            {
+                "item": "图表是否包含中断D处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中标注了“D程序”，包含该表示"
+            },
+            {
+                "item": "图表是否包含中断E处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中标注了“E程序”，包含该表示"
+            },
+            {
+                "item": "图表是否正确展示了中断处理的顺序，以反映给定的优先级（A > D > C > E > B）？",
+                "satisfied": true,
+                "reason": "学生图表中中断处理顺序为A→D→C→E→B，符合优先级要求"
+            },
+            {
+                "item": "图表是否正确展示了抢占，即当CPU正在处理一个中断时，一个更高优先级的中断可以中断当前处理？",
+                "satisfied": true,
+                "reason": "学生图表中处理C级中断时，D级中断（更高优先级）抢占处理，符合抢占要求"
+            }
+        ],
+        "total_score": 16,
+        "feedback": "学生中断处理优先级顺序和图表部分正确，但中断屏蔽字填写错误，需注意屏蔽字每一位的含义及各级中断的屏蔽规则",
+        "student_id": "E12214091_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级顺序是否正确，即A > D > C > E > B？",
+                "satisfied": true,
+                "reason": "学生答案中中断处理优先级顺序为A>D>C>E>B，符合题目要求"
+            },
+            {
+                "item": "中断源A的屏蔽字是否为11111？",
+                "satisfied": true,
+                "reason": "学生答案中A的屏蔽字为11111，正确"
+            },
+            {
+                "item": "中断源B的屏蔽字是否为10000？",
+                "satisfied": false,
+                "reason": "学生答案中B的屏蔽字为01000，不符合要求"
+            },
+            {
+                "item": "中断源C的屏蔽字是否为11100？",
+                "satisfied": false,
+                "reason": "学生答案中C的屏蔽字为01101，不符合要求"
+            },
+            {
+                "item": "中断源D的屏蔽字是否为11110？",
+                "satisfied": false,
+                "reason": "学生答案中D的屏蔽字为01111，不符合要求"
+            },
+            {
+                "item": "中断源E的屏蔽字是否为11011？",
+                "satisfied": false,
+                "reason": "学生答案中E的屏蔽字为01001，不符合要求"
+            },
+            {
+                "item": "图表是否包含用户程序执行的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含用户程序的表示"
+            },
+            {
+                "item": "图表是否包含中断A处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含中断A处理的表示"
+            },
+            {
+                "item": "图表是否包含中断B处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含中断B处理的表示"
+            },
+            {
+                "item": "图表是否包含中断C处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含中断C处理的表示"
+            },
+            {
+                "item": "图表是否包含中断D处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含中断D处理的表示"
+            },
+            {
+                "item": "图表是否包含中断E处理的表示？",
+                "satisfied": true,
+                "reason": "学生图表中包含中断E处理的表示"
+            },
+            {
+                "item": "图表是否正确展示了中断处理的顺序，以反映给定的优先级（A > D > C > E > B）？",
+                "satisfied": true,
+                "reason": "学生图表中中断处理顺序符合A>D>C>E>B的优先级"
+            },
+            {
+                "item": "图表是否正确展示了抢占，即当CPU正在处理一个中断时，一个更高优先级的中断可以中断当前处理？",
+                "satisfied": true,
+                "reason": "学生图表中展示了更高优先级中断抢占当前处理的过程"
+            }
+        ],
+        "total_score": 16,
+        "feedback": "学生易错点在于中断源B、C、D、E的屏蔽字书写错误，需注意屏蔽字每一位的含义及处理优先级对屏蔽字的影响。",
+        "student_id": "E12214098_Q2.jpg"
+    }
+]

@@ -1,0 +1,457 @@
+[
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级排列顺序A→D→C→E→B",
+                "observation": "学生答卷中写有“A>D>C>E>B”的文字内容",
+                "satisfied": true,
+                "reason": "学生明确写出了中断处理优先级排列顺序为A→D→C→E→B"
+            },
+            {
+                "item": "A的屏蔽字1 1 1 1 1",
+                "observation": "学生答卷中A的屏蔽字写为“1 - - - -”（非全1内容）",
+                "satisfied": false,
+                "reason": "学生书写的A的屏蔽字不是全1的“1 1 1 1 1”"
+            },
+            {
+                "item": "B的屏蔽字0 1 0 0 0",
+                "observation": "学生答卷中B的屏蔽字写为“0 1 0 0 0”",
+                "satisfied": true,
+                "reason": "学生书写的B的屏蔽字与要求一致"
+            },
+            {
+                "item": "C的屏蔽字0 1 1 0 1",
+                "observation": "学生答卷中C的屏蔽字写为“0 1 1 0 1”",
+                "satisfied": true,
+                "reason": "学生书写的C的屏蔽字与要求一致"
+            },
+            {
+                "item": "D的屏蔽字0 1 1 1 1",
+                "observation": "学生答卷中D的屏蔽字写为“0 1 1 1 1”",
+                "satisfied": true,
+                "reason": "学生书写的D的屏蔽字与要求一致"
+            },
+            {
+                "item": "E的屏蔽字0 1 0 0 1",
+                "observation": "学生答卷中E的屏蔽字写为“0 1 0 0 1”",
+                "satisfied": true,
+                "reason": "学生书写的E的屏蔽字与要求一致"
+            },
+            {
+                "item": "标注了所有中断（A、B、C、D、E）的发生时间点",
+                "observation": "学生时序图中标注了“ABC同时申请”和“D、E”的发生时间点",
+                "satisfied": true,
+                "reason": "图中标注了A、B、C、D、E中断的发生时间点"
+            },
+            {
+                "item": "标注的时间点与题目逻辑一致",
+                "observation": "题目中用户程序时A、B、C同时出现，处理C时D、E出现，学生图中时间点符合该逻辑",
+                "satisfied": true,
+                "reason": "标注的时间点与题目描述的中断发生逻辑一致"
+            },
+            {
+                "item": "展示了保存断点的动作",
+                "observation": "学生时序图中未展示保存断点的动作（如相关标注或图形元素）",
+                "satisfied": false,
+                "reason": "图中未体现保存断点的动作"
+            },
+            {
+                "item": "展示了跳转至中断服务程序入口的动作",
+                "observation": "学生时序图中未展示跳转至中断服务程序入口的动作",
+                "satisfied": false,
+                "reason": "图中未体现跳转至中断服务程序入口的动作"
+            },
+            {
+                "item": "展示了处理中断的核心逻辑",
+                "observation": "学生时序图中未展示处理中断的核心逻辑（如中断服务程序的执行过程）",
+                "satisfied": false,
+                "reason": "图中未体现处理中断的核心逻辑"
+            },
+            {
+                "item": "展示了从中断返回的动作",
+                "observation": "学生时序图中未展示从中断返回的动作",
+                "satisfied": false,
+                "reason": "图中未体现从中断返回的动作"
+            },
+            {
+                "item": "正确反映了中断处理的优先级顺序（A→D→C→E→B）",
+                "observation": "学生时序图中中断处理的顺序符合A→D→C→E→B的优先级",
+                "satisfied": true,
+                "reason": "时序图中中断处理顺序反映了A→D→C→E→B的优先级"
+            },
+            {
+                "item": "正确反映了各中断处理的时序关系",
+                "observation": "学生时序图中各中断处理的时序关系符合题目要求",
+                "satisfied": true,
+                "reason": "时序图中各中断处理的时序关系正确"
+            }
+        ],
+        "total_score": 14,
+        "feedback": "学生在A的屏蔽字书写错误，且时序图中未展示保存断点、跳转、处理核心、返回等中断处理关键动作",
+        "student_id": "E01914115_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级排列顺序A→D→C→E→B",
+                "observation": "学生答卷中写有“中断处理优先级排序为A>D>C>E>B”",
+                "satisfied": true,
+                "reason": "学生写的中断处理优先级顺序与要求一致"
+            },
+            {
+                "item": "A的屏蔽字1 1 1 1 1",
+                "observation": "学生答卷中A的屏蔽字为“1 1 1 1 1”",
+                "satisfied": true,
+                "reason": "学生填写的A级中断屏蔽字与标准一致"
+            },
+            {
+                "item": "B的屏蔽字0 1 0 0 0",
+                "observation": "学生答卷中B的屏蔽字为“0 1 0 0 0”",
+                "satisfied": true,
+                "reason": "学生填写的B级中断屏蔽字与标准一致"
+            },
+            {
+                "item": "C的屏蔽字0 1 1 0 1",
+                "observation": "学生答卷中C的屏蔽字为“0 1 1 0 1”",
+                "satisfied": true,
+                "reason": "学生填写的C级中断屏蔽字与标准一致"
+            },
+            {
+                "item": "D的屏蔽字0 1 1 1 1",
+                "observation": "学生答卷中D的屏蔽字为“0 1 1 1 1”",
+                "satisfied": true,
+                "reason": "学生填写的D级中断屏蔽字与标准一致"
+            },
+            {
+                "item": "E的屏蔽字0 1 0 0 1",
+                "observation": "学生答卷中E的屏蔽字为“0 1 0 0 1”",
+                "satisfied": true,
+                "reason": "学生填写的E级中断屏蔽字与标准一致"
+            },
+            {
+                "item": "标注了所有中断（A、B、C、D、E）的发生时间点",
+                "observation": "学生答卷的时序图中标注了“ABC同时申请”和“D、E”两个时间点",
+                "satisfied": true,
+                "reason": "图中标注了题目中提到的所有中断发生时间点"
+            },
+            {
+                "item": "标注的时间点与题目逻辑一致",
+                "observation": "题目要求运行用户程序时同时出现A、B、C，处理C时出现D、E，学生图中时间点标注符合这一逻辑",
+                "satisfied": true,
+                "reason": "时间点标注与题目描述的中断发生场景逻辑一致"
+            },
+            {
+                "item": "展示了保存断点的动作",
+                "observation": "学生答卷的时序图中未明确画出保存断点（如压栈等）的动作",
+                "satisfied": false,
+                "reason": "图中未体现保存断点的具体动作"
+            },
+            {
+                "item": "展示了跳转至中断服务程序入口的动作",
+                "observation": "学生答卷的时序图中通过矩形块表示各中断服务程序，体现了跳转至中断服务程序入口的动作",
+                "satisfied": true,
+                "reason": "图中通过中断服务程序的矩形块展示了跳转至中断服务程序入口"
+            },
+            {
+                "item": "展示了处理中断的核心逻辑",
+                "observation": "学生答卷的时序图中展示了各中断服务程序的执行过程",
+                "satisfied": true,
+                "reason": "图中展示了中断处理的核心逻辑（各中断服务程序的执行）"
+            },
+            {
+                "item": "展示了从中断返回的动作",
+                "observation": "学生答卷的时序图中各中断服务程序结束后有结束线条，体现了中断返回动作",
+                "satisfied": true,
+                "reason": "图中通过中断服务程序结束的线条展示了从中断返回的动作"
+            },
+            {
+                "item": "正确反映了中断处理的优先级顺序（A→D→C→E→B）",
+                "observation": "学生答卷的时序图中中断处理顺序为A→D→C→E→B",
+                "satisfied": true,
+                "reason": "时序图中中断处理顺序与优先级顺序一致"
+            },
+            {
+                "item": "正确反映了各中断处理的时序关系",
+                "observation": "学生答卷的时序图中A、D、C、E、B的中断处理时序符合优先级和题目逻辑",
+                "satisfied": true,
+                "reason": "时序关系正确反映了各中断处理的先后顺序"
+            }
+        ],
+        "total_score": 19,
+        "feedback": "学生正确完成了中断处理优先级排序和屏蔽字填写，时序图标注了时间点且逻辑一致，但在保存断点动作的展示上不足",
+        "student_id": "E01914214_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级排列顺序A→D→C→E→B",
+                "observation": "学生在答卷中手写“（1）A>D>C>E>B”，明确写出中断处理优先级排列顺序",
+                "satisfied": true,
+                "reason": "学生书写的中断处理优先级顺序与评分细则要求一致"
+            },
+            {
+                "item": "A的屏蔽字1 1 1 1 1",
+                "observation": "学生在答卷中手写“A屏蔽字：B < DE”，未以五位二进制形式呈现屏蔽字",
+                "satisfied": false,
+                "reason": "学生未按照要求写出A的屏蔽字（1 1 1 1 1），而是用文字描述"
+            },
+            {
+                "item": "B的屏蔽字0 1 0 0 0",
+                "observation": "学生在答卷中手写“B无屏蔽字”，未以五位二进制形式呈现屏蔽字",
+                "satisfied": false,
+                "reason": "学生未按照要求写出B的屏蔽字（0 1 0 0 0），而是用文字描述"
+            },
+            {
+                "item": "C的屏蔽字0 1 1 0 1",
+                "observation": "学生在答卷中手写“C屏蔽字：B.E”，未以五位二进制形式呈现屏蔽字",
+                "satisfied": false,
+                "reason": "学生未按照要求写出C的屏蔽字（0 1 1 0 1），而是用文字描述"
+            },
+            {
+                "item": "D的屏蔽字0 1 1 1 1",
+                "observation": "学生在答卷中手写“D屏蔽字：B,C,及E”，未以五位二进制形式呈现屏蔽字",
+                "satisfied": false,
+                "reason": "学生未按照要求写出D的屏蔽字（0 1 1 1 1），而是用文字描述"
+            },
+            {
+                "item": "E的屏蔽字0 1 0 0 1",
+                "observation": "学生在答卷中手写“E屏蔽字：B.”，未以五位二进制形式呈现屏蔽字",
+                "satisfied": false,
+                "reason": "学生未按照要求写出E的屏蔽字（0 1 0 0 1），而是用文字描述"
+            },
+            {
+                "item": "标注了所有中断（A、B、C、D、E）的发生时间点",
+                "observation": "学生在图形中标注“ABC同时申请”和“D、E”两个时间点，覆盖A、B、C、D、E级中断",
+                "satisfied": true,
+                "reason": "图形中标注了A、B、C、D、E级中断的发生时间点"
+            },
+            {
+                "item": "标注的时间点与题目逻辑一致",
+                "observation": "题目要求“运行用户程序时同时出现A、B、C级中断请求，处理C级中断时出现D、E级中断请求”，学生图形中时间点标注符合该逻辑",
+                "satisfied": true,
+                "reason": "时间点标注与题目描述的中断发生场景逻辑一致"
+            },
+            {
+                "item": "展示了保存断点的动作",
+                "observation": "学生图形中未出现保存断点的相关标注或线条",
+                "satisfied": false,
+                "reason": "图形中未展示保存断点的动作"
+            },
+            {
+                "item": "展示了跳转至中断服务程序入口的动作",
+                "observation": "学生图形中未出现跳转至中断服务程序入口的相关标注或线条",
+                "satisfied": false,
+                "reason": "图形中未展示跳转至中断服务程序入口的动作"
+            },
+            {
+                "item": "展示了处理中断的核心逻辑",
+                "observation": "学生图形中未出现处理中断核心逻辑的相关标注或线条",
+                "satisfied": false,
+                "reason": "图形中未展示处理中断的核心逻辑"
+            },
+            {
+                "item": "展示了从中断返回的动作",
+                "observation": "学生图形中未出现从中断返回的相关标注或线条",
+                "satisfied": false,
+                "reason": "图形中未展示从中断返回的动作"
+            },
+            {
+                "item": "正确反映了中断处理的优先级顺序（A→D→C→E→B）",
+                "observation": "学生书写的中断处理优先级顺序为A>D>C>E>B，且图形中处理顺序与该顺序一致",
+                "satisfied": true,
+                "reason": "图形中反映的中断处理顺序与评分细则要求的中断处理优先级顺序一致"
+            },
+            {
+                "item": "正确反映了各中断处理的时序关系",
+                "observation": "图形中各中断处理的时序关系符合“先处理A，再处理D，接着C，然后E，最后B”的优先级顺序",
+                "satisfied": true,
+                "reason": "图形中各中断处理的时序关系与中断处理优先级顺序一致"
+            }
+        ],
+        "total_score": 6,
+        "feedback": "学生正确写出中断处理优先级顺序，但屏蔽字全部错误，且图形中未展示保存断点、跳转、处理逻辑、返回等动作，仅标注了部分时间点且时序正确",
+        "student_id": "E01914290_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级排列顺序A→D→C→E→B",
+                "observation": "学生在答卷中写出“A＞D＞C＞E＞B”",
+                "satisfied": true,
+                "reason": "学生明确写出中断处理优先级顺序为A＞D＞C＞E＞B，与评分项要求一致"
+            },
+            {
+                "item": "A的屏蔽字1 1 1 1 1",
+                "observation": "学生写“A的中断屏蔽字：DCEB”",
+                "satisfied": false,
+                "reason": "学生未以5位二进制形式呈现A的屏蔽字，格式不符合要求"
+            },
+            {
+                "item": "B的屏蔽字0 1 0 0 0",
+                "observation": "学生写“B的中断屏蔽字：无”",
+                "satisfied": false,
+                "reason": "学生未以5位二进制形式呈现B的屏蔽字，且内容错误"
+            },
+            {
+                "item": "C的屏蔽字0 1 1 0 1",
+                "observation": "学生写“C的中断屏蔽字：EB”",
+                "satisfied": false,
+                "reason": "学生未以5位二进制形式呈现C的屏蔽字，格式不符合要求"
+            },
+            {
+                "item": "D的屏蔽字0 1 1 1 1",
+                "observation": "学生写“D的中断屏蔽字：CEB”",
+                "satisfied": false,
+                "reason": "学生未以5位二进制形式呈现D的屏蔽字，且内容错误"
+            },
+            {
+                "item": "E的屏蔽字0 1 0 0 1",
+                "observation": "学生写“E的中断屏蔽字：B”",
+                "satisfied": false,
+                "reason": "学生未以5位二进制形式呈现E的屏蔽字，且内容错误"
+            },
+            {
+                "item": "标注了所有中断（A、B、C、D、E）的发生时间点",
+                "observation": "学生图中标注“ABC同时申请”和“D、E”",
+                "satisfied": true,
+                "reason": "学生标注了A、B、C同时申请的时间点，以及D、E出现的时间点，覆盖所有中断"
+            },
+            {
+                "item": "标注的时间点与题目逻辑一致",
+                "observation": "学生标注“ABC同时申请”对应用户程序时，“D、E”对应处理C级中断时",
+                "satisfied": true,
+                "reason": "标注时间点与题目中“运行用户程序时同时出现A、B、C，处理C时出现D、E”的逻辑一致"
+            },
+            {
+                "item": "展示了保存断点的动作",
+                "observation": "学生图中未明确展示保存断点的动作（如断点寄存器操作等视觉元素）",
+                "satisfied": false,
+                "reason": "图中无保存断点的明确视觉呈现"
+            },
+            {
+                "item": "展示了跳转至中断服务程序入口的动作",
+                "observation": "学生图中未明确展示跳转至中断服务程序入口的动作（如程序计数器跳转的视觉线索）",
+                "satisfied": false,
+                "reason": "图中无跳转至中断服务程序入口的明确视觉呈现"
+            },
+            {
+                "item": "展示了处理中断的核心逻辑",
+                "observation": "学生图中线条仅表示程序执行流程，未明确展示中断处理的核心逻辑（如中断服务程序的执行细节）",
+                "satisfied": false,
+                "reason": "图中未清晰呈现中断处理的核心逻辑环节"
+            },
+            {
+                "item": "展示了从中断返回的动作",
+                "observation": "学生图中未明确展示从中断返回的动作（如恢复断点、返回用户程序的视觉元素）",
+                "satisfied": false,
+                "reason": "图中无从中断返回的明确视觉呈现"
+            },
+            {
+                "item": "正确反映了中断处理的优先级顺序（A→D→C→E→B）",
+                "observation": "学生图中中断处理流程的线条未体现A→D→C→E→B的优先级顺序",
+                "satisfied": false,
+                "reason": "图中未正确反映中断处理的优先级顺序"
+            },
+            {
+                "item": "正确反映了各中断处理的时序关系",
+                "observation": "学生图中中断处理的时序线条未体现A、D、C、E、B的正确时序关系",
+                "satisfied": false,
+                "reason": "图中未正确反映各中断处理的时序关系"
+            }
+        ],
+        "total_score": 4,
+        "feedback": "学生在中断处理优先级顺序判断上正确，但中断屏蔽字格式错误且未以二进制形式呈现；图中未清晰展示中断处理的核心动作（保存断点、跳转、返回等），且时序关系未正确反映",
+        "student_id": "E02014181_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级排列顺序A→D→C→E→B",
+                "observation": "学生答卷中写有‘中断处理优先级为A>D>C>E>B’",
+                "satisfied": true,
+                "reason": "学生明确写出优先级顺序为A>D>C>E>B，与评分项一致"
+            },
+            {
+                "item": "A的屏蔽字1 1 1 1 1",
+                "observation": "学生答卷中A中断源的屏蔽字为‘1 1 1 1 1’",
+                "satisfied": true,
+                "reason": "屏蔽字内容与评分项一致"
+            },
+            {
+                "item": "B的屏蔽字0 1 0 0 0",
+                "observation": "学生答卷中B中断源的屏蔽字为‘0 1 0 0 0’",
+                "satisfied": true,
+                "reason": "屏蔽字内容与评分项一致"
+            },
+            {
+                "item": "C的屏蔽字0 1 1 0 1",
+                "observation": "学生答卷中C中断源的屏蔽字为‘0 1 1 0 1’",
+                "satisfied": true,
+                "reason": "屏蔽字内容与评分项一致"
+            },
+            {
+                "item": "D的屏蔽字0 1 1 1 1",
+                "observation": "学生答卷中D中断源的屏蔽字为‘0 1 1 1 1’",
+                "satisfied": true,
+                "reason": "屏蔽字内容与评分项一致"
+            },
+            {
+                "item": "E的屏蔽字0 1 0 0 1",
+                "observation": "学生答卷中E中断源的屏蔽字为‘0 1 0 0 1’",
+                "satisfied": true,
+                "reason": "屏蔽字内容与评分项一致"
+            },
+            {
+                "item": "标注了所有中断（A、B、C、D、E）的发生时间点",
+                "observation": "学生图中标注了‘A、B、C同时申请’和‘D、E同时申请’两个时间点",
+                "satisfied": true,
+                "reason": "标注了A、B、C和D、E的发生时间点"
+            },
+            {
+                "item": "标注的时间点与题目逻辑一致",
+                "observation": "题目中是运行用户程序时A、B、C同时出现，处理C时D、E出现，学生图中的时间点符合这一逻辑",
+                "satisfied": true,
+                "reason": "时间点逻辑与题目描述一致"
+            },
+            {
+                "item": "展示了保存断点的动作",
+                "observation": "学生图中未明确展示保存断点的动作（如箭头或文字说明）",
+                "satisfied": false,
+                "reason": "图中未体现保存断点的动作"
+            },
+            {
+                "item": "展示了跳转至中断服务程序入口的动作",
+                "observation": "学生图中有箭头指向各中断服务程序，表示跳转动作",
+                "satisfied": true,
+                "reason": "图中有箭头指向中断服务程序，体现跳转动作"
+            },
+            {
+                "item": "展示了处理中断的核心逻辑",
+                "observation": "学生图中有各中断服务程序的执行块，表示处理中断的核心逻辑",
+                "satisfied": true,
+                "reason": "图中有中断服务程序的执行块，体现处理逻辑"
+            },
+            {
+                "item": "展示了从中断返回的动作",
+                "observation": "学生图中有返回用户程序或上一级中断的箭头，表示中断返回动作",
+                "satisfied": true,
+                "reason": "图中有返回动作的表示"
+            },
+            {
+                "item": "正确反映了中断处理的优先级顺序（A→D→C→E→B）",
+                "observation": "学生图中的中断处理顺序为A→D→C→E→B，与优先级一致",
+                "satisfied": true,
+                "reason": "处理顺序符合优先级排列"
+            },
+            {
+                "item": "正确反映了各中断处理的时序关系",
+                "observation": "学生图中的时序关系显示A先处理，然后D，再C，再E，最后B，符合题目逻辑",
+                "satisfied": true,
+                "reason": "时序关系正确反映优先级和中断发生顺序"
+            }
+        ],
+        "total_score": 19,
+        "feedback": "中断处理优先级和屏蔽字正确，时序图基本正确，但未明确展示保存断点的动作",
+        "student_id": "E12214006_Q2.jpg"
+    }
+]

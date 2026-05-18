@@ -1,0 +1,1862 @@
+[
+    {
+        "student_id": "E01914214_Q6",
+        "teacher_score": 3.0,
+        "model_scores_history": [
+            2,
+            2,
+            2
+        ],
+        "model_avg_score": 2,
+        "std_dev": 0.0,
+        "blank_rate": 0.55,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 1.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 2,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"未书写\", \"q6_p1_group2_bits\": \"未书写\", \"q6_p1_group3_bits\": \"未书写\", \"q6_p1_group4_bits\": \"未书写\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"未书写\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"499位\", \"q6_p1_microinstruction_length_bits\": \"512位\", \"q6_p2_control_memory_total_bits\": \"760位\", \"q6_p2_control_memory_total_bytes\": \"6080字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 2
+        }
+    },
+    {
+        "student_id": "E01914290_Q6",
+        "teacher_score": 0.0,
+        "model_scores_history": [
+            0,
+            0,
+            0
+        ],
+        "model_avg_score": 0,
+        "std_dev": 0.0,
+        "blank_rate": 1.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 0.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 0,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"未书写\", \"q6_p1_group2_bits\": \"未书写\", \"q6_p1_group3_bits\": \"未书写\", \"q6_p1_group4_bits\": \"未书写\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"未书写\", \"q6_p1_bcf_bits\": \"未书写\", \"q6_p1_baf_bits\": \"未书写\", \"q6_p1_microinstruction_length_bits\": \"未书写\", \"q6_p2_control_memory_total_bits\": \"未书写\", \"q6_p2_control_memory_total_bytes\": \"未书写\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                }
+            ],
+            "total_score": 0
+        }
+    },
+    {
+        "student_id": "E01914115_Q6",
+        "teacher_score": 6.0,
+        "model_scores_history": [
+            7,
+            7,
+            12
+        ],
+        "model_avg_score": 9,
+        "std_dev": 2.357,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": -3.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 7.0,
+        "requires_human_arbitration": false,
+        "reason_log": "错误率过高触发门控，维持原判",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"3位\", \"q6_p1_group3_bits\": \"4位\", \"q6_p1_group4_bits\": \"2位\", \"q6_p1_non_mutually_exclusive_signals\": \"140条\", \"q6_p1_control_field_total_bits\": \"21位\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"33位\", \"q6_p2_control_memory_total_bits\": \"5940位\", \"q6_p2_control_memory_total_bytes\": \"742.5字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 7
+        }
+    },
+    {
+        "student_id": "E02014181_Q6",
+        "teacher_score": 2.0,
+        "model_scores_history": [
+            2,
+            2,
+            2
+        ],
+        "model_avg_score": 2,
+        "std_dev": 0.0,
+        "blank_rate": 0.18,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 0.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 4.0,
+        "requires_human_arbitration": false,
+        "reason_log": "BAF位误差11%<=15%符合宽容标准，恢复2分",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"8位\", \"q6_p1_group2_bits\": \"3位\", \"q6_p1_group3_bits\": \"8位\", \"q6_p1_group4_bits\": \"未书写\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"8位\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"8位\", \"q6_p1_microinstruction_length_bits\": \"19位\", \"q6_p2_control_memory_total_bits\": \"27位\", \"q6_p2_control_memory_total_bytes\": \"4个字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生作答8位，标准为4位，误差超过10%"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生作答3位，标准为4位，误差超过10%"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生作答8位，标准为5位，误差超过10%"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生作答8位，标准为156位，误差巨大"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功：学生作答3位，符合标准答案3位"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生作答8位，标准为9位，误差超过10%"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生作答19位，标准为168位，误差巨大"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生作答27位，标准为86016位，误差巨大"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生作答4个字节，标准为10752字节，误差巨大"
+                }
+            ],
+            "total_score": 2
+        }
+    },
+    {
+        "student_id": "E12214006_Q6",
+        "teacher_score": 6.0,
+        "model_scores_history": [
+            4,
+            4,
+            4
+        ],
+        "model_avg_score": 4,
+        "std_dev": 0.0,
+        "blank_rate": 0.45,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 2.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 6.0,
+        "requires_human_arbitration": false,
+        "reason_log": "微指令长度符合链式一致性，恢复给分",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"未书写\", \"q6_p1_group2_bits\": \"未书写\", \"q6_p1_group3_bits\": \"未书写\", \"q6_p1_group4_bits\": \"未书写\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"8位\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"20位\", \"q6_p2_control_memory_total_bits\": \"29位\", \"q6_p2_control_memory_total_bytes\": \"2⁹字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为156位，回答为8位"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为168位，回答为20位"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为86016位，回答为29位"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为10752字节，回答为512字节（2⁹字节）"
+                }
+            ],
+            "total_score": 4
+        }
+    },
+    {
+        "student_id": "E12214023_Q6",
+        "teacher_score": 12.0,
+        "model_scores_history": [
+            11,
+            11,
+            11
+        ],
+        "model_avg_score": 11,
+        "std_dev": 0.0,
+        "blank_rate": 0.09,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 1.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 12.0,
+        "requires_human_arbitration": false,
+        "reason_log": "BCF位数值误差在50%内，恢复部分过程分",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"4位\", \"q6_p1_group3_bits\": \"5位\", \"q6_p1_group4_bits\": \"3位\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"8位\", \"q6_p1_bcf_bits\": \"4位\", \"q6_p1_baf_bits\": \"9\", \"q6_p1_microinstruction_length_bits\": \"21位\", \"q6_p2_control_memory_total_bits\": \"512位\", \"q6_p2_control_memory_total_bytes\": \"64字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "链式推导一致（8+4+9=21）"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾且链式推导不一致（应为21*512=10752位）"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 3,
+                    "error_category": "MATCH",
+                    "reason": "链式推导一致（512位/8=64字节）"
+                }
+            ],
+            "total_score": 11
+        }
+    },
+    {
+        "student_id": "E12214062_Q6",
+        "teacher_score": 4.0,
+        "model_scores_history": [
+            4,
+            4,
+            4
+        ],
+        "model_avg_score": 4,
+        "std_dev": 0.0,
+        "blank_rate": 0.55,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 0.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 4,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"未书写\", \"q6_p1_group2_bits\": \"未书写\", \"q6_p1_group3_bits\": \"未书写\", \"q6_p1_group4_bits\": \"未书写\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"未书写\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"2位\", \"q6_p2_control_memory_total_bits\": \"2^22B\", \"q6_p2_control_memory_total_bytes\": \"2^22字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 4
+        }
+    },
+    {
+        "student_id": "E12214075_Q6",
+        "teacher_score": 10.0,
+        "model_scores_history": [
+            8,
+            10,
+            10
+        ],
+        "model_avg_score": 10,
+        "std_dev": 0.9428,
+        "blank_rate": 0.27,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 0.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 10.0,
+        "requires_human_arbitration": false,
+        "reason_log": "微指令长度误差极小，酌情给回全部分数",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"4位\", \"q6_p1_group3_bits\": \"5位\", \"q6_p1_group4_bits\": \"3位\", \"q6_p1_non_mutually_exclusive_signals\": \"140条\", \"q6_p1_control_field_total_bits\": \"156位\", \"q6_p1_bcf_bits\": \"8位\", \"q6_p1_baf_bits\": \"未书写\", \"q6_p1_microinstruction_length_bits\": \"164位\", \"q6_p2_control_memory_total_bits\": \"未书写\", \"q6_p2_control_memory_total_bytes\": \"未书写\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "链式推导不一致：正确推导公式为控制字段+BCF+BAF=156+3+9=168，学生上游项为156+8=164，推导项不匹配"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                }
+            ],
+            "total_score": 8
+        }
+    },
+    {
+        "student_id": "E12214091_Q6",
+        "teacher_score": 11.0,
+        "model_scores_history": [
+            2,
+            2,
+            2
+        ],
+        "model_avg_score": 2,
+        "std_dev": 0.0,
+        "blank_rate": 0.45,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 9.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 4.0,
+        "requires_human_arbitration": false,
+        "reason_log": "微指令长度项符合链式一致性，恢复得分",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"未书写\", \"q6_p1_group2_bits\": \"未书写\", \"q6_p1_group3_bits\": \"未书写\", \"q6_p1_group4_bits\": \"未书写\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"8位\", \"q6_p1_bcf_bits\": \"16位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"33位\", \"q6_p2_control_memory_total_bits\": \"2^9\", \"q6_p2_control_memory_total_bytes\": \"64字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 2
+        }
+    },
+    {
+        "student_id": "E12214107_Q6",
+        "teacher_score": 6.0,
+        "model_scores_history": [
+            4,
+            4,
+            4
+        ],
+        "model_avg_score": 4,
+        "std_dev": 0.0,
+        "blank_rate": 0.45,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 2.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 4.0,
+        "requires_human_arbitration": false,
+        "reason_log": "维持原判，数值偏差过大且多数未作答",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"未书写\", \"q6_p1_group2_bits\": \"未书写\", \"q6_p1_group3_bits\": \"未书写\", \"q6_p1_group4_bits\": \"未书写\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"8位\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"31位\", \"q6_p2_control_memory_total_bits\": \"17位\", \"q6_p2_control_memory_total_bytes\": \"4k字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 4
+        }
+    },
+    {
+        "student_id": "E12214098_Q6",
+        "teacher_score": 9.0,
+        "model_scores_history": [
+            9,
+            9,
+            9
+        ],
+        "model_avg_score": 9,
+        "std_dev": 0.0,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 0.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 9.0,
+        "requires_human_arbitration": false,
+        "reason_log": "错误率超50%触发门控，且数值偏差极大，维持原判",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"3位\", \"q6_p1_group3_bits\": \"4位\", \"q6_p1_group4_bits\": \"2位\", \"q6_p1_non_mutually_exclusive_signals\": \"140条\", \"q6_p1_control_field_total_bits\": \"153位\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"20位\", \"q6_p2_control_memory_total_bits\": \"10752位\", \"q6_p2_control_memory_total_bytes\": \"1344字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功（误差为1.92%，在10%容差范围内）"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 9
+        }
+    },
+    {
+        "student_id": "E12214212_Q6",
+        "teacher_score": 0.0,
+        "model_scores_history": [
+            0,
+            0,
+            0
+        ],
+        "model_avg_score": 0,
+        "std_dev": 0.0,
+        "blank_rate": 1.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 0.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 0,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"未书写\", \"q6_p1_group2_bits\": \"未书写\", \"q6_p1_group3_bits\": \"未书写\", \"q6_p1_group4_bits\": \"未书写\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"未书写\", \"q6_p1_bcf_bits\": \"未书写\", \"q6_p1_baf_bits\": \"未书写\", \"q6_p1_microinstruction_length_bits\": \"未书写\", \"q6_p2_control_memory_total_bits\": \"未书写\", \"q6_p2_control_memory_total_bytes\": \"未书写\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                }
+            ],
+            "total_score": 0
+        }
+    },
+    {
+        "student_id": "E12214171_Q6",
+        "teacher_score": 6.0,
+        "model_scores_history": [
+            4,
+            4,
+            4
+        ],
+        "model_avg_score": 4,
+        "std_dev": 0.0,
+        "blank_rate": 0.45,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 2.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 6.0,
+        "requires_human_arbitration": false,
+        "reason_log": "对微指令长度恢复2分，因内部计算一致",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"未书写\", \"q6_p1_group2_bits\": \"未书写\", \"q6_p1_group3_bits\": \"未书写\", \"q6_p1_group4_bits\": \"未书写\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"8位\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"20位\", \"q6_p2_control_memory_total_bits\": \"2^30位\", \"q6_p2_control_memory_total_bytes\": \"128MB\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 4
+        }
+    },
+    {
+        "student_id": "E12314005_Q6",
+        "teacher_score": 20.0,
+        "model_scores_history": [
+            16,
+            16,
+            16
+        ],
+        "model_avg_score": 16,
+        "std_dev": 0.0,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 4.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 19.5,
+        "requires_human_arbitration": false,
+        "reason_log": "宽容数值误差，恢复部分/满分",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"3位\", \"q6_p1_group3_bits\": \"5位\", \"q6_p1_group4_bits\": \"3位\", \"q6_p1_non_mutually_exclusive_signals\": \"140条\", \"q6_p1_control_field_total_bits\": \"156位\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"168位\", \"q6_p2_control_memory_total_bits\": \"84×2¹⁰位\", \"q6_p2_control_memory_total_bytes\": \"24×2⁹字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 3,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 16
+        }
+    },
+    {
+        "student_id": "E12314009_Q6",
+        "teacher_score": 4.0,
+        "model_scores_history": [
+            4,
+            2,
+            4
+        ],
+        "model_avg_score": 4,
+        "std_dev": 0.9428,
+        "blank_rate": 0.55,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 0.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 4,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"未书写\", \"q6_p1_group2_bits\": \"未书写\", \"q6_p1_group3_bits\": \"未书写\", \"q6_p1_group4_bits\": \"未书写\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"3位\", \"q6_p1_bcf_bits\": \"8位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"20位\", \"q6_p2_control_memory_total_bits\": \"未书写\", \"q6_p2_control_memory_total_bytes\": \"512字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 4
+        }
+    },
+    {
+        "student_id": "E12314013_Q6",
+        "teacher_score": 4.0,
+        "model_scores_history": [
+            3,
+            3,
+            3
+        ],
+        "model_avg_score": 3,
+        "std_dev": 0.0,
+        "blank_rate": 0.09,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 1.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 3.0,
+        "requires_human_arbitration": false,
+        "reason_log": "触发整体质量门控，严重错误过多不恢复",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"3位\", \"q6_p1_group3_bits\": \"4位\", \"q6_p1_group4_bits\": \"2位\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"13位\", \"q6_p1_bcf_bits\": \"8位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"29位\", \"q6_p2_control_memory_total_bits\": \"4096位\", \"q6_p2_control_memory_total_bytes\": \"2048字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 3
+        }
+    },
+    {
+        "student_id": "E12314017_Q6",
+        "teacher_score": 10.0,
+        "model_scores_history": [
+            5,
+            5,
+            5
+        ],
+        "model_avg_score": 5,
+        "std_dev": 0.0,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 5.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 5.0,
+        "requires_human_arbitration": false,
+        "reason_log": "基础概念与计算错误多，维持原判",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"3位\", \"q6_p1_group3_bits\": \"4位\", \"q6_p1_group4_bits\": \"2位\", \"q6_p1_non_mutually_exclusive_signals\": \"140个\", \"q6_p1_control_field_total_bits\": \"13位\", \"q6_p1_bcf_bits\": \"8位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"21位\", \"q6_p2_control_memory_total_bits\": \"2444位\", \"q6_p2_control_memory_total_bytes\": \"243.625B\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 5
+        }
+    },
+    {
+        "student_id": "E12314025_Q6",
+        "teacher_score": 14.0,
+        "model_scores_history": [
+            8,
+            8,
+            8
+        ],
+        "model_avg_score": 8,
+        "std_dev": 0.0,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 6.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 11.0,
+        "requires_human_arbitration": false,
+        "reason_log": "恢复控存字节容量链式推导分",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"4位\", \"q6_p1_group3_bits\": \"5位\", \"q6_p1_group4_bits\": \"3位\", \"q6_p1_non_mutually_exclusive_signals\": \"16条\", \"q6_p1_control_field_total_bits\": \"28位\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"30位\", \"q6_p2_control_memory_total_bits\": \"14336位\", \"q6_p2_control_memory_total_bytes\": \"1792字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 8
+        }
+    },
+    {
+        "student_id": "E12314021_Q6",
+        "teacher_score": 20.0,
+        "model_scores_history": [
+            12,
+            12,
+            12
+        ],
+        "model_avg_score": 12,
+        "std_dev": 0.0,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 8.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 12.0,
+        "requires_human_arbitration": false,
+        "reason_log": "数值差异大且链式推导自相矛盾，维持原判",
+        "human_review_hint": "",
+        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"4位\", \"q6_p1_group3_bits\": \"5位\", \"q6_p1_group4_bits\": \"3位\", \"q6_p1_non_mutually_exclusive_signals\": \"140条\", \"q6_p1_control_field_total_bits\": \"28位\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"168位\", \"q6_p2_control_memory_total_bits\": \"14K位\", \"q6_p2_control_memory_total_bytes\": \"1792字节\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 12
+        }
+    },
+    {
+        "student_id": "E12314029_Q6",
+        "teacher_score": 4.0,
+        "model_scores_history": [
+            2,
+            10,
+            2
+        ],
+        "model_avg_score": 5,
+        "std_dev": 3.7712,
+        "blank_rate": 0.09,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": -1.0,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 5,
+        "requires_human_arbitration": true,
+        "reason_log": "各子项得分均为0分，但总分判定却出现2分与10分的矛盾。",
+        "human_review_hint": "各子项得分均为0分，但总分判定却出现2分与10分的矛盾。",
+        "facts": "{\"q6_p1_group1_bits\": \"12位\", \"q6_p1_group2_bits\": \"8位\", \"q6_p1_group3_bits\": \"16位\", \"q6_p1_group4_bits\": \"4位\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"40位\", \"q6_p1_bcf_bits\": \"8位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"57位\", \"q6_p2_control_memory_total_bits\": \"29184位\", \"q6_p2_control_memory_total_bytes\": \"3648B\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "q6_p1_group1_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为4位，学生答12位"
+                },
+                {
+                    "id": "q6_p1_group2_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为4位，学生答8位"
+                },
+                {
+                    "id": "q6_p1_group3_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为5位，学生答16位"
+                },
+                {
+                    "id": "q6_p1_group4_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为3位，学生答4位"
+                },
+                {
+                    "id": "q6_p1_non_mutually_exclusive_signals",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "q6_p1_control_field_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为156位，学生答40位"
+                },
+                {
+                    "id": "q6_p1_bcf_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为3位，学生答8位"
+                },
+                {
+                    "id": "q6_p1_baf_bits",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "q6_p1_microinstruction_length_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为168位，学生答57位"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bits",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为86016位，学生答29184位"
+                },
+                {
+                    "id": "q6_p2_control_memory_total_bytes",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为10752字节，学生答3648B"
+                }
+            ],
+            "total_score": 2
+        }
+    }
+]

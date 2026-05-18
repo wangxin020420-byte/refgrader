@@ -1,0 +1,57 @@
+[
+    {
+        "id": "q6_p1_group1_bits",
+        "item": "第1组互斥信号组需要4位",
+        "points": 1
+    },
+    {
+        "id": "q6_p1_group2_bits",
+        "item": "第2组互斥信号组需要4位",
+        "points": 1
+    },
+    {
+        "id": "q6_p1_group3_bits",
+        "item": "第3组互斥信号组需要5位",
+        "points": 1
+    },
+    {
+        "id": "q6_p1_group4_bits",
+        "item": "第4组互斥信号组需要3位",
+        "points": 1
+    },
+    {
+        "id": "q6_p1_non_mutually_exclusive_signals",
+        "item": "非互斥信号数量为140条",
+        "points": 2
+    },
+    {
+        "id": "q6_p1_control_field_total_bits",
+        "item": "控制字段总位数为156位",
+        "points": 2
+    },
+    {
+        "id": "q6_p1_bcf_bits",
+        "item": "分支控制字段（BCF）需要3位",
+        "points": 2
+    },
+    {
+        "id": "q6_p1_baf_bits",
+        "item": "微地址字段（BAF）需要9位",
+        "points": 2
+    },
+    {
+        "id": "q6_p1_microinstruction_length_bits",
+        "item": "每条微指令的总长度为168位",
+        "points": 2
+    },
+    {
+        "id": "q6_p2_control_memory_total_bits",
+        "item": "控制存储器总容量为86016位",
+        "points": 3
+    },
+    {
+        "id": "q6_p2_control_memory_total_bytes",
+        "item": "控制存储器总容量为10752字节",
+        "points": 3
+    }
+]

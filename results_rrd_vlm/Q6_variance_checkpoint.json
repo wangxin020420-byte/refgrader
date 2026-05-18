@@ -1,0 +1,47 @@
+[
+    {
+        "file": "E01914115_Q6.jpg",
+        "facts": "{\n  \"q6_p1_group1_bits\": \"12\",\n  \"q6_p1_group2_bits\": \"8\",\n  \"q6_p1_group3_bits\": \"16\",\n  \"q6_p1_group4_bits\": \"4\",\n  \"q6_p1_non_mutually_exclusive_signals\": \"140\",\n  \"q6_p1_control_field_total_bits\": \"21\",\n  \"q6_p1_bcf_bits\": \"3\",\n  \"q6_p1_baf_bits\": \"9\",\n  \"q6_p1_microinstruction_length_bits\": \"33\",\n  \"q6_p2_control_memory_total_bits\": \"5940\",\n  \"q6_p2_control_memory_total_bytes\": \"742.5\"\n}",
+        "scores": [
+            6,
+            6,
+            6
+        ]
+    },
+    {
+        "file": "E01914214_Q6.jpg",
+        "facts": "{\n\"1\": \"未在图中找到明确表述\",\n\"2\": \"3\",\n\"3\": \"未在图中找到明确表述\",\n\"4\": \"未在图中找到明确表述\",\n\"5\": \"未在图中找到明确表述\",\n\"6\": \"未在图中找到明确表述\",\n\"7\": \"3\",\n\"8\": \"499\",\n\"9\": \"512\",\n\"10\": \"760\",\n\"11\": \"6080\"\n}",
+        "scores": [
+            2,
+            2,
+            2
+        ]
+    },
+    {
+        "file": "E01914290_Q6.jpg",
+        "facts": "{\"第1组互斥信号组\":\"未在图中找到明确表述\",\"第2组互斥信号组\":\"未在图中找到明确表述\",\"第3组互斥信号组\":\"未在图中找到明确表述\",\"第4组互斥信号组\":\"未在图中找到明确表述\",\"非互斥信号\":\"未在图中找到明确表述\",\"控制字段总位数\":\"未在图中找到明确表述\",\"分支控制字段（BCF）\":\"未在图中找到明确表述\",\"微地址字段（BAF）\":\"未在图中找到明确表述\",\"微指令总长度\":\"未在图中找到明确表述\",\"控制存储器总容量（位）\":\"未在图中找到明确表述\",\"控制存储器总容量（字节）\":\"未在图中找到明确表述\"}",
+        "scores": [
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "file": "E02014181_Q6.jpg",
+        "facts": "{\n  \"q6_p1_group1_bits\": \"未在图中找到明确表述\",\n  \"q6_p1_group2_bits\": \"未在图中找到明确表述\",\n  \"q6_p1_group3_bits\": \"未在图中找到明确表述\",\n  \"q6_p1_group4_bits\": \"未在图中找到明确表述\",\n  \"q6_p1_non_mutually_exclusive_signals\": \"未在图中找到明确表述\",\n  \"q6_p1_control_field_total_bits\": \"81\",\n  \"q6_p1_bcf_bits\": \"3\",\n  \"q6_p1_baf_bits\": \"8\",\n  \"q6_p1_microinstruction_length_bits\": \"19\",\n  \"q6_p2_control_memory_total_bits\": \"27\",\n  \"q6_p2_control_memory_total_bytes\": \"4\"\n}",
+        "scores": [
+            2,
+            2,
+            2
+        ]
+    },
+    {
+        "file": "E12214006_Q6.jpg",
+        "facts": "{\n  \"q6_p1_group1_bits\": \"未在图中找到明确表述\",\n  \"q6_p1_group2_bits\": \"未在图中找到明确表述\",\n  \"q6_p1_group3_bits\": \"未在图中找到明确表述\",\n  \"q6_p1_group4_bits\": \"未在图中找到明确表述\",\n  \"q6_p1_non_mutually_exclusive_signals\": \"未在图中找到明确表述\",\n  \"q6_p1_control_field_total_bits\": \"8\",\n  \"q6_p1_bcf_bits\": \"3\",\n  \"q6_p1_baf_bits\": \"9\",\n  \"q6_p1_microinstruction_length_bits\": \"20\",\n  \"q6_p2_control_memory_total_bits\": \"29\",\n  \"q6_p2_control_memory_total_bytes\": \"2^9\"\n}",
+        "scores": [
+            4,
+            4,
+            4
+        ]
+    }
+]

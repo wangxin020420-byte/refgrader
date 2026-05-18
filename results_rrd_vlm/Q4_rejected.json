@@ -1,0 +1,119 @@
+[
+    {
+        "student_id": "E02014181_Q4",
+        "teacher_score": 0.0,
+        "model_scores_history": [
+            0,
+            0,
+            0
+        ],
+        "model_avg_score": 0,
+        "std_dev": 0.0,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 1.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "failed",
+        "real_diff": 0.0,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 0,
+        "requires_human_arbitration": true,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"字迹模糊\", \"2\": \"字迹模糊\", \"3\": \"字迹模糊\", \"4\": \"字迹模糊\", \"5\": \"字迹模糊\", \"6\": \"字迹模糊\", \"7\": \"字迹模糊\", \"8\": \"字迹模糊\", \"9\": \"字迹模糊\", \"10\": \"字迹模糊\", \"11\": \"字迹模糊\", \"12\": \"字迹模糊\", \"13\": \"字迹模糊\", \"14\": \"字迹模糊\", \"15\": \"字迹模糊\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "2",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "3",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                },
+                {
+                    "id": "15",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "字迹模糊"
+                }
+            ],
+            "total_score": 0
+        }
+    }
+]

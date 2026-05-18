@@ -1,0 +1,52 @@
+[
+    {
+        "id": "item_1",
+        "item": "识别基准程序P的指令数为10万条",
+        "points": 1
+    },
+    {
+        "id": "item_2",
+        "item": "识别M1的CPI为2",
+        "points": 1
+    },
+    {
+        "id": "item_3",
+        "item": "识别M1的主频为4GHz",
+        "points": 1
+    },
+    {
+        "id": "item_4",
+        "item": "识别M2的CPI为1",
+        "points": 1
+    },
+    {
+        "id": "item_5",
+        "item": "识别M2的主频为6GHz",
+        "points": 1
+    },
+    {
+        "id": "item_6",
+        "item": "写出执行时间公式：时间 = (指令数 × CPI) / 主频",
+        "points": 1
+    },
+    {
+        "id": "item_7",
+        "item": "计算M1指令数×CPI为200,000",
+        "points": 1
+    },
+    {
+        "id": "item_8",
+        "item": "计算M1时间为50 μs",
+        "points": 1
+    },
+    {
+        "id": "item_9",
+        "item": "计算M2指令数×CPI为100,000",
+        "points": 1
+    },
+    {
+        "id": "item_10",
+        "item": "计算M2时间为16.7 μs",
+        "points": 1
+    }
+]

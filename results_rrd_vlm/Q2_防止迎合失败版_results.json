@@ -1,0 +1,212 @@
+[
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级排列顺序A→D→C→E→B",
+                "student_raw_extraction": "A>D>C>E>B",
+                "standard_requirement": "中断处理优先级排列顺序为A→D→C→E→B",
+                "semantic_comparison": "学生写出的“A>D>C>E>B”中“>”与标准要求的“→”语义等价，优先级顺序匹配",
+                "satisfied": true
+            },
+            {
+                "item": "A的屏蔽字1 1 1 1 1",
+                "student_raw_extraction": "A: 1 1 1 1 1",
+                "standard_requirement": "A的屏蔽字为1 1 1 1 1",
+                "semantic_comparison": "学生书写的A级中断屏蔽字与标准要求完全一致",
+                "satisfied": true
+            },
+            {
+                "item": "B的屏蔽字0 1 0 0 0",
+                "student_raw_extraction": "B: 0 1 0 0 0",
+                "standard_requirement": "B的屏蔽字为0 1 0 0 0",
+                "semantic_comparison": "学生书写的B级中断屏蔽字与标准要求完全一致",
+                "satisfied": true
+            },
+            {
+                "item": "C的屏蔽字0 1 1 0 1",
+                "student_raw_extraction": "C: 0 1 1 0 1",
+                "standard_requirement": "C的屏蔽字为0 1 1 0 1",
+                "semantic_comparison": "学生书写的C级中断屏蔽字与标准要求完全一致",
+                "satisfied": true
+            },
+            {
+                "item": "D的屏蔽字0 1 1 1 1",
+                "student_raw_extraction": "D: 0 1 1 1 1",
+                "standard_requirement": "D的屏蔽字为0 1 1 1 1",
+                "semantic_comparison": "学生书写的D级中断屏蔽字与标准要求完全一致",
+                "satisfied": true
+            },
+            {
+                "item": "E的屏蔽字0 1 0 0 1",
+                "student_raw_extraction": "E: 0 1 0 0 1",
+                "standard_requirement": "E的屏蔽字为0 1 0 0 1",
+                "semantic_comparison": "学生书写的E级中断屏蔽字与标准要求完全一致",
+                "satisfied": true
+            },
+            {
+                "item": "图表显示了中断A的发生，并且它是最早发生的中断。",
+                "student_raw_extraction": "图表中A中断在时间轴最左侧（最早）发生",
+                "standard_requirement": "图表需显示中断A是最早发生的中断",
+                "semantic_comparison": "学生绘制的图表中A中断标记在时间轴最早位置，符合要求",
+                "satisfied": true
+            },
+            {
+                "item": "图表显示了中断D的发生，并且它发生在A之后，但在C之前。",
+                "student_raw_extraction": "图表中D中断标记在A之后、C之前的时间位置",
+                "standard_requirement": "图表需显示D发生在A之后且在C之前",
+                "semantic_comparison": "学生绘制的图表中D中断时序满足“A之后、C之前”的要求",
+                "satisfied": true
+            },
+            {
+                "item": "图表显示了中断C、E、B的发生，并且它们的顺序是C在E之前，E在B之前。",
+                "student_raw_extraction": "图表中C、E、B中断标记的时序为C→E→B",
+                "standard_requirement": "图表需显示C、E、B的顺序为C在E前、E在B前",
+                "semantic_comparison": "学生绘制的图表中C、E、B时序顺序与标准要求一致",
+                "satisfied": true
+            },
+            {
+                "item": "图表显示了CPU从“主程序”状态切换到“中断处理程序”状态（例如，通过一个箭头或状态变化）。",
+                "student_raw_extraction": "图表中存在从“用户程序”到“A程序”“C程序”等中断处理程序的切换箭头",
+                "standard_requirement": "图表需显示CPU从主程序切换到中断处理程序",
+                "semantic_comparison": "学生绘制的图表中存在状态切换的表示（如箭头），符合要求",
+                "satisfied": true
+            },
+            {
+                "item": "图表显示了CPU从“中断处理程序”状态返回到“主程序”状态（例如，通过一个箭头或状态变化）。",
+                "student_raw_extraction": "图表中存在从中断处理程序（如B程序）返回“用户程序”的箭头",
+                "standard_requirement": "图表需显示CPU从中断处理程序返回主程序",
+                "semantic_comparison": "学生绘制的图表中存在状态返回的表示（如箭头），符合要求",
+                "satisfied": true
+            },
+            {
+                "item": "图表包含一个明确的时间轴（例如，一条水平线，带有时间标记或方向箭头）。",
+                "student_raw_extraction": "图表底部有标注“t”的水平时间轴",
+                "standard_requirement": "图表需包含明确的时间轴",
+                "semantic_comparison": "学生绘制的图表中存在标注“t”的时间轴，符合要求",
+                "satisfied": true
+            },
+            {
+                "item": "图表中的所有事件（中断触发、CPU执行主程序、CPU执行中断处理程序）都沿着时间轴按时间顺序排列（例如，从左到右）。",
+                "student_raw_extraction": "图表中所有事件（中断标记、程序执行段）从左到右按时间顺序排列",
+                "standard_requirement": "图表中所有事件需按时间轴顺序排列",
+                "semantic_comparison": "学生绘制的图表中事件时序从左到右符合时间顺序，无错位",
+                "satisfied": true
+            },
+            {
+                "item": "图表显示了中断D（高优先级）的发生，它中断了正在进行的C（低优先级）中断处理程序，并且C在D完成后从中断点恢复执行。",
+                "student_raw_extraction": "图表中D中断段插入C中断段中间，C中断段在D后继续执行",
+                "standard_requirement": "图表需显示D中断C并C恢复执行",
+                "semantic_comparison": "学生绘制的图表中D中断了C的处理，且C在D完成后恢复，符合要求",
+                "satisfied": true
+            }
+        ],
+        "total_score": 20,
+        "feedback": "学生答案完全符合评分细则所有要求，无扣分项",
+        "student_id": "E01914115_Q2.jpg"
+    },
+    {
+        "evaluations": [
+            {
+                "item": "中断处理优先级排列顺序A→D→C→E→B",
+                "student_raw_extraction": "A>D>C>E>B",
+                "standard_requirement": "A→D→C→E→B",
+                "semantic_comparison": "'>'与'→'语义等价，优先级顺序一致，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "A的屏蔽字1 1 1 1 1",
+                "student_raw_extraction": "1 1 1 1 1",
+                "standard_requirement": "1 1 1 1 1",
+                "semantic_comparison": "数值完全一致，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "B的屏蔽字0 1 0 0 0",
+                "student_raw_extraction": "0 1 0 0 0",
+                "standard_requirement": "0 1 0 0 0",
+                "semantic_comparison": "数值完全一致，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "C的屏蔽字0 1 1 0 1",
+                "student_raw_extraction": "0 1 1 0 1",
+                "standard_requirement": "0 1 1 0 1",
+                "semantic_comparison": "数值完全一致，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "D的屏蔽字0 1 1 1 1",
+                "student_raw_extraction": "0 1 1 1 1",
+                "standard_requirement": "0 1 1 1 1",
+                "semantic_comparison": "数值完全一致，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "E的屏蔽字0 1 0 0 1",
+                "student_raw_extraction": "0 1 0 0 1",
+                "standard_requirement": "0 1 0 0 1",
+                "semantic_comparison": "数值完全一致，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "图表显示了中断A的发生，并且它是最早发生的中断。",
+                "student_raw_extraction": "图中A在时间轴最左侧，为最早发生的中断",
+                "standard_requirement": "显示中断A的发生且为最早",
+                "semantic_comparison": "A的发生及最早时序符合要求，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "图表显示了中断D的发生，并且它发生在A之后，但在C之前。",
+                "student_raw_extraction": "图中D在A之后、C之前发生",
+                "standard_requirement": "显示中断D发生在A之后且在C之前",
+                "semantic_comparison": "D的时序（A后、C前）符合要求，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "图表显示了中断C、E、B的发生，并且它们的顺序是C在E之前，E在B之前。",
+                "student_raw_extraction": "图中C、E、B按C→E→B顺序发生",
+                "standard_requirement": "显示中断C、E、B的发生且顺序为C在E前、E在B前",
+                "semantic_comparison": "C、E、B的顺序符合要求，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "图表显示了CPU从“主程序”状态切换到“中断处理程序”状态（例如，通过一个箭头或状态变化）。",
+                "student_raw_extraction": "图中存在从用户程序到服务程序的切换标识",
+                "standard_requirement": "显示CPU从主程序切换到中断处理程序",
+                "semantic_comparison": "状态切换的图形表示符合要求，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "图表显示了CPU从“中断处理程序”状态返回到“主程序”状态（例如，通过一个箭头或状态变化）。",
+                "student_raw_extraction": "图中存在从中断处理程序返回主程序的切换标识",
+                "standard_requirement": "显示CPU从中断处理程序返回主程序",
+                "semantic_comparison": "状态返回的图形表示符合要求，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "图表包含一个明确的时间轴（例如，一条水平线，带有时间标记或方向箭头）。",
+                "student_raw_extraction": "图中有标注“t”的水平时间轴",
+                "standard_requirement": "包含明确的时间轴",
+                "semantic_comparison": "时间轴的图形表示符合要求，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "图表中的所有事件（中断触发、CPU执行主程序、CPU执行中断处理程序）都沿着时间轴按时间顺序排列（例如，从左到右）。",
+                "student_raw_extraction": "图中所有事件沿时间轴从左到右按时间顺序排列",
+                "standard_requirement": "所有事件沿时间轴按时间顺序排列",
+                "semantic_comparison": "事件时序排列符合要求，无差异",
+                "satisfied": true
+            },
+            {
+                "item": "图表显示了中断D（高优先级）的发生，它中断了正在进行的C（低优先级）中断处理程序，并且C在D完成后从中断点恢复执行。",
+                "student_raw_extraction": "图中D中断了正在进行的C，C在D完成后恢复执行",
+                "standard_requirement": "显示D中断C且C恢复执行",
+                "semantic_comparison": "中断嵌套及恢复的图形表示符合要求，无差异",
+                "satisfied": true
+            }
+        ],
+        "total_score": 20,
+        "feedback": "所有评分项均满足要求，得满分",
+        "student_id": "E01914214_Q2.jpg"
+    }
+]

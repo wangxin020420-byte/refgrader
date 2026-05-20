@@ -17,16 +17,16 @@
         "3wd_route": "NEG",
         "final_calibrated_score": 8,
         "requires_human_arbitration": true,
-        "reason_log": "各条目评分一致，但总分计算存在5分与9分的严重分歧。",
-        "human_review_hint": "各条目评分一致，但总分计算存在5分与9分的严重分歧。",
-        "facts": "{\"item_1\": \"10x10³\", \"item_2\": \"2\", \"item_3\": \"4GHz=4x10⁹Hz\", \"item_4\": \"1\", \"item_5\": \"6GHz=6x10⁹Hz\", \"item_6\": \"Te = CPI×IC/F\", \"item_7\": \"2×10×10³\", \"item_8\": \"5×10⁻⁶s\", \"item_9\": \"10×10³\", \"item_10\": \"0.167×10⁻⁵s\"}",
+        "reason_log": "摘要生成失败，请人工核查。",
+        "human_review_hint": "摘要生成失败，请人工核查。",
+        "facts": "{\"item_1\": \"10x10³\", \"item_2\": \"2\", \"item_3\": \"4GHz=4x10⁹Hz\", \"item_4\": \"1\", \"item_5\": \"6GHz=6x10⁹Hz\", \"item_6\": \"Te = CPI×IC/F\", \"item_7\": \"2×10×10³\", \"item_8\": \"5x10⁻⁶s\", \"item_9\": \"10x10³\", \"item_10\": \"0.167x10⁻⁵s\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "item_1",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为10万条（100,000），学生作答为10x10³（10,000）"
+                    "reason": "数值矛盾，标准为10万条(100,000)，客观事实中为10x10³(10,000)"
                 },
                 {
                     "id": "item_2",
@@ -56,121 +56,34 @@
                     "id": "item_6",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "匹配成功，公式等价"
                 },
                 {
                     "id": "item_7",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为200,000，学生作答为2×10×10³（20,000）"
+                    "reason": "数值矛盾，标准为200,000，客观事实中计算结果为20,000"
                 },
                 {
                     "id": "item_8",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为50μs，学生作答为5×10⁻⁶s（5μs）"
+                    "reason": "数值矛盾，标准为50μs，客观事实中计算结果为5x10⁻⁶s(5μs)"
                 },
                 {
                     "id": "item_9",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为100,000，学生作答为10×10³（10,000）"
+                    "reason": "数值矛盾，标准为100,000，客观事实中计算结果为10,000"
                 },
                 {
                     "id": "item_10",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为16.7μs，学生作答为0.167×10⁻⁵s（1.67μs）"
+                    "reason": "数值矛盾，标准为16.7μs，客观事实中计算结果为0.167x10⁻⁵s(1.67μs)"
                 }
             ],
             "total_score": 5
-        }
-    },
-    {
-        "student_id": "E12314109_Q7",
-        "teacher_score": 8.0,
-        "model_scores_history": [
-            9,
-            9,
-            5
-        ],
-        "model_avg_score": 8,
-        "std_dev": 1.8856,
-        "blank_rate": 0.0,
-        "perception_failure_rate": 0.0,
-        "low_quality_extraction_rate": 0.0,
-        "extraction_quality": "high",
-        "real_diff": 0.0,
-        "3wd_route": "NEG",
-        "final_calibrated_score": 8,
-        "requires_human_arbitration": true,
-        "reason_log": "各条目得分完全相同，但总分计算存在9分与5分的分歧。",
-        "human_review_hint": "各条目得分完全相同，但总分计算存在9分与5分的分歧。",
-        "facts": "{\"item_1\": \"10⁷条\", \"item_2\": \"2\", \"item_3\": \"4GHz\", \"item_4\": \"1\", \"item_5\": \"6GHz\", \"item_6\": \"Te=cPI×IC/F\", \"item_7\": \"2×10⁷\", \"item_8\": \"0.005s\", \"item_9\": \"1×10⁷\", \"item_10\": \"0.0017s\"}",
-        "strict_cot": {
-            "details": [
-                {
-                    "id": "1",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：标准为10万（100,000），学生作答为10⁷（10,000,000）"
-                },
-                {
-                    "id": "2",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "3",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "4",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "5",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "6",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功：公式结构与语义等价"
-                },
-                {
-                    "id": "7",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功：符合链式推导一致性，上游项10⁷ × 2 = 2×10⁷"
-                },
-                {
-                    "id": "8",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功：符合链式推导一致性，上游项(2×10⁷) / (4×10⁹Hz) = 0.005s"
-                },
-                {
-                    "id": "9",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功：符合链式推导一致性，上游项10⁷ × 1 = 1×10⁷"
-                },
-                {
-                    "id": "10",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功：符合链式推导一致性，上游项(1×10⁷) / (6×10⁹Hz) ≈ 0.0017s（误差1.96% ≤ 10%）"
-                }
-            ],
-            "total_score": 9
         }
     }
 ]

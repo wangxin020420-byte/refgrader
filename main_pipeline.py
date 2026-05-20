@@ -316,7 +316,7 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
     cached_blind_checklist = generate_blind_checklist(json.dumps(dynamic_rubrics, ensure_ascii=False))
     print(f"⚡ 脱敏清单已预生成，{len(image_files)} 名学生共享复用。")
 
-    print(f"🏃 开始批改 {len(image_files)} 张试卷 (⚡ 开启多线程模式)...")
+    print(f"🏃 开始批改 {len(image_files)} 张试卷 (⚡ 开启多线程模式)...", flush=True)
 
     def process_one_student(img_file):
         file_base_name = os.path.splitext(img_file)[0]
@@ -325,7 +325,7 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
         real_teacher_score = get_teacher_score_from_your_database(pure_student_id, q_id)
 
         for attempt in range(2):
-            print(f"\n🔍 [正在处理] {file_base_name} | 启动 3WD 流水线..." + ("(重试)" if attempt > 0 else ""))
+            print(f"\n🔍 [正在处理] {file_base_name} | 启动 3WD 流水线..." + ("(重试)" if attempt > 0 else ""), flush=True)
 
             try:
                 res = grade_student_3wd_pipeline(
@@ -340,30 +340,38 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
                 if res:
                     eq = res.get('extraction_quality', 'unknown')
                     eq_icon = "🟢" if eq == "high" else ("🔴" if eq == "failed" else "🟡")
-                    print(f"✅ [批改完成] {file_base_name} | 路由: {res['3wd_route']} | 最终分: {res['final_calibrated_score']} | 提取质量: {eq_icon}{eq} | 留白率: {res['blank_rate']:.0%} | 低质量率: {res.get('low_quality_extraction_rate', 0):.0%}")
+                    print(f"✅ [批改完成] {file_base_name} | 路由: {res['3wd_route']} | 最终分: {res['final_calibrated_score']} | 提取质量: {eq_icon}{eq} | 留白率: {res['blank_rate']:.0%} | 低质量率: {res.get('low_quality_extraction_rate', 0):.0%}", flush=True)
                     return res
                 elif attempt == 0:
-                    print(f"⚠️ [流水线返回空] {file_base_name} | 等待 5 秒后重试...")
+                    print(f"⚠️ [流水线返回空] {file_base_name} | 等待 5 秒后重试...", flush=True)
                     time.sleep(5)
             except Exception as e:
-                print(f"❌ [进程报错] {file_base_name} | 错误原因: {e}")
+                print(f"❌ [进程报错] {file_base_name} | 错误原因: {e}", flush=True)
                 if attempt == 0:
                     time.sleep(5)
 
-        print(f"❌ [最终失败] {file_base_name} | 两次尝试均失败，跳过。")
+        print(f"❌ [最终失败] {file_base_name} | 两次尝试均失败，跳过。", flush=True)
         return None
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS_OUTER) as executor:
         futures = {executor.submit(process_one_student, f): f for f in image_files}
+        print(f"⏳ [主线程] 已提交 {len(futures)} 个任务，等待结果回收...", flush=True)
 
         for future in concurrent.futures.as_completed(futures):
-            result = future.result()
+            try:
+                result = future.result()
+            except Exception as e:
+                import traceback
+                print(f"❌ [主线程] future.result() 异常: {e}", flush=True)
+                traceback.print_exc()
+                continue
+
             if result:
                 results_list.append(result)
                 total_count += 1
                 route = result.get('3wd_route', '')
                 tag = " [NEG-拒绝]" if route == "NEG" else ""
-                print(f"📢 [总进度] {total_count}/{len(image_files)} 份试卷已归档{tag}。")
+                print(f"📢 [总进度] {total_count}/{len(image_files)} 份试卷已归档{tag}。", flush=True)
                 # 断点续传：增量保存 checkpoint
                 all_so_far = existing + results_list
                 with open(checkpoint_path, "w", encoding="utf-8") as f:
@@ -372,7 +380,7 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
     # ========================================================
     # 合并 + 排序：断点续传结果 + 本次新结果
     # ========================================================
-    print("🗂️ 所有线程交卷完毕，正在整理数据...")
+    print(f"🗂️ 所有线程交卷完毕，正在整理数据... (共收集 {len(results_list)}/{len(image_files)} 份结果)", flush=True)
     all_results = existing + results_list
     order_map = {os.path.splitext(f)[0]: index for index, f in enumerate(all_target_files)}
     all_results.sort(key=lambda x: order_map.get(x.get('student_id', ''), float('inf')))
@@ -423,7 +431,7 @@ if __name__ == "__main__":
     # ------------------------------------------
     # 🎛️ 配置区 B：正式批改模式 (FULL)
     # ------------------------------------------
-    FORCE_RERUN = True # 全量重跑，验证优化效果
+    FORCE_RERUN = True # 全量重跑Q7（标准已重写，必须重跑）
     # 🚨 精准控制批改范围，支持三种格式：
     #   数字  -> 批改该题的前 N 张试卷
     #   列表  -> 只批改指定学号的试卷（如 ["E12314093", "E12214171"]）
@@ -433,9 +441,10 @@ if __name__ == "__main__":
         #"Q2": 10,                          # 前 10 张
         # "Q1": None,                       # 全量
         # "Q3": ["E12314093", "E12214171"],  # 指定学号
-        "Q4": 20,
-        #"Q6": 20,
-        "Q7": 20
+        #"Q4": None,                        # 已全部完成(41/41)
+        #"Q5": None,                        # 已全部完成(68/68)
+        #"Q6": None,                        # 已全部完成(68/68)
+        "Q7": None                          # 重跑，验证flush修复
     }
     print("=" * 50)
 

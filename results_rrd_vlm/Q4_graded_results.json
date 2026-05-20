@@ -3,42 +3,41 @@
         "student_id": "E01914115_Q4",
         "teacher_score": 6.0,
         "model_scores_history": [
-            3,
-            3,
-            3
+            5,
+            6
         ],
-        "model_avg_score": 3,
-        "std_dev": 0.0,
-        "blank_rate": 0.47,
+        "model_avg_score": 6,
+        "std_dev": 0.5,
+        "blank_rate": 0.4,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 3.0,
+        "real_diff": 0.0,
         "3wd_route": "BND",
-        "final_calibrated_score": 5.0,
+        "final_calibrated_score": 8.0,
         "requires_human_arbitration": false,
-        "reason_log": "ID1误差13%符合数值宽容原则",
+        "reason_log": "宽容地址位数误差，恢复部分过程分",
         "human_review_hint": "",
-        "facts": "{\"1\": \"20位\", \"2\": \"未书写\", \"3\": \"4位\", \"4\": \"未书写\", \"5\": \"未书写\", \"6\": \"0011010000011111111111\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"由表可知,无法访问到该单元的数据\", \"10\": \"无法访问到\", \"11\": \"0111111100000001010111\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"由表可知,无法访问到块3的数据\", \"15\": \"无法访问到\"}",
+        "facts": "{\"1\": \"20位\", \"2\": \"16位\", \"3\": \"4位\", \"4\": \"未书写\", \"5\": \"未书写\", \"6\": \"(00.. 1101 0000 0111 1111 1111)₂\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"由表可知，无法访问到该单元的数据\", \"10\": \"无法访问到\", \"11\": \"(0111 1111 0000 0000 0101 0111)₂\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"由表可知，可访问到块3的数据\", \"15\": \"可访问到\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "1",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：标准要求物理地址为23位，学生作答20位"
+                    "reason": "数值矛盾：学生答20位，标准为23位"
                 },
                 {
                     "id": "2",
                     "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生答16位，标准为11位"
                 },
                 {
                     "id": "3",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功：核心数值4位一致"
+                    "reason": "数值匹配成功：答4位与标准一致"
                 },
                 {
                     "id": "4",
@@ -56,87 +55,87 @@
                     "id": "6",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：二进制序列与标准001011010000011111111111不一致"
+                    "reason": "序列长度不一致：学生答案缺失开头的0010，核心数值错误"
                 },
                 {
                     "id": "7",
                     "score_given": 0,
                     "error_category": "BLANK",
-                    "reason": "未书写"
+                    "reason": "未书写，且下游推导项未体现出正确的标记数值，无法回溯推断"
                 },
                 {
                     "id": "8",
                     "score_given": 0,
                     "error_category": "BLANK",
-                    "reason": "未书写"
+                    "reason": "未书写，且下游推导项未体现出正确的组号数值，无法回溯推断"
                 },
                 {
                     "id": "9",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "核心内容缺失：未包含标准所要求的标记比较过程要素"
+                    "reason": "过程类要素缺失：学生未给出标记比较的中间数值和对象"
                 },
                 {
                     "id": "10",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功：作答'无法访问到'与标准'未命中'在结论类语义上等价"
+                    "reason": "结论语义等价匹配：无法访问到等价于未命中"
                 },
                 {
                     "id": "11",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：二进制序列与标准01111111000000000001010111不一致"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "序列类匹配：去除空格和格式后，二进制序列完全一致"
                 },
                 {
                     "id": "12",
                     "score_given": 0,
                     "error_category": "BLANK",
-                    "reason": "未书写"
+                    "reason": "未书写，且下游推导项未体现出正确的标记数值，无法回溯推断"
                 },
                 {
                     "id": "13",
                     "score_given": 0,
                     "error_category": "BLANK",
-                    "reason": "未书写"
+                    "reason": "未书写，且下游推导项未体现出正确的组号数值，无法回溯推断"
                 },
                 {
                     "id": "14",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "核心内容缺失：未包含标准所要求的标记比较过程要素"
+                    "reason": "过程类要素缺失：学生未给出标记比较的关键数值，仅直接陈述结果"
                 },
                 {
                     "id": "15",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "结论相反：标准判断结果为'命中'，学生作答'无法访问到'表示未命中"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论语义等价匹配：可访问到等价于命中"
                 }
             ],
-            "total_score": 3
+            "total_score": 5
         }
     },
     {
         "student_id": "E01914290_Q4",
         "teacher_score": 4.0,
         "model_scores_history": [
-            1,
-            2,
-            1
+            3,
+            3,
+            3
         ],
-        "model_avg_score": 2,
-        "std_dev": 0.4714,
+        "model_avg_score": 3,
+        "std_dev": 0.0,
         "blank_rate": 0.8,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 2.0,
+        "real_diff": 1.0,
         "3wd_route": "POS",
-        "final_calibrated_score": 2,
+        "final_calibrated_score": 3,
         "requires_human_arbitration": false,
         "reason_log": "",
         "human_review_hint": "",
-        "facts": "{\"1\": \"未书写\", \"2\": \"未书写\", \"3\": \"32÷2=16组\", \"4\": \"未书写\", \"5\": \"未书写\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"能\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"能\"}",
+        "facts": "{\"1\": \"未书写\", \"2\": \"未书写\", \"3\": \"4位\", \"4\": \"未书写\", \"5\": \"未书写\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"能\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"能\"}",
         "strict_cot": {
             "details": [
                 {
@@ -153,9 +152,9 @@
                 },
                 {
                     "id": "3",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：评分标准要求核心结论为4位，学生作答为16组，缺失关键数值"
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "4",
@@ -197,7 +196,7 @@
                     "id": "10",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "结论相反：标准为未命中，学生作答能（即命中）"
+                    "reason": "结论相反，标准为未命中，学生回答能"
                 },
                 {
                     "id": "11",
@@ -227,501 +226,618 @@
                     "id": "15",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功：作答“能”与标准“命中”语义等价"
+                    "reason": "匹配成功"
                 }
             ],
-            "total_score": 1
+            "total_score": 3
+        }
+    },
+    {
+        "student_id": "E02014181_Q4",
+        "teacher_score": 0.0,
+        "model_scores_history": [
+            0,
+            0,
+            0
+        ],
+        "model_avg_score": 0,
+        "std_dev": 0.0,
+        "blank_rate": 1.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 0.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 0,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"未书写\", \"2\": \"未书写\", \"3\": \"未书写\", \"4\": \"未书写\", \"5\": \"未书写\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"未书写\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"未书写\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "2",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "3",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "15",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                }
+            ],
+            "total_score": 0
         }
     },
     {
         "student_id": "E12214006_Q4",
         "teacher_score": 14.0,
         "model_scores_history": [
-            11,
-            9,
-            9
+            13,
+            13,
+            11
         ],
-        "model_avg_score": 10,
+        "model_avg_score": 13,
         "std_dev": 0.9428,
         "blank_rate": 0.53,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 4.0,
+        "real_diff": 1.0,
         "3wd_route": "POS",
-        "final_calibrated_score": 10,
-        "requires_human_arbitration": false,
+        "final_calibrated_score": 13,
+        "requires_human_arbitration": true,
         "reason_log": "",
         "human_review_hint": "",
-        "facts": "{\"1\": \"8MB=2²³B 即主存共23位\", \"2\": \"每块2KB=2¹¹B 即块内地址共11位\", \"3\": \"32个主存块，2块一组 共32/2=16组=2⁴组 即组号为4位\", \"4\": \"标记 8位 | 组号 4位 | 块内地址 11位\", \"5\": \"标记 4位 | 块号 1位 | 块内地址 11位\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"能在Cache中访问到\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"能在Cache中访问到\"}",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"标记8位 组号4位 块内地址11位\", \"5\": \"标记4位 块号1位 块内地址11位\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"能在Cache中访问\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"能在Cache中访问\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "1",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "数值匹配成功"
                 },
                 {
                     "id": "2",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "数值匹配成功"
                 },
                 {
                     "id": "3",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "数值匹配成功"
                 },
                 {
                     "id": "4",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "语义匹配成功，结构及数值均正确"
                 },
                 {
                     "id": "5",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心知识错误，Cache地址格式中不包含标记位，学生将组号错写为标记"
                 },
                 {
                     "id": "6",
                     "score_given": 0,
                     "error_category": "BLANK",
-                    "reason": "未书写"
+                    "reason": "未书写，且下游推导项结论错误，无法回溯推断"
                 },
                 {
                     "id": "7",
                     "score_given": 0,
                     "error_category": "BLANK",
-                    "reason": "未书写"
+                    "reason": "未书写，且下游推导项结论错误，无法回溯推断"
                 },
                 {
                     "id": "8",
                     "score_given": 0,
                     "error_category": "BLANK",
-                    "reason": "未书写"
+                    "reason": "未书写，且下游推导项结论错误，无法回溯推断"
                 },
                 {
                     "id": "9",
                     "score_given": 0,
                     "error_category": "BLANK",
-                    "reason": "未书写"
+                    "reason": "未书写，且下游推导项结论错误，无法回溯推断"
                 },
                 {
                     "id": "10",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "结论相反，标准为未命中，学生回答为命中"
+                    "reason": "结论相反，标准为未命中，学生作答为能在Cache中访问（即命中）"
                 },
                 {
                     "id": "11",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "12",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "13",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "14",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "15",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
-                }
-            ],
-            "total_score": 11
-        }
-    },
-    {
-        "student_id": "E12214023_Q4",
-        "teacher_score": 13.0,
-        "model_scores_history": [
-            9,
-            9,
-            9
-        ],
-        "model_avg_score": 9,
-        "std_dev": 0.0,
-        "blank_rate": 0.47,
-        "perception_failure_rate": 0.0,
-        "low_quality_extraction_rate": 0.0,
-        "extraction_quality": "high",
-        "real_diff": 4.0,
-        "3wd_route": "BND",
-        "final_calibrated_score": 11.0,
-        "requires_human_arbitration": false,
-        "reason_log": "学生提取标记位实质正确，标准答案有误故恢复给分",
-        "human_review_hint": "",
-        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"tag 8位 | 组号 4位 | 块内地址 11位\", \"5\": \"未书写\", \"6\": \"未书写\", \"7\": \"00101101\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"不能访问到\", \"11\": \"未书写\", \"12\": \"01111111\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"不能访问到\"}",
-        "strict_cot": {
-            "details": [
-                {
-                    "id": "1",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "2",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "3",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "4",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功，结构及位数与标准一致"
-                },
-                {
-                    "id": "5",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "6",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "7",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，学生提取为00101101，标准为01011010"
-                },
-                {
-                    "id": "8",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "9",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "10",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功，'不能访问到'与'未命中'属于同义表达"
-                },
-                {
-                    "id": "11",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "12",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，学生提取为01111111，标准为11111110"
-                },
-                {
-                    "id": "13",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "14",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "15",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "结论相反，标准为'命中'，学生回答'不能访问到'"
-                }
-            ],
-            "total_score": 9
-        }
-    },
-    {
-        "student_id": "E12214062_Q4",
-        "teacher_score": 12.0,
-        "model_scores_history": [
-            13,
-            13,
-            13
-        ],
-        "model_avg_score": 13,
-        "std_dev": 0.0,
-        "blank_rate": 0.07,
-        "perception_failure_rate": 0.0,
-        "low_quality_extraction_rate": 0.0,
-        "extraction_quality": "high",
-        "real_diff": -1.0,
-        "3wd_route": "BND",
-        "final_calibrated_score": 15.0,
-        "requires_human_arbitration": false,
-        "reason_log": "恢复未补前导0的二进制表示分",
-        "human_review_hint": "",
-        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"前23位 标志位 中间4位组地址 后11位块内地址\", \"5\": \"未书写\", \"6\": \"010 1101 0000 0111 1111 1111 B\", \"7\": \"01011010\", \"8\": \"0000\", \"9\": \"查找块2\", \"10\": \"不可访问\", \"11\": \"111 1111 0000 0000 0101 0111 B\", \"12\": \"11111110\", \"13\": \"0000\", \"14\": \"查找块3\", \"15\": \"不可访问\"}",
-        "strict_cot": {
-            "details": [
-                {
-                    "id": "1",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "数值类匹配成功，忽略单位格式差异"
-                },
-                {
-                    "id": "2",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "数值类匹配成功"
-                },
-                {
-                    "id": "3",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "数值类匹配成功"
-                },
-                {
-                    "id": "4",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "核心知识错误，事实称标志位占前23位，与标准8位及地址总长度严重矛盾"
-                },
-                {
-                    "id": "5",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "6",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "序列类矛盾，事实表示为010...（23位），标准为0010...（24位），数值序列不一致"
-                },
-                {
-                    "id": "7",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "序列类匹配成功"
-                },
-                {
-                    "id": "8",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "序列类匹配成功"
-                },
-                {
-                    "id": "9",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "过程类匹配成功，包含查找并得出对应块结果的关键要素"
-                },
-                {
-                    "id": "10",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "结论类匹配，接受不可访问作为未命中的同义表达"
-                },
-                {
-                    "id": "11",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "序列类矛盾，事实表示为111...（23位），标准为0111...（24位），数值序列不一致"
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
                 },
                 {
                     "id": "12",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "序列类匹配成功"
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
                 },
                 {
                     "id": "13",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "序列类匹配成功"
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
                 },
                 {
                     "id": "14",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "过程类匹配成功，包含查找对象和结果要素"
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
                 },
                 {
                     "id": "15",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "结论相反，标准为命中，事实为不可访问"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，能在Cache中访问等价于命中"
                 }
             ],
             "total_score": 13
         }
     },
     {
+        "student_id": "E12214023_Q4",
+        "teacher_score": 13.0,
+        "model_scores_history": [
+            11,
+            12,
+            11
+        ],
+        "model_avg_score": 12,
+        "std_dev": 0.4714,
+        "blank_rate": 0.27,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 1.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 13.0,
+        "requires_human_arbitration": false,
+        "reason_log": "恢复部分过程分，宽容未书写步骤",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"tag(8位) 组号(4位) 块内地址(11位)\", \"5\": \"组号(4位) 块内地址(11位)\", \"6\": \"001011010000011111111111\", \"7\": \"00101101\", \"8\": \"0000\", \"9\": \"未书写\", \"10\": \"不能访问到\", \"11\": \"未书写\", \"12\": \"01111111\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"不能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结构本身错误，缺少组内块号字段"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "语义匹配，不能访问到等同于未命中"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "15",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反"
+                }
+            ],
+            "total_score": 11
+        }
+    },
+    {
+        "student_id": "E12214062_Q4",
+        "teacher_score": 12.0,
+        "model_scores_history": [
+            12,
+            12,
+            12
+        ],
+        "model_avg_score": 12,
+        "std_dev": 0.0,
+        "blank_rate": 0.07,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 0.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 14.0,
+        "requires_human_arbitration": false,
+        "reason_log": "id4结构正确给一半分，id6缺前导0给全分",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"前23位 标志位 中间4位组地址 后11区块内地址\", \"5\": \"未书写\", \"6\": \"010 1101 0000 0111 1111 1111 B\", \"7\": \"0101 1010\", \"8\": \"0000\", \"9\": \"块标记0101 1010 组地址0000 寻块0,1\", \"10\": \"表块2 可访问\", \"11\": \"111 1111 0000 0101 0111 B\", \"12\": \"1111 1110\", \"13\": \"0000\", \"14\": \"块标记1111 1110 组地址0000 寻块0,1\", \"15\": \"表块对应块3, 不可访问\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心知识错误：学生作答前23位标志位，但物理地址总共才23位，标志位位数描述严重矛盾"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "二进制序列长度与标准不一致（少1位），且数值存在偏差，错误位数超过10%"
+                },
+                {
+                    "id": "7",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "9",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "过程匹配：包含了标记位比较和组地址等关键要素，不要求与标准措辞一致"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反：学生判断为可访问（命中），标准答案为未命中"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "二进制序列长度与标准不一致（少5位），数值存在严重偏差"
+                },
+                {
+                    "id": "12",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "14",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "过程匹配：包含了标记位比较和组地址等关键语义要素"
+                },
+                {
+                    "id": "15",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反：学生判断为不可访问（未命中），标准答案为命中"
+                }
+            ],
+            "total_score": 12
+        }
+    },
+    {
         "student_id": "E12214075_Q4",
         "teacher_score": 17.0,
         "model_scores_history": [
-            9,
-            14,
-            14
+            12,
+            13,
+            12
         ],
         "model_avg_score": 13,
-        "std_dev": 2.357,
+        "std_dev": 0.4714,
         "blank_rate": 0.0,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
         "real_diff": 4.0,
         "3wd_route": "BND",
-        "final_calibrated_score": 11.0,
+        "final_calibrated_score": 18.0,
         "requires_human_arbitration": false,
-        "reason_log": "ID2数值误差小于15%，按原则恢复满分。",
+        "reason_log": "宽恕微小数值偏差及标准笔误",
         "human_review_hint": "",
-        "facts": "{\"1\": \"23位\", \"2\": \"10位\", \"3\": \"4位\", \"4\": \"标记字段 4 组号 块内地址\", \"5\": \"组号 1 组内块号 块内地址\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"010 1101 0000 0\", \"8\": \"0000\", \"9\": \"主存标记为010 1101 0000 0 对应块2，0，2D07FFH可以访问到该单元 块2\", \"10\": \"可以访问到该单元\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"111 1110\", \"13\": \"0000\", \"14\": \"主存标记 111 1110 对应块1，7F0057H可以访问到块1\", \"15\": \"可以访问到块1\"}",
+        "facts": "{\"1\": \"23位\", \"2\": \"10位\", \"3\": \"4位\", \"4\": \"标记字段 9位 组号 4位 块内地址 11位\", \"5\": \"组号 4位 块内地址 11位\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"01011010\", \"8\": \"0000\", \"9\": \"主存标记为01011010 对应块2，否，2D07FFH可以访问到该单元 块2\", \"10\": \"可以访问到该单元\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"11111110\", \"13\": \"0000\", \"14\": \"主存标记 11111110 对应块1\", \"15\": \"可以访问到块1\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "1",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "数值类匹配成功，忽略格式差异"
                 },
                 {
                     "id": "2",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾"
+                    "reason": "核心数值矛盾，学生答10位，标准为11位"
                 },
                 {
                     "id": "3",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "数值类匹配成功"
                 },
                 {
                     "id": "4",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "结构不完整，缺少标记和块内地址位数"
+                    "reason": "结构中的核心数值错误，标记字段写为9位（标准为8位）"
                 },
                 {
                     "id": "5",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "结构不完整，缺少组号和块内地址位数"
+                    "reason": "结构缺失关键字段，缺少组内块号1位"
                 },
                 {
                     "id": "6",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "序列类匹配成功，去除空格后一致"
                 },
                 {
                     "id": "7",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "数值序列匹配成功，忽略进制标记差异"
                 },
                 {
                     "id": "8",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "数值序列匹配成功，忽略进制标记差异"
                 },
                 {
                     "id": "9",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "标记位不匹配"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "过程类匹配，包含了标记提取和对应块号匹配的关键语义"
                 },
                 {
                     "id": "10",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "结论相反"
+                    "reason": "结论类语义相反，学生判定命中，标准为未命中"
                 },
                 {
                     "id": "11",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列长度不一致，学生为24位，标准为25位"
                 },
                 {
                     "id": "12",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "数值序列匹配成功，忽略进制标记差异"
                 },
                 {
                     "id": "13",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "数值序列匹配成功，忽略进制标记差异"
                 },
                 {
                     "id": "14",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "标记位不匹配"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "过程类匹配，包含标记与对应块匹配的关键语义"
                 },
                 {
                     "id": "15",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "结论类同义表达匹配，可以访问到等同于命中"
                 }
             ],
-            "total_score": 9
+            "total_score": 12
         }
     },
     {
         "student_id": "E12214098_Q4",
         "teacher_score": 10.0,
         "model_scores_history": [
-            10,
-            10,
-            10
+            8,
+            8,
+            8
         ],
-        "model_avg_score": 10,
+        "model_avg_score": 8,
         "std_dev": 0.0,
-        "blank_rate": 0.53,
+        "blank_rate": 0.73,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 0.0,
+        "real_diff": 2.0,
         "3wd_route": "POS",
-        "final_calibrated_score": 10,
+        "final_calibrated_score": 8,
         "requires_human_arbitration": false,
         "reason_log": "",
         "human_review_hint": "",
-        "facts": "{\"1\": \"主存位数:2³×2²⁰=2²³,有23位\", \"2\": \"2KB=2¹¹b. Cache块内地址11位\", \"3\": \"16组. 组号4位\", \"4\": \"tag=7位 Cache地址16位\", \"5\": \"组号:4位 块号1位 块内地址11位\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"不能访问到\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"能. 命中\"}",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"未书写\", \"5\": \"组号:4位 块号1位 块内地址11位\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"未书写\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"未书写\"}",
         "strict_cot": {
             "details": [
                 {
@@ -745,8 +861,8 @@
                 {
                     "id": "4",
                     "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，计算得出Tag为7位与标准8位不符"
+                    "error_category": "BLANK",
+                    "reason": "未书写"
                 },
                 {
                     "id": "5",
@@ -780,9 +896,9 @@
                 },
                 {
                     "id": "10",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "结论类同义表达匹配成功"
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
                 },
                 {
                     "id": "11",
@@ -810,35 +926,35 @@
                 },
                 {
                     "id": "15",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
                 }
             ],
-            "total_score": 10
+            "total_score": 8
         }
     },
     {
         "student_id": "E12214107_Q4",
         "teacher_score": 15.0,
         "model_scores_history": [
-            12,
-            11,
-            9
+            13,
+            14,
+            14
         ],
-        "model_avg_score": 11,
-        "std_dev": 1.2472,
-        "blank_rate": 0.13,
+        "model_avg_score": 14,
+        "std_dev": 0.4714,
+        "blank_rate": 0.0,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 4.0,
+        "real_diff": 1.0,
         "3wd_route": "BND",
-        "final_calibrated_score": 15.0,
+        "final_calibrated_score": 17.0,
         "requires_human_arbitration": false,
-        "reason_log": "恢复标记正确提取分及组号过程分",
+        "reason_log": "恢复id7,9,11,12分，链式推导自洽且方法正确",
         "human_review_hint": "",
-        "facts": "{\"1\": \"8MB=2×2²¹=2²³\", \"2\": \"2×2¹⁰×2=11\", \"3\": \"5\", \"4\": \"[8 | 4 | 11] 块标记 组号 块内地址\", \"5\": \"[5 | 11] 组标记 块内地址\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"00101101\", \"8\": \"0000\", \"9\": \"未书写\", \"10\": \"不能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"01111111\", \"13\": \"0000\", \"14\": \"未书写\", \"15\": \"能访问到\"}",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"标记8位、组号4位、块内地址11位\", \"5\": \"标记5位、块内地址11位\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"00101101\", \"8\": \"0000\", \"9\": \"标记00101101与块0的标记01011011比较，不匹配\", \"10\": \"不能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"01111111\", \"13\": \"0000\", \"14\": \"标记01111111与块1的标记11111110比较，匹配\", \"15\": \"能访问到\"}",
         "strict_cot": {
             "details": [
                 {
@@ -855,9 +971,9 @@
                 },
                 {
                     "id": "3",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为4位，学生答5位"
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "4",
@@ -869,7 +985,7 @@
                     "id": "5",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "结构错误，学生将组号与组内块号合并为5位，缺失独立字段"
+                    "reason": "结构本身错误，字段缺失且概念混淆"
                 },
                 {
                     "id": "6",
@@ -881,7 +997,7 @@
                     "id": "7",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为01011010，学生答00101101"
+                    "reason": "数值矛盾"
                 },
                 {
                     "id": "8",
@@ -892,26 +1008,26 @@
                 {
                     "id": "9",
                     "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心知识错误，标记数值及比较结论与标准矛盾"
                 },
                 {
                     "id": "10",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功，同义表达"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "11",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功，学生转换的二进制与十六进制完全对应"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列长度不一致，数值矛盾"
                 },
                 {
                     "id": "12",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为11111110，学生答01111111"
+                    "reason": "数值矛盾"
                 },
                 {
                     "id": "13",
@@ -922,17 +1038,17 @@
                 {
                     "id": "14",
                     "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心知识错误，标记数值及逻辑与标准矛盾"
                 },
                 {
                     "id": "15",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功，同义表达"
+                    "reason": "匹配成功"
                 }
             ],
-            "total_score": 12
+            "total_score": 13
         }
     },
     {
@@ -940,113 +1056,113 @@
         "teacher_score": 15.0,
         "model_scores_history": [
             14,
-            13,
-            12
+            15,
+            14
         ],
-        "model_avg_score": 13,
-        "std_dev": 0.8165,
-        "blank_rate": 0.27,
+        "model_avg_score": 15,
+        "std_dev": 0.4714,
+        "blank_rate": 0.0,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 2.0,
+        "real_diff": 0.0,
         "3wd_route": "BND",
-        "final_calibrated_score": 16.0,
+        "final_calibrated_score": 18.0,
         "requires_human_arbitration": false,
-        "reason_log": "恢复Cache地址格式得分，合并字段但实质理解正确",
+        "reason_log": "学生二进制及标记位提取准确，属初审误判",
         "human_review_hint": "",
-        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"8 | 4 | 11\", \"5\": \"5 | 11\", \"6\": \"0010.1101 0000 0111 1111 1111\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"由表中可知，CPU送①时，标记无法匹配，故不能访问到\", \"10\": \"不能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"CPU送②时，标记可以匹配，可送块1,3,5…\", \"15\": \"能访问到\"}",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"标记 8位 | Cache组号 4位 | 块内地址 11位\", \"5\": \"组号 5位 | 块内地址 11位\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"00101101\", \"8\": \"0000\", \"9\": \"由表中可知，CPU送①时，标记无法匹配，故不能访问到\", \"10\": \"不能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"01111111\", \"13\": \"0000\", \"14\": \"CPU送②时，标记可以匹配，可送块1,3,5…\", \"15\": \"能访问到\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "1",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "核心数值23位与标准答案匹配"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "2",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "核心数值11位与标准答案匹配"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "3",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "核心数值4位与标准答案匹配"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "4",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "格式数值8、4、11与标准主存地址格式字段的含义和顺序完全一致"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "5",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "Cache地址格式字段缺失，未正确区分Cache组号和组内块号，结构错误"
+                    "reason": "语义矛盾，结构字段缺失且参数含义错误，缺少组内块号且将总位数混淆为组号"
                 },
                 {
                     "id": "6",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "去除空格和小数点等格式分隔符后，纯二进制字符序列与标准完全一致"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "7",
                     "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "客观事实文本标为“未书写”"
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "语义矛盾，提取的序列与标准答案完全不一致"
                 },
                 {
                     "id": "8",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "客观事实文本标为“未书写”"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "9",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "描述了标记无法匹配的比较操作和结果，包含了标准所要求的关键语义要素"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "语义矛盾，学生结论为标记无法匹配，与标准能匹配相悖"
                 },
                 {
                     "id": "10",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "“不能访问到”与“未命中”为同义表达，语义等价"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "11",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "去除空格后，纯二进制字符序列与标准完全一致"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "语义矛盾，二进制序列长度及内容与标准不一致"
                 },
                 {
                     "id": "12",
                     "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "客观事实文本标为“未书写”"
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "语义矛盾，提取的序列与标准答案不一致"
                 },
                 {
                     "id": "13",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "客观事实文本标为“未书写”"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "14",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "描述了标记可以匹配及可送块1、3等关键要素，过程语义匹配"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "15",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "“能访问到”与“命中”为同义表达，结论语义匹配"
+                    "reason": "匹配成功"
                 }
             ],
             "total_score": 14
@@ -1056,117 +1172,117 @@
         "student_id": "E12314005_Q4",
         "teacher_score": 13.0,
         "model_scores_history": [
-            17,
+            15,
             14,
-            14
+            15
         ],
         "model_avg_score": 15,
-        "std_dev": 1.4142,
+        "std_dev": 0.4714,
         "blank_rate": 0.0,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
         "real_diff": -2.0,
         "3wd_route": "BND",
-        "final_calibrated_score": 17.0,
+        "final_calibrated_score": 15.0,
         "requires_human_arbitration": false,
-        "reason_log": "错答Cache行格式且结论错误，维持原判",
+        "reason_log": "概念混淆与核心结论错误，维持原判",
         "human_review_hint": "",
-        "facts": "{\"1\": \"8MB=2²³，共23位\", \"2\": \"2KB=2¹¹B 需11位\", \"3\": \"32/2=16=2⁴ 需4位\", \"4\": \"标记位 8位 | 组号 4位 | 块内地址 11位\", \"5\": \"有效位1位 | 标记位8位 | 数据14位\", \"6\": \"001011010000011111111111\", \"7\": \"01011010\", \"8\": \"0\", \"9\": \"标记位01011010 与 块0标记01011011 比较\", \"10\": \"故不能\", \"11\": \"011111110000000001010111\", \"12\": \"11111110\", \"13\": \"0\", \"14\": \"标记位11111110 与 块0标记01011011 比较\", \"15\": \"故不能\"}",
+        "facts": "{\"1\": \"共23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"标记位 8位  组号 4位  块内地址 11位\", \"5\": \"有效位 1位  标记位 8位  数据 11位\", \"6\": \"001011010000011111111111\", \"7\": \"01011010\", \"8\": \"0\", \"9\": \"而块0对应标记为01011011\", \"10\": \"故不能\", \"11\": \"011111110000000001010111\", \"12\": \"11111110\", \"13\": \"0\", \"14\": \"块0对应标记为01011011\", \"15\": \"故不能\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "1",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "匹配成功，核心数值23位一致"
                 },
                 {
                     "id": "2",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "匹配成功，核心数值11位一致"
                 },
                 {
                     "id": "3",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "匹配成功，核心数值4位一致"
                 },
                 {
                     "id": "4",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "匹配成功，结构要素及顺序完全一致"
                 },
                 {
                     "id": "5",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "核心知识错误：学生回答的是Cache行的数据存储格式，而标准要求的是Cache地址格式，概念完全不符"
+                    "reason": "核心知识错误，学生描述的是Cache行的内容结构而非Cache地址格式"
                 },
                 {
                     "id": "6",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "匹配成功，二进制序列完全一致"
                 },
                 {
                     "id": "7",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "匹配成功，标记位数值一致"
                 },
                 {
                     "id": "8",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功，数值语义等价"
+                    "reason": "匹配成功，数值0等同于0000B"
                 },
                 {
                     "id": "9",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功，包含关键比较过程和对象要素"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "语义矛盾，学生找错了比较对象（块0）且标记值也不一致"
                 },
                 {
                     "id": "10",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功，语义等价结论"
+                    "reason": "匹配成功，“不能”表示未命中，结论一致"
                 },
                 {
                     "id": "11",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功，数值语义等价"
+                    "reason": "匹配成功，二进制序列完全一致"
                 },
                 {
                     "id": "12",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "匹配成功，标记位数值一致"
                 },
                 {
                     "id": "13",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功，数值语义等价"
+                    "reason": "匹配成功，数值0等同于0000B"
                 },
                 {
                     "id": "14",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功，包含关键比较过程要素"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "语义矛盾，比较对象错误，并未提及匹配块1或块3"
                 },
                 {
                     "id": "15",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "结论相反，学生判断为不能命中，标准为命中"
+                    "reason": "结论相反，学生判断不能（未命中），而标准为命中"
                 }
             ],
-            "total_score": 17
+            "total_score": 15
         }
     },
     {
@@ -1175,46 +1291,46 @@
         "model_scores_history": [
             5,
             5,
-            5
+            9
         ],
-        "model_avg_score": 5,
-        "std_dev": 0.0,
+        "model_avg_score": 7,
+        "std_dev": 1.8856,
         "blank_rate": 0.6,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 1.0,
-        "3wd_route": "POS",
-        "final_calibrated_score": 5,
+        "real_diff": -1.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 7,
         "requires_human_arbitration": false,
-        "reason_log": "",
+        "reason_log": "地址格式结构划分正确，给1分过程分",
         "human_review_hint": "",
-        "facts": "{\"1\": \"8MB = 2³×2²⁰=2²³ 共23位\", \"2\": \"11位\", \"3\": \"1位\", \"4\": \"主存标记地址标记 组号 字块内偏地址 11位 1位 11位\", \"5\": \"未书写\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"可以找到\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"也可找到\"}",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"1位\", \"4\": \"主存地址标记 11位；组号 1位；块内偏移地址 11位\", \"5\": \"未书写\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"可以找到\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"也可找到\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "1",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "核心数值23位与标准一致，匹配成功"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "2",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "核心数值11位与标准一致，匹配成功"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "3",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为4位，学生答1位"
+                    "reason": "数值矛盾，标准要求4位，学生回答1位"
                 },
                 {
                     "id": "4",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "主存地址格式各字段分配的位数与标准完全矛盾"
+                    "reason": "数值矛盾，主存地址格式中的标记位和组号位数与标准答案不符"
                 },
                 {
                     "id": "5",
@@ -1250,7 +1366,7 @@
                     "id": "10",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "结论相反，标准要求未命中，学生回答可以找到（即命中）"
+                    "reason": "结论相反，标准为未命中，学生回答可以找到"
                 },
                 {
                     "id": "11",
@@ -1280,7 +1396,7 @@
                     "id": "15",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "同义表达，‘也可找到’与‘命中’语义匹配成功"
+                    "reason": "匹配成功，也可找到属于命中结论的同义表达"
                 }
             ],
             "total_score": 5
@@ -1291,47 +1407,47 @@
         "teacher_score": 17.0,
         "model_scores_history": [
             18,
-            17,
-            18
+            15,
+            16
         ],
-        "model_avg_score": 18,
-        "std_dev": 0.4714,
-        "blank_rate": 0.07,
+        "model_avg_score": 17,
+        "std_dev": 1.2472,
+        "blank_rate": 0.2,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": -1.0,
-        "3wd_route": "POS",
-        "final_calibrated_score": 18,
+        "real_diff": 0.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 19.0,
         "requires_human_arbitration": false,
-        "reason_log": "",
+        "reason_log": "条目5未书写但相关参数在后续均正确，恢复1分",
         "human_review_hint": "",
-        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"块标记8位 组地址4位 块内地址11位\", \"5\": \"未书写\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"01011010\", \"8\": \"0\", \"9\": \"标记：01011010，块与块0块1不同，不能访问到\", \"10\": \"不能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"11111110\", \"13\": \"0\", \"14\": \"标记：11111110，与块1本标记相同，能访问到\", \"15\": \"能访问到\"}",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"块标记 8 | 组地址 4 | 块内地址 11\", \"5\": \"未书写\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"未书写\", \"8\": \"0\", \"9\": \"块与块0块1不同，不能访问到\", \"10\": \"不能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"未书写\", \"13\": \"0\", \"14\": \"与块1块标记相同，能访问到\", \"15\": \"能访问到\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "1",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（核心数值23位一致）"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "2",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（核心数值11位一致）"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "3",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（核心数值4位一致）"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "4",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（语义结构完全对应：块标记8位、组地址4位、块内地址11位）"
+                    "reason": "语义等价，结构字段及位数匹配"
                 },
                 {
                     "id": "5",
@@ -1343,61 +1459,61 @@
                     "id": "6",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（去除空格后序列完全一致）"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "7",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（去除进制标记后数值一致）"
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
                 },
                 {
                     "id": "8",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（数值类忽略单位及位宽格式差异，0等价于0000B）"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "9",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（过程类：包含了提取的标记，进行了比较操作并得出差异结论，语义匹配）"
+                    "reason": "过程类匹配，包含了与组内块比较的动作及不同结论"
                 },
                 {
                     "id": "10",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（结论类：不能访问到等同于未命中）"
+                    "reason": "语义等价，结论正确"
                 },
                 {
                     "id": "11",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（学生作答为正确的24位地址转换，标准中多余的0为排版笔误，语义正确匹配）"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "12",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（去除进制标记后数值一致）"
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
                 },
                 {
                     "id": "13",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（数值类忽略单位格式差异，0等价于0000B）"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "14",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（过程类：包含了提取的标记，正确指出与块1匹配，得出能访问结论，语义匹配）"
+                    "reason": "过程类匹配，包含了与块1标记相同的结论"
                 },
                 {
                     "id": "15",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功（结论类：能访问到等同于命中）"
+                    "reason": "语义等价，结论正确"
                 }
             ],
             "total_score": 18
@@ -1407,23 +1523,841 @@
         "student_id": "E12314025_Q4",
         "teacher_score": 20.0,
         "model_scores_history": [
-            20,
-            18,
-            20
+            19,
+            19,
+            19
         ],
-        "model_avg_score": 20,
-        "std_dev": 0.9428,
+        "model_avg_score": 19,
+        "std_dev": 0.0,
         "blank_rate": 0.0,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 0.0,
+        "real_diff": 1.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 19,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存标记 | Cache组号 | 块内地址 8位 4位 11位\", \"5\": \"Cache组号 | Cache行号 | 块内地址 4位 1位 11位\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"01011010\", \"8\": \"0000\", \"9\": \"对应第0组Cache，对块0和块1检验块标记，都对应不上\", \"10\": \"不能访问到\", \"11\": \"111111100000000001010111\", \"12\": \"11111110\", \"13\": \"0000\", \"14\": \"对应第0组Cache，对块0和块1检验块标记，块1可对上\", \"15\": \"能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "5",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "7",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "9",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列类长度及内容不一致，数值矛盾"
+                },
+                {
+                    "id": "12",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "14",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                }
+            ],
+            "total_score": 19
+        }
+    },
+    {
+        "student_id": "E12314029_Q4",
+        "teacher_score": 20.0,
+        "model_scores_history": [
+            17,
+            17,
+            16
+        ],
+        "model_avg_score": 17,
+        "std_dev": 0.4714,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 3.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 17,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"块标记 8位，Cache组号 4位，字块内标记11位\", \"5\": \"Cache组号 4位，组索引 1位，字块内标记11位\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"0010 1101 0000\", \"8\": \"0000\", \"9\": \"只能在块0、块1中，而这两块内无此标记 所以不可以访问\", \"10\": \"不可以访问\", \"11\": \"111 1111 0000 0000 0101 0111\", \"12\": \"111 1111 0000 0\", \"13\": \"0000\", \"14\": \"只能在块0、1中，而块1中标记与之相同，所以可以访问\", \"15\": \"可以访问\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "5",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列长度不一致且内容矛盾"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "9",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "过程类匹配，包含了比较动作并得出中间结果"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列长度不一致，缺失最高位"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列长度不一致且数值矛盾"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "14",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "过程类匹配，包含了比较动作并得出中间结果"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                }
+            ],
+            "total_score": 17
+        }
+    },
+    {
+        "student_id": "E12314033_Q4",
+        "teacher_score": 20.0,
+        "model_scores_history": [
+            16,
+            16,
+            13
+        ],
+        "model_avg_score": 15,
+        "std_dev": 1.4142,
+        "blank_rate": 0.07,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 5.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 17.0,
+        "requires_human_arbitration": false,
+        "reason_log": "条目11学生二进制转换完全正确，标准答案存在笔误，恢复1分",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存标记字段8位，组索引4位，块内字号11位\", \"5\": \"Cache组号4位，组内块号1位，块内字号11位\", \"6\": \"001011010000011111111111\", \"7\": \"未书写\", \"8\": \"0000\", \"9\": \"主存标记与块0和块1的块标记均不符，故不能访问到\", \"10\": \"不能访问到\", \"11\": \"011111110000000001010111\", \"12\": \"11111111\", \"13\": \"0000\", \"14\": \"主存标记与块1的块标记符合，故能访问到\", \"15\": \"能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "语义匹配，结构描述正确"
+                },
+                {
+                    "id": "5",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "语义匹配，结构描述正确"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "过程不匹配，标准要求指出与块2标记匹配，学生作答为与块0和1均不符，过程语义矛盾"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论匹配，与未命中语义等价"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列长度不一致，学生序列24位，标准序列25位"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "提取标记位数值矛盾"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "14",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "语义匹配成功，包含了与块1标记符合的关键语义要素"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论匹配，与命中语义等价"
+                }
+            ],
+            "total_score": 16
+        }
+    },
+    {
+        "student_id": "E12314041_Q4",
+        "teacher_score": 8.0,
+        "model_scores_history": [
+            11,
+            13,
+            12
+        ],
+        "model_avg_score": 12,
+        "std_dev": 0.8165,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": -4.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 12.0,
+        "requires_human_arbitration": false,
+        "reason_log": "主存地址格式框架正确，恢复部分分数",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"8MB=2²³\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主地址：标记7位，组号5位，块内偏移11位\", \"5\": \"Cache地址：组号5位，块内偏移11位\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"0010 1101 0\", \"8\": \"0000\", \"9\": \"标记001011010与块2的标记01011010比较\", \"10\": \"能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"0111 1111 0\", \"13\": \"0000\", \"14\": \"标记011111110与块1的标记11111110比较\", \"15\": \"能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，等价表达了23位这一核心数值"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，主存地址格式中的标记位和组号位数均错误"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾且结构字段缺失，Cache地址格式不正确"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，提取的标记位序列不正确"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生提取的标记位错误导致比较对象错误"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反，标准结果为未命中，学生得出能访问到"
+                },
+                {
+                    "id": "11",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，提取的标记位序列不正确"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生提取的标记位错误导致比较的基础对象错误"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，同义表达命中"
+                }
+            ],
+            "total_score": 11
+        }
+    },
+    {
+        "student_id": "E12314049_Q4",
+        "teacher_score": 15.0,
+        "model_scores_history": [
+            16,
+            16,
+            14
+        ],
+        "model_avg_score": 16,
+        "std_dev": 0.9428,
+        "blank_rate": 0.13,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": -1.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 16.0,
+        "requires_human_arbitration": false,
+        "reason_log": "维持原判，核心结论相反及格式错误不给分",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存地址 = 4位Cache组号 + 8位主存字块标记 + 11位块内地址\", \"5\": \"Cache地址 = 4位Cache组号 + 1位组内行号 + 11位块内地址\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"01011010\", \"8\": \"未书写\", \"9\": \"①中tag为01011010，可访问Cache块2中数据\", \"10\": \"能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"11111110\", \"13\": \"未书写\", \"14\": \"④中tag为11111110，可访问Cache块3中数据\", \"15\": \"能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结构顺序颠倒（组号与标记位置写反），属于核心格式错误"
+                },
+                {
+                    "id": "5",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "7",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "9",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反（标准为未命中，学生回答能访问到即命中）"
+                },
+                {
+                    "id": "11",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "12",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
+                },
+                {
+                    "id": "14",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                }
+            ],
+            "total_score": 16
+        }
+    },
+    {
+        "student_id": "E12314053_Q4",
+        "teacher_score": 20.0,
+        "model_scores_history": [
+            16,
+            17,
+            17
+        ],
+        "model_avg_score": 17,
+        "std_dev": 0.4714,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 3.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 17,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"标记8，组号4，块内偏移11\", \"5\": \"组号4，组内标记1，块内偏移11\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"0000\", \"8\": \"0\", \"9\": \"所以可能旧块映射到块0.块1. 有组0 01011010 匹配不到正确的tag\", \"10\": \"不命中匹配\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"0101 0111\", \"13\": \"组号3/00.0\", \"14\": \"所以匹配11111110 命中块1.\", \"15\": \"能的访问\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "5",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "11",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "14",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                }
+            ],
+            "total_score": 16
+        }
+    },
+    {
+        "student_id": "E12314057_Q4",
+        "teacher_score": 14.0,
+        "model_scores_history": [
+            13,
+            12
+        ],
+        "model_avg_score": 13,
+        "std_dev": 0.5,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 1.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 15.0,
+        "requires_human_arbitration": false,
+        "reason_log": "恢复两处学生计算正确的标记位提取分数",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存有8位主存标记，4位cache组地址，11位块内地址\", \"5\": \"cache有11位字块内地址\", \"6\": \"(0010 1101 0000 0111 1111 1111)₂\", \"7\": \"00101101\", \"8\": \"0000\", \"9\": \"标记与块标记匹配，∴无法命中访问\", \"10\": \"不能访问到\", \"11\": \"(0111 1111 0000 0000 0101 0111)₂\", \"12\": \"01111111\", \"13\": \"0000\", \"14\": \"标记与块标记匹配，∴无法命中访问\", \"15\": \"不能\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配：学生回答\"23位\"与标准\"物理地址23位\"一致"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配：学生回答\"11位\"与标准\"块内偏移11位\"一致"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配：学生回答\"4位\"与标准\"组号需要4位\"一致"
+                },
+                {
+                    "id": "4",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "格式结构描述匹配：学生描述了\"8位主存标记，4位cache组地址，11位块内地址\"，与标准\"字块标记8位|Cache组号4位|块内偏移11位\"结构一致"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结构描述不完整：学生仅提到\"11位字块内地址\"，缺少Cache组号和组内块号，与标准\"Cache组号4位|组内块号1位|块内偏移11位\"不符"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "序列匹配：去除空格和进制标记后，学生回答\"001011010000011111111111\"与标准\"001011010000011111111111\"一致"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "标记位数值错误：学生回答\"00101101\"与标准\"01011010B\"不一致，差异超过10%"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "序列匹配：学生回答\"0000\"与标准\"0000B\"一致"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "过程描述不完整：学生仅说\"标记与块标记匹配\"，未指明具体标记值\"01011010B\"和块号\"块2\""
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论匹配：学生回答\"不能访问到\"与标准\"未命中\"语义等价"
+                },
+                {
+                    "id": "11",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "序列匹配：去除空格和进制标记后，学生回答\"0111111100000000001010111\"与标准\"0111111100000000001010111\"一致"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "标记位数值错误：学生回答\"01111111\"与标准\"11111110B\"不一致，差异超过10%"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "序列匹配：学生回答\"0000\"与标准\"0000B\"一致"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "过程描述不完整：学生仅说\"标记与块标记匹配\"，未指明具体标记值\"11111110B\"和块号\"块1或块3\""
+                },
+                {
+                    "id": "15",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反：学生回答\"不能\"与标准\"命中\"矛盾"
+                }
+            ],
+            "total_score": 13
+        }
+    },
+    {
+        "student_id": "E12314061_Q4",
+        "teacher_score": 17.0,
+        "model_scores_history": [
+            20,
+            20,
+            20
+        ],
+        "model_avg_score": 20,
+        "std_dev": 0.0,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": -3.0,
         "3wd_route": "POS",
         "final_calibrated_score": 20,
         "requires_human_arbitration": false,
         "reason_log": "",
         "human_review_hint": "",
-        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存：[块标记|Cache组号|块内地址] 8位 4位 11位\", \"5\": \"Cache：[Cache组号|Cache块号|块内地址] 4位 1位 11位\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"01011010\", \"8\": \"0000\", \"9\": \"对应第0组Cache 对块0和块1检验块标记，若对不上 ∴不能访问到\", \"10\": \"不能访问到\", \"11\": \"111 1111 0000 0000 0101 0111\", \"12\": \"11111110\", \"13\": \"0000\", \"14\": \"对应第0组Cache 对块0和块1检验块标记，块1可对上 ∴能访问到\", \"15\": \"能访问到\"}",
+        "facts": "{\"1\": \"8M⇒8×2²⁰=2²³\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"8位 标记 4位 组索引 11位 块内地址\", \"5\": \"4位 组索引 1位 块内索引 11位 块内地址\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"0101 1010\", \"8\": \"0000\", \"9\": \"故2D07FFH对应块2\", \"10\": \"不能访问到该单元的数据\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"1111 1110\", \"13\": \"0000\", \"14\": \"7F0057H对应块3\", \"15\": \"能在Cache中访问到该单元的数据\"}",
         "strict_cot": {
             "details": [
                 {
@@ -1521,26 +2455,26 @@
         }
     },
     {
-        "student_id": "E12314029_Q4",
-        "teacher_score": 20.0,
+        "student_id": "E12314081_Q4",
+        "teacher_score": 17.0,
         "model_scores_history": [
-            13,
-            14,
-            11
+            17,
+            17,
+            13
         ],
-        "model_avg_score": 13,
-        "std_dev": 1.2472,
-        "blank_rate": 0.0,
+        "model_avg_score": 16,
+        "std_dev": 1.8856,
+        "blank_rate": 0.27,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 7.0,
+        "real_diff": 1.0,
         "3wd_route": "BND",
-        "final_calibrated_score": 14.0,
+        "final_calibrated_score": 17.0,
         "requires_human_arbitration": false,
-        "reason_log": "地址11二进制省略前导0，实质正确予以给分",
+        "reason_log": "维持原判，空白及结论错误项不加分",
         "human_review_hint": "",
-        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"字块标记 23-4-1=18位 Cache组号 4位 字块内标记11位\", \"5\": \"Cache组号 4位 组内索引 1位 字块内标记11位\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"0010 1101 0000\", \"8\": \"0000\", \"9\": \"只能在块0、块1中，而这两块内无匹配的标记 所以不可以访问\", \"10\": \"不能访问到\", \"11\": \"111 1111 0000 0000 0101 0111\", \"12\": \"111 1111 0000 0\", \"13\": \"1111 1110\", \"14\": \"只能在块0、1中，而块1中标记与之相同……可以访问\", \"15\": \"能访问到\"}",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"未书写\", \"5\": \"未书写\", \"6\": \"001011010000011111111111B\", \"7\": \"未书写\", \"8\": \"0000\", \"9\": \"主存块标记为01011010\", \"10\": \"不能访问到\", \"11\": \"011111110000000001010111B\", \"12\": \"未书写\", \"13\": \"0000\", \"14\": \"主存块标记为11111110\", \"15\": \"不能访问到\"}",
         "strict_cot": {
             "details": [
                 {
@@ -1563,15 +2497,132 @@
                 },
                 {
                     "id": "4",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾"
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
                 },
                 {
                     "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "7",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "9",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "11",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "12",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "14",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "15",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反"
+                }
+            ],
+            "total_score": 17
+        }
+    },
+    {
+        "student_id": "E12314085_Q4",
+        "teacher_score": 11.0,
+        "model_scores_history": [
+            13,
+            13,
+            12
+        ],
+        "model_avg_score": 13,
+        "std_dev": 0.4714,
+        "blank_rate": 0.33,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": -2.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 14.0,
+        "requires_human_arbitration": false,
+        "reason_log": "恢复地址二进制转换分，属微小偏差宽容",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存每块标记在位22~15，位数为8；组地址在位14~11，位数为4；块内地址在位10~0，位数为11\", \"5\": \"未书写\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"未书写\", \"8\": \"0111\", \"9\": \"未书写\", \"10\": \"能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"未书写\", \"13\": \"0000\", \"14\": \"未书写\", \"15\": \"能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
                     "score_given": 2,
                     "error_category": "MATCH",
                     "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "语义匹配，结构正确"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
                 },
                 {
                     "id": "6",
@@ -1582,347 +2633,113 @@
                 {
                     "id": "7",
                     "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾"
+                    "error_category": "BLANK",
+                    "reason": "未书写"
                 },
                 {
                     "id": "8",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "9",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
                     "reason": "数值矛盾"
                 },
                 {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
                     "id": "10",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反"
                 },
                 {
                     "id": "11",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾"
+                    "reason": "序列长度不一致"
                 },
                 {
                     "id": "12",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
                 },
                 {
                     "id": "13",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "14",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
                 },
                 {
                     "id": "15",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "语义等价"
                 }
             ],
             "total_score": 13
         }
     },
     {
-        "student_id": "E12314033_Q4",
-        "teacher_score": 20.0,
+        "student_id": "E12314089_Q4",
+        "teacher_score": 11.0,
         "model_scores_history": [
-            16,
-            17,
-            20
+            5,
+            5,
+            5
         ],
-        "model_avg_score": 18,
-        "std_dev": 1.6997,
-        "blank_rate": 0.0,
-        "perception_failure_rate": 0.0,
-        "low_quality_extraction_rate": 0.0,
-        "extraction_quality": "high",
-        "real_diff": 2.0,
-        "3wd_route": "BND",
-        "final_calibrated_score": 18.0,
-        "requires_human_arbitration": false,
-        "reason_log": "恢复二进制转换及标记比较过程的得分",
-        "human_review_hint": "",
-        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存标记字段 8位  组号 4位  块内字号 11位\", \"5\": \"Cache组号 4位  组内块号 1位  块内字号 11位\", \"6\": \"001011010000011111111111\", \"7\": \"01011010\", \"8\": \"0000\", \"9\": \"主存标记与块0和块1的块标记均不符，故不能访问到\", \"10\": \"不能访问到\", \"11\": \"011111110000000001010111\", \"12\": \"11111110\", \"13\": \"0000\", \"14\": \"主存标记与块1的块标记符合，故能访问到\", \"15\": \"能访问到\"}",
-        "strict_cot": {
-            "details": [
-                {
-                    "id": "1",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "2",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "3",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "4",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "5",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "6",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "7",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "8",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "9",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "过程描述中标记比较的对象与标准不符"
-                },
-                {
-                    "id": "10",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "11",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "二进制序列与标准不一致"
-                },
-                {
-                    "id": "12",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "13",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "14",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "15",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                }
-            ],
-            "total_score": 16
-        }
-    },
-    {
-        "student_id": "E12314041_Q4",
-        "teacher_score": 8.0,
-        "model_scores_history": [
-            10,
-            10,
-            10
-        ],
-        "model_avg_score": 10,
+        "model_avg_score": 5,
         "std_dev": 0.0,
-        "blank_rate": 0.07,
+        "blank_rate": 0.27,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": -2.0,
+        "real_diff": 6.0,
         "3wd_route": "BND",
-        "final_calibrated_score": 11.0,
+        "final_calibrated_score": 7.0,
         "requires_human_arbitration": false,
-        "reason_log": "恢复ID 11得分，二进制转换正确。",
+        "reason_log": "ID2偏移位误差<15%给满分，其余错项维持原判。",
         "human_review_hint": "",
-        "facts": "{\"1\": \"8MB=2²³\", \"2\": \"2KB=2¹¹\", \"3\": \"2⁴\", \"4\": \"主地址(7位) | tag(5位) | 字地址(11位)\", \"5\": \"未书写\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"0010 1101\", \"8\": \"0\", \"9\": \"在表中发现塾\", \"10\": \"能访问到该单元数据\", \"11\": \"0111 1111 0000 0000 0101 0111 D\", \"12\": \"0111 11110\", \"13\": \"0\", \"14\": \"故能访问到该单元数据\", \"15\": \"能访问到该单元数据\"}",
+        "facts": "{\"1\": \"23位\", \"2\": \"12位\", \"3\": \"未书写\", \"4\": \"未书写\", \"5\": \"未书写\", \"6\": \"001011010000011111111111\", \"7\": \"11111110\", \"8\": \"未书写\", \"9\": \"块1,3 ... 为11111110 tv 1111111低,因为方向不到\", \"10\": \"不能访问到\", \"11\": \"000001111000000001010111\", \"12\": \"01010111\", \"13\": \"0000 0111\", \"14\": \"块0:01011011,块1:01011010 易知块8为01010111,所以块0000 0111也可访问,因此可以访问到\", \"15\": \"能访问到\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "1",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "reason": "核心数值23位匹配，计算逻辑8MB=2^23一致，忽略格式差异"
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "2",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "核心数值11位匹配，块大小计算2KB=2^11一致"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
                 },
                 {
                     "id": "3",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "核心数值4位匹配，16组=2^4一致"
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
                 },
                 {
                     "id": "4",
                     "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：学生将主存地址划分为7位、5位和11位，与标准的8位、4位、11位核心知识不一致"
+                    "error_category": "BLANK",
+                    "reason": "未书写"
                 },
                 {
                     "id": "5",
                     "score_given": 0,
                     "error_category": "BLANK",
-                    "reason": "客观事实文本标为“未书写”"
-                },
-                {
-                    "id": "6",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "去除空格后二进制序列与标准完全一致"
-                },
-                {
-                    "id": "7",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：提取的标记位00101101与标准01011010不一致"
-                },
-                {
-                    "id": "8",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "数值匹配：提取的组号0等价于标准的0000B"
-                },
-                {
-                    "id": "9",
-                    "score_given": 0,
-                    "error_category": "INSUFFICIENT_INFO",
-                    "reason": "提取信息不足，“在表中发现塾”未包含标记匹配的关键要素"
-                },
-                {
-                    "id": "10",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "结论相反：学生判断为“能访问”，与标准“未命中”矛盾"
-                },
-                {
-                    "id": "11",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：学生的二进制序列（去空格后24位）与标准序列（25位）不一致"
-                },
-                {
-                    "id": "12",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：提取的标记位序列011111110与标准的11111110B不一致"
-                },
-                {
-                    "id": "13",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "数值匹配：提取的组号0等价于标准的0000B"
-                },
-                {
-                    "id": "14",
-                    "score_given": 0,
-                    "error_category": "INSUFFICIENT_INFO",
-                    "reason": "提取信息不足，无关于标记比较的过程描述"
-                },
-                {
-                    "id": "15",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "结论匹配：“能访问到该单元数据”与标准的“命中”语义等价"
-                }
-            ],
-            "total_score": 10
-        }
-    },
-    {
-        "student_id": "E12314049_Q4",
-        "teacher_score": 15.0,
-        "model_scores_history": [
-            14,
-            17,
-            15
-        ],
-        "model_avg_score": 16,
-        "std_dev": 1.2472,
-        "blank_rate": 0.13,
-        "perception_failure_rate": 0.0,
-        "low_quality_extraction_rate": 0.0,
-        "extraction_quality": "high",
-        "real_diff": -1.0,
-        "3wd_route": "BND",
-        "final_calibrated_score": 15.0,
-        "requires_human_arbitration": false,
-        "reason_log": "恢复id11，学生二进制转换完全正确",
-        "human_review_hint": "",
-        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存地址 = 4位Cache组号 + 8位主存字块标记 + 11位块内地址\", \"5\": \"Cache地址 = 4位Cache组号 + 1位组内行号 + 11位块内地址\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"01011010\", \"8\": \"未书写\", \"9\": \"①中tag为01011010，可访问Cache块2中数据\", \"10\": \"能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"11111110\", \"13\": \"未书写\", \"14\": \"④中tag为11111110，可访问Cache块3中数据\", \"15\": \"能访问到\"}",
-        "strict_cot": {
-            "details": [
-                {
-                    "id": "1",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "2",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "3",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "4",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "地址结构顺序颠倒，与标准矛盾"
-                },
-                {
-                    "id": "5",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "未书写"
                 },
                 {
                     "id": "6",
@@ -1932,9 +2749,9 @@
                 },
                 {
                     "id": "7",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
                 },
                 {
                     "id": "8",
@@ -1944,126 +2761,9 @@
                 },
                 {
                     "id": "9",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "10",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "结论与标准相反"
-                },
-                {
-                    "id": "11",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "序列数值矛盾"
-                },
-                {
-                    "id": "12",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "13",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "14",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "15",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                }
-            ],
-            "total_score": 14
-        }
-    },
-    {
-        "student_id": "E12314053_Q4",
-        "teacher_score": 20.0,
-        "model_scores_history": [
-            14,
-            14,
-            15
-        ],
-        "model_avg_score": 15,
-        "std_dev": 0.4714,
-        "blank_rate": 0.0,
-        "perception_failure_rate": 0.0,
-        "low_quality_extraction_rate": 0.0,
-        "extraction_quality": "high",
-        "real_diff": 5.0,
-        "3wd_route": "BND",
-        "final_calibrated_score": 15.0,
-        "requires_human_arbitration": false,
-        "reason_log": "修正第11项二进制转换正确的误判",
-        "human_review_hint": "",
-        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存 标记(8) 组号(4) 块内偏移(11)\", \"5\": \"Cache 组号(4) 组内块号(1) 块内偏移(11)\", \"6\": \"0010 1011 0000 0111 1111 1111\", \"7\": \"0000\", \"8\": \"0\", \"9\": \"所以可能旧块映射到块0.块1. 有组0 010110 匹配不到正确的tag 不命中匹配\", \"10\": \"不能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"0101 0111\", \"13\": \"00.0\", \"14\": \"所以匹配11111110 命中块1.\", \"15\": \"能访问到\"}",
-        "strict_cot": {
-            "details": [
-                {
-                    "id": "1",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "2",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "3",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "4",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "5",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "6",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾"
-                },
-                {
-                    "id": "7",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾"
-                },
-                {
-                    "id": "8",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "核心数值匹配成功"
-                },
-                {
-                    "id": "9",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "结论相反"
+                    "reason": "语义矛盾"
                 },
                 {
                     "id": "10",
@@ -2091,9 +2791,9 @@
                 },
                 {
                     "id": "14",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "语义矛盾"
                 },
                 {
                     "id": "15",
@@ -2102,15 +2802,15 @@
                     "reason": "匹配成功"
                 }
             ],
-            "total_score": 14
+            "total_score": 5
         }
     },
     {
-        "student_id": "E12314057_Q4",
-        "teacher_score": 14.0,
+        "student_id": "E12314093_Q4",
+        "teacher_score": 12.0,
         "model_scores_history": [
-            12,
             13,
+            12,
             12
         ],
         "model_avg_score": 13,
@@ -2119,13 +2819,247 @@
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 1.0,
+        "real_diff": -1.0,
         "3wd_route": "BND",
-        "final_calibrated_score": 14.0,
+        "final_calibrated_score": 13.0,
         "requires_human_arbitration": false,
-        "reason_log": "恢复二进制转换的格式差异项给分",
+        "reason_log": "核心计算错误及结论相反，维持原判",
         "human_review_hint": "",
-        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存有8位主存标记，4位cache组地址，11位块内地址\", \"5\": \"未书写\", \"6\": \"(0010 1101 0000 0111 1111 1111)₂\", \"7\": \"00101101\", \"8\": \"0000\", \"9\": \"无法与块标记匹配，∴无法命中访问\", \"10\": \"不能\", \"11\": \"(0111 1111 0000 0000 0101 0111)₂\", \"12\": \"01111111\", \"13\": \"0000\", \"14\": \"无法与块标记匹配，∴无法命中访问\", \"15\": \"不能\"}",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"TAG块标记 8位 组地址 4位 块内地址 11位\", \"5\": \"未书写\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"001011010\", \"8\": \"0000\", \"9\": \"由于各组相联，且每组2块，由表格：2D07FFH可访问数据\", \"10\": \"能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"011111110\", \"13\": \"0000\", \"14\": \"由于各组相联，且每组2块，由表格：7F0057H可访问数据\", \"15\": \"能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "核心数值'23位'匹配标准'23 位'"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "核心数值'11位'匹配标准'11 位'"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "核心数值'4位'匹配标准'4 位'"
+                },
+                {
+                    "id": "4",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "结构框架'[TAG块标记 8位 组地址 4位 块内地址 11位]'字段含义及顺序与标准一致"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "客观事实文本记为'未书写'"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "去除空格后序列'001011010000011111111111'与标准完全一致"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "提取的标记位'001011010'为9位，与标准'01011010'(8位)长度及数值矛盾"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "核心数值'0000'匹配标准'0000B'"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "INSUFFICIENT_INFO",
+                    "reason": "描述中仅提及由表格访问，未明确包含'标记比较'的具体语义，提取信息不足无法判定"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论'能访问到'（命中）与标准'未命中'相反"
+                },
+                {
+                    "id": "11",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "去除空格后序列'011111110000000001010111'与标准完全一致"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "提取的标记位'011111110'为9位，与标准'11111110'(8位)长度及数值矛盾"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "核心数值'0000'匹配标准'0000B'"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "INSUFFICIENT_INFO",
+                    "reason": "描述中仅提及由表格访问，未明确包含'标记比较'的具体语义，提取信息不足无法判定"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论'能访问到'同义表达标准'命中'"
+                }
+            ],
+            "total_score": 13
+        }
+    },
+    {
+        "student_id": "E12314097_Q4",
+        "teacher_score": 2.0,
+        "model_scores_history": [
+            0,
+            0,
+            0
+        ],
+        "model_avg_score": 0,
+        "std_dev": 0.0,
+        "blank_rate": 1.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 2.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 0,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"未书写\", \"2\": \"未书写\", \"3\": \"未书写\", \"4\": \"未书写\", \"5\": \"未书写\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"未书写\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"未书写\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "2",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "3",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "15",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                }
+            ],
+            "total_score": 0
+        }
+    },
+    {
+        "student_id": "E12314125_Q4",
+        "teacher_score": 14.0,
+        "model_scores_history": [
+            11,
+            12,
+            12
+        ],
+        "model_avg_score": 12,
+        "std_dev": 0.4714,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 2.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 12.0,
+        "requires_human_arbitration": false,
+        "reason_log": "二进制转换准确无误，宽容给分",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存 [标记][组索引][块内地址] 8位 4位 11位\", \"5\": \"Cache [有效位][Cache块内地址标记][块内地址] 4位 5位 11位\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"0011 1101 0000\", \"8\": \"0000\", \"9\": \"与块0的标记比较\", \"10\": \"可以\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"0111 1111 0000\", \"13\": \"0100\", \"14\": \"与块2的标记比较\", \"15\": \"可以\"}",
         "strict_cot": {
             "details": [
                 {
@@ -2155,8 +3089,8 @@
                 {
                     "id": "5",
                     "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结构本身错误，字段含义及分配的位数（4+5+11=20位）与标准Cache地址格式（4+1+11=16位）矛盾"
                 },
                 {
                     "id": "6",
@@ -2168,7 +3102,7 @@
                     "id": "7",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "序列矛盾，核心数值不一致"
+                    "reason": "数值矛盾，提取的标记位长度及内容错误"
                 },
                 {
                     "id": "8",
@@ -2180,25 +3114,725 @@
                     "id": "9",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "过程要素不匹配，未正确指出与特定块标记的匹配"
+                    "reason": "数值矛盾，作答与块0比较，标准为与块2比较"
                 },
                 {
                     "id": "10",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功（同义表达）"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反，作答“可以”对应命中，标准为“未命中”"
                 },
                 {
                     "id": "11",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "序列矛盾，二进制位数及数值不一致"
+                    "reason": "序列长度不一致，作答为24位，标准为25位"
                 },
                 {
                     "id": "12",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "序列矛盾，核心数值不一致"
+                    "reason": "数值矛盾，提取的标记位长度及内容错误"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，提取的组号为0100，标准为0000"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，作答与块2比较，标准为与块1或块3比较"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，结论类接受同义表达，“可以”等同于“命中”"
+                }
+            ],
+            "total_score": 11
+        }
+    },
+    {
+        "student_id": "E12314133_Q4",
+        "teacher_score": 14.0,
+        "model_scores_history": [
+            10
+        ],
+        "model_avg_score": 10,
+        "std_dev": 0.0,
+        "blank_rate": 0.13,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 4.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 15.0,
+        "requires_human_arbitration": false,
+        "reason_log": "部分二进制及提取微小偏差按链式一致及宽容原则恢复，格式推导合理。",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"未书写\", \"5\": \"未书写\", \"6\": \"0010 1100 0000 0111 1111 1111\", \"7\": \"01011000\", \"8\": \"00\", \"9\": \"∵32个主存块则主存块标记G=… 主存地址为23位故去掉第一位，去掉块内地址和Cache组号标记(后11+4=15位) 得主存块标记为01011000\", \"10\": \"不能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"11111110\", \"13\": \"01\", \"14\": \"主存块标记:11111110\", \"15\": \"能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "FORMAT_MINOR",
+                    "reason": "序列类宽容：学生序列与标准序列长度均为24位，差异位数为1位，差异比例4.1% ≤ 10%"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列矛盾：提取的标记位序列差异为1位，占总位数8位的12.5%，超过10%容差"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列矛盾：序列长度不一致且核心数值不匹配"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "过程类不匹配：缺失与Cache块标记比较并得出匹配结论的关键语义要素"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论类同义表达匹配"
+                },
+                {
+                    "id": "11",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "序列匹配成功"
+                },
+                {
+                    "id": "12",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "序列匹配成功"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列矛盾：提取的组号数值矛盾"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "过程类不匹配：仅写出主存块标记，缺失比较过程及匹配结果的关键语义要素"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论类同义表达匹配"
+                }
+            ],
+            "total_score": 10
+        }
+    },
+    {
+        "student_id": "E12314141_Q4",
+        "teacher_score": 6.0,
+        "model_scores_history": [
+            5,
+            5,
+            5
+        ],
+        "model_avg_score": 5,
+        "std_dev": 0.0,
+        "blank_rate": 0.6,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 1.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 5,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"5位\", \"4\": \"1符  索引  块内（7位、5位、11位）\", \"5\": \"未书写\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"不能访问到\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"不能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功，核心语义一致"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功，核心语义一致"
+                },
+                {
+                    "id": "3",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为4位，学生答5位"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心数值矛盾，各字段位数均不正确"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论类语义匹配成功，“不能访问到”等同于“未命中”"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "15",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反，标准为“命中”，学生答“不能访问到”"
+                }
+            ],
+            "total_score": 5
+        }
+    },
+    {
+        "student_id": "E12314165_Q4",
+        "teacher_score": 8.0,
+        "model_scores_history": [
+            6,
+            6,
+            5
+        ],
+        "model_avg_score": 6,
+        "std_dev": 0.4714,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 2.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 8.0,
+        "requires_human_arbitration": false,
+        "reason_log": "格式框架及二进制转换正确各恢复1分",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"9位\", \"3\": \"3位\", \"4\": \"标记11位 组3位 块内9位\", \"5\": \"组3位 块内9位\", \"6\": \"0010 1101 0000 0111 1111 1111\", \"7\": \"00101101\", \"8\": \"000\", \"9\": \"标记位00101101与Cache块0的标记01011011比较，不匹配\", \"10\": \"不能访问到\", \"11\": \"0111 1111 0000 0000 0101 0111\", \"12\": \"01111111\", \"13\": \"000\", \"14\": \"标记位01111111与Cache块1的标记11111110比较，匹配\", \"15\": \"可以访问\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "核心数值23匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为11位，事实为9位"
+                },
+                {
+                    "id": "3",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为4位，事实为3位"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "主存地址格式中各字段位数均与标准不符"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "Cache地址格式缺失组内块号，且位数错误"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "去除空格后二进制序列完全匹配"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "标记位数值与标准不一致"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "组号序列长度不一致"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "比较结论与标准相反（标准为匹配，事实为不匹配）"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论同义匹配，'不能访问到'等同于'未命中'"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "二进制序列长度及数值与标准不一致"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "标记位数值与标准不一致"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "组号序列长度不一致"
+                },
+                {
+                    "id": "14",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "过程类包含关键语义要素（标记位、比较对象、匹配结论）"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论同义匹配，'可以访问'等同于'命中'"
+                }
+            ],
+            "total_score": 6
+        }
+    },
+    {
+        "student_id": "E12314169_Q4",
+        "teacher_score": 14.0,
+        "model_scores_history": [
+            9,
+            9,
+            9
+        ],
+        "model_avg_score": 9,
+        "std_dev": 0.0,
+        "blank_rate": 0.2,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 5.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 10.0,
+        "requires_human_arbitration": false,
+        "reason_log": "条目4划分了正确位数，顺序错但展现理解，恢复1分",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位 8MB/1B=8M=2³×2²⁰=2²³，有23位\", \"2\": \"11位 2KB/1B=2K=2×2¹⁰=2¹¹，有11位\", \"3\": \"4位 有32个块，每组2块有16个组，2⁴，有4位传送\", \"4\": \"主存高4位进行选组，低11位是offset送块内地址偏移，中间8位tag，共23位\", \"5\": \"cache高4位组地址，中间1位行号，低11位块内地址，共16位\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"0101\", \"9\": \"没有命中\", \"10\": \"没有命中\", \"11\": \"未书写\", \"12\": \"1110 0010\", \"13\": \"1111\", \"14\": \"没有命中\", \"15\": \"没有命中\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "主存地址格式结构错误，字段顺序颠倒（高4位选组与标准高8位Tag冲突）"
+                },
+                {
+                    "id": "5",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "缺失比较过程的关键语义要素"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反或缺失过程要素"
+                },
+                {
+                    "id": "15",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反"
+                }
+            ],
+            "total_score": 9
+        }
+    },
+    {
+        "student_id": "E12314173_Q4",
+        "teacher_score": 9.0,
+        "model_scores_history": [
+            7,
+            7,
+            7
+        ],
+        "model_avg_score": 7,
+        "std_dev": 0.0,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 2.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 7.0,
+        "requires_human_arbitration": false,
+        "reason_log": "基础计算与核心概念连环错误，维持原判",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"2位\", \"4\": \"块内偏移11位 块号2位 块标记8位\", \"5\": \"标记8位 组号2位 块内偏移11位\", \"6\": \"010 1100 0000 0111 1111 1111\", \"7\": \"0101 1010 0000\", \"8\": \"0\", \"9\": \"块0的标记0101 1011 与0101 1010不符\", \"10\": \"未命中\", \"11\": \"111 1111 0000 0000 0101 0111\", \"12\": \"1111 1110 0000\", \"13\": \"0\", \"14\": \"块0的标记0101 1011 与1111 1110不符\", \"15\": \"未命中\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生答2位，标准为4位"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生结构中组号位数为2位，标准为4位"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心知识错误：Cache地址格式不应包含标记位，且缺失组内块号，概念完全错误"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生二进制序列与标准不一致，差异超过10%"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生提取12位标记，标准为8位，序列长度不一致"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，数值0与0000B在语义上等价"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心语义不符：学生结论为标记不符，标准要求指出与块2匹配"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生序列为24位，标准序列为25位，长度不一致且数值不符"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生提取12位标记，标准为8位，序列长度不一致"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，数值0与0000B在语义上等价"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心语义不符：学生结论为标记不符，标准要求指出与块1或块3匹配"
+                },
+                {
+                    "id": "15",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反：学生答未命中，标准为命中"
+                }
+            ],
+            "total_score": 7
+        }
+    },
+    {
+        "student_id": "E12314177_Q4",
+        "teacher_score": 12.0,
+        "model_scores_history": [
+            13,
+            13,
+            13
+        ],
+        "model_avg_score": 13,
+        "std_dev": 0.0,
+        "blank_rate": 0.07,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": -1.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 13.0,
+        "requires_human_arbitration": false,
+        "reason_log": "维持原判，所有扣分项均属实质错误",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存标记块8位 | cache组地址4位 | 块内地址11位\", \"5\": \"tag 5 | 块内地址11\", \"6\": \"001011010000011111111111\", \"7\": \"未书写\", \"8\": \"0\", \"9\": \"比较块0的tag 01011011，不匹配；比较块1的tag 11111110，不匹配\", \"10\": \"不能访问到\", \"11\": \"0111111100000000001010111\", \"12\": \"0111111\", \"13\": \"0\", \"14\": \"比较块0的tag 01011011，不匹配；比较块1的tag 11111110，不匹配\", \"15\": \"不能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，语义等价"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心结构错误，字段缺失且含义不符"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，数值0等价于0000B"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心知识错误，比较对象及结果与标准完全矛盾"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，“不能访问到”与“未命中”语义等价"
+                },
+                {
+                    "id": "11",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，位数不一致且数值错误"
                 },
                 {
                     "id": "13",
@@ -2210,16 +3844,952 @@
                     "id": "14",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "过程要素不匹配，未正确指出与特定块标记的匹配"
+                    "reason": "结论相反，标准为匹配而学生判定为不匹配"
                 },
                 {
                     "id": "15",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "结论相反"
+                    "reason": "结论相反，标准为命中而学生判定不能访问到"
                 }
             ],
-            "total_score": 12
+            "total_score": 13
+        }
+    },
+    {
+        "student_id": "E12314185_Q4",
+        "teacher_score": 15.0,
+        "model_scores_history": [
+            14,
+            20,
+            15
+        ],
+        "model_avg_score": 17,
+        "std_dev": 2.6247,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": -2.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 17.0,
+        "requires_human_arbitration": false,
+        "reason_log": "纠正ID11二进制正确、ID9口语化、ID4部分正确给分",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存共23位前12位块地址，后11位块内地址\", \"5\": \"Cache 标记位8位，组号4位，块内地址11位\", \"6\": \"001011010000011111111111\", \"7\": \"01011010\", \"8\": \"0000\", \"9\": \"块0内没有，访问主存\", \"10\": \"不能访问到\", \"11\": \"011111100000000001010111\", \"12\": \"11111110\", \"13\": \"0000\", \"14\": \"为块1，Cache命中，可访问\", \"15\": \"能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结构错误：将标记与组号合并为'前12位块地址'，缺失关键的Cache组号字段划分"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心知识错误：Cache地址格式不应包含标记位，应为组号、组内块号和块内偏移"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "7",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "过程描述与标准不符，未指明与块2匹配，且表达了'块0内没有'的矛盾过程"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，'不能访问到'与'未命中'语义等价"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列长度不一致，标准为25位，学生为24位"
+                },
+                {
+                    "id": "12",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "14",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，包含了与块1匹配的关键语义要素"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，'能访问到'与'命中'语义等价"
+                }
+            ],
+            "total_score": 14
+        }
+    },
+    {
+        "student_id": "E12314189_Q4",
+        "teacher_score": 16.0,
+        "model_scores_history": [
+            17,
+            17,
+            17
+        ],
+        "model_avg_score": 17,
+        "std_dev": 0.0,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": -1.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 17,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存分区号8位 | cache组索引4位 | 块内地址11位\", \"5\": \"cache组号4位 | 组内1位 | 块内地址11位\", \"6\": \"01011010\", \"7\": \"01011010\", \"8\": \"0\", \"9\": \"在表中对应到块2.只要有效位到，就可以在cache中访问到\", \"10\": \"能访问到\", \"11\": \"11111110\", \"12\": \"11111110\", \"13\": \"0\", \"14\": \"在表中对应到块3.只要其中有效位到，就可以在cache中访问到\", \"15\": \"能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功，学生作答'23位'与标准答案'23位'一致"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功，学生作答'11位'与标准答案'11位'一致"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功，学生作答'4位'与标准答案'4位'一致"
+                },
+                {
+                    "id": "4",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "结构匹配成功，学生作答格式中各段位数与标准要求完全一致，描述语义等价"
+                },
+                {
+                    "id": "5",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "结构匹配成功，学生作答格式中各段位数与标准要求完全一致，'组内1位'等价于'组内块号1位'"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列矛盾，标准为24位二进制'001011010000011111111111'，学生作答为8位'01011010'，长度与数值均不一致"
+                },
+                {
+                    "id": "7",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功，忽略后缀符号，学生提取的标记位'01011010'与标准一致"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功，忽略格式差异，十进制的0等价于二进制的组号'0000'"
+                },
+                {
+                    "id": "9",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "过程匹配成功，学生描述'在表中对应到块2'包含了标准所要求的'与块2标记匹配'的语义要素"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论矛盾，标准判断为'未命中'（不能访问），学生作答为'能访问到'"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列矛盾，标准为24位二进制，学生作答为8位'11111110'，长度与数值均不一致"
+                },
+                {
+                    "id": "12",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功，忽略后缀符号，学生提取的标记位'11111110'与标准一致"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功，忽略格式差异，十进制的0等价于二进制的组号'0000'"
+                },
+                {
+                    "id": "14",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "过程匹配成功，学生描述'在表中对应到块3'包含了标准所要求的部分'与块3标记匹配'的语义要素"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论匹配成功，学生作答'能访问到'与标准的'命中'为同义表达"
+                }
+            ],
+            "total_score": 17
+        }
+    },
+    {
+        "student_id": "E12314193_Q4",
+        "teacher_score": 6.0,
+        "model_scores_history": [
+            5,
+            5,
+            5
+        ],
+        "model_avg_score": 5,
+        "std_dev": 0.0,
+        "blank_rate": 0.6,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 1.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 5,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"6位\", \"4\": \"主存 n-q-r-l:23-6-2-4=11\", \"5\": \"未书写\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"不能\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"不能\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，标准为4位，学生答6位"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心知识错误，结构与标准答案不符，且相关位数字段不正确"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功（“不能”与“未命中”为同义表达）"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "15",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反，标准为“命中”，学生作答“不能”"
+                }
+            ],
+            "total_score": 5
+        }
+    },
+    {
+        "student_id": "E12314201_Q4",
+        "teacher_score": 12.0,
+        "model_scores_history": [
+            8,
+            6,
+            8
+        ],
+        "model_avg_score": 8,
+        "std_dev": 0.9428,
+        "blank_rate": 0.27,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 4.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 10.0,
+        "requires_human_arbitration": false,
+        "reason_log": "恢复主存格式框架分及正确的二进制转换分",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"3位\", \"3\": \"4位\", \"4\": \"字块标记 6位 Cache组号 4位 块内地址 3位\", \"5\": \"Cache组号 1位 tag 11位 块内地址 3位\", \"6\": \"0010 1101 0000 0111 1111 1111₂\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"能在(cache中访问到该单元数据\", \"10\": \"能在(cache中访问到该单元数据\", \"11\": \"0111 1111 0000 0000 0101 0111₂\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"能在(cache中访问到该单元数据\", \"15\": \"能在(cache中访问到该单元数据\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结构或数值矛盾"
+                },
+                {
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "INSUFFICIENT_INFO",
+                    "reason": "提取信息不足，无法判定"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列不一致"
+                },
+                {
+                    "id": "12",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "下游项正确，回溯推断该参数已正确使用"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "INSUFFICIENT_INFO",
+                    "reason": "提取信息不足，无法判定"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                }
+            ],
+            "total_score": 8
+        }
+    },
+    {
+        "student_id": "E12314213_Q4",
+        "teacher_score": 8.0,
+        "model_scores_history": [
+            6,
+            6,
+            6
+        ],
+        "model_avg_score": 6,
+        "std_dev": 0.0,
+        "blank_rate": 0.53,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 2.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 6,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"主存地址格式：tag 17位，组号 4位，块内偏移 2位\", \"5\": \"Cache地址格式：组号 4位，块内偏移 2位\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"可以访问\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"访问不了\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生给出tag 17位、偏移2位，与标准tag 8位、偏移11位不符"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾且结构缺失，缺少组内块号，块内偏移错误"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反，学生回答可以访问，标准为未命中"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "15",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反，学生回答访问不了，标准为命中"
+                }
+            ],
+            "total_score": 6
+        }
+    },
+    {
+        "student_id": "E12314217_Q4",
+        "teacher_score": 19.0,
+        "model_scores_history": [
+            14,
+            17,
+            13
+        ],
+        "model_avg_score": 15,
+        "std_dev": 1.6997,
+        "blank_rate": 0.33,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 4.0,
+        "3wd_route": "BND",
+        "final_calibrated_score": 15,
+        "requires_human_arbitration": false,
+        "reason_log": "维持初审，未书写项确无内容，不盲给",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23位\", \"2\": \"11位\", \"3\": \"4位\", \"4\": \"0~10位为块内地址，共11位，11~14为组号，共4位，15~22位块标记，共8位\", \"5\": \"未书写\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"0000\", \"9\": \"在块0、块1中没有命中\", \"10\": \"不能在cache中访问到\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"0000\", \"14\": \"命中块1\", \"15\": \"能在cache中访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值核心内容匹配，忽略单位及格式差异"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值核心内容匹配"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值核心内容匹配"
+                },
+                {
+                    "id": "4",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "格式结构描述类匹配，学生用字段名称、位范围准确表达了与标准相同的结构框架"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "序列类去除进制后缀后纯字符序列完全一致"
+                },
+                {
+                    "id": "9",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "过程类匹配，描述中包含了标准要求的比较操作对象及得出的中间结果"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论类匹配，同义表达等价"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "序列类去除进制后缀后纯字符序列完全一致"
+                },
+                {
+                    "id": "14",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "过程类匹配，描述中包含了与块1匹配的中间结果，符合关键语义要素"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论类匹配，同义表达等价"
+                }
+            ],
+            "total_score": 14
+        }
+    },
+    {
+        "student_id": "E12314221_Q4",
+        "teacher_score": 6.0,
+        "model_scores_history": [
+            3,
+            3,
+            2
+        ],
+        "model_avg_score": 3,
+        "std_dev": 0.4714,
+        "blank_rate": 0.8,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 3.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 3,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"23\", \"2\": \"未书写\", \"3\": \"未书写\", \"4\": \"未书写\", \"5\": \"未书写\", \"6\": \"未书写\", \"7\": \"未书写\", \"8\": \"未书写\", \"9\": \"未书写\", \"10\": \"能\", \"11\": \"未书写\", \"12\": \"未书写\", \"13\": \"未书写\", \"14\": \"未书写\", \"15\": \"能\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "数值类匹配成功，核心数值23正确"
+                },
+                {
+                    "id": "2",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "3",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "结论相反，学生作答“能”表示能命中，而标准要求“未命中”"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "12",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "13",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "14",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "结论类同义表达，学生作答“能”表示能命中，与标准“命中”语义一致"
+                }
+            ],
+            "total_score": 3
+        }
+    },
+    {
+        "student_id": "WA2324049_Q4",
+        "teacher_score": 20.0,
+        "model_scores_history": [
+            18,
+            18,
+            16
+        ],
+        "model_avg_score": 18,
+        "std_dev": 0.9428,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 2.0,
+        "3wd_route": "POS",
+        "final_calibrated_score": 18,
+        "requires_human_arbitration": false,
+        "reason_log": "",
+        "human_review_hint": "",
+        "facts": "{\"1\": \"主存地址有23位\", \"2\": \"l=11\", \"3\": \"q=4\", \"4\": \"主存地址共有23位，高8位用于存储主存字块标记，中间4位用于存储Cache的组号，末11位是Cache块的块内地址\", \"5\": \"Cache地址共有16位，高4位用于存储Cache组号，中间1位用于存储组内块号，末11位用于存储Cache块内地址\", \"6\": \"010110100000011111111111\", \"7\": \"高8位为01011010\", \"8\": \"中间4位为0000\", \"9\": \"在块2中有与之匹配，若存在但无c...中匹配，故不能访问\", \"10\": \"不能访问到\", \"11\": \"111111110000000001010111\", \"12\": \"高8位为11111110\", \"13\": \"中间4位为0000\", \"14\": \"在第0组中，高8位为11111110，有与之匹配之标记位为1，则可访问\", \"15\": \"能访问到\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "2",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "3",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "4",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "5",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列比较：学生答案与标准答案存在多位数值冲突，不相等"
+                },
+                {
+                    "id": "7",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "9",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "10",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "11",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "序列比较：序列长度不一致"
+                },
+                {
+                    "id": "12",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "13",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "14",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "15",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                }
+            ],
+            "total_score": 18
         }
     }
 ]

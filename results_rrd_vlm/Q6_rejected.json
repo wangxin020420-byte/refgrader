@@ -1,68 +1,68 @@
 [
     {
-        "student_id": "E12314029_Q6",
-        "teacher_score": 4.0,
+        "student_id": "E12314149_Q6",
+        "teacher_score": 14.0,
         "model_scores_history": [
-            2,
-            10,
-            2
+            16,
+            8,
+            8
         ],
-        "model_avg_score": 5,
+        "model_avg_score": 11,
         "std_dev": 3.7712,
         "blank_rate": 0.09,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": -1.0,
+        "real_diff": 3.0,
         "3wd_route": "NEG",
-        "final_calibrated_score": 5,
+        "final_calibrated_score": 11,
         "requires_human_arbitration": true,
-        "reason_log": "各子项得分均为0分，但总分判定却出现2分与10分的矛盾。",
-        "human_review_hint": "各子项得分均为0分，但总分判定却出现2分与10分的矛盾。",
-        "facts": "{\"q6_p1_group1_bits\": \"12位\", \"q6_p1_group2_bits\": \"8位\", \"q6_p1_group3_bits\": \"16位\", \"q6_p1_group4_bits\": \"4位\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"40位\", \"q6_p1_bcf_bits\": \"8位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"57位\", \"q6_p2_control_memory_total_bits\": \"29184位\", \"q6_p2_control_memory_total_bytes\": \"3648B\"}",
+        "reason_log": "具体条目评分一致，但总分核算存在16分与8分的分歧。",
+        "human_review_hint": "具体条目评分一致，但总分核算存在16分与8分的分歧。",
+        "facts": "{\"q6_p1_group1_bits\": \"4\", \"q6_p1_group2_bits\": \"4\", \"q6_p1_group3_bits\": \"5\", \"q6_p1_group4_bits\": \"3\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"16\", \"q6_p1_bcf_bits\": \"3\", \"q6_p1_baf_bits\": \"9\", \"q6_p1_microinstruction_length_bits\": \"28\", \"q6_p2_control_memory_total_bits\": \"14336\", \"q6_p2_control_memory_total_bytes\": \"1792\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "q6_p1_group1_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为4位，学生答12位"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "q6_p1_group2_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为4位，学生答8位"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "q6_p1_group3_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为5位，学生答16位"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "q6_p1_group4_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为3位，学生答4位"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "q6_p1_non_mutually_exclusive_signals",
                     "score_given": 0,
                     "error_category": "BLANK",
-                    "reason": "未书写"
+                    "reason": "未书写，且其下游项结果错误，无法回溯推断"
                 },
                 {
                     "id": "q6_p1_control_field_total_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为156位，学生答40位"
+                    "reason": "数值矛盾，超出10%容差范围"
                 },
                 {
                     "id": "q6_p1_bcf_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为3位，学生答8位"
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
                 },
                 {
                     "id": "q6_p1_baf_bits",
@@ -72,24 +72,24 @@
                 },
                 {
                     "id": "q6_p1_microinstruction_length_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为168位，学生答57位"
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "reason": "符合链式推导一致性规则：正确公式(学生上游项)=16+3+9=28，与学生作答一致"
                 },
                 {
                     "id": "q6_p2_control_memory_total_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为86016位，学生答29184位"
+                    "score_given": 3,
+                    "error_category": "MATCH",
+                    "reason": "符合链式推导一致性规则：正确公式(学生上游项)=28×512=14336，与学生作答一致"
                 },
                 {
                     "id": "q6_p2_control_memory_total_bytes",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为10752字节，学生答3648B"
+                    "score_given": 3,
+                    "error_category": "MATCH",
+                    "reason": "符合链式推导一致性规则：正确公式(学生上游项)=14336/8=1792，与学生作答一致"
                 }
             ],
-            "total_score": 2
+            "total_score": 16
         }
     }
 ]

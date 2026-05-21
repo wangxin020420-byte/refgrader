@@ -649,7 +649,7 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
             if parsed_agent:
                 try: raw_agent_score = float(parsed_agent.get('secondary_total_score', avg_model_score))
                 except: raw_agent_score = float(avg_model_score)
-                agent_cap = round(avg_model_score + MAX_SCORE * 0.25, 1)
+                agent_cap = round(avg_model_score + MAX_SCORE * 0.30, 1)
                 final_score = max(min(raw_agent_score, agent_cap, MAX_SCORE), avg_model_score)
                 reason_log = parsed_agent.get('leniency_reason', '')
                 print(f"         ✨ [Agent 裁决] {reason_log} | 导师原始分: {raw_agent_score} | 最终分: {final_score}")
@@ -658,13 +658,6 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     else:
         route = "POS"
         print(f"      ✅ [路由 -> POS] 模型认知自洽 (σ={std_dev:.4f})，无异常，直接采信均分。")
-
-    # ==========================================
-    # 安全兜底锁：事实背离防幻觉校验
-    # ==========================================
-    if route not in ("NEG",) and (final_score >= MAX_SCORE * 0.6) and (blank_rate >= 0.5):
-        arbitration_flag = True
-        print(f"      🚨 [安全锁触发] 路由={route} | 卷面大面积留白({blank_rate:.0%})与最终高分({final_score}分)产生绝对悖论，移交终裁！")
 
     # 结果封装
     ordered_result = {

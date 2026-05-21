@@ -5,6 +5,8 @@ RefGrader 评估脚本
   python evaluate.py --score-key model_avg_score         # 消融: 使用 3WD 校准前的模型均分
   python evaluate.py --questions Q5 Q7 --detail          # 指定题目 + 逐条详情
   python evaluate.py --score-key model_avg_score --detail
+  python evaluate.py --compare                           # 对比: 模型均分 vs 3WD校准分
+  python evaluate.py --compare --questions Q5 Q7         # 指定题目的对比
 """
 
 import json
@@ -20,6 +22,11 @@ TEACHER_DB = "./database/teacher_scores.json"
 SCORE_KEY_LABEL = {
     "final_calibrated_score": "3WD 校准分",
     "model_avg_score": "模型原始均分 (无3WD)",
+}
+
+CMP_LABEL = {
+    "model_avg_score": "模型均分",
+    "final_calibrated_score": "3WD校准",
 }
 
 
@@ -73,7 +80,8 @@ def append_row_to_table(col_widths, cells):
     print("  " + make_line(col_widths))
 
 
-def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_score", show_detail=False):
+def compute_question_metrics(q_id, total_score, ts_db, score_key="final_calibrated_score"):
+    """计算单题评估指标 (不打印), 返回 (metrics, details) 或 None"""
     path = f"{RESULTS_DIR}/{q_id}_graded_results.json"
     with open(path, "r", encoding="utf-8") as f:
         results = json.load(f)
@@ -113,7 +121,6 @@ def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_scor
         })
 
     if not details:
-        print(f"  {q_id}: 无有效数据!")
         return None
 
     t_arr = np.array([d["teacher"] for d in details])
@@ -132,18 +139,39 @@ def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_scor
     high_over = sum(1 for d in details if d["diff"] > 2)
     high_under = sum(1 for d in details if d["diff"] < -2)
 
+    metrics = {
+        "q_id": q_id, "n": n, "total": total_score,
+        "MAE": mae, "RMSE": rmse, "QWK": qwk,
+        "Pearson": pearson_r, "Pearson_p": pearson_p, "TAR2": tar2,
+        "teacher_mean": float(np.mean(t_arr)),
+        "model_mean": float(np.mean(m_arr)),
+        "bias": float(np.mean(m_arr - t_arr)),
+        "serious": len(serious), "high_over": high_over, "high_under": high_under,
+    }
+    return metrics, details
+
+
+def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_score", show_detail=False):
+    result = compute_question_metrics(q_id, total_score, ts_db, score_key)
+    if result is None:
+        print(f"  {q_id}: 无有效数据!")
+        return None
+
+    metrics, details = result
     label = SCORE_KEY_LABEL.get(score_key, score_key)
 
     print()
     print()
-    print(f"  {q_id}  |  满分 {total_score}  |  N = {n}  |  {label}")
+    print(f"  {q_id}  |  满分 {total_score}  |  N = {metrics['n']}  |  {label}")
     print()
 
     # 核心指标表
     metric_w = [10, 10, 10, 10, 12, 10]
     print_closed_table(
         headers=["MAE", "RMSE", "QWK", "Pearson r", "TAR(2)"],
-        rows=[[f"{mae:.4f}", f"{rmse:.4f}", f"{qwk:.4f}", f"{pearson_r:.4f}", f"{tar2:.1%}"]],
+        rows=[[f"{metrics['MAE']:.4f}", f"{metrics['RMSE']:.4f}",
+                f"{metrics['QWK']:.4f}", f"{metrics['Pearson']:.4f}",
+                f"{metrics['TAR2']:.1%}"]],
         col_widths=metric_w,
     )
 
@@ -152,9 +180,9 @@ def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_scor
     stat_w = [10, 10, 10, 10, 14, 12]
     print_closed_table(
         headers=["教师均分", "模型均分", "系统偏差", "Pearson p", "严重偏差(>2)", "高估 / 低估"],
-        rows=[[f"{np.mean(t_arr):.2f}", f"{np.mean(m_arr):.2f}",
-               f"{np.mean(m_arr - t_arr):+.2f}", f"{pearson_p:.1e}",
-               f"{len(serious)} 人", f"{high_over} / {high_under}"]],
+        rows=[[f"{metrics['teacher_mean']:.2f}", f"{metrics['model_mean']:.2f}",
+               f"{metrics['bias']:+.2f}", f"{metrics['Pearson_p']:.1e}",
+               f"{metrics['serious']} 人", f"{metrics['high_over']} / {metrics['high_under']}"]],
         col_widths=stat_w,
     )
 
@@ -175,15 +203,7 @@ def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_scor
             col_widths=det_w,
         )
 
-    return {
-        "q_id": q_id, "n": n, "total": total_score,
-        "MAE": mae, "RMSE": rmse, "QWK": qwk,
-        "Pearson": pearson_r, "TAR2": tar2,
-        "teacher_mean": float(np.mean(t_arr)),
-        "model_mean": float(np.mean(m_arr)),
-        "bias": float(np.mean(m_arr - t_arr)),
-        "serious": len(serious), "high_over": high_over, "high_under": high_under,
-    }
+    return metrics
 
 
 def main():
@@ -193,6 +213,8 @@ def main():
     parser.add_argument("--score-key", default="final_calibrated_score",
                         help="评分字段: final_calibrated_score(默认) / model_avg_score(消融)")
     parser.add_argument("--detail", action="store_true", help="显示逐条学生详情")
+    parser.add_argument("--compare", action="store_true",
+                        help="显示模型均分与3WD校准分的对比汇总表")
     args = parser.parse_args()
 
     ts_db = load_teacher_scores()
@@ -259,6 +281,68 @@ def main():
              "--", f"{g_pr:.4f}",
              f"{g_tar2:.1%}", f"{np.mean(all_m_a - all_t_a):+.2f}", "", ""],
         )
+
+    # ---- 对比汇总表 (--compare) ----
+    if args.compare:
+        cmp_w = [10, 6, 4, 8, 8, 8, 10, 8, 8, 6, 6]
+        cmp_headers = ["评分方式", "题号", "N", "MAE", "RMSE", "QWK", "Pearson r", "TAR(2)", "偏差", "高估", "低估"]
+        cmp_rows = []
+        cmp_global = {"model_avg_score": ([], []), "final_calibrated_score": ([], [])}
+
+        for q_id in args.questions:
+            total = SCORES_MAP.get(q_id, 20)
+            for key in ("model_avg_score", "final_calibrated_score"):
+                res = compute_question_metrics(q_id, total, ts_db, score_key=key)
+                if res is None:
+                    continue
+                mt, _ = res
+                cmp_rows.append([
+                    CMP_LABEL[key], mt["q_id"], str(mt["n"]),
+                    f"{mt['MAE']:.3f}", f"{mt['RMSE']:.3f}",
+                    f"{mt['QWK']:.4f}", f"{mt['Pearson']:.4f}",
+                    f"{mt['TAR2']:.1%}", f"{mt['bias']:+.2f}",
+                    str(mt["high_over"]), str(mt["high_under"]),
+                ])
+            # 收集全局数据
+            path = f"{RESULTS_DIR}/{q_id}_graded_results.json"
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    results = json.load(f)
+            except FileNotFoundError:
+                continue
+            for r in results:
+                sid = r.get("student_id", "")
+                t = get_teacher(ts_db, sid, q_id)
+                if t is not None and t >= 0:
+                    for key in ("model_avg_score", "final_calibrated_score"):
+                        v = r.get(key, None)
+                        if v is not None:
+                            cmp_global[key][0].append(t)
+                            cmp_global[key][1].append(round(float(v), 2))
+
+        if cmp_rows:
+            print()
+            print()
+            print("  对比汇总  |  模型均分 (无3WD) vs 3WD校准分")
+            print()
+            print_closed_table(headers=cmp_headers, rows=cmp_rows, col_widths=cmp_w)
+
+            # 全局对比行
+            for key in ("model_avg_score", "final_calibrated_score"):
+                gt, gm = cmp_global[key]
+                if len(gt) >= 3:
+                    gt_a, gm_a = np.array(gt), np.array(gm)
+                    g_mae = mean_absolute_error(gt_a, gm_a)
+                    g_rmse = np.sqrt(mean_squared_error(gt_a, gm_a))
+                    g_pr, _ = stats.pearsonr(gt_a, gm_a)
+                    g_tar2 = float(np.mean(np.abs(gt_a - gm_a) <= 2))
+                    append_row_to_table(
+                        cmp_w,
+                        [CMP_LABEL[key], "全局", str(len(gt)),
+                         f"{g_mae:.3f}", f"{g_rmse:.3f}",
+                         "--", f"{g_pr:.4f}",
+                         f"{g_tar2:.1%}", f"{np.mean(gm_a - gt_a):+.2f}", "", ""],
+                    )
 
     print()
 

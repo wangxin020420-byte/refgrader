@@ -273,9 +273,101 @@ def stage1_blind_extraction(question_text, student_img_path, blind_checklist, q_
             time.sleep(30)
     return None
 
-def stage2_logic_grading(student_facts_str, rubrics_json_str):
+def stage1_targeted_reextraction(question_text, student_img_path, blind_checklist, initial_facts_str, q_img_path=None):
     """
-    Stage 2：语义匹配判分。通过内容语义匹配规则判断学生事实与标准是否等价，temperature=0.2 产生微小采样方差。
+    二次精准提取：对首次被标记为"未书写"的条目进行二次检查。
+    仅在 blank_rate >= 0.3 且空白条目 >= 2 时触发，避免不必要的 API 调用。
+    """
+    facts_dict = json.loads(initial_facts_str) if isinstance(initial_facts_str, str) else initial_facts_str
+    if not isinstance(facts_dict, dict):
+        return initial_facts_str
+
+    blank_items = {k: v for k, v in facts_dict.items() if str(v).strip() == "未书写"}
+    if len(blank_items) < 2:
+        return initial_facts_str
+    blank_rate = len(blank_items) / len(facts_dict) if len(facts_dict) > 0 else 0
+    if blank_rate < 0.3:
+        return initial_facts_str
+
+    # 从 blind_checklist 中筛选空白条目的提取指令
+    checklist_items = json.loads(blind_checklist) if isinstance(blind_checklist, str) else blind_checklist
+    focused_instructions = []
+    if isinstance(checklist_items, list):
+        for item in checklist_items:
+            if item.get('id') in blank_items:
+                focused_instructions.append(item)
+    if not focused_instructions:
+        return initial_facts_str
+    focused_checklist = json.dumps(focused_instructions, ensure_ascii=False)
+
+    already_extracted = {k: v for k, v in facts_dict.items() if str(v).strip() != "未书写"}
+
+    reextraction_prompt = f"""
+# Role: 二次精准提取引擎
+第一轮提取中，以下条目被标记为"未书写"。请对【考卷图片】进行极其仔细的二次检查。
+
+**特别注意**：学生经常将数值、参数或计算结果直接写在公式内部、等式的某一项中、或者计算过程的推导链中，而不是单独写成独立的一行。请仔细扫描学生手写内容的每一处，寻找这些条目所要求的具体数值。
+
+【题目背景】：{question_text}
+【需要重新检查的条目（第一轮均被标记为"未书写"）】：{focused_checklist}
+【第一轮已成功提取的其他条目（供上下文参考）】：{json.dumps(already_extracted, ensure_ascii=False)}
+
+🚨【区域辨别铁律】：
+- 你只应提取学生手写作答区域的内容，绝不能从打印的题目文本中抄录参数值。
+- 如果某个条目的提取值与题目背景中的参数完全相同，这极有可能是你误读了题目文本，请重新确认。
+
+对每个条目，请输出：
+- 如果发现了学生写的具体内容（包括嵌入在公式/推导过程中的值），输出该具体内容
+- 如果确实完全空白、没有任何笔迹，维持输出"未书写"
+
+输出严格的 JSON 对象，key 为条目 id：
+{{"item_id": "提取到的内容或未书写"}}
+"""
+    content_list = [{"type": "text", "text": reextraction_prompt}]
+    if q_img_path and os.path.exists(q_img_path):
+        q_b64 = encode_image_to_base64(q_img_path)
+        content_list.extend([
+            {"type": "text", "text": "\n【附图】:"},
+            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{q_b64}"}}
+        ])
+    student_b64 = encode_image_to_base64(student_img_path)
+    content_list.extend([
+        {"type": "text", "text": "\n【考卷】:"},
+        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{student_b64}"}}
+    ])
+
+    for attempt in range(2):
+        try:
+            fresh_client = ZhipuAI(api_key=GLM_API_KEY)
+            res = fresh_client.chat.completions.create(
+                model=VLM_MODEL_NAME,
+                messages=[{"role": "user", "content": content_list}],
+                temperature=0.1, timeout=180
+            )
+            time.sleep(2)
+            raw_result = res.choices[0].message.content.strip()
+
+            reextracted = extract_and_parse_json(raw_result)
+            if reextracted and isinstance(reextracted, dict):
+                recovered = 0
+                for k, v in reextracted.items():
+                    if k in facts_dict and str(facts_dict[k]).strip() == "未书写":
+                        new_val = str(v).strip()
+                        if new_val and new_val != "未书写":
+                            facts_dict[k] = new_val
+                            recovered += 1
+                if recovered > 0:
+                    print(f"   🔄 [二次提取] 恢复了 {recovered}/{len(blank_items)} 个空白条目")
+                    result = json.dumps(facts_dict, ensure_ascii=False)
+                    return validate_extraction_against_question(question_text, result)
+            return initial_facts_str
+        except Exception as e:
+            time.sleep(10)
+    return initial_facts_str
+
+def stage2_logic_grading(student_facts_str, rubrics_json_str, temperature=0.35):
+    """
+    Stage 2：语义匹配判分。通过内容语义匹配规则判断学生事实与标准是否等价。
     """
     logic_prompt = f"""
     你是一个极其严谨的计算机科学阅卷裁判。你的职责是判断学生的作答在语义上是否与评分标准匹配，而非进行表面的字符串对比。
@@ -300,6 +392,7 @@ def stage2_logic_grading(student_facts_str, rubrics_json_str):
            单位换算：遇到”K”/”M”等单位缩写时，先换算为统一单位再比较（如 84Kb = 86016位）。如果换算后数值匹配或误差 ≤ 10%，判 MATCH。
            注意：只有当标准答案是明确的单一数值时才适用此规则。
            🚨【链式推导一致性规则】：当评分项的数值可由其他评分项推导得出时，验证步骤为：①先从标准答案推断正确的推导公式及常数（如标准控存容量86016=标准微指令长度168×512，则公式为微指令长度×512）；②用相同公式和常数作用于学生的上游项（如学生微指令33×512=16896）；③比较计算结果与学生的推导项（16896≠5940→不一致→SEMANTIC_FATAL）。只有当学生的推导项 = 正确公式(学生上游项) 时才判 MATCH。禁止通过找到一个能凑出学生答案的任意公式来判定一致。
+           🚨【错误起点链式推导恢复规则】：当评分项之间存在明确的数学推导依赖关系时（如 item_1→item_2→item_3 形成计算链），如果学生的起始项值错误（被判 SEMANTIC_FATAL），但其下游项的值能够通过该错误起始值使用正确的公式和推导步骤计算得出（即学生使用了正确的方法，只是起点不同），则：起始项维持 SEMANTIC_FATAL（0分），下游推导项改为 PARTIAL_MATCH 并给予该条目 50% 的分数。验证方法：将学生的上游值代入标准公式，如果计算结果等于学生的下游答案，则确认推导正确。此规则仅适用于分值 ≥ 2 的推导类条目，不适用于识别/抄录类条目。reason 中注明链式推导内部一致：方法正确但起始值错误。
        (b) 序列类（二进制/十六进制/矩阵等）：去除所有空格、分隔符、进制标记后，比较纯字符序列是否一致。
            序列类宽容：如果学生序列与标准序列长度一致，且差异位数 ≤ 总位数的 10%（即 24 位序列允许 2-3 位错误），应判为 FORMAT_MINOR 而非 SEMANTIC_FATAL。只有当序列长度不一致或错误位数超过 10% 时才判 SEMANTIC_FATAL。
        (c) 过程类：不要求与标准措辞一致。只要学生的描述中包含了标准所要求的关键语义要素（即：操作了什么对象、进行了什么运算/比较、得出了什么中间结果），即判为匹配。允许表述顺序不同、详略不同。
@@ -333,7 +426,7 @@ def stage2_logic_grading(student_facts_str, rubrics_json_str):
         try:
             return call_text_model(
                 [{"role": "user", "content": logic_prompt}],
-                temperature=0.2, timeout=120
+                temperature=temperature, timeout=120
             )
         except Exception as e:
             time.sleep(3)
@@ -431,10 +524,16 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     if blind_checklist is None:
         blind_checklist = generate_blind_checklist(rubrics_json)
     student_facts = stage1_blind_extraction(question_text, student_img_path, blind_checklist, q_img_path)
-    
-    if not student_facts: 
+
+    if not student_facts:
         print(f"  ❌ 视觉提取失败，终止。")
         return None
+
+    # 二次提取：对高留白率学生进行聚焦复查
+    student_facts = stage1_targeted_reextraction(
+        question_text, student_img_path, blind_checklist,
+        student_facts, q_img_path
+    )
 
     print(f"  ⚖️ [Stage 2] 微小温度独立盲审 (3次并行采样)...")
     model_scores = []

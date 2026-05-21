@@ -339,7 +339,7 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
 
                 if res:
                     eq = res.get('extraction_quality', 'unknown')
-                    eq_icon = "🟢" if eq == "high" else ("🔴" if eq == "failed" else "🟡")
+                    eq_icon = "🟢" if eq == "high" else ("🟡" if eq == "low" else "🔴")
                     print(f"✅ [批改完成] {file_base_name} | 路由: {res['3wd_route']} | 最终分: {res['final_calibrated_score']} | 提取质量: {eq_icon}{eq} | 留白率: {res['blank_rate']:.0%} | 低质量率: {res.get('low_quality_extraction_rate', 0):.0%}", flush=True)
                     return res
                 elif attempt == 0:

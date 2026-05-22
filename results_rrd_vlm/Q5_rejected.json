@@ -1,0 +1,83 @@
+[
+    {
+        "student_id": "E12314129_Q5",
+        "teacher_score": 8.0,
+        "model_scores_history": [
+            9,
+            2,
+            4
+        ],
+        "model_avg_score": 5,
+        "std_dev": 2.9439,
+        "blank_rate": 0.78,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 3.0,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 5,
+        "requires_human_arbitration": true,
+        "reason_log": "未书写参数能否因下游项正确而回溯推断给分。",
+        "human_review_hint": "未书写参数能否因下游项正确而回溯推断给分。",
+        "facts": "{\"item_1\": \"未书写\", \"item_2\": \"未书写\", \"item_3\": \"未书写\", \"item_4\": \"未书写\", \"item_5\": \"256\", \"item_6\": \"未书写\", \"item_7\": \"2\", \"item_8\": \"未书写\", \"item_9\": \"未书写\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "2",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "3",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "下游项item_5正确，回溯推断该参数已正确使用"
+                },
+                {
+                    "id": "4",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "下游项item_5正确，回溯推断该参数已正确使用"
+                },
+                {
+                    "id": "5",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "6",
+                    "score_given": 5,
+                    "error_category": "MATCH",
+                    "reason": "下游项item_7正确，回溯推断该参数已正确使用"
+                },
+                {
+                    "id": "7",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                }
+            ],
+            "total_score": 9
+        }
+    }
+]

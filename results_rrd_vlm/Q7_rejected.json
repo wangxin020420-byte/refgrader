@@ -1,176 +1,89 @@
 [
     {
-        "student_id": "E12314037_Q7",
-        "teacher_score": 8.0,
+        "student_id": "E12314209_Q7",
+        "teacher_score": 5.0,
         "model_scores_history": [
-            5,
-            5,
-            9
+            3,
+            8,
+            2
         ],
-        "model_avg_score": 7,
-        "std_dev": 1.8856,
-        "blank_rate": 0.0,
-        "perception_failure_rate": 0.0,
-        "low_quality_extraction_rate": 0.0,
-        "extraction_quality": "high",
-        "real_diff": 1.0,
-        "3wd_route": "NEG",
-        "final_calibrated_score": 7,
-        "requires_human_arbitration": true,
-        "reason_log": "各条目评分完全一致，但总分计算结果存在严重分歧。",
-        "human_review_hint": "各条目评分完全一致，但总分计算结果存在严重分歧。",
-        "facts": "{\"item_1\": \"10x10³\", \"item_2\": \"2\", \"item_3\": \"4GHz=4x10⁹Hz\", \"item_4\": \"1\", \"item_5\": \"6GHz=6x10⁹Hz\", \"item_6\": \"Te = CPI×IC/F\", \"item_7\": \"2×10×10³\", \"item_8\": \"5×10⁻⁶s\", \"item_9\": \"10×10³\", \"item_10\": \"0.167×10⁻⁵s\"}",
-        "strict_cot": {
-            "details": [
-                {
-                    "id": "item_1",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，学生作答10×10³即10000，标准为100000（10万），误差达90%"
-                },
-                {
-                    "id": "item_2",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "item_3",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功，单位换算表达等价"
-                },
-                {
-                    "id": "item_4",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "item_5",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功，单位换算表达等价"
-                },
-                {
-                    "id": "item_6",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功，语义等价（Te=时间，IC=指令数，F=主频）"
-                },
-                {
-                    "id": "item_7",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，学生计算结果为20000，标准为200000，下游项亦错误无法回溯"
-                },
-                {
-                    "id": "item_8",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，学生作答5×10⁻⁶s即5μs，标准为50μs，误差达90%"
-                },
-                {
-                    "id": "item_9",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，学生计算结果为10000，标准为100000，下游项亦错误无法回溯"
-                },
-                {
-                    "id": "item_10",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，学生作答0.167×10⁻⁵s即1.67μs，标准为16.7μs，误差极大"
-                }
-            ],
-            "total_score": 5
-        }
-    },
-    {
-        "student_id": "E12314109_Q7",
-        "teacher_score": 8.0,
-        "model_scores_history": [
-            5,
-            9,
-            9
-        ],
-        "model_avg_score": 8,
-        "std_dev": 1.8856,
+        "model_avg_score": 5,
+        "std_dev": 2.6247,
         "blank_rate": 0.0,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
         "real_diff": 0.0,
         "3wd_route": "NEG",
-        "final_calibrated_score": 8,
+        "final_calibrated_score": 5,
         "requires_human_arbitration": true,
-        "reason_log": "条目评分完全相同，但总分计算存在严重分歧。",
-        "human_review_hint": "条目评分完全相同，但总分计算存在严重分歧。",
-        "facts": "{\"item_1\": \"10⁷条\", \"item_2\": \"2\", \"item_3\": \"4GHz\", \"item_4\": \"1\", \"item_5\": \"6GHz\", \"item_6\": \"Te₁=cPI₁×IC/F₁；Te₂=cPI₂×IC/F₂\", \"item_7\": \"2×10⁷\", \"item_8\": \"0.005s\", \"item_9\": \"1×10⁷\", \"item_10\": \"0.0017s\"}",
+        "reason_log": "摘要生成失败，请人工核查。",
+        "human_review_hint": "摘要生成失败，请人工核查。",
+        "facts": "{\"item_1\": \"10×10⁵\", \"item_2\": \"2\", \"item_3\": \"4×10⁹ GHz\", \"item_4\": \"1\", \"item_5\": \"6×10⁹ GHz\", \"item_6\": \"10×10⁵ / (4×10⁹ × 2)\", \"item_7\": \"10×10⁵ × 2\", \"item_8\": \"1.25×10⁻⁹ s\", \"item_9\": \"10×10⁵ × 1\", \"item_10\": \"5 / (3×10⁻¹) s\"}",
         "strict_cot": {
             "details": [
                 {
-                    "id": "item_1",
+                    "id": "1",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准指令数为10万（10^5），学生给出的客观事实为10^7，误差远超10%"
+                    "reason": "数值矛盾：学生将指令数写为 10×10⁵（即100万条），而标准答案为10万条（100,000）。"
                 },
                 {
-                    "id": "item_2",
+                    "id": "2",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功"
+                    "reason": "匹配成功：准确识别出M1的CPI为2。"
                 },
                 {
-                    "id": "item_3",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "item_4",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "item_5",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功"
-                },
-                {
-                    "id": "item_6",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "语义匹配成功，虽形式不同但包含关键要素"
-                },
-                {
-                    "id": "item_7",
+                    "id": "3",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为200,000（2×10^5），学生为2×10^7，误差远超10%"
+                    "reason": "数值矛盾：学生将主频写为 4×10⁹ GHz，与标准的 4GHz 产生极大的数值及单位冲突。"
                 },
                 {
-                    "id": "item_8",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为50μs（0.00005s），学生为0.005s，误差远超10%"
+                    "id": "4",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功：准确识别出M2的CPI为1。"
                 },
                 {
-                    "id": "item_9",
+                    "id": "5",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为100,000（1×10^5），学生为1×10^7，误差远超10%"
+                    "reason": "数值矛盾：学生将主频写为 6×10⁹ GHz，与标准的 6GHz 产生极大的数值及单位冲突。"
                 },
                 {
-                    "id": "item_10",
+                    "id": "6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功：写出了正确的执行时间推导计算关系，语义上等价于 时间 = (指令数 × CPI) / 主频。"
+                },
+                {
+                    "id": "7",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为16.7μs（0.0000167s），学生为0.0017s，误差远超10%"
+                    "reason": "数值矛盾：基于错误起点计算得出 2,000,000，标准为 200,000。"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生计算结果为 1.25×10⁻⁹ s，标准为 50 μs。"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：基于错误起点计算得出 1,000,000，标准为 100,000。"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生计算结果为 16.67 s，标准为 16.7 μs。"
                 }
             ],
-            "total_score": 5
+            "total_score": 3
         }
     }
 ]

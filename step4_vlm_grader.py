@@ -6,7 +6,6 @@ import base64
 import re
 import time
 import concurrent.futures
-from zhipuai import ZhipuAI
 from openai import OpenAI
 from PIL import Image
 import io
@@ -19,13 +18,18 @@ VLM_MODEL_NAME = "glm-4.6v"
 # 文本模型切换：修改此处即可，可选 "glm" / "glm5" / "deepseek"
 TEXT_MODEL_PROVIDER = "glm5"
 
-# GLM-4.5-air 配置（ZhipuAI SDK）
-GLM_API_KEY = "4796e7b83db0453fbd36eee18e161630.nuJkwBYVO6FyCpQe"
+# Coding Plan 统一配置（OpenAI 兼容接口）
+CODING_PLAN_API_KEY = "132a47a6484e4a9dbfaa51fea40bbae0.LqWjKhw6WcH2sdFs"
+CODING_PLAN_BASE_URL = "https://open.bigmodel.cn/api/coding/paas/v4/"
+
+# GLM-4.5-air
+GLM_API_KEY = CODING_PLAN_API_KEY
+GLM_BASE_URL = CODING_PLAN_BASE_URL
 GLM_MODEL_NAME = "glm-4.5-air"
 
-# GLM-5.1 配置（OpenAI 兼容接口）
-GLM5_API_KEY = "132a47a6484e4a9dbfaa51fea40bbae0.LqWjKhw6WcH2sdFs"
-GLM5_BASE_URL = "https://open.bigmodel.cn/api/coding/paas/v4/"
+# GLM-5.1
+GLM5_API_KEY = CODING_PLAN_API_KEY
+GLM5_BASE_URL = CODING_PLAN_BASE_URL
 GLM5_MODEL_NAME = "glm-5.1"
 
 # DeepSeek 配置
@@ -43,7 +47,7 @@ MAX_WORKERS_OUTER = MODEL_CONCURRENCY.get(TEXT_MODEL_PROVIDER, (3, 3))[0]
 MAX_WORKERS_STAGE2 = MODEL_CONCURRENCY.get(TEXT_MODEL_PROVIDER, (3, 3))[1]
 
 # 全局客户端
-glm_client = ZhipuAI(api_key=GLM_API_KEY)
+glm_client = OpenAI(api_key=GLM_API_KEY, base_url=GLM_BASE_URL)
 deepseek_client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url=DEEPSEEK_BASE_URL)
 
 # ==================== 统一文本模型调用 ====================
@@ -264,7 +268,7 @@ def stage1_blind_extraction(question_text, student_img_path, blind_checklist, q_
     
     for attempt in range(4):
         try:
-            fresh_client = ZhipuAI(api_key=GLM_API_KEY)
+            fresh_client = OpenAI(api_key=GLM_API_KEY, base_url=GLM_BASE_URL)
             res = fresh_client.chat.completions.create(model=VLM_MODEL_NAME, messages=[{"role": "user", "content": content_list}], temperature=0.1, timeout=180)
             time.sleep(2)
             raw_result = res.choices[0].message.content.strip()
@@ -338,7 +342,7 @@ def stage1_targeted_reextraction(question_text, student_img_path, blind_checklis
 
     for attempt in range(2):
         try:
-            fresh_client = ZhipuAI(api_key=GLM_API_KEY)
+            fresh_client = OpenAI(api_key=GLM_API_KEY, base_url=GLM_BASE_URL)
             res = fresh_client.chat.completions.create(
                 model=VLM_MODEL_NAME,
                 messages=[{"role": "user", "content": content_list}],

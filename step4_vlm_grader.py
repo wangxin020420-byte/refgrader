@@ -12,8 +12,13 @@ import io
 import numpy as np
 
 # ==================== 配置区 ====================
-# 视觉模型（固定 GLM）
-VLM_MODEL_NAME = "glm-4.6v"
+# 视觉模型切换：修改此处即可，可选 "glm4v" / "glm5v"
+VLM_MODEL_PROVIDER = "glm5v"
+VLM_MODELS = {
+    "glm4v": "glm-4.6v",
+    "glm5v": "glm-5v-turbo",
+}
+VLM_MODEL_NAME = VLM_MODELS.get(VLM_MODEL_PROVIDER, "glm-4.6v")
 
 # 文本模型切换：修改此处即可，可选 "glm" / "glm5" / "deepseek"
 TEXT_MODEL_PROVIDER = "glm5"

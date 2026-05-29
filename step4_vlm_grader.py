@@ -13,7 +13,7 @@ import numpy as np
 
 # ==================== 配置区 ====================
 # 视觉模型切换：修改此处即可，可选 "glm4v" / "glm5v"
-VLM_MODEL_PROVIDER = "glm5v"
+VLM_MODEL_PROVIDER = "glm4v"
 VLM_MODELS = {
     "glm4v": "glm-4.6v",
     "glm5v": "glm-5v-turbo",
@@ -494,6 +494,174 @@ def zero_shot_leniency_agent(student_facts_str, strict_cot_str, rubrics_json_str
             time.sleep(3)
     return None
 
+def _clamp(value, lower, upper):
+    return max(lower, min(upper, value))
+
+def _safe_float(value, default=0.0):
+    try:
+        return float(value)
+    except Exception:
+        return default
+
+def _rubric_points_map(rubrics_data):
+    if not isinstance(rubrics_data, list):
+        return {}, 1.0
+    points_map = {}
+    points_values = []
+    for item in rubrics_data:
+        item_id = str(item.get("id", ""))
+        points = _safe_float(item.get("points", 0), 0.0)
+        if item_id:
+            points_map[item_id] = points
+        if points > 0:
+            points_values.append(points)
+    fallback = float(np.mean(points_values)) if points_values else 1.0
+    return points_map, fallback
+
+def _category_points_ratio(strict_cots, rubrics_data, max_score):
+    points_map, fallback_points = _rubric_points_map(rubrics_data)
+    category_points = {
+        "SEMANTIC_FATAL": [],
+        "PARTIAL_MATCH": [],
+        "FORMAT_MINOR": [],
+    }
+
+    for cot in strict_cots:
+        per_cot = {k: 0.0 for k in category_points}
+        for detail in cot.get("details", []):
+            category = detail.get("error_category", "")
+            if category not in per_cot:
+                continue
+            item_id = str(detail.get("id", ""))
+            per_cot[category] += points_map.get(item_id, fallback_points)
+        for category, points in per_cot.items():
+            category_points[category].append(points)
+
+    denom = max(max_score, 1.0)
+    return {
+        "fatal_points_ratio": float(np.mean(category_points["SEMANTIC_FATAL"]) / denom) if category_points["SEMANTIC_FATAL"] else 0.0,
+        "partial_match_points_ratio": float(np.mean(category_points["PARTIAL_MATCH"]) / denom) if category_points["PARTIAL_MATCH"] else 0.0,
+        "format_minor_points_ratio": float(np.mean(category_points["FORMAT_MINOR"]) / denom) if category_points["FORMAT_MINOR"] else 0.0,
+    }
+
+def build_risk_profile(
+    question_text,
+    facts_dict,
+    rubrics_data,
+    strict_cots,
+    model_scores,
+    avg_model_score,
+    std_dev,
+    max_score,
+    total_items,
+    blank_rate,
+    low_quality_rate,
+    perception_failure_rate,
+    extraction_quality,
+):
+    score_spread = max(model_scores) - min(model_scores) if len(model_scores) >= 2 else 0.0
+    std_ratio = std_dev / max_score if max_score > 0 else 0.0
+    spread_ratio = score_spread / max_score if max_score > 0 else 0.0
+    avg_ratio = avg_model_score / max_score if max_score > 0 else 0.0
+    points_ratios = _category_points_ratio(strict_cots, rubrics_data, max_score)
+
+    # Paper-friendly 3WD variables:
+    # P: perception risk, U: uncertainty, F: fatal-error points ratio,
+    # H: high-blank/high-score contradiction, L: lenient-review trigger.
+    perception_risk = max(
+        perception_failure_rate / 0.20 if 0.20 > 0 else 0.0,
+        low_quality_rate / 0.30 if 0.30 > 0 else 0.0,
+    )
+    uncertainty_index = std_ratio
+    fatal_points_ratio = points_ratios["fatal_points_ratio"]
+    high_blank_high_score = blank_rate >= 0.50 and avg_ratio >= 0.60
+    lenient_review_signal = avg_ratio <= 0.60 and blank_rate <= 0.35
+
+    reject_domain = (
+        perception_risk >= 1.0
+        or uncertainty_index >= 0.15
+        or fatal_points_ratio >= 0.70
+        or (high_blank_high_score and perception_risk >= 0.50)
+    )
+
+    boundary_domain = (
+        perception_risk >= 0.33
+        or 0.05 <= uncertainty_index < 0.15
+        or 0.30 <= fatal_points_ratio < 0.70
+        or high_blank_high_score
+        or lenient_review_signal
+    )
+
+    risk_features = {
+        "perception_risk": round(perception_risk, 4),
+        "uncertainty_index": round(uncertainty_index, 4),
+        "fatal_points_ratio": round(fatal_points_ratio, 4),
+        "high_blank_high_score": high_blank_high_score,
+        "lenient_review_signal": lenient_review_signal,
+        "reject_domain": reject_domain,
+        "boundary_domain": boundary_domain,
+        "std_ratio": round(std_ratio, 4),
+        "spread_ratio": round(spread_ratio, 4),
+        "avg_ratio": round(avg_ratio, 4),
+        "score_spread": round(score_spread, 4),
+        "blank_rate": round(blank_rate, 4),
+        "low_quality_rate": round(low_quality_rate, 4),
+        "perception_failure_rate": round(perception_failure_rate, 4),
+        "partial_match_points_ratio": round(points_ratios["partial_match_points_ratio"], 4),
+        "format_minor_points_ratio": round(points_ratios["format_minor_points_ratio"], 4),
+    }
+
+    return {
+        "perception_risk": perception_risk,
+        "uncertainty_index": uncertainty_index,
+        "fatal_points_ratio": fatal_points_ratio,
+        "high_blank_high_score": high_blank_high_score,
+        "lenient_review_signal": lenient_review_signal,
+        "reject_domain": reject_domain,
+        "boundary_domain": boundary_domain,
+        "risk_features": risk_features,
+    }
+
+def boundary_arbitration_agent(student_facts_str, strict_cots, rubrics_json_str, risk_profile):
+    arbitration_prompt = f"""
+# Role: 教师宽松口径下的边界样本仲裁员
+你正在复核一份自动阅卷结果。真实教师评分整体偏宽松，因此普通边界样本应优先考虑恢复过程分、部分正确分和等价表达分；但如果存在明确高估证据，必须谨慎下调或保持。
+
+【评分标准】
+{rubrics_json_str}
+
+【学生客观作答事实】
+{student_facts_str}
+
+【三次独立评分记录】
+{json.dumps(strict_cots, ensure_ascii=False)}
+
+【风险特征】
+{json.dumps(risk_profile, ensure_ascii=False)}
+
+仲裁原则：
+1. 教师宽松优先：有过程、部分正确、结论合理、表达不规范但实质正确时，可以上调。
+2. 谨慎下调：只有出现空白高分、感知风险较高、核心错误比例较高等明确高估证据时，才允许下调。
+3. 不要惩罚性扣分；如果证据不足，保持原分。
+4. 输出分数必须在题目满分范围内。
+
+请输出纯 JSON：
+{{
+  "decision": "raise 或 keep 或 cautious_lower",
+  "calibrated_score": 数字,
+  "reason": "50字以内说明"
+}}
+"""
+    for attempt in range(3):
+        try:
+            return call_text_model(
+                [{"role": "user", "content": arbitration_prompt}],
+                temperature=0.2, timeout=120
+            )
+        except Exception:
+            time.sleep(3)
+    return None
+
 def generate_neg_debate_summary(strict_cots):
     """为 NEG 拒绝域生成分歧焦点摘要，辅助人工审查"""
     if not strict_cots or len(strict_cots) < 2:
@@ -567,8 +735,8 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     
     if len(model_scores) == 0: return None
 
-    # 计算均分（向上取整）与标准差 (Self-Consistency)
-    avg_model_score = math.ceil(np.mean(model_scores))
+    # 计算均分与标准差 (Self-Consistency)
+    avg_model_score = round(float(np.mean(model_scores)), 1)
     std_dev = round(float(np.std(model_scores)), 4)
     
     # 动态解析评价标准总条目数和总分
@@ -614,59 +782,88 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     print(f"\n  📊 [探测雷达指标] 均分={avg_model_score}, 标准差={std_dev:.4f}, 留白率={blank_rate:.0%}, 感知失效率={perception_failure_rate:.0%}, 低质量提取率={low_quality_rate:.0%}, 提取质量={extraction_quality}")
 
     # ==========================================
-    # 中枢神经：纯正三支决策 (Three-Way Decision)
-    # NEG → 拒绝域：提取质量不合格
-    # BND → 边界域：模型不确定，Agent仲裁
-    # POS → 接受域：模型确信，直接采信
+    # 风险驱动三支决策 (Three-Way Decision)
+    # POS：低风险直接接受
+    # BND：中风险宽松优先、谨慎下调
+    # NEG：高风险拒判/人工复核
     # ==========================================
+    risk_profile = build_risk_profile(
+        question_text=question_text,
+        facts_dict=facts_dict,
+        rubrics_data=rubrics_data,
+        strict_cots=strict_cots,
+        model_scores=model_scores,
+        avg_model_score=avg_model_score,
+        std_dev=std_dev,
+        max_score=MAX_SCORE,
+        total_items=TOTAL_ITEMS,
+        blank_rate=blank_rate,
+        low_quality_rate=low_quality_rate,
+        perception_failure_rate=perception_failure_rate,
+        extraction_quality=extraction_quality,
+    )
+    perception_risk = risk_profile["perception_risk"]
+    uncertainty_index = risk_profile["uncertainty_index"]
+    fatal_points_ratio = risk_profile["fatal_points_ratio"]
+    high_blank_high_score = risk_profile["high_blank_high_score"]
+    lenient_review_signal = risk_profile["lenient_review_signal"]
+    reject_domain = risk_profile["reject_domain"]
+    boundary_domain = risk_profile["boundary_domain"]
+    risk_features = risk_profile["risk_features"]
+    arbitration_decision = "accept"
 
-    # 预计算归一化指标
-    normalized_std = std_dev / MAX_SCORE if MAX_SCORE > 0 else 0
-    score_spread = max(model_scores) - min(model_scores) if len(model_scores) >= 2 else 0
-    spread_threshold = max(2.0, MAX_SCORE * 0.35)
+    print(
+        "      📡 [风险画像] "
+        f"P={perception_risk:.2f}, U={uncertainty_index:.2%}, F={fatal_points_ratio:.2%}, "
+        f"H={high_blank_high_score}, L={lenient_review_signal}"
+    )
 
-    # 🛑 NEG 拒绝域
-    # 条件 1：提取质量不合格（Stage 1 层面）
-    if extraction_quality == "failed":
-        route = "NEG"
-        arbitration_flag = True
-        neg_reason = "感知失效率" if perception_failure_rate >= 0.2 else "低质量提取率"
-        print(f"      🛑 [路由 -> NEG] 提取质量不合格({neg_reason}: {max(perception_failure_rate, low_quality_rate):.0%})，拦截幻觉，移交人工！")
-
-    # 条件 2：探测极端分裂（Stage 2 层面）
-    # 归一化极差：极差占总分比例，带绝对值兜底防止小分题误触
-    elif len(model_scores) >= 2 and score_spread >= spread_threshold:
+    if reject_domain:
         route = "NEG"
         arbitration_flag = True
         reason_log = generate_neg_debate_summary(strict_cots)
-        print(f"      🛑 [路由 -> NEG] 探测极端分裂！极差={score_spread:.1f}(>={spread_threshold:.1f})，模型无共识，移交人工！")
-        print(f"         🔍 [分歧焦点] {reason_log}")
+        print(f"      🛑 [路由 -> NEG] 高风险拒判 | P={perception_risk:.2f}, U={uncertainty_index:.2%}, F={fatal_points_ratio:.2%}, H={high_blank_high_score}")
+        print(f"         🔍 [复核提示] {reason_log}")
 
-    # ⚠️ BND 边界域：模型不确定，触发宽容导师Agent仲裁
-    elif normalized_std >= 0.05 or (
-        blank_rate <= 0.5 and avg_model_score <= MAX_SCORE * 0.80
-    ):
+    elif boundary_domain:
         route = "BND"
-        cot_context = json.dumps(strict_cots[0], ensure_ascii=False) if strict_cots else ""
+        print(
+            f"      ⚠️ [路由 -> BND] 边界样本 | "
+            f"P={perception_risk:.2f}, U={uncertainty_index:.2%}, F={fatal_points_ratio:.2%}, H={high_blank_high_score}, L={lenient_review_signal}"
+        )
 
-        trigger_reason = "高认知方差" if normalized_std >= 0.05 else "内容-分数异常"
-        print(f"      ⚠️ [路由 -> BND] {trigger_reason} (σ={std_dev:.4f}, blank={blank_rate:.0%}, avg={avg_model_score})！触发宽容导师仲裁...")
-
-        agent_res_text = zero_shot_leniency_agent(student_facts, cot_context, rubrics_json)
+        agent_res_text = boundary_arbitration_agent(student_facts, strict_cots, rubrics_json, risk_profile)
         if agent_res_text:
             parsed_agent = extract_and_parse_json(agent_res_text)
             if parsed_agent:
-                try: raw_agent_score = float(parsed_agent.get('secondary_total_score', avg_model_score))
-                except: raw_agent_score = float(avg_model_score)
-                agent_cap = round(avg_model_score + MAX_SCORE * 0.30, 1)
-                final_score = max(min(raw_agent_score, agent_cap, MAX_SCORE), avg_model_score)
-                reason_log = parsed_agent.get('leniency_reason', '')
-                print(f"         ✨ [Agent 裁决] {reason_log} | 导师原始分: {raw_agent_score} | 最终分: {final_score}")
+                raw_agent_score = _safe_float(
+                    parsed_agent.get("calibrated_score", parsed_agent.get("secondary_total_score", avg_model_score)),
+                    float(avg_model_score)
+                )
+                arbitration_decision = parsed_agent.get("decision", "keep")
+                has_over_score_signal = high_blank_high_score or fatal_points_ratio >= 0.30 or perception_risk >= 0.33
+                strong_over_score_signal = high_blank_high_score or fatal_points_ratio >= 0.50 or perception_risk >= 0.66
+                raise_cap = MAX_SCORE * (0.15 if has_over_score_signal else 0.30)
+                lower_cap = MAX_SCORE * 0.15
+                lower_bound = max(0.0, avg_model_score - lower_cap)
+                upper_bound = min(MAX_SCORE, avg_model_score + raise_cap)
+                if strong_over_score_signal and raw_agent_score > avg_model_score:
+                    raw_agent_score = avg_model_score
+                    arbitration_decision = "keep"
+                final_score = round(_clamp(raw_agent_score, lower_bound, upper_bound), 2)
+                reason_log = parsed_agent.get("reason", parsed_agent.get("leniency_reason", ""))
+                print(
+                    f"         ✨ [Agent 仲裁] {arbitration_decision} | "
+                    f"原始仲裁分: {raw_agent_score} | 限幅后最终分: {final_score} | {reason_log}"
+                )
+            else:
+                arbitration_decision = "keep"
+        else:
+            arbitration_decision = "keep"
 
-    # 🟢 POS 接受域
     else:
         route = "POS"
-        print(f"      ✅ [路由 -> POS] 模型认知自洽 (σ={std_dev:.4f})，无异常，直接采信均分。")
+        print(f"      ✅ [路由 -> POS] 低风险自动接受，直接采信模型均分。")
 
     # 结果封装
     ordered_result = {
@@ -683,9 +880,17 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         "3wd_route": route,
         "final_calibrated_score": final_score,
         "requires_human_arbitration": arbitration_flag,
+        "perception_risk": round(perception_risk, 4),
+        "uncertainty_index": round(uncertainty_index, 4),
+        "fatal_points_ratio": round(fatal_points_ratio, 4),
+        "high_blank_high_score": high_blank_high_score,
+        "lenient_review_signal": lenient_review_signal,
+        "risk_features": risk_features,
+        "arbitration_decision": arbitration_decision,
         "reason_log": reason_log,
         "human_review_hint": reason_log if route == "NEG" else "",
         "facts": student_facts,
-        "strict_cot": strict_cots[0] if strict_cots else {}
+        "strict_cot": strict_cots[0] if strict_cots else {},
+        "strict_cots_all": strict_cots
     }
     return ordered_result

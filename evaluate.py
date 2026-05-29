@@ -12,6 +12,7 @@ RefGrader 评估脚本
 import json
 import argparse
 import numpy as np
+from collections import Counter
 from scipy import stats
 from sklearn.metrics import mean_absolute_error, mean_squared_error, cohen_kappa_score
 
@@ -138,6 +139,18 @@ def compute_question_metrics(q_id, total_score, ts_db, score_key="final_calibrat
     serious = [d for d in details if abs(d["diff"]) > 2]
     high_over = sum(1 for d in details if d["diff"] > 2)
     high_under = sum(1 for d in details if d["diff"] < -2)
+    route_counts = Counter(d["route"] for d in details)
+    risk_lookup = {
+        r.get("student_id", "").split("_")[0]: r.get("risk_features", {})
+        for r in results
+    }
+    risk_counts = Counter(
+        (
+            "NEG" if risk_lookup.get(d["sid"], {}).get("reject_domain") else
+            ("BND" if risk_lookup.get(d["sid"], {}).get("boundary_domain") else "POS")
+        )
+        for d in details
+    )
 
     metrics = {
         "q_id": q_id, "n": n, "total": total_score,
@@ -147,6 +160,8 @@ def compute_question_metrics(q_id, total_score, ts_db, score_key="final_calibrat
         "model_mean": float(np.mean(m_arr)),
         "bias": float(np.mean(m_arr - t_arr)),
         "serious": len(serious), "high_over": high_over, "high_under": high_under,
+        "route_counts": dict(route_counts),
+        "risk_counts": dict(risk_counts),
     }
     return metrics, details
 
@@ -185,6 +200,11 @@ def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_scor
                f"{metrics['serious']} 人", f"{metrics['high_over']} / {metrics['high_under']}"]],
         col_widths=stat_w,
     )
+
+    route_counts = metrics.get("route_counts", {})
+    if route_counts:
+        print()
+        print("  路由分布: " + " | ".join(f"{k}={v}" for k, v in sorted(route_counts.items())))
 
     if show_detail:
         print()

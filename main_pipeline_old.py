@@ -340,14 +340,7 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
                 if res:
                     eq = res.get('extraction_quality', 'unknown')
                     eq_icon = "🟢" if eq == "high" else ("🟡" if eq == "low" else "🔴")
-                    risk_brief = (
-                        f"P{res.get('perception_risk', 0):.2f}/"
-                        f"U{res.get('uncertainty_index', 0):.2f}/"
-                        f"F{res.get('fatal_points_ratio', 0):.2f}/"
-                        f"H{int(bool(res.get('high_blank_high_score', False)))}/"
-                        f"L{int(bool(res.get('lenient_review_signal', False)))}"
-                    )
-                    print(f"✅ [批改完成] {file_base_name} | 路由: {res['3wd_route']} | 最终分: {res['final_calibrated_score']} | 风险: {risk_brief} | 提取质量: {eq_icon}{eq} | 留白率: {res['blank_rate']:.0%} | 低质量率: {res.get('low_quality_extraction_rate', 0):.0%}", flush=True)
+                    print(f"✅ [批改完成] {file_base_name} | 路由: {res['3wd_route']} | 最终分: {res['final_calibrated_score']} | 提取质量: {eq_icon}{eq} | 留白率: {res['blank_rate']:.0%} | 低质量率: {res.get('low_quality_extraction_rate', 0):.0%}", flush=True)
                     return res
                 elif attempt == 0:
                     print(f"⚠️ [流水线返回空] {file_base_name} | 等待 5 秒后重试...", flush=True)
@@ -450,8 +443,8 @@ if __name__ == "__main__":
         # "Q3": ["E12314093", "E12214171"],  # 指定学号
         #"Q4": None,                        # 
         "Q5": None,                        # 
-        "Q6": None,                        #
-        "Q7": None                          # 
+        #"Q6": None,                        #
+        #"Q7": None                          # 
     }
     print("=" * 50)
 

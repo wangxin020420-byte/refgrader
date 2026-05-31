@@ -12,3 +12,7 @@ __pycache__/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Logs and runtime files
+logs/
+*.pid

@@ -1,89 +1,860 @@
 [
     {
-        "student_id": "E12314209_Q7",
-        "teacher_score": 5.0,
+        "student_id": "E01914290_Q7",
+        "teacher_score": 8.0,
         "model_scores_history": [
-            3,
-            8,
-            2
+            4,
+            0
         ],
-        "model_avg_score": 5,
-        "std_dev": 2.6247,
-        "blank_rate": 0.0,
+        "model_avg_score": 2.0,
+        "std_dev": 2.0,
+        "blank_rate": 0.2,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 0.0,
+        "real_diff": 6.0,
         "3wd_route": "NEG",
-        "final_calibrated_score": 5,
+        "final_calibrated_score": 2.0,
         "requires_human_arbitration": true,
-        "reason_log": "摘要生成失败，请人工核查。",
-        "human_review_hint": "摘要生成失败，请人工核查。",
-        "facts": "{\"item_1\": \"10×10⁵\", \"item_2\": \"2\", \"item_3\": \"4×10⁹ GHz\", \"item_4\": \"1\", \"item_5\": \"6×10⁹ GHz\", \"item_6\": \"10×10⁵ / (4×10⁹ × 2)\", \"item_7\": \"10×10⁵ × 2\", \"item_8\": \"1.25×10⁻⁹ s\", \"item_9\": \"10×10⁵ × 1\", \"item_10\": \"5 / (3×10⁻¹) s\"}",
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.2,
+        "fatal_points_ratio": 0.4,
+        "high_blank_high_score": false,
+        "lenient_review_signal": true,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.2,
+            "fatal_points_ratio": 0.4,
+            "high_blank_high_score": false,
+            "lenient_review_signal": true,
+            "reject_domain": true,
+            "boundary_domain": true,
+            "std_ratio": 0.2,
+            "spread_ratio": 0.4,
+            "avg_ratio": 0.2,
+            "score_spread": 4,
+            "blank_rate": 0.2,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "partial_match_points_ratio": 0.2,
+            "format_minor_points_ratio": 0.1
+        },
+        "arbitration_decision": "accept",
+        "reason_log": "焦点是作答时省略“Hz”单位，能否按语义匹配给分。",
+        "human_review_hint": "焦点是作答时省略“Hz”单位，能否按语义匹配给分。",
+        "facts": "{\"item_1\": \"10×10³\", \"item_2\": \"未书写\", \"item_3\": \"4G\", \"item_4\": \"未书写\", \"item_5\": \"6G\", \"item_6\": \"10×10³ ÷ 2×10⁹\", \"item_7\": \"10×10³ × 2\", \"item_8\": \"5×10⁻⁶ s\", \"item_9\": \"10×10³ × 1\", \"item_10\": \"1.67×10⁻⁶ s\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "1",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：学生将指令数写为 10×10⁵（即100万条），而标准答案为10万条（100,000）。"
+                    "reason": "数值不匹配：学生作答10×10³=10,000，标准为100,000，相对误差90%>10%"
+                },
+                {
+                    "id": "2",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "3",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "语义匹配：4G等同于4GHz，忽略单位格式差异"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "5",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "语义匹配：6G等同于6GHz，忽略单位格式差异"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心知识错误：学生写了具体数值计算式而非通用公式"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0.5,
+                    "error_category": "PARTIAL_MATCH",
+                    "reason": "链式推导内部一致：方法正确但起始值错误，数量级偏差但方法论可循"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0.5,
+                    "error_category": "PARTIAL_MATCH",
+                    "reason": "链式推导内部一致：方法正确但起始值错误，数量级偏差但方法论可循"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0.5,
+                    "error_category": "PARTIAL_MATCH",
+                    "reason": "链式推导内部一致：方法正确但起始值错误，数量级偏差但方法论可循"
+                },
+                {
+                    "id": "10",
+                    "score_given": 0.5,
+                    "error_category": "PARTIAL_MATCH",
+                    "reason": "链式推导内部一致：方法正确但起始值错误，数量级偏差但方法论可循"
+                }
+            ],
+            "total_score": 4
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值不匹配：学生作答10×10³=10,000，标准为100,000，相对误差90%>10%"
+                    },
+                    {
+                        "id": "2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "语义匹配：4G等同于4GHz，忽略单位格式差异"
+                    },
+                    {
+                        "id": "4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "5",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "语义匹配：6G等同于6GHz，忽略单位格式差异"
+                    },
+                    {
+                        "id": "6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "核心知识错误：学生写了具体数值计算式而非通用公式"
+                    },
+                    {
+                        "id": "7",
+                        "score_given": 0.5,
+                        "error_category": "PARTIAL_MATCH",
+                        "reason": "链式推导内部一致：方法正确但起始值错误，数量级偏差但方法论可循"
+                    },
+                    {
+                        "id": "8",
+                        "score_given": 0.5,
+                        "error_category": "PARTIAL_MATCH",
+                        "reason": "链式推导内部一致：方法正确但起始值错误，数量级偏差但方法论可循"
+                    },
+                    {
+                        "id": "9",
+                        "score_given": 0.5,
+                        "error_category": "PARTIAL_MATCH",
+                        "reason": "链式推导内部一致：方法正确但起始值错误，数量级偏差但方法论可循"
+                    },
+                    {
+                        "id": "10",
+                        "score_given": 0.5,
+                        "error_category": "PARTIAL_MATCH",
+                        "reason": "链式推导内部一致：方法正确但起始值错误，数量级偏差但方法论可循"
+                    }
+                ],
+                "total_score": 4
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数量级偏差（10倍），学生将10万条(10^5)错写为1万条(10×10^3=10^4)，且该项分值为1分，不适用数量级感知规则"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "FORMAT_MINOR",
+                        "reason": "单位书写不完整（缺少Hz），由于核心推导及最终结果项全错，触发核心能力锚定规则，参数识别分降级为满分30%（即0分）"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "FORMAT_MINOR",
+                        "reason": "单位书写不完整（缺少Hz），由于核心推导及最终结果项全错，触发核心能力锚定规则，参数识别分降级为满分30%（即0分）"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "未写出包含变量语义的代数公式，仅写出了具体的错误数值计算式，核心语义未匹配"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "计算结果为20000，与标准值200000相差10倍，且不适用下游结果回溯或链式推导恢复（分值仅1分）"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "计算结果5×10⁻⁶ s与标准值50 μs (5×10⁻⁵ s)相差10倍，公式代入过程错误"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "计算结果为10000，与标准值100000相差10倍，且不适用下游结果回溯或链式推导恢复（分值仅1分）"
+                    },
+                    {
+                        "id": "item_10",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "计算结果1.67×10⁻⁶ s与标准值16.7 μs (1.67×10⁻⁵ s)相差10倍，公式代入及计算错误"
+                    }
+                ],
+                "total_score": 0
+            }
+        ]
+    },
+    {
+        "student_id": "E02014181_Q7",
+        "teacher_score": 2.0,
+        "model_scores_history": [
+            6,
+            6,
+            2
+        ],
+        "model_avg_score": 4.7,
+        "std_dev": 1.8856,
+        "blank_rate": 0.2,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": -2.7,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 4.7,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.1886,
+        "fatal_points_ratio": 0.4333,
+        "high_blank_high_score": false,
+        "lenient_review_signal": true,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.1886,
+            "fatal_points_ratio": 0.4333,
+            "high_blank_high_score": false,
+            "lenient_review_signal": true,
+            "reject_domain": true,
+            "boundary_domain": true,
+            "std_ratio": 0.1886,
+            "spread_ratio": 0.4,
+            "avg_ratio": 0.47,
+            "score_spread": 4,
+            "blank_rate": 0.2,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "partial_match_points_ratio": 0.1,
+            "format_minor_points_ratio": 0.0
+        },
+        "arbitration_decision": "accept",
+        "reason_log": "前置核心推导错误时，后续下游计算项是否给分。",
+        "human_review_hint": "前置核心推导错误时，后续下游计算项是否给分。",
+        "facts": "{\"item_1\": \"10⁵\", \"item_2\": \"未书写\", \"item_3\": \"4×10⁻⁹\", \"item_4\": \"未书写\", \"item_5\": \"6×10⁻⁹\", \"item_6\": \"t_M1=4×10⁻⁹ ×10⁵×2；t_M2=6×10⁻⁹ ×10⁵×1\", \"item_7\": \"10⁵×2\", \"item_8\": \"8×10⁻⁴ s\", \"item_9\": \"10⁵×1\", \"item_10\": \"6×10⁻⁴ s\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "item_1",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，10⁵即为10万条"
+                },
+                {
+                    "id": "item_2",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "下游项item_7计算正确（10⁵×2=200,000），回溯推断该参数已正确使用"
+                },
+                {
+                    "id": "item_3",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心知识错误：主频与周期概念混淆，4GHz对应0.25ns而非4ns"
+                },
+                {
+                    "id": "item_4",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "下游项item_9计算正确（10⁵×1=100,000），回溯推断该参数已正确使用"
+                },
+                {
+                    "id": "item_5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "核心知识错误：主频与周期概念混淆，6GHz对应0.167ns而非6ns"
+                },
+                {
+                    "id": "item_6",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功：虽然使用周期计算而非主频除法，但公式包含指令数、CPI和时钟周期，语义等价"
+                },
+                {
+                    "id": "item_7",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，10⁵×2=200,000"
+                },
+                {
+                    "id": "item_8",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：因主频参数错误导致计算结果严重错误，且该条目分值为1分不适用链式推导恢复规则"
+                },
+                {
+                    "id": "item_9",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，10⁵×1=100,000"
+                },
+                {
+                    "id": "item_10",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：因主频参数错误导致计算结果严重错误，且该条目分值为1分不适用链式推导恢复规则"
+                }
+            ],
+            "total_score": 6
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功，10⁵即为10万条"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "下游项item_7计算正确（10⁵×2=200,000），回溯推断该参数已正确使用"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "核心知识错误：主频与周期概念混淆，4GHz对应0.25ns而非4ns"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "下游项item_9计算正确（10⁵×1=100,000），回溯推断该参数已正确使用"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "核心知识错误：主频与周期概念混淆，6GHz对应0.167ns而非6ns"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功：虽然使用周期计算而非主频除法，但公式包含指令数、CPI和时钟周期，语义等价"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功，10⁵×2=200,000"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：因主频参数错误导致计算结果严重错误，且该条目分值为1分不适用链式推导恢复规则"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功，10⁵×1=100,000"
+                    },
+                    {
+                        "id": "item_10",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：因主频参数错误导致计算结果严重错误，且该条目分值为1分不适用链式推导恢复规则"
+                    }
+                ],
+                "total_score": 6
+            },
+            {
+                "details": [
+                    {
+                        "id": "1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功，10⁵等同于10万"
+                    },
+                    {
+                        "id": "2",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "下游项正确，回溯推断该参数已正确使用"
+                    },
+                    {
+                        "id": "3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，将主频4GHz错误识别为4×10⁻⁹"
+                    },
+                    {
+                        "id": "4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "下游项正确，回溯推断该参数已正确使用"
+                    },
+                    {
+                        "id": "5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，将主频6GHz错误识别为6×10⁻⁹"
+                    },
+                    {
+                        "id": "6",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "过程类匹配，算式体现了时间计算的关键要素与逻辑，等价于公式代入"
+                    },
+                    {
+                        "id": "7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功，10⁵×2即为200,000"
+                    },
+                    {
+                        "id": "8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，因上游参数错误导致结果错误"
+                    },
+                    {
+                        "id": "9",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功，10⁵×1即为100,000"
+                    },
+                    {
+                        "id": "10",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，因上游参数错误导致结果错误"
+                    }
+                ],
+                "total_score": 6
+            },
+            {
+                "details": [
+                    {
+                        "id": "1",
+                        "score_given": 0,
+                        "error_category": "PARTIAL_MATCH",
+                        "reason": "核心推导全错，参数识别分降级（原匹配成功，但得分上限降至30%，不足1分）"
+                    },
+                    {
+                        "id": "2",
+                        "score_given": 0,
+                        "error_category": "PARTIAL_MATCH",
+                        "reason": "下游项正确，回溯推断该参数已正确使用，但核心推导全错，参数识别分降级（得分上限降至30%，不足1分）"
+                    },
+                    {
+                        "id": "3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生写4×10⁻⁹，标准为4GHz（4×10⁹）"
+                    },
+                    {
+                        "id": "4",
+                        "score_given": 0,
+                        "error_category": "PARTIAL_MATCH",
+                        "reason": "下游项正确，回溯推断该参数已正确使用，但核心推导全错，参数识别分降级（得分上限降至30%，不足1分）"
+                    },
+                    {
+                        "id": "5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生写6×10⁻⁹，标准为6GHz（6×10⁹）"
+                    },
+                    {
+                        "id": "6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "公式错误：应为除法运算，学生使用乘法运算且未体现除法关系"
+                    },
+                    {
+                        "id": "7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功：10⁵×2 = 200,000"
+                    },
+                    {
+                        "id": "8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生写8×10⁻⁴ s，标准为50 μs（5×10⁻⁵ s）"
+                    },
+                    {
+                        "id": "9",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功：10⁵×1 = 100,000"
+                    },
+                    {
+                        "id": "10",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生写6×10⁻⁴ s，标准为16.7 μs（≈1.67×10⁻⁵ s）"
+                    }
+                ],
+                "total_score": 2
+            }
+        ]
+    },
+    {
+        "student_id": "E12314041_Q7",
+        "teacher_score": 8.0,
+        "model_scores_history": [
+            7,
+            2,
+            2
+        ],
+        "model_avg_score": 3.7,
+        "std_dev": 2.357,
+        "blank_rate": 0.2,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 4.3,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 3.7,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.2357,
+        "fatal_points_ratio": 0.1,
+        "high_blank_high_score": false,
+        "lenient_review_signal": true,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.2357,
+            "fatal_points_ratio": 0.1,
+            "high_blank_high_score": false,
+            "lenient_review_signal": true,
+            "reject_domain": true,
+            "boundary_domain": true,
+            "std_ratio": 0.2357,
+            "spread_ratio": 0.5,
+            "avg_ratio": 0.37,
+            "score_spread": 5,
+            "blank_rate": 0.2,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "partial_match_points_ratio": 0.0,
+            "format_minor_points_ratio": 0.0
+        },
+        "arbitration_decision": "accept",
+        "reason_log": "内容匹配成功时，是否因触发核心能力锚定规则而判零分。",
+        "human_review_hint": "内容匹配成功时，是否因触发核心能力锚定规则而判零分。",
+        "facts": "{\"item_1\": \"10⁵\", \"item_2\": \"2\", \"item_3\": \"4GHz\", \"item_4\": \"1\", \"item_5\": \"6GHz\", \"item_6\": \"运行时间 = 总指令数 / 主频\", \"item_7\": \"2×10⁵\", \"item_8\": \"未书写\", \"item_9\": \"1×10⁵\", \"item_10\": \"未书写\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "核心数值匹配，10⁵即为10万"
                 },
                 {
                     "id": "2",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功：准确识别出M1的CPI为2。"
+                    "reason": "核心数值匹配"
                 },
                 {
                     "id": "3",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：学生将主频写为 4×10⁹ GHz，与标准的 4GHz 产生极大的数值及单位冲突。"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "数值与单位均匹配"
                 },
                 {
                     "id": "4",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "匹配成功：准确识别出M2的CPI为1。"
+                    "reason": "核心数值匹配"
                 },
                 {
                     "id": "5",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：学生将主频写为 6×10⁹ GHz，与标准的 6GHz 产生极大的数值及单位冲突。"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "数值与单位均匹配"
                 },
                 {
                     "id": "6",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "匹配成功：写出了正确的执行时间推导计算关系，语义上等价于 时间 = (指令数 × CPI) / 主频。"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "公式缺少CPI项，核心语义错误"
                 },
                 {
                     "id": "7",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：基于错误起点计算得出 2,000,000，标准为 200,000。"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "核心数值匹配，2×10⁵即为200,000"
                 },
                 {
                     "id": "8",
                     "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：学生计算结果为 1.25×10⁻⁹ s，标准为 50 μs。"
+                    "error_category": "BLANK",
+                    "reason": "客观事实文本标为未书写"
                 },
                 {
                     "id": "9",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：基于错误起点计算得出 1,000,000，标准为 100,000。"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "核心数值匹配，1×10⁵即为100,000"
                 },
                 {
                     "id": "10",
                     "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾：学生计算结果为 16.67 s，标准为 16.7 μs。"
+                    "error_category": "BLANK",
+                    "reason": "客观事实文本标为未书写"
                 }
             ],
-            "total_score": 3
-        }
+            "total_score": 7
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "核心数值匹配，10⁵即为10万"
+                    },
+                    {
+                        "id": "2",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "核心数值匹配"
+                    },
+                    {
+                        "id": "3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "数值与单位均匹配"
+                    },
+                    {
+                        "id": "4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "核心数值匹配"
+                    },
+                    {
+                        "id": "5",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "数值与单位均匹配"
+                    },
+                    {
+                        "id": "6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "公式缺少CPI项，核心语义错误"
+                    },
+                    {
+                        "id": "7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "核心数值匹配，2×10⁵即为200,000"
+                    },
+                    {
+                        "id": "8",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "客观事实文本标为未书写"
+                    },
+                    {
+                        "id": "9",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "核心数值匹配，1×10⁵即为100,000"
+                    },
+                    {
+                        "id": "10",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "客观事实文本标为未书写"
+                    }
+                ],
+                "total_score": 7
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "MATCH",
+                        "reason": "语义匹配成功（10⁵等价于10万条）。触发核心能力锚定规则：核心推导全错，参数识别分降级，得分为满分*30%≈0分"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "MATCH",
+                        "reason": "语义匹配成功。触发核心能力锚定规则：核心推导全错，参数识别分降级，得分为满分*30%≈0分"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "MATCH",
+                        "reason": "语义匹配成功。触发核心能力锚定规则：核心推导全错，参数识别分降级，得分为满分*30%≈0分"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "MATCH",
+                        "reason": "语义匹配成功。触发核心能力锚定规则：核心推导全错，参数识别分降级，得分为满分*30%≈0分"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "MATCH",
+                        "reason": "语义匹配成功。触发核心能力锚定规则：核心推导全错，参数识别分降级，得分为满分*30%≈0分"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "公式缺少CPI部分，属于核心知识错误"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "2×10⁵等价于200,000，数值匹配成功"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "客观事实显示未书写"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "1×10⁵等价于100,000，数值匹配成功"
+                    },
+                    {
+                        "id": "item_10",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "客观事实显示未书写"
+                    }
+                ],
+                "total_score": 2
+            },
+            {
+                "details": [
+                    {
+                        "id": "1",
+                        "score_given": 0,
+                        "error_category": "MATCH",
+                        "reason": "内容匹配成功（10⁵=10万），但触发核心能力锚定规则（公式与最终结果全错/未写），纯参数识别分降级至30%（计为0分）"
+                    },
+                    {
+                        "id": "2",
+                        "score_given": 0,
+                        "error_category": "MATCH",
+                        "reason": "内容匹配成功，但触发核心能力锚定规则，纯参数识别分降级至30%（计为0分）"
+                    },
+                    {
+                        "id": "3",
+                        "score_given": 0,
+                        "error_category": "MATCH",
+                        "reason": "内容匹配成功，但触发核心能力锚定规则，纯参数识别分降级至30%（计为0分）"
+                    },
+                    {
+                        "id": "4",
+                        "score_given": 0,
+                        "error_category": "MATCH",
+                        "reason": "内容匹配成功，但触发核心能力锚定规则，纯参数识别分降级至30%（计为0分）"
+                    },
+                    {
+                        "id": "5",
+                        "score_given": 0,
+                        "error_category": "MATCH",
+                        "reason": "内容匹配成功，但触发核心能力锚定规则，纯参数识别分降级至30%（计为0分）"
+                    },
+                    {
+                        "id": "6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "公式漏掉乘以CPI，属于核心知识错误"
+                    },
+                    {
+                        "id": "7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功（2×10⁵等价于200,000）"
+                    },
+                    {
+                        "id": "8",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "9",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功（1×10⁵等价于100,000）"
+                    },
+                    {
+                        "id": "10",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    }
+                ],
+                "total_score": 2
+            }
+        ]
     }
 ]

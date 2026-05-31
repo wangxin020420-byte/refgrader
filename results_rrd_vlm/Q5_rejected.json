@@ -1,83 +1,2558 @@
 [
     {
-        "student_id": "E12314129_Q5",
+        "student_id": "E01914115_Q5",
         "teacher_score": 8.0,
         "model_scores_history": [
-            9,
-            2,
-            4
+            1,
+            1,
+            1
         ],
-        "model_avg_score": 5,
-        "std_dev": 2.9439,
-        "blank_rate": 0.78,
+        "model_avg_score": 1.0,
+        "std_dev": 0.0,
+        "blank_rate": 0.22,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 3.0,
+        "real_diff": 7.0,
         "3wd_route": "NEG",
-        "final_calibrated_score": 5,
+        "final_calibrated_score": 1.0,
         "requires_human_arbitration": true,
-        "reason_log": "未书写参数能否因下游项正确而回溯推断给分。",
-        "human_review_hint": "未书写参数能否因下游项正确而回溯推断给分。",
-        "facts": "{\"item_1\": \"未书写\", \"item_2\": \"未书写\", \"item_3\": \"未书写\", \"item_4\": \"未书写\", \"item_5\": \"256\", \"item_6\": \"未书写\", \"item_7\": \"2\", \"item_8\": \"未书写\", \"item_9\": \"未书写\"}",
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.0,
+        "fatal_points_ratio": 0.8,
+        "high_blank_high_score": false,
+        "lenient_review_signal": true,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.0,
+            "fatal_points_ratio": 0.8,
+            "high_blank_high_score": false,
+            "lenient_review_signal": true,
+            "reject_domain": true,
+            "boundary_domain": true,
+            "std_ratio": 0.0,
+            "spread_ratio": 0.0,
+            "avg_ratio": 0.0667,
+            "score_spread": 0,
+            "blank_rate": 0.2222,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "partial_match_points_ratio": 0.0,
+            "format_minor_points_ratio": 0.0
+        },
+        "arbitration_decision": "accept",
+        "reason_log": "核心分歧在于对item_2的标准答案认定不一致。",
+        "human_review_hint": "核心分歧在于对item_2的标准答案认定不一致。",
+        "facts": "{\"item_1\": \"8位\", \"item_2\": \"12\", \"item_3\": \"未书写\", \"item_4\": \"2^6\", \"item_5\": \"4096条\", \"item_6\": \"4096条\", \"item_7\": \"未书写\", \"item_8\": \"2^8\", \"item_9\": \"256条\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "item_1",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生作答'8位'与标准答案'4'不符"
+                },
+                {
+                    "id": "item_2",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生作答'12'与标准答案'16'不符"
+                },
+                {
+                    "id": "item_3",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "item_4",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "语义匹配成功，'2^6'与标准答案'64'等价"
+                },
+                {
+                    "id": "item_5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生作答'4096'与标准答案'256'不符"
+                },
+                {
+                    "id": "item_6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生作答'4096'与标准答案'255'不符"
+                },
+                {
+                    "id": "item_7",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "item_8",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生作答'2^8'(即256)与标准答案'64'不符"
+                },
+                {
+                    "id": "item_9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生作答'256'与标准答案'128'不符"
+                }
+            ],
+            "total_score": 1
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答'8位'与标准答案'4'不符"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答'12'与标准答案'16'不符"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "语义匹配成功，'2^6'与标准答案'64'等价"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答'4096'与标准答案'256'不符"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答'4096'与标准答案'255'不符"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答'2^8'(即256)与标准答案'64'不符"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答'256'与标准答案'128'不符"
+                    }
+                ],
+                "total_score": 1
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答为8，标准为4"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答为12，标准为16"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功，核心数值2^6等于64"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答为4096，标准为256"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答为4096，标准为255"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答2^8即256，标准为64"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答为256，标准为128"
+                    }
+                ],
+                "total_score": 1
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功，2^6等价于64"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    }
+                ],
+                "total_score": 1
+            }
+        ]
+    },
+    {
+        "student_id": "E01914290_Q5",
+        "teacher_score": 8.0,
+        "model_scores_history": [
+            1,
+            1,
+            1
+        ],
+        "model_avg_score": 1.0,
+        "std_dev": 0.0,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 7.0,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 1.0,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.0,
+        "fatal_points_ratio": 0.9185,
+        "high_blank_high_score": false,
+        "lenient_review_signal": true,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.0,
+            "fatal_points_ratio": 0.9185,
+            "high_blank_high_score": false,
+            "lenient_review_signal": true,
+            "reject_domain": true,
+            "boundary_domain": true,
+            "std_ratio": 0.0,
+            "spread_ratio": 0.0,
+            "avg_ratio": 0.0667,
+            "score_spread": 0,
+            "blank_rate": 0.0,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "partial_match_points_ratio": 0.0,
+            "format_minor_points_ratio": 0.0
+        },
+        "arbitration_decision": "accept",
+        "reason_log": "摘要生成失败，请人工核查。",
+        "human_review_hint": "摘要生成失败，请人工核查。",
+        "facts": "{\"item_1\": \"10\", \"item_2\": \"2^10\", \"item_3\": \"2^10 -12 -1\", \"item_4\": \"2^6\", \"item_5\": \"1011条\", \"item_6\": \"1011条\", \"item_7\": \"2^10 -12 -254\", \"item_8\": \"1\", \"item_9\": \"758条\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "1",
                     "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生答案为10，标准答案为4"
                 },
                 {
                     "id": "2",
                     "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生答案为1024(2^10)，标准答案为16"
                 },
                 {
                     "id": "3",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "reason": "下游项item_5正确，回溯推断该参数已正确使用"
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生答案计算错误，标准答案为4"
                 },
                 {
                     "id": "4",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "下游项item_5正确，回溯推断该参数已正确使用"
+                    "reason": "匹配成功：2^6与64在数学上完全等价"
                 },
                 {
                     "id": "5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生答案为1011，标准答案为256"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生答案为1011，标准答案为255"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生答案计算错误，标准答案为2"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生答案为1，标准答案为64"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：学生答案为758，标准答案为128"
+                }
+            ],
+            "total_score": 1
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生答案为10，标准答案为4"
+                    },
+                    {
+                        "id": "2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生答案为1024(2^10)，标准答案为16"
+                    },
+                    {
+                        "id": "3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生答案计算错误，标准答案为4"
+                    },
+                    {
+                        "id": "4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功：2^6与64在数学上完全等价"
+                    },
+                    {
+                        "id": "5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生答案为1011，标准答案为256"
+                    },
+                    {
+                        "id": "6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生答案为1011，标准答案为255"
+                    },
+                    {
+                        "id": "7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生答案计算错误，标准答案为2"
+                    },
+                    {
+                        "id": "8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生答案为1，标准答案为64"
+                    },
+                    {
+                        "id": "9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生答案为758，标准答案为128"
+                    }
+                ],
+                "total_score": 1
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生值10，标准值4"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生值2^10=1024，标准值16"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生值2^10 -12 -1=1011，标准值4"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "数值匹配：学生值2^6=64，标准值64"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生值1011，标准值256"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生值1011，标准值255"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生值2^10 -12 -254=758，标准值2"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生值1，标准值64"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：学生值758，标准值128"
+                    }
+                ],
+                "total_score": 1
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    }
+                ],
+                "total_score": 1
+            }
+        ]
+    },
+    {
+        "student_id": "E12214091_Q5",
+        "teacher_score": 15.0,
+        "model_scores_history": [
+            9,
+            14,
+            14
+        ],
+        "model_avg_score": 12.3,
+        "std_dev": 2.357,
+        "blank_rate": 0.11,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 2.7,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 12.3,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.1571,
+        "fatal_points_ratio": 0.1111,
+        "high_blank_high_score": false,
+        "lenient_review_signal": false,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.1571,
+            "fatal_points_ratio": 0.1111,
+            "high_blank_high_score": false,
+            "lenient_review_signal": false,
+            "reject_domain": true,
+            "boundary_domain": false,
+            "std_ratio": 0.1571,
+            "spread_ratio": 0.3333,
+            "avg_ratio": 0.82,
+            "score_spread": 5,
+            "blank_rate": 0.1111,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "partial_match_points_ratio": 0.0,
+            "format_minor_points_ratio": 0.0
+        },
+        "arbitration_decision": "accept",
+        "reason_log": "各项评分完全一致，总分统计存在差异。",
+        "human_review_hint": "各项评分完全一致，总分统计存在差异。",
+        "facts": "{\"item_1\": \"4\", \"item_2\": \"未书写\", \"item_3\": \"4\", \"item_4\": \"64\", \"item_5\": \"256\", \"item_6\": \"256\", \"item_7\": \"2\", \"item_8\": \"64\", \"item_9\": \"128\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "item_1",
                     "score_given": 1,
                     "error_category": "MATCH",
                     "reason": "匹配成功"
                 },
                 {
-                    "id": "6",
-                    "score_given": 5,
+                    "id": "item_2",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "item_3",
+                    "score_given": 1,
                     "error_category": "MATCH",
-                    "reason": "下游项item_7正确，回溯推断该参数已正确使用"
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_4",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_5",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，链式推导不一致"
+                },
+                {
+                    "id": "item_7",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_9",
+                    "score_given": 3,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                }
+            ],
+            "total_score": 9
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，链式推导不一致"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 3,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    }
+                ],
+                "total_score": 9
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 5,
+                        "error_category": "MATCH",
+                        "reason": "学生答案256与标准答案255的相对误差为0.39%，小于等于10%，根据【数值容差规则】判为匹配"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 3,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    }
+                ],
+                "total_score": 14
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 5,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 3,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    }
+                ],
+                "total_score": 14
+            }
+        ]
+    },
+    {
+        "student_id": "E12314017_Q5",
+        "teacher_score": 8.0,
+        "model_scores_history": [
+            2,
+            2,
+            2
+        ],
+        "model_avg_score": 2.0,
+        "std_dev": 0.0,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 6.0,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 2.0,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.0,
+        "fatal_points_ratio": 0.8074,
+        "high_blank_high_score": false,
+        "lenient_review_signal": true,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.0,
+            "fatal_points_ratio": 0.8074,
+            "high_blank_high_score": false,
+            "lenient_review_signal": true,
+            "reject_domain": true,
+            "boundary_domain": true,
+            "std_ratio": 0.0,
+            "spread_ratio": 0.0,
+            "avg_ratio": 0.1333,
+            "score_spread": 0,
+            "blank_rate": 0.0,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "partial_match_points_ratio": 0.0,
+            "format_minor_points_ratio": 0.0
+        },
+        "arbitration_decision": "accept",
+        "reason_log": "核心焦点为条目4与条目5的标准答案数值不统一。",
+        "human_review_hint": "核心焦点为条目4与条目5的标准答案数值不统一。",
+        "facts": "{\"item_1\": \"10位\", \"item_2\": \"12条\", \"item_3\": \"2^4 -12\", \"item_4\": \"2^1\", \"item_5\": \"[2^4 -12]×2^1 -1]×2^5\", \"item_6\": \"224条\", \"item_7\": \"2^8 -254\", \"item_8\": \"2^4\", \"item_9\": \"1232条\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生答案为10，标准为4"
+                },
+                {
+                    "id": "2",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生答案为12，标准为16"
+                },
+                {
+                    "id": "3",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功，表达式2^4 -12计算结果为4，与标准一致"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生答案为2^1=2，标准为64"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生表达式计算结果为[(16-12)×2-1]×32=224，与标准256不符"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生答案为224，标准为255"
                 },
                 {
                     "id": "7",
                     "score_given": 1,
                     "error_category": "MATCH",
+                    "reason": "匹配成功，表达式2^8 -254计算结果为2，与标准一致"
+                },
+                {
+                    "id": "8",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生答案为2^4=16，标准为64"
+                },
+                {
+                    "id": "9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾，学生答案为1232，标准为128"
+                }
+            ],
+            "total_score": 2
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生答案为10，标准为4"
+                    },
+                    {
+                        "id": "2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生答案为12，标准为16"
+                    },
+                    {
+                        "id": "3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功，表达式2^4 -12计算结果为4，与标准一致"
+                    },
+                    {
+                        "id": "4",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生答案为2^1=2，标准为64"
+                    },
+                    {
+                        "id": "5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生表达式计算结果为[(16-12)×2-1]×32=224，与标准256不符"
+                    },
+                    {
+                        "id": "6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生答案为224，标准为255"
+                    },
+                    {
+                        "id": "7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功，表达式2^8 -254计算结果为2，与标准一致"
+                    },
+                    {
+                        "id": "8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生答案为2^4=16，标准为64"
+                    },
+                    {
+                        "id": "9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生答案为1232，标准为128"
+                    }
+                ],
+                "total_score": 2
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为4，学生作答为10位"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为16，学生作答为12条"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功，学生作答2^4-12计算结果为4，与标准一致"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为64，学生作答为2^1"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生作答表达式求值结果为224，标准为256"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为255，学生作答为224条"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功，学生作答2^8-254计算结果为2，与标准一致"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为64，学生作答为2^4"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为128，学生作答为1232条"
+                    }
+                ],
+                "total_score": 2
+            },
+            {
+                "details": [
+                    {
+                        "id": "1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生答案10与标准答案4不符"
+                    },
+                    {
+                        "id": "2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生答案12与标准答案16不符"
+                    },
+                    {
+                        "id": "3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "语义匹配，学生答案2^4 - 12计算结果为4，与标准答案等价"
+                    },
+                    {
+                        "id": "4",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生答案2^1计算结果为2，与标准答案64不符"
+                    },
+                    {
+                        "id": "5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生表达式计算结果不为256，与标准答案不符"
+                    },
+                    {
+                        "id": "6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生答案224与标准答案255不符"
+                    },
+                    {
+                        "id": "7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "语义匹配，学生答案2^8 - 254计算结果为2，与标准答案等价"
+                    },
+                    {
+                        "id": "8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生答案2^4计算结果为16，与标准答案64不符"
+                    },
+                    {
+                        "id": "9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，学生答案1232与标准答案128不符"
+                    }
+                ],
+                "total_score": 2
+            }
+        ]
+    },
+    {
+        "student_id": "E12314033_Q5",
+        "teacher_score": 10.0,
+        "model_scores_history": [
+            2,
+            2,
+            2
+        ],
+        "model_avg_score": 2.0,
+        "std_dev": 0.0,
+        "blank_rate": 0.11,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 8.0,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 2.0,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.0,
+        "fatal_points_ratio": 0.7111,
+        "high_blank_high_score": false,
+        "lenient_review_signal": true,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.0,
+            "fatal_points_ratio": 0.7111,
+            "high_blank_high_score": false,
+            "lenient_review_signal": true,
+            "reject_domain": true,
+            "boundary_domain": true,
+            "std_ratio": 0.0,
+            "spread_ratio": 0.0,
+            "avg_ratio": 0.1333,
+            "score_spread": 0,
+            "blank_rate": 0.1111,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "partial_match_points_ratio": 0.0,
+            "format_minor_points_ratio": 0.0
+        },
+        "arbitration_decision": "accept",
+        "reason_log": "三次评分总分及各题得分完全一致，无实质分数分歧。",
+        "human_review_hint": "三次评分总分及各题得分完全一致，无实质分数分歧。",
+        "facts": "{\"item_1\": \"4位\", \"item_2\": \"未书写\", \"item_3\": \"4\", \"item_4\": \"2^10\", \"item_5\": \"4095条\", \"item_6\": \"4095条\", \"item_7\": \"4\", \"item_8\": \"2^16\", \"item_9\": \"8条\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "item_1",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "数值匹配成功，忽略单位格式差异"
+                },
+                {
+                    "id": "item_2",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "item_3",
+                    "score_given": 1,
+                    "error_category": "MATCH",
                     "reason": "匹配成功"
+                },
+                {
+                    "id": "item_4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾（学生作答1024，标准为64）"
+                },
+                {
+                    "id": "item_5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾（学生作答4095，标准为256）"
+                },
+                {
+                    "id": "item_6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾（学生作答4095，标准为255）"
+                },
+                {
+                    "id": "item_7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾（学生作答4，标准为2）"
+                },
+                {
+                    "id": "item_8",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾（学生作答65536，标准为64）"
+                },
+                {
+                    "id": "item_9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾（学生作答8，标准为128）"
+                }
+            ],
+            "total_score": 2
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "数值匹配成功，忽略单位格式差异"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾（学生作答1024，标准为64）"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾（学生作答4095，标准为256）"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾（学生作答4095，标准为255）"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾（学生作答4，标准为2）"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾（学生作答65536，标准为64）"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾（学生作答8，标准为128）"
+                    }
+                ],
+                "total_score": 2
+            },
+            {
+                "details": [
+                    {
+                        "id": "1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "4",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    }
+                ],
+                "total_score": 2
+            },
+            {
+                "details": [
+                    {
+                        "id": "1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "4",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    }
+                ],
+                "total_score": 2
+            }
+        ]
+    },
+    {
+        "student_id": "E12314041_Q5",
+        "teacher_score": 8.0,
+        "model_scores_history": [
+            0,
+            0,
+            0
+        ],
+        "model_avg_score": 0.0,
+        "std_dev": 0.0,
+        "blank_rate": 0.33,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 8.0,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 0.0,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.0,
+        "fatal_points_ratio": 0.7556,
+        "high_blank_high_score": false,
+        "lenient_review_signal": true,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.0,
+            "fatal_points_ratio": 0.7556,
+            "high_blank_high_score": false,
+            "lenient_review_signal": true,
+            "reject_domain": true,
+            "boundary_domain": true,
+            "std_ratio": 0.0,
+            "spread_ratio": 0.0,
+            "avg_ratio": 0.0,
+            "score_spread": 0,
+            "blank_rate": 0.3333,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "partial_match_points_ratio": 0.0,
+            "format_minor_points_ratio": 0.0
+        },
+        "arbitration_decision": "accept",
+        "reason_log": "焦点为未书写的条目4和5是否需说明无下游推导支持。",
+        "human_review_hint": "焦点为未书写的条目4和5是否需说明无下游推导支持。",
+        "facts": "{\"item_1\": \"10\", \"item_2\": \"1024\", \"item_3\": \"1000余\", \"item_4\": \"未书写\", \"item_5\": \"未书写\", \"item_6\": \"1000余\", \"item_7\": \"746\", \"item_8\": \"未书写\", \"item_9\": \"746\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "1",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：标准为4，学生作答10"
+                },
+                {
+                    "id": "2",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：标准为16，学生作答1024"
+                },
+                {
+                    "id": "3",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：标准为4，学生作答1000余"
+                },
+                {
+                    "id": "4",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写，且下游项未出现正确推导结果，无法回溯推断"
+                },
+                {
+                    "id": "5",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写，且下游项未出现正确推导结果，无法回溯推断"
+                },
+                {
+                    "id": "6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：标准为255，学生作答1000余"
+                },
+                {
+                    "id": "7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：标准为2，学生作答746"
                 },
                 {
                     "id": "8",
                     "score_given": 0,
                     "error_category": "BLANK",
-                    "reason": "未书写"
+                    "reason": "未书写，且下游项未出现正确推导结果，无法回溯推断"
                 },
                 {
                     "id": "9",
                     "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾：标准为128，学生作答746"
                 }
             ],
-            "total_score": 9
-        }
+            "total_score": 0
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：标准为4，学生作答10"
+                    },
+                    {
+                        "id": "2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：标准为16，学生作答1024"
+                    },
+                    {
+                        "id": "3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：标准为4，学生作答1000余"
+                    },
+                    {
+                        "id": "4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写，且下游项未出现正确推导结果，无法回溯推断"
+                    },
+                    {
+                        "id": "5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写，且下游项未出现正确推导结果，无法回溯推断"
+                    },
+                    {
+                        "id": "6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：标准为255，学生作答1000余"
+                    },
+                    {
+                        "id": "7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：标准为2，学生作答746"
+                    },
+                    {
+                        "id": "8",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写，且下游项未出现正确推导结果，无法回溯推断"
+                    },
+                    {
+                        "id": "9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾：标准为128，学生作答746"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为4，学生作答为10"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为16，学生作答为1024（由于分值为1，不触发错误起点链式推导恢复规则）"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为4，学生作答为1000余"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写，且无正确的下游项支持回溯"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写，且无正确的下游项支持回溯"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为255，学生作答为1000余"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为2，学生作答为746"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写，且无正确的下游项支持回溯"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为128，学生作答为746"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为4，学生作答为10"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为16，学生作答为1024"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为4，学生作答为1000余"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为255，学生作答为1000余"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为2，学生作答为746"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为128，学生作答为746"
+                    }
+                ],
+                "total_score": 0
+            }
+        ]
+    },
+    {
+        "student_id": "E12314065_Q5",
+        "teacher_score": 8.0,
+        "model_scores_history": [
+            2,
+            2,
+            0
+        ],
+        "model_avg_score": 1.3,
+        "std_dev": 0.9428,
+        "blank_rate": 0.11,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 6.7,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 1.3,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.0629,
+        "fatal_points_ratio": 0.7556,
+        "high_blank_high_score": false,
+        "lenient_review_signal": true,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.0629,
+            "fatal_points_ratio": 0.7556,
+            "high_blank_high_score": false,
+            "lenient_review_signal": true,
+            "reject_domain": true,
+            "boundary_domain": true,
+            "std_ratio": 0.0629,
+            "spread_ratio": 0.1333,
+            "avg_ratio": 0.0867,
+            "score_spread": 2,
+            "blank_rate": 0.1111,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "partial_match_points_ratio": 0.0,
+            "format_minor_points_ratio": 0.0
+        },
+        "arbitration_decision": "accept",
+        "reason_log": "item_1和item_4是否因核心推导全错而降级扣分。",
+        "human_review_hint": "item_1和item_4是否因核心推导全错而降级扣分。",
+        "facts": "{\"item_1\": \"4\", \"item_2\": \"未书写\", \"item_3\": \"11\", \"item_4\": \"64\", \"item_5\": \"2¹¹\", \"item_6\": \"2¹¹\", \"item_7\": \"4\", \"item_8\": \"1\", \"item_9\": \"2⁹\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "item_1",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_2",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "reason": "未书写"
+                },
+                {
+                    "id": "item_3",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_4",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_8",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 2
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    }
+                ],
+                "total_score": 2
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    }
+                ],
+                "total_score": 2
+            },
+            {
+                "details": [
+                    {
+                        "id": "1",
+                        "score_given": 0,
+                        "error_category": "MATCH",
+                        "reason": "核心推导全错，参数识别分降级"
+                    },
+                    {
+                        "id": "2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "reason": "未书写"
+                    },
+                    {
+                        "id": "3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "4",
+                        "score_given": 0,
+                        "error_category": "MATCH",
+                        "reason": "核心推导全错，参数识别分降级"
+                    },
+                    {
+                        "id": "5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    }
+                ],
+                "total_score": 0
+            }
+        ]
+    },
+    {
+        "student_id": "E12314185_Q5",
+        "teacher_score": 15.0,
+        "model_scores_history": [
+            15,
+            15,
+            10
+        ],
+        "model_avg_score": 13.3,
+        "std_dev": 2.357,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 1.7,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 13.3,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.1571,
+        "fatal_points_ratio": 0.1111,
+        "high_blank_high_score": false,
+        "lenient_review_signal": false,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.1571,
+            "fatal_points_ratio": 0.1111,
+            "high_blank_high_score": false,
+            "lenient_review_signal": false,
+            "reject_domain": true,
+            "boundary_domain": false,
+            "std_ratio": 0.1571,
+            "spread_ratio": 0.3333,
+            "avg_ratio": 0.8867,
+            "score_spread": 5,
+            "blank_rate": 0.0,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "partial_match_points_ratio": 0.0,
+            "format_minor_points_ratio": 0.0
+        },
+        "arbitration_decision": "accept",
+        "reason_log": "分项得分完全一致，总分却存在15与10的分歧。",
+        "human_review_hint": "分项得分完全一致，总分却存在15与10的分歧。",
+        "facts": "{\"item_1\": \"4位\", \"item_2\": \"16种\", \"item_3\": \"4种\", \"item_4\": \"2⁶=64\", \"item_5\": \"256种\", \"item_6\": \"256种\", \"item_7\": \"2种\", \"item_8\": \"2⁶=64\", \"item_9\": \"128条\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "item_1",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_2",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_3",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_4",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_5",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_6",
+                    "score_given": 5,
+                    "error_category": "MATCH",
+                    "reason": "数值误差约为0.39%（在10%容差范围内），匹配成功"
+                },
+                {
+                    "id": "item_7",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_8",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                },
+                {
+                    "id": "item_9",
+                    "score_given": 3,
+                    "error_category": "MATCH",
+                    "reason": "匹配成功"
+                }
+            ],
+            "total_score": 15
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 5,
+                        "error_category": "MATCH",
+                        "reason": "数值误差约为0.39%（在10%容差范围内），匹配成功"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 3,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    }
+                ],
+                "total_score": 15
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 5,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功（数值256与标准值255的相对误差为0.39% ≤ 10%，触发数值容差规则，判定为匹配）"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 3,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    }
+                ],
+                "total_score": 15
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 3,
+                        "error_category": "MATCH",
+                        "reason": "匹配成功"
+                    }
+                ],
+                "total_score": 10
+            }
+        ]
+    },
+    {
+        "student_id": "E12314209_Q5",
+        "teacher_score": 8.0,
+        "model_scores_history": [
+            0,
+            0,
+            0
+        ],
+        "model_avg_score": 0.0,
+        "std_dev": 0.0,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 8.0,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 0.0,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.0,
+        "fatal_points_ratio": 1.0,
+        "high_blank_high_score": false,
+        "lenient_review_signal": true,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.0,
+            "fatal_points_ratio": 1.0,
+            "high_blank_high_score": false,
+            "lenient_review_signal": true,
+            "reject_domain": true,
+            "boundary_domain": true,
+            "std_ratio": 0.0,
+            "spread_ratio": 0.0,
+            "avg_ratio": 0.0,
+            "score_spread": 0,
+            "blank_rate": 0.0,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "partial_match_points_ratio": 0.0,
+            "format_minor_points_ratio": 0.0
+        },
+        "arbitration_decision": "accept",
+        "reason_log": "评分理由是否需列出标准答案与学生作答的具体数值。",
+        "human_review_hint": "评分理由是否需列出标准答案与学生作答的具体数值。",
+        "facts": "{\"item_1\": \"6\", \"item_2\": \"1024\", \"item_3\": \"1011\", \"item_4\": \"16\", \"item_5\": \"1011\", \"item_6\": \"1011\", \"item_7\": \"758\", \"item_8\": \"16\", \"item_9\": \"758\"}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "item_1",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_2",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_3",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_7",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_8",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                },
+                {
+                    "id": "item_9",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "reason": "数值矛盾"
+                }
+            ],
+            "total_score": 0
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为4，学生作答为6"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为16，学生作答为1024"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为4，学生作答为1011"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为64，学生作答为16"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为256，学生作答为1011"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为255，学生作答为1011"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为2，学生作答为758"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为64，学生作答为16"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾，标准为128，学生作答为758"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "reason": "数值矛盾"
+                    }
+                ],
+                "total_score": 0
+            }
+        ]
     }
 ]

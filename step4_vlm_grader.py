@@ -10,6 +10,12 @@ from openai import OpenAI
 from PIL import Image
 import io
 import numpy as np
+from calibration_utils import (
+    a3wa_dynamic_bounds,
+    build_a3wa_decision,
+    build_post_grading_calibration,
+    prepare_rubrics_for_calibration,
+)
 
 # ==================== 配置区 ====================
 # 视觉模型切换：修改此处即可，可选 "glm4v" / "glm5v"
@@ -756,6 +762,7 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     # 动态解析评价标准总条目数和总分
     try:
         rubrics_data = json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json
+        rubrics_data = prepare_rubrics_for_calibration(rubrics_data)
         TOTAL_ITEMS = len(rubrics_data) if isinstance(rubrics_data, list) else max(len(rubrics_data.keys()), 1)
         MAX_SCORE = sum(float(item.get('points', 0)) for item in rubrics_data) if isinstance(rubrics_data, list) else 100.0
     except:
@@ -816,13 +823,68 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         perception_failure_rate=perception_failure_rate,
         extraction_quality=extraction_quality,
     )
+    post_calibration = build_post_grading_calibration(
+        facts_dict=facts_dict,
+        rubrics_data=rubrics_data,
+        strict_cots=strict_cots,
+        avg_model_score=avg_model_score,
+        max_score=MAX_SCORE,
+        blank_rate=blank_rate,
+        risk_profile=risk_profile,
+    )
+    risk_profile["risk_features"].update({
+        "unsupported_match_points_ratio": post_calibration["unsupported_match_points_ratio"],
+        "method_final_verified_ratio": post_calibration["method_final_verified_ratio"],
+        "direct_awarded_ratio": post_calibration["direct_awarded_ratio"],
+        "metadata_coverage": post_calibration["metadata_coverage"],
+        "explicit_chain_coverage": post_calibration["explicit_chain_coverage"],
+        "core_anchor_failed": post_calibration["core_anchor_failed"],
+        "visual_blank_review": post_calibration["visual_blank_review"],
+        "calibration_rule_hits": post_calibration["rule_hits"],
+    })
+    if post_calibration["reject_domain"]:
+        risk_profile["reject_domain"] = True
+        risk_profile["boundary_domain"] = False
+    elif post_calibration["boundary_domain"]:
+        risk_profile["boundary_domain"] = True
+    risk_profile["risk_features"]["reject_domain"] = risk_profile["reject_domain"]
+    risk_profile["risk_features"]["boundary_domain"] = risk_profile["boundary_domain"]
+
+    a3wa_decision = build_a3wa_decision(
+        model_scores=model_scores,
+        avg_model_score=avg_model_score,
+        std_dev=std_dev,
+        max_score=MAX_SCORE,
+        blank_rate=blank_rate,
+        low_quality_rate=low_quality_rate,
+        perception_failure_rate=perception_failure_rate,
+        extraction_quality=extraction_quality,
+        fatal_points_ratio=risk_profile["fatal_points_ratio"],
+        high_blank_high_score=risk_profile["high_blank_high_score"],
+        post_calibration=post_calibration,
+    )
+    risk_profile["risk_features"].update({
+        "a3wa_risk": a3wa_decision["risk"],
+        "a3wa_mu": a3wa_decision["mu"],
+        "a3wa_alpha": a3wa_decision["alpha"],
+        "a3wa_beta": a3wa_decision["beta"],
+        "a3wa_m": a3wa_decision["m"],
+        "a3wa_route": a3wa_decision["route"],
+        "a3wa_reason": a3wa_decision["reason"],
+        "a3wa_risk_components": a3wa_decision["risk_components"],
+    })
+
     perception_risk = risk_profile["perception_risk"]
     uncertainty_index = risk_profile["uncertainty_index"]
     fatal_points_ratio = risk_profile["fatal_points_ratio"]
     high_blank_high_score = risk_profile["high_blank_high_score"]
     lenient_review_signal = risk_profile["lenient_review_signal"]
-    reject_domain = risk_profile["reject_domain"]
-    boundary_domain = risk_profile["boundary_domain"]
+    reject_domain = a3wa_decision["route"] == "NEG"
+    boundary_domain = a3wa_decision["route"] == "BND"
+    risk_profile["reject_domain"] = reject_domain
+    risk_profile["boundary_domain"] = boundary_domain
+    risk_profile["risk_features"]["reject_domain"] = reject_domain
+    risk_profile["risk_features"]["boundary_domain"] = boundary_domain
     risk_features = risk_profile["risk_features"]
     arbitration_decision = "accept"
 
@@ -831,11 +893,28 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         f"P={perception_risk:.2f}, U={uncertainty_index:.2%}, F={fatal_points_ratio:.2%}, "
         f"H={high_blank_high_score}, L={lenient_review_signal}"
     )
+    if post_calibration["rule_hits"]:
+        print(
+            "      🧭 [通用校准] "
+            f"rules={post_calibration['rule_hits']}, "
+            f"UM={post_calibration['unsupported_match_points_ratio']:.2%}, "
+            f"MF={post_calibration['method_final_verified_ratio']:.2%}, "
+            f"cap={post_calibration['upper_bound']:.2f}"
+        )
+    print(
+        "      🧮 [A3WA可信度] "
+        f"R={a3wa_decision['risk']:.3f}, μ={a3wa_decision['mu']:.3f}, "
+        f"α={a3wa_decision['alpha']:.3f}, β={a3wa_decision['beta']:.3f}, "
+        f"route={a3wa_decision['route']} | {a3wa_decision['reason']}"
+    )
 
     if reject_domain:
         route = "NEG"
         arbitration_flag = True
-        reason_log = generate_neg_debate_summary(strict_cots)
+        if a3wa_decision["hard_neg_reasons"]:
+            reason_log = "A3WA硬拒判：" + ",".join(a3wa_decision["hard_neg_reasons"])
+        else:
+            reason_log = f"A3WA低可信度拒判：μ={a3wa_decision['mu']:.3f} <= β={a3wa_decision['beta']:.3f}"
         print(f"      🛑 [路由 -> NEG] 高风险拒判 | P={perception_risk:.2f}, U={uncertainty_index:.2%}, F={fatal_points_ratio:.2%}, H={high_blank_high_score}")
         print(f"         🔍 [复核提示] {reason_log}")
 
@@ -855,13 +934,14 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
                     float(avg_model_score)
                 )
                 arbitration_decision = parsed_agent.get("decision", "keep")
-                has_over_score_signal = high_blank_high_score or fatal_points_ratio >= 0.30 or perception_risk >= 0.33
-                strong_over_score_signal = high_blank_high_score or fatal_points_ratio >= 0.50 or perception_risk >= 0.66
-                raise_cap = MAX_SCORE * (0.15 if has_over_score_signal else 0.30)
-                lower_cap = MAX_SCORE * 0.15
-                lower_bound = max(0.0, avg_model_score - lower_cap)
-                upper_bound = min(MAX_SCORE, avg_model_score + raise_cap)
-                if strong_over_score_signal and raw_agent_score > avg_model_score:
+                lower_bound, upper_bound, bound_flags = a3wa_dynamic_bounds(
+                    avg_model_score=avg_model_score,
+                    max_score=MAX_SCORE,
+                    a3wa_decision=a3wa_decision,
+                    risk_profile=risk_profile,
+                    post_calibration=post_calibration,
+                )
+                if bound_flags["over_score_guard"] and raw_agent_score > avg_model_score:
                     raw_agent_score = avg_model_score
                     arbitration_decision = "keep"
                 final_score = round(_clamp(raw_agent_score, lower_bound, upper_bound), 2)
@@ -872,12 +952,29 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
                 )
             else:
                 arbitration_decision = "keep"
+                lower_bound, upper_bound, _ = a3wa_dynamic_bounds(
+                    avg_model_score=avg_model_score,
+                    max_score=MAX_SCORE,
+                    a3wa_decision=a3wa_decision,
+                    risk_profile=risk_profile,
+                    post_calibration=post_calibration,
+                )
+                final_score = round(_clamp(avg_model_score, lower_bound, upper_bound), 2)
         else:
             arbitration_decision = "keep"
+            lower_bound, upper_bound, _ = a3wa_dynamic_bounds(
+                avg_model_score=avg_model_score,
+                max_score=MAX_SCORE,
+                a3wa_decision=a3wa_decision,
+                risk_profile=risk_profile,
+                post_calibration=post_calibration,
+            )
+            final_score = round(_clamp(avg_model_score, lower_bound, upper_bound), 2)
 
     else:
         route = "POS"
-        print(f"      ✅ [路由 -> POS] 低风险自动接受，直接采信模型均分。")
+        final_score = avg_model_score
+        print(f"      ✅ [路由 -> POS] A3WA高可信自动接受，直接采信模型均分。")
 
     # 结果封装
     ordered_result = {
@@ -900,6 +997,8 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         "high_blank_high_score": high_blank_high_score,
         "lenient_review_signal": lenient_review_signal,
         "risk_features": risk_features,
+        "post_calibration": post_calibration,
+        "a3wa_decision": a3wa_decision,
         "arbitration_decision": arbitration_decision,
         "reason_log": reason_log,
         "human_review_hint": reason_log if route == "NEG" else "",

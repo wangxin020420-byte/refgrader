@@ -18,9 +18,195 @@ RefGrader 是一个面向计算机组成原理类主观题/计算题的自动阅
 | `step0_extract_ground_truth.py` | 从带红笔切片中抽取教师分数，生成 `teacher_scores.json`。 |
 | `step3_rrd_generator.py` | 生成 RRD 结构化评分细则，并基于高方差样本细化评分标准。 |
 | `step4_vlm_grader.py` | 核心 3WD 阅卷流水线：盲提取、逻辑评分、自一致性采样、三支决策、边界域复查。 |
+| `calibration_utils.py` | 通用后校准与 A3WA 三支决策工具：风险可信度、非对称阈值、动态 BND 限幅、离线 replay 共用逻辑。 |
 | `main_pipeline.py` | 主入口，控制方差优化模式和正式批改模式。 |
 | `evaluate.py` | 评估脚本，计算 MAE、RMSE、QWK、Pearson r、±2 命中率等指标。 |
+| `scripts/replay_calibration.py` | 离线 replay 脚本，不调用 API，读取已有 checkpoint 模拟新三支决策对路由和最终分的影响。 |
+| `run_experiment.sh` | 服务器后台实验管理脚本，使用 `nohup` 启动 `main_pipeline.py`，支持 `run/status/tail/stop/restart`。 |
 | `test_air.py` | 简单接口测试脚本。 |
+
+## 最新进展：A3WA 三支决策改造（2026-06-01）
+
+### 改造背景
+
+此前 3WD 路由主要依赖工程经验阈值，例如标准差、低分、空白率、严重错误比例等分别触发 POS/BND/NEG。该做法可以运行，但阈值来源难以理论解释，且多个风险信号分散触发，不利于后续论文论证。
+
+当前改造参考论文 `2025_An_Asymmetric_Approach_to_Three-Way_Approximation_of_Fuzzy_Sets.pdf` 的 A3WA 思想，将三支决策重构为：
+
+```text
+多源风险信号 -> 综合风险 R(x) -> 自动评分可信度 μ(x) -> 非对称阈值 α/β -> POS/BND/NEG
+```
+
+对应关系：
+
+| A3WA 概念 | RefGrader 中的含义 |
+| --- | --- |
+| membership value / `f(x)` | 自动评分可信度 `μ(x)` |
+| `α` | POS 自动采信阈值 |
+| `β` | NEG 人工复核阈值 |
+| `m` | BND 边界域中间状态 |
+| `1` | POS，直接采信 |
+| `m` | BND，Agent 仲裁 |
+| `0` | NEG，人工复核/拒判 |
+
+### 当前正式实现
+
+当前 `step4_vlm_grader.py` 的三支决策流程为：
+
+```text
+Stage 1: VLM 提取学生 facts
+Stage 2: LLM 三次独立评分，得到 model_scores_history / model_avg_score / std_dev / strict_cots_all
+Post calibration: 计算通用校准信号与 A3WA 可信度
+3WD route:
+  - 硬 NEG 兜底：提取失败、分数分歧过大、严重语义风险等直接进入 NEG
+  - 否则计算 R(x)、μ(x)、α、β
+  - μ >= α 进入 POS
+  - β < μ < α 进入 BND
+  - μ <= β 进入 NEG
+```
+
+综合风险当前定义为：
+
+```text
+U_extract = 0.5 * low_quality_rate + 0.5 * perception_failure_rate
+U_score   = 0.5 * (std_dev / MAX_SCORE) + 0.5 * (score_spread / MAX_SCORE)
+U_semantic = fatal_points_ratio，并吸收 unsupported MATCH / core anchor 风险
+U_blank = blank_rate
+
+R(x) = 0.35 * U_extract + 0.30 * U_score + 0.20 * U_semantic + 0.15 * U_blank
+μ(x) = 1 - R(x)
+```
+
+A3WA 非对称阈值当前参数为：
+
+```text
+λ1 = 5      # 错误自动采信风险
+λ2 = 1      # 不必要进入 BND 成本
+μ1 = 3      # 不必要人工复核成本
+μ2 = 7      # 高风险样本未送人工风险
+m  = 0.5
+
+α = (λ1 + λ2 * m) / (λ1 + λ2) = 0.917
+β = (μ2 * m) / (μ1 + μ2) = 0.35
+```
+
+注意：`calibration_utils.py` 中已经实现 `optimize_a3wa_m()`，可以在离线/批次实验中按当前题目或批次的 `μ` 分布搜索最小信息损失的 `m*`；但正式在线批改是逐份试卷处理，当前正式 pipeline 默认使用 `m=0.5`，便于今晚实验稳定运行。
+
+### BND Agent 动态限幅
+
+原 BND 仲裁使用较固定的修正范围，容易解释为工程调参。当前改为可信度相关的动态限幅：
+
+```text
+review_strength = (α - μ) / (α - β)
+delta = max(0.10 * MAX_SCORE, 0.30 * review_strength * MAX_SCORE)
+upper_bound = avg_model_score + delta
+lower_bound = 0
+```
+
+设计意图：
+
+- `μ` 越接近 `α`，越接近 POS，Agent 修正空间较小。
+- `μ` 越接近 `β`，越接近 NEG，Agent 可以有更大修正空间。
+- 下界保持宽松，不强制抬高 Agent 的谨慎下调结果。
+- 若存在明确高估风险（如高 fatal 比例、high_blank_high_score、unsupported MATCH、core anchor failed），则 `upper_bound <= avg_model_score`，避免 BND 过度加分。
+
+### 新增结果字段
+
+正式批改结果中会新增：
+
+```json
+"post_calibration": {
+  "unsupported_match_points_ratio": ...,
+  "method_final_verified_ratio": ...,
+  "metadata_coverage": ...,
+  "core_anchor_failed": false,
+  "visual_blank_review": false,
+  "rule_hits": []
+},
+"a3wa_decision": {
+  "route": "POS/BND/NEG",
+  "risk": ...,
+  "mu": ...,
+  "alpha": ...,
+  "beta": ...,
+  "m": ...,
+  "reason": "...",
+  "risk_components": {
+    "U_extract": ...,
+    "U_score": ...,
+    "U_semantic": ...,
+    "U_blank": ...
+  }
+}
+```
+
+这些字段是后续论文分析的核心审计信息，可用于统计：
+
+- 不同路由下的平均 `R(x)` 和 `μ(x)`；
+- 是否满足 `μ_POS > μ_BND > μ_NEG`；
+- BND 样本中 Agent 修正幅度与 `μ(x)` 的关系；
+- 硬 NEG 与可信度型 NEG 的来源差异。
+
+### 离线 replay 验证结果
+
+命令：
+
+```bash
+python scripts/replay_calibration.py --results-dir results_rrd_vlm --files results_rrd_vlm/Q5_grading_checkpoint.json results_rrd_vlm/Q6_grading_checkpoint.json results_rrd_vlm/Q7_grading_checkpoint.json
+```
+
+作用：不重新调用 VLM/LLM，不修改 checkpoint，只读取已有 `Q5/Q6/Q7_grading_checkpoint.json`，模拟新 A3WA 路由和 BND 动态限幅是否会破坏已有结果。
+
+2026-06-01 在本机和实验室服务器上均已验证通过：
+
+```text
+GLOBAL
+current N=203 MAE=2.492 RMSE=3.622 QWK=0.697 Pearson=0.744 TAR2=60.1% Bias=-1.605 Over>2=16 Under>2=65
+replay  N=203 MAE=2.491 RMSE=3.621 QWK=0.697 Pearson=0.745 TAR2=60.1% Bias=-1.611 Over>2=16 Under>2=65
+```
+
+逐题 replay 结论：
+
+| 题号 | replay 结论 |
+| --- | --- |
+| Q5 | 指标不变，说明 A3WA 路由不会额外破坏 Q5；Q5 主要问题仍是 OCR/提取失败导致低估。 |
+| Q6 | 指标不变，说明当前动态限幅未在旧 checkpoint 上误伤；Q6 高估问题仍需结合更可靠的结构化元数据或正式新跑结果观察。 |
+| Q7 | 小幅改善，MAE 1.172 -> 1.169，Pearson 0.724 -> 0.726。 |
+| 全局 | 基本持平，说明新 3WD 逻辑可进入正式实验。 |
+
+服务器上已执行并通过：
+
+```bash
+python -m py_compile calibration_utils.py scripts/replay_calibration.py step4_vlm_grader.py
+python scripts/replay_calibration.py --results-dir results_rrd_vlm --files results_rrd_vlm/Q5_grading_checkpoint.json results_rrd_vlm/Q6_grading_checkpoint.json results_rrd_vlm/Q7_grading_checkpoint.json
+```
+
+### 今晚/后续服务器实验方式
+
+推荐使用项目脚本后台运行：
+
+```bash
+conda activate ref-grader
+cd /home/E125221219/projects/refgrader
+./run_experiment.sh run
+```
+
+管理命令：
+
+```bash
+./run_experiment.sh status
+./run_experiment.sh tail
+./run_experiment.sh stop
+python monitor.py --watch
+```
+
+`run_experiment.sh run` 内部使用 `nohup python3 main_pipeline.py ... &`，因此 SSH 断开或本地电脑关闭通常不影响服务器继续运行。实验日志写入 `logs/experiment_*.log`，PID 写入 `logs/refgrader.pid`。
+
+正式跑完后评估：
+
+```bash
+python evaluate.py
+```
 
 ## 核心工作流程
 
@@ -142,12 +328,14 @@ RefGrader 是一个面向计算机组成原理类主观题/计算题的自动阅
 
 12. 安全与工程化：将 API Key 移入环境变量，修复乱码注释和字符串，统一题目满分配置来源，避免评估脚本和题库配置不一致。
 
-## 当前三支决策实现更新
+## 历史三支决策实现说明（已被 A3WA 版本替代）
 
-当前代码已将三支决策从单一阈值触发改为风险驱动：
+以下内容描述的是 A3WA 改造前的风险驱动 3WD 版本，保留用于理解演进过程。2026-06-01 之后的当前实现以本文前部“最新进展：A3WA 三支决策改造”为准。
+
+旧版代码曾将三支决策从单一阈值触发改为风险驱动：
 
 - POS：低风险样本直接接受模型均分。
 - BND：中风险样本进入边界仲裁，遵循教师宽松口径，优先恢复过程分；出现明确高估风险时谨慎下调。
 - NEG：高风险样本拒判，交人工复核。
 
-核心风险字段包括 `perception_risk`、`uncertainty_index`、`fatal_points_ratio`、`high_blank_high_score`、`lenient_review_signal` 和 `risk_features`。分数相关阈值按 `MAX_SCORE` 归一化，提取质量相关阈值按评分条目比例计算。
+旧版核心风险字段包括 `perception_risk`、`uncertainty_index`、`fatal_points_ratio`、`high_blank_high_score`、`lenient_review_signal` 和 `risk_features`。当前 A3WA 版本仍保留这些字段作为风险分量和审计信息，但最终路由由 `a3wa_decision.route` 主导。

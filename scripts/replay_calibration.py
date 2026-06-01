@@ -11,6 +11,7 @@ if ROOT not in sys.path:
 
 from calibration_utils import (  # noqa: E402
     a3wa_dynamic_bounds,
+    apply_boundary_no_harm_gate,
     build_a3wa_decision,
     build_post_grading_calibration,
     parse_json_maybe,
@@ -196,7 +197,17 @@ def replay_record(record, rubrics_data, max_score):
                 risk_profile=risk_profile,
                 post_calibration=post,
             )
-            replay_score = round(clamp(old_score, lower, upper), 2)
+            gate = apply_boundary_no_harm_gate(
+                avg_model_score=avg_model_score,
+                candidate_score=old_score,
+                max_score=max_score,
+                a3wa_decision=a3wa,
+                risk_profile=risk_profile,
+                post_calibration=post,
+                lower_bound=lower,
+                upper_bound=upper,
+            )
+            replay_score = round(clamp(gate["final_score"], 0.0, max_score), 2)
         else:
             replay_score = avg_model_score
 

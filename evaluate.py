@@ -6,7 +6,7 @@ RefGrader 评估脚本
   python evaluate.py --questions Q5 Q7 --detail          # 指定题目 + 逐条详情
   python evaluate.py --score-key model_avg_score --detail
   python evaluate.py --compare                           # 对比: 模型均分 vs 3WD校准分
-  python evaluate.py --compare --questions Q5 Q7         # 指定题目的对比
+  python evaluate.py --compare --questions Q5 Q6 Q7         # 指定题目的对比
 """
 
 import json
@@ -164,6 +164,82 @@ def compute_question_metrics(q_id, total_score, ts_db, score_key="final_calibrat
         "risk_counts": dict(risk_counts),
     }
     return metrics, details
+
+
+def print_boundary_gain_audit(questions, ts_db):
+    """Audit whether 3WD corrections improve over model_avg_score."""
+    print()
+    print("  3WD gain audit | final_calibrated_score vs model_avg_score")
+    print()
+    headers = ["Q", "route", "N", "improved", "worsened", "same", "mean_gain", "mean_delta"]
+    rows = []
+    top_worsened = []
+
+    for q_id in questions:
+        path = f"{RESULTS_DIR}/{q_id}_graded_results.json"
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                results = json.load(f)
+        except FileNotFoundError:
+            continue
+
+        grouped = {}
+        for r in results:
+            sid = r.get("student_id", "")
+            teacher = get_teacher(ts_db, sid, q_id)
+            avg = r.get("model_avg_score", None)
+            final = r.get("final_calibrated_score", None)
+            if teacher is None or teacher < 0 or avg is None or final is None:
+                continue
+            teacher = float(teacher)
+            avg = float(avg)
+            final = float(final)
+            route = r.get("3wd_route", "")
+            gain = abs(avg - teacher) - abs(final - teacher)
+            delta = final - avg
+            grouped.setdefault(route, []).append((sid, teacher, avg, final, gain, delta, r))
+            top_worsened.append((gain, q_id, route, sid, teacher, avg, final, r))
+
+        for route in sorted(grouped):
+            items = grouped[route]
+            gains = [x[4] for x in items]
+            deltas = [x[5] for x in items]
+            rows.append([
+                q_id,
+                route,
+                str(len(items)),
+                str(sum(1 for g in gains if g > 1e-9)),
+                str(sum(1 for g in gains if g < -1e-9)),
+                str(sum(1 for g in gains if abs(g) <= 1e-9)),
+                f"{np.mean(gains):+.3f}",
+                f"{np.mean(deltas):+.3f}",
+            ])
+
+    if rows:
+        print_closed_table(headers=headers, rows=rows, col_widths=[6, 8, 5, 10, 10, 6, 11, 11])
+
+    worsened = [x for x in sorted(top_worsened, key=lambda v: v[0]) if x[0] < -1e-9]
+    if worsened:
+        print()
+        print("  Top worsened by 3WD correction")
+        detail_rows = []
+        for gain, q_id, route, sid, teacher, avg, final, r in worsened[:10]:
+            gate = r.get("boundary_gate") or {}
+            detail_rows.append([
+                q_id,
+                sid.split("_")[0],
+                route,
+                f"{teacher:.1f}",
+                f"{avg:.1f}",
+                f"{final:.1f}",
+                f"{gain:+.1f}",
+                str(gate.get("action", ""))[:18],
+            ])
+        print_closed_table(
+            headers=["Q", "sid", "route", "teacher", "avg", "final", "gain", "gate"],
+            rows=detail_rows,
+            col_widths=[4, 13, 7, 8, 7, 7, 7, 18],
+        )
 
 
 def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_score", show_detail=False):
@@ -363,6 +439,9 @@ def main():
                          "--", f"{g_pr:.4f}",
                          f"{g_tar2:.1%}", f"{np.mean(gm_a - gt_a):+.2f}", "", ""],
                     )
+
+    if args.compare:
+        print_boundary_gain_audit(args.questions, ts_db)
 
     print()
 

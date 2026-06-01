@@ -665,7 +665,7 @@ def a3wa_dynamic_bounds(
     gamma=0.30,
     min_delta_ratio=0.10,
 ):
-    """Score bounds for BND arbitration based on confidence position."""
+    """Direction-aware score bounds for BND arbitration."""
     avg_model_score = safe_float(avg_model_score, 0.0)
     max_score = max(safe_float(max_score, 0.0), 1.0)
     a3wa_decision = a3wa_decision or {}
@@ -682,24 +682,24 @@ def a3wa_dynamic_bounds(
         safe_float(gamma, 0.30) * review_strength * max_score,
     )
 
-    # Keep the lower side permissive: the key risk observed in RefGrader is
-    # over-raising boundary samples. A hard lower bound may erase a valid
-    # cautious_lower decision from the arbitration agent.
-    lower_bound = 0.0
-    upper_bound = min(max_score, avg_model_score + delta)
-
-    fatal_points_ratio = safe_float(risk_profile.get("fatal_points_ratio", 0.0), 0.0)
-    perception_risk = safe_float(risk_profile.get("perception_risk", 0.0), 0.0)
-    high_blank_high_score = bool(risk_profile.get("high_blank_high_score", False))
-    unsupported_ratio = safe_float(post_calibration.get("unsupported_match_points_ratio", 0.0), 0.0)
-    over_score_guard = (
-        high_blank_high_score
-        or fatal_points_ratio >= 0.50
-        or perception_risk >= 0.66
-        or unsupported_ratio >= 0.25
-        or bool(post_calibration.get("core_anchor_failed", False))
+    signals = build_boundary_direction_signals(
+        avg_model_score=avg_model_score,
+        max_score=max_score,
+        a3wa_decision=a3wa_decision,
+        risk_profile=risk_profile,
+        post_calibration=post_calibration,
     )
-    if over_score_guard:
+
+    small_margin = max(0.05 * max_score, 0.5)
+    large_margin = max(delta, 0.20 * max_score, 1.5)
+
+    lower_margin = large_margin if signals["over_score_risk"] else small_margin
+    upper_margin = large_margin if signals["under_score_risk"] else small_margin
+
+    lower_bound = max(0.0, avg_model_score - lower_margin)
+    upper_bound = min(max_score, avg_model_score + upper_margin)
+
+    if signals["strong_over_score_risk"]:
         upper_bound = min(upper_bound, avg_model_score)
 
     post_upper = safe_float(post_calibration.get("upper_bound", max_score), max_score)
@@ -708,12 +708,192 @@ def a3wa_dynamic_bounds(
         upper_bound = post_upper
     lower_bound = max(lower_bound, post_lower)
     if lower_bound > upper_bound:
-        lower_bound = max(0.0, min(avg_model_score, upper_bound))
+        lower_bound = 0.0 if upper_bound < avg_model_score else max(0.0, min(avg_model_score, upper_bound))
 
     return lower_bound, upper_bound, {
         "review_strength": round(review_strength, 6),
         "delta": round(delta, 6),
-        "over_score_guard": over_score_guard,
+        "over_score_guard": signals["strong_over_score_risk"],
+        "direction_signals": signals,
+    }
+
+
+def build_boundary_direction_signals(
+    avg_model_score,
+    max_score,
+    a3wa_decision=None,
+    risk_profile=None,
+    post_calibration=None,
+):
+    """Infer whether a boundary sample has evidence for lowering or raising."""
+    avg_model_score = safe_float(avg_model_score, 0.0)
+    max_score = max(safe_float(max_score, 0.0), 1.0)
+    a3wa_decision = a3wa_decision or {}
+    risk_profile = risk_profile or {}
+    post_calibration = post_calibration or {}
+    risk_features = risk_profile.get("risk_features", {}) if isinstance(risk_profile, dict) else {}
+
+    def risk_value(key, default=0.0):
+        if isinstance(risk_profile, dict) and key in risk_profile:
+            return risk_profile.get(key, default)
+        if isinstance(risk_features, dict):
+            return risk_features.get(key, default)
+        return default
+
+    avg_ratio = clamp01(avg_model_score / max_score)
+    fatal_ratio = clamp01(risk_value("fatal_points_ratio", 0.0))
+    perception_risk = clamp01(risk_value("perception_risk", 0.0))
+    blank_rate = clamp01(risk_value("blank_rate", 0.0))
+    low_quality_rate = clamp01(risk_value("low_quality_rate", 0.0))
+    perception_failure_rate = clamp01(risk_value("perception_failure_rate", 0.0))
+    uncertainty_index = clamp01(risk_value("uncertainty_index", risk_value("std_ratio", 0.0)))
+    spread_ratio = clamp01(risk_value("spread_ratio", 0.0))
+    if not spread_ratio and a3wa_decision:
+        spread_ratio = clamp01(safe_float(a3wa_decision.get("score_spread", 0.0), 0.0) / max_score)
+    partial_ratio = clamp01(risk_value("partial_match_points_ratio", 0.0))
+    format_ratio = clamp01(risk_value("format_minor_points_ratio", 0.0))
+    unsupported_ratio = clamp01(post_calibration.get("unsupported_match_points_ratio", 0.0))
+    post_upper = safe_float(post_calibration.get("upper_bound", max_score), max_score)
+    extraction_risk = clamp01(0.5 * low_quality_rate + 0.5 * perception_failure_rate)
+
+    over_reasons = []
+    if bool(risk_value("high_blank_high_score", False)):
+        over_reasons.append("high_blank_high_score")
+    if fatal_ratio >= 0.60:
+        over_reasons.append("fatal_points_high")
+    if unsupported_ratio >= 0.15:
+        over_reasons.append("unsupported_match")
+    if bool(post_calibration.get("core_anchor_failed", False)):
+        over_reasons.append("core_anchor_failed")
+    if blank_rate >= 0.50 and avg_ratio >= 0.75:
+        over_reasons.append("blank_high_score")
+    if perception_risk >= 0.66 and avg_ratio >= 0.60:
+        over_reasons.append("perception_high_score")
+    if post_upper < avg_model_score - max(0.02 * max_score, 0.25):
+        over_reasons.append("post_upper_cap")
+
+    strong_over_reasons = []
+    if bool(risk_value("high_blank_high_score", False)):
+        strong_over_reasons.append("high_blank_high_score")
+    if fatal_ratio >= 0.70:
+        strong_over_reasons.append("fatal_points_very_high")
+    if unsupported_ratio >= 0.25:
+        strong_over_reasons.append("unsupported_match_high")
+    if bool(post_calibration.get("core_anchor_failed", False)):
+        strong_over_reasons.append("core_anchor_failed")
+    if post_upper < avg_model_score - max(0.10 * max_score, 0.75):
+        strong_over_reasons.append("strict_post_upper_cap")
+
+    under_reasons = []
+    if extraction_risk >= 0.20 and blank_rate <= 0.60 and avg_ratio <= 0.75:
+        under_reasons.append("extraction_uncertain_nonblank")
+    if uncertainty_index >= 0.10 or spread_ratio >= 0.15:
+        under_reasons.append("score_disagreement")
+    if format_ratio >= 0.15:
+        under_reasons.append("format_minor_mass")
+
+    strong_over_score_risk = bool(strong_over_reasons)
+    over_score_risk = bool(over_reasons)
+    under_score_risk = bool(under_reasons) and not strong_over_score_risk
+
+    return {
+        "over_score_risk": over_score_risk,
+        "under_score_risk": under_score_risk,
+        "strong_over_score_risk": strong_over_score_risk,
+        "over_reasons": over_reasons,
+        "under_reasons": under_reasons,
+        "strong_over_reasons": strong_over_reasons,
+        "avg_ratio": round(avg_ratio, 6),
+        "fatal_points_ratio": round(fatal_ratio, 6),
+        "perception_risk": round(perception_risk, 6),
+        "blank_rate": round(blank_rate, 6),
+        "extraction_risk": round(extraction_risk, 6),
+        "uncertainty_index": round(uncertainty_index, 6),
+        "spread_ratio": round(spread_ratio, 6),
+        "unsupported_match_points_ratio": round(unsupported_ratio, 6),
+    }
+
+
+def apply_boundary_no_harm_gate(
+    avg_model_score,
+    candidate_score,
+    max_score,
+    a3wa_decision=None,
+    risk_profile=None,
+    post_calibration=None,
+    lower_bound=None,
+    upper_bound=None,
+):
+    """Accept a BND correction only when its direction has supporting evidence."""
+    avg_model_score = safe_float(avg_model_score, 0.0)
+    candidate_score = safe_float(candidate_score, avg_model_score)
+    max_score = max(safe_float(max_score, 0.0), 1.0)
+
+    signals = build_boundary_direction_signals(
+        avg_model_score=avg_model_score,
+        max_score=max_score,
+        a3wa_decision=a3wa_decision,
+        risk_profile=risk_profile,
+        post_calibration=post_calibration,
+    )
+
+    if lower_bound is None or upper_bound is None:
+        lower_bound, upper_bound, _ = a3wa_dynamic_bounds(
+            avg_model_score=avg_model_score,
+            max_score=max_score,
+            a3wa_decision=a3wa_decision,
+            risk_profile=risk_profile,
+            post_calibration=post_calibration,
+        )
+
+    lower_bound = safe_float(lower_bound, 0.0)
+    upper_bound = safe_float(upper_bound, max_score)
+    baseline = max(0.0, min(max_score, avg_model_score))
+    raw_candidate = max(0.0, min(max_score, candidate_score))
+    bounded_candidate = max(lower_bound, min(upper_bound, raw_candidate))
+    delta = bounded_candidate - baseline
+    trivial_margin = max(0.02 * max_score, 0.25)
+
+    accepted = False
+    action = "keep_baseline"
+    gate_reason = "no_directional_evidence"
+    final_score = baseline
+
+    if abs(delta) <= trivial_margin:
+        action = "keep_minor_change"
+        gate_reason = "minor_change_without_directional_evidence"
+    elif delta < 0:
+        if signals["over_score_risk"]:
+            accepted = True
+            action = "accept_lower"
+            gate_reason = "over_score_evidence:" + ",".join(signals["over_reasons"])
+            final_score = bounded_candidate
+        else:
+            action = "reject_lower"
+    elif delta > 0:
+        if signals["strong_over_score_risk"]:
+            action = "reject_raise"
+            gate_reason = "strong_over_score_evidence:" + ",".join(signals["strong_over_reasons"])
+        elif signals["under_score_risk"]:
+            accepted = True
+            action = "accept_raise"
+            gate_reason = "under_score_evidence:" + ",".join(signals["under_reasons"])
+            final_score = bounded_candidate
+        else:
+            action = "reject_raise"
+
+    return {
+        "final_score": round(final_score, 4),
+        "baseline_score": round(baseline, 4),
+        "raw_candidate_score": round(raw_candidate, 4),
+        "bounded_candidate_score": round(bounded_candidate, 4),
+        "delta_from_baseline": round(final_score - baseline, 4),
+        "accepted": accepted,
+        "action": action,
+        "gate_reason": gate_reason,
+        "lower_bound": round(lower_bound, 4),
+        "upper_bound": round(upper_bound, 4),
+        "direction_signals": signals,
     }
 
 

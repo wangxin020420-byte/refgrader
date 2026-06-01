@@ -12,6 +12,7 @@ import io
 import numpy as np
 from calibration_utils import (
     a3wa_dynamic_bounds,
+    apply_boundary_no_harm_gate,
     build_a3wa_decision,
     build_post_grading_calibration,
     prepare_rubrics_for_calibration,
@@ -887,6 +888,7 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     risk_profile["risk_features"]["boundary_domain"] = boundary_domain
     risk_features = risk_profile["risk_features"]
     arbitration_decision = "accept"
+    boundary_gate = None
 
     print(
         "      📡 [风险画像] "
@@ -934,17 +936,27 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
                     float(avg_model_score)
                 )
                 arbitration_decision = parsed_agent.get("decision", "keep")
-                lower_bound, upper_bound, bound_flags = a3wa_dynamic_bounds(
+                lower_bound, upper_bound, _bound_flags = a3wa_dynamic_bounds(
                     avg_model_score=avg_model_score,
                     max_score=MAX_SCORE,
                     a3wa_decision=a3wa_decision,
                     risk_profile=risk_profile,
                     post_calibration=post_calibration,
                 )
-                if bound_flags["over_score_guard"] and raw_agent_score > avg_model_score:
-                    raw_agent_score = avg_model_score
-                    arbitration_decision = "keep"
-                final_score = round(_clamp(raw_agent_score, lower_bound, upper_bound), 2)
+                boundary_gate = apply_boundary_no_harm_gate(
+                    avg_model_score=avg_model_score,
+                    candidate_score=raw_agent_score,
+                    max_score=MAX_SCORE,
+                    a3wa_decision=a3wa_decision,
+                    risk_profile=risk_profile,
+                    post_calibration=post_calibration,
+                    lower_bound=lower_bound,
+                    upper_bound=upper_bound,
+                )
+                final_score = round(_clamp(boundary_gate["final_score"], 0, MAX_SCORE), 2)
+                arbitration_decision = f"{arbitration_decision}|{boundary_gate['action']}"
+                risk_features["boundary_gate_action"] = boundary_gate["action"]
+                risk_features["boundary_gate_accepted"] = boundary_gate["accepted"]
                 reason_log = parsed_agent.get("reason", parsed_agent.get("leniency_reason", ""))
                 print(
                     f"         ✨ [Agent 仲裁] {arbitration_decision} | "
@@ -999,6 +1011,7 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         "risk_features": risk_features,
         "post_calibration": post_calibration,
         "a3wa_decision": a3wa_decision,
+        "boundary_gate": boundary_gate,
         "arbitration_decision": arbitration_decision,
         "reason_log": reason_log,
         "human_review_hint": reason_log if route == "NEG" else "",

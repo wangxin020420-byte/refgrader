@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "source": "scripts/calibrate_a3wa.py",
+  "selection_objective": "cost_sensitive_validation_calibration",
+  "loss_params": {
+    "lambda1": 5.0,
+    "lambda2": 2.0,
+    "mu1": 2.0,
+    "mu2": 5.0,
+    "m": 0.4
+  },
+  "risk_weights": {
+    "extract": 0.35000000000000003,
+    "score": 0.30000000000000004,
+    "semantic": 0.20000000000000004,
+    "blank": 0.15000000000000002,
+    "overcredit": 0.0
+  },
+  "thresholds": {
+    "alpha": 0.828571,
+    "beta": 0.285714
+  },
+  "validation_summary": {
+    "n": 192,
+    "objective": 2.176563,
+    "metrics": {
+      "n": 192,
+      "mae": 2.176563,
+      "rmse": 3.302059,
+      "tar2": 0.635417,
+      "bias": -1.181771,
+      "over2": 17,
+      "under2": 53
+    },
+    "baseline_metrics": {
+      "n": 192,
+      "mae": 2.194792,
+      "rmse": 3.322697,
+      "tar2": 0.630208,
+      "bias": -1.2,
+      "over2": 17,
+      "under2": 54
+    },
+    "route_counts": {
+      "BND": 41,
+      "POS": 151
+    },
+    "bnd_ratio": 0.213542,
+    "pos_mae": 1.880132,
+    "bnd_mae": 3.268293,
+    "bnd_gain": 0.085366
+  }
+}

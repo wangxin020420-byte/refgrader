@@ -10,8 +10,7 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 from calibration_utils import (  # noqa: E402
-    a3wa_dynamic_bounds,
-    apply_boundary_no_harm_gate,
+    apply_boundary_action_policy,
     build_a3wa_decision,
     build_post_grading_calibration,
     parse_json_maybe,
@@ -133,7 +132,8 @@ def build_risk_profile_from_record(record):
     }
 
 
-def replay_record(record, rubrics_data, max_score):
+def replay_record(record, rubrics_data, max_score, a3wa_config=None):
+    a3wa_config = a3wa_config or {}
     facts = parse_json_maybe(record.get("facts", {}), {})
     strict_cots = record.get("strict_cots_all")
     if not strict_cots:
@@ -182,6 +182,8 @@ def replay_record(record, rubrics_data, max_score):
         fatal_points_ratio=risk_profile.get("fatal_points_ratio", 0.0),
         high_blank_high_score=risk_profile.get("high_blank_high_score", False),
         post_calibration=post,
+        weights=a3wa_config.get("risk_weights"),
+        loss_params=a3wa_config.get("loss_params"),
     )
 
     if a3wa["route"] == "NEG":
@@ -190,22 +192,13 @@ def replay_record(record, rubrics_data, max_score):
     else:
         replay_route = a3wa["route"]
         if replay_route == "BND":
-            lower, upper, _ = a3wa_dynamic_bounds(
-                avg_model_score=avg_model_score,
-                max_score=max_score,
-                a3wa_decision=a3wa,
-                risk_profile=risk_profile,
-                post_calibration=post,
-            )
-            gate = apply_boundary_no_harm_gate(
+            gate = apply_boundary_action_policy(
                 avg_model_score=avg_model_score,
                 candidate_score=old_score,
                 max_score=max_score,
                 a3wa_decision=a3wa,
                 risk_profile=risk_profile,
                 post_calibration=post,
-                lower_bound=lower,
-                upper_bound=upper,
             )
             replay_score = round(clamp(gate["final_score"], 0.0, max_score), 2)
         else:
@@ -238,7 +231,7 @@ def print_metrics_line(label, metric):
     )
 
 
-def replay_file(path, results_dir):
+def replay_file(path, results_dir, a3wa_config=None):
     qid = infer_question_id(path)
     data = load_json(path)
     rubrics_data = load_rubric(results_dir, qid)
@@ -250,7 +243,7 @@ def replay_file(path, results_dir):
     for record in data:
         if record.get("teacher_score") is None:
             continue
-        row = replay_record(record, rubrics_data, max_score)
+        row = replay_record(record, rubrics_data, max_score, a3wa_config=a3wa_config)
         rows.append(row)
         route_counts[(row["old_route"], row["replay_route"])] += 1
         for rule in row["post_calibration"].get("rule_hits", []):
@@ -292,7 +285,16 @@ def main():
         nargs="*",
         help="Checkpoint/result JSON files. Defaults to *_grading_checkpoint.json in results-dir.",
     )
+    parser.add_argument(
+        "--config",
+        default=None,
+        help="Optional A3WA calibration config. Defaults to results-dir/a3wa_calibration_config.json if present.",
+    )
     args = parser.parse_args()
+    config_path = args.config or os.path.join(args.results_dir, "a3wa_calibration_config.json")
+    a3wa_config = load_json(config_path) if os.path.exists(config_path) else {}
+    if a3wa_config:
+        print(f"Using A3WA config: {config_path}")
 
     if args.files:
         files = args.files
@@ -307,7 +309,7 @@ def main():
     all_rows = []
     weighted_max = []
     for path in files:
-        rows, max_score = replay_file(path, args.results_dir)
+        rows, max_score = replay_file(path, args.results_dir, a3wa_config=a3wa_config)
         all_rows.extend(rows)
         weighted_max.extend([max_score] * len(rows))
 

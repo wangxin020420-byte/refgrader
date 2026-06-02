@@ -20,6 +20,7 @@ A3WA_RISK_WEIGHTS = {
     "score": 0.30,
     "semantic": 0.20,
     "blank": 0.15,
+    "overcredit": 0.0,
 }
 A3WA_LOSS_PARAMS = {
     "lambda1": 5.0,
@@ -43,6 +44,20 @@ def safe_float(value, default=0.0):
         return float(value)
     except Exception:
         return default
+
+
+def normalized_risk_weights(weights=None):
+    """Return non-negative A3WA risk weights normalized to sum to 1."""
+    base = dict(A3WA_RISK_WEIGHTS)
+    if isinstance(weights, dict):
+        base.update(weights)
+    cleaned = {}
+    for key in ("extract", "score", "semantic", "blank", "overcredit"):
+        cleaned[key] = max(safe_float(base.get(key, 0.0), 0.0), 0.0)
+    total = sum(cleaned.values())
+    if total <= 1e-12:
+        return dict(A3WA_RISK_WEIGHTS)
+    return {key: value / total for key, value in cleaned.items()}
 
 
 def parse_json_maybe(value, default=None):
@@ -568,7 +583,7 @@ def build_a3wa_decision(
     avg_model_score = safe_float(avg_model_score, 0.0)
     std_dev = safe_float(std_dev, 0.0)
     post_calibration = post_calibration or {}
-    weights = dict(A3WA_RISK_WEIGHTS if weights is None else weights)
+    weights = normalized_risk_weights(weights)
     params = dict(A3WA_LOSS_PARAMS if loss_params is None else loss_params)
 
     score_spread = max(model_scores) - min(model_scores) if model_scores else 0.0
@@ -587,12 +602,24 @@ def build_a3wa_decision(
         u_semantic = max(u_semantic, 0.60)
     if avg_model_score <= 0.80 * max_score and u_blank <= 0.50:
         u_score = min(1.0, u_score + 0.10)
+    avg_ratio = clamp01(avg_model_score / max_score)
+    core_anchor_score = 1.0 if post_calibration.get("core_anchor_failed", False) else 0.0
+    high_blank_score = u_blank if avg_ratio >= 0.70 else 0.0
+    u_overcredit = clamp01(
+        avg_ratio * max(
+            u_semantic,
+            unsupported_ratio,
+            core_anchor_score,
+            high_blank_score,
+        )
+    )
 
     risk = (
         safe_float(weights.get("extract", 0.35), 0.35) * u_extract
         + safe_float(weights.get("score", 0.30), 0.30) * u_score
         + safe_float(weights.get("semantic", 0.20), 0.20) * u_semantic
         + safe_float(weights.get("blank", 0.15), 0.15) * u_blank
+        + safe_float(weights.get("overcredit", 0.0), 0.0) * u_overcredit
     )
     risk = clamp01(risk)
     confidence = 1.0 - risk
@@ -649,6 +676,7 @@ def build_a3wa_decision(
             "U_score": round(u_score, 6),
             "U_semantic": round(u_semantic, 6),
             "U_blank": round(u_blank, 6),
+            "U_overcredit": round(u_overcredit, 6),
             "normalized_std": round(normalized_std, 6),
             "score_spread_norm": round(score_spread_norm, 6),
         },
@@ -757,9 +785,9 @@ def build_boundary_direction_signals(
     extraction_risk = clamp01(0.5 * low_quality_rate + 0.5 * perception_failure_rate)
 
     over_reasons = []
-    if bool(risk_value("high_blank_high_score", False)):
+    if bool(risk_value("high_blank_high_score", False)) and avg_ratio >= 0.75:
         over_reasons.append("high_blank_high_score")
-    if fatal_ratio >= 0.60:
+    if fatal_ratio >= 0.60 and avg_ratio >= 0.55:
         over_reasons.append("fatal_points_high")
     if unsupported_ratio >= 0.15:
         over_reasons.append("unsupported_match")
@@ -773,7 +801,7 @@ def build_boundary_direction_signals(
         over_reasons.append("post_upper_cap")
 
     strong_over_reasons = []
-    if bool(risk_value("high_blank_high_score", False)):
+    if bool(risk_value("high_blank_high_score", False)) and avg_ratio >= 0.80:
         strong_over_reasons.append("high_blank_high_score")
     if fatal_ratio >= 0.70:
         strong_over_reasons.append("fatal_points_very_high")
@@ -791,6 +819,8 @@ def build_boundary_direction_signals(
         under_reasons.append("score_disagreement")
     if format_ratio >= 0.15:
         under_reasons.append("format_minor_mass")
+    if partial_ratio >= 0.20 and avg_ratio <= 0.65 and fatal_ratio <= 0.60:
+        under_reasons.append("partial_match_mass")
 
     strong_over_score_risk = bool(strong_over_reasons)
     over_score_risk = bool(over_reasons)
@@ -893,6 +923,101 @@ def apply_boundary_no_harm_gate(
         "gate_reason": gate_reason,
         "lower_bound": round(lower_bound, 4),
         "upper_bound": round(upper_bound, 4),
+        "direction_signals": signals,
+    }
+
+
+def apply_boundary_action_policy(
+    avg_model_score,
+    candidate_score,
+    max_score,
+    a3wa_decision=None,
+    risk_profile=None,
+    post_calibration=None,
+):
+    """Validation-calibratable BND action policy with model average as baseline."""
+    avg_model_score = safe_float(avg_model_score, 0.0)
+    candidate_score = safe_float(candidate_score, avg_model_score)
+    max_score = max(safe_float(max_score, 0.0), 1.0)
+    a3wa_decision = a3wa_decision or {}
+    risk_profile = risk_profile or {}
+    post_calibration = post_calibration or {}
+
+    baseline = max(0.0, min(max_score, avg_model_score))
+    raw_candidate = max(0.0, min(max_score, candidate_score))
+    delta = raw_candidate - baseline
+    components = a3wa_decision.get("risk_components", {}) or {}
+    signals = build_boundary_direction_signals(
+        avg_model_score=baseline,
+        max_score=max_score,
+        a3wa_decision=a3wa_decision,
+        risk_profile=risk_profile,
+        post_calibration=post_calibration,
+    )
+
+    avg_ratio = clamp01(baseline / max_score)
+    fatal = clamp01(components.get("U_semantic", signals.get("fatal_points_ratio", 0.0)))
+    overcredit = clamp01(components.get("U_overcredit", 0.0))
+    blank = clamp01(components.get("U_blank", signals.get("blank_rate", 0.0)))
+    score_risk = clamp01(components.get("U_score", signals.get("uncertainty_index", 0.0)))
+    extract = clamp01(components.get("U_extract", signals.get("extraction_risk", 0.0)))
+    minor_margin = max(0.03 * max_score, 0.3)
+    small_margin = max(0.07 * max_score, 0.7)
+    large_margin = max(0.15 * max_score, 1.5)
+
+    final_score = baseline
+    accepted = False
+    action = "keep_baseline"
+    gate_reason = "no_profitable_action_evidence"
+
+    if abs(delta) <= minor_margin:
+        action = "keep_minor_change"
+        gate_reason = "minor_candidate_delta"
+    elif delta < 0:
+        strong_lower = overcredit >= 0.35 and avg_ratio >= 0.70
+        supported_lower = (
+            avg_ratio >= 0.75
+            and (fatal >= 0.60 or blank >= 0.60 or overcredit >= 0.25)
+        )
+        if strong_lower:
+            final_score = max(0.0, baseline - min(abs(delta), large_margin))
+            accepted = True
+            action = "large_lower"
+            gate_reason = "strong_overcredit_evidence"
+        elif supported_lower:
+            final_score = max(0.0, baseline - min(abs(delta), small_margin))
+            accepted = True
+            action = "small_lower"
+            gate_reason = "supported_overcredit_evidence"
+        else:
+            action = "reject_lower"
+            gate_reason = "lower_without_sufficient_overcredit_evidence"
+    elif delta > 0:
+        supported_raise = (
+            avg_ratio <= 0.70
+            and (score_risk >= 0.12 or extract >= 0.20)
+            and overcredit < 0.25
+        )
+        if supported_raise:
+            final_score = min(max_score, baseline + min(delta, small_margin))
+            accepted = True
+            action = "small_raise"
+            gate_reason = "supported_undercredit_evidence"
+        else:
+            action = "reject_raise"
+            gate_reason = "raise_without_sufficient_undercredit_evidence"
+
+    return {
+        "final_score": round(final_score, 4),
+        "baseline_score": round(baseline, 4),
+        "raw_candidate_score": round(raw_candidate, 4),
+        "bounded_candidate_score": round(final_score, 4),
+        "delta_from_baseline": round(final_score - baseline, 4),
+        "accepted": accepted,
+        "action": action,
+        "gate_reason": gate_reason,
+        "lower_bound": round(max(0.0, baseline - large_margin), 4),
+        "upper_bound": round(min(max_score, baseline + large_margin), 4),
         "direction_signals": signals,
     }
 

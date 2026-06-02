@@ -12,7 +12,7 @@ import io
 import numpy as np
 from calibration_utils import (
     a3wa_dynamic_bounds,
-    apply_boundary_no_harm_gate,
+    apply_boundary_action_policy,
     build_a3wa_decision,
     build_post_grading_calibration,
     prepare_rubrics_for_calibration,
@@ -26,6 +26,13 @@ VLM_MODELS = {
     "glm5v": "glm-5v-turbo",
 }
 VLM_MODEL_NAME = VLM_MODELS.get(VLM_MODEL_PROVIDER, "glm-4.6v")
+
+A3WA_CALIBRATION_CONFIG_PATH = os.getenv(
+    "A3WA_CALIBRATION_CONFIG",
+    os.path.join("results_rrd_vlm", "a3wa_calibration_config.json"),
+)
+_A3WA_RUNTIME_CONFIG = None
+PROMPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts")
 
 # 文本模型切换：修改此处即可，可选 "glm" / "glm5" / "deepseek"
 TEXT_MODEL_PROVIDER = "glm5"
@@ -61,6 +68,19 @@ MAX_WORKERS_STAGE2 = MODEL_CONCURRENCY.get(TEXT_MODEL_PROVIDER, (3, 3))[1]
 # 全局客户端
 glm_client = OpenAI(api_key=GLM_API_KEY, base_url=GLM_BASE_URL)
 deepseek_client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url=DEEPSEEK_BASE_URL)
+
+def render_prompt_template(filename, replacements, fallback):
+    """Load a UTF-8 prompt template and replace {{PLACEHOLDER}} tokens."""
+    path = os.path.join(PROMPT_DIR, filename)
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            prompt = f.read()
+        for key, value in replacements.items():
+            prompt = prompt.replace("{{" + key + "}}", str(value))
+        return prompt
+    except Exception as exc:
+        print(f"      [Prompt template] fallback to inline prompt: {filename} ({exc})")
+        return fallback
 
 # ==================== 统一文本模型调用 ====================
 
@@ -448,6 +468,14 @@ def stage2_logic_grading(student_facts_str, rubrics_json_str, temperature=0.35):
     - "INSUFFICIENT_INFO"：提取信息不足，无法判定（score_given 必须为 0）
     - "PARTIAL_MATCH"：该条目部分匹配，学生完成了部分评分要素但非全部。score_given 为按完成比例计算的部分分数（≥1 且 < 满分）。例如满分 5 分含 3 个要素，答对 2 个给 3 分。只有完全未涉及任何要素时才用 BLANK 或 SEMANTIC_FATAL。
     """
+    logic_prompt = render_prompt_template(
+        "stage2_logic_grading.md",
+        {
+            "STUDENT_FACTS": student_facts_str,
+            "RUBRICS_JSON": rubrics_json_str,
+        },
+        logic_prompt,
+    )
     for attempt in range(3):
         try:
             return call_text_model(
@@ -520,6 +548,28 @@ def _safe_float(value, default=0.0):
     except Exception:
         return default
 
+def _sum_agent_item_points(items):
+    if not isinstance(items, list):
+        return 0.0
+    total = 0.0
+    for item in items:
+        if isinstance(item, dict):
+            total += max(_safe_float(item.get("points", 0.0), 0.0), 0.0)
+    return total
+
+def _agent_candidate_score(parsed_agent, avg_model_score, max_score):
+    """Prefer structured missed/over credit deltas; fall back to legacy total score."""
+    avg_model_score = _safe_float(avg_model_score, 0.0)
+    max_score = max(_safe_float(max_score, 0.0), 1.0)
+    missed = _sum_agent_item_points(parsed_agent.get("missed_credit_items"))
+    over = _sum_agent_item_points(parsed_agent.get("over_credit_items"))
+    if missed > 0 or over > 0:
+        return _clamp(avg_model_score + missed - over, 0, max_score)
+    return _safe_float(
+        parsed_agent.get("calibrated_score", parsed_agent.get("secondary_total_score", avg_model_score)),
+        avg_model_score
+    )
+
 def _rubric_points_map(rubrics_data):
     if not isinstance(rubrics_data, list):
         return {}, 1.0
@@ -534,6 +584,25 @@ def _rubric_points_map(rubrics_data):
             points_values.append(points)
     fallback = float(np.mean(points_values)) if points_values else 1.0
     return points_map, fallback
+
+
+def load_a3wa_runtime_config():
+    global _A3WA_RUNTIME_CONFIG
+    if _A3WA_RUNTIME_CONFIG is not None:
+        return _A3WA_RUNTIME_CONFIG
+    _A3WA_RUNTIME_CONFIG = {}
+    if not A3WA_CALIBRATION_CONFIG_PATH or not os.path.exists(A3WA_CALIBRATION_CONFIG_PATH):
+        return _A3WA_RUNTIME_CONFIG
+    try:
+        with open(A3WA_CALIBRATION_CONFIG_PATH, "r", encoding="utf-8") as f:
+            loaded = json.load(f)
+        if isinstance(loaded, dict):
+            _A3WA_RUNTIME_CONFIG = loaded
+            print(f"      [A3WA config] loaded {A3WA_CALIBRATION_CONFIG_PATH}")
+    except Exception as exc:
+        print(f"      [A3WA config] failed to load {A3WA_CALIBRATION_CONFIG_PATH}: {exc}")
+        _A3WA_RUNTIME_CONFIG = {}
+    return _A3WA_RUNTIME_CONFIG
 
 def _category_points_ratio(strict_cots, rubrics_data, max_score):
     points_map, fallback_points = _rubric_points_map(rubrics_data)
@@ -673,6 +742,16 @@ def boundary_arbitration_agent(student_facts_str, strict_cots, rubrics_json_str,
   "reason": "50字以内说明"
 }}
 """
+    arbitration_prompt = render_prompt_template(
+        "boundary_arbitration.md",
+        {
+            "RUBRICS_JSON": rubrics_json_str,
+            "STUDENT_FACTS": student_facts_str,
+            "STRICT_COTS_JSON": json.dumps(strict_cots, ensure_ascii=False),
+            "RISK_PROFILE_JSON": json.dumps(risk_profile, ensure_ascii=False),
+        },
+        arbitration_prompt,
+    )
     for attempt in range(3):
         try:
             return call_text_model(
@@ -851,6 +930,7 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     risk_profile["risk_features"]["reject_domain"] = risk_profile["reject_domain"]
     risk_profile["risk_features"]["boundary_domain"] = risk_profile["boundary_domain"]
 
+    a3wa_config = load_a3wa_runtime_config()
     a3wa_decision = build_a3wa_decision(
         model_scores=model_scores,
         avg_model_score=avg_model_score,
@@ -863,6 +943,8 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         fatal_points_ratio=risk_profile["fatal_points_ratio"],
         high_blank_high_score=risk_profile["high_blank_high_score"],
         post_calibration=post_calibration,
+        weights=a3wa_config.get("risk_weights"),
+        loss_params=a3wa_config.get("loss_params"),
     )
     risk_profile["risk_features"].update({
         "a3wa_risk": a3wa_decision["risk"],
@@ -931,27 +1013,15 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         if agent_res_text:
             parsed_agent = extract_and_parse_json(agent_res_text)
             if parsed_agent:
-                raw_agent_score = _safe_float(
-                    parsed_agent.get("calibrated_score", parsed_agent.get("secondary_total_score", avg_model_score)),
-                    float(avg_model_score)
-                )
+                raw_agent_score = _agent_candidate_score(parsed_agent, avg_model_score, MAX_SCORE)
                 arbitration_decision = parsed_agent.get("decision", "keep")
-                lower_bound, upper_bound, _bound_flags = a3wa_dynamic_bounds(
-                    avg_model_score=avg_model_score,
-                    max_score=MAX_SCORE,
-                    a3wa_decision=a3wa_decision,
-                    risk_profile=risk_profile,
-                    post_calibration=post_calibration,
-                )
-                boundary_gate = apply_boundary_no_harm_gate(
+                boundary_gate = apply_boundary_action_policy(
                     avg_model_score=avg_model_score,
                     candidate_score=raw_agent_score,
                     max_score=MAX_SCORE,
                     a3wa_decision=a3wa_decision,
                     risk_profile=risk_profile,
                     post_calibration=post_calibration,
-                    lower_bound=lower_bound,
-                    upper_bound=upper_bound,
                 )
                 final_score = round(_clamp(boundary_gate["final_score"], 0, MAX_SCORE), 2)
                 arbitration_decision = f"{arbitration_decision}|{boundary_gate['action']}"

@@ -15,6 +15,7 @@ from calibration_utils import (
     apply_boundary_action_policy,
     build_a3wa_decision,
     build_post_grading_calibration,
+    compute_extraction_quality_counts,
     prepare_rubrics_for_calibration,
 )
 
@@ -856,11 +857,10 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     except:
         facts_dict = {}
 
-    fact_values = list(facts_dict.values())
-    blank_count = sum(1 for v in fact_values if str(v).strip() == "未书写")
-    perception_fail_count = sum(1 for v in fact_values if str(v).strip() == "字迹模糊")
-    LOW_QUALITY_VALUES = {"是", "有", "已书写", "存在", "有书写", "对", "正确", "有提取标注", "有计算过程", "有标注"}
-    low_quality_count = sum(1 for v in fact_values if str(v).strip() in LOW_QUALITY_VALUES)
+    extraction_counts = compute_extraction_quality_counts(facts_dict, rubrics_data)
+    blank_count = extraction_counts["blank_count"]
+    perception_fail_count = extraction_counts["perception_fail_count"]
+    low_quality_count = extraction_counts["low_quality_count"]
 
     blank_rate = blank_count / TOTAL_ITEMS if TOTAL_ITEMS > 0 else 0
     perception_failure_rate = perception_fail_count / TOTAL_ITEMS if TOTAL_ITEMS > 0 else 0
@@ -915,7 +915,15 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     risk_profile["risk_features"].update({
         "unsupported_match_points_ratio": post_calibration["unsupported_match_points_ratio"],
         "method_final_verified_ratio": post_calibration["method_final_verified_ratio"],
+        "direct_points_ratio": post_calibration["direct_points_ratio"],
         "direct_awarded_ratio": post_calibration["direct_awarded_ratio"],
+        "result_correctness_signal": post_calibration["result_correctness_signal"],
+        "result_strong_signal": post_calibration["result_strong_signal"],
+        "method_evidence_signal": post_calibration["method_evidence_signal"],
+        "partial_or_format_points_ratio": post_calibration["partial_or_format_points_ratio"],
+        "bare_answer_risk": post_calibration["bare_answer_risk"],
+        "lenient_undercredit_signal": post_calibration["lenient_undercredit_signal"],
+        "unsupported_high_score_risk": post_calibration["unsupported_high_score_risk"],
         "metadata_coverage": post_calibration["metadata_coverage"],
         "explicit_chain_coverage": post_calibration["explicit_chain_coverage"],
         "core_anchor_failed": post_calibration["core_anchor_failed"],

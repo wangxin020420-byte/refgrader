@@ -1,6 +1,6 @@
 # Current Progress
 
-Last updated: 2026-06-02
+Last updated: 2026-06-03
 
 ## Current Goal
 
@@ -15,6 +15,20 @@ The current code has moved beyond the first A3WA implementation: A3WA loss param
 ## Latest Implementation
 
 The latest implementation introduces an A3WA-inspired 3WD layer plus offline cost-sensitive calibration and a BND action policy.
+
+2026-06-03 update: the latest Q6/Q7 formal run showed that the previous
+conservative BND action policy caused `final_calibrated_score == model_avg_score`
+for every Q6/Q7 sample. The route/audit layer worked, but it produced no score
+gain. Based on the confirmed grading practice that the instructor is lenient on
+complex calculation problems, the active scoring design has been revised from
+"strict standard-solution matching" to "instructor-aligned lenient process-credit
+grading".
+
+Extraction quality was also made rubric-aware. Short answers such as "yes",
+"correct", "hit", or "miss" are no longer treated as low-quality extraction when
+the rubric item is a judgement/conclusion item. The same generic words remain
+low-quality for formula, numeric, mapping, and process items where concrete
+content is required.
 
 Changed or added files:
 
@@ -47,7 +61,9 @@ BND action:
   call boundary arbitration agent for a candidate score
   BND now uses prompts/boundary_arbitration.md instead of the old inline mojibake prompt.
   apply validation-aligned action policy
-  accept the candidate only when the correction direction has supporting risk evidence
+  keep model_avg when evidence is weak
+  allow BND-UP when the answer/result evidence and minimum process evidence indicate instructor-style under-credit
+  allow BND-DOWN only for unsupported high-score evidence, not merely because the score is high
 ```
 
 Current risk function:
@@ -60,6 +76,60 @@ U_blank = blank_rate
 
 R(x) = 0.35 * U_extract + 0.30 * U_score + 0.20 * U_semantic + 0.15 * U_blank
 mu(x) = 1 - R(x)
+```
+
+The latest lenient-scoring signals added to `post_calibration` are:
+
+```text
+result_correctness_signal:
+  whether final answer / key conclusion evidence is correct or near-correct.
+
+method_evidence_signal:
+  whether the answer contains formula, relation, conversion, mapping, or computation trace evidence.
+
+bare_answer_risk:
+  correct-looking final answer without enough process evidence.
+
+lenient_undercredit_signal:
+  model may be too strict under instructor-style process-credit grading.
+
+unsupported_high_score_risk:
+  high score is unsupported by answer correctness or process evidence.
+```
+
+Updated route rule:
+
+```text
+if hard NEG:
+  NEG
+elif mu >= alpha and lenient_undercredit_signal >= 0.08 and score is below high band:
+  BND
+elif mu >= alpha and unsupported_high_score_risk >= 0.25:
+  BND
+elif mu >= alpha:
+  POS
+elif mu <= beta:
+  NEG
+else:
+  BND
+```
+
+Updated BND action policy:
+
+```text
+BND-UP:
+  requires lenient_undercredit_signal >= 0.08,
+  result_correctness_signal >= 0.65,
+  method_evidence_signal or partial evidence,
+  low bare-answer risk,
+  and low unsupported-high-score risk.
+
+auto_small_raise:
+  allowed when lenient-undercredit evidence is strong even if the boundary agent
+  returns nearly the same score.
+
+BND-DOWN:
+  allowed only for unsupported high-score evidence.
 ```
 
 Current A3WA parameters:
@@ -250,6 +320,30 @@ Calibration reduces invalid BND usage and restores the Q7 bad lower case to mode
 It is still a validation/calibration result and must be confirmed by a fresh formal experiment.
 ```
 
+Latest replay after instructor-aligned lenient process-credit update on the
+fresh Q6/Q7 formal result files:
+
+```text
+Q6 current MAE=2.987 RMSE=3.797 QWK=0.719 Pearson=0.893 TAR2=48.3% Bias=-2.520
+Q6 replay  MAE=2.837 RMSE=3.707 QWK=0.735 Pearson=0.881 TAR2=53.3% Bias=-2.357
+
+Q7 current MAE=1.421 RMSE=2.183 QWK=0.667 Pearson=0.688 TAR2=77.6% Bias=-0.296
+Q7 replay  MAE=1.390 RMSE=2.148 QWK=0.665 Pearson=0.694 TAR2=79.1% Bias=-0.222
+
+GLOBAL Q6+Q7 current N=127 MAE=2.161 RMSE=3.054 QWK=0.701 Pearson=0.790 TAR2=63.8% Bias=-1.346
+GLOBAL Q6+Q7 replay  N=127 MAE=2.073 RMSE=2.988 QWK=0.714 Pearson=0.792 TAR2=66.9% Bias=-1.231
+```
+
+Interpretation:
+
+```text
+The new logic no longer degenerates to model_avg for every sample.
+High-confidence but likely under-credited samples can be routed to BND and receive
+auto_small_raise when result evidence is strong enough.
+Replay is positive on Q6/Q7, but a fresh formal run is still required because
+Stage2 and boundary prompts have also changed.
+```
+
 ## Server Experiment Workflow
 
 Preferred server workflow:
@@ -354,6 +448,60 @@ prompts/boundary_arbitration.md
 ```
 
 `step4_vlm_grader.py` still keeps the old inline prompt strings as fallback only. The actual prompt sent to the model is loaded through `render_prompt_template()`. This avoids editing the historical mojibake prompt blocks directly while making the active prompts readable, maintainable, and suitable for paper appendix/reproducibility.
+
+## 2026-06-03 Pre-Run Check For Q6/Q7
+
+Before the next lab-server run on Q6/Q7, the BND raise gate was tightened in a
+targeted, question-agnostic way. The issue found during replay was that some
+parameter-heavy Q7 samples had partial final-result matches and weak parameter
+support, but still triggered `auto_small_raise`. The fix keeps lenient process
+credit, but separates:
+
+```text
+result_correctness_signal:
+  MATCH / FORMAT_MINOR / PARTIAL_MATCH on result-like items.
+
+result_strong_signal:
+  only MATCH / FORMAT_MINOR on result-like items.
+
+direct_points_ratio:
+  how much of the rubric is direct parameter/value identification.
+```
+
+`apply_boundary_action_policy()` now suppresses automatic BND-UP when all three
+conditions hold:
+
+```text
+direct_points_ratio >= 0.30
+direct_awarded_ratio < 0.70
+result_strong_signal < 0.65
+```
+
+This keeps the teacher-lenient behavior for answers with strong final-result
+evidence, while avoiding extra upward correction for samples whose final answer
+is only partially matched and whose key parameters are weak.
+
+Validation run on Q6/Q7 checkpoints:
+
+```text
+Q6 current MAE=2.974 TAR2=48.5% Under>2=33
+Q6 replay  MAE=2.841 TAR2=52.9% Under>2=30
+
+Q7 current MAE=1.421 TAR2=77.6% Under>2=8
+Q7 replay  MAE=1.379 TAR2=79.1% Under>2=7
+
+GLOBAL current MAE=2.203 TAR2=63.0% Bias=-1.407 Over>2=9 Under>2=41
+GLOBAL replay  MAE=2.116 TAR2=65.9% Bias=-1.314 Over>2=9 Under>2=37
+```
+
+AST syntax validation passed for:
+
+```text
+calibration_utils.py
+scripts/replay_calibration.py
+step4_vlm_grader.py
+evaluate.py
+```
 
 Validation already run:
 

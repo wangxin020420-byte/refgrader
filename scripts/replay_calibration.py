@@ -13,6 +13,7 @@ from calibration_utils import (  # noqa: E402
     apply_boundary_action_policy,
     build_a3wa_decision,
     build_post_grading_calibration,
+    compute_extraction_quality_counts,
     parse_json_maybe,
     prepare_rubrics_for_calibration,
     safe_float,
@@ -139,17 +140,21 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
     if not strict_cots:
         strict_cot = record.get("strict_cot", {})
         strict_cots = [strict_cot] if strict_cot else []
+    extraction_counts = compute_extraction_quality_counts(facts, rubrics_data)
+    extraction_denom = max(extraction_counts.get("total_items", 0), len(rubrics_data), 1)
 
     avg_model_score = safe_float(record.get("model_avg_score", record.get("final_calibrated_score", 0.0)))
     old_score = safe_float(record.get("final_calibrated_score", avg_model_score))
-    blank_rate = safe_float(record.get("blank_rate", 0.0))
+    blank_rate = extraction_counts["blank_count"] / extraction_denom
     risk_profile = build_risk_profile_from_record(record)
     risk_features = risk_profile.get("risk_features", {})
     model_scores = record.get("model_scores_history") or []
-    low_quality_rate = safe_float(
-        record.get("low_quality_extraction_rate", risk_features.get("low_quality_rate", 0.0)),
-        0.0,
-    )
+    low_quality_rate = extraction_counts["low_quality_count"] / extraction_denom
+    perception_failure_rate = extraction_counts["perception_fail_count"] / extraction_denom
+    risk_profile["blank_rate"] = blank_rate
+    risk_profile["risk_features"]["blank_rate"] = blank_rate
+    risk_profile["risk_features"]["low_quality_rate"] = low_quality_rate
+    risk_profile["risk_features"]["perception_failure_rate"] = perception_failure_rate
 
     post = build_post_grading_calibration(
         facts_dict=facts,
@@ -163,7 +168,15 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
     risk_profile["risk_features"].update({
         "unsupported_match_points_ratio": post["unsupported_match_points_ratio"],
         "method_final_verified_ratio": post["method_final_verified_ratio"],
+        "direct_points_ratio": post["direct_points_ratio"],
         "direct_awarded_ratio": post["direct_awarded_ratio"],
+        "result_correctness_signal": post["result_correctness_signal"],
+        "result_strong_signal": post["result_strong_signal"],
+        "method_evidence_signal": post["method_evidence_signal"],
+        "partial_or_format_points_ratio": post["partial_or_format_points_ratio"],
+        "bare_answer_risk": post["bare_answer_risk"],
+        "lenient_undercredit_signal": post["lenient_undercredit_signal"],
+        "unsupported_high_score_risk": post["unsupported_high_score_risk"],
         "metadata_coverage": post["metadata_coverage"],
         "explicit_chain_coverage": post["explicit_chain_coverage"],
         "core_anchor_failed": post["core_anchor_failed"],
@@ -177,7 +190,7 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
         max_score=max_score,
         blank_rate=blank_rate,
         low_quality_rate=low_quality_rate,
-        perception_failure_rate=safe_float(record.get("perception_failure_rate", 0.0), 0.0),
+        perception_failure_rate=perception_failure_rate,
         extraction_quality=record.get("extraction_quality", ""),
         fatal_points_ratio=risk_profile.get("fatal_points_ratio", 0.0),
         high_blank_high_score=risk_profile.get("high_blank_high_score", False),

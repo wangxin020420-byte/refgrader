@@ -6,7 +6,7 @@ RefGrader 评估脚本
   python evaluate.py --questions Q5 Q7 --detail          # 指定题目 + 逐条详情
   python evaluate.py --score-key model_avg_score --detail
   python evaluate.py --compare                           # 对比: 模型均分 vs 3WD校准分
-  python evaluate.py --compare --questions Q5 Q6 Q7         # 指定题目的对比
+  python evaluate.py --compare --questions Q6 Q7         # 指定题目的对比
 """
 
 import json

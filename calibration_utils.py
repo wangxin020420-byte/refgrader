@@ -599,6 +599,11 @@ def build_post_grading_calibration(
             1.0 if core_anchor_failed else 0.0,
         )
     )
+    weak_result_high_score_review = (
+        avg_ratio >= 0.65
+        and result_strong_signal <= 0.50
+        and unsupported_high_score_risk >= 0.10
+    )
 
     visual_blank_review = bool(visual_items) and blank_rate >= 0.40
     if unsupported_ratio >= 0.15:
@@ -611,6 +616,8 @@ def build_post_grading_calibration(
         rule_hits.append("lenient_undercredit_review")
     if unsupported_high_score_risk >= 0.25:
         rule_hits.append("unsupported_high_score_review")
+    if weak_result_high_score_review:
+        rule_hits.append("weak_result_high_score_review")
 
     lower_bound = 0.0
     upper_bound = max_score
@@ -628,6 +635,7 @@ def build_post_grading_calibration(
         or core_anchor_failed
         or lenient_undercredit_signal >= 0.08
         or unsupported_high_score_risk >= 0.25
+        or weak_result_high_score_review
     )
     reject_domain = visual_blank_review
 
@@ -649,6 +657,7 @@ def build_post_grading_calibration(
         "metadata_coverage": round(metadata_coverage, 4),
         "explicit_chain_coverage": round(explicit_chain_coverage, 4),
         "core_anchor_failed": core_anchor_failed,
+        "weak_result_high_score_review": weak_result_high_score_review,
         "visual_blank_review": visual_blank_review,
         "boundary_domain": boundary_domain,
         "reject_domain": reject_domain,
@@ -760,6 +769,9 @@ def build_a3wa_decision(
     high_blank_score = u_blank if avg_ratio >= 0.70 else 0.0
     lenient_undercredit = clamp01(post_calibration.get("lenient_undercredit_signal", 0.0))
     unsupported_high_score = clamp01(post_calibration.get("unsupported_high_score_risk", 0.0))
+    result_strong = clamp01(post_calibration.get("result_strong_signal", 0.0))
+    method_evidence = clamp01(post_calibration.get("method_evidence_signal", 0.0))
+    weak_result_high_score = bool(post_calibration.get("weak_result_high_score_review", False))
     u_overcredit = clamp01(
         avg_ratio * max(
             u_semantic,
@@ -792,7 +804,12 @@ def build_a3wa_decision(
         hard_neg_reasons.append("extraction_failed")
     if score_spread >= max(2.0, max_score * 0.35):
         hard_neg_reasons.append("large_score_spread")
-    if u_semantic >= 0.75 and lenient_undercredit < 0.10:
+    if (
+        u_semantic >= 0.75
+        and lenient_undercredit < 0.10
+        and result_strong < 0.50
+        and method_evidence < 0.50
+    ):
         hard_neg_reasons.append("semantic_risk_too_high")
     if high_blank_high_score and u_extract >= 0.50:
         hard_neg_reasons.append("high_blank_high_score")
@@ -806,6 +823,9 @@ def build_a3wa_decision(
         if lenient_undercredit >= 0.08 and avg_ratio <= 0.85:
             route = "BND"
             reason = "high_confidence_lenient_undercredit_review"
+        elif weak_result_high_score:
+            route = "BND"
+            reason = "high_confidence_weak_result_high_score_review"
         elif unsupported_high_score >= 0.25:
             route = "BND"
             reason = "high_confidence_unsupported_high_score_review"
@@ -948,12 +968,16 @@ def build_boundary_direction_signals(
     lenient_undercredit = clamp01(post_calibration.get("lenient_undercredit_signal", risk_value("lenient_undercredit_signal", 0.0)))
     unsupported_high_score = clamp01(post_calibration.get("unsupported_high_score_risk", risk_value("unsupported_high_score_risk", 0.0)))
     result_correctness = clamp01(post_calibration.get("result_correctness_signal", risk_value("result_correctness_signal", 0.0)))
+    result_strong = clamp01(post_calibration.get("result_strong_signal", result_correctness))
     method_evidence = clamp01(post_calibration.get("method_evidence_signal", risk_value("method_evidence_signal", 0.0)))
     bare_answer_risk = clamp01(post_calibration.get("bare_answer_risk", risk_value("bare_answer_risk", 0.0)))
     post_upper = safe_float(post_calibration.get("upper_bound", max_score), max_score)
     extraction_risk = clamp01(0.5 * low_quality_rate + 0.5 * perception_failure_rate)
+    weak_result_high_score = bool(post_calibration.get("weak_result_high_score_review", False))
 
     over_reasons = []
+    if weak_result_high_score:
+        over_reasons.append("weak_result_high_score")
     if unsupported_high_score >= 0.25:
         over_reasons.append("unsupported_high_score")
     if bool(risk_value("high_blank_high_score", False)) and avg_ratio >= 0.80 and unsupported_high_score >= 0.20:
@@ -1021,8 +1045,10 @@ def build_boundary_direction_signals(
         "lenient_undercredit_signal": round(lenient_undercredit, 6),
         "unsupported_high_score_risk": round(unsupported_high_score, 6),
         "result_correctness_signal": round(result_correctness, 6),
+        "result_strong_signal": round(result_strong, 6),
         "method_evidence_signal": round(method_evidence, 6),
         "bare_answer_risk": round(bare_answer_risk, 6),
+        "weak_result_high_score_review": weak_result_high_score,
     }
 
 
@@ -1141,8 +1167,6 @@ def apply_boundary_action_policy(
     fatal = clamp01(components.get("U_semantic", signals.get("fatal_points_ratio", 0.0)))
     overcredit = clamp01(components.get("U_overcredit", 0.0))
     blank = clamp01(components.get("U_blank", signals.get("blank_rate", 0.0)))
-    score_risk = clamp01(components.get("U_score", signals.get("uncertainty_index", 0.0)))
-    extract = clamp01(components.get("U_extract", signals.get("extraction_risk", 0.0)))
     lenient_undercredit = clamp01(
         post_calibration.get(
             "lenient_undercredit_signal",
@@ -1161,6 +1185,10 @@ def apply_boundary_action_policy(
     bare_answer_risk = clamp01(post_calibration.get("bare_answer_risk", signals.get("bare_answer_risk", 0.0)))
     direct_points_ratio = clamp01(post_calibration.get("direct_points_ratio", 0.0))
     direct_awarded_ratio = clamp01(post_calibration.get("direct_awarded_ratio", 1.0))
+    partial_or_format_evidence = max(
+        clamp01(signals.get("partial_match_points_ratio", 0.0)),
+        clamp01(signals.get("format_minor_points_ratio", 0.0)),
+    )
     minor_margin = max(0.03 * max_score, 0.3)
     small_margin = max(0.07 * max_score, 0.7)
     large_margin = max(0.15 * max_score, 1.5)
@@ -1177,13 +1205,19 @@ def apply_boundary_action_policy(
     lenient_raise_ready = (
         lenient_undercredit >= 0.08
         and result_correctness >= 0.65
-        and (method_evidence >= 0.10 or signals.get("partial_match_points_ratio", 0.0) >= 0.15)
+        and (method_evidence >= 0.10 or partial_or_format_evidence >= 0.15)
         and bare_answer_risk < 0.90
         and unsupported_high_score < 0.35
         and avg_ratio <= 0.90
         and not parameter_dense_weak_final
     )
-    strong_lenient_raise = lenient_raise_ready and lenient_undercredit >= 0.16 and avg_ratio <= 0.75
+    strong_lenient_raise = (
+        lenient_raise_ready
+        and lenient_undercredit >= 0.12
+        and result_strong >= 0.50
+        and (method_evidence >= 0.50 or partial_or_format_evidence >= 0.15)
+        and avg_ratio <= 0.70
+    )
 
     if abs(delta) <= minor_margin:
         if strong_lenient_raise:
@@ -1216,20 +1250,13 @@ def apply_boundary_action_policy(
             action = "reject_lower"
             gate_reason = "lower_without_sufficient_unsupported_high_score_evidence"
     elif delta > 0:
-        supported_raise = (
-            lenient_raise_ready
-            or (
-                avg_ratio <= 0.70
-                and (score_risk >= 0.12 or extract >= 0.20)
-                and unsupported_high_score < 0.25
-            )
-        )
+        supported_raise = lenient_raise_ready
         if supported_raise:
             margin = large_margin if strong_lenient_raise else small_margin
             final_score = min(max_score, baseline + min(delta, margin))
             accepted = True
             action = "medium_raise" if strong_lenient_raise else "small_raise"
-            gate_reason = "supported_lenient_undercredit_evidence" if lenient_raise_ready else "supported_undercredit_evidence"
+            gate_reason = "supported_lenient_undercredit_evidence"
         else:
             action = "reject_raise"
             gate_reason = "raise_without_sufficient_undercredit_evidence"

@@ -511,6 +511,126 @@ template placeholder replacement check: passed
 replay_calibration with A3WA config: passed
 ```
 
+## 2026-06-04 Q6/Q7 Post-Run Gate Tightening
+
+The latest formal Q6/Q7 run showed that the A3WA/BND framework is not useless,
+but the BND raise policy was still too permissive in several Q6 boundary cases.
+Q7 was generally positive; Q6 was mixed because a few low-teacher-score samples
+were raised without enough answer/process evidence.
+
+Latest full-checkpoint formal result before this patch:
+
+```text
+Q6 checkpoint, N=68:
+model_avg  MAE=3.319 RMSE=4.144 QWK=0.665 Pearson=0.859 TAR2=48.5% Bias=-2.837 Over>2=2 Under>2=33
+final      MAE=3.272 RMSE=4.061 QWK=0.680 Pearson=0.848 TAR2=45.6% Bias=-2.687 Over>2=4 Under>2=33
+
+Q7 checkpoint, N=67:
+model_avg  MAE=1.378 RMSE=2.314 QWK=0.590 Pearson=0.629 TAR2=80.6% Bias=-0.118 Over>2=6 Under>2=7
+final      MAE=1.325 RMSE=2.258 QWK=0.606 Pearson=0.647 TAR2=82.1% Bias=-0.051 Over>2=6 Under>2=6
+
+GLOBAL checkpoint, N=135:
+model_avg  MAE=2.356 RMSE=3.363 Pearson=0.732 TAR2=64.4% Bias=-1.487 Over>2=8 Under>2=40
+final      MAE=2.306 RMSE=3.292 Pearson=0.738 TAR2=63.7% Bias=-1.379 Over>2=10 Under>2=39
+```
+
+Per-sample diagnosis from `outputs/q6_q7_latest_full_checkpoint_analysis.csv`:
+
+```text
+Q6 improved: 4 samples
+Q6 worsened: 3 samples
+Q6 unchanged: 61 samples
+
+Q6 worsened examples:
+  E12314125_Q6 teacher=2.0 avg=2.7 final=4.1
+  E12314113_Q6 teacher=3.0 avg=4.7 final=6.0
+  E12314029_Q6 teacher=4.0 avg=4.3 final=5.0
+
+Common cause:
+  These samples had weak lenient_undercredit_signal and weak result evidence,
+  but the old BND-UP fallback still allowed a small raise because the baseline
+  score was low and the score/extraction risk was nonzero.
+```
+
+Code change after this diagnosis is limited to `calibration_utils.py`.
+
+1. Added `weak_result_high_score_review`:
+
+```text
+avg_ratio >= 0.65
+result_strong_signal <= 0.50
+unsupported_high_score_risk >= 0.10
+```
+
+This does not directly lower a score. It only routes high-score/weak-result
+cases from POS into BND so the boundary agent must provide evidence before any
+correction is accepted.
+
+2. Softened `semantic_risk_too_high` hard NEG:
+
+```text
+u_semantic >= 0.75
+and lenient_undercredit < 0.10
+and result_strong < 0.50
+and method_evidence < 0.50
+```
+
+Previously, high semantic risk could send a sample directly to NEG even when
+there was meaningful result or process evidence. This conflicted with the
+confirmed instructor-lenient grading style for complex calculation problems.
+
+3. Tightened BND-UP:
+
+The old generic fallback was removed:
+
+```text
+avg_ratio <= 0.70
+and (score_risk >= 0.12 or extract >= 0.20)
+and unsupported_high_score < 0.25
+```
+
+The current BND-UP now requires `lenient_raise_ready`, meaning the raise must be
+supported by answer correctness and process/partial evidence, not merely by low
+baseline score plus uncertainty.
+
+4. Strong lenient auto-raise now requires stronger evidence:
+
+```text
+lenient_undercredit >= 0.12
+result_strong >= 0.50
+method_evidence >= 0.50 or partial_or_format_evidence >= 0.15
+avg_ratio <= 0.70
+```
+
+Replay validation after this patch:
+
+```text
+Q6 current MAE=3.272 RMSE=4.061 QWK=0.680 Pearson=0.848 TAR2=45.6% Bias=-2.687 Over>2=4 Under>2=33
+Q6 replay  MAE=3.222 RMSE=4.050 QWK=0.685 Pearson=0.855 TAR2=50.0% Bias=-2.737 Over>2=2 Under>2=32
+
+Q7 current MAE=1.325 RMSE=2.258 QWK=0.606 Pearson=0.647 TAR2=82.1% Bias=-0.051 Over>2=6 Under>2=6
+Q7 replay  MAE=1.328 RMSE=2.256 QWK=0.603 Pearson=0.647 TAR2=82.1% Bias=-0.048 Over>2=6 Under>2=6
+
+GLOBAL current MAE=2.306 RMSE=3.292 QWK=0.661 Pearson=0.738 TAR2=63.7% Bias=-1.379 Over>2=10 Under>2=39
+GLOBAL replay  MAE=2.282 RMSE=3.285 QWK=0.664 Pearson=0.742 TAR2=65.9% Bias=-1.402 Over>2=8 Under>2=38
+```
+
+Interpretation:
+
+```text
+Q6: positive replay direction. The main improvement is fewer unjustified high-over corrections.
+Q7: essentially stable. The new weak-result review routes more samples to BND but does not introduce large side effects.
+GLOBAL: MAE, Pearson, TAR2, Over>2, and Under>2 all improve in replay.
+```
+
+Important limitation:
+
+```text
+This is replay on the latest checkpoint, not a fresh formal run.
+The lab-server formal run must use --force-rerun; otherwise old checkpoints may
+be reused and the new code will not be applied to every sample.
+```
+
 ## Known Issues
 
 1. Q5 remains mainly limited by VLM/OCR extraction failures on visually complex handwritten encoding diagrams. The A3WA route does not directly solve this.
@@ -523,15 +643,51 @@ replay_calibration with A3WA config: passed
 
 ## Next Steps
 
-1. Push the latest local changes, including `scripts/calibrate_a3wa.py` and `results_rrd_vlm/a3wa_calibration_config.json`.
+1. Push the latest local changes, especially `calibration_utils.py`.
 2. Pull on the lab server.
-3. Run syntax validation: `python -m py_compile calibration_utils.py scripts/calibrate_a3wa.py scripts/replay_calibration.py step4_vlm_grader.py evaluate.py`.
-4. Run replay: `python scripts/replay_calibration.py --results-dir results_rrd_vlm --files results_rrd_vlm/Q5_graded_results.json results_rrd_vlm/Q6_graded_results.json results_rrd_vlm/Q7_graded_results.json`.
-5. Run the formal experiment on the lab server with `./run_experiment.sh run`.
-6. After completion, run `python evaluate.py --compare --questions Q5 Q6 Q7`.
-7. Inspect `a3wa_decision`, `boundary_gate`, and `risk_features.boundary_gate_*` in the new result JSON files.
-8. Compare new formal results against model_avg, old 3WD final, replay, and the calibrated validation simulation.
-9. For paper analysis, compute route-level audits:
+3. Run syntax validation:
+
+```bash
+python -m py_compile calibration_utils.py scripts/replay_calibration.py step4_vlm_grader.py evaluate.py
+```
+
+4. Optionally run replay on the server to confirm the same direction:
+
+```bash
+python scripts/replay_calibration.py --results-dir results_rrd_vlm --files results_rrd_vlm/Q6_grading_checkpoint.json results_rrd_vlm/Q7_grading_checkpoint.json
+```
+
+5. Run the fresh formal Q6/Q7 experiment with checkpoint reset:
+
+```bash
+./run_experiment.sh run --mode FULL --questions Q6 Q7 --force-rerun
+```
+
+6. Monitor:
+
+```bash
+./run_experiment.sh status
+./run_experiment.sh tail
+python monitor.py --watch
+```
+
+7. After completion, run:
+
+```bash
+python evaluate.py --compare --questions Q6 Q7
+```
+
+8. Inspect `a3wa_decision`, `boundary_gate`, and `risk_features.boundary_gate_*` in the new result JSON files.
+9. Compare the new formal result against:
+
+```text
+model_avg baseline
+previous formal final before this patch
+latest replay after this patch
+route-level BND gain
+```
+
+10. For paper analysis, compute route-level audits:
 
 ```text
 mean(mu_POS) > mean(mu_BND) > mean(mu_NEG)

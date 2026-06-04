@@ -1,0 +1,1572 @@
+ 
+Contents lists available at ScienceDirect
+Information Sciences
+journal homepage: www.elsevier.com/locate/ins 
+Threshold functionalization and adaptive learning for three-way 
+decisions with application to medical diagnosis
+Xiaoxiao Changa, Bingzhen Suna,∗ iD, Jinghao Wanga, Jin Yeb, Xiaoli Chuc,∗
+a School of Economics and Management, Xidian University, Xi’an 710126, China
+b School of Mathematics-Physics and Finance, Anhui Polytechnic University, Wuhu, Anhui, 241000, China
+c State Key Laboratory of Traditional Chinese Medicine Syndrome/Department of TCM Big Data Research, The 2nd Affiliated Hospital of 
+Guangzhou University of Chinese Medicine, Guangzhou, Guangdong, 510006, China
+a r t i c l e i n f o
+Keywords:
+Three-way decision
+Threshold functionalization
+Parameter self-adaptation
+Probability calibration
+a b s t r a c t
+Reducing decision risk is a core objective for decision-makers. Three-way decision offers a novel 
+technique for risk reduction through its “accept-reject-defer” framework. However, existing meth­
+ods generally rely on subjectively set constant thresholds and loss weights, limiting the application 
+scope and effectiveness. To address this, this paper proposes a threshold-functionalized three-way 
+decision framework, allowing thresholds to adaptively change with model uncertainty to achieve 
+a robust balance between risk control and predictive performance. First, a model pool comprising 
+seven classifiers and three probability calibration methods is constructed. The model demonstrat­
+ing the highest stability and probability reliability on the validation set is selected to generate 
+calibrated probabilities for risk-based decision-making. Subsequently, model uncertainty 𝑢 based 
+on calibrated probabilities is introduced, and fixed thresholds are extended into monotonic and 
+globally disjoint threshold functions 𝛼(𝑢) and 𝛽(𝑢), enabling the model to adaptively divide three-
+way regions. Furthermore, an adaptive threshold function learning method is proposed. It utilizes 
+class-conditional quantiles to determine reasonable threshold intervals and applies Winsorization 
+and Bootstrap shrinkage estimation to ensure stable threshold variations across uncertainty ranges, 
+avoiding oscillations caused by data sparsity or noise. Finally, the optimal threshold shape satis­
+fying risk constraints is searched within multiple function families. Experiments on rheumatoid 
+arthritis data and supplementary UCI datasets validate the generalizability and effectiveness of this 
+method. This study provides a practical technical approach for three-way decision, demonstrating 
+its unique advantages and strong application potential.
+1 . Introduction
+With the proliferation of large-scale complex data and high-risk application scenarios, making decisions that are interpretable, 
+quantifiable, and controllable in uncertain environments has become a long-standing challenge. Traditional binary decisions can only 
+make rigid judgments between “accept” and “reject,” struggling to capture the intermediate states widely present in reality, such as 
+“postpone,” “conduct further observation,” or “submit for expert review.” Three-way decision (TWD), grounded in rough set theory, 
+emerged to address this gap. Building upon Pawlak’s rough sets—specifically their positive, boundary, and negative regions—Yao 
+interpreted these as three distinct actions: “accept,” “defer,” and “reject.” This formed the systematic TWD framework alongside 
+the trisecting–acting–outcome (TAO) model [1–3]. In decision-theoretic rough sets (DTRS), decision-makers derive thresholds by 
+∗ Corresponding authors.
+ Email addresses: changxiaoxiao331@163.com (X. Chang), bzsun@xidian.edu.cn (B. Sun), 425672586@qq.com (J. Wang), yejin9501ah@126.com (J. Ye), 
+xlchu85@126.com (X. Chu).
+https://doi.org/10.1016/j.ins.2026.123551
+Received 15 December 2025; Received in revised form 10 April 2026; Accepted 21 April 2026
+Information Sciences 749 (2026) 123551 
+Available online 22 April 2026 
+0020-0255/© 2026 Elsevier Inc. All rights are reserved, including those for text and data mining, AI training, and similar technologies. 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+specifying a loss function (or loss matrix) and conditional probabilities under the principles of minimum expected loss or maximum 
+expected utility, thereby classifying samples into the positive, boundary, and negative regions [4]. This framework has been widely 
+applied in medical diagnosis, credit risk assessment, recommendation systems, anomaly detection, and other domains [5–8], becoming 
+a vital tool for risk-informed decision-making under uncertainty.
+Regarding how to characterize and utilize loss (or utility) information, three-way decision-related research has broadly converged 
+on two technical approaches. One category of work is based on real-valued loss functions. For instance, Deng and Yao employed 
+Shannon entropy to measure uncertainty, incorporating an information-theoretic interpretation of thresholds [
+9]; Liu et al. constructed 
+discriminant models using logistic regression or its variants, deriving thresholds through probabilistic estimation and cost functions 
+[
+10]. The other category employs fuzzy or intuitionistic fuzzy loss functions, using linguistic intuitionistic fuzzy numbers, interval-
+valued intuitionistic fuzzy numbers, and type-2 fuzzy sets to characterize experts’ subjective evaluations of different actions, thereby 
+deriving three-way decision rules [
+11]. These studies have greatly enriched the representational forms of loss functions in three-way 
+decision. However, a common issue is that the loss parameters themselves often still require manual specification or semi-manual 
+adjustment. Their rationality and transferability depend on expert knowledge, making subjectivity difficult to avoid.
+To further mitigate this subjectivity, a series of studies has attempted to establish connections between three-way decision and 
+behavioral decision theory. Zhu et al. introduced regret theory into three-way decision, estimating conditional probabilities through 
+dominance relations to construct regret-based utility functions for determining three-way decision thresholds [
+12]. Huang et al. further 
+integrated prospect–regret theory with intuitionistic fuzzy numbers within incomplete multi-scale decision information systems [13]. 
+These works reshape loss functions or utility functions from psychological and behavioral decision-theoretic perspectives, theoretically 
+aligning more closely with human decision processes. However, new parameters—such as loss intervals, value function specifications, 
+and risk attitude coefficients—still require prior specification. This approach does not fundamentally eliminate subjectivity but merely 
+shifts it from loss values to other parameter domains.
+Parallel to loss modeling, multi-granulation rough sets and multi-granulation three-way decisions have evolved. Qian et al. 
+proposed a multi-granulation approach, synthesizing decision conclusions from different granulation levels [14,15]. Recently, a 
+multi-granulation three-way decision model based on weighted probability kernels provided a unified computational framework 
+for data-driven loss functions in hypertension diagnosis by integrating multi-kernel probability similarity with grey relational anal­
+ysis. It also employs knowledge-consistency measures to adaptively determine granulation weights [
+16]. This work demonstrates 
+that three-way decision mechanisms can form richer representations and reasoning capabilities in multi-granulation, multi-source 
+information, and multi-perspective environments. However, in most models, thresholds still appear as scalar quantities, typically set 
+empirically or optimized once via a fixed objective (e.g., minimizing loss).
+In a more refined branch of threshold research, scholars began directly treating the threshold itself as an optimization target. 
+Liu et al. defined a loss function using interval-valued intuitionistic fuzzy sets in DTRS, proposing an optimization-based three-way 
+decision method to reduce the computational overhead of threshold determination [17]; Shen et al. constructed a single-objective 
+function based on information gain, selecting the threshold pair that maximizes information gain [18]. Li and Shao, addressing 
+criminal association identification problems, combined uncertainty in the boundary region (measured by entropy) with the overall 
+three-way decision cost as trade-off objectives. They automatically searched for thresholds using methods like particle swarm opti­
+mization under a given loss matrix [
+19]. Bisht and Pal recently proposed the 3WD–MADM model, which simultaneously considers 
+loss and utility. It derives a set of thresholds from both expected loss and expected utility sides, then obtains the final threshold via a 
+weighted averaging operator [
+20]. Liang and Yang conducted an in-depth analysis of this model, pointing out that directly weighted 
+thresholds may conflict with the principle of maximum expected utility. They proposed a modification approach based on the nec­
+essary conditions for Bayesian decision-making [
+21]. These works advance the direction of “optimizable and learnable” thresholds 
+from different angles, yet significant limitations remain: First, thresholds are often treated as global scalars, failing to capture contin­
+uous variations in uncertainty levels across samples. Second, most objective functions consider only overall cost or boundary region 
+size, rarely explicitly incorporating safety constraints like the high-risk leak rate. Third, the shape of thresholds (e.g., monotonically 
+increasing or nonlinearly varying with uncertainty) lacks systematic characterization, resulting in limited interpretability.
+Another closely related line of research focuses on incomplete/hybrid data, boundary region processing, and adaptive feature 
+granularity. In incomplete hybrid data scenarios, prior work has proposed a three-way decision model based on random forest 
+imputation, attention mechanism attribute assessment, and multi-T-norm dynamic fusion. This model constructs cost functions from 
+both holistic and incremental perspectives and provides an adaptive threshold pair setting strategy using a descending approach. 
+Regarding boundary region handling, Li et al. progressively narrowed boundary regions through tri-training combined with rough set 
+and centroid methods, enhancing performance in text classification and binary classification tasks [
+22,23]; Ma and Yao emphasized 
+the importance of negative rules in boundary processing, proposing multiple category-specific three-way reduction forms based 
+on category-specific reduction [
+24]; Chen et al. proposed a multi-view, cost-sensitive three-way decision model to extract global 
+decision information from POS/NEG samples for re-decision on BND samples [25,26]. The AH3 model, building upon MinCA-based 
+three-way partitioning, constructs hierarchical feature spaces on positive and negative domains respectively. It selects the optimal 
+feature representation through BND validation and adaptive granularity decomposition for secondary three-way decision on boundary 
+samples [
+27]. These studies reveal that within both sample and feature spaces, researchers predominantly focus on reducing boundary 
+region scale through granularity adjustment and multi-stage processing, while threshold designs largely remain confined to “discrete 
+alternatives + global constants.”
+In summary, existing decision research on threshold modeling exhibits significant gaps and contradictions: on one hand, loss 
+functions have been endowed with rich theoretical semantics (fuzzy, behavioral decision-making, multi-criteria, grey correlation, etc.), 
+and various attempts at “threshold optimization” and “adaptive selection” have emerged; on the other hand, thresholds are ultimately 
+Information Sciences 749 (2026) 123551 
+2 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+simplified into a set of scalars, treating all samples identically within the same model. This approach lacks a continuous response 
+mechanism tailored to uncertainty levels and lacks a unified framework to characterize how different threshold function forms (linear, 
+power functions, logistic functions, etc.) affect risk metrics such as coverage rate, high-risk leakage rate, and over-treatment rate. 
+Particularly in high-stakes, tightly constrained scenarios (e.g., medical diagnosis, credit risk control, security screening), decision-
+makers typically prioritize hard constraints like “High-risk leakage rate not exceeding 𝜏”. Only then do they seek to maximize coverage 
+or minimize boundary-region width. Most existing methods either require manual threshold tuning through trial-and-error or struggle 
+to provide clear interpretable explanations.
+Based on the above analysis, this paper addresses the challenges of three-way decision thresholds characterized by strong sub­
+jectivity and difficult-to-capture shapes. It proposes a threshold functionalization and parameter adaptation framework centered on 
+model uncertainty. First, a model pool comprising seven classifier types and three probability calibration methods is constructed. 
+A well-calibrated probabilistic prediction model is selected, and a model uncertainty metric is derived to quantify the “difficulty of 
+classification” for each sample. Second, we automatically determine threshold endpoints and variation ranges based on this met­
+ric. To mitigate threshold fluctuations caused by data sparsity and noise, robust statistical techniques including Winsorization and 
+Bootstrap shrinkage estimation are explicitly incorporated into this parameter generation process. This generates a family of thresh­
+old function candidates satisfying monotonicity and non-intersection constraints, enabling continuous adjustment of the three-way 
+decision thresholds in response to model uncertainty. Finally, we comprehensively evaluate threshold candidates using metrics such 
+as coverage rate (the proportion of samples where the model directly provides explicit “accept/reject” judgments), boundary rate, 
+high-risk leak rate, error rate, over-treatment rate, and predefined safety constraints. The Pareto knee point between coverage and 
+high-risk leak rate automatically determines the operating point. This mechanism is applied to both “low/high-risk classification” 
+and hierarchical segmentation within risk tiers, forming a two-stage three-way decision process.
+Compared with existing studies, the main novelties of this paper can be summarized in the following three aspects:
+1. A model-uncertainty-driven threshold functionalization method for three-way decisions is proposed. Existing studies on 
+three-way decisions mostly use global fixed thresholds (𝛼, 𝛽) to partition the acceptance region, rejection region, and boundary 
+region, and the threshold form is usually static, making it difficult to fully adapt to the variation in uncertainty levels among 
+different samples. To address this issue, this paper extends the traditional constant thresholds to threshold functions 𝛼(𝑢) and 
+𝛽(𝑢) that vary continuously with model uncertainty, so that the three-region partition can be adaptively adjusted according 
+to sample uncertainty. This method is not a simple replacement of the traditional threshold form, but promotes three-way 
+decisions from “fixed-threshold-driven” to “function-driven under uncertainty conditions” at the decision-mechanism level, 
+thereby enhancing the expressive ability of the model for complex sample distributions. Meanwhile, basic shape constraints 
+such as monotonicity and non-crossing are imposed to ensure that the threshold functions have clear, stable, and interpretable 
+decision semantics.
+2. A risk-constrained adaptive learning mechanism for threshold parameters is constructed. In traditional three-way deci­
+sion methods, the threshold determination process often relies heavily on prior loss matrices, manually specified experience, 
+or fixed rules, and is therefore easily affected by subjective factors in complex tasks. To this end, this paper starts from the 
+calibrated predicted probabilities and their uncertainty distributions, and adaptively determines the endpoint intervals, varia­
+tion amplitudes, and candidate shapes of the threshold functions, while completing parameter screening and operating-point 
+determination under safety constraints such as the high-risk missed-detection rate. This mechanism enables the construction 
+of threshold functions to be jointly driven by data distribution, risk objectives, and coverage requirements, thereby reduc­
+ing dependence on repeated manual tuning and strong prior loss specification. Compared with existing static-threshold or 
+experience-based setting methods, the parameter learning method proposed in this paper has greater advantages in objectivity, 
+transferability, and reproducibility.
+3. An interpretable three-way decision modeling framework for high-risk applications is established. This paper incorpo­
+rates probability model selection, probability calibration, threshold functionalization, and Pareto knee-point selection into a 
+unified procedure, and realizes closed-loop modeling from probability output generation to three-region partition decision. It 
+should be pointed out that the model pool, calibrators, and multi-metric evaluation mainly serve as supporting mechanisms 
+in this paper, providing more reliable probabilistic inputs and unified comparison criteria for threshold-function learning; the 
+core methodological novelty of this paper lies in the threshold functionalization and its adaptive learning mechanism itself. 
+Experimental results on real medical grading data and multiple public datasets show that the proposed framework performs well 
+in the trade-off between coverage and high-risk missed-detection rate, boundary-region control, and decision interpretability, 
+indicating that it can not only preserve the risk-control semantics of three-way decisions, but also possesses good engineering 
+implementability, thus providing a feasible and extensible technical path for the application of three-way decision methods in 
+high-risk scenarios.
+The remainder of this paper is structured as follows: Section 2 reviews the three-way decision theory and related fundamental 
+concepts; Section 3 constructs model pools and probability calibration pools under a unified decision information system, detailing out-
+of-fold probability estimation, model uncertainty measures, and evaluation metrics such as Negative Log-Likelihood (NLL), Expected 
+Calibration Error (ECE), Brier Score, and Area Under the ROC Curve (AUC); Section 4 proposes three families of interpretable threshold 
+functions based on calibrated probabilities and model uncertainty measures, presenting adaptive threshold algorithms for endpoint 
+anchoring, amplitude constraints, and Pareto knee point selection; 
+Section 5 designs a two-stage, three-way diagnostic experiment 
+using real rheumatoid arthritis grading data to compare methods across coverage, boundary-region rates, and high-risk leak rates, 
+Information Sciences 749 (2026) 123551 
+3 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Fig. 1. Functionalization of three-way decision thresholds and its adaptive learning framework.
+supplemented by validation on public datasets. Finally, Section 6 summarizes the work and discusses future directions including 
+threshold function family extensions and multi-scenario validation. 
+Fig. 1 presents the overall workflow of the proposed framework. The left module is used to generate reliable probability inputs: first, 
+the optimal “model–calibrator” combination is selected from the model pool and calibrator pool to obtain the calibrated probability 
+̃ 𝑝(𝑥), and then the model uncertainty 𝑢(𝑥) is further constructed. The middle module is the core of this paper, namely learning the 
+threshold functions 𝛼(𝑢) and 𝛽(𝑢) based on uncertainty, thereby extending the traditional fixed-threshold three-way decision into 
+a functionalized decision mechanism varying with model uncertainty, while ensuring interpretability through constraints such as 
+monotonicity and non-crossing. The right module is used to generate parameter candidates in a data-driven manner, and under 
+safety constraints such as the high-risk leak rate, the final threshold functions are determined through Pareto frontier and knee-point 
+selection, thereby completing the three-region partition of POS, NEG, and BND.
+2 . Preliminaries
+Three-way decision is an extension of the traditional two-way decision framework. Its core idea is that, in addition to the two 
+conclusions “accept” and “reject,” a third action “defer” (or “hesitate”) is introduced, so that samples can be divided into the positive 
+region, boundary region, and negative region. Decision-theoretic three-way decisions are generally constructed upon the framework 
+of decision-theoretic rough sets (decision-theoretic rough sets, DTRS), where loss functions and Bayesian risk provide the foundation 
+for deriving three-way decision rules and threshold values.
+Definition 2.1.In DTRS theory, for a given decision problem, each sample has two possible true states, denoted as Ω = { 𝑋,¬ 𝑋}, 
+where 𝑋 indicates that the sample actually belongs to the target class (or “positive class”), and ¬𝑋 indicates that the sample does not 
+belong to the target class (or “negative class”). For the same sample, the decision maker may choose among three different decision 
+actions, denoted as {𝛼𝑃 , 𝛼𝐵, 𝛼𝑁 }, where:
+• 𝛼𝑃 : positive decision, usually corresponding to assigning the sample to the positive region;
+• 𝛼𝐵: boundary decision, corresponding to assigning the sample to the boundary region;
+• 𝛼𝑁: negative decision, corresponding to assigning the sample to the negative region.
+For any combination of true state and decision action (𝜔, 𝛼), DTRS characterizes the resulting cost through a loss function. A 
+commonly used form is the following loss table:
+𝛼𝑃 𝛼𝐵 𝛼𝑁
+𝑋 𝜆𝑃 𝑃 𝜆𝐵𝑃 𝜆𝑁𝑃
+¬𝑋 𝜆𝑃 𝑁 𝜆𝐵𝑁 𝜆𝑁𝑁
+In the classic three-way decision model, the losses usually satisfy the following relationships:
+𝜆𝑃 𝑃 ≤𝜆 𝐵𝑃 ≤𝜆 𝑁𝑃 , 𝜆 𝑁𝑁 ≤𝜆 𝐵𝑁 ≤𝜆 𝑃 𝑁. (1)
+Information Sciences 749 (2026) 123551 
+4 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+The above inequalities reflect the general constraints on the three-way decision actions: when the truth is 𝑋, the loss of acceptance 
+is no greater than that of non-commitment (delay), and the loss of non-commitment is no greater than that of rejection; when the 
+truth is ¬𝑋, the loss of rejection is no greater than that of non-commitment, and the loss of non-commitment is no greater than that 
+of acceptance.
+In the decision-making process, conditional probability can be used to characterize the confidence that a sample belongs to the 
+target class. Let 𝑃(𝑋|[𝐱])  be the conditional probability that sample 𝐱 (or its equivalence class [𝐱]) belongs to 𝑋, then 𝑃(¬𝑋|[𝐱]) =
+1 −𝑃(𝑋|[𝐱]) . Given the loss table and conditional probability, the expected loss for each decision action is given by the weighted 
+sum of the loss value and the corresponding probability. Furthermore, the thresholds and decision rules for three-way decisions can 
+be obtained based on Bayesian decision theory. Under the aforementioned loss function and its constraints, the threshold form for 
+three-way decisions can be derived based on Bayesian decision theory. A common practice in the literature is to introduce three 
+thresholds 𝛼, 𝛽, 𝛾, which are entirely determined by the loss parameters. For example, a typical form of definition is:
+𝛼= 𝜆𝑃 𝑁 −𝜆 𝐵𝑁
+𝜆𝑃 𝑁 −𝜆 𝐵𝑁 +𝜆 𝐵𝑃 −𝜆 𝑃 𝑃
+, 𝛽= 𝜆𝐵𝑁 −𝜆 𝑁𝑁
+𝜆𝐵𝑁 −𝜆 𝑁𝑁 +𝜆 𝑁𝑃 −𝜆 𝐵𝑃
+, 𝛾= 𝜆𝑃 𝑁 −𝜆 𝑁𝑁
+𝜆𝑃 𝑁 −𝜆 𝑁𝑁 +𝜆 𝑁𝑃 −𝜆 𝑃 𝑃
+.
+(2)
+Under reasonable loss constraints, the thresholds given by the above equations lie in the interval [0,1]  and satisfy the appropriate 
+magnitude relationship, thereby ensuring that different decision regions can be described by interval partitioning of the conditional 
+probability.
+Let 𝑝(𝐱) =𝑃(𝑋|[𝐱]) , then the three-way decision rules can be written as: (Corresponding to the threshold definitions mentioned 
+previously):
+• If 𝑝(𝐱)≥𝛼  and 𝑝(𝐱)≥𝛾 , then the acceptance decision 𝛼𝑃  is taken for 𝐱, and it is classified into the positive region 𝑃 𝑂𝑆(𝛼, 𝛽)(𝑋) .
+• If 𝛽≤𝑝(𝐱)≤𝛼 , then the non-commitment (deferral) decision 𝛼𝐵 is taken for 𝐱, and it is classified into the boundary region 
+𝐵𝑁𝐷(𝛼, 𝛽)(𝑋) .
+• If 𝑝(𝐱)≤𝛽  and 𝑝(𝐱)≤𝛾 , then the rejection decision 𝛼𝑁 is taken for 𝐱, and it is classified into the negative region 𝑁𝐸𝐺(𝛼, 𝛽)(𝑋) .
+Accordingly, the universe 𝑈 can be divided into three mutually disjoint regions: 
+𝑃 𝑂𝑆(𝛼, 𝛽)(𝑋) = {𝐱∈𝑈|𝑝(𝐱)satisfies the criterion for the positive region}
+𝐵𝑁𝐷(𝛼, 𝛽)(𝑋) = {𝐱∈𝑈|𝑝(𝐱)satisfies the criterion for the boundary region}
+𝑁𝐸𝐺(𝛼, 𝛽)(𝑋) = {𝐱∈𝑈|𝑝(𝐱)satisfies the criterion for the negative region}
+(3)
+In the above definitions, the “criterion” can be specifically replaced with the threshold rules mentioned previously.
+From a decision-theoretic perspective, samples in the positive region tend to be directly accepted, samples in the negative region 
+tend to be directly rejected, while samples in the boundary region correspond to situations of “uncertainty” or “hesitation” and 
+require further processing in subsequent stages. Regardless of how the specific application scenario changes, the structure—where 
+the thresholds determined by the loss function divide the conditional probability interval into three segments, thereby forming the 
+positive region, boundary region, and negative region—constitutes the foundation of Decision-Theoretic Three-Way Decisions.
+3 . Methodology for constructing model uncertainty based on model ensemble and probability calibration
+This section aims to convert the outputs of various candidate classification models into credible and interpretable calibrated 
+probabilities, and subsequently construct a model uncertainty measure based on these probabilities, providing a unified and stable 
+input for the threshold functionalization and three-way decision in later sections. Specifically, after uniform preprocessing, this 
+paper first constructs a model pool comprising multiple probabilistic classifiers and three types of probability calibrators. Out-of-fold 
+predictions are obtained through stratified 𝐾-fold cross-validation, and probability calibration is performed on each “model-calibrator 
+combination” to yield the sample-level calibrated probability ̃ 𝑝(𝐱). Subsequently, based on the out-of-fold calibrated probabilities, 
+this paper systematically compares evaluation metrics such as NLL, ECE, Brier, and AUC. Following the priority order of “NLL first, 
+then ECE, then Brier, and finally AUC,” the best-performing model and calibrator combination is automatically selected, and the 
+unified calibrated probability 
+𝑝(𝐱) is provided accordingly. Building upon this, this paper further converts the calibrated probability 
+into a model uncertainty characterization 𝑢(𝐱), ultimately outputting {𝑝(𝐱), 𝑢(𝐱)} and the corresponding calibration evaluation results, 
+laying the foundation for subsequent model uncertainty-driven threshold function learning.
+3.1 . Decision information system
+Definition 3.1.Let 𝑈= {𝐱 1,…,𝐱 𝑁 } be the set of samples, 𝐶= {𝑎 1,…, 𝑎 𝑚} be the set of attributes composed of examination 
+indicators, and 𝐷 be the decision attribute. For any attribute 𝑎∈𝐶∪ {𝐷} , 𝑉𝑎 is its value domain (when numerical, 𝑉𝑎 ⊆R ), allowing 
+for missing values *.
+Define the valuation mapping:
+𝑟∶𝑈× (𝐶∪ {𝐷})→
+⋃
+𝑎∈𝐶∪{𝐷}
+(𝑉𝑎 ∪ {∗}) (4)
+Information Sciences 749 (2026) 123551 
+5 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Then the tuple I= (𝑈 , 𝐶, 𝐷,{𝑉 𝑎}𝑎∈𝐶∪{𝐷} , 𝑟) is a decision information system. For an arbitrary sample 𝐱∈𝑈 , its feature vector and 
+label are defined as:
+𝐱= (𝑟(𝐱, 𝑎 1),…, 𝑟(𝐱, 𝑎 𝑚)) ∈𝑉 𝑎1 ×⋯×𝑉 𝑎𝑚 , 𝑦=𝑟(𝐱, 𝐷) ∈𝑉 𝐷 (5)
+3.2 . Prediction probability generation and calibration method based on model pool
+3.2.1 . Probability classifier training
+Definition 3.2.Let I= (𝑈 , 𝐶, 𝐷,{𝑉 𝑎}𝑎∈𝐶∪{𝐷} , 𝑟) be a decision information system. For an arbitrary sample 𝐱∈𝑈 , let 𝐱 be the 
+sample’s feature vector, and 𝑦∈ {0,1}  be the label. To obtain a continuous decision basis for threshold learning in three-way 
+decision, a probabilistic classifier is used to output the predicted probability, which serves as the foundation for subsequent probability 
+calibration and model uncertainty construction. The output of the probabilistic classifier not only provides the quantitative probability 
+information required to distinguish the “acceptance–rejection–deferral” regions, but also reflects the model’s differing certainty levels 
+for various samples, thus making it a key component for realizing threshold functionalized three-way decisions. The probabilistic 
+classifier is defined as: 
+𝑝𝜃(𝑦= 1|𝐱) =𝑓 𝜃(𝐱) ∈ [0,1](6)
+where 𝜃 represents the model parameters, learned through the training rules of each algorithm.
+The model pool constructed in this paper includes seven representative supervised classification algorithms: LightGBM [28], 
+Logistic Regression [29], Random Forest [30], Gradient Boosting Decision Tree [31], Support Vector Machine [32], Multi-Layer 
+Perceptron [33], and Naïve Bayes [34]. These models cover various underlying preferences such as linear models, tree-based models, 
+ensemble models, and neural networks. By characterizing the data distribution from different structural assumptions and functional 
+forms, they provide a more comprehensive and robust source of reference for probability calibration and uncertainty measure­
+ment. The model pool is expandable, and in practical applications, other classifiers can be flexibly added or removed based on 
+task complexity and data characteristics.
+It should be noted that the candidate classifiers in the model pool are not exhaustively tuned in a classifier-specific manner for 
+each dataset. Instead, commonly used empirical settings in standard implementations are adopted as initial operating points, together 
+with light pilot adjustments to exclude obviously unsuitable configurations. This design is motivated by three considerations. First, it 
+helps ensure a fair comparison across heterogeneous classifiers and avoids introducing additional bias by tuning one particular model 
+more aggressively than others. Second, it reduces manual intervention and improves the reproducibility of the overall pipeline. Third, 
+it enhances the transferability and applicability of the framework to unseen datasets. On this basis, different candidate classifiers are 
+further combined with multiple calibrators and compared under a unified set of probability-quality criteria, so that the more suitable 
+classifier–calibrator combination can be adaptively determined for the current task. In this way, the model pool remains extensible 
+while providing stable and comparable probabilistic inputs for subsequent threshold-function learning.
+3.2.2 . Probability calibration
+Definition 3.3.Let 𝐼=⟨𝑈 , 𝐶, 𝐷,{𝑉 𝑎}𝑎∈𝐶∪𝐷 , 𝑟⟩ be a decision information system. For any sample 𝑥∈𝑈  and its label 𝑦∈ {0,1} , the 
+classifier outputs a one-dimensional real-valued model score 𝑠(𝑥) ∈R , defining the model probability as 𝑝𝜃(𝑥) =𝜎(𝑠(𝑥)) . To ensure the 
+probability reflects the true occurrence frequency of the event 𝑦= 1 , a probability calibration function 𝑔(⋅) is introduced. Accordingly, 
+the calibrated probability is defined as: 
+̃ 𝑝(𝑥) =𝑔(𝑝𝜃(𝑥)) ∈ [0,1],(7)
+This ensures that within any probability interval, the average value of predicted probabilities is consistent with the empirical hit rate, 
+thereby enhancing numerical interpretability and decision reliability. The calibrated ̃ 𝑝(𝑥) serves as the unique numerical input for 
+subsequent model uncertainty measurements.
+In the field of probability calibration, Platt Scaling, Isotonic Regression, and Temperature Scaling are the three most widely 
+applied and complementary classes of calibration functions. Platt Scaling obtains a smooth calibration relationship by learning a 
+Linear-Sigmoid transformation, featuring few parameters and strong generalization. It is suitable for models with large variances 
+in output score ranges, such as SVM and GBDT. Isotonic Regression takes monotonicity with minimal assumptions as a constraint 
+and can fit monotonic mappings of arbitrary shapes, providing flexible and non-parametric calibration between model probability 
+and true frequency. Temperature Scaling is a minimalist global calibration method, adjusting only the temperature parameter of the 
+logit can significantly improve the probability error of deep models, characterized by simple implementation and high computational 
+efficiency. These three cover the spectrum from parametric and semi-parametric to non-parametric function families, offering stable 
+and diverse calibration choices for different types of classifiers in the model pool, and can be flexibly extended to other calibration 
+methods based on task requirements.
+(1) Platt Scaling (Logistic Mapping) 
+̃ 𝑝(𝑥) =𝜎(𝑎𝑧(𝑥) +𝑏), 𝜎(𝑡) = 1
+1 +𝑒 −𝑡 (8)
+Information Sciences 749 (2026) 123551 
+6 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Estimate (𝑎, 𝑏) via Maximum Likelihood Estimation on the validation set/out-of-fold samples. Its advantages include having 
+fewer parameters, demonstrating strong generalization, and often significantly reducing the NLL/ECE for SVM and GBDT 
+models. The limitation is that it can only fit S-shaped monotonic relationships.
+(2) Isotonic Regression
+On the validation set, the objective is to find a monotonically non-decreasing piecewise constant function 𝑔 with respect 
+to the score 𝑧 that minimizes ∑
+𝑖 (𝑔(𝑧𝑖) −𝑦 𝑖)2. This optimization problem is solved using the PAV algorithm. While its primary 
+advantage is the ability to fit arbitrary monotonic shapes, it is susceptible to overfitting on small samples, which necessitates 
+setting a minimum bin size or merging bins.
+(3) Temperature Scaling 
+̃ 𝑝(𝑥) =𝜎(𝑧(𝑥)∕𝑇), 𝑇 >0.(9)
+Find 𝑇  by minimizing NLL on the validation set. The advantage is preserving ranking and extremely simple implementation; 
+the limitation is having only one parameter, resulting in limited expressiveness.
+3.2.3 . Best classifier–calibrator combination selection
+This study selects Negative Log-Likelihood (NLL), Expected Calibration Error (ECE), Brier Score, and Area Under the ROC Curve 
+(AUC) as four types of metrics to evaluate the “model-calibrator” combinations. The reason is that these four metrics measure the 
+discriminative ability, calibration degree, and overall error level of the probability output from different angles, possessing strong 
+complementarity. Specifically, NLL reflects the overall quality of the probability distribution fit and is the most commonly used 
+log-likelihood type metric in current probabilistic model training and selection; ECE characterizes the bin-wise deviation between 
+predicted probability and true frequency, serving as the most intuitive metric for measuring the degree of probability calibration; Brier 
+Score synthesizes accuracy and calibration in the sense of mean squared error, providing an overall characterization of probability 
+error; AUC characterizes the probability ranking ability, used to measure the model’s discrimination effect on high-risk samples. 
+These four types of metrics constitute a relatively complete probability quality evaluation system from the four aspects of likelihood, 
+calibration, mean squared error, and ranking performance. This provides a stable and reliable basis for selecting the optimal “model-
+calibrator” combination and ensures that the subsequently constructed uncertainty measures and threshold functions have good 
+statistical significance and decision interpretability.
+(1) Negative Log-Likelihood (NLL)
+Used to verify whether the calibrated probability is closer to the true frequency, serving as the unique primary metric and 
+basis for calibrator selection. 
+NLL= − 1
+𝑛
+𝑛∑
+𝑖=1
+[𝑦𝑖 log̃ 𝑝𝑖 + (1 −𝑦 𝑖) log(1 −̃ 𝑝𝑖)],(10)
+where ̃ 𝑝𝑖 is the calibrated probability. When comparing different calibrators, the smaller the NLL, the better.
+(2) Expected Calibration Error (ECE) and Reliability Diagram
+Used to characterize the magnitude and shape of the deviation between “predicted probability and empirical hit rate,” 
+serving as the unique secondary metric accompanied by a diagram for explanation. Divide ̃ 𝑝 into 𝐵 bins by equal frequency. 
+Let the number of samples in the 𝑏-th bin be 𝑛𝑏, the average prediction be ̂ 𝑝𝑏, and the hit rate be ̂ 𝑞𝑏, then: 
+ECE=
+𝐵∑
+𝑏=1
+𝑛𝑏
+𝑛 |̂ 𝑝𝑏 −̂ 𝑞𝑏|.(11)
+Based on the results, draw a reliability diagram (̂ 𝑝𝑏, ̂ 𝑞𝑏) to visually display over/under-confidence and shape deviation by 
+comparing it with the diagonal line. The smaller the ECE, the better.
+(3) Brier Score
+The Brier Score is used to simultaneously characterize the overall shift and variance of predicted probabilities, reflecting 
+the mean squared error of the model in a probabilistic sense. Given the calibrated predicted probability ̃ 𝑝𝑖 and the binary true 
+label 𝑦𝑖 ∈ {0,1} , the Brier Score is defined as: 
+Brier=
+∑𝑛
+𝑖=1 (𝑦𝑖 −̃ 𝑝𝑖)2
+𝑛 .(12)
+It can be seen that the smaller the Brier Score, the closer the predicted probability is to the true label (neither systematically 
+overestimated nor having significantly high variance), and the smaller the overall error of the model at the probability level. 
+Compared with NLL and ECE, the Brier Score is more inclined to measure the comprehensive fitting effect in the sense of 
+“mean squared error”; therefore, in this paper, it is used as an auxiliary metric to NLL and ECE, used to further distinguish 
+model-calibrator combinations with similar calibration effects.
+(4) Area Under the ROC Curve (AUC)
+The ROC Area Under Curve (AUC) is used to evaluate the ranking ability of the model in a sense independent of the 
+threshold, that is, the model’s ability to rank high-risk samples before low-risk samples. Let P= {𝑖∣𝑦 𝑖 = 1} and N= {𝑗∣𝑦 𝑗 = 0}
+be the positive and negative sample sets respectively, and the corresponding predicted probabilities be ̃ 𝑝𝑖. AUC can be expressed 
+Information Sciences 749 (2026) 123551 
+7 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+as the probability that “the score of a positive sample is higher than that of a negative sample” in positive-negative sample 
+pairs: 
+AUC= 1
+|P|⋅|N|
+∑
+𝑖∈P
+∑
+𝑗∈N
+𝟏(̃ 𝑝𝑖 > ̃ 𝑝𝑗 )(13)
+where 𝟏(⋅) is the indicator function, taking 1 when the condition inside the parenthesis holds, otherwise taking 0. Equivalently, 
+AUC can also be understood as the numerical integration result of the ROC curve (with False Positive Rate FPR as the horizontal 
+axis and True Positive Rate TPR as the vertical axis) over all thresholds. The value range of AUC is [0.5,1] . The larger the value, 
+the better the ranking performance of the model in distinguishing high-risk and low-risk samples. Since AUC does not depend on 
+specific thresholds, in this paper, it is mainly used as a supplementary metric for ranking performance: under the circumstance 
+that NLL, ECE, and Brier Score are difficult to distinguish, the model-calibrator combination with larger AUC is preferred.
+3.3 . Model uncertainty measurement based on calibrated probability
+Definition 3.4.Let 𝐼=⟨𝑈 , 𝐶, 𝐷,{𝑉 𝑎}𝑎∈𝐶∪𝐷 , 𝑟⟩ be a decision information system. After probability calibration, for each sample 𝑥∈𝑈 , 
+an interpretable conditional probability ̃ 𝑝(𝑥) ∈ [0,1] is obtained, the value of which can reflect the model’s confidence level in the 
+class to which the sample belongs. In order to construct an “uncertainty” input consistent with the probability in the subsequent 
+threshold-functionalized three-way decision, the sample-level model uncertainty 𝑢(𝑥) is defined as: 
+𝑢(𝑥) = 1 −|2̃ 𝑝(𝑥) − 1|= 2 min{̃ 𝑝(𝑥),1 −̃ 𝑝(𝑥)} ∈ [0,1].(14)
+The function 𝑢(𝑥) possesses the following properties: when ̃ 𝑝≈ 0.5 , the sample is most difficult to judge, at which point 𝑢→1 , 
+indicating high uncertainty; when ̃ 𝑝 approaches 0 or 1, the model prediction is highly confident, 𝑢→0 , indicating low uncertainty. 
+This measure is mathematically equivalent to measuring “the degree to which the predicted probability deviates from the binary 
+classification boundary,” and can provide a unified and stable input for the subsequent construction of the three-way threshold 
+functions 𝛼(𝑢) and 𝛽(𝑢) that vary monotonically with uncertainty.
+3.4 . Algorithm implementation
+Algorithm 1 Joint model-calibrator selection and uncertainty quantification.
+Input: Training set D= {(𝑥 𝑖, 𝑦𝑖)}𝑛
+𝑖=1; Candidate model set F= {𝑓 (𝑘)}𝐾
+𝑘=1; Candidate calibrator set G= {Platt,Isotonic,Temperature} ; 
+Stratified fold count 𝐾cv; ECE bin number 𝐵.
+Output: The final base model and calibrator 𝑔∗; Calibrated probability ̃ 𝑝𝑖 and model uncertainty 𝑢𝑖; Evaluation report (NLL, ECE, 
+Brier, AUC and Reliability Diagrams); Inference mapping.
+step1: Stratified Fold Partitioning. Fix the random seed and perform stratified 𝐾cv-fold partitioning on D to obtain the train­
+ing/validation index pairs {(I(𝓁)
+train,I (𝓁)
+val )}
+𝐾cv
+𝓁=1.
+step2: Model-wise OOF Score Generation. For each candidate model 𝑓 (𝑘): train on each fold I(𝓁)
+train and output the 1D score 𝑠(𝑘)
+𝑖
+on I(𝓁)
+val  (if the model outputs probability 𝑝(𝑘)
+𝜃,𝑖 , use 𝑠(𝑘)
+𝑖 =logit(𝑝 (𝑘)
+𝜃,𝑖 )). Merge these to obtain the full-sample Out-of-Fold (OOF) 
+score vector 𝐬(𝑘), and retrain on the full training set to obtain ̂𝑓 (𝑘).
+step3: Fit Candidate Calibrators. For each model 𝑘 and each calibrator 𝑔∈G , use the paired data {(𝑧(𝑘)
+𝑖 , 𝑦𝑖)} (default 𝑧(𝑘)
+𝑖 =𝑠 (𝑘)
+𝑖
+) 
+to fit the calibration function ̃ 𝑝(𝑘)
+𝑖,𝑔 =𝑔(𝑧 (𝑘)
+𝑖 )
+.
+step4: Calculate Evaluation Metrics. For each pair (𝑘, 𝑔), calculate the metrics NLL𝑘,𝑔, ECE𝑘,𝑔, Brier𝑘,𝑔, and AUC𝑘,𝑔.
+step5: Intra-model Calibrator Selection. For a fixed model 𝑘, select the optimal calibrator 𝑔∗
+𝑘 according to the priority rule “Min 
+NLL → Min ECE → Min Brier → Max AUC”, and set ̃ 𝑝(𝑘)
+𝑖 =̃ 𝑝 (𝑘)
+𝑖,𝑔∗
+𝑘
+.
+step6: Calculate Model Uncertainty. For each model 𝑘 and sample 𝑖, calculate the uncertainty:
+𝑢(𝑘)
+𝑖 = 1 − |||2̃ 𝑝(𝑘)
+𝑖 − 1||| = 2 min
+{
+̃ 𝑝(𝑘)
+𝑖 ,1 −̃ 𝑝 (𝑘)
+𝑖
+}
+.
+step7: Inter-model Final Selection. From the set of models {𝑘}, select the global optimal model 𝑘∗ based on 
+(NLL𝑘,𝑔∗
+𝑘
+,ECE 𝑘,𝑔∗
+𝑘
+),Brier 𝑘,𝑔∗
+𝑘
+),AUC 𝑘,𝑔∗
+𝑘
+), following the priority “Min NLL → Min ECE → Min Brier → Max AUC”.
+step8: Output Selection Results. Fix the final model ̂𝑓 (𝑘∗) and calibrator 𝑔∗ =𝑔 ∗
+𝑘∗. Output ̃ 𝑝𝑖 =̃ 𝑝 (𝑘∗)
+𝑖 , 𝑢𝑖 =𝑢 (𝑘∗)
+𝑖 , and archive 
+parameters (Platt’s 𝑎, 𝑏 / Isotonic knots / Temperature 𝑇 ), fold indices, random seed, and 𝐵.
+step9: Inference. For any new sample 𝑥, first obtain the score 𝑠(𝑘∗)(𝑥) via ̂𝑓 (𝑘∗), then compute: ̃ 𝑝(𝑥) =𝑔 ∗ ( 𝑠(𝑘∗)(𝑥))  and 𝑢(𝑥) =
+1 − |2̃ 𝑝(𝑥) − 1|.
+Information Sciences 749 (2026) 123551 
+8 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+4 . Model uncertainty-driven three-way decision threshold functionalization modeling and parameter adaptive 
+optimization framework
+In traditional three-way decision, the division of acceptance, rejection, and deferment regions relies on manually set fixed thresh­
+olds. The entire decision boundary remains unchanged during the testing phase, unable to automatically adjust according to the 
+reliability of the model’s judgment on samples. This static threshold often lacks flexibility when dealing with samples that are diffi­
+cult to judge, easily leading to situations such as “high-risk samples being accepted too early” or “low-risk samples being unnecessarily 
+deferred,” thereby limiting the performance of three-way decision in risk-sensitive tasks. To overcome this limitation, this paper gen­
+eralizes fixed thresholds into functions that automatically vary with model prediction reliability, enabling decision boundaries to 
+adaptively contract or expand based on judgment difficulty, thereby achieving more reasonable and robust risk control. This section 
+unfolds around the design of threshold functionalization modeling and adaptive learning methods centered on this core idea.
+Specifically, based on the calibrated probability ̃ 𝑝 and model uncertainty 𝑢 obtained in Section 3, this section generalizes three-
+way decision thresholds from constants to functionalized boundaries {𝛼(𝑢), 𝛽(𝑢)}. We model the threshold functions into three types 
+of interpretable function families (Linear, Power, and Logistic). On the validation set, we calculate metrics such as safety (high-risk 
+leakage rate) and efficiency (Coverage rate) for each candidate. We first apply safety hard constraints, then construct a safety-efficiency 
+frontier on the feasible solution set, and automatically select the operating point using the Knee Point principle. By comparing the 
+knee point performance across families, we ultimately select the optimal family and its parameters. This process does not require 
+manually specifying (𝛼, 𝛽), realizing the adaptive determination of function families and thresholds.
+4.1 . Three-way decision threshold functionalization
+After obtaining the calibrated prediction probabilities and the corresponding uncertainty measures, the goal of this subsection is to 
+extend the fixed thresholds in three-way decision-making into functional forms that vary continuously with the level of uncertainty. To 
+this end, we first need to formally describe the threshold division method of three-way decision-making under uncertainty measures 
+and further specify the basic properties that threshold functions should satisfy. The formal definition of three-way decision threshold 
+functionalization is given below.
+Definition 4.1.Let 𝐼=⟨𝑈 , 𝐶, 𝐷,{𝑉 𝑎}𝑎∈𝐶∪{𝐷} , 𝑟⟩ be a decision information system. For any sample 𝑥∈𝑈 , the classifier outputs a 
+positive class probability 𝑝(𝑥) ∈ [0,1] , and the corresponding model uncertainty measure is 𝑢= 1 −|2𝑝(𝑥) − 1|∈ [0,1] , where a 
+larger 𝑢(𝑥) indicates that the model is more uncertain about the prediction of the sample. For any sample 𝑥, the classification rules 
+of three-way decision under the uncertainty measure are given by the threshold functions 𝛼(𝑢) and 𝛽(𝑢):
+If 𝑝≥𝛼(𝑢) ∶Decide POS;
+If 𝑝≤𝛽(𝑢) ∶Decide NEG;
+If 𝛽(𝑢)< 𝑝 < 𝛼(𝑢) ∶Decide BND.
+To ensure that “the higher the uncertainty, the more cautious the decision,” the threshold functions are required to satisfy the 
+following monotonicity: 
+𝛼′(𝑢)≥0 , 𝛽′(𝑢)≤0 , and apply boundedness constraints 𝛼(𝑢) ∈ [𝛼 , 𝛼], 𝛽(𝑢) ∈ [𝛽 , 𝛽]. The defaults are set to 
+[𝛼, 𝛼] = [0.50,0.95]  and [𝛽, 𝛽] = [0.05,0.50] . The origin of these settings stems from the basic semantics of binary probability: 0.50 serves 
+as the natural neutral boundary, while 0.95 and 0.05 provide empirical safety margins to prevent extreme, unreachable thresholds 
+caused by calibration imperfections. It should be noted that these default intervals serve as soft priors. In actual implementation, they 
+are allowed to be adaptively adjusted driven by specific data distributions.
+To cover the three common shapes of “linear, global curvature, and endpoint stability,” this paper presents three families of 
+interpretable functions, all of which satisfy the aforementioned monotonicity and boundedness. The three representative threshold 
+function families selected in this paper are empirically sufficient to cover most application scenarios; meanwhile, the framework 
+remains open to function families, and any candidate function satisfying the basic shape constraints (monotonicity and bounded­
+ness) can be incorporated and adaptively selected by data following the same process. Therefore, this method possesses both good 
+universality and interpretability, as well as extensibility and robustness for specific tasks.
+(1) Linear (Affine) 
+𝛼(𝑢) =𝑎 0 +𝑎 1𝑢, 𝛽(𝑢) =𝑏 0 −𝑏 1𝑢,and 𝑎 1 ≥0, 𝑏 1 ≥0(15)
+(2) Power Function (Power) 
+𝛼(𝑢) =𝑎 0 +𝑎 1𝑢𝛾 , 𝛽(𝑢) =𝑏 0 −𝑏 1𝑢𝛾 ,where 𝛾 >1, 𝑎 1, 𝑏1 ≥0(16)
+(𝛾 >1  makes the middle part more curved and the endpoints gentler, which is beneficial for conservativeness in the “medium-
+high uncertainty” interval.)
+Information Sciences 749 (2026) 123551 
+9 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+(3) Logistic (Endpoint Saturation and More Stable) 
+𝛼(𝑢) =𝛼 + (𝛼−𝛼 )⋅𝜎(𝜂 0 +𝜂 1𝑢)
+𝛽(𝑢) = 𝛽− (
+𝛽−𝛽
+)⋅𝜎(𝜁 0 +𝜁 1𝑢)
+𝜎(𝑧) = 1∕(1 +𝑒 −𝑧), 𝜂 1 >0, 𝜁 1 >0
+(17)
+From an intuitive decision-making perspective, parameters 𝜂0 and 𝜁0 control the baseline positions of the thresholds when uncer­
+tainty is lowest (𝑢= 0 ), effectively acting as the initial risk anchors for high-confidence samples. Meanwhile, 𝜂1 and 𝜁1 control how 
+sensitively the thresholds respond to increasing uncertainty: larger values imply that the decision boundaries react more drastically 
+(i.e., expanding the BND region more rapidly) as the sample becomes harder to classify.
+4.2 . Adaptive learning of threshold functions
+4.2.1 . Adaptive selection of candidate parameters for threshold functions
+After determining the structure of the threshold function families, the next step is to determine the feasible parameter ranges 
+for these functions, so that they satisfy the safety constraints of three-way decision while achieving adaptive adjustment based 
+on data distribution. To this end, starting from the model uncertainty distribution in the validation set, this subsection constructs 
+the candidate parameter set for threshold functions through two mechanisms: “Endpoint Anchoring” and “Amplitude Constraint.” 
+Endpoint anchoring is used to determine the starting position of the function in the low-uncertainty region, ensuring it matches the 
+class distribution of real data; amplitude constraint limits the maximum extension range of the threshold function over the entire 
+uncertainty interval, avoiding excessive bending or instability caused by sample fluctuations. Combining the two forms a set of robust 
+candidate parameter intervals that satisfy basic constraints, providing a search space for the subsequent Pareto optimal selection.
+(1) Endpoint Anchoring
+When constructing a threshold function family, it is necessary to first determine its initial endpoint at the uncertainty measure 
+𝑢= 0  to ensure the threshold function has a reasonable starting position in the low-uncertainty region. This endpoint not only 
+determines the initial division form of the three-way decision regions but also directly affects the shape constraints and feasible space 
+of the subsequent threshold function. Therefore, it needs to be adaptively determined based on the actual data in the validation set. 
+The definition of the construction method for the endpoint interval is given below.
+Definition 4.2.Let the validation set samples have calibrated probabilities 𝑝𝑖, uncertainty measures 𝑢, and class labels 𝑦𝑖 ∈ {+1,−1} . 
+To adaptively determine the endpoint intervals of the threshold functions 𝛼(𝑢) and 𝛽(𝑢) at 𝑢= 0 , the steps for the endpoint anchoring 
+method are defined as follows:
+Step 1. Uncertainty Binning. Take the quantiles 𝑈10, 𝑈70 of 𝑢. The low-uncertainty region is Ilo = {𝑢≤𝑈 10}, and the high-
+uncertainty region is Ihi = {𝑢 > 𝑈 70}. The rationale for this specific partitioning is that the low-uncertainty region (e.g., ≤10%
+quantile) consists of high-confidence predictions, providing a stable and reliable basis for endpoint anchoring. Conversely, the high-
+uncertainty region (e.g., >70%  quantile) characterizes the most difficult cases, thereby offering a conservative and safe boundary for 
+amplitude constraints to prevent over-adjustment.
+Step 2. Denote the positive class probability set as P+ = {𝑝 𝑖 ∶𝑦 𝑖 = +1} and the negative class probability set as P− = {𝑝 𝑖 ∶𝑦 𝑖 = −1}.
+Step 3. Take high quantiles (towards the right tail) on P+ ∩I lo for the starting interval of 𝛼, and take low quantiles (towards the 
+left tail) on P− ∩I lo for the starting interval of 𝛽: 
+𝑎0 ∈
+[
+max
+(
+𝛼, 𝑄P+∩Ilo (𝑞+
+low)
+)
+,min
+(
+𝛼, 𝑄P+∩Ilo (𝑞+
+high)
+)]
+𝑏0 ∈
+[
+max
+(
+𝛽, 𝑄P−∩Ilo (𝑞−
+low)
+)
+,min
+(
+𝛽, 𝑄P−∩Ilo (𝑞−
+high)
+)] (18)
+(2) Amplitude Constraint
+The threshold function not only needs reasonable endpoints in the low-uncertainty region but must also control its maximum 
+variation amplitude within the entire uncertainty interval to avoid excessive fluctuation of the threshold with uncertainty, which 
+would lead to unstable decision boundaries. Therefore, it is necessary to statistically constrain the maximum allowable variation of 
+the threshold function within the interval 𝑢∈ [0,1] , and use high-uncertainty samples in the validation set to construct a feasible 
+amplitude range, ensuring the threshold function possesses sufficient smoothness and robustness. The definition of the variation 
+amplitude and its estimation method are given below.
+Definition 4.3.Let 𝑢∈ [0,1]  be the uncertainty measure of a sample (a larger value indicates the model prediction is more uncertain), 
+and let 𝛼(𝑢), 𝛽(𝑢) be interpretable threshold functions that vary monotonically with model uncertainty 𝑢, where 𝛼(𝑢) is the acceptance 
+(POS) threshold and 𝛽(𝑢) is the rejection (NEG) threshold. Satisfying 𝛼′(𝑢)≥0, 𝛽 ′(𝑢)≤0 , the maximum variation amplitude of the 
+threshold functions on the interval [0,1]  is defined as: 
+Δ𝛼= max
+𝑢∈[0,1]
+[𝛼(𝑢) −𝛼(0)],Δ𝛽= max
+𝑢∈[0,1]
+[𝛽(0) −𝛽(𝑢)](19)
+Information Sciences 749 (2026) 123551 
+10 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Calculate robust quantiles within Ihi to determine the empirical boundaries of the feasible threshold range in the high-uncertainty 
+region: 
+𝑞+
+0.75,hi ∶= 𝑄+,Ihi (0.75), 𝑞 −
+0.25,hi ∶= 𝑄−,Ihi (0.25). (20)
+From the boundaries of the endpoint intervals, define the raw margin (the maximum statistical space available upwards/downwards):
+Δraw
+𝛼 = max
+(
+0, 𝑞+
+0.75,hi − min 𝑎0
+)
+, Δraw
+𝛽 = max
+(
+0, max 𝑏0 − 𝑞−
+0.25,hi
+)
+. (21)
+To reduce small sample fluctuations, a bootstrap method can be applied to the quantiles to estimate the Standard Error (SE) and 
+perform confidence shrinkage: 
+Δmax
+𝛼 = max
+(
+0, Δraw
+𝛼 − 𝜆SE(𝑞+
+0.75,hi)
+)
+, Δmax
+𝛽 = max
+(
+0, Δraw
+𝛽 − 𝜆SE(𝑞−
+0.25,hi)
+)
+, (22)
+where 𝜆 > 0 is the shrinkage intensity (larger means more conservative). If high-𝑢 samples are insufficient, it can fall back to 
+Δmax
+𝛼 = Δ max
+𝛽 = 0 (constant threshold).
+Specific to each class of function:
+∙ Linear Function
+Endpoint Alignment: 𝛼(0) = 𝑎0, 𝛽(0) = 𝑏0
+Amplitude Constraint: Requires max𝑢[𝛼(𝑢) −𝛼(0)] ≤ Δmax
+𝛼 , max𝑢[𝛽(0) −𝛽(𝑢)] ≤ Δmax
+𝛽 . For linear functions, this is equivalent to 0 ≤ 𝑎1 ≤
+Δ𝛼max, 0 ≤ 𝑏1 ≤ Δ𝛽max.
+∙ Power Function
+Endpoint Alignment: 𝛼(0) = 𝑎0, 𝛽(0) = 𝑏0
+Amplitude Constraint: Requires max𝑢[𝛼(𝑢) − 𝛼(0)] ≤ Δmax
+𝛼 , max𝑢[𝛽(0) − 𝛽(𝑢)] ≤ Δmax
+𝛽 . For power functions, this is equivalent to 
+0 ≤ 𝑎1 ≤ Δ𝛼max, 0 ≤ 𝑏1 ≤ Δ𝛽max. 𝛾 serves as curvature adjustment, selected from a small and refined set, such as {1.5, 2.0}, to avoid 
+overfitting. 𝛾 > 1 allows the “cautiousness” associated with the growth of 𝑢 to be released faster in the medium-to-high uncertainty 
+region, facilitating the compression of the intermediate BND.
+∙ Logistic
+Endpoint Alignment: By adjusting 𝜂0, 𝜁0, we ensure 𝛼(0) ≈ 𝑎0, 𝛽(0) ≈ 𝑏0.
+That is, 
+𝜂0 ≈ 𝜎−1
+( 𝑎0−𝛼
+̄ 𝛼−𝛼
+)
+, 𝜁0 ≈ 𝜎−1
+(
+̄𝛽−𝑏0
+̄𝛽−𝛽
+)
+.
+Amplitude Constraint: Since the Logistic function is monotonic, the 
+increment of 𝛼(𝑢) and the decrement of 𝛽(𝑢) reach their maximum 
+at 𝑢 = 1: Δ𝛼 = 𝛼(1)− 𝛼(0) = ( ̄ 𝛼−𝛼)[𝜎(𝜂0 +𝜂1)− 𝜎(𝜂0)], Δ𝛽 = 𝛽(0)− 𝛽(1) = ( ̄𝛽 −𝛽)[𝜎(𝜁0 +𝜁1)− 𝜎(𝜁0)]. Let the normalized allowable amplitude 
+be: 𝑟𝛼 = Δ𝛼max
+̄ 𝛼−𝛼 , 𝑟𝛽 = Δ𝛽max
+̄𝛽−𝛽 , then the constraints Δ𝛼 ≤ Δmax
+𝛼 , Δ𝛽 ≤ Δmax
+𝛽  are equivalent to: 𝜎(𝜂0 + 𝜂1) − 𝜎(𝜂0) ≤ 𝑟𝛼, 𝜎(𝜁0 + 𝜁1) − 𝜎( 𝜁0) ≤ 𝑟𝛽
+4.2.2 . Optimal selection of threshold functions and parameters based on adaptive learning
+In constructing the model uncertainty-based threshold functionalization thre
+e-way decision model, merely providing the form 
+of threshold functions is insufficient to complete the design of the overall decision mechanism. To ensure the model works stably 
+under different risk exposure scenarios, two key questions must be answered simultaneously: (i) How to evaluate the three-way 
+decision output structure (POS/NEG/BND) induced by the threshold functions; (ii) Under strict safety constraints, how to select the 
+optimal scheme from numerous feasible threshold functions. Therefore, this section first constructs a set of evaluation metrics capable 
+of reflecting risk sensitivity for the three-way decision output, and on this basis, proposes a “Safety First” oriented multi-objective 
+threshold function selection framework to systematically complete the feasibility determination and optimal solution selection of 
+threshold functions.
+(1) Adaptive Evaluation Metrics
+In practical applications of three-way decision, different types of decision errors have significant asymmetric costs: if high-risk 
+samples are misjudged as safe classes, it usually brings losses far higher than the misjudgment of low-risk samples, while excessive 
+conservatism (frequently entering the deferment region) increases manual review costs and system latency. Therefore, a set of evalu­
+ation metrics capable of simultaneously characterizing the “safety, efficiency, and cost trade-off” is needed to comprehensively reflect 
+the performance of three-way decision under different risk exposure scenarios.
+Based on these practical needs, starting from the output structure (POS/NEG/BND) of three-way decision, this paper selects five 
+categories of metrics: Coverage, BND Ratio, Decision Error Rate, High-Risk Leakage Rate, and Over-Treatment Rate. Among them, 
+Coverage and High-Risk Leakage Rate constitute the two core quantities that best reflect the objectives of risk-sensitive tasks: Coverage 
+measures the system’s ability to automatically make definite decisions, while High-Risk Leakage Rate directly reflects the most critical 
+“whether high-risk samples are correctly identified” under safety constraints. The remaining three metrics (BND Ratio, Decision Error 
+Rate, Over-Treatment Rate) are used to reveal the behavioral bias and cost structure of the model in different operating intervals 
+(POS, NEG, BND), providing auxiliary interpretation for understanding model performance.
+Coverage:
+Cov = P(Decision ≠ BND) (23)
+BND Ratio: (The smaller, the more “labor-saving” or “cost-saving”)
+BND = 1 − Cov (24)
+Information Sciences 749 (2026) 123551 
+11 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Decision Error Rate:
+Err=P(̂ 𝑦≠𝑦∣Decision≠BND) (25)
+High-Risk Leakage Rate:
+Leak=P(̂ 𝑦=NEG∣𝑦=POS) (26)
+over-treatment rate:
+Over=P(̂ 𝑦=POS∣𝑦=NEG) (27)
+(2) Multi-objective Threshold Function Selection under Safety Constraints
+In the optimization of threshold functions for three-way decision, the model output must first satisfy the “Safety First” principle of 
+risk-sensitive tasks, i.e., the High-Risk Leakage Rate (Leak) must not exceed the maximum tolerance level allowed by the domain. On 
+this basis, Coverage (Cov) is used to measure the extent to which the system can automatically make definite decisions while ensuring 
+safety conditions; whereas the over-treatment rate (Over) reflects the system’s additional costs and resource occupancy. Therefore, 
+the selection of threshold functions naturally forms a “Safety Hard Constraint + Multi-objective Trade-off” problem structure, where 
+safety is a prerequisite constraint, and efficiency metrics (such as coverage and error rate) seek reasonable improvement within the 
+feasible range, rather than blindly pursuing extreme values.
+In this context, this section constructs a unified Feasible Region—Dominance Relation—Knee Point Selection framework to sys­
+tematically screen the optimal threshold function family from all candidate parameters. The logic of this framework is clear: (1) 
+First, the feasible solution set is determined by safety constraints; (2) Then, dominance relations are used in the feasible region to 
+eliminate inferior solutions; (3) Finally, the optimal trade-off solution between efficiency and safety is selected through the Knee 
+Point principle.
+Definition 4.4  (Safety Feasible Region).Given a high-risk leakage tolerance level 𝜏∈ [0,1]  and an optional over-processing upper 
+bound 𝜗∈ [0,1] , the safety feasible region of the candidate parameter set 𝐶 is defined as: 
+F𝜏,𝜗 = {ℎ∈𝐶∶Leak(ℎ)≤𝜏,Over(ℎ)≤𝜗}.(28)
+where ℎ represents a set of threshold function parameters. The feasible region ensures that all subsequent optimizations are performed 
+under conditions that satisfy basic safety requirements; if the Over constraint is not set, let 𝜗= +∞ .
+Here, 𝜏 and 𝜗 are not threshold parameters that directly determine the three-region partition, but feasibility constraints used to 
+characterize the safety requirements of the application scenario. Specifically, 𝜏 controls the tolerable upper bound of high-risk missed 
+diagnoses, and 𝜗 controls the acceptable range of overtreatment. These two quantities are usually specified according to the safety 
+requirements and risk preferences of the specific task; when overtreatment is not emphasized in the application, 𝜗 can be relaxed. 
+Therefore, what is reduced in this paper is the dependence on subjective specification of fixed thresholds in three-way decisions, 
+rather than completely eliminating all safety constraints with explicit application semantics.
+Definition 4.5  (Safety Dominance).For any ℎ1, ℎ2 ∈F 𝜏,𝜗, if Leak(ℎ2)≤Leak(ℎ 1) and Cov(ℎ2)≥Cov(ℎ 1), and the inequality holds 
+strictly on at least one side, then ℎ2 is said to dominate ℎ1. All solutions not dominated by any other scheme form the Pareto Frontier 
+set P⊆F 𝜏,𝜗.
+In the Pareto frontier, the lower the high-risk leakage rate, the higher the coverage is ideal, but there is usually an inherent 
+contradiction between the two that cannot be optimized simultaneously. To achieve a stable trade-off between the two, the Knee 
+Point principle is adopted to select the optimal solution.
+Definition 4.6  (Knee Point).Let 𝐶 be the given set of threshold function parameter candidates, F𝜏,𝜗 ⊆ 𝐶  be the feasible region 
+obtained under the safety constraints Leak(ℎ2)≤Leak(ℎ 1),Cov(ℎ 2)≥Cov(ℎ 1). Let P⊆F 𝜏,𝜗 be the set composed of all non-dominated 
+solutions (Pareto Frontier) regarding the objective functions within the feasible region. To obtain a stable trade-off between safety 
+(Leak) and efficiency (Cov), the Knee Point is defined as follows. First, denote the optimal achievable extreme values on the Pareto 
+frontier as Leakmin = min ℎ∈P Leak(ℎ) and Covmax = max ℎ∈P Cov(ℎ). Normalize the two objectives as: 
+̃𝐳(ℎ) =
+( Leak(ℎ) −Leak min
+ΔLeak
+, Covmax −Cov(ℎ)
+ΔCov
+)
+,(29)
+where the denominators are the spans in the corresponding directions. The Knee Point is defined as: 
+ℎ∗ = arg min
+ℎ∈P
+‖̃𝐳(ℎ)‖2.(30)
+The Knee Point solution represents the non-dominated solution closest to the ideal point (Leakmin,Cov max). This point corresponds to 
+the region where “a small relaxation in one objective leads to significant deterioration in the other,” thus possessing stable trade-off 
+significance and is often regarded as the optimal threshold function selection scheme under safety priority conditions.
+Information Sciences 749 (2026) 123551 
+12 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+4.3 . Algorithm implementation
+Algorithm 2 Model uncertainty-based three-way decision threshold functionalization and adaptive selection.
+Input: Calibrated sample set ((𝑥𝑖, 𝑦𝑖, ̃ 𝑝𝑖))𝑛
+𝑖=1 and uncertainty measures {𝑢𝑖}𝑛
+𝑖=1
+; Set of threshold function families (H=
+{Affine,Power,Logistic} ); Safety constraints (𝜏, 𝜗); Hyperparameter configuration cfg (winsor percentiles, candidate 𝑢 quantile pairs, 
+bootstrap iterations, slope bins, etc.).
+Output: The optimal threshold function family ℎ∗ ∈H  and parameters 𝜃∗, i.e., (𝛼∗(𝑢), 𝛽∗(𝑢)); Corresponding performance metrics 
+(𝐶𝑜𝑣, 𝐵𝑁𝐷, 𝐸𝑟𝑟, 𝐿𝑒𝑎𝑘, 𝑂𝑣𝑒𝑟) .
+step1: Robustness and Uncertainty Partitioning. Apply winsorization clipping to ̃ 𝑝𝑖; Adaptively select (𝑈𝑙𝑜, 𝑈ℎ𝑖) on several can­
+didate quantile pairs to obtain the low-uncertainty region I𝑙𝑜 and high-uncertainty region Iℎ𝑖. If samples are insufficient, 
+fallback to default quantile pairs.
+step2: Endpoint Estimation and Endpoint Grid. In I𝑙𝑜, calculate the conditional quantiles of ̃ 𝑝𝑖 for positive and negative classes 
+respectively. According to the endpoint construction method (refer to Definition 4.2) and combined with the safety intervals 
+[𝛼, 𝛼],[𝛽 , 𝛽], obtain the value ranges for (𝛼(0), 𝛽(0)) and construct a small endpoint grid (𝑎0, 𝑏0) thereon.
+step3: Data-Driven Amplitude Upper Bound. Calculate robust quantiles in Iℎ𝑖. Obtain the raw margins according to Definition 4.3. 
+Then, perform confidence shrinkage using bootstrap standard error (refer to Eq. (4.3)) to obtain (Δmax
+𝛼 ,Δ max
+𝛽 ).
+step4: Adaptive Generation of Function Family Candidates. Under the constraints of the endpoint grid and amplitude upper 
+bounds, for each function family ℎ∈H :
+• Affine Family: Construct a small number of slope bins based on the linear constraints (refer to Eq. (15));
+• Power Family: Given a set of curvatures 𝛾, construct candidates according to the power function constraints (refer to 
+Eq. (16));
+• Logistic Family: Perform endpoint alignment and control the slope (refer to Eq. (17)); when the error in high 𝑢 regions 
+is significantly lower than in low 𝑢 regions, additionally include gentler slope bins.
+Obtain the unified candidate set C.
+step5: Candidate-wise Calculation of Three-Way Decision Metrics. For each (𝛼(𝑢), 𝛽(𝑢)) ∈C , generate POS/NEG/BND decisions 
+according to the rules in Definition 4.1. Calculate (𝐶𝑜𝑣, 𝐵𝑁𝐷, 𝐸𝑟𝑟, 𝐿𝑒𝑎𝑘, 𝑂𝑣𝑒𝑟)  according to the metric definitions (refer to 
+Eqs. (23)–(27)) and record them in the candidate table.
+step6: Safety Feasible Region and Pareto Knee Point. Filter schemes satisfying 𝐿𝑒𝑎𝑘≤𝜏  and 𝑂𝑣𝑒𝑟≤𝜗  from the candidate table 
+to obtain the safety feasible region F𝜏,𝜗. Construct the Pareto frontier set for (𝐿𝑒𝑎𝑘, 𝐶𝑜𝑣) within the feasible region, normalize 
+it according to Eq. (29), and select the knee point with the minimum Euclidean distance as (ℎ∗, 𝜃∗) (refer to Definition 4.6).
+step7: Degenerate Case Fallback. If the safety feasible region is empty, select a compromise scheme from all candidates following 
+the priority order: “Minimize 
+𝐿𝑒𝑎𝑘 first, then minimize 𝑂𝑣𝑒𝑟, and finally maximize 𝐶𝑜𝑣 under equal safety levels.” Record 
+as (ℎ∗, 𝜃∗) and output the corresponding threshold function and performance metrics.
+5 . Experimental verification based on rheumatoid arthritis diagnosis data
+In this section, based on the model uncertainty-based adaptive threshold three-way decision model proposed in the previous text, 
+we construct a three-way decision diagnosis scheme for rheumatoid arthritis. Specifically, we first abstract the clinical diagnosis 
+process of rheumatoid arthritis into a discrimination problem with multiple test indicators, then use real clinical data to construct a 
+decision information system, and on this basis apply the proposed threshold functionalization and parameter adaptive method. We 
+carried out systematic experiments on 14,280 actual examination records to conduct a comprehensive analysis of the model’s diag­
+nostic performance and risk control ability, and compared it with several baseline methods to verify the effectiveness and superiority 
+of the proposed method. In addition, to verify the generalization ability and robustness of the method, this chapter further repeats 
+the experimental process on an external independent dataset, further demonstrating the effectiveness of the model.
+5.1 . Rheumatoid arthritis description
+Rheumatoid arthritis (RA) is a systemic autoimmune disease characterized mainly by chronic synovitis, which can involve multi­
+ple joints and lead to joint destruction and functional impairment, and is one of the leading causes of long-term disability and reduced 
+quality of life. The onset of RA is mostly insidious, the disease course is prolonged, and clinical manifestations include joint pain, 
+swelling, morning stiffness, and a series of systemic symptoms. Its pathogenesis involves multiple factors such as genetic susceptibility, 
+environmental factors, and immune abnormalities. The diagnosis and assessment of rheumatoid arthritis (RA) need to combine clin­
+ical manifestations and laboratory/imaging indicators, mainly including: Rheumatoid Factor (RF), anti-Cyclic Citrullinated Peptide 
+Antibody (Anti-CCP Antibody), C-Reactive Protein (CRP), Erythrocyte Sedimentation Rate (ESR), and joint imaging examination in­
+dicators, etc. From the perspective of data analysis, the diagnosis of rheumatoid arthritis can be regarded as a discrimination problem 
+based on multi-indicator information, suitable for research using three-way decision models capable of explicitly characterizing model 
+uncertainty and decision costs.
+Information Sciences 749 (2026) 123551 
+13 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+5.2 . Experimental data description
+In terms of labels, the dataset provides disease grading results given by clinicians for each record, recorded as a discrete label set 
+{0,1,2,3} . Among these, different integer values correspond to different disease severity levels, thereby allowing the simultaneous 
+characterization of “whether sick” and “disease grading” information under a unified framework. Based on this decision attribute, 
+the entire sample set can be divided into four mutually exclusive decision classes, providing a data foundation for the subsequent 
+construction and evaluation of the three-way decision diagnosis model (
+Table 1). 
+5.3 . Experimental methodology design
+The experiments in this section revolve around the model uncertainty-driven three-way decision threshold functionalization frame­
+work proposed in Section 3 and the function families and parameter adaptive strategies presented in Section 4. The overall process 
+adopts the philosophy of “Hierarchical Diagnosis + Stratified Threshold Learning”: First, the four-level labels 0–3 of rheumatoid 
+arthritis are compressed into two categories: “Low Risk (0/1)” and “High Risk (2/3),” constructing a binary classification model for
+Stage-1 to distinguish between the overall high and low-risk populations; on this basis, fine-grained three-way decision structures 
+for Stage-2 are formed by distinguishing “0 vs. 1” within the low-risk group and “2 vs. 3” within the high-risk group (
+Fig. 2).
+In specific implementation, the experiment first cleans and preprocesses the raw data, removing identity information fields, 
+and performing median imputation and missing indicator expansion for missing values. Subsequently, winsorization truncation is 
+performed on continuous variables to weaken the impact of extreme values on model training and probability estimation. Based on the 
+preprocessed data, a model pool containing LightGBM, Logistic Regression, Random Forest, Gradient Boosting Decision Tree (GBDT), 
+SVM, MLP, and Naïve Bayes is constructed for each stage. Through the three-step process of “Training–Calibration–Validation,” the 
+optimal “Classifier + Probability Calibrator” combination is selected: a portion of the calibration set is first partitioned within the 
+training set to calibrate candidate models using Isotonic Regression, Platt Sigmoid, and Temperature Scaling; then, metrics including 
+NLL, ECE, Brier Score, and AUC are calculated on the independent test set. The model-calibrator combinations are ranked according 
+to the priority of “Minimize NLL first, then Minimize ECE and Brier, and finally Maximize AUC,” and the combination with the best 
+comprehensive calibration performance is selected as the baseline probability estimator for that stage.
+After obtaining the calibrated posterior probability 𝑝(𝑥), the experiment calculates the model uncertainty measure 𝑢(𝑥) = 1 −
+|2𝑝(𝑥) − 1| according to the definition in Section 3. Based on the high model uncertainty sub-region in the training set, the endpoint 
+grid and slope upper bounds are adaptively constructed to generate three types of threshold function candidate families: Linear 
+(affine), Power function (power), and Logistic. For each set of candidate function parameters, the three-way decision evaluation 
+criteria from 
+Section 4 are used to simultaneously calculate metrics such as Coverage, Boundary Ratio, High-Risk Leakage Rate, and 
+Over-Treatment Rate on the test set, screening out the feasible solution set that satisfies the preset high-risk leakage constraints (e.g., 
+𝐿𝑒𝑎𝑘≤0.05  in Stage-1). Subsequently, a Pareto frontier is constructed on the “High-Risk Leakage – Coverage” plane, and the final 
+threshold function is selected according to the “Closest to Ideal Point” Knee Point principle. The experiment realizes a complete data-
+driven pipeline from “Model-Calibrator Combination” to “Model Uncertainty-Driven Threshold Functions,” making the three-way 
+decision threshold no longer a manually given global constant, but a functional form automatically learned for specific datasets and 
+specific risk requirements. The specific results will be discussed in 
+Section 5.4.
+Table 1
+Experimental data indicators.
+Indicator category Indicator
+Patient Information Age
+Laboratory Inflammation and Biochemical IndicatorsCRP
+ESR
+RF
+CR
+AST
+ALT
+Joint Inflammation Activity Indicators Effusion Depth
+Synovial Thickening
+Blood Flow Signal
+Joint Pain
+Joint Swelling
+Synovial Blood Flow
+Joint Structural Damage Indicators Cartilage Visibility
+Surface Smoothness
+Surface Continuity
+Surface Irregularity
+Roughness
+Destruction Degree
+Joint Space Narrowing
+Label Joint Grading
+Information Sciences 749 (2026) 123551 
+14 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Fig. 2. Experimental flowchart.
+5.4 . Experimental results and discussion
+5.4.1 . Probability modeling and calibration performance
+This paper first evaluates the comprehensive effects of the model pool and the three probability calibration strategies. Table 2 
+presents the NLL, ECE, Brier Score, and AUC of the optimal “Model × Calibrator” combination at each stage. It can be seen that in
+Stage-1, RF + Isotonic achieved the best performance, indicating that it possesses both good discriminative ability and reliable 
+probability measures in the overall high/low-risk discrimination. In Stage-2 (0 vs 1), LightGBM+ Temperature achieved the best 
+performance, while in Stage-2 (2 vs 3), LightGBM+ Platt achieved the best performance.
+The reliability curve of Stage 1 (Fig. 3(c)) demonstrates good calibration characteristics. Overall, the curve is distributed roughly 
+along the diagonal within the entire confidence range. It is slightly higher than the diagonal in the medium confidence interval 
+(0.3 − 0 .6) and almost overlaps with the diagonal in the high confidence interval (0.8 and above), with only slight fluctuations 
+near 0 caused by a small number of samples. This indicates that on the general binary task of “Low Risk (0/1)” vs. “High Risk 
+(2/3),” the model’s estimation of its own confidence is relatively accurate or slightly conservative. In other words, in Stage 1, the 
+probability output is credible on a global scale, providing a solid foundation for mapping confidence to model uncertainty measures 
+and performing threshold functionalization based on 𝑢.
+The reliability curve of Stage 2 (0 vs 1) (Fig. 3(a)) tightly adheres to the diagonal line as a whole. It basically overlaps with the 
+ideal line in the medium-to-low confidence interval (0 − 0.6) and is located slightly above the diagonal in the high confidence interval 
+(0.6 and above), meaning that the empirical accuracy is generally slightly higher than the confidence given by the model. This shows 
+that on the low-risk subset (distinction between 0 and 1), the optimal combination selected by “Model Pool + Three Calibrations” 
+not only possesses strong discriminative ability but also presents a slight “conservative” characteristic in probability measurement; 
+that is, in the high confidence interval (above 0.8), the predicted probability given by the model is usually lower than its actual hit 
+rate. Corroborated by the subsequent three-way decision results, the reliability analysis of this stage indicates that in mild lesion 
+recognition scenarios, the probability output by the model can serve as a robust basis for risk quantification.
+The reliability curve of Stage 2 (2 vs 3) (Fig. 3(b)) generally rises monotonically along the diagonal. Within most confidence 
+intervals, the empirical accuracy is close to the ideal line, indicating that the model’s probability measure for the high-risk internal 
+subdivision task is generally credible. In the medium-to-low confidence interval (approximately 0 − 0.6), the curve fluctuates slightly 
+up and down, but the deviation amplitude is limited; as the confidence increases to above 0.6, the empirical accuracy improves sig­
+nificantly, and it basically fits or is slightly higher than the diagonal in the high confidence segment (0.8 and above), indicating that 
+when the model gives high confidence, its prediction results have high reliability. Compared with Stage 1 and Stage 2 (0 vs 1), Stage 2 
+(2 vs 3) reflects a finer-grained distinction between Grade 2 and Grade 3. Therefore, moderate fluctuations in the medium-to-low con­
+fidence region are reasonable, which also highlights that introducing model uncertainty-driven three-way threshold functionalization 
+in this stage can further reduce the risk of wrong decisions by keeping low-confidence samples in the boundary region.
+5.4.2 . Three-way decision performance analysis
+Table 3 summarizes the three-way decision metrics of the proposed method in the three stages. Overall, under the unified constraint 
+of “Controlled High-Risk Leakage,” the high-risk leakage rate in each stage is kept below 5%: Stage 1 is approximately 0.24%, 
+Stage 2 (0–1) is 0, and Stage 2 (2–3) is approximately 4.33%. On this basis, the over-treatment rate is consistently maintained at 
+Information Sciences 749 (2026) 123551 
+15 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Table 2
+Probability modeling and calibration effects.
+Stage Model Calibrator NLL ECE Brier AUC
+Stage 1 RF Isotonic 0.3537 0.0159 0.1192 0.8821
+LightGBM Isotonic 0.3574 0.0161 0.1174 0.8856
+LightGBM Platt 0.3627 0.0410 0.1194 0.8884
+RF Platt 0.3671 0.0435 0.1210 0.8837
+GDBT Isotonic 0.3807 0.0213 0.1279 0.8615
+GDBT Platt 0.3934 0.0428 0.1304 0.8602
+LightGBM Temperature 0.3938 0.1077 0.1370 0.8884
+GDBT Temperature 0.3966 0.0420 0.1312 0.8602
+RF Temperature 0.4011 0.0971 0.1368 0.8837
+MLP Isotonic 0.4831 0.0119 0.1632 0.7602
+LS Isotonic 0.5021 0.0146 0.1707 0.7437
+SVM Isotonic 0.5071 0.0136 0.1740 0.7225
+MLP Platt 0.5101 0.0652 0.1718 0.7426
+MLP Temperature 0.5178 0.0683 0.1755 0.7426
+LS Platt 0.5297 0.0496 0.1795 0.7257
+SVM Platt 0.5320 0.0344 0.1809 0.7012
+SVM Temperature 0.5323 0.0447 0.1812 0.7012
+NB Isotonic 0.5349 0.0148 0.1788 0.7064
+NB Platt 0.5718 0.0474 0.1932 0.6856
+LS Temperature 0.6204 0.1937 0.2164 0.7257
+NB Temperature 0.7911 0.3112 0.2906 0.6856
+Stage 2 (0 vs 1) LightGBM Temperature 0.1856 0.0100 0.0660 0.9682
+LightGBM Isotonic 0.1864 0.0104 0.0670 0.9679
+GDBT Isotonic 0.1865 0.0125 0.0661 0.9675
+LightGBM Platt 0.1948 0.0304 0.0676 0.9682
+RF Isotonic 0.1976 0.0085 0.0703 0.9660
+RF Temperature 0.1979 0.0217 0.0702 0.9661
+GDBT Platt 0.2011 0.0375 0.0692 0.9673
+GDBT Temperature 0.2033 0.0410 0.0705 0.9673
+RF Platt 0.2097 0.0281 0.0712 0.9661
+MLP Isotonic 0.5430 0.0191 0.1909 0.7135
+SVM Isotonic 0.5903 0.0245 0.1981 0.7149
+LS Isotonic 0.6255 0.0106 0.2084 0.6706
+MLP Temperature 0.6314 0.0685 0.2249 0.6589
+MLP Platt 0.6342 0.1520 0.2249 0.6589
+SVM Temperature 0.6379 0.1672 0.2243 0.6466
+SVM Platt 0.6379 0.1758 0.2245 0.6466
+NB Isotonic 0.6651 0.0397 0.1970 0.7401
+NB Platt 0.6700 0.1395 0.2377 0.6707
+LS Platt 0.6743 0.0622 0.2410 0.6033
+LS Temperature 0.6756 0.1329 0.2415 0.6033
+NB Temperature 0.7376 0.1115 0.2515 0.6708
+Stage 2 (2 vs 3) LightGBM Platt 0.3378 0.0356 0.1089 0.9091
+RF Platt 0.3411 0.0390 0.1103 0.9070
+GDBT Isotonic 0.3444 0.0224 0.1137 0.8930
+GDBT Platt 0.3577 0.0342 0.1165 0.8930
+LightGBM Temperature 0.3578 0.0998 0.1245 0.9091
+RF Isotonic 0.3590 0.0249 0.1092 0.9068
+LightGBM Isotonic 0.3599 0.0187 0.1065 0.9091
+RF Temperature 0.3647 0.0943 0.1249 0.9070
+GDBT Temperature 0.3724 0.0578 0.1209 0.8930
+MLP Platt 0.5569 0.0367 0.1865 0.6332
+MLP Temperature 0.5576 0.0174 0.1867 0.6332
+LS Platt 0.5828 0.0220 0.1964 0.5749
+NB Platt 0.5866 0.0197 0.1992 0.6060
+LS Isotonic 0.5880 0.0344 0.1935 0.6030
+SVM Isotonic 0.5886 0.0184 0.2006 0.6022
+SVM Temperature 0.5962 0.0299 0.2036 0.5819
+SVM Platt 0.5969 0.0270 0.2040 0.5819
+NB Isotonic 0.6088 0.0239 0.1941 0.6226
+MLP Isotonic 0.6157 0.0160 0.1824 0.6578
+LS Temperature 0.6675 0.1977 0.2361 0.5749
+NB Temperature 0.7268 0.2417 0.2576 0.6060
+a low level (Stage 1 is approximately 1.77%, and the other two stages are 0), and the error rate of decided samples is controlled 
+within the range of 0%–2.5%. In terms of coverage, the three stages are approximately 46.7%, 72.6%, and 50.3% respectively, with 
+corresponding boundary rates of 53.3%, 27.4%, and 49.7%. These results indicate that under different task settings, the proposed 
+Information Sciences 749 (2026) 123551 
+16 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Fig. 3. Reliability curves.
+threshold functionalization framework can achieve a balance between a high proportion of automatic decisions and low error risk on 
+top of “High-Risk Safety Constraints.”
+Combining the roles of the three stages in the overall diagnosis process, it can be seen that: Stage 1 is responsible for roughly 
+classifying patients into “Overall Low Risk (0/1)” and “Overall High Risk (2/3).” In this stage, the model gives definite decisions on 
+approximately 46.7% of the samples, with a decision error rate of only 1.4% and a high-risk leakage rate of only 0.24%, but the cost 
+is that about half of the samples are assigned to the boundary region. This reflects the safety priority strategy of “better to leave more 
+in the boundary than to miss high-risk cases.” Stage 2 (0 vs 1) targets the mild grading task within the overall low-risk population. 
+Since the clinical distinction between Grade 0 and Grade 1 is relatively clear, the model achieves zero decision error rate, leakage 
+rate, and over-treatment rate while covering 72.6% of the samples. The boundary rate is only 27.4%, and the threshold function in 
+this stage clearly contracts the BND band, placing more emphasis on improving automatic utilization. Stage 2 (2 vs 3) is oriented 
+towards the fine-grained division of 2/3 within high-risk patients. The experimental results show that under the premise of a high-risk 
+leakage constraint of approximately 5%, the measured leakage rate in this stage is approximately 4.33%, the decision error rate is 
+2.5%, the over-treatment rate is 0, the coverage is approximately 50.3%, and the boundary rate is approximately 49.7%. Compared 
+with Stage 2 (0 vs 1), this indicates that in the Grade 2/3 task where the boundary itself is more ambiguous, the threshold function 
+adaptively expands the medium model uncertainty interval, keeping a larger proportion of samples in the BND band in exchange for 
+more cautious judgment on Grade 3 severe cases.
+Information Sciences 749 (2026) 123551 
+17 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Table 3
+Three-way decision performance in each stage.
+Stage Model Calibrator Coverage ErrDecided BND_rate HighRiskLeak OverTreat
+Stage-1 RF Isotonic 0.4674 0.0142 0.5326 0.0024 0.0177
+Stage-2 (0vs1) LightGBM Temperature 0.7262 0.0000 0.2738 0.0000 0.0000
+Stage-2 (2vs3) LightGBM Platt 0.5031 0.0250 0.4969 0.0433 0.0000
+Fig. 4. Normalized incremental changes in threshold functions (crossing reflects different rates of change, not actual threshold intersections).
+It should be particularly pointed out that the boundary rates in Stage 1 and Stage 2 (2 vs 3) are close to or exceed 50%, appearing 
+to be a “wide BND band,” but this is not due to insufficient model capability, but rather a safety-oriented design deliberately made 
+by this method under the constraint of the model uncertainty measure 𝑢. From the BND proportion distribution under different 
+model uncertainty bins shown in Fig. 6, it can be observed that boundary decisions are mainly concentrated in the medium and 
+medium-high model uncertainty intervals, while in regions with higher confidence (smaller 𝑢), the model still tends to give clear 
+judgments. This shows that the algorithm identifies the truly “difficult to judge” cases and hands them over to clinicians for review, 
+while automatically screening out a large number of easy cases. 
+In the actual medical workflow, this wider BND band is actually conducive to forming a reasonable human-machine division of 
+labor. On the one hand, for the multi-level grading task of rheumatoid arthritis, subjective differences often exist between different 
+doctors regarding borderline cases. Forcing the algorithm to output definite labels on all samples easily magnifies the risk of misdiag­
+nosis in inherently ambiguous areas; on the other hand, when BND is mainly concentrated in the medium model uncertainty interval, 
+doctors only need to focus on this part of the samples where “the machine has doubts.” Under the premise of ensuring that the high-risk 
+leakage rate is controlled, this significantly reduces the overall workload of reading and judging, realizing a human-machine collab­
+oration mode where “the machine handles routine cases, and the doctor focuses on difficult cases.” Therefore, the higher boundary 
+rate observed in the experiment should be understood as a design choice that prioritizes safety and is workload-friendly, rather than 
+simple model conservatism or insufficient performance.
+Since the slopes of the finally selected threshold functions are relatively small, directly visualizing the threshold function curves 
+yields unclear effects; therefore, this study displays the incremental changes of the threshold functions. Fig. 4 shows the incremental 
+shapes of the finally selected threshold functions on the model uncertainty measure for each stage. The horizontal axis is the model 
+uncertainty 𝑢, and the vertical axis represents Δ𝛼(𝑢) and Δ𝛽(𝑢) after subtracting the minimum value and normalizing within their 
+respective ranges. Therefore, the crossing of curves in the figure only implies that the two thresholds have different magnitudes 
+of change across different 𝑢 intervals, and does not represent that the original threshold curves themselves have crossed; in the 
+probability space, 𝛼(𝑢) and 𝛽(𝑢) remain globally monotonic and strictly satisfy the non-crossing constraint of 𝛼(𝑢)≥𝛽(𝑢) . In Stage 1, 
+Δ𝛼(𝑢) rises with 𝑢 and Δ𝛽(𝑢) falls with 𝑢, forming a three-way band that “opens up” as model uncertainty increases; the slope in Stage 
+2 (0 vs 1) is small, significantly expanding the BND only at extremely high 𝑢; Stage 2 (2 vs 3) almost only adjusts 𝛽(𝑢), while 𝛼(𝑢)
+remains nearly constant, maintaining a strict threshold on the high-risk side while dropping rapidly with 𝑢 on the low-risk side. The 
+overall shape of the threshold functions reflects the decision preference of “better to have more BND on the high-risk side than to give 
+Information Sciences 749 (2026) 123551 
+18 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Fig. 5. Pareto front and knee point.
+a low-grade rating.” It should be noted that since the finally obtained slopes are relatively mild, combined with the normalization on 
+the vertical axis, the curvature of the Logistic family appears small in the current range of 𝑢 values, thus appearing as a near-linear 
+effect in the figure, but essentially they remain nonlinear threshold functions satisfying monotonicity and non-crossing constraints.
+Fig. 5 displays the performance of all candidate threshold functions on the “High-Risk Leakage (Horizontal Axis) – Coverage 
+(Vertical Axis)” plane: gray dots represent all candidates, the blue polyline marks the Pareto frontier, and the red star is the automat­
+ically selected knee point. In Stage 1, only a few candidates provide higher coverage with extremely low leakage, and the knee point 
+is located at the bend of “almost zero leakage + significant coverage increase”; in Stage 2 (0 vs 1), the candidates are almost tied in 
+terms of safety, and the frontier is very short, indicating that the safety constraints under low-risk subdivision are easy to satisfy, and 
+the final selection relies more on shape preference for smooth thresholds; whereas in Stage 2 (2 vs 3), the frontier is stretched very 
+long, and the knee point falls roughly at the position of “moderate acceptance of small leakage in exchange for significant coverage 
+gain,” intuitively reflecting the safety-efficiency trade-off principle established in this paper under high-risk scenarios.
+Fig. 6 illustrates the correspondence between “model uncertainty 𝑢” and BND. The blue hollow histogram represents the 𝑢 distri­
+bution of all samples, the orange solid histogram represents the distribution of samples falling into BND, and the light purple band 
+indicates the 10%–90% quantile interval of 𝑢 for BND samples, which can be visualized as the empirical “BND Band.” The polyline 
+P(BND∣𝑢)  represents the probability of samples being assigned to BND at different model uncertainty levels. It can be observed that: 
+in Stage 1, BND mainly covers the medium-to-high uncertainty interval; in Stage 2 (0 vs 1), the BND band is very narrow, invoking 
+BND only at extremely high 𝑢; whereas in Stage 2 (2 vs 3), the BND band widens significantly, with almost all medium-to-high 
+uncertainty samples being sent into BND, reflecting a more conservative strategy on the high-risk side.
+5.4.3 . Performance comparison and robustness verification
+At the implementation level, this paper did not pre-set a single probabilistic classifier or calibration method. Instead, it constructed 
+a model pool composed of 7 types of classifiers and 3 types of probability calibration methods, and performed multi-objective 
+comprehensive ranking based on metrics such as NLL, ECE, Brier, and AUC to automatically select the overall best performing 
+“Classifier–Calibrator” combination. In other words, even without conducting independent experiments for each model separately, 
+this framework has already internally completed a round of systematic sensitivity evaluation of models and calibrations during the 
+Information Sciences 749 (2026) 123551 
+19 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Fig. 6. BND band in uncertainty space.
+Table 4
+Comparative experimental results.
+Method Model Calibrator Coverage HighRiskLeak BND_rate Err_decided
+Baseline1_const LightGBM isotonic 0.4828 0.0116 0.5172 0.0254
+Baseline2_affine LightGBM isotonic 0.4646 0.0024 0.5354 0.0113
+Ours_full rf isotonic 0.4674 0.0024 0.5326 0.0142
+model selection phase. Therefore, the subsequent sensitivity, comparative experiments, and ablation analysis in this section will 
+mainly focus on the marginal contribution and robustness of the threshold functionalization and parameter adaptation module itself.
+(1) Comparative Experiments
+To verify the effects of threshold functionalization and parameter adaptation, this section designs three comparative schemes 
+under the same training/testing partition and data preprocessing workflow of Stage-1 (−1 vs +1): Baseline1_const uses the fixed 
+LightGBM+ isotonic calibration and selects a set of constant thresholds (𝛼, 𝛽) within the safety interval; Baseline2_affine uses the 
+same fixed LightGBM+ isotonic but only allows the thresholds to take the affine form, which varies linearly with model uncertainty 
+𝑢; Ours_full adopts the model pool + three calibrations for automatic optimization, and selects the final solution from the three 
+threshold function families (affine/power/logistic) and adaptive Δ constraints. The three methods are evaluated on the same test set, 
+reporting Coverage, HighRiskLeak, BND_rate, and Err_decided for comparison.
+Table 4 compares the three-way decision performance of the three schemes under Stage-1. It can be seen that Baseline1_const
+(LightGBM+ Constant Thresholds) achieves the highest coverage (0.483), but the high-risk leakage rate is approximately 1.16%, 
+the error rate of decided samples is 2.54%, and the boundary band proportion also exceeds 50%. After replacing the thresholds 
+Information Sciences 749 (2026) 123551 
+20 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Fig. 7. Sensitivity analysis results.
+with the affine function family in Baseline2_affine, the coverage drops slightly (0.483→0.465 ), but the high-risk leakage rate drops 
+significantly to 0.24%, and the decided error rate also decreases to 1.13%. This indicates that linear thresholds varying with model 
+uncertainty can effectively compress high-risk misjudgments without significantly sacrificing coverage. Ours_full (Model Pool + 
+Three Calibrations + Threshold Functionalization + Δ Adaptive) maintains the same order of magnitude in coverage (0.467) and 
+boundary band proportion (0.533) as Baseline2_affine, while maintaining the same extremely low high-risk leakage rate (0.24%). 
+Although the decided error rate is slightly higher than Baseline2_affine (1.42% vs 1.13%), considering that this method no longer 
+relies on a single classifier and manually set thresholds, but realizes “end-to-end” adaptive three-way decision through the model pool 
+and data-driven threshold learning, this result indicates that while introducing additional automation and generalization capabilities, 
+the overall risk control performance has not been significantly sacrificed.
+(2) Sensitivity Analysis 
+In the Ours-full framework, we adjusted the high-risk leakage rate upper bound 𝜏leak from 0.03 to 0.07 (and additionally tested 
+a wider range of 0.005–0.10). We found that within this range, the coverage, boundary rate, and error rate of decided samples for 
+the knee point solution remained almost completely unchanged, and the final high-risk leak stabilized at approximately 0.24%. This 
+indicates that under a series of clinically reasonable high-risk leakage upper bound settings, the method will automatically converge 
+to the same low high-risk leakage solution. The decision point is not artificially pulled to the safety boundary by the threshold value, 
+but is naturally determined by the internal trade-off between coverage and high-risk leakage. Therefore, 
+𝜏leak mainly acts as a safety 
+floor within this interval rather than a fine-tuning parameter, reflecting the framework’s good robustness to the upper-level risk 
+tolerance settings (Fig. 7).
+(3) Ablation Experiments
+To evaluate the independent contribution of each module, this section designs three ablation variants on the Stage-1 (−1 vs +1) 
+sub-problem. First, based on the model pool and three probability calibration methods, the optimal “Model × Calibrator” combination 
+is selected on the validation set according to the multi-objective comprehensive ranking of NLL/ECE/Brier/AUC, and the probability 
+prediction 𝑝 and model uncertainty 𝑢 are generated on the same test set. Under the premise of a fixed high-risk leakage constraint 
+(𝜏leak ≈ 0.02), the following are compared sequentially:
+1. Const_noDelta: Uses only the optimal constant thresholds (𝛼, 𝛽) obtained through data-driven search, without introducing Δ
+adaptation. This corresponds to the enhanced baseline of “manual thresholds” in traditional three-way decision.
+2. Func_noDelta: Based on Const_noDelta, expands 𝛼(𝑢), 𝛽(𝑢) into functions driven by model uncertainty, but still uses simple 
+engineering upper limits to control the threshold bandwidth.
+3. Full: The complete framework enabling threshold functionalization, Δ adaptive upper bound estimation, and Bootstrap 
+shrinkage, combined with Model Pool + Three Calibrations.
+All three variants are calculated on the same test set for Coverage, BND_rate, ErrDecided, HighRiskLeak, and OverTreat, to examine 
+the impact of threshold functionalization and parameter adaptation on the risk-coverage trade-off.
+Information Sciences 749 (2026) 123551 
+21 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Table 5
+Ablation experiment results.
+Variant Coverage BND_rate ErrDecided HighRiskLeak OverTreat
+Const_noDelta 0.4832 0.5168 0.0275 0.0116 0.0177
+Func_noDelta 0.5837 0.4163 0.0582 0.0116 0.0925
+Full (Ours) 0.4674 0.5326 0.0142 0.0024 0.0177
+The experimental results are shown in Table 5. Under the same leakage constraint, the constant threshold without Δ adaptation 
+(Const_noDelta) provides a baseline with controllable risk but limited coverage. If threshold functionalization is introduced on this 
+basis but a fixed Δ upper limit is still used (Func_noDelta), although the coverage improves, it leads to a significant increase in the 
+error rate of decided samples and the over-treatment rate. This indicates that merely increasing the degrees of freedom of the threshold 
+shape induces more aggressive decision boundaries and cannot guarantee controllable risk. Only by introducing data-driven Δ upper 
+bound estimation and adaptive scanning (Full) while functionalizing, can the framework significantly reduce high-risk leakage and 
+decision errors while maintaining a coverage level close to that of the constant threshold scheme, thereby demonstrating the necessity 
+and effectiveness of the co-design of threshold functions and 
+Δ adaptation.
+5.5 . Performance on other datasets
+To more comprehensively evaluate the classification performance, stability, and comparability of the proposed method in multi-
+dataset scenarios, this section selected public datasets and representative comparison methods used in multiple three-way decision 
+related studies, and conducted experimental analysis on a total of 13 public datasets. These datasets have reported evaluation results 
+such as Accuracy or F1 in existing studies, and therefore can provide relatively sufficient horizontal references for the performance 
+evaluation of the proposed method. Some studies did not disclose complete parameter settings, implementation details, or experi­
+mental procedures, and therefore it is difficult to reproduce the related methods under strictly consistent conditions. In this case, this 
+paper directly adopts the evaluation results reported in the original literature as comparison references, and reports the Accuracy, 
+Macro-F1, and boundary region (BND) related results of the proposed method under unified experimental settings, so as to enhance 
+the fairness, completeness, and interpretability of the experimental comparison as much as possible. Through the above experiments, 
+the effectiveness and robustness of the proposed method under different data distributions and task scenarios can be examined more 
+systematically.
+Classification accuracy is used to measure the proportion of correctly classified samples among all evaluated samples, and is 
+defined as
+ACC= 𝑇 𝑃+𝑇 𝑁
+𝐹 𝑃+𝐹 𝑁+𝑇 𝑃+𝑇 𝑁 (31)
+where 𝑇 𝑃 denotes True Positive, 𝑇 𝑁 denotes True Negative, 𝐹 𝑃 denotes False Positive, and 𝐹 𝑁 denotes False Negative. Classification 
+accuracy can reflect the correctness of the model prediction results as a whole, that is, the proportion of correctly classified sam­
+ples in all samples. However, when the class distribution is imbalanced, using classification accuracy alone may be insufficient to 
+comprehensively characterize the recognition ability of the model for each class.
+For the 𝑘-th class, Precision and Recall are respectively defined as
+Precision𝑘 = 𝑇 𝑃𝑘
+𝑇 𝑃𝑘 +𝐹 𝑃 𝑘
+(32)
+Recall𝑘 = 𝑇 𝑃𝑘
+𝑇 𝑃𝑘 +𝐹 𝑁 𝑘
+(33)
+where 𝑇 𝑃𝑘, 𝐹 𝑃𝑘, and 𝐹 𝑁𝑘 denote the numbers of true positives, false positives, and false negatives on the 𝑘-th class, respectively. 
+On this basis, the 𝐹1 value of the 𝑘-th class is defined as 
+𝐹1,𝑘 = 2⋅Precision𝑘 ⋅Recall𝑘
+Precision𝑘 +Recall𝑘
+(34)
+Furthermore, Macro-F1 is defined as the arithmetic mean of the 𝐹1 values of all classes, namely
+Macro-F1 = 1
+𝐾
+𝐾∑
+𝑘=1
+𝐹1,𝑘
+(35)
+where 𝐾 denotes the total number of classes. Compared with classification accuracy, Macro-F1 assigns equal weight to each class, 
+and therefore can better reflect the overall balanced performance of the model across different classes, especially in cases where the 
+class distribution is imbalanced or the recognition difficulty varies across classes.
+In addition, considering that three-way decision methods usually generate boundary-domain samples, and different methods may 
+differ in the way they handle boundary samples, to ensure the fairness of comparison, this paper also reports the boundary rate (BND 
+rate), so as to more completely reflect the trade-off relationship of each method between classification performance and deferred 
+decision.
+Information Sciences 749 (2026) 123551 
+22 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Table 6
+Validation 1 on public datasets.
+Dataset SMTD (Xu) CS-SMTD (Chen) TF-3WD (Ours)
+Acc F1 Acc F1 Acc F1 BND rate
+balance 0.88 0.79 0.87 0.77 0.98 0.95 0.06
+car 0.99 0.99 0.87 0.86 1.00 1.00 0.01
+nursery 0.72 0.80 0.73 0.81 1.00 0.80 0.01
+zoo 0.98 0.88 0.90 0.96 1.00 1.00 0.00
+chess 0.98 0.97 0.99 0.98 0.95 0.95 0.25
+5.5.1 
+. Comparison with Chen et al. and Xu et al
+To 
+investigate the classification performance of the threshold functionalized three-way decision model proposed in this paper on 
+different public datasets, this subsection selected five datasets in the UCI repository, namely balance, car, nursery, zoo, and chess, as 
+comparison objects. These datasets were all used in the related studies of Chen et al. [35] and Xu et al. [36], and therefore possess 
+good horizontal comparability. The comparison methods mainly include two types: the SMTD method proposed by Xu et al. and the 
+CS-SMTD method proposed by Chen et al. Among them, SMTD belongs to a typical sequential three-way decision model, and its 
+core idea is to perform multi-level decisions on difficult-to-judge samples through the stepwise refinement of attribute granularity; 
+CS-SMTD further introduces a cost-sensitive mechanism on the basis of SMTD, constructs category-related attribute sequences by 
+generating cost matrices, and then executes sequential three-way decisions in turn. Since different studies may have certain differences 
+in boundary sample processing methods and experimental details, this paper adopts classification accuracy (Acc) and F1 value as the 
+main evaluation indicators, and simultaneously reports the boundary rate (BND rate) to ensure the fairness and completeness of the 
+comparison results.
+The experimental results are shown in Table 6. Overall, the proposed TF-3WD method shows strong competitiveness on the five 
+public datasets. On the balance dataset, the classification accuracy and F1 value of TF-3WD are both significantly better than those of 
+SMTD and CS-SMTD; on the car dataset, TF-3WD achieves the best result, while the BND rate remains at a relatively low level; on the 
+nursery dataset, the Acc of TF-3WD is significantly higher than those of the comparison methods, and its F1 is overall comparable to 
+the comparison methods; on the zoo dataset, TF-3WD also achieves the best performance. It can thus be seen that, on most datasets, 
+the proposed method can obtain better or at least comparable classification performance at a lower boundary cost, indicating that the 
+constructed threshold functions can better characterize sample uncertainty and effectively support three-way decision partitioning.
+On the other hand, on the chess dataset, the Acc and F1 of TF-3WD are slightly lower than those of SMTD and CS-SMTD, while the 
+corresponding BND rate is relatively higher. This indicates that, when the data distribution is more complex or the boundary region is 
+more significant, the proposed method tends to retain more highly uncertain samples in the boundary region, thereby reducing high-
+risk misclassifications. Although this affects the final classification indicators to a certain extent, it also reflects the basic characteristic 
+of three-way decision methods under the guidance of risk control. In other words, a higher BND rate does not simply mean a decline 
+in performance; it also reflects that the model adopts a more cautious decision strategy when facing uncertain samples.
+From the above results, it can be seen that the proposed TF-3WD performs well overall on the five public datasets considered in 
+this paper. On most datasets, it is superior to or not worse than SMTD and CS-SMTD, and is usually accompanied by a lower boundary 
+rate. These results show that the threshold functionalized three-way decision framework does not need to rely on complex sequential 
+attribute refinement processes to achieve competitive classification performance on multiple public datasets. At the same time, the 
+results combined with the BND rate further indicate that the proposed method can better balance classification performance and risk 
+control, thereby showing good applicability and stability.
+5.5.2 
+. Comparison with Qian et al
+To 
+further examine the difference between the proposed method and hierarchical sequential three-way decision models, this 
+subsection selected four public datasets, namely glass identification, obesity, magic, and adult, as comparison objects. These datasets 
+were all used in the related study by Qian et al. [37], and therefore can provide relatively direct horizontal comparison evidence for 
+the proposed method. The comparison methods mainly include S3WD and HS3WD. Among them, S3WD is a typical sequential three-
+way decision model. Its basic idea is to gradually introduce new information during the decision-making process and continuously 
+send boundary samples to the next stage for processing, thereby gradually transforming deferred decisions into definite decisions. 
+HS3WD further combines hierarchical rough set models and concept hierarchies on the basis of S3WD, constructs multi-level decision 
+tables through concept generalization of conditional attributes, and executes sequential three-way decisions under different levels, 
+so as to obtain decision rules with stronger generalization ability and interpretability. Different from this kind of model that relies 
+on sequential advancement and hierarchical structures, the TF-3WD proposed in this paper realizes three-region partitioning through 
+threshold functions that adaptively vary with uncertainty, without explicitly relying on multi-level attribute refinement processes.
+It should be noted that the original paper by Qian et al. mainly reported classification accuracy (Acc), and therefore this paper first 
+uses Acc as the main basis for direct comparison with the literature results. At the same time, to more comprehensively present the 
+classification performance and boundary control characteristics of the proposed method, this paper further provides the F1 value and 
+boundary rate (BND rate) of TF-3WD. Among these, the F1 value is used to supplementarily reflect the comprehensive performance 
+of the model in class recognition, while the BND rate is used to characterize the proportion of boundary samples, thereby more 
+completely reflecting the trade-off relationship of three-way decision methods between classification performance and risk control.
+Information Sciences 749 (2026) 123551 
+23 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Table 7
+Validation 2 on public datasets.
+Dataset S3WD HS3WD (Qian) TF-3WD (Ours)
+Acc Acc Acc F1 BND rate
+glass identification 0.50 0.65 0.91 0.91 0.35
+obesity 0.80 0.86 0.98 0.98 0.07
+magic 0.68 0.80 0.93 0.93 0.16
+adult 0.66 0.77 0.95 0.86 0.13
+The experimental 
+results are shown in Table 7. Overall, the proposed TF-3WD method achieves classification accuracy superior to 
+both S3WD and HS3WD on all four public datasets. On the glass identification, obesity, magic, and adult datasets, the Acc of TF-3WD 
+reaches 0.91, 0.98, 0.93, and 0.95, respectively, all significantly higher than the 0.50, 0.80, 0.68, and 0.66 of S3WD, and also higher 
+than the 0.65, 0.86, 0.80, and 0.77 of HS3WD. Meanwhile, the F1 values of TF-3WD on the above four datasets are 0.91, 0.98, 0.93, 
+and 0.86, respectively, and the BND rates are 0.35, 0.07, 0.16, and 0.13, respectively. It can thus be seen that the proposed method 
+not only outperforms the comparison methods in Acc, but also shows good comprehensive classification capability on most datasets, 
+while reflecting certain risk control characteristics through retaining a moderate amount of boundary samples.
+Overall, compared with S3WD and HS3WD, which rely on sequential refinement and hierarchical structure advancement, the 
+proposed TF-3WD achieves better classification accuracy on the multiple public datasets considered in this paper. These results 
+show that the threshold functionalized three-way decision framework can effectively characterize sample uncertainty and achieve 
+competitive classification performance without the need for complex hierarchical advancement mechanisms, thereby further verifying 
+the effectiveness and stability of the proposed method in multi-dataset scenarios.
+5.5.3 . 
+Comparison with Yang et al
+To further 
+examine the difference between the proposed method and the three-way decision method based on multi-scale single-
+valued neutrosophic decision systems, this subsection selected four public datasets, namely wine, iris, glass, and seeds, as comparison 
+objects. These datasets were all used in the related study by Yang et al. [38], and therefore can provide relatively direct horizontal 
+comparison evidence for the proposed method. The method proposed by Yang et al. is a three-way decision method based on multi-
+scale single-valued neutrosophic decision systems (TWD method on MS-SVNDSs), hereinafter abbreviated as MS-SVNDS-TWD. This 
+method mainly relies on multi-scale single-valued neutrosophic information systems to describe objects, and combines the three-way 
+decision idea to conduct classification analysis. In contrast, the TF-3WD proposed in this paper realizes three-region partitioning 
+through threshold functions that adaptively vary with uncertainty, and can complete the three-way decision process without relying 
+on multi-scale neutrosophic structures.
+It should be noted that the original paper by Yang et al. mainly reported classification accuracy (Accuracy), and therefore this 
+paper first uses Acc as the main basis for direct comparison with the literature results. At the same time, to more comprehensively 
+present the classification performance and boundary control characteristics of the proposed method, this paper further provides the 
+F1 value and boundary rate (BND rate) of TF-3WD. Among these, the F1 value is used to supplementarily reflect the comprehensive 
+performance of the model in class recognition, while the BND rate is used to characterize the proportion of boundary samples, 
+thereby more completely reflecting the trade-off relationship of three-way decision methods between classification performance and 
+risk control.
+The experimental results are shown in Table 8. Overall, the proposed TF-3WD method shows strong competitiveness on all four 
+public datasets. On the wine dataset, the Accuracy of Yang et al.’s method is 91.41, while both the Acc and F1 of TF-3WD reach 1.00, 
+with the corresponding BND rate being 0.08; on the iris dataset, the Accuracy of Yang et al.’s method is 89.36, while both the Acc and 
+F1 of TF-3WD reach 1.00, and the BND rate is 0; on the glass dataset, the Accuracy of Yang et al.’s method is 61.89, while both the 
+Acc and F1 of TF-3WD reach 0.91, showing an obvious advantage; on the seeds dataset, the Accuracy of Yang et al.’s method is 92.17, 
+while the Acc and F1 of TF-3WD are 0.94 and 0.93, respectively, still outperforming the comparison method. It can thus be seen that 
+the proposed method achieves classification accuracy higher than the literature results on all four public datasets considered, while 
+also exhibiting good comprehensive classification performance.
+Overall, compared with the MS-SVNDS-TWD proposed by Yang et al., the TF-3WD proposed in this paper achieves better classifi­
+cation accuracy on the wine, iris, glass, and seeds datasets. These results show that the threshold functionalized three-way decision 
+framework can effectively characterize sample uncertainty and achieve competitive classification performance on different datasets. 
+Table 8
+Validation 3 on public datasets.
+Dataset MS-SVNDS-TWD TF-3WD (Ours)
+Acc Acc F1 BND rate
+wine 91.41 1.00 1.00 0.08
+iris 89.36 1.00 1.00 0.00
+glass 61.89 0.91 0.91 0.35
+seeds 92.17 0.94 0.93 0.14
+Information Sciences 749 (2026) 123551 
+24 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+Combined with the results of F1 and BND rate, it can be further seen that the proposed method not only has good classification ability, 
+but can also reflect certain risk control characteristics by appropriately retaining boundary samples, thereby verifying its effectiveness 
+and stability in multi-dataset scenarios.
+6 . Conclusions and future work
+This paper addresses the challenge of dynamically characterizing three-way decision thresholds in high-risk scenarios by proposing 
+a model uncertainty-driven threshold functionalization and parameter adaptive learning framework. The core innovation lies in 
+breaking the limitations of global constant thresholds in traditional three-way decisions. By integrating probability calibration and 
+uncertainty quantification, we construct a family of threshold functions that evolve dynamically with classification difficulty, enabling 
+adaptive contraction and expansion of decision boundaries at different uncertainty levels. In the empirical study of rheumatoid 
+arthritis grading, the framework significantly narrows the boundary region bandwidth under strict safety constraints and achieves an 
+improved trade-off between the error rate of decided samples and coverage. Furthermore, experimental results on 13 heterogeneous 
+public datasets demonstrate that the proposed method (TF-3WD) achieves performance comparable to or, in specific metrics, superior 
+to representative three-way decision models without requiring a complex sequential structure, further validating the robustness and 
+generalizability of the framework.
+Although the framework exhibits strong robustness and application potential, its effectiveness in practical engineering imple­
+mentation remains contingent upon specific environments. First, as a highly data-driven approach, the performance of the method 
+is closely linked to the calibration quality of the underlying model’s output probabilities. In specific domains where samples are 
+extremely scarce, the lack of representative probability distributions may pose challenges for the fine-grained adjustment of adaptive 
+thresholds. Second, while the existing linear, power, and logistic threshold forms maintain excellent interpretability, there remains 
+room for further optimization regarding the fitting of certain complex non-linear relationships in ultra-high-dimensional feature 
+spaces. Furthermore, from the perspective of uncertainty modeling depth, the measure 𝑢(𝑥) defined in this paper primarily focuses on 
+capturing the aleatoric uncertainty near the classification boundary, which represents the classification difficulty. To identify epis­
+temic uncertainty beyond the model’s knowledge boundaries and out-of-distribution (OOD) samples, more complex measures will be 
+required in the future to enhance the system’s completeness in open-world medical decision-making.
+Future research will focus on three dimensions. First, we will explore deeper uncertainty representation techniques, considering the 
+introduction of Monte Carlo Dropout or deep ensemble methods to construct composite measures that characterize both classification 
+difficulty and model knowledge boundaries, thereby improving system reliability when facing unknown distributions. Second, more 
+flexible function approximators satisfying monotonicity constraints will be introduced to further enhance the expressive precision 
+and search efficiency of threshold curves while maintaining clear decision semantics. Third, we aim to deepen research on parameter 
+configurations across multiple scenarios, attempting to integrate domain expert knowledge and industry compliance standards to 
+incorporate risk constraint parameters and loss matrices into a unified intelligent risk configuration framework. Such developments 
+are expected to promote the widespread application of three-way decision theory in more high-risk fields, such as medical grading 
+and credit risk control.
+CRediT authorship contribution statement
+Xiaoxiao Chang: Writing – review & editing, Writing – original draft, Methodology, Investigation, Conceptualization. Bingzhen 
+Sun: Writing – review & editing, Investigation, Funding acquisition, Conceptualization. Jinghao Wang: Writing – review & editing, 
+Validation, Investigation. Jin Ye: Writing – review & editing, Validation, Investigation. Xiaoli Chu: Writing – review & editing, 
+Investigation, Data curation. 
+Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to 
+influence the work reported in this paper. 
+Acknowledgments
+This work was supported by:
+ 
+ 
+ 
+ 
+ 
+ 
+– Shaanxi National Funds for Distinguished Young Scientists (No. 2023-JC-JQ-11);
+– National Natural Science Foundation of China (No. 72071152; No. 72301082);
+– Xidian University Specially Funded Project for Interdisciplinary Exploration (No. TZJHS202505);
+– Guangzhou Key Research and Development Program (No. 202206010101);
+– Guangdong Provincial Hospital of Chinese Medicine Science and Technology Research Project (No. YN2022QN33);
+– Xidian University Graduate Student Innovation and Practice Fund. 
+Data availability
+The dataset that has been used is confidential to protect patient privacy. 
+Information Sciences 749 (2026) 123551 
+25 
+
+===== PAGE BREAK =====
+
+X. Chang, B. Sun, J. Wang et al.
+References
+[1] Y. Yao, Three-way decision and granular computing, Int. J. Approx. Reason. 103 (2018) 107–123.
+[2] Y. Yao, Set-theoretic models of three-way decision, Granul. Comput. 6 (1) (2021) 133–148.
+[3] Y. Yao, Three-way decisions and cognitive computing, Cogn. Comput. 8 (4) (2016) 543–554.
+[4] Z. Pawlak, Rough sets, Int. J. Comput. Inf. Sci. 11 (5) (1982) 341–356.
+[5] F. Shen, X. Zhao, G. Kou, Three-stage reject inference learning framework for credit scoring using unsupervised transfer learning and three-way decision theory, 
+Decis. Support Syst. 137 (2020) 113366.
+[6] Y. Wu, S. Cheng, Y. Li, R. Lv, F. Min, Sequential three-way decisions with a single hidden layer feedforward neural network, arXiv preprint, arXiv:2303.07589 
+2023. 
+[7] P. Wang, Y. Yao, Ce3: a three-way clustering method based on mathematical morphology, Knowl.-based Syst. 155 (2018) 54–65.
+[8] X. Zhao, B. Sun, J. Ye, J. Liu, X. Zhang, H. Sun, X. Chu, A three-way efficacy prediction method fusing temporal composite rough set and hybrid machine learning 
+models on multigranulation temporal hybrid attribute information system, Inf. Process. Manag. 63 (1) (2026) 104300.
+[9] X. Deng, Y. Yao, An information-theoretic interpretation of thresholds in probabilistic rough sets, in: Int. Conf. Rough Sets Knowl. Technol, Springer, Berlin, 
+Heidelberg, 2012, pp. 369–378.
+[10] D. Liu, T. Li, D. Liang, A new discriminant analysis approach under decision-theoretic rough sets, in: Int. Conf. Rough Sets Knowl. Technol, Springer, Berlin, 
+Heidelberg, 2011, pp. 476–485.
+[11] D. Liang, M. Wang, Z. Xu, Heterogeneous multi-attribute nonadditivity fusion for behavioral three-way decisions in interval type-2 fuzzy environment, Inf. Sci. 
+496 (2019) 242–263.
+[12] J. Zhu, X. Ma, J. Zhan, Y. Yao, A three-way multi-attribute decision making method based on regret theory and its application to medical data in fuzzy 
+environments, Appl. Soft Comput. 123 (2022) 108975.
+[13] X. Huang, J. Zhan, Z. Xu, H. Fujita, A prospect-regret theory-based three-way decision model with intuitionistic fuzzy numbers under incomplete multi-scale 
+decision information systems, Expert Syst. Appl. 214 (2023) 119144.
+[14] Y. Qian, J. Liang, Rough set method based on multi-granulations, in: 5th IEEE Int. Conf. Cogn. Inform, vol. 1, IEEE, 2006, pp. 297–304.
+[15] Y. Qian, J. Liang, C. Dang, Incomplete multigranulation rough set, IEEE Trans. Syst. Man Cybern. A 40 (2) (2009) 420–431.
+[16] X. Qin, B. Sun, S. Wu, J. Bai, X. Chu, Weighted probability kernel multi-granularity three-way decision integrating GRA and its application in medical diagnosis, 
+Inf. Sci. 669 (2024) 120574.
+[17] J. Liu, B. Huang, H. Li, X. Bu, X. Zhou, Optimization-based three-way decisions with interval-valued intuitionistic fuzzy information, IEEE Trans. Cybern. 53 (6) 
+(2022) 3829–3843.
+[18] F. Shen, X. Zhang, R. Wang, D. Lan, W. Zhou, Sequential optimization three-way decision model with information gain for credit default risk evaluation, Int. J. 
+Forecast. 38 (3) (2022) 1116–1128.
+[19] Y. Li, X. Shao, Thresholds learning of three-way decisions in pairwise crime linkage, Appl. Soft Comput. 120 (2022) 108638.
+[20] G. Bisht, A. Pal, Three-way decisions based multi-attribute decision-making with utility and loss functions, Eur. J. Oper. Res. 316 (1) (2024) 268–281.
+[21] D. Liang, C. Yang, The three-way decision model and multi-attribute decision-making: methodological traps and challenges, Eur. J. Oper. Res. 324 (1) (2025) 
+351–360.
+[22] P. Li, L. Shang, H. Li, A method to reduce boundary regions in three-way decision theory, in: Int. Conf. Rough Sets Knowl. Technol, Springer, Cham, 2014, pp. 
+834–843.
+[23] Y. Li, L. Zhang, Y. Xu, Y. Yao, R.Y.K. Lau, Y. Wu, Enhancing binary classification by modeling uncertain boundary in three-way decisions, IEEE Trans. Knowl. 
+Data Eng. 29 (7) (2017) 1438–1451.
+[24] X. Ma, Y. Yao, Three-way decision perspectives on class-specific attribute reducts, Inf. Sci. 450 (2018) 227–245.
+[25] J. Chen, S. Zhao, Y. Zhang, A multi-view decision model based on CCA, in: Int. Conf. Rough Sets Knowl. Technol, Springer, Cham, 2015, pp. 266–274.
+[26] Y. Zhang, G. Wang, J. Chen, L. Fang, S. Zhao, L. Zhang, X. Wang, Research on cost-sensitive method for boundary region in three-way decision model, in: Int. 
+Jt. Conf. Rough Sets, Springer, Cham, 2016, pp. 261–271.
+[27] J. Chen, Y. Xu, S. Zhao, Y. Zhang, AH3: an adaptive hierarchical feature representation model for three-way decision boundary processing, Int. J. Approx. Reason. 
+130 (2021) 259–272.
+[28] G. Ke, Q. Meng, T. Finley, T. Wang, W. Chen, W. Ma, et al., LightGBM: a highly efficient gradient boosting decision tree, in: Adv. Neural Inf. Process. Syst, vol. 
+30, 2017.
+[29] D.R. Cox, The regression analysis of binary sequences, J. R. Stat. Soc. B 20 (2) (1958) 215–232.
+[30] L. Breiman, Random forests, Mach. Learn. 45 (1) (2001) 5–32.
+[31] J.H. Friedman, Greedy function approximation: a gradient boosting machine, Ann. Stat. (2001) 1189–1232.
+[32] V.N. Vapnik, A.Y. Chervonenkis, On the uniform convergence of relative frequencies of events to their probabilities, in: Measures of Complexity: Festschrift for 
+Alexey Chervonenkis, Springer, Cham, 2015, pp. 11–30.
+[33] D.E. Rumelhart, G.E. Hinton, R.J. Williams, Learning internal representations by error propagation, Tech. Rep. ICS8506, Univ. Of California, San Diego, 1985.
+[34] F. Mosteller, D.L. Wallace, Inference in an authorship problem, J. Am. Stat. Assoc. 58 (1963) 275–309.
+[35] W. Chen, Q. Zhang, Y. Dai, Sequential multi-class three-way decisions based on cost-sensitive learning, Int. J. Approx. Reason. 146 (2022) 47–61.
+[36] Y. Xu, J. Tang, X. Wang, Three sequential multi-class three-way decision models, Inf. Sci. 537 (2020) 62–90.
+[37] J. Qian, D. Tang, Y. Yu, X. Yang, S. Gao, Hierarchical sequential three-way decision model, Int. J. Approx. Reason. 140 (2022) 156–172.
+[38] X. Yang, X. Zhou, B. Huang, H. Li, T. Wang, A three-way decision method on multi-scale single-valued neutrosophic decision systems, Artif. Intell. Rev. 57 (4) 
+(2024) 109.
+Information Sciences 749 (2026) 123551 
+26 

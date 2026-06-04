@@ -1,38 +1,38 @@
 [
     {
-        "student_id": "E01914214_Q7",
-        "teacher_score": 2.0,
+        "student_id": "E12314041_Q7",
+        "teacher_score": 8.0,
         "model_scores_history": [
-            1.2,
-            0,
-            4
+            7,
+            10,
+            6
         ],
-        "model_avg_score": 1.7,
-        "std_dev": 1.676,
+        "model_avg_score": 7.7,
+        "std_dev": 1.6997,
         "blank_rate": 0.4,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
         "real_diff": 0.3,
         "3wd_route": "NEG",
-        "final_calibrated_score": 1.7,
+        "final_calibrated_score": 7.7,
         "requires_human_arbitration": true,
         "perception_risk": 0.0,
-        "uncertainty_index": 0.1676,
-        "fatal_points_ratio": 0.2,
+        "uncertainty_index": 0.17,
+        "fatal_points_ratio": 0.0,
         "high_blank_high_score": false,
         "lenient_review_signal": false,
         "risk_features": {
             "perception_risk": 0.0,
-            "uncertainty_index": 0.1676,
-            "fatal_points_ratio": 0.2,
+            "uncertainty_index": 0.17,
+            "fatal_points_ratio": 0.0,
             "high_blank_high_score": false,
             "lenient_review_signal": false,
             "reject_domain": true,
             "boundary_domain": false,
-            "std_ratio": 0.1676,
+            "std_ratio": 0.17,
             "spread_ratio": 0.4,
-            "avg_ratio": 0.17,
+            "avg_ratio": 0.77,
             "score_spread": 4,
             "blank_rate": 0.4,
             "low_quality_rate": 0.0,
@@ -41,25 +41,38 @@
             "format_minor_points_ratio": 0.0667,
             "unsupported_match_points_ratio": 0.0,
             "method_final_verified_ratio": 0.0,
-            "direct_awarded_ratio": 0.8,
+            "direct_points_ratio": 0.5,
+            "direct_awarded_ratio": 0.2,
+            "result_correctness_signal": 1.0,
+            "result_strong_signal": 1.0,
+            "method_evidence_signal": 1.0,
+            "partial_or_format_points_ratio": 0.0,
+            "bare_answer_risk": 0.0,
+            "lenient_undercredit_signal": 0.0941,
+            "unsupported_high_score_risk": 0.0,
             "metadata_coverage": 0.9,
             "explicit_chain_coverage": 0.0,
             "core_anchor_failed": false,
             "visual_blank_review": false,
-            "calibration_rule_hits": [],
-            "a3wa_risk": 0.21514,
-            "a3wa_mu": 0.78486,
-            "a3wa_alpha": 0.916667,
-            "a3wa_beta": 0.35,
-            "a3wa_m": 0.5,
+            "calibration_rule_hits": [
+                "lenient_undercredit_review"
+            ],
+            "a3wa_risk": 0.175495,
+            "a3wa_mu": 0.824504,
+            "a3wa_alpha": 0.828571,
+            "a3wa_beta": 0.285714,
+            "a3wa_m": 0.4,
             "a3wa_route": "NEG",
             "a3wa_reason": "hard_neg:large_score_spread",
             "a3wa_risk_components": {
                 "U_extract": 0.0,
-                "U_score": 0.3838,
-                "U_semantic": 0.2,
+                "U_score": 0.384985,
+                "U_semantic": 0.0,
                 "U_blank": 0.4,
-                "normalized_std": 0.1676,
+                "U_overcredit": 0.308,
+                "L_lenient_undercredit": 0.0941,
+                "U_unsupported_high_score": 0.0,
+                "normalized_std": 0.16997,
                 "score_spread_norm": 0.4
             }
         },
@@ -69,16 +82,26 @@
             "method_final_points": 5.0,
             "verified_method_final_points": 0.0,
             "method_final_verified_ratio": 0.0,
-            "direct_awarded_ratio": 0.8,
+            "direct_points_ratio": 0.5,
+            "direct_awarded_ratio": 0.2,
+            "result_correctness_signal": 1.0,
+            "result_strong_signal": 1.0,
+            "method_evidence_signal": 1.0,
+            "partial_or_format_points_ratio": 0.0,
+            "bare_answer_risk": 0.0,
+            "lenient_undercredit_signal": 0.0941,
+            "unsupported_high_score_risk": 0.0,
             "metadata_coverage": 0.9,
             "explicit_chain_coverage": 0.0,
             "core_anchor_failed": false,
             "visual_blank_review": false,
-            "boundary_domain": false,
+            "boundary_domain": true,
             "reject_domain": false,
             "lower_bound": 0.0,
             "upper_bound": 10.0,
-            "rule_hits": []
+            "rule_hits": [
+                "lenient_undercredit_review"
+            ]
         },
         "a3wa_decision": {
             "route": "NEG",
@@ -86,22 +109,25 @@
             "hard_neg_reasons": [
                 "large_score_spread"
             ],
-            "risk": 0.21514,
-            "confidence": 0.78486,
-            "mu": 0.78486,
-            "alpha": 0.916667,
-            "beta": 0.35,
-            "m": 0.5,
+            "risk": 0.175495,
+            "confidence": 0.824504,
+            "mu": 0.824504,
+            "alpha": 0.828571,
+            "beta": 0.285714,
+            "m": 0.4,
             "lambda1": 5.0,
-            "lambda2": 1.0,
-            "mu1": 3.0,
-            "mu2": 7.0,
+            "lambda2": 2.0,
+            "mu1": 2.0,
+            "mu2": 5.0,
             "risk_components": {
                 "U_extract": 0.0,
-                "U_score": 0.3838,
-                "U_semantic": 0.2,
+                "U_score": 0.384985,
+                "U_semantic": 0.0,
                 "U_blank": 0.4,
-                "normalized_std": 0.1676,
+                "U_overcredit": 0.308,
+                "L_lenient_undercredit": 0.0941,
+                "U_unsupported_high_score": 0.0,
+                "normalized_std": 0.16997,
                 "score_spread_norm": 0.4
             },
             "score_spread": 4.0
@@ -110,642 +136,387 @@
         "arbitration_decision": "accept",
         "reason_log": "A3WA硬拒判：large_score_spread",
         "human_review_hint": "A3WA硬拒判：large_score_spread",
-        "facts": "{\"item_1\": \"未书写\", \"item_2\": \"2\", \"item_3\": \"4G\", \"item_4\": \"1\", \"item_5\": \"6G\", \"item_6\": \"未书写\", \"item_7\": \"未书写\", \"item_8\": \"2⁻²¹\", \"item_9\": \"未书写\", \"item_10\": \"2⁻²¹/3\"}",
-        "strict_cot": {
-            "details": [
-                {
-                    "id": "1",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "2",
-                    "score_given": 0.3,
-                    "error_category": "MATCH",
-                    "reason": "核心数值匹配成功；核心推导全错，参数识别分降级至满分的30%"
-                },
-                {
-                    "id": "3",
-                    "score_given": 0.3,
-                    "error_category": "MATCH",
-                    "reason": "核心数值匹配成功（忽略单位简写差异）；核心推导全错，参数识别分降级至满分的30%"
-                },
-                {
-                    "id": "4",
-                    "score_given": 0.3,
-                    "error_category": "MATCH",
-                    "reason": "核心数值匹配成功；核心推导全错，参数识别分降级至满分的30%"
-                },
-                {
-                    "id": "5",
-                    "score_given": 0.3,
-                    "error_category": "MATCH",
-                    "reason": "核心数值匹配成功（忽略单位简写差异）；核心推导全错，参数识别分降级至满分的30%"
-                },
-                {
-                    "id": "6",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "7",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "8",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾（学生作答2⁻²¹与正确结果50 μs不匹配）"
-                },
-                {
-                    "id": "9",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
-                },
-                {
-                    "id": "10",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾（学生作答2⁻²¹/3与正确结果16.7 μs不匹配）"
-                }
-            ],
-            "total_score": 1.2
-        },
-        "strict_cots_all": [
-            {
-                "details": [
-                    {
-                        "id": "1",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
-                    },
-                    {
-                        "id": "2",
-                        "score_given": 0.3,
-                        "error_category": "MATCH",
-                        "reason": "核心数值匹配成功；核心推导全错，参数识别分降级至满分的30%"
-                    },
-                    {
-                        "id": "3",
-                        "score_given": 0.3,
-                        "error_category": "MATCH",
-                        "reason": "核心数值匹配成功（忽略单位简写差异）；核心推导全错，参数识别分降级至满分的30%"
-                    },
-                    {
-                        "id": "4",
-                        "score_given": 0.3,
-                        "error_category": "MATCH",
-                        "reason": "核心数值匹配成功；核心推导全错，参数识别分降级至满分的30%"
-                    },
-                    {
-                        "id": "5",
-                        "score_given": 0.3,
-                        "error_category": "MATCH",
-                        "reason": "核心数值匹配成功（忽略单位简写差异）；核心推导全错，参数识别分降级至满分的30%"
-                    },
-                    {
-                        "id": "6",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
-                    },
-                    {
-                        "id": "7",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
-                    },
-                    {
-                        "id": "8",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值矛盾（学生作答2⁻²¹与正确结果50 μs不匹配）"
-                    },
-                    {
-                        "id": "9",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
-                    },
-                    {
-                        "id": "10",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值矛盾（学生作答2⁻²¹/3与正确结果16.7 μs不匹配）"
-                    }
-                ],
-                "total_score": 1.2
-            },
-            {
-                "details": [
-                    {
-                        "id": "item_1",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
-                    },
-                    {
-                        "id": "item_2",
-                        "score_given": 0,
-                        "error_category": "MATCH",
-                        "reason": "核心推导全错，参数识别分降级"
-                    },
-                    {
-                        "id": "item_3",
-                        "score_given": 0,
-                        "error_category": "FORMAT_MINOR",
-                        "reason": "核心推导全错，参数识别分降级，且单位缺少Hz"
-                    },
-                    {
-                        "id": "item_4",
-                        "score_given": 0,
-                        "error_category": "MATCH",
-                        "reason": "核心推导全错，参数识别分降级"
-                    },
-                    {
-                        "id": "item_5",
-                        "score_given": 0,
-                        "error_category": "FORMAT_MINOR",
-                        "reason": "核心推导全错，参数识别分降级，且单位缺少Hz"
-                    },
-                    {
-                        "id": "item_6",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
-                    },
-                    {
-                        "id": "item_7",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
-                    },
-                    {
-                        "id": "item_8",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值矛盾"
-                    },
-                    {
-                        "id": "item_9",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
-                    },
-                    {
-                        "id": "item_10",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值矛盾"
-                    }
-                ],
-                "total_score": 0
-            },
-            {
-                "details": [
-                    {
-                        "id": "1",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
-                    },
-                    {
-                        "id": "2",
-                        "score_given": 1,
-                        "error_category": "MATCH",
-                        "reason": "匹配成功"
-                    },
-                    {
-                        "id": "3",
-                        "score_given": 1,
-                        "error_category": "MATCH",
-                        "reason": "匹配成功"
-                    },
-                    {
-                        "id": "4",
-                        "score_given": 1,
-                        "error_category": "MATCH",
-                        "reason": "匹配成功"
-                    },
-                    {
-                        "id": "5",
-                        "score_given": 1,
-                        "error_category": "MATCH",
-                        "reason": "匹配成功"
-                    },
-                    {
-                        "id": "6",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
-                    },
-                    {
-                        "id": "7",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
-                    },
-                    {
-                        "id": "8",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值矛盾"
-                    },
-                    {
-                        "id": "9",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
-                    },
-                    {
-                        "id": "10",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值矛盾"
-                    }
-                ],
-                "total_score": 4
-            }
-        ]
-    },
-    {
-        "student_id": "E01914290_Q7",
-        "teacher_score": 8.0,
-        "model_scores_history": [
-            0,
-            6,
-            0
-        ],
-        "model_avg_score": 2.0,
-        "std_dev": 2.8284,
-        "blank_rate": 0.2,
-        "perception_failure_rate": 0.0,
-        "low_quality_extraction_rate": 0.0,
-        "extraction_quality": "high",
-        "real_diff": 6.0,
-        "3wd_route": "NEG",
-        "final_calibrated_score": 2.0,
-        "requires_human_arbitration": true,
-        "perception_risk": 0.0,
-        "uncertainty_index": 0.2828,
-        "fatal_points_ratio": 0.3333,
-        "high_blank_high_score": false,
-        "lenient_review_signal": true,
-        "risk_features": {
-            "perception_risk": 0.0,
-            "uncertainty_index": 0.2828,
-            "fatal_points_ratio": 0.3333,
-            "high_blank_high_score": false,
-            "lenient_review_signal": true,
-            "reject_domain": true,
-            "boundary_domain": false,
-            "std_ratio": 0.2828,
-            "spread_ratio": 0.6,
-            "avg_ratio": 0.2,
-            "score_spread": 6,
-            "blank_rate": 0.2,
-            "low_quality_rate": 0.0,
-            "perception_failure_rate": 0.0,
-            "partial_match_points_ratio": 0.0667,
-            "format_minor_points_ratio": 0.1333,
-            "unsupported_match_points_ratio": 0.0,
-            "method_final_verified_ratio": 0.0,
-            "direct_awarded_ratio": 0.8,
-            "metadata_coverage": 0.9,
-            "explicit_chain_coverage": 0.0,
-            "core_anchor_failed": false,
-            "visual_blank_review": false,
-            "calibration_rule_hits": [],
-            "a3wa_risk": 0.259093,
-            "a3wa_mu": 0.740907,
-            "a3wa_alpha": 0.916667,
-            "a3wa_beta": 0.35,
-            "a3wa_m": 0.5,
-            "a3wa_route": "NEG",
-            "a3wa_reason": "hard_neg:large_score_spread",
-            "a3wa_risk_components": {
-                "U_extract": 0.0,
-                "U_score": 0.54142,
-                "U_semantic": 0.333333,
-                "U_blank": 0.2,
-                "normalized_std": 0.28284,
-                "score_spread_norm": 0.6
-            }
-        },
-        "post_calibration": {
-            "unsupported_match_points": 0.0,
-            "unsupported_match_points_ratio": 0.0,
-            "method_final_points": 5.0,
-            "verified_method_final_points": 0.0,
-            "method_final_verified_ratio": 0.0,
-            "direct_awarded_ratio": 0.8,
-            "metadata_coverage": 0.9,
-            "explicit_chain_coverage": 0.0,
-            "core_anchor_failed": false,
-            "visual_blank_review": false,
-            "boundary_domain": false,
-            "reject_domain": false,
-            "lower_bound": 0.0,
-            "upper_bound": 10.0,
-            "rule_hits": []
-        },
-        "a3wa_decision": {
-            "route": "NEG",
-            "reason": "hard_neg:large_score_spread",
-            "hard_neg_reasons": [
-                "large_score_spread"
-            ],
-            "risk": 0.259093,
-            "confidence": 0.740907,
-            "mu": 0.740907,
-            "alpha": 0.916667,
-            "beta": 0.35,
-            "m": 0.5,
-            "lambda1": 5.0,
-            "lambda2": 1.0,
-            "mu1": 3.0,
-            "mu2": 7.0,
-            "risk_components": {
-                "U_extract": 0.0,
-                "U_score": 0.54142,
-                "U_semantic": 0.333333,
-                "U_blank": 0.2,
-                "normalized_std": 0.28284,
-                "score_spread_norm": 0.6
-            },
-            "score_spread": 6.0
-        },
-        "boundary_gate": null,
-        "arbitration_decision": "accept",
-        "reason_log": "A3WA硬拒判：large_score_spread",
-        "human_review_hint": "A3WA硬拒判：large_score_spread",
-        "facts": "{\"item_1\": \"10×10³\", \"item_2\": \"2\", \"item_3\": \"4G\", \"item_4\": \"1\", \"item_5\": \"6G\", \"item_6\": \"10×10³ ÷ 2×10⁹\", \"item_7\": \"未书写\", \"item_8\": \"5×10⁻⁶ s\", \"item_9\": \"未书写\", \"item_10\": \"1.67×10⁻⁶ s\"}",
+        "facts": "{\"item_1\": \"10⁵\", \"item_2\": \"未书写\", \"item_3\": \"未书写\", \"item_4\": \"未书写\", \"item_5\": \"未书写\", \"item_6\": \"运行时间为 (指令数×CPI)/主频\", \"item_7\": \"2×10⁵\", \"item_8\": \"2×10⁵ / 4×10⁹\", \"item_9\": \"1×10⁵\", \"item_10\": \"1×10⁵ / 6×10⁹\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "item_1",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为10万（10^5），学生写10×10³"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "evidence_text": "10⁵",
+                    "expected_condition": "识别基准程序P的指令数为10万条",
+                    "dependency_status": "not_applicable",
+                    "reason": "Extracted fact explicitly states the correct number of instructions as 10⁵."
                 },
                 {
                     "id": "item_2",
                     "score_given": 0,
-                    "error_category": "MATCH",
-                    "reason": "核心推导全错，参数识别分降级，该条目得分为0"
+                    "error_category": "BLANK",
+                    "evidence_text": "未书写",
+                    "expected_condition": "识别M1的CPI为2",
+                    "dependency_status": "not_applicable",
+                    "reason": "The student did not explicitly write the extracted parameter for M1's CPI."
                 },
                 {
                     "id": "item_3",
                     "score_given": 0,
-                    "error_category": "FORMAT_MINOR",
-                    "reason": "核心推导全错，参数识别分降级；原判缺少单位Hz"
+                    "error_category": "BLANK",
+                    "evidence_text": "未书写",
+                    "expected_condition": "识别M1的主频为4GHz",
+                    "dependency_status": "not_applicable",
+                    "reason": "The student did not explicitly write the extracted parameter for M1's frequency."
                 },
                 {
                     "id": "item_4",
                     "score_given": 0,
-                    "error_category": "MATCH",
-                    "reason": "核心推导全错，参数识别分降级，该条目得分为0"
+                    "error_category": "BLANK",
+                    "evidence_text": "未书写",
+                    "expected_condition": "识别M2的CPI为1",
+                    "dependency_status": "not_applicable",
+                    "reason": "The student did not explicitly write the extracted parameter for M2's CPI."
                 },
                 {
                     "id": "item_5",
                     "score_given": 0,
-                    "error_category": "FORMAT_MINOR",
-                    "reason": "核心推导全错，参数识别分降级；原判缺少单位Hz"
+                    "error_category": "BLANK",
+                    "evidence_text": "未书写",
+                    "expected_condition": "识别M2的主频为6GHz",
+                    "dependency_status": "not_applicable",
+                    "reason": "The student did not explicitly write the extracted parameter for M2's frequency."
                 },
                 {
                     "id": "item_6",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "公式错误或缺失，未体现CPI且代入具体数值"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "evidence_text": "运行时间为 (指令数×CPI)/主频",
+                    "expected_condition": "写出执行时间公式：时间 = (指令数 × CPI) / 主频",
+                    "dependency_status": "not_applicable",
+                    "reason": "The extracted fact contains the correct execution time formula."
                 },
                 {
                     "id": "item_7",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "evidence_text": "2×10⁵",
+                    "expected_condition": "计算M1指令数×CPI为200,000",
+                    "dependency_status": "satisfied",
+                    "reason": "The student provided the correct computation trace for M1's instructions multiplied by CPI."
                 },
                 {
                     "id": "item_8",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为5×10⁻⁵ s（50 μs），学生为5×10⁻⁶ s"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "evidence_text": "2×10⁵ / 4×10⁹",
+                    "expected_condition": "计算M1时间为50 μs",
+                    "dependency_status": "satisfied",
+                    "reason": "The student provided the correct computation trace and substitution for M1's time. The expression evaluates correctly to 50 μs, fulfilling the final answer and process requirement."
                 },
                 {
                     "id": "item_9",
-                    "score_given": 0,
-                    "error_category": "BLANK",
-                    "reason": "未书写"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "evidence_text": "1×10⁵",
+                    "expected_condition": "计算M2指令数×CPI为100,000",
+                    "dependency_status": "satisfied",
+                    "reason": "The student provided the correct computation trace for M2's instructions multiplied by CPI."
                 },
                 {
                     "id": "item_10",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "reason": "数值矛盾，标准为1.67×10⁻⁵ s（16.7 μs），学生为1.67×10⁻⁶ s"
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "evidence_text": "1×10⁵ / 6×10⁹",
+                    "expected_condition": "计算M2时间为16.7 μs",
+                    "dependency_status": "satisfied",
+                    "reason": "The student provided the correct computation trace and substitution for M2's time. The expression evaluates correctly to 16.7 μs, fulfilling the final answer and process requirement."
                 }
             ],
-            "total_score": 0
+            "total_score": 7
         },
         "strict_cots_all": [
             {
                 "details": [
                     {
                         "id": "item_1",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值矛盾，标准为10万（10^5），学生写10×10³"
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "10⁵",
+                        "expected_condition": "识别基准程序P的指令数为10万条",
+                        "dependency_status": "not_applicable",
+                        "reason": "Extracted fact explicitly states the correct number of instructions as 10⁵."
                     },
                     {
                         "id": "item_2",
                         "score_given": 0,
-                        "error_category": "MATCH",
-                        "reason": "核心推导全错，参数识别分降级，该条目得分为0"
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "识别M1的CPI为2",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student did not explicitly write the extracted parameter for M1's CPI."
                     },
                     {
                         "id": "item_3",
                         "score_given": 0,
-                        "error_category": "FORMAT_MINOR",
-                        "reason": "核心推导全错，参数识别分降级；原判缺少单位Hz"
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "识别M1的主频为4GHz",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student did not explicitly write the extracted parameter for M1's frequency."
                     },
                     {
                         "id": "item_4",
                         "score_given": 0,
-                        "error_category": "MATCH",
-                        "reason": "核心推导全错，参数识别分降级，该条目得分为0"
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "识别M2的CPI为1",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student did not explicitly write the extracted parameter for M2's CPI."
                     },
                     {
                         "id": "item_5",
                         "score_given": 0,
-                        "error_category": "FORMAT_MINOR",
-                        "reason": "核心推导全错，参数识别分降级；原判缺少单位Hz"
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "识别M2的主频为6GHz",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student did not explicitly write the extracted parameter for M2's frequency."
                     },
                     {
                         "id": "item_6",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "公式错误或缺失，未体现CPI且代入具体数值"
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "运行时间为 (指令数×CPI)/主频",
+                        "expected_condition": "写出执行时间公式：时间 = (指令数 × CPI) / 主频",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact contains the correct execution time formula."
                     },
                     {
                         "id": "item_7",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "2×10⁵",
+                        "expected_condition": "计算M1指令数×CPI为200,000",
+                        "dependency_status": "satisfied",
+                        "reason": "The student provided the correct computation trace for M1's instructions multiplied by CPI."
                     },
                     {
                         "id": "item_8",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值矛盾，标准为5×10⁻⁵ s（50 μs），学生为5×10⁻⁶ s"
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "2×10⁵ / 4×10⁹",
+                        "expected_condition": "计算M1时间为50 μs",
+                        "dependency_status": "satisfied",
+                        "reason": "The student provided the correct computation trace and substitution for M1's time. The expression evaluates correctly to 50 μs, fulfilling the final answer and process requirement."
                     },
                     {
                         "id": "item_9",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写"
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "1×10⁵",
+                        "expected_condition": "计算M2指令数×CPI为100,000",
+                        "dependency_status": "satisfied",
+                        "reason": "The student provided the correct computation trace for M2's instructions multiplied by CPI."
                     },
                     {
                         "id": "item_10",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值矛盾，标准为1.67×10⁻⁵ s（16.7 μs），学生为1.67×10⁻⁶ s"
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "1×10⁵ / 6×10⁹",
+                        "expected_condition": "计算M2时间为16.7 μs",
+                        "dependency_status": "satisfied",
+                        "reason": "The student provided the correct computation trace and substitution for M2's time. The expression evaluates correctly to 16.7 μs, fulfilling the final answer and process requirement."
                     }
                 ],
-                "total_score": 0
+                "total_score": 7
             },
             {
                 "details": [
                     {
                         "id": "item_1",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值矛盾：学生识别的指令数为10×10³（1万条），而标准要求为10万条（10^5），误差90%，超出容差范围，且无上游依赖项，无法回溯推断。"
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "10⁵",
+                        "expected_condition": "识别基准程序P的指令数为10万条",
+                        "dependency_status": "not_applicable",
+                        "reason": "10⁵ = 100,000 = 10万条，数值完全匹配。"
                     },
                     {
                         "id": "item_2",
                         "score_given": 1,
                         "error_category": "MATCH",
-                        "reason": "匹配成功：学生识别的M1的CPI为2，与标准一致。"
+                        "evidence_text": "2×10⁵（由item_7“计算M1指令数×CPI为2×10⁵”与item_1指令数10⁵可推得CPI=2）",
+                        "expected_condition": "识别M1的CPI为2",
+                        "dependency_status": "satisfied",
+                        "reason": "虽然未单独书写，但M1的指令数×CPI=2×10⁵且指令数=10⁵，必然隐含CPI=2，依依赖规则可授予分数。"
                     },
                     {
                         "id": "item_3",
                         "score_given": 1,
                         "error_category": "MATCH",
-                        "reason": "匹配成功：学生识别的M1的主频为4G，语义上等同于4GHz，核心数值正确。"
+                        "evidence_text": "4×10⁹（出现在item_8“2×10⁵ / 4×10⁹”中，即4 GHz）",
+                        "expected_condition": "识别M1的主频为4GHz",
+                        "dependency_status": "satisfied",
+                        "reason": "M1时间计算中使用了4×10⁹ Hz = 4 GHz，参数在下游计算中明确出现，依依赖规则授予分数。"
                     },
                     {
                         "id": "item_4",
                         "score_given": 1,
                         "error_category": "MATCH",
-                        "reason": "匹配成功：学生识别的M2的CPI为1，与标准一致。"
+                        "evidence_text": "1×10⁵（由item_9“计算M2指令数×CPI为1×10⁵”与item_1指令数10⁵可推得CPI=1）",
+                        "expected_condition": "识别M2的CPI为1",
+                        "dependency_status": "satisfied",
+                        "reason": "M2的指令数×CPI=1×10⁵且指令数=10⁵，必然隐含CPI=1，依依赖规则授予分数。"
                     },
                     {
                         "id": "item_5",
                         "score_given": 1,
                         "error_category": "MATCH",
-                        "reason": "匹配成功：学生识别的M2的主频为6G，语义上等同于6GHz，核心数值正确。"
+                        "evidence_text": "6×10⁹（出现在item_10“1×10⁵ / 6×10⁹”中，即6 GHz）",
+                        "expected_condition": "识别M2的主频为6GHz",
+                        "dependency_status": "satisfied",
+                        "reason": "M2时间计算中使用了6×10⁹ Hz = 6 GHz，参数在下游计算中明确出现，依依赖规则授予分数。"
                     },
                     {
                         "id": "item_6",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "核心知识错误：学生写的是具体计算表达式（10×10³ ÷ 2×10⁹），而非通用公式（时间 = (指令数 × CPI) / 主频），未体现公式推导。"
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "运行时间为 (指令数×CPI)/主频",
+                        "expected_condition": "写出执行时间公式：时间 = (指令数 × CPI) / 主频",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生书写的公式与标准公式语义完全一致。"
                     },
                     {
                         "id": "item_7",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写：学生未提供计算M1指令数×CPI的步骤。"
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "2×10⁵",
+                        "expected_condition": "计算M1指令数×CPI为200,000",
+                        "dependency_status": "not_applicable",
+                        "reason": "2×10⁵ = 200,000，数值正确。"
                     },
                     {
                         "id": "item_8",
                         "score_given": 1,
-                        "error_category": "PARTIAL_MATCH",
-                        "reason": "数量级偏差但方法论可循：学生计算M1时间为5×10⁻⁶ s，与标准5×10⁻⁵ s相差10倍，但比值恰好为10⁻¹，且上游item_1（指令数）错误，学生使用了错误起点但推导方法正确，给予满分的50%（向上取整为1分）。"
+                        "error_category": "MATCH",
+                        "evidence_text": "2×10⁵ / 4×10⁹",
+                        "expected_condition": "计算M1时间为50 μs",
+                        "dependency_status": "satisfied",
+                        "reason": "2×10⁵ / 4×10⁹ = 5×10⁻⁵ s = 50 μs，计算表达式正确，结果等价于50 μs。"
                     },
                     {
                         "id": "item_9",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "reason": "未书写：学生未提供计算M2指令数×CPI的步骤。"
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "1×10⁵",
+                        "expected_condition": "计算M2指令数×CPI为100,000",
+                        "dependency_status": "not_applicable",
+                        "reason": "1×10⁵ = 100,000，数值正确。"
                     },
                     {
                         "id": "item_10",
                         "score_given": 1,
-                        "error_category": "PARTIAL_MATCH",
-                        "reason": "数量级偏差但方法论可循：学生计算M2时间为1.67×10⁻⁶ s，与标准1.67×10⁻⁵ s相差10倍，但比值恰好为10⁻¹，且上游item_1（指令数）错误，学生使用了错误起点但推导方法正确，给予满分的50%（向上取整为1分）。"
+                        "error_category": "MATCH",
+                        "evidence_text": "1×10⁵ / 6×10⁹",
+                        "expected_condition": "计算M2时间为16.7 μs",
+                        "dependency_status": "satisfied",
+                        "reason": "1×10⁵ / 6×10⁹ ≈ 1.667×10⁻⁵ s ≈ 16.7 μs，计算表达式正确，结果等价于16.7 μs。"
                     }
                 ],
-                "total_score": 6
+                "total_score": 10
             },
             {
                 "details": [
                     {
-                        "id": "1",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值错误，标准为10万条（100,000），学生写10×10³（10,000），误差90%，不匹配"
-                    },
-                    {
-                        "id": "2",
-                        "score_given": 0,
+                        "id": "item_1",
+                        "score_given": 1,
                         "error_category": "MATCH",
-                        "reason": "匹配成功，但核心推导全错，参数识别分降级，得分上限30%，给0分"
+                        "evidence_text": "10⁵",
+                        "expected_condition": "识别基准程序P的指令数为10万条",
+                        "dependency_status": "satisfied",
+                        "reason": "Student correctly identifies the number of instructions as 10^5, which is exactly 100,000 (10万条)."
                     },
                     {
-                        "id": "3",
-                        "score_given": 0,
-                        "error_category": "FORMAT_MINOR",
-                        "reason": "单位书写不规范（缺少Hz），核心数值正确，但核心推导全错，参数识别分降级，得分上限30%，给0分"
-                    },
-                    {
-                        "id": "4",
-                        "score_given": 0,
-                        "error_category": "MATCH",
-                        "reason": "匹配成功，但核心推导全错，参数识别分降级，得分上限30%，给0分"
-                    },
-                    {
-                        "id": "5",
-                        "score_given": 0,
-                        "error_category": "FORMAT_MINOR",
-                        "reason": "单位书写不规范（缺少Hz），核心数值正确，但核心推导全错，参数识别分降级，得分上限30%，给0分"
-                    },
-                    {
-                        "id": "6",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "未写出通用公式，写了具体计算式，与标准要求不符"
-                    },
-                    {
-                        "id": "7",
+                        "id": "item_2",
                         "score_given": 0,
                         "error_category": "BLANK",
-                        "reason": "未书写"
+                        "evidence_text": "未书写",
+                        "expected_condition": "识别M1的CPI为2",
+                        "dependency_status": "failed",
+                        "reason": "No concrete extracted evidence is present for this specific parameter."
                     },
                     {
-                        "id": "8",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值错误，标准为50 μs，学生写5×10⁻⁶ s（5 μs），误差90%，不匹配"
-                    },
-                    {
-                        "id": "9",
+                        "id": "item_3",
                         "score_given": 0,
                         "error_category": "BLANK",
-                        "reason": "未书写"
+                        "evidence_text": "未书写",
+                        "expected_condition": "识别M1的主频为4GHz",
+                        "dependency_status": "failed",
+                        "reason": "No concrete extracted evidence is present for this specific parameter."
                     },
                     {
-                        "id": "10",
+                        "id": "item_4",
                         "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "reason": "数值错误，标准为16.7 μs，学生写1.67×10⁻⁶ s（1.67 μs），误差90%，不匹配"
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "识别M2的CPI为1",
+                        "dependency_status": "failed",
+                        "reason": "No concrete extracted evidence is present for this specific parameter."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "识别M2的主频为6GHz",
+                        "dependency_status": "failed",
+                        "reason": "No concrete extracted evidence is present for this specific parameter."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "运行时间为 (指令数×CPI)/主频",
+                        "expected_condition": "写出执行时间公式：时间 = (指令数 × CPI) / 主频",
+                        "dependency_status": "satisfied",
+                        "reason": "Student correctly writes the complete and valid execution time formula."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "2×10⁵",
+                        "expected_condition": "计算M1指令数×CPI为200,000",
+                        "dependency_status": "satisfied",
+                        "reason": "Student correctly calculates the product of instruction count and CPI for M1 as 2×10^5."
+                    },
+                    {
+                        "id": "item_8",
+                        "score_given": 1,
+                        "error_category": "FORMAT_MINOR",
+                        "evidence_text": "2×10⁵ / 4×10⁹",
+                        "expected_condition": "计算M1时间为50 μs",
+                        "dependency_status": "satisfied",
+                        "reason": "Student sets up the correct division expression for M1's execution time. The final numeric value is left unsimplified, but under the lenient policy, the mathematically equivalent expression receives full credit (minimum 1 point applies)."
+                    },
+                    {
+                        "id": "item_9",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "1×10⁵",
+                        "expected_condition": "计算M2指令数×CPI为100,000",
+                        "dependency_status": "satisfied",
+                        "reason": "Student correctly calculates the product of instruction count and CPI for M2 as 1×10^5."
+                    },
+                    {
+                        "id": "item_10",
+                        "score_given": 1,
+                        "error_category": "FORMAT_MINOR",
+                        "evidence_text": "1×10⁵ / 6×10⁹",
+                        "expected_condition": "计算M2时间为16.7 μs",
+                        "dependency_status": "satisfied",
+                        "reason": "Student sets up the correct division expression for M2's execution time. The final numeric value is left unsimplified, but under the lenient policy, the mathematically equivalent expression receives full credit (minimum 1 point applies)."
                     }
                 ],
-                "total_score": 0
+                "total_score": 6
             }
         ]
     }

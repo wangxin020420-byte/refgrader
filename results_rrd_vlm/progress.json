@@ -1,11 +1,11 @@
 {
   "experiment": {
-    "run_id": "20260603_003700",
+    "run_id": "20260603_225638",
     "mode": "FULL",
-    "pid": 214680,
+    "pid": 247644,
     "status": "completed",
-    "started_at": "2026-06-03T00:37:01.764685",
-    "last_updated": "2026-06-03T07:28:17.838072",
+    "started_at": "2026-06-03T22:56:39.631884",
+    "last_updated": "2026-06-04T05:17:07.444939",
     "model_provider": "glm5",
     "vlm_model": "glm-4.6v",
     "text_model": "glm-5.1",
@@ -27,56 +27,56 @@
       "completed": 68,
       "failed": 0,
       "remaining": 0,
-      "started_at": "2026-06-03T00:37:01.765613",
-      "last_student_at": "2026-06-03T02:38:15.572163",
+      "started_at": "2026-06-03T22:56:39.632963",
+      "last_student_at": "2026-06-04T01:10:31.795023",
       "eta_seconds": 0,
-      "avg_seconds_per_student": 209.3,
+      "avg_seconds_per_student": 234.9,
       "route_distribution": {
-        "POS": 36,
-        "NEG": 8,
-        "BND": 24
+        "BND": 35,
+        "POS": 26,
+        "NEG": 7
       },
       "current_errors": [],
       "recent_completions": [
         {
-          "student_id": "E12314209",
-          "route": "BND",
-          "final_score": 4.0,
-          "teacher_score": 6.0,
-          "completed_at": "2026-06-03T02:29:45.057472",
-          "duration_seconds": 146.5
+          "student_id": "E12314205",
+          "route": "POS",
+          "final_score": 8.0,
+          "teacher_score": 10.0,
+          "completed_at": "2026-06-04T01:04:46.064298",
+          "duration_seconds": 480.0
         },
         {
           "student_id": "E12314213",
           "route": "BND",
           "final_score": 4.0,
           "teacher_score": 5.0,
-          "completed_at": "2026-06-03T02:31:38.295998",
-          "duration_seconds": 128.1
-        },
-        {
-          "student_id": "E12314217",
-          "route": "POS",
-          "final_score": 7.3,
-          "teacher_score": 12.0,
-          "completed_at": "2026-06-03T02:32:07.388146",
-          "duration_seconds": 142.3
+          "completed_at": "2026-06-04T01:05:27.533546",
+          "duration_seconds": 184.4
         },
         {
           "student_id": "E12314221",
           "route": "POS",
           "final_score": 4.0,
           "teacher_score": 5.0,
-          "completed_at": "2026-06-03T02:33:51.380442",
-          "duration_seconds": 133.1
+          "completed_at": "2026-06-04T01:07:39.068266",
+          "duration_seconds": 131.5
+        },
+        {
+          "student_id": "E12314217",
+          "route": "BND",
+          "final_score": 8.4,
+          "teacher_score": 12.0,
+          "completed_at": "2026-06-04T01:10:09.123348",
+          "duration_seconds": 323.1
         },
         {
           "student_id": "WA2324049",
-          "route": "POS",
-          "final_score": 7.0,
+          "route": "NEG",
+          "final_score": 3.0,
           "teacher_score": 8.0,
-          "completed_at": "2026-06-03T02:38:15.572204",
-          "duration_seconds": 368.2
+          "completed_at": "2026-06-04T01:10:31.795059",
+          "duration_seconds": 172.7
         }
       ]
     },
@@ -85,55 +85,56 @@
       "completed": 67,
       "failed": 0,
       "remaining": 0,
-      "started_at": "2026-06-03T02:38:15.725627",
-      "last_student_at": "2026-06-03T07:28:17.690107",
+      "started_at": "2026-06-04T01:10:31.959147",
+      "last_student_at": "2026-06-04T05:17:07.291102",
       "eta_seconds": 0,
-      "avg_seconds_per_student": 485.1,
+      "avg_seconds_per_student": 438.0,
       "route_distribution": {
-        "POS": 66,
-        "BND": 1
+        "POS": 52,
+        "BND": 14,
+        "NEG": 1
       },
       "current_errors": [],
       "recent_completions": [
         {
           "student_id": "E12314209",
           "route": "POS",
-          "final_score": 3.3,
+          "final_score": 6.0,
           "teacher_score": 5.0,
-          "completed_at": "2026-06-03T06:33:55.112691",
-          "duration_seconds": 1259.1
+          "completed_at": "2026-06-04T05:02:49.894235",
+          "duration_seconds": 586.1
         },
         {
           "student_id": "E12314217",
           "route": "POS",
           "final_score": 10.0,
           "teacher_score": 10.0,
-          "completed_at": "2026-06-03T06:37:14.610629",
-          "duration_seconds": 199.5
+          "completed_at": "2026-06-04T05:06:44.585050",
+          "duration_seconds": 234.7
         },
         {
-          "student_id": "E12314221",
-          "route": "POS",
-          "final_score": 7.0,
-          "teacher_score": 8.0,
-          "completed_at": "2026-06-03T06:45:28.498777",
-          "duration_seconds": 493.9
+          "student_id": "E12314213",
+          "route": "BND",
+          "final_score": 6.3,
+          "teacher_score": 5.0,
+          "completed_at": "2026-06-04T05:10:03.521523",
+          "duration_seconds": 985.0
         },
         {
           "student_id": "WA2324049",
           "route": "POS",
-          "final_score": 9.3,
+          "final_score": 8.8,
           "teacher_score": 9.0,
-          "completed_at": "2026-06-03T06:50:35.935736",
-          "duration_seconds": 307.4
+          "completed_at": "2026-06-04T05:13:48.007164",
+          "duration_seconds": 224.5
         },
         {
-          "student_id": "E12314213",
+          "student_id": "E12314221",
           "route": "POS",
-          "final_score": 3.0,
-          "teacher_score": 5.0,
-          "completed_at": "2026-06-03T07:28:17.690169",
-          "duration_seconds": 4363.7
+          "final_score": 8.0,
+          "teacher_score": 8.0,
+          "completed_at": "2026-06-04T05:17:07.291142",
+          "duration_seconds": 622.7
         }
       ]
     }

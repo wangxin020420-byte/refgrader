@@ -604,6 +604,20 @@ def build_post_grading_calibration(
         and result_strong_signal <= 0.50
         and unsupported_high_score_risk >= 0.10
     )
+    stable_undercredit_review = (
+        avg_ratio <= 0.60
+        and result_correctness_signal >= 0.40
+        and method_evidence_signal >= 0.40
+        and lenient_undercredit_signal >= 0.04
+        and unsupported_high_score_risk < 0.20
+    )
+    direct_only_high_score_risk = (
+        direct_points_ratio >= 0.30
+        and direct_awarded_ratio >= 0.80
+        and result_strong_signal <= 0.50
+        and avg_ratio >= 0.50
+        and method_evidence_signal <= 0.65
+    )
 
     visual_blank_review = bool(visual_items) and blank_rate >= 0.40
     if unsupported_ratio >= 0.15:
@@ -618,6 +632,10 @@ def build_post_grading_calibration(
         rule_hits.append("unsupported_high_score_review")
     if weak_result_high_score_review:
         rule_hits.append("weak_result_high_score_review")
+    if stable_undercredit_review:
+        rule_hits.append("stable_undercredit_review")
+    if direct_only_high_score_risk:
+        rule_hits.append("direct_only_high_score_risk")
 
     lower_bound = 0.0
     upper_bound = max_score
@@ -636,6 +654,8 @@ def build_post_grading_calibration(
         or lenient_undercredit_signal >= 0.08
         or unsupported_high_score_risk >= 0.25
         or weak_result_high_score_review
+        or stable_undercredit_review
+        or direct_only_high_score_risk
     )
     reject_domain = visual_blank_review
 
@@ -658,6 +678,8 @@ def build_post_grading_calibration(
         "explicit_chain_coverage": round(explicit_chain_coverage, 4),
         "core_anchor_failed": core_anchor_failed,
         "weak_result_high_score_review": weak_result_high_score_review,
+        "stable_undercredit_review": stable_undercredit_review,
+        "direct_only_high_score_risk": direct_only_high_score_risk,
         "visual_blank_review": visual_blank_review,
         "boundary_domain": boundary_domain,
         "reject_domain": reject_domain,
@@ -772,6 +794,8 @@ def build_a3wa_decision(
     result_strong = clamp01(post_calibration.get("result_strong_signal", 0.0))
     method_evidence = clamp01(post_calibration.get("method_evidence_signal", 0.0))
     weak_result_high_score = bool(post_calibration.get("weak_result_high_score_review", False))
+    stable_undercredit = bool(post_calibration.get("stable_undercredit_review", False))
+    direct_only_high_score = bool(post_calibration.get("direct_only_high_score_risk", False))
     u_overcredit = clamp01(
         avg_ratio * max(
             u_semantic,
@@ -823,9 +847,15 @@ def build_a3wa_decision(
         if lenient_undercredit >= 0.08 and avg_ratio <= 0.85:
             route = "BND"
             reason = "high_confidence_lenient_undercredit_review"
+        elif stable_undercredit:
+            route = "BND"
+            reason = "high_confidence_stable_undercredit_review"
         elif weak_result_high_score:
             route = "BND"
             reason = "high_confidence_weak_result_high_score_review"
+        elif direct_only_high_score:
+            route = "BND"
+            reason = "high_confidence_direct_only_high_score_review"
         elif unsupported_high_score >= 0.25:
             route = "BND"
             reason = "high_confidence_unsupported_high_score_review"
@@ -974,10 +1004,14 @@ def build_boundary_direction_signals(
     post_upper = safe_float(post_calibration.get("upper_bound", max_score), max_score)
     extraction_risk = clamp01(0.5 * low_quality_rate + 0.5 * perception_failure_rate)
     weak_result_high_score = bool(post_calibration.get("weak_result_high_score_review", False))
+    stable_undercredit = bool(post_calibration.get("stable_undercredit_review", False))
+    direct_only_high_score = bool(post_calibration.get("direct_only_high_score_risk", False))
 
     over_reasons = []
     if weak_result_high_score:
         over_reasons.append("weak_result_high_score")
+    if direct_only_high_score:
+        over_reasons.append("direct_only_high_score")
     if unsupported_high_score >= 0.25:
         over_reasons.append("unsupported_high_score")
     if bool(risk_value("high_blank_high_score", False)) and avg_ratio >= 0.80 and unsupported_high_score >= 0.20:
@@ -1010,6 +1044,8 @@ def build_boundary_direction_signals(
         strong_over_reasons.append("strict_post_upper_cap")
 
     under_reasons = []
+    if stable_undercredit:
+        under_reasons.append("stable_undercredit")
     if lenient_undercredit >= 0.08:
         under_reasons.append("lenient_undercredit")
     if extraction_risk >= 0.20 and blank_rate <= 0.60 and avg_ratio <= 0.75:
@@ -1049,6 +1085,8 @@ def build_boundary_direction_signals(
         "method_evidence_signal": round(method_evidence, 6),
         "bare_answer_risk": round(bare_answer_risk, 6),
         "weak_result_high_score_review": weak_result_high_score,
+        "stable_undercredit_review": stable_undercredit,
+        "direct_only_high_score_risk": direct_only_high_score,
     }
 
 
@@ -1135,6 +1173,86 @@ def apply_boundary_no_harm_gate(
     }
 
 
+BOUNDARY_RAISE_REASON_TYPES = {
+    "lenient_process_credit",
+    "propagated_error",
+    "format_minor",
+    "valid_alternative",
+    "calculation_trace",
+    "process_credit",
+    "near_correct_final",
+}
+BOUNDARY_LOWER_REASON_TYPES = {
+    "direct_only",
+    "unsupported_final",
+    "wrong_core_result",
+    "unsupported_match",
+    "bare_answer",
+    "contradiction",
+    "severe_extraction_absence",
+}
+
+
+def summarize_boundary_agent_evidence(agent_evidence, max_score):
+    """Summarize structured BND missed/over credit items without trusting free-form totals."""
+    max_score = max(safe_float(max_score, 0.0), 1.0)
+    if not isinstance(agent_evidence, dict):
+        return {
+            "has_agent_evidence": False,
+            "missed_points": 0.0,
+            "over_points": 0.0,
+            "allowed_missed_points": 0.0,
+            "allowed_over_points": 0.0,
+            "missed_count": 0,
+            "over_count": 0,
+            "missed_reason_types": [],
+            "over_reason_types": [],
+        }
+
+    def collect(items, allowed_types):
+        total = 0.0
+        allowed_total = 0.0
+        count = 0
+        reason_types = []
+        if not isinstance(items, list):
+            return total, allowed_total, count, reason_types
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            points = max(0.0, min(max_score, safe_float(item.get("points", 0.0), 0.0)))
+            if points <= 0:
+                continue
+            evidence = str(item.get("evidence", "")).strip()
+            reason_type = str(item.get("reason_type", "")).strip().lower()
+            count += 1
+            total += points
+            if reason_type:
+                reason_types.append(reason_type)
+            if evidence and reason_type in allowed_types:
+                allowed_total += points
+        return total, allowed_total, count, sorted(set(reason_types))
+
+    missed_points, allowed_missed, missed_count, missed_types = collect(
+        agent_evidence.get("missed_credit_items"),
+        BOUNDARY_RAISE_REASON_TYPES,
+    )
+    over_points, allowed_over, over_count, over_types = collect(
+        agent_evidence.get("over_credit_items"),
+        BOUNDARY_LOWER_REASON_TYPES,
+    )
+    return {
+        "has_agent_evidence": True,
+        "missed_points": round(missed_points, 4),
+        "over_points": round(over_points, 4),
+        "allowed_missed_points": round(allowed_missed, 4),
+        "allowed_over_points": round(allowed_over, 4),
+        "missed_count": missed_count,
+        "over_count": over_count,
+        "missed_reason_types": missed_types,
+        "over_reason_types": over_types,
+    }
+
+
 def apply_boundary_action_policy(
     avg_model_score,
     candidate_score,
@@ -1142,6 +1260,7 @@ def apply_boundary_action_policy(
     a3wa_decision=None,
     risk_profile=None,
     post_calibration=None,
+    agent_evidence=None,
 ):
     """Validation-calibratable BND action policy with model average as baseline."""
     avg_model_score = safe_float(avg_model_score, 0.0)
@@ -1162,6 +1281,7 @@ def apply_boundary_action_policy(
         risk_profile=risk_profile,
         post_calibration=post_calibration,
     )
+    agent_summary = summarize_boundary_agent_evidence(agent_evidence, max_score)
 
     avg_ratio = clamp01(baseline / max_score)
     fatal = clamp01(components.get("U_semantic", signals.get("fatal_points_ratio", 0.0)))
@@ -1185,6 +1305,7 @@ def apply_boundary_action_policy(
     bare_answer_risk = clamp01(post_calibration.get("bare_answer_risk", signals.get("bare_answer_risk", 0.0)))
     direct_points_ratio = clamp01(post_calibration.get("direct_points_ratio", 0.0))
     direct_awarded_ratio = clamp01(post_calibration.get("direct_awarded_ratio", 1.0))
+    direct_only_high_score = bool(post_calibration.get("direct_only_high_score_risk", False))
     partial_or_format_evidence = max(
         clamp01(signals.get("partial_match_points_ratio", 0.0)),
         clamp01(signals.get("format_minor_points_ratio", 0.0)),
@@ -1210,6 +1331,7 @@ def apply_boundary_action_policy(
         and unsupported_high_score < 0.35
         and avg_ratio <= 0.90
         and not parameter_dense_weak_final
+        and not direct_only_high_score
     )
     strong_lenient_raise = (
         lenient_raise_ready
@@ -1220,7 +1342,7 @@ def apply_boundary_action_policy(
     )
 
     if abs(delta) <= minor_margin:
-        if strong_lenient_raise:
+        if strong_lenient_raise and (agent_summary["allowed_missed_points"] > 0 or not agent_summary["has_agent_evidence"]):
             high_band_gap = max(0.0, 0.85 * max_score - baseline)
             final_score = min(max_score, baseline + min(small_margin, high_band_gap))
             accepted = final_score > baseline
@@ -1230,11 +1352,21 @@ def apply_boundary_action_policy(
             action = "keep_minor_change"
             gate_reason = "minor_candidate_delta"
     elif delta < 0:
-        strong_lower = unsupported_high_score >= 0.40 and avg_ratio >= 0.70
+        has_over_item = agent_summary["allowed_over_points"] > 0 or not agent_summary["has_agent_evidence"]
+        strong_lower = (
+            has_over_item
+            and avg_ratio >= 0.70
+            and (unsupported_high_score >= 0.40 or direct_only_high_score)
+        )
         supported_lower = (
-            avg_ratio >= 0.75
-            and unsupported_high_score >= 0.25
-            and (fatal >= 0.60 or blank >= 0.60 or overcredit >= 0.25 or bare_answer_risk >= 0.50)
+            has_over_item
+            and avg_ratio >= 0.50
+            and (
+                unsupported_high_score >= 0.10
+                or direct_only_high_score
+                or signals.get("weak_result_high_score_review", False)
+            )
+            and (fatal >= 0.20 or blank >= 0.60 or overcredit >= 0.10 or bare_answer_risk >= 0.15)
         )
         if strong_lower:
             final_score = max(0.0, baseline - min(abs(delta), large_margin))
@@ -1250,7 +1382,10 @@ def apply_boundary_action_policy(
             action = "reject_lower"
             gate_reason = "lower_without_sufficient_unsupported_high_score_evidence"
     elif delta > 0:
-        supported_raise = lenient_raise_ready
+        supported_raise = (
+            lenient_raise_ready
+            and (agent_summary["allowed_missed_points"] > 0 or not agent_summary["has_agent_evidence"])
+        )
         if supported_raise:
             margin = large_margin if strong_lenient_raise else small_margin
             final_score = min(max_score, baseline + min(delta, margin))
@@ -1273,6 +1408,7 @@ def apply_boundary_action_policy(
         "lower_bound": round(max(0.0, baseline - large_margin), 4),
         "upper_bound": round(min(max_score, baseline + large_margin), 4),
         "direction_signals": signals,
+        "agent_evidence_summary": agent_summary,
     }
 
 

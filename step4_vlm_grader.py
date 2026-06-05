@@ -928,6 +928,9 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         "explicit_chain_coverage": post_calibration["explicit_chain_coverage"],
         "core_anchor_failed": post_calibration["core_anchor_failed"],
         "visual_blank_review": post_calibration["visual_blank_review"],
+        "weak_result_high_score_review": post_calibration["weak_result_high_score_review"],
+        "stable_undercredit_review": post_calibration["stable_undercredit_review"],
+        "direct_only_high_score_risk": post_calibration["direct_only_high_score_risk"],
         "calibration_rule_hits": post_calibration["rule_hits"],
     })
     if post_calibration["reject_domain"]:
@@ -1030,6 +1033,7 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
                     a3wa_decision=a3wa_decision,
                     risk_profile=risk_profile,
                     post_calibration=post_calibration,
+                    agent_evidence=parsed_agent,
                 )
                 final_score = round(_clamp(boundary_gate["final_score"], 0, MAX_SCORE), 2)
                 arbitration_decision = f"{arbitration_decision}|{boundary_gate['action']}"

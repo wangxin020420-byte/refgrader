@@ -36,6 +36,34 @@ unsupported high-score credit relative to the three prior grading records.
    receive full method/process credit.
 8. Generic facts such as "has calculation process" or "written" are not enough
    without concrete content.
+9. For chained calculations, distinguish a propagated upstream error from an
+   unrelated fatal error. If the formula/path is valid but a later value is
+   wrong only because an earlier value was wrong, use reason_type
+   "propagated_error" in missed_credit_items rather than treating every
+   downstream item as unrelated.
+10. When known parameters are correct but core formula/result/conclusion credit
+    is unsupported, use reason_type "direct_only", "unsupported_final", or
+    "wrong_core_result" in over_credit_items.
+
+# Allowed reason_type values
+
+missed_credit_items reason_type:
+- lenient_process_credit
+- propagated_error
+- format_minor
+- valid_alternative
+- calculation_trace
+- process_credit
+- near_correct_final
+
+over_credit_items reason_type:
+- direct_only
+- unsupported_final
+- wrong_core_result
+- unsupported_match
+- bare_answer
+- contradiction
+- severe_extraction_absence
 
 # Required JSON Output
 
@@ -55,6 +83,7 @@ Return pure JSON only:
       "id": "rubric item id",
       "points": 0,
       "evidence": "student evidence",
+      "reason_type": "lenient_process_credit | propagated_error | format_minor | valid_alternative | calculation_trace | process_credit | near_correct_final",
       "reason": "why these points were missed under lenient instructor-style grading"
     }
   ],
@@ -63,6 +92,7 @@ Return pure JSON only:
       "id": "rubric item id",
       "points": 0,
       "evidence": "student evidence",
+      "reason_type": "direct_only | unsupported_final | wrong_core_result | unsupported_match | bare_answer | contradiction | severe_extraction_absence",
       "reason": "why these points were unsupported"
     }
   ],

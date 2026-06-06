@@ -66,6 +66,20 @@ PARTIAL_MATCH, not SEMANTIC_FATAL.
   credit under the instructor-aligned lenient policy.
 - A correct final answer with no process evidence should not receive full score.
 
+# Strict Equivalence Guards
+
+- Similar symbols, reused variables, or copied parameters do not by themselves
+  prove that a formula, mapping, or algorithmic relation is correct.
+- For formula, mapping, conversion, and conclusion items, MATCH requires the
+  same target quantity, direction, unit/dimension, and core relation as the
+  rubric. If any of these are contradicted, use SEMANTIC_FATAL or PARTIAL_MATCH
+  according to the concrete evidence.
+- If a student writes a plausible-looking expression but it computes a different
+  object, reverses a mapping, changes the dimensional meaning, or skips the
+  required relation entirely, do not mark the item as MATCH.
+- The lenient policy applies to missing expansion and minor arithmetic detail;
+  it does not convert an unrelated or contradictory method into a correct one.
+
 # Required JSON Output
 
 Return pure JSON only:

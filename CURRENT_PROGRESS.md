@@ -1,6 +1,272 @@
 # Current Progress
 
-Last updated: 2026-06-03
+Last updated: 2026-06-06
+
+## 2026-06-06 Selected Baseline / Evaluation Update
+
+This section records the latest code update made after the 2026-06-06 Q6/Q7
+formal-result analysis. It should be treated as the newest active implementation
+state.
+
+Follow-up generality update:
+
+```text
+The old selected-baseline prototype used max_score >= 15.0 as a weak proxy for
+"complex calculation/derivation task". This has been removed.
+
+The current implementation infers task structure from rubric metadata and item
+types instead:
+  answer_type: formula / direct_numeric / derived_numeric / sequence /
+               table_entry / judgement / concept_keyword
+  role: parameter / method / intermediate / final / unknown
+
+calibration_utils.infer_rubric_task_profile() summarizes the rubric into:
+  task_type
+  complex_derivation_task
+  upper_consensus_eligible
+  process_points_ratio
+  result_points_ratio
+  numeric_formula_points_ratio
+  visual_sequence_points_ratio
+  concept_judgement_points_ratio
+```
+
+The selected upper-consensus baseline is now allowed only when the rubric shows
+enough process/evidence structure:
+
+```text
+upper_consensus_eligible =
+  complex_derivation_task
+  and process_points_ratio >= 0.60
+  and numeric_formula_points_ratio >= 0.45
+  and concept_judgement_points_ratio < 0.60
+```
+
+This keeps the method generic: it no longer depends on question id or full-score
+thresholds. For example, Q7 is still recognized as a calculation task, but its
+process_points_ratio is only 0.50, so it is not eligible for max-of-three
+selected-baseline promotion. Q6 has process_points_ratio=1.00 and remains
+eligible.
+
+Main change:
+
+```text
+The initial three-run model average is no longer the only score baseline used
+by 3WD. The pipeline now computes a risk-aware selected_baseline_score before
+A3WA routing and BND arbitration.
+```
+
+Score layers now used for analysis:
+
+```text
+single_first_score        = the first score in model_scores_history
+model_avg_score           = ordinary average of the three model scores
+selected_baseline_score   = 3WD-selected baseline before POS/BND/NEG action
+final_calibrated_score    = final 3WD score after route and possible BND action
+```
+
+`selected_baseline_score` is produced by `calibration_utils.select_baseline_score()`:
+
+```text
+Default:
+  selected_baseline_score = model_avg_score
+
+Guarded upper-consensus case:
+  if the task looks like a complex calculation/derivation task,
+  and result correctness evidence is present,
+  and method/process evidence is present,
+  and lenient-undercredit evidence is present,
+  and over-credit risk is low,
+  then selected_baseline_score = max(model_scores_history)
+```
+
+The selected baseline is then used consistently by:
+
+```text
+step4_vlm_grader.py:
+  A3WA routing uses selected_baseline_score.
+  POS directly accepts selected_baseline_score.
+  BND arbitration uses selected_baseline_score as the baseline.
+  Result JSON now stores selected_baseline_score, baseline_policy,
+  baseline_score_source, and baseline_selection_signals.
+
+scripts/replay_calibration.py:
+  Offline replay now mirrors the formal pipeline and uses selected_baseline_score
+  for POS, NEG fallback, and BND action policy.
+
+evaluate.py:
+  --compare now reports four score types:
+  single / avg / selected / 3WD.
+  --score-key selected_baseline_score is supported.
+  --score-key also supports aliases: single / avg / selected / 3wd.
+  --compare-score-keys can select any subset, for example:
+    python evaluate.py --compare --questions Q6 Q7 --compare-score-keys avg selected 3wd
+  --compare-output CSV now contains selected_baseline_score, selected_diff,
+  selected_gain_vs_avg, final_gain_vs_selected, baseline_policy, and
+  baseline_score_source.
+```
+
+Stage2 prompt update:
+
+```text
+prompts/stage2_logic_grading.md now has Strict Equivalence Guards.
+The lenient grading policy applies to missing expansion and minor arithmetic
+details, but it does not allow wrong formulas, wrong mappings, wrong target
+quantities, or dimension/unit contradictions to be marked as MATCH.
+```
+
+Validation commands already run locally:
+
+```bash
+python -m py_compile calibration_utils.py scripts\replay_calibration.py step4_vlm_grader.py evaluate.py
+python scripts\replay_calibration.py --results-dir results_rrd_vlm --files results_rrd_vlm\Q6_grading_checkpoint.json results_rrd_vlm\Q7_grading_checkpoint.json
+python evaluate.py --compare --questions Q6 Q7 --compare-output outputs\q6_q7_selected_compare_check.csv
+```
+
+Replay result on the current Q6/Q7 checkpoint:
+
+```text
+Q6 current -> replay:
+  MAE 3.076 -> 2.954
+  RMSE 3.853 -> 3.695
+  QWK 0.720 -> 0.746
+  Pearson 0.855 -> 0.865
+  TAR2 48.5% -> 50.0%
+  Under>2 32 -> 31
+
+Q7 current -> replay:
+  unchanged, MAE remains 1.013
+
+GLOBAL current -> replay:
+  MAE 2.053 -> 1.991
+  RMSE 3.074 -> 2.974
+  QWK 0.711 -> 0.733
+  Pearson 0.760 -> 0.776
+  TAR2 68.1% -> 68.9%
+  Under>2 34 -> 33
+```
+
+Important interpretation:
+
+```text
+Existing result JSON files generated before this update do not contain a real
+selected_baseline_score field. In evaluate.py, old files fallback selected to
+model_avg_score for compatibility. The selected column will show real differences
+only after the next formal experiment is rerun with the updated step4_vlm_grader.py.
+```
+
+## 2026-06-06 Latest Formal Q6/Q7 Run
+
+The latest lab-server formal experiment has completed:
+
+```text
+run_id = 20260605_225725
+mode = FULL
+questions = Q6 Q7
+force_rerun = true
+model_provider = glm5
+vlm_model = glm-4.6v
+text_model = glm-5.1
+completed_at = 2026-06-06
+```
+
+Important evaluation note:
+
+```text
+Q6_graded_results.json contains 63 normal records, while Q6_grading_checkpoint.json contains all 68 completed records.
+The missing 5 Q6 records are NEG/rejected records in Q6_rejected.json.
+For full-experiment analysis, use Q6_grading_checkpoint.json and Q7_grading_checkpoint.json.
+```
+
+New per-sample analysis files were generated:
+
+```text
+outputs/q6_q7_20260606_single_vs_avg_vs_3wd.csv
+outputs/q6_q7_20260606_checkpoint_analysis.csv
+```
+
+These CSV files contain every Q6/Q7 sample with teacher score, first single score, model average score, final 3WD score, error, gain/loss, route, boundary action, A3WA confidence/risk, post-calibration signals, and diagnosis tags.
+
+Full-checkpoint metrics from the latest run:
+
+```text
+Q6, N=68
+single: MAE=3.309 RMSE=4.199 QWK=0.673 Pearson=0.827 TAR2=51.5% Bias=-2.779 Over>2=2 Under>2=31
+avg:    MAE=3.126 RMSE=3.890 QWK=0.714 Pearson=0.856 TAR2=47.1% Bias=-2.562 Over>2=3 Under>2=33
+3WD:    MAE=3.076 RMSE=3.853 QWK=0.720 Pearson=0.855 TAR2=48.5% Bias=-2.512 Over>2=3 Under>2=32
+
+Q7, N=67
+single: MAE=1.151 RMSE=2.138 QWK=0.647 Pearson=0.701 TAR2=85.1% Bias=+0.393 Over>2=6 Under>2=4
+avg:    MAE=1.037 RMSE=2.033 QWK=0.685 Pearson=0.739 TAR2=86.6% Bias=+0.419 Over>2=7 Under>2=2
+3WD:    MAE=1.013 RMSE=1.993 QWK=0.697 Pearson=0.749 TAR2=88.1% Bias=+0.375 Over>2=6 Under>2=2
+
+GLOBAL Q6+Q7, N=135
+single: MAE=2.238 RMSE=3.339 Pearson=0.714 TAR2=68.1% Bias=-1.205 Over>2=8 Under>2=35
+avg:    MAE=2.090 RMSE=3.110 Pearson=0.753 TAR2=66.7% Bias=-1.082 Over>2=10 Under>2=35
+3WD:    MAE=2.053 RMSE=3.074 Pearson=0.760 TAR2=68.1% Bias=-1.079 Over>2=9 Under>2=34
+```
+
+Interpretation of this run:
+
+```text
+1. Within the latest run, 3WD is still positive compared with model_avg:
+   global MAE improves 2.090 -> 2.053, RMSE improves 3.110 -> 3.074,
+   Pearson improves 0.753 -> 0.760, TAR2 improves 66.7% -> 68.1%.
+
+2. The improvement is too small. Only 5 of 135 samples improve over model_avg,
+   129 are unchanged, and 1 worsens. The BND gate is currently very conservative.
+
+3. Compared with the previous 2026-06-05 single/avg/3WD CSV, the latest formal
+   run is worse overall:
+   previous global 3WD MAE=1.915, current global 3WD MAE=2.053.
+   This is partly because the base model_avg also worsened:
+   previous global avg MAE=2.005, current global avg MAE=2.090.
+
+4. Q6 is the main problem. The final 3WD score still has strong underestimation:
+   Q6 final Bias=-2.512 and Under>2=32. Many teacher-high/model-low samples
+   remain unchanged because BND rejects raises or keeps minor changes.
+
+5. Q7 is directionally better than model_avg in the latest run, but it still has
+   severe overestimation on several low-teacher-score samples. Some of these are
+   POS high-confidence cases, so BND never gets a chance to correct them.
+```
+
+Sample-level diagnosis from the latest run:
+
+```text
+Q6 route counts: BND=46, POS=17, NEG=5
+Q6 boundary actions: keep_minor_change=27, reject_raise=15, medium_raise=1, small_raise=2, reject_lower=1, NO_GATE=22
+Q6 3WD changes: improved=3, unchanged=65, worsened=0
+Q6 main issue: BND catches many risky samples but still does not raise enough for teacher-lenient high-score answers.
+
+Largest Q6 final errors:
+  E12314033_Q6 teacher=18 final=8.3 diff=-9.7 route=BND gate=reject_raise
+  E12314037_Q6 teacher=20 final=11.0 diff=-9.0 route=BND gate=reject_raise
+  E12214023_Q6 teacher=12 final=4.0 diff=-8.0 route=BND gate=keep_minor_change
+  E12214091_Q6 teacher=11 final=3.0 diff=-8.0 route=NEG
+  E12314117_Q6 teacher=8 final=2.0 diff=-6.0 route=BND gate=keep_minor_change
+
+Q7 route counts: POS=47, BND=20
+Q7 boundary actions: keep_minor_change=13, reject_raise=4, large_lower=3, NO_GATE=47
+Q7 3WD changes: improved=2, unchanged=64, worsened=1
+Q7 main issue: several severe overestimations are POS high-confidence samples, not BND samples.
+
+Largest Q7 final errors:
+  E12314133_Q7 teacher=0 final=8.9 diff=+8.9 route=POS
+  E12214212_Q7 teacher=0 final=8.2 diff=+8.2 route=POS
+  E12314129_Q7 teacher=2 final=6.7 diff=+4.7 route=BND gate=keep_minor_change
+  E12314065_Q7 teacher=7 final=3.3 diff=-3.7 route=POS
+  E02014181_Q7 teacher=2 final=5.3 diff=+3.3 route=BND gate=reject_raise
+```
+
+Current conclusion:
+
+```text
+The latest system is not broken: 3WD still improves over the current model_avg baseline.
+However, the improvement is not strong enough, and the latest formal run is weaker than
+the previous run. The main bottleneck is no longer only A3WA routing; it is the combination
+of unstable base model scoring, conservative BND-UP, and missed POS high-over cases.
+```
 
 ## Current Goal
 

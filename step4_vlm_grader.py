@@ -17,6 +17,7 @@ from calibration_utils import (
     build_post_grading_calibration,
     compute_extraction_quality_counts,
     prepare_rubrics_for_calibration,
+    select_baseline_score,
 )
 
 # ==================== 配置区 ====================
@@ -931,8 +932,49 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         "weak_result_high_score_review": post_calibration["weak_result_high_score_review"],
         "stable_undercredit_review": post_calibration["stable_undercredit_review"],
         "direct_only_high_score_risk": post_calibration["direct_only_high_score_risk"],
+        "task_type": post_calibration.get("task_type", "mixed_or_unknown"),
+        "complex_derivation_task": post_calibration.get("complex_derivation_task", False),
+        "upper_consensus_eligible": post_calibration.get("upper_consensus_eligible", False),
+        "rubric_task_profile": post_calibration.get("rubric_task_profile", {}),
         "calibration_rule_hits": post_calibration["rule_hits"],
     })
+    baseline_selection = select_baseline_score(
+        model_scores=model_scores,
+        model_avg_score=avg_model_score,
+        max_score=MAX_SCORE,
+        post_calibration=post_calibration,
+        risk_profile=risk_profile,
+    )
+    selected_baseline_score = round(_clamp(baseline_selection["selected_baseline_score"], 0, MAX_SCORE), 2)
+    baseline_signals = baseline_selection.get("baseline_selection_signals", {})
+    post_calibration.update({
+        "selected_baseline_score": selected_baseline_score,
+        "baseline_policy": baseline_selection.get("baseline_policy", "model_avg"),
+        "baseline_score_source": baseline_selection.get("baseline_score_source", "model_avg_score"),
+        "baseline_selection_signals": baseline_signals,
+        "score_history_max": baseline_signals.get("score_history_max", selected_baseline_score),
+        "score_history_median": baseline_signals.get("score_history_median", selected_baseline_score),
+        "score_history_min": baseline_signals.get("score_history_min", selected_baseline_score),
+        "high_score_safety_review": bool(baseline_signals.get("high_score_safety_review", False)),
+    })
+    if post_calibration["high_score_safety_review"]:
+        if "high_score_safety_review" not in post_calibration["rule_hits"]:
+            post_calibration["rule_hits"].append("high_score_safety_review")
+        post_calibration["boundary_domain"] = True
+    risk_profile["risk_features"].update({
+        "model_avg_ratio": round(avg_model_score / MAX_SCORE, 4) if MAX_SCORE > 0 else 0.0,
+        "avg_ratio": round(selected_baseline_score / MAX_SCORE, 4) if MAX_SCORE > 0 else 0.0,
+        "selected_baseline_score": selected_baseline_score,
+        "baseline_policy": post_calibration["baseline_policy"],
+        "baseline_score_source": post_calibration["baseline_score_source"],
+        "baseline_selection_signals": baseline_signals,
+        "high_score_safety_review": post_calibration["high_score_safety_review"],
+    })
+    risk_profile["high_blank_high_score"] = blank_rate >= 0.50 and selected_baseline_score >= 0.60 * MAX_SCORE
+    risk_profile["lenient_review_signal"] = selected_baseline_score <= 0.60 * MAX_SCORE and blank_rate <= 0.35
+    risk_profile["risk_features"]["high_blank_high_score"] = risk_profile["high_blank_high_score"]
+    risk_profile["risk_features"]["lenient_review_signal"] = risk_profile["lenient_review_signal"]
+    final_score = selected_baseline_score
     if post_calibration["reject_domain"]:
         risk_profile["reject_domain"] = True
         risk_profile["boundary_domain"] = False
@@ -944,7 +986,7 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     a3wa_config = load_a3wa_runtime_config()
     a3wa_decision = build_a3wa_decision(
         model_scores=model_scores,
-        avg_model_score=avg_model_score,
+        avg_model_score=selected_baseline_score,
         std_dev=std_dev,
         max_score=MAX_SCORE,
         blank_rate=blank_rate,
@@ -1024,10 +1066,10 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         if agent_res_text:
             parsed_agent = extract_and_parse_json(agent_res_text)
             if parsed_agent:
-                raw_agent_score = _agent_candidate_score(parsed_agent, avg_model_score, MAX_SCORE)
+                raw_agent_score = _agent_candidate_score(parsed_agent, selected_baseline_score, MAX_SCORE)
                 arbitration_decision = parsed_agent.get("decision", "keep")
                 boundary_gate = apply_boundary_action_policy(
-                    avg_model_score=avg_model_score,
+                    avg_model_score=selected_baseline_score,
                     candidate_score=raw_agent_score,
                     max_score=MAX_SCORE,
                     a3wa_decision=a3wa_decision,
@@ -1047,28 +1089,28 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
             else:
                 arbitration_decision = "keep"
                 lower_bound, upper_bound, _ = a3wa_dynamic_bounds(
-                    avg_model_score=avg_model_score,
+                    avg_model_score=selected_baseline_score,
                     max_score=MAX_SCORE,
                     a3wa_decision=a3wa_decision,
                     risk_profile=risk_profile,
                     post_calibration=post_calibration,
                 )
-                final_score = round(_clamp(avg_model_score, lower_bound, upper_bound), 2)
+                final_score = round(_clamp(selected_baseline_score, lower_bound, upper_bound), 2)
         else:
             arbitration_decision = "keep"
             lower_bound, upper_bound, _ = a3wa_dynamic_bounds(
-                avg_model_score=avg_model_score,
+                avg_model_score=selected_baseline_score,
                 max_score=MAX_SCORE,
                 a3wa_decision=a3wa_decision,
                 risk_profile=risk_profile,
                 post_calibration=post_calibration,
             )
-            final_score = round(_clamp(avg_model_score, lower_bound, upper_bound), 2)
+            final_score = round(_clamp(selected_baseline_score, lower_bound, upper_bound), 2)
 
     else:
         route = "POS"
-        final_score = avg_model_score
-        print(f"      ✅ [路由 -> POS] A3WA高可信自动接受，直接采信模型均分。")
+        final_score = selected_baseline_score
+        print(f"      ✅ [路由 -> POS] A3WA高可信自动接受，直接采信 selected_baseline_score={selected_baseline_score}。")
 
     # 结果封装
     ordered_result = {
@@ -1076,6 +1118,10 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         "teacher_score": teacher_score,
         "model_scores_history": model_scores,
         "model_avg_score": avg_model_score,
+        "selected_baseline_score": selected_baseline_score,
+        "baseline_policy": post_calibration["baseline_policy"],
+        "baseline_score_source": post_calibration["baseline_score_source"],
+        "baseline_selection_signals": baseline_signals,
         "std_dev": std_dev,
         "blank_rate": round(blank_rate, 2),
         "perception_failure_rate": round(perception_failure_rate, 2),

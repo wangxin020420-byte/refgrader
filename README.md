@@ -1,3 +1,313 @@
+# RefGrader Latest Status
+
+## 2026-06-06 Selected Baseline Update
+
+Read this section first. It records the latest code change after the Q6/Q7
+formal-result analysis.
+
+Generality update:
+
+```text
+The selected-baseline logic no longer uses max_score >= 15.0 to guess whether a
+question is a complex derivation/calculation task.
+
+Instead, calibration_utils.infer_rubric_task_profile() infers the task structure
+from rubric item metadata:
+  answer_type / role / process-point ratio / result-point ratio /
+  numeric-formula-point ratio / concept-judgement-point ratio.
+
+The upper-consensus baseline is enabled only when the rubric has enough process
+structure:
+  complex_derivation_task
+  and process_points_ratio >= 0.60
+  and numeric_formula_points_ratio >= 0.45
+  and concept_judgement_points_ratio < 0.60
+```
+
+This is more paper-friendly than a full-score threshold because the route policy
+is now tied to the scoring evidence structure defined by the rubric, not to a
+specific question id or score value.
+
+The active pipeline is now:
+
+```text
+exam image preprocessing -> VLM fact extraction -> three LLM scores
+-> model_avg_score -> selected_baseline_score
+-> A3WA risk/confidence route -> POS/BND/NEG
+-> evidence-gated BND score correction -> final_calibrated_score
+```
+
+The project now compares four score layers:
+
+```text
+single_first_score        first score from model_scores_history
+model_avg_score           ordinary average of three model scores
+selected_baseline_score   risk-aware 3WD baseline before route/BND action
+final_calibrated_score    final 3WD score after POS/BND/NEG handling
+```
+
+Implementation files changed in this update:
+
+```text
+calibration_utils.py
+  adds select_baseline_score() and selected-baseline-aware BND policy.
+
+step4_vlm_grader.py
+  formal scoring pipeline now stores selected_baseline_score, baseline_policy,
+  baseline_score_source, and baseline_selection_signals.
+
+scripts/replay_calibration.py
+  offline replay now mirrors the formal selected-baseline pipeline.
+
+evaluate.py
+  --compare now reports single / avg / selected / 3WD.
+  --score-key selected_baseline_score is supported.
+  Aliases are supported: single / avg / selected / 3wd.
+  --compare-score-keys can select a subset, for example:
+    python evaluate.py --compare --questions Q6 Q7 --compare-score-keys avg selected 3wd
+  --compare-output exports selected-related columns.
+
+prompts/stage2_logic_grading.md
+  adds Strict Equivalence Guards for formulas, mappings, dimensions, and target
+  quantities. Lenient grading no longer means wrong relations can be MATCH.
+```
+
+Validation already run:
+
+```bash
+python -m py_compile calibration_utils.py scripts\replay_calibration.py step4_vlm_grader.py evaluate.py
+python scripts\replay_calibration.py --results-dir results_rrd_vlm --files results_rrd_vlm\Q6_grading_checkpoint.json results_rrd_vlm\Q7_grading_checkpoint.json
+python evaluate.py --compare --questions Q6 Q7 --compare-output outputs\q6_q7_selected_compare_check.csv
+```
+
+Replay result on current Q6/Q7 checkpoints:
+
+```text
+Q6:    MAE 3.076 -> 2.954, RMSE 3.853 -> 3.695, QWK 0.720 -> 0.746
+Q7:    unchanged, MAE remains 1.013
+GLOBAL MAE 2.053 -> 1.991, RMSE 3.074 -> 2.974, Pearson 0.760 -> 0.776
+```
+
+Important compatibility note:
+
+```text
+Old result JSON files do not contain selected_baseline_score. evaluate.py falls
+back to model_avg_score for old files. The selected column will show real
+differences only after rerunning the formal experiment with the updated code.
+```
+
+## 2026-06-06 Q6/Q7 Formal Run
+
+This top section is intentionally ASCII-only because older README content has encoding corruption. For the current project state, read this section first, then read CURRENT_PROGRESS.md.
+
+Current pipeline:
+
+```text
+exam image preprocessing -> VLM fact extraction -> three LLM scores -> model average
+-> A3WA risk/confidence route -> POS/BND/NEG -> evidence-gated BND score correction
+```
+
+Latest server run:
+
+```text
+run_id = 20260605_225725
+mode = FULL
+questions = Q6 Q7
+force_rerun = true
+completed_at = 2026-06-06
+```
+
+Important evaluation note:
+
+```text
+Q6_graded_results.json has 63 normal records.
+Q6_grading_checkpoint.json has all 68 completed records.
+The 5 extra Q6 records are NEG/rejected records in Q6_rejected.json.
+Use Q6_grading_checkpoint.json and Q7_grading_checkpoint.json for full-run analysis.
+```
+
+Latest generated analysis files:
+
+```text
+outputs/q6_q7_20260606_single_vs_avg_vs_3wd.csv
+outputs/q6_q7_20260606_checkpoint_analysis.csv
+```
+
+Full-checkpoint metrics:
+
+```text
+Q6, N=68
+single: MAE=3.309 RMSE=4.199 QWK=0.673 Pearson=0.827 TAR2=51.5% Bias=-2.779 Over>2=2 Under>2=31
+avg:    MAE=3.126 RMSE=3.890 QWK=0.714 Pearson=0.856 TAR2=47.1% Bias=-2.562 Over>2=3 Under>2=33
+3WD:    MAE=3.076 RMSE=3.853 QWK=0.720 Pearson=0.855 TAR2=48.5% Bias=-2.512 Over>2=3 Under>2=32
+
+Q7, N=67
+single: MAE=1.151 RMSE=2.138 QWK=0.647 Pearson=0.701 TAR2=85.1% Bias=+0.393 Over>2=6 Under>2=4
+avg:    MAE=1.037 RMSE=2.033 QWK=0.685 Pearson=0.739 TAR2=86.6% Bias=+0.419 Over>2=7 Under>2=2
+3WD:    MAE=1.013 RMSE=1.993 QWK=0.697 Pearson=0.749 TAR2=88.1% Bias=+0.375 Over>2=6 Under>2=2
+
+GLOBAL Q6+Q7, N=135
+single: MAE=2.238 RMSE=3.339 Pearson=0.714 TAR2=68.1% Bias=-1.205 Over>2=8 Under>2=35
+avg:    MAE=2.090 RMSE=3.110 Pearson=0.753 TAR2=66.7% Bias=-1.082 Over>2=10 Under>2=35
+3WD:    MAE=2.053 RMSE=3.074 Pearson=0.760 TAR2=68.1% Bias=-1.079 Over>2=9 Under>2=34
+```
+
+Interpretation:
+
+```text
+1. In this run, 3WD is still better than the current model_avg baseline.
+   Global MAE improves 2.090 -> 2.053, RMSE improves 3.110 -> 3.074,
+   Pearson improves 0.753 -> 0.760, and TAR2 improves 66.7% -> 68.1%.
+
+2. The gain is too small. Out of 135 samples, 3WD improves 5, keeps 129 unchanged,
+   and worsens 1 compared with model_avg.
+
+3. Compared with the 2026-06-05 CSV result, the latest run is worse overall:
+   previous global 3WD MAE=1.915, current global 3WD MAE=2.053.
+   The base model_avg also worsened: previous avg MAE=2.005, current avg MAE=2.090.
+
+4. Q6 remains the main bottleneck: final Bias=-2.512 and Under>2=32.
+   Many teacher-high/model-low answers enter BND but are still kept or reject_raise.
+
+5. Q7 improves over avg, but several low-teacher-score answers are still released as POS high-confidence overestimates.
+```
+
+Largest current errors:
+
+```text
+Q6:
+  E12314033_Q6 teacher=18 final=8.3 diff=-9.7 route=BND gate=reject_raise
+  E12314037_Q6 teacher=20 final=11.0 diff=-9.0 route=BND gate=reject_raise
+  E12214023_Q6 teacher=12 final=4.0 diff=-8.0 route=BND gate=keep_minor_change
+  E12214091_Q6 teacher=11 final=3.0 diff=-8.0 route=NEG
+
+Q7:
+  E12314133_Q7 teacher=0 final=8.9 diff=+8.9 route=POS
+  E12214212_Q7 teacher=0 final=8.2 diff=+8.2 route=POS
+  E12314129_Q7 teacher=2 final=6.7 diff=+4.7 route=BND gate=keep_minor_change
+  E12314065_Q7 teacher=7 final=3.3 diff=-3.7 route=POS
+```
+
+Current conclusion:
+
+```text
+The framework is not invalid: 3WD still improves over the current model_avg baseline.
+But the effect is not strong enough for the final paper result.
+The next optimization should focus on Q6 conservative BND-UP and Q7 POS high-over misses.
+```
+
+---
+# RefGrader 项目说明
+
+## 最新项目状态（2026-06-06）
+
+RefGrader 当前是一个面向主观题/计算题自动阅卷的实验项目。核心流程是：
+
+```text
+试卷图像裁剪与去红笔 -> VLM 提取学生作答事实 -> LLM 三次评分 -> 模型均分
+-> A3WA 风险/可信度三支路由 -> POS/BND/NEG -> BND 有证据才有限改分
+```
+
+当前研究重点不是简单调 prompt，而是把三支决策从经验触发规则改成可解释的风险建模：
+
+```text
+多源风险信号 -> 综合风险 R(x) -> 可信度 mu(x)=1-R(x)
+-> A3WA 非对称损失参数 alpha/beta -> POS/BND/NEG
+```
+
+当前关键文件：
+
+```text
+CURRENT_PROGRESS.md               最新进展与新对话接入上下文，优先阅读。
+calibration_utils.py              A3WA 风险、阈值、BND action policy、no-harm gate。
+step4_vlm_grader.py               正式评分主流程。
+prompts/stage2_logic_grading.md   Stage2 评分提示词模板。
+prompts/boundary_arbitration.md   BND 仲裁提示词模板。
+evaluate.py                       评估脚本，支持 single / avg / 3WD 三种形式对比。
+outputs/q6_q7_20260606_single_vs_avg_vs_3wd.csv
+                                  最新 Q6/Q7 每条样本对比分析。
+outputs/q6_q7_20260606_checkpoint_analysis.csv
+                                  最新 Q6/Q7 checkpoint 口径完整分析。
+```
+
+最新正式实验为 Q6/Q7，服务器记录如下：
+
+```text
+run_id = 20260605_225725
+mode = FULL
+questions = Q6 Q7
+force_rerun = true
+completed_at = 2026-06-06
+```
+
+注意：本次 Q6 有 68 个完成样本，但 `Q6_graded_results.json` 只有 63 条，另外 5 条 NEG/人工复核样本在 `Q6_rejected.json`。因此完整评估应使用 `Q6_grading_checkpoint.json` 与 `Q7_grading_checkpoint.json`，不要只看 `graded_results`。
+
+最新 Q6/Q7 完整 checkpoint 指标：
+
+```text
+Q6, N=68
+single: MAE=3.309 RMSE=4.199 QWK=0.673 Pearson=0.827 TAR2=51.5% Bias=-2.779 Over>2=2 Under>2=31
+avg:    MAE=3.126 RMSE=3.890 QWK=0.714 Pearson=0.856 TAR2=47.1% Bias=-2.562 Over>2=3 Under>2=33
+3WD:    MAE=3.076 RMSE=3.853 QWK=0.720 Pearson=0.855 TAR2=48.5% Bias=-2.512 Over>2=3 Under>2=32
+
+Q7, N=67
+single: MAE=1.151 RMSE=2.138 QWK=0.647 Pearson=0.701 TAR2=85.1% Bias=+0.393 Over>2=6 Under>2=4
+avg:    MAE=1.037 RMSE=2.033 QWK=0.685 Pearson=0.739 TAR2=86.6% Bias=+0.419 Over>2=7 Under>2=2
+3WD:    MAE=1.013 RMSE=1.993 QWK=0.697 Pearson=0.749 TAR2=88.1% Bias=+0.375 Over>2=6 Under>2=2
+
+GLOBAL Q6+Q7, N=135
+single: MAE=2.238 RMSE=3.339 Pearson=0.714 TAR2=68.1% Bias=-1.205 Over>2=8 Under>2=35
+avg:    MAE=2.090 RMSE=3.110 Pearson=0.753 TAR2=66.7% Bias=-1.082 Over>2=10 Under>2=35
+3WD:    MAE=2.053 RMSE=3.074 Pearson=0.760 TAR2=68.1% Bias=-1.079 Over>2=9 Under>2=34
+```
+
+本次结论：
+
+```text
+1. 当前 3WD 相对本次 model_avg 仍有正向提升：
+   global MAE 2.090 -> 2.053，RMSE 3.110 -> 3.074，Pearson 0.753 -> 0.760。
+
+2. 但提升幅度偏小：135 条样本中，3WD 相对 avg 只改善 5 条、保持 129 条、变差 1 条。
+   BND gate 目前偏保守，很多 BND 样本被拦截后没有实际改分。
+
+3. 与 2026-06-05 的上一轮 CSV 结果相比，本轮整体退化：
+   previous global 3WD MAE=1.915，current global 3WD MAE=2.053。
+   同时 base model_avg 也退化：previous avg MAE=2.005，current avg MAE=2.090。
+
+4. Q6 是主要问题：系统性低估仍然严重，final Bias=-2.512，Under>2=32。
+   很多教师高分样本进入 BND 后仍被 reject_raise 或 keep_minor_change。
+
+5. Q7 相对 avg 有改善，但仍存在低教师分样本被 POS 高置信放行的问题。
+```
+
+最新样本级问题：
+
+```text
+Q6 最大误差样本：
+  E12314033_Q6 teacher=18 final=8.3 diff=-9.7 route=BND gate=reject_raise
+  E12314037_Q6 teacher=20 final=11.0 diff=-9.0 route=BND gate=reject_raise
+  E12214023_Q6 teacher=12 final=4.0 diff=-8.0 route=BND gate=keep_minor_change
+  E12214091_Q6 teacher=11 final=3.0 diff=-8.0 route=NEG
+
+Q7 最大误差样本：
+  E12314133_Q7 teacher=0 final=8.9 diff=+8.9 route=POS
+  E12214212_Q7 teacher=0 final=8.2 diff=+8.2 route=POS
+  E12314129_Q7 teacher=2 final=6.7 diff=+4.7 route=BND gate=keep_minor_change
+  E12314065_Q7 teacher=7 final=3.3 diff=-3.7 route=POS
+```
+
+当前判断：最新系统不是无效，3WD 对本次 avg baseline 仍有提升；但效果还不足以作为最终论文结果。下一步应重点处理两类问题：
+
+```text
+Q6: BND-UP 对教师宽松给分样本仍然过于保守，导致高分样本大量低估。
+Q7: POS 高置信样本中仍有低教师分严重高估，需要更强的 unsupported-high-score 复查触发。
+```
+
+后续新对话请优先阅读 `CURRENT_PROGRESS.md`，它比 README 下方历史内容更接近当前项目状态。
+
+---
+
+以下为历史 README 内容，部分段落存在旧编码乱码，仅作为历史记录保留。
 # RefGrader 项目说明
 
 RefGrader 是一个面向计算机组成原理类主观题/计算题的自动阅卷实验项目。项目以整页试卷图片为输入，先裁剪出单题作答区域并去除教师红笔批注，再用 VLM 提取学生作答事实，最后由文本模型按结构化评分细则打分，并通过三支决策机制对低置信度样本进行复查或拒判。

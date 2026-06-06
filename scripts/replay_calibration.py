@@ -17,6 +17,7 @@ from calibration_utils import (  # noqa: E402
     parse_json_maybe,
     prepare_rubrics_for_calibration,
     safe_float,
+    select_baseline_score,
 )
 
 
@@ -181,11 +182,55 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
         "explicit_chain_coverage": post["explicit_chain_coverage"],
         "core_anchor_failed": post["core_anchor_failed"],
         "visual_blank_review": post["visual_blank_review"],
+        "task_type": post.get("task_type", "mixed_or_unknown"),
+        "complex_derivation_task": post.get("complex_derivation_task", False),
+        "upper_consensus_eligible": post.get("upper_consensus_eligible", False),
+        "rubric_task_profile": post.get("rubric_task_profile", {}),
         "calibration_rule_hits": post["rule_hits"],
     })
+    baseline_selection = select_baseline_score(
+        model_scores=model_scores,
+        model_avg_score=avg_model_score,
+        max_score=max_score,
+        post_calibration=post,
+        risk_profile=risk_profile,
+    )
+    selected_baseline_score = clamp(
+        safe_float(baseline_selection.get("selected_baseline_score", avg_model_score), avg_model_score),
+        0.0,
+        max_score,
+    )
+    baseline_signals = baseline_selection.get("baseline_selection_signals", {})
+    post.update({
+        "selected_baseline_score": round(selected_baseline_score, 4),
+        "baseline_policy": baseline_selection.get("baseline_policy", "model_avg"),
+        "baseline_score_source": baseline_selection.get("baseline_score_source", "model_avg_score"),
+        "baseline_selection_signals": baseline_signals,
+        "score_history_max": baseline_signals.get("score_history_max", selected_baseline_score),
+        "score_history_median": baseline_signals.get("score_history_median", selected_baseline_score),
+        "score_history_min": baseline_signals.get("score_history_min", selected_baseline_score),
+        "high_score_safety_review": bool(baseline_signals.get("high_score_safety_review", False)),
+    })
+    if post["high_score_safety_review"]:
+        if "high_score_safety_review" not in post["rule_hits"]:
+            post["rule_hits"].append("high_score_safety_review")
+        post["boundary_domain"] = True
+    risk_profile["risk_features"].update({
+        "model_avg_ratio": round(avg_model_score / max_score, 4) if max_score > 0 else 0.0,
+        "avg_ratio": round(selected_baseline_score / max_score, 4) if max_score > 0 else 0.0,
+        "selected_baseline_score": round(selected_baseline_score, 4),
+        "baseline_policy": post["baseline_policy"],
+        "baseline_score_source": post["baseline_score_source"],
+        "baseline_selection_signals": baseline_signals,
+        "high_score_safety_review": post["high_score_safety_review"],
+    })
+    risk_profile["high_blank_high_score"] = blank_rate >= 0.50 and selected_baseline_score >= 0.60 * max_score
+    risk_profile["lenient_review_signal"] = selected_baseline_score <= 0.60 * max_score and blank_rate <= 0.35
+    risk_profile["risk_features"]["high_blank_high_score"] = risk_profile["high_blank_high_score"]
+    risk_profile["risk_features"]["lenient_review_signal"] = risk_profile["lenient_review_signal"]
     a3wa = build_a3wa_decision(
         model_scores=model_scores,
-        avg_model_score=avg_model_score,
+        avg_model_score=selected_baseline_score,
         std_dev=safe_float(record.get("std_dev", 0.0), 0.0),
         max_score=max_score,
         blank_rate=blank_rate,
@@ -201,12 +246,12 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
 
     if a3wa["route"] == "NEG":
         replay_route = "NEG"
-        replay_score = avg_model_score
+        replay_score = selected_baseline_score
     else:
         replay_route = a3wa["route"]
         if replay_route == "BND":
             gate = apply_boundary_action_policy(
-                avg_model_score=avg_model_score,
+                avg_model_score=selected_baseline_score,
                 candidate_score=old_score,
                 max_score=max_score,
                 a3wa_decision=a3wa,
@@ -215,11 +260,13 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
             )
             replay_score = round(clamp(gate["final_score"], 0.0, max_score), 2)
         else:
-            replay_score = avg_model_score
+            replay_score = selected_baseline_score
 
     return {
         "student_id": record.get("student_id", ""),
         "teacher_score": safe_float(record.get("teacher_score", 0.0)),
+        "model_avg_score": avg_model_score,
+        "selected_baseline_score": selected_baseline_score,
         "old_score": old_score,
         "replay_score": replay_score,
         "old_route": record.get("3wd_route", ""),

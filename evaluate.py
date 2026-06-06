@@ -4,11 +4,13 @@ RefGrader evaluation script.
 Usage:
   python evaluate.py
   python evaluate.py --score-key model_avg_score
+  python evaluate.py --score-key selected_baseline_score
   python evaluate.py --score-key single_first_score
   python evaluate.py --questions Q5 Q7 --detail
   python evaluate.py --score-key model_avg_score --detail
   python evaluate.py --compare
   python evaluate.py --compare --questions Q6 Q7
+  python evaluate.py --compare --questions Q6 Q7 --compare-score-keys avg selected 3wd
 """
 
 import json
@@ -18,7 +20,63 @@ import os
 import numpy as np
 from collections import Counter
 from scipy import stats
-from sklearn.metrics import mean_absolute_error, mean_squared_error, cohen_kappa_score
+try:
+    from sklearn.metrics import mean_absolute_error, mean_squared_error, cohen_kappa_score
+except ModuleNotFoundError:
+    def mean_absolute_error(y_true, y_pred):
+        y_true = np.asarray(y_true, dtype=float)
+        y_pred = np.asarray(y_pred, dtype=float)
+        return float(np.mean(np.abs(y_true - y_pred)))
+
+    def mean_squared_error(y_true, y_pred):
+        y_true = np.asarray(y_true, dtype=float)
+        y_pred = np.asarray(y_pred, dtype=float)
+        return float(np.mean((y_true - y_pred) ** 2))
+
+    def cohen_kappa_score(y_true, y_pred, weights=None):
+        y_true = np.asarray(y_true, dtype=int)
+        y_pred = np.asarray(y_pred, dtype=int)
+        labels = sorted(set(y_true.tolist()) | set(y_pred.tolist()))
+        if not labels:
+            return 0.0
+        index = {label: i for i, label in enumerate(labels)}
+        n_labels = len(labels)
+        n = len(y_true)
+        if n == 0:
+            return 0.0
+
+        observed = np.zeros((n_labels, n_labels), dtype=float)
+        for t, p in zip(y_true, y_pred):
+            observed[index[t], index[p]] += 1.0
+        observed /= n
+
+        hist_true = observed.sum(axis=1)
+        hist_pred = observed.sum(axis=0)
+        expected = np.outer(hist_true, hist_pred)
+
+        if weights == "quadratic":
+            denom = max((n_labels - 1) ** 2, 1)
+            weight_matrix = np.fromfunction(
+                lambda i, j: ((i - j) ** 2) / denom,
+                (n_labels, n_labels),
+                dtype=float,
+            )
+        elif weights == "linear":
+            denom = max(n_labels - 1, 1)
+            weight_matrix = np.fromfunction(
+                lambda i, j: np.abs(i - j) / denom,
+                (n_labels, n_labels),
+                dtype=float,
+            )
+        else:
+            weight_matrix = np.ones((n_labels, n_labels), dtype=float)
+            np.fill_diagonal(weight_matrix, 0.0)
+
+        observed_loss = float(np.sum(weight_matrix * observed))
+        expected_loss = float(np.sum(weight_matrix * expected))
+        if expected_loss <= 1e-12:
+            return 1.0 if observed_loss <= 1e-12 else 0.0
+        return 1.0 - observed_loss / expected_loss
 
 SCORES_MAP = {"Q1": 10, "Q2": 20, "Q3": 10, "Q4": 20, "Q5": 15, "Q6": 20, "Q7": 10}
 RESULTS_DIR = "./results_rrd_vlm"
@@ -27,16 +85,60 @@ TEACHER_DB = "./database/teacher_scores.json"
 SCORE_KEY_LABEL = {
     "final_calibrated_score": "3WD final score",
     "model_avg_score": "model average score",
+    "selected_baseline_score": "3WD selected baseline score",
     "single_first_score": "single first score",
 }
 
 CMP_LABEL = {
     "single_first_score": "single",
     "model_avg_score": "avg",
+    "selected_baseline_score": "selected",
     "final_calibrated_score": "3WD",
 }
 
-COMPARE_SCORE_KEYS = ("single_first_score", "model_avg_score", "final_calibrated_score")
+COMPARE_SCORE_KEYS = (
+    "single_first_score",
+    "model_avg_score",
+    "selected_baseline_score",
+    "final_calibrated_score",
+)
+
+SCORE_KEY_ALIASES = {
+    "single": "single_first_score",
+    "single_first": "single_first_score",
+    "single_first_score": "single_first_score",
+    "avg": "model_avg_score",
+    "average": "model_avg_score",
+    "model_avg": "model_avg_score",
+    "model_avg_score": "model_avg_score",
+    "selected": "selected_baseline_score",
+    "baseline": "selected_baseline_score",
+    "selected_baseline": "selected_baseline_score",
+    "selected_baseline_score": "selected_baseline_score",
+    "3wd": "final_calibrated_score",
+    "final": "final_calibrated_score",
+    "final_calibrated": "final_calibrated_score",
+    "final_calibrated_score": "final_calibrated_score",
+}
+
+
+def normalize_score_keys(raw_keys, default_keys=COMPARE_SCORE_KEYS):
+    """Normalize score-key aliases and preserve user order without duplicates."""
+    if not raw_keys:
+        return tuple(default_keys)
+    normalized = []
+    invalid = []
+    for raw_key in raw_keys:
+        key = SCORE_KEY_ALIASES.get(str(raw_key).strip().lower())
+        if key is None:
+            invalid.append(str(raw_key))
+            continue
+        if key not in normalized:
+            normalized.append(key)
+    if invalid:
+        valid = "single, avg, selected, 3wd"
+        raise ValueError(f"Unsupported score key(s): {', '.join(invalid)}. Valid choices: {valid}")
+    return tuple(normalized or default_keys)
 
 
 def load_teacher_scores():
@@ -56,6 +158,8 @@ def get_score_value(record, score_key):
         if isinstance(history, list) and history:
             return history[0]
         return record.get("model_avg_score", None)
+    if score_key == "selected_baseline_score":
+        return record.get("selected_baseline_score", record.get("model_avg_score", None))
     return record.get(score_key, None)
 
 
@@ -138,6 +242,7 @@ def compute_question_metrics(q_id, total_score, ts_db, score_key="final_calibrat
             "blank_rate": r.get("blank_rate", 0),
             "single": get_score_value(r, "single_first_score"),
             "avg": r.get("model_avg_score", None),
+            "selected": get_score_value(r, "selected_baseline_score"),
             "std": r.get("std_dev", 0),
             "total_items": len(facts),
             "unwritten": unwritten,
@@ -190,7 +295,7 @@ def compute_question_metrics(q_id, total_score, ts_db, score_key="final_calibrat
 
 
 def export_single_avg_3wd_csv(questions, ts_db, output_path):
-    """Export per-student comparison among single, average, and 3WD scores."""
+    """Export per-student comparison among single, avg, selected baseline, and 3WD."""
     rows = []
     for q_id in questions:
         path = f"{RESULTS_DIR}/{q_id}_graded_results.json"
@@ -208,32 +313,52 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
 
             single = get_score_value(r, "single_first_score")
             avg = get_score_value(r, "model_avg_score")
+            selected = get_score_value(r, "selected_baseline_score")
             final = get_score_value(r, "final_calibrated_score")
-            if single is None or avg is None or final is None:
+            if single is None or avg is None or selected is None or final is None:
                 continue
 
             teacher = float(teacher)
             single = round(float(single), 2)
             avg = round(float(avg), 2)
+            selected = round(float(selected), 2)
             final = round(float(final), 2)
             single_abs = abs(single - teacher)
             avg_abs = abs(avg - teacher)
+            selected_abs = abs(selected - teacher)
             final_abs = abs(final - teacher)
             gate = r.get("boundary_gate") or {}
+            risk_features = r.get("risk_features") or {}
+            post_calibration = r.get("post_calibration") or {}
             rows.append({
                 "question": q_id,
                 "student_id": sid.split("_")[0],
                 "teacher": teacher,
                 "single_first_score": single,
                 "model_avg_score": avg,
+                "selected_baseline_score": selected,
                 "final_calibrated_score": final,
                 "single_diff": round(single - teacher, 2),
                 "avg_diff": round(avg - teacher, 2),
+                "selected_diff": round(selected - teacher, 2),
                 "final_diff": round(final - teacher, 2),
                 "avg_gain_vs_single": round(single_abs - avg_abs, 2),
+                "selected_gain_vs_avg": round(avg_abs - selected_abs, 2),
+                "final_gain_vs_selected": round(selected_abs - final_abs, 2),
                 "final_gain_vs_avg": round(avg_abs - final_abs, 2),
                 "final_gain_vs_single": round(single_abs - final_abs, 2),
                 "route": r.get("3wd_route", ""),
+                "task_type": post_calibration.get("task_type", risk_features.get("task_type", "")),
+                "complex_derivation_task": post_calibration.get(
+                    "complex_derivation_task",
+                    risk_features.get("complex_derivation_task", ""),
+                ),
+                "upper_consensus_eligible": post_calibration.get(
+                    "upper_consensus_eligible",
+                    risk_features.get("upper_consensus_eligible", ""),
+                ),
+                "baseline_policy": r.get("baseline_policy", ""),
+                "baseline_score_source": r.get("baseline_score_source", ""),
                 "std_dev": r.get("std_dev", ""),
                 "blank_rate": r.get("blank_rate", ""),
                 "boundary_action": gate.get("action", ""),
@@ -247,10 +372,12 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
         os.makedirs(output_dir, exist_ok=True)
     fieldnames = [
         "question", "student_id", "teacher",
-        "single_first_score", "model_avg_score", "final_calibrated_score",
-        "single_diff", "avg_diff", "final_diff",
-        "avg_gain_vs_single", "final_gain_vs_avg", "final_gain_vs_single",
-        "route", "std_dev", "blank_rate", "boundary_action",
+        "single_first_score", "model_avg_score", "selected_baseline_score", "final_calibrated_score",
+        "single_diff", "avg_diff", "selected_diff", "final_diff",
+        "avg_gain_vs_single", "selected_gain_vs_avg", "final_gain_vs_selected",
+        "final_gain_vs_avg", "final_gain_vs_single",
+        "route", "task_type", "complex_derivation_task", "upper_consensus_eligible",
+        "baseline_policy", "baseline_score_source", "std_dev", "blank_rate", "boundary_action",
     ]
     with open(output_path, "w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -260,9 +387,9 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
 
 
 def print_boundary_gain_audit(questions, ts_db):
-    """Audit whether 3WD corrections improve over model_avg_score."""
+    """Audit whether final 3WD corrections improve over the selected baseline."""
     print()
-    print("  3WD gain audit | final_calibrated_score vs model_avg_score")
+    print("  3WD gain audit | final_calibrated_score vs selected_baseline_score")
     print()
     headers = ["Q", "route", "N", "improved", "worsened", "same", "mean_gain", "mean_delta"]
     rows = []
@@ -281,22 +408,24 @@ def print_boundary_gain_audit(questions, ts_db):
             sid = r.get("student_id", "")
             teacher = get_teacher(ts_db, sid, q_id)
             avg = r.get("model_avg_score", None)
+            baseline = get_score_value(r, "selected_baseline_score")
             final = r.get("final_calibrated_score", None)
-            if teacher is None or teacher < 0 or avg is None or final is None:
+            if teacher is None or teacher < 0 or baseline is None or final is None:
                 continue
             teacher = float(teacher)
-            avg = float(avg)
+            avg = float(avg) if avg is not None else float(baseline)
+            baseline = float(baseline)
             final = float(final)
             route = r.get("3wd_route", "")
-            gain = abs(avg - teacher) - abs(final - teacher)
-            delta = final - avg
-            grouped.setdefault(route, []).append((sid, teacher, avg, final, gain, delta, r))
-            top_worsened.append((gain, q_id, route, sid, teacher, avg, final, r))
+            gain = abs(baseline - teacher) - abs(final - teacher)
+            delta = final - baseline
+            grouped.setdefault(route, []).append((sid, teacher, avg, baseline, final, gain, delta, r))
+            top_worsened.append((gain, q_id, route, sid, teacher, avg, baseline, final, r))
 
         for route in sorted(grouped):
             items = grouped[route]
-            gains = [x[4] for x in items]
-            deltas = [x[5] for x in items]
+            gains = [x[5] for x in items]
+            deltas = [x[6] for x in items]
             rows.append([
                 q_id,
                 route,
@@ -316,7 +445,7 @@ def print_boundary_gain_audit(questions, ts_db):
         print()
         print("  Top worsened by 3WD correction")
         detail_rows = []
-        for gain, q_id, route, sid, teacher, avg, final, r in worsened[:10]:
+        for gain, q_id, route, sid, teacher, avg, baseline, final, r in worsened[:10]:
             gate = r.get("boundary_gate") or {}
             detail_rows.append([
                 q_id,
@@ -324,14 +453,15 @@ def print_boundary_gain_audit(questions, ts_db):
                 route,
                 f"{teacher:.1f}",
                 f"{avg:.1f}",
+                f"{baseline:.1f}",
                 f"{final:.1f}",
                 f"{gain:+.1f}",
                 str(gate.get("action", ""))[:18],
             ])
         print_closed_table(
-            headers=["Q", "sid", "route", "teacher", "avg", "final", "gain", "gate"],
+            headers=["Q", "sid", "route", "teacher", "avg", "selected", "final", "gain", "gate"],
             rows=detail_rows,
-            col_widths=[4, 13, 7, 8, 7, 7, 7, 18],
+            col_widths=[4, 13, 7, 8, 7, 9, 7, 7, 18],
         )
 
 
@@ -398,22 +528,38 @@ def main():
     parser.add_argument("--questions", nargs="+", default=["Q4", "Q5", "Q6", "Q7"],
                         help="Questions to evaluate, e.g. Q6 Q7")
     parser.add_argument("--score-key", default="final_calibrated_score",
-                        help="Score field: final_calibrated_score / model_avg_score / single_first_score")
+                        help=(
+                            "Score field: final_calibrated_score / selected_baseline_score / "
+                            "model_avg_score / single_first_score"
+                        ))
     parser.add_argument("--detail", action="store_true", help="Show per-student details")
     parser.add_argument("--compare", action="store_true",
-                        help="Compare single_first_score, model_avg_score, and final_calibrated_score")
+                        help=(
+                            "Compare single_first_score, model_avg_score, "
+                            "selected_baseline_score, and final_calibrated_score"
+                        ))
+    parser.add_argument("--compare-score-keys", nargs="+", default=None,
+                        help=(
+                            "Score types to include in --compare, e.g. "
+                            "single avg selected 3wd. Full field names are also supported."
+                        ))
     parser.add_argument("--compare-output", default=None,
-                        help="Optional CSV path for per-student single/avg/3WD comparison")
+                        help="Optional CSV path for per-student single/avg/selected/3WD comparison")
     args = parser.parse_args()
+    try:
+        compare_score_keys = normalize_score_keys(args.compare_score_keys)
+    except ValueError as exc:
+        parser.error(str(exc))
+    score_key = SCORE_KEY_ALIASES.get(str(args.score_key).strip().lower(), args.score_key)
 
     ts_db = load_teacher_scores()
-    label = SCORE_KEY_LABEL.get(args.score_key, args.score_key)
+    label = SCORE_KEY_LABEL.get(score_key, score_key)
     print(f"\n  Loaded teacher scores: {len(ts_db)} students | score field: {label}")
 
     all_metrics = []
     for q_id in args.questions:
         total = SCORES_MAP.get(q_id, 20)
-        m = evaluate_question(q_id, total, ts_db, score_key=args.score_key, show_detail=args.detail)
+        m = evaluate_question(q_id, total, ts_db, score_key=score_key, show_detail=args.detail)
         if m:
             all_metrics.append(m)
 
@@ -451,7 +597,7 @@ def main():
             sid = r.get("student_id", "")
             t = get_teacher(ts_db, sid, q_id)
             if t is not None and t >= 0:
-                m = get_score_value(r, args.score_key)
+                m = get_score_value(r, score_key)
                 if m is not None:
                     all_t.append(t)
                     all_m.append(round(float(m), 2))
@@ -476,11 +622,11 @@ def main():
         cmp_w = [10, 6, 4, 8, 8, 8, 10, 8, 8, 6, 6]
         cmp_headers = ["score type", "Q", "N", "MAE", "RMSE", "QWK", "Pearson r", "TAR(2)", "Bias", "Over", "Under"]
         cmp_rows = []
-        cmp_global = {key: ([], []) for key in COMPARE_SCORE_KEYS}
+        cmp_global = {key: ([], []) for key in compare_score_keys}
 
         for q_id in args.questions:
             total = SCORES_MAP.get(q_id, 20)
-            for key in COMPARE_SCORE_KEYS:
+            for key in compare_score_keys:
                 res = compute_question_metrics(q_id, total, ts_db, score_key=key)
                 if res is None:
                     continue
@@ -503,7 +649,7 @@ def main():
                 sid = r.get("student_id", "")
                 t = get_teacher(ts_db, sid, q_id)
                 if t is not None and t >= 0:
-                    for key in COMPARE_SCORE_KEYS:
+                    for key in compare_score_keys:
                         v = get_score_value(r, key)
                         if v is not None:
                             cmp_global[key][0].append(t)
@@ -512,11 +658,12 @@ def main():
         if cmp_rows:
             print()
             print()
-            print("  Compare summary | single first score vs model average vs 3WD final")
+            compare_label = " vs ".join(CMP_LABEL[key] for key in compare_score_keys)
+            print(f"  Compare summary | {compare_label}")
             print()
             print_closed_table(headers=cmp_headers, rows=cmp_rows, col_widths=cmp_w)
 
-            for key in COMPARE_SCORE_KEYS:
+            for key in compare_score_keys:
                 gt, gm = cmp_global[key]
                 if len(gt) >= 3:
                     gt_a, gm_a = np.array(gt), np.array(gm)
@@ -532,12 +679,12 @@ def main():
                          f"{g_tar2:.1%}", f"{np.mean(gm_a - gt_a):+.2f}", "", ""],
                     )
 
-    if args.compare:
+    if args.compare and "final_calibrated_score" in compare_score_keys:
         print_boundary_gain_audit(args.questions, ts_db)
 
     if args.compare_output:
         exported = export_single_avg_3wd_csv(args.questions, ts_db, args.compare_output)
-        print(f"  Exported {exported} comparison rows to {args.compare_output}")
+        print(f"  Exported {exported} single/avg/selected/3WD comparison rows to {args.compare_output}")
 
     print()
 

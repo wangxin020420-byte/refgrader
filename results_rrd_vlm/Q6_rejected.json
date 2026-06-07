@@ -1,580 +1,38 @@
 [
     {
-        "student_id": "E12214091_Q6",
-        "teacher_score": 11.0,
+        "student_id": "E12314013_Q6",
+        "teacher_score": 4.0,
         "model_scores_history": [
             3,
             3,
             3
         ],
         "model_avg_score": 3.0,
+        "selected_baseline_score": 3.0,
+        "baseline_policy": "model_avg",
+        "baseline_score_source": "model_avg_score",
+        "baseline_selection_signals": {
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": true,
+            "task_type": "calculation_derivation",
+            "final_answer_weight_high": true,
+            "upper_consensus_ready": false,
+            "high_over_unsafe": true,
+            "high_score_safety_review": false,
+            "score_history_min": 3.0,
+            "score_history_max": 3.0,
+            "score_history_median": 3.0,
+            "score_spread_ratio": 0.0,
+            "selected_ratio": 0.15
+        },
         "std_dev": 0.0,
-        "blank_rate": 0.0,
+        "blank_rate": 0.09,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 8.0,
+        "real_diff": 1.0,
         "3wd_route": "NEG",
         "final_calibrated_score": 3.0,
-        "requires_human_arbitration": true,
-        "perception_risk": 0.0,
-        "uncertainty_index": 0.0,
-        "fatal_points_ratio": 0.85,
-        "high_blank_high_score": false,
-        "lenient_review_signal": true,
-        "risk_features": {
-            "perception_risk": 0.0,
-            "uncertainty_index": 0.0,
-            "fatal_points_ratio": 0.85,
-            "high_blank_high_score": false,
-            "lenient_review_signal": true,
-            "reject_domain": true,
-            "boundary_domain": false,
-            "std_ratio": 0.0,
-            "spread_ratio": 0.0,
-            "avg_ratio": 0.15,
-            "score_spread": 0,
-            "blank_rate": 0.0,
-            "low_quality_rate": 0.0,
-            "perception_failure_rate": 0.0,
-            "partial_match_points_ratio": 0.0,
-            "format_minor_points_ratio": 0.0,
-            "unsupported_match_points_ratio": 0.0,
-            "method_final_verified_ratio": 0.0,
-            "direct_points_ratio": 0.0,
-            "direct_awarded_ratio": 0.0,
-            "result_correctness_signal": 0.15,
-            "result_strong_signal": 0.15,
-            "method_evidence_signal": 0.15,
-            "partial_or_format_points_ratio": 0.0,
-            "bare_answer_risk": 0.1275,
-            "lenient_undercredit_signal": 0.013,
-            "unsupported_high_score_risk": 0.0,
-            "metadata_coverage": 1.0,
-            "explicit_chain_coverage": 0.0,
-            "core_anchor_failed": false,
-            "visual_blank_review": false,
-            "weak_result_high_score_review": false,
-            "stable_undercredit_review": false,
-            "direct_only_high_score_risk": false,
-            "calibration_rule_hits": [],
-            "a3wa_risk": 0.2,
-            "a3wa_mu": 0.8,
-            "a3wa_alpha": 0.828571,
-            "a3wa_beta": 0.285714,
-            "a3wa_m": 0.4,
-            "a3wa_route": "NEG",
-            "a3wa_reason": "hard_neg:semantic_risk_too_high",
-            "a3wa_risk_components": {
-                "U_extract": 0.0,
-                "U_score": 0.1,
-                "U_semantic": 0.85,
-                "U_blank": 0.0,
-                "U_overcredit": 0.1275,
-                "L_lenient_undercredit": 0.013,
-                "U_unsupported_high_score": 0.0,
-                "normalized_std": 0.0,
-                "score_spread_norm": 0.0
-            }
-        },
-        "post_calibration": {
-            "unsupported_match_points": 0.0,
-            "unsupported_match_points_ratio": 0.0,
-            "method_final_points": 20.0,
-            "verified_method_final_points": 0.0,
-            "method_final_verified_ratio": 0.0,
-            "direct_points_ratio": 0.0,
-            "direct_awarded_ratio": 0.0,
-            "result_correctness_signal": 0.15,
-            "result_strong_signal": 0.15,
-            "method_evidence_signal": 0.15,
-            "partial_or_format_points_ratio": 0.0,
-            "bare_answer_risk": 0.1275,
-            "lenient_undercredit_signal": 0.013,
-            "unsupported_high_score_risk": 0.0,
-            "metadata_coverage": 1.0,
-            "explicit_chain_coverage": 0.0,
-            "core_anchor_failed": false,
-            "weak_result_high_score_review": false,
-            "stable_undercredit_review": false,
-            "direct_only_high_score_risk": false,
-            "visual_blank_review": false,
-            "boundary_domain": false,
-            "reject_domain": false,
-            "lower_bound": 0.0,
-            "upper_bound": 20.0,
-            "rule_hits": []
-        },
-        "a3wa_decision": {
-            "route": "NEG",
-            "reason": "hard_neg:semantic_risk_too_high",
-            "hard_neg_reasons": [
-                "semantic_risk_too_high"
-            ],
-            "risk": 0.2,
-            "confidence": 0.8,
-            "mu": 0.8,
-            "alpha": 0.828571,
-            "beta": 0.285714,
-            "m": 0.4,
-            "lambda1": 5.0,
-            "lambda2": 2.0,
-            "mu1": 2.0,
-            "mu2": 5.0,
-            "risk_components": {
-                "U_extract": 0.0,
-                "U_score": 0.1,
-                "U_semantic": 0.85,
-                "U_blank": 0.0,
-                "U_overcredit": 0.1275,
-                "L_lenient_undercredit": 0.013,
-                "U_unsupported_high_score": 0.0,
-                "normalized_std": 0.0,
-                "score_spread_norm": 0.0
-            },
-            "score_spread": 0.0
-        },
-        "boundary_gate": null,
-        "arbitration_decision": "accept",
-        "reason_log": "A3WA硬拒判：semantic_risk_too_high",
-        "human_review_hint": "A3WA硬拒判：semantic_risk_too_high",
-        "facts": "{\"q6_p1_group1_bits\": \"4\", \"q6_p1_group2_bits\": \"3\", \"q6_p1_group3_bits\": \"4\", \"q6_p1_group4_bits\": \"4\", \"q6_p1_non_mutually_exclusive_signals\": \"3\", \"q6_p1_control_field_total_bits\": \"8位\", \"q6_p1_bcf_bits\": \"16位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"33位\", \"q6_p2_control_memory_total_bits\": \"2^9\", \"q6_p2_control_memory_total_bytes\": \"64字节\"}",
-        "strict_cot": {
-            "details": [
-                {
-                    "id": "q6_p1_group1_bits",
-                    "score_given": 1,
-                    "error_category": "MATCH",
-                    "evidence_text": "q6_p1_group1_bits: 4",
-                    "expected_condition": "第1组互斥信号组需要4位",
-                    "dependency_status": "satisfied",
-                    "reason": "Student value matches the expected 4 bits."
-                },
-                {
-                    "id": "q6_p1_group2_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_group2_bits: 3",
-                    "expected_condition": "第2组互斥信号组需要4位",
-                    "dependency_status": "failed",
-                    "reason": "Student answered 3 bits but the correct value is 4 bits."
-                },
-                {
-                    "id": "q6_p1_group3_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_group3_bits: 4",
-                    "expected_condition": "第3组互斥信号组需要5位",
-                    "dependency_status": "failed",
-                    "reason": "Student answered 4 bits but the correct value is 5 bits."
-                },
-                {
-                    "id": "q6_p1_group4_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_group4_bits: 4",
-                    "expected_condition": "第4组互斥信号组需要3位",
-                    "dependency_status": "failed",
-                    "reason": "Student answered 4 bits but the correct value is 3 bits."
-                },
-                {
-                    "id": "q6_p1_non_mutually_exclusive_signals",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_non_mutually_exclusive_signals: 3",
-                    "expected_condition": "非互斥信号数量为140条",
-                    "dependency_status": "failed",
-                    "reason": "Student answered 3 but the correct value is 140."
-                },
-                {
-                    "id": "q6_p1_control_field_total_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_control_field_total_bits: 8位",
-                    "expected_condition": "控制字段总位数为156位",
-                    "dependency_status": "failed",
-                    "reason": "Student answered 8 bits but the correct value is 156 bits."
-                },
-                {
-                    "id": "q6_p1_bcf_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_bcf_bits: 16位",
-                    "expected_condition": "分支控制字段（BCF）需要3位",
-                    "dependency_status": "failed",
-                    "reason": "Student answered 16 bits but the correct value is 3 bits."
-                },
-                {
-                    "id": "q6_p1_baf_bits",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "evidence_text": "q6_p1_baf_bits: 9位",
-                    "expected_condition": "微地址字段（BAF）需要9位",
-                    "dependency_status": "satisfied",
-                    "reason": "Student value matches the expected 9 bits."
-                },
-                {
-                    "id": "q6_p1_microinstruction_length_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_microinstruction_length_bits: 33位",
-                    "expected_condition": "每条微指令的总长度为168位",
-                    "dependency_status": "failed",
-                    "reason": "Student answered 33 bits but the correct value is 168 bits."
-                },
-                {
-                    "id": "q6_p2_control_memory_total_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p2_control_memory_total_bits: 2^9",
-                    "expected_condition": "控制存储器总容量为86016位",
-                    "dependency_status": "failed",
-                    "reason": "2^9=512 does not match the correct 86016 bits."
-                },
-                {
-                    "id": "q6_p2_control_memory_total_bytes",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p2_control_memory_total_bytes: 64字节",
-                    "expected_condition": "控制存储器总容量为10752字节",
-                    "dependency_status": "failed",
-                    "reason": "Student answered 64 bytes but the correct value is 10752 bytes."
-                }
-            ],
-            "total_score": 3
-        },
-        "strict_cots_all": [
-            {
-                "details": [
-                    {
-                        "id": "q6_p1_group1_bits",
-                        "score_given": 1,
-                        "error_category": "MATCH",
-                        "evidence_text": "q6_p1_group1_bits: 4",
-                        "expected_condition": "第1组互斥信号组需要4位",
-                        "dependency_status": "satisfied",
-                        "reason": "Student value matches the expected 4 bits."
-                    },
-                    {
-                        "id": "q6_p1_group2_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_group2_bits: 3",
-                        "expected_condition": "第2组互斥信号组需要4位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 3 bits but the correct value is 4 bits."
-                    },
-                    {
-                        "id": "q6_p1_group3_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_group3_bits: 4",
-                        "expected_condition": "第3组互斥信号组需要5位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 4 bits but the correct value is 5 bits."
-                    },
-                    {
-                        "id": "q6_p1_group4_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_group4_bits: 4",
-                        "expected_condition": "第4组互斥信号组需要3位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 4 bits but the correct value is 3 bits."
-                    },
-                    {
-                        "id": "q6_p1_non_mutually_exclusive_signals",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_non_mutually_exclusive_signals: 3",
-                        "expected_condition": "非互斥信号数量为140条",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 3 but the correct value is 140."
-                    },
-                    {
-                        "id": "q6_p1_control_field_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_control_field_total_bits: 8位",
-                        "expected_condition": "控制字段总位数为156位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 8 bits but the correct value is 156 bits."
-                    },
-                    {
-                        "id": "q6_p1_bcf_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_bcf_bits: 16位",
-                        "expected_condition": "分支控制字段（BCF）需要3位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 16 bits but the correct value is 3 bits."
-                    },
-                    {
-                        "id": "q6_p1_baf_bits",
-                        "score_given": 2,
-                        "error_category": "MATCH",
-                        "evidence_text": "q6_p1_baf_bits: 9位",
-                        "expected_condition": "微地址字段（BAF）需要9位",
-                        "dependency_status": "satisfied",
-                        "reason": "Student value matches the expected 9 bits."
-                    },
-                    {
-                        "id": "q6_p1_microinstruction_length_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_microinstruction_length_bits: 33位",
-                        "expected_condition": "每条微指令的总长度为168位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 33 bits but the correct value is 168 bits."
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p2_control_memory_total_bits: 2^9",
-                        "expected_condition": "控制存储器总容量为86016位",
-                        "dependency_status": "failed",
-                        "reason": "2^9=512 does not match the correct 86016 bits."
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bytes",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p2_control_memory_total_bytes: 64字节",
-                        "expected_condition": "控制存储器总容量为10752字节",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 64 bytes but the correct value is 10752 bytes."
-                    }
-                ],
-                "total_score": 3
-            },
-            {
-                "details": [
-                    {
-                        "id": "q6_p1_group1_bits",
-                        "score_given": 1,
-                        "error_category": "MATCH",
-                        "evidence_text": "4",
-                        "expected_condition": "第1组互斥信号组需要4位",
-                        "dependency_status": "satisfied",
-                        "reason": "Student value matches rubric exactly (4 bits)."
-                    },
-                    {
-                        "id": "q6_p1_group2_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "3",
-                        "expected_condition": "第2组互斥信号组需要4位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer is 3, but rubric requires 4. Numeric value is wrong."
-                    },
-                    {
-                        "id": "q6_p1_group3_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4",
-                        "expected_condition": "第3组互斥信号组需要5位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer is 4, but rubric requires 5. Numeric value is wrong."
-                    },
-                    {
-                        "id": "q6_p1_group4_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4",
-                        "expected_condition": "第4组互斥信号组需要3位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer is 4, but rubric requires 3. Numeric value is wrong."
-                    },
-                    {
-                        "id": "q6_p1_non_mutually_exclusive_signals",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "3",
-                        "expected_condition": "非互斥信号数量为140条",
-                        "dependency_status": "failed",
-                        "reason": "Student answer is 3, but rubric requires 140. Value is drastically wrong."
-                    },
-                    {
-                        "id": "q6_p1_control_field_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "8位",
-                        "expected_condition": "控制字段总位数为156位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer is 8 bits, but rubric requires 156 bits. Far outside any tolerance."
-                    },
-                    {
-                        "id": "q6_p1_bcf_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "16位",
-                        "expected_condition": "分支控制字段（BCF）需要3位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer is 16 bits, but rubric requires 3 bits. Wrong value."
-                    },
-                    {
-                        "id": "q6_p1_baf_bits",
-                        "score_given": 2,
-                        "error_category": "MATCH",
-                        "evidence_text": "9位",
-                        "expected_condition": "微地址字段（BAF）需要9位",
-                        "dependency_status": "satisfied",
-                        "reason": "Student answer of 9 bits matches rubric exactly."
-                    },
-                    {
-                        "id": "q6_p1_microinstruction_length_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "33位",
-                        "expected_condition": "每条微指令的总长度为168位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer is 33 bits, but rubric requires 168 bits. Far outside tolerance."
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "2^9",
-                        "expected_condition": "控制存储器总容量为86016位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer 2^9 (512 bits) does not match 86016 bits. Wrong."
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bytes",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "64字节",
-                        "expected_condition": "控制存储器总容量为10752字节",
-                        "dependency_status": "failed",
-                        "reason": "Student answer is 64 bytes, but rubric requires 10752 bytes. Far outside tolerance."
-                    }
-                ],
-                "total_score": 3
-            },
-            {
-                "details": [
-                    {
-                        "id": "q6_p1_group1_bits",
-                        "score_given": 1,
-                        "error_category": "MATCH",
-                        "evidence_text": "4",
-                        "expected_condition": "第1组互斥信号组需要4位",
-                        "dependency_status": "satisfied",
-                        "reason": "学生答案4位与标准答案一致。"
-                    },
-                    {
-                        "id": "q6_p1_group2_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "3",
-                        "expected_condition": "第2组互斥信号组需要4位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出3位，与标准答案4位不符，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_group3_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4",
-                        "expected_condition": "第3组互斥信号组需要5位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出4位，与标准答案5位不符，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_group4_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4",
-                        "expected_condition": "第4组互斥信号组需要3位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出4位，与标准答案3位不符，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_non_mutually_exclusive_signals",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "3",
-                        "expected_condition": "非互斥信号数量为140条",
-                        "dependency_status": "failed",
-                        "reason": "学生给出3，与标准答案140相差极大，属于数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_control_field_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "8位",
-                        "expected_condition": "控制字段总位数为156位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出8位，与标准答案156位严重不符。"
-                    },
-                    {
-                        "id": "q6_p1_bcf_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "16位",
-                        "expected_condition": "分支控制字段（BCF）需要3位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出16位，与标准答案3位不符，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_baf_bits",
-                        "score_given": 2,
-                        "error_category": "MATCH",
-                        "evidence_text": "9位",
-                        "expected_condition": "微地址字段（BAF）需要9位",
-                        "dependency_status": "satisfied",
-                        "reason": "学生答案9位与标准答案一致。"
-                    },
-                    {
-                        "id": "q6_p1_microinstruction_length_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "33位",
-                        "expected_condition": "每条微指令的总长度为168位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出33位，与标准答案168位严重不符。"
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "2^9",
-                        "expected_condition": "控制存储器总容量为86016位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出2^9（512位），与标准答案86016位严重不符。"
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bytes",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "64字节",
-                        "expected_condition": "控制存储器总容量为10752字节",
-                        "dependency_status": "failed",
-                        "reason": "学生给出64字节，与标准答案10752字节严重不符。"
-                    }
-                ],
-                "total_score": 3
-            }
-        ]
-    },
-    {
-        "student_id": "E12314017_Q6",
-        "teacher_score": 10.0,
-        "model_scores_history": [
-            5,
-            5,
-            5
-        ],
-        "model_avg_score": 5.0,
-        "std_dev": 0.0,
-        "blank_rate": 0.0,
-        "perception_failure_rate": 0.0,
-        "low_quality_extraction_rate": 0.0,
-        "extraction_quality": "high",
-        "real_diff": 5.0,
-        "3wd_route": "NEG",
-        "final_calibrated_score": 5.0,
         "requires_human_arbitration": true,
         "perception_risk": 0.0,
         "uncertainty_index": 0.0,
@@ -591,9 +49,9 @@
             "boundary_domain": false,
             "std_ratio": 0.0,
             "spread_ratio": 0.0,
-            "avg_ratio": 0.25,
+            "avg_ratio": 0.15,
             "score_spread": 0,
-            "blank_rate": 0.0,
+            "blank_rate": 0.0909,
             "low_quality_rate": 0.0,
             "perception_failure_rate": 0.0,
             "partial_match_points_ratio": 0.0,
@@ -602,12 +60,12 @@
             "method_final_verified_ratio": 0.0,
             "direct_points_ratio": 0.0,
             "direct_awarded_ratio": 0.0,
-            "result_correctness_signal": 0.25,
-            "result_strong_signal": 0.25,
-            "method_evidence_signal": 0.25,
+            "result_correctness_signal": 0.15,
+            "result_strong_signal": 0.15,
+            "method_evidence_signal": 0.15,
             "partial_or_format_points_ratio": 0.0,
-            "bare_answer_risk": 0.1875,
-            "lenient_undercredit_signal": 0.0325,
+            "bare_answer_risk": 0.1275,
+            "lenient_undercredit_signal": 0.0137,
             "unsupported_high_score_risk": 0.0,
             "metadata_coverage": 1.0,
             "explicit_chain_coverage": 0.0,
@@ -616,9 +74,53 @@
             "weak_result_high_score_review": false,
             "stable_undercredit_review": false,
             "direct_only_high_score_risk": false,
+            "task_type": "calculation_derivation",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": true,
+            "rubric_task_profile": {
+                "task_type": "calculation_derivation",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "calculation_or_derivation": true,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 0.5,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 1.0,
+                "visual_sequence_points_ratio": 0.0,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "answer_type_counts": {
+                    "derived_numeric": 11
+                },
+                "answer_type_points": {
+                    "derived_numeric": 20.0
+                }
+            },
             "calibration_rule_hits": [],
-            "a3wa_risk": 0.18,
-            "a3wa_mu": 0.82,
+            "model_avg_ratio": 0.15,
+            "selected_baseline_score": 3.0,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "task_type": "calculation_derivation",
+                "final_answer_weight_high": true,
+                "upper_consensus_ready": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "score_history_min": 3.0,
+                "score_history_max": 3.0,
+                "score_history_median": 3.0,
+                "score_spread_ratio": 0.0,
+                "selected_ratio": 0.15
+            },
+            "high_score_safety_review": false,
+            "a3wa_risk": 0.193636,
+            "a3wa_mu": 0.806364,
             "a3wa_alpha": 0.828571,
             "a3wa_beta": 0.285714,
             "a3wa_m": 0.4,
@@ -628,9 +130,9 @@
                 "U_extract": 0.0,
                 "U_score": 0.1,
                 "U_semantic": 0.75,
-                "U_blank": 0.0,
-                "U_overcredit": 0.1875,
-                "L_lenient_undercredit": 0.0325,
+                "U_blank": 0.090909,
+                "U_overcredit": 0.1125,
+                "L_lenient_undercredit": 0.0137,
                 "U_unsupported_high_score": 0.0,
                 "normalized_std": 0.0,
                 "score_spread_norm": 0.0
@@ -644,15 +146,43 @@
             "method_final_verified_ratio": 0.0,
             "direct_points_ratio": 0.0,
             "direct_awarded_ratio": 0.0,
-            "result_correctness_signal": 0.25,
-            "result_strong_signal": 0.25,
-            "method_evidence_signal": 0.25,
+            "result_correctness_signal": 0.15,
+            "result_strong_signal": 0.15,
+            "method_evidence_signal": 0.15,
             "partial_or_format_points_ratio": 0.0,
-            "bare_answer_risk": 0.1875,
-            "lenient_undercredit_signal": 0.0325,
+            "bare_answer_risk": 0.1275,
+            "lenient_undercredit_signal": 0.0137,
             "unsupported_high_score_risk": 0.0,
             "metadata_coverage": 1.0,
             "explicit_chain_coverage": 0.0,
+            "task_type": "calculation_derivation",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": true,
+            "calculation_or_derivation": true,
+            "algorithmic_or_mapping": true,
+            "final_answer_weight_high": true,
+            "rubric_task_profile": {
+                "task_type": "calculation_derivation",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "calculation_or_derivation": true,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 0.5,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 1.0,
+                "visual_sequence_points_ratio": 0.0,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "answer_type_counts": {
+                    "derived_numeric": 11
+                },
+                "answer_type_points": {
+                    "derived_numeric": 20.0
+                }
+            },
             "core_anchor_failed": false,
             "weak_result_high_score_review": false,
             "stable_undercredit_review": false,
@@ -662,7 +192,28 @@
             "reject_domain": false,
             "lower_bound": 0.0,
             "upper_bound": 20.0,
-            "rule_hits": []
+            "rule_hits": [],
+            "selected_baseline_score": 3.0,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "task_type": "calculation_derivation",
+                "final_answer_weight_high": true,
+                "upper_consensus_ready": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "score_history_min": 3.0,
+                "score_history_max": 3.0,
+                "score_history_median": 3.0,
+                "score_spread_ratio": 0.0,
+                "selected_ratio": 0.15
+            },
+            "score_history_max": 3.0,
+            "score_history_median": 3.0,
+            "score_history_min": 3.0,
+            "high_score_safety_review": false
         },
         "a3wa_decision": {
             "route": "NEG",
@@ -670,9 +221,9 @@
             "hard_neg_reasons": [
                 "semantic_risk_too_high"
             ],
-            "risk": 0.18,
-            "confidence": 0.82,
-            "mu": 0.82,
+            "risk": 0.193636,
+            "confidence": 0.806364,
+            "mu": 0.806364,
             "alpha": 0.828571,
             "beta": 0.285714,
             "m": 0.4,
@@ -684,9 +235,9 @@
                 "U_extract": 0.0,
                 "U_score": 0.1,
                 "U_semantic": 0.75,
-                "U_blank": 0.0,
-                "U_overcredit": 0.1875,
-                "L_lenient_undercredit": 0.0325,
+                "U_blank": 0.090909,
+                "U_overcredit": 0.1125,
+                "L_lenient_undercredit": 0.0137,
                 "U_unsupported_high_score": 0.0,
                 "normalized_std": 0.0,
                 "score_spread_norm": 0.0
@@ -697,7 +248,7 @@
         "arbitration_decision": "accept",
         "reason_log": "A3WA硬拒判：semantic_risk_too_high",
         "human_review_hint": "A3WA硬拒判：semantic_risk_too_high",
-        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"3位\", \"q6_p1_group3_bits\": \"4位\", \"q6_p1_group4_bits\": \"2位\", \"q6_p1_non_mutually_exclusive_signals\": \"140个\", \"q6_p1_control_field_total_bits\": \"13位\", \"q6_p1_bcf_bits\": \"8位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"30位\", \"q6_p2_control_memory_total_bits\": \"2449位\", \"q6_p2_control_memory_total_bytes\": \"243.625B\"}",
+        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"3位\", \"q6_p1_group3_bits\": \"4位\", \"q6_p1_group4_bits\": \"2位\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"13位\", \"q6_p1_bcf_bits\": \"8位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"29位\", \"q6_p2_control_memory_total_bits\": \"32768位\", \"q6_p2_control_memory_total_bytes\": \"4096字节\"}",
         "strict_cot": {
             "details": [
                 {
@@ -707,7 +258,7 @@
                     "evidence_text": "4位",
                     "expected_condition": "第1组互斥信号组需要4位",
                     "dependency_status": "satisfied",
-                    "reason": "Student value matches rubric exactly."
+                    "reason": "学生答案4位与标准答案4位完全一致。"
                 },
                 {
                     "id": "q6_p1_group2_bits",
@@ -716,7 +267,7 @@
                     "evidence_text": "3位",
                     "expected_condition": "第2组互斥信号组需要4位",
                     "dependency_status": "failed",
-                    "reason": "Student answer 3位 does not match expected 4位; numeric error."
+                    "reason": "学生答案3位与标准答案4位不一致，数值错误。"
                 },
                 {
                     "id": "q6_p1_group3_bits",
@@ -725,7 +276,7 @@
                     "evidence_text": "4位",
                     "expected_condition": "第3组互斥信号组需要5位",
                     "dependency_status": "failed",
-                    "reason": "Student answer 4位 does not match expected 5位; numeric error."
+                    "reason": "学生答案4位与标准答案5位不一致，数值错误。"
                 },
                 {
                     "id": "q6_p1_group4_bits",
@@ -734,16 +285,16 @@
                     "evidence_text": "2位",
                     "expected_condition": "第4组互斥信号组需要3位",
                     "dependency_status": "failed",
-                    "reason": "Student answer 2位 does not match expected 3位; numeric error."
+                    "reason": "学生答案2位与标准答案3位不一致，数值错误。"
                 },
                 {
                     "id": "q6_p1_non_mutually_exclusive_signals",
-                    "score_given": 2,
-                    "error_category": "MATCH",
-                    "evidence_text": "140个",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "evidence_text": "未书写",
                     "expected_condition": "非互斥信号数量为140条",
-                    "dependency_status": "satisfied",
-                    "reason": "Numeric value 140 matches; 个 vs 条 is a non-substantive unit difference."
+                    "dependency_status": "failed",
+                    "reason": "学生未作答，提取内容为'未书写'。"
                 },
                 {
                     "id": "q6_p1_control_field_total_bits",
@@ -752,7 +303,7 @@
                     "evidence_text": "13位",
                     "expected_condition": "控制字段总位数为156位",
                     "dependency_status": "failed",
-                    "reason": "Student answer 13位 is far from expected 156位; likely omitted non-mutually-exclusive signal bits (140) in control field."
+                    "reason": "学生答案13位与标准答案156位差距极大，数值严重错误。"
                 },
                 {
                     "id": "q6_p1_bcf_bits",
@@ -761,7 +312,7 @@
                     "evidence_text": "8位",
                     "expected_condition": "分支控制字段（BCF）需要3位",
                     "dependency_status": "failed",
-                    "reason": "Student answer 8位 does not match expected 3位."
+                    "reason": "学生答案8位与标准答案3位不一致，数值错误。"
                 },
                 {
                     "id": "q6_p1_baf_bits",
@@ -770,37 +321,37 @@
                     "evidence_text": "9位",
                     "expected_condition": "微地址字段（BAF）需要9位",
                     "dependency_status": "satisfied",
-                    "reason": "Student value matches rubric exactly."
+                    "reason": "学生答案9位与标准答案9位完全一致。"
                 },
                 {
                     "id": "q6_p1_microinstruction_length_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "30位",
+                    "evidence_text": "29位",
                     "expected_condition": "每条微指令的总长度为168位",
                     "dependency_status": "failed",
-                    "reason": "Student answer 30位 is far from expected 168位; propagated from upstream errors."
+                    "reason": "学生答案29位与标准答案168位差距极大，数值严重错误，且与上游各字段错误一致（属于上游错误传播）。"
                 },
                 {
                     "id": "q6_p2_control_memory_total_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "2449位",
+                    "evidence_text": "32768位",
                     "expected_condition": "控制存储器总容量为86016位",
                     "dependency_status": "failed",
-                    "reason": "Student answer 2449位 is far from expected 86016位."
+                    "reason": "学生答案32768位与标准答案86016位不一致，数值错误。"
                 },
                 {
                     "id": "q6_p2_control_memory_total_bytes",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "243.625B",
+                    "evidence_text": "4096字节",
                     "expected_condition": "控制存储器总容量为10752字节",
                     "dependency_status": "failed",
-                    "reason": "Student answer 243.625B is far from expected 10752字节."
+                    "reason": "学生答案4096字节与标准答案10752字节不一致，数值错误。"
                 }
             ],
-            "total_score": 5
+            "total_score": 3
         },
         "strict_cots_all": [
             {
@@ -812,215 +363,7 @@
                         "evidence_text": "4位",
                         "expected_condition": "第1组互斥信号组需要4位",
                         "dependency_status": "satisfied",
-                        "reason": "Student value matches rubric exactly."
-                    },
-                    {
-                        "id": "q6_p1_group2_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "3位",
-                        "expected_condition": "第2组互斥信号组需要4位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer 3位 does not match expected 4位; numeric error."
-                    },
-                    {
-                        "id": "q6_p1_group3_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4位",
-                        "expected_condition": "第3组互斥信号组需要5位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer 4位 does not match expected 5位; numeric error."
-                    },
-                    {
-                        "id": "q6_p1_group4_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "2位",
-                        "expected_condition": "第4组互斥信号组需要3位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer 2位 does not match expected 3位; numeric error."
-                    },
-                    {
-                        "id": "q6_p1_non_mutually_exclusive_signals",
-                        "score_given": 2,
-                        "error_category": "MATCH",
-                        "evidence_text": "140个",
-                        "expected_condition": "非互斥信号数量为140条",
-                        "dependency_status": "satisfied",
-                        "reason": "Numeric value 140 matches; 个 vs 条 is a non-substantive unit difference."
-                    },
-                    {
-                        "id": "q6_p1_control_field_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "13位",
-                        "expected_condition": "控制字段总位数为156位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer 13位 is far from expected 156位; likely omitted non-mutually-exclusive signal bits (140) in control field."
-                    },
-                    {
-                        "id": "q6_p1_bcf_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "8位",
-                        "expected_condition": "分支控制字段（BCF）需要3位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer 8位 does not match expected 3位."
-                    },
-                    {
-                        "id": "q6_p1_baf_bits",
-                        "score_given": 2,
-                        "error_category": "MATCH",
-                        "evidence_text": "9位",
-                        "expected_condition": "微地址字段（BAF）需要9位",
-                        "dependency_status": "satisfied",
-                        "reason": "Student value matches rubric exactly."
-                    },
-                    {
-                        "id": "q6_p1_microinstruction_length_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "30位",
-                        "expected_condition": "每条微指令的总长度为168位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer 30位 is far from expected 168位; propagated from upstream errors."
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "2449位",
-                        "expected_condition": "控制存储器总容量为86016位",
-                        "dependency_status": "failed",
-                        "reason": "Student answer 2449位 is far from expected 86016位."
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bytes",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "243.625B",
-                        "expected_condition": "控制存储器总容量为10752字节",
-                        "dependency_status": "failed",
-                        "reason": "Student answer 243.625B is far from expected 10752字节."
-                    }
-                ],
-                "total_score": 5
-            },
-            {
-                "details": [
-                    {
-                        "id": "q6_p1_group1_bits",
-                        "score_given": 1,
-                        "error_category": "MATCH",
-                        "evidence_text": "4位",
-                        "expected_condition": "第1组互斥信号组需要4位",
-                        "dependency_status": "satisfied",
-                        "reason": "学生给出的4位与标准答案完全一致。"
-                    },
-                    {
-                        "id": "q6_p1_group2_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "3位",
-                        "expected_condition": "第2组互斥信号组需要4位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出3位，标准答案为4位，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_group3_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4位",
-                        "expected_condition": "第3组互斥信号组需要5位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出4位，标准答案为5位，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_group4_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "2位",
-                        "expected_condition": "第4组互斥信号组需要3位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出2位，标准答案为3位，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_non_mutually_exclusive_signals",
-                        "score_given": 2,
-                        "error_category": "MATCH",
-                        "evidence_text": "140个",
-                        "expected_condition": "非互斥信号数量为140条",
-                        "dependency_status": "satisfied",
-                        "reason": "学生给出140个，与标准答案140一致。"
-                    },
-                    {
-                        "id": "q6_p1_control_field_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "13位",
-                        "expected_condition": "控制字段总位数为156位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出13位（仅为4组互斥信号位数之和），遗漏了140位非互斥信号部分，与标准答案156位差距极大，属于概念性计算错误。"
-                    },
-                    {
-                        "id": "q6_p1_bcf_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "8位",
-                        "expected_condition": "分支控制字段（BCF）需要3位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出8位，标准答案为3位，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_baf_bits",
-                        "score_given": 2,
-                        "error_category": "MATCH",
-                        "evidence_text": "9位",
-                        "expected_condition": "微地址字段（BAF）需要9位",
-                        "dependency_status": "satisfied",
-                        "reason": "学生给出9位，与标准答案完全一致。"
-                    },
-                    {
-                        "id": "q6_p1_microinstruction_length_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "30位",
-                        "expected_condition": "每条微指令的总长度为168位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出30位（=13+8+9），由于上游控制字段、BCF等数值均错误，传播导致总长度与标准答案168位严重不符。"
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "2449位",
-                        "expected_condition": "控制存储器总容量为86016位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出2449位，与标准答案86016位差距极大，数值错误。"
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bytes",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "243.625B",
-                        "expected_condition": "控制存储器总容量为10752字节",
-                        "dependency_status": "failed",
-                        "reason": "学生给出243.625B，与标准答案10752字节差距极大，且与自身给出的2449位换算不一致，数值错误。"
-                    }
-                ],
-                "total_score": 5
-            },
-            {
-                "details": [
-                    {
-                        "id": "q6_p1_group1_bits",
-                        "score_given": 1,
-                        "error_category": "MATCH",
-                        "evidence_text": "4位",
-                        "expected_condition": "第1组互斥信号组需要4位",
-                        "dependency_status": "satisfied",
-                        "reason": "学生答案4位与标准答案完全一致。"
+                        "reason": "学生答案4位与标准答案4位完全一致。"
                     },
                     {
                         "id": "q6_p1_group2_bits",
@@ -1051,12 +394,12 @@
                     },
                     {
                         "id": "q6_p1_non_mutually_exclusive_signals",
-                        "score_given": 2,
-                        "error_category": "MATCH",
-                        "evidence_text": "140个",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
                         "expected_condition": "非互斥信号数量为140条",
-                        "dependency_status": "satisfied",
-                        "reason": "学生答案140个与标准答案140条一致，单位差异（个/条）为非实质性表述差异。"
+                        "dependency_status": "failed",
+                        "reason": "学生未作答，提取内容为'未书写'。"
                     },
                     {
                         "id": "q6_p1_control_field_total_bits",
@@ -1065,7 +408,7 @@
                         "evidence_text": "13位",
                         "expected_condition": "控制字段总位数为156位",
                         "dependency_status": "failed",
-                        "reason": "学生答案13位与标准答案156位相差极大，数值错误。"
+                        "reason": "学生答案13位与标准答案156位差距极大，数值严重错误。"
                     },
                     {
                         "id": "q6_p1_bcf_bits",
@@ -1083,37 +426,245 @@
                         "evidence_text": "9位",
                         "expected_condition": "微地址字段（BAF）需要9位",
                         "dependency_status": "satisfied",
+                        "reason": "学生答案9位与标准答案9位完全一致。"
+                    },
+                    {
+                        "id": "q6_p1_microinstruction_length_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "29位",
+                        "expected_condition": "每条微指令的总长度为168位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案29位与标准答案168位差距极大，数值严重错误，且与上游各字段错误一致（属于上游错误传播）。"
+                    },
+                    {
+                        "id": "q6_p2_control_memory_total_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "32768位",
+                        "expected_condition": "控制存储器总容量为86016位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案32768位与标准答案86016位不一致，数值错误。"
+                    },
+                    {
+                        "id": "q6_p2_control_memory_total_bytes",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "4096字节",
+                        "expected_condition": "控制存储器总容量为10752字节",
+                        "dependency_status": "failed",
+                        "reason": "学生答案4096字节与标准答案10752字节不一致，数值错误。"
+                    }
+                ],
+                "total_score": 3
+            },
+            {
+                "details": [
+                    {
+                        "id": "q6_p1_group1_bits",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "第1组互斥信号组需要4位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生给出的第1组互斥信号位数与评分点要求一致。"
+                    },
+                    {
+                        "id": "q6_p1_group2_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "3位",
+                        "expected_condition": "第2组互斥信号组需要4位",
+                        "dependency_status": "not_applicable",
+                        "reason": "第2组互斥信号位数数值错误，应为4位。"
+                    },
+                    {
+                        "id": "q6_p1_group3_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "4位",
+                        "expected_condition": "第3组互斥信号组需要5位",
+                        "dependency_status": "not_applicable",
+                        "reason": "第3组互斥信号位数数值错误，应为5位。"
+                    },
+                    {
+                        "id": "q6_p1_group4_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2位",
+                        "expected_condition": "第4组互斥信号组需要3位",
+                        "dependency_status": "not_applicable",
+                        "reason": "第4组互斥信号位数数值错误，应为3位。"
+                    },
+                    {
+                        "id": "q6_p1_non_mutually_exclusive_signals",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "非互斥信号数量为140条",
+                        "dependency_status": "failed",
+                        "reason": "学生未书写非互斥信号数量，无法得分。"
+                    },
+                    {
+                        "id": "q6_p1_control_field_total_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "13位",
+                        "expected_condition": "控制字段总位数为156位",
+                        "dependency_status": "failed",
+                        "reason": "控制字段总位数与正确值不符。"
+                    },
+                    {
+                        "id": "q6_p1_bcf_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "8位",
+                        "expected_condition": "分支控制字段（BCF）需要3位",
+                        "dependency_status": "not_applicable",
+                        "reason": "BCF位数错误，应为3位。"
+                    },
+                    {
+                        "id": "q6_p1_baf_bits",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "9位",
+                        "expected_condition": "微地址字段（BAF）需要9位",
+                        "dependency_status": "not_applicable",
+                        "reason": "BAF位数与评分点要求一致。"
+                    },
+                    {
+                        "id": "q6_p1_microinstruction_length_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "29位",
+                        "expected_condition": "每条微指令的总长度为168位",
+                        "dependency_status": "failed",
+                        "reason": "微指令总长度数值错误。"
+                    },
+                    {
+                        "id": "q6_p2_control_memory_total_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "32768位",
+                        "expected_condition": "控制存储器总容量为86016位",
+                        "dependency_status": "failed",
+                        "reason": "控制存储器总容量位数错误。"
+                    },
+                    {
+                        "id": "q6_p2_control_memory_total_bytes",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "4096字节",
+                        "expected_condition": "控制存储器总容量为10752字节",
+                        "dependency_status": "failed",
+                        "reason": "控制存储器总容量字节数错误。"
+                    }
+                ],
+                "total_score": 3
+            },
+            {
+                "details": [
+                    {
+                        "id": "q6_p1_group1_bits",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "第1组互斥信号组需要4位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生答案4位与标准答案完全一致。"
+                    },
+                    {
+                        "id": "q6_p1_group2_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "3位",
+                        "expected_condition": "第2组互斥信号组需要4位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案3位与标准答案4位不符，数值错误。"
+                    },
+                    {
+                        "id": "q6_p1_group3_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "4位",
+                        "expected_condition": "第3组互斥信号组需要5位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案4位与标准答案5位不符，数值错误。"
+                    },
+                    {
+                        "id": "q6_p1_group4_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2位",
+                        "expected_condition": "第4组互斥信号组需要3位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案2位与标准答案3位不符，数值错误。"
+                    },
+                    {
+                        "id": "q6_p1_non_mutually_exclusive_signals",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "非互斥信号数量为140条",
+                        "dependency_status": "failed",
+                        "reason": "学生未书写该内容。"
+                    },
+                    {
+                        "id": "q6_p1_control_field_total_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "13位",
+                        "expected_condition": "控制字段总位数为156位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案13位与标准答案156位相差极大，数值严重错误。"
+                    },
+                    {
+                        "id": "q6_p1_bcf_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "8位",
+                        "expected_condition": "分支控制字段（BCF）需要3位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案8位与标准答案3位不符，数值错误。"
+                    },
+                    {
+                        "id": "q6_p1_baf_bits",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "9位",
+                        "expected_condition": "微地址字段（BAF）需要9位",
+                        "dependency_status": "satisfied",
                         "reason": "学生答案9位与标准答案完全一致。"
                     },
                     {
                         "id": "q6_p1_microinstruction_length_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "30位",
+                        "evidence_text": "29位",
                         "expected_condition": "每条微指令的总长度为168位",
                         "dependency_status": "failed",
-                        "reason": "学生答案30位与标准答案168位不一致，数值错误。"
+                        "reason": "学生答案29位与标准答案168位相差极大，数值严重错误。"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "2449位",
+                        "evidence_text": "32768位",
                         "expected_condition": "控制存储器总容量为86016位",
                         "dependency_status": "failed",
-                        "reason": "学生答案2449位与标准答案86016位相差极大，数值错误。"
+                        "reason": "学生答案32768位与标准答案86016位不符，数值错误。"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bytes",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "243.625B",
+                        "evidence_text": "4096字节",
                         "expected_condition": "控制存储器总容量为10752字节",
                         "dependency_status": "failed",
-                        "reason": "学生答案243.625B与标准答案10752字节不一致，数值错误。"
+                        "reason": "学生答案4096字节与标准答案10752字节不符，数值错误。"
                     }
                 ],
-                "total_score": 5
+                "total_score": 3
             }
         ]
     },
@@ -1121,19 +672,36 @@
         "student_id": "E12314029_Q6",
         "teacher_score": 4.0,
         "model_scores_history": [
-            2,
-            2,
-            2
+            4,
+            4,
+            4
         ],
-        "model_avg_score": 2.0,
+        "model_avg_score": 4.0,
+        "selected_baseline_score": 4.0,
+        "baseline_policy": "model_avg",
+        "baseline_score_source": "model_avg_score",
+        "baseline_selection_signals": {
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": true,
+            "task_type": "calculation_derivation",
+            "final_answer_weight_high": true,
+            "upper_consensus_ready": false,
+            "high_over_unsafe": true,
+            "high_score_safety_review": false,
+            "score_history_min": 4.0,
+            "score_history_max": 4.0,
+            "score_history_median": 4.0,
+            "score_spread_ratio": 0.0,
+            "selected_ratio": 0.2
+        },
         "std_dev": 0.0,
-        "blank_rate": 0.09,
+        "blank_rate": 0.0,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 2.0,
+        "real_diff": 0.0,
         "3wd_route": "NEG",
-        "final_calibrated_score": 2.0,
+        "final_calibrated_score": 4.0,
         "requires_human_arbitration": true,
         "perception_risk": 0.0,
         "uncertainty_index": 0.0,
@@ -1150,9 +718,9 @@
             "boundary_domain": false,
             "std_ratio": 0.0,
             "spread_ratio": 0.0,
-            "avg_ratio": 0.1,
+            "avg_ratio": 0.2,
             "score_spread": 0,
-            "blank_rate": 0.0909,
+            "blank_rate": 0.0,
             "low_quality_rate": 0.0,
             "perception_failure_rate": 0.0,
             "partial_match_points_ratio": 0.0,
@@ -1161,12 +729,12 @@
             "method_final_verified_ratio": 0.0,
             "direct_points_ratio": 0.0,
             "direct_awarded_ratio": 0.0,
-            "result_correctness_signal": 0.1,
-            "result_strong_signal": 0.1,
-            "method_evidence_signal": 0.1,
+            "result_correctness_signal": 0.2,
+            "result_strong_signal": 0.2,
+            "method_evidence_signal": 0.2,
             "partial_or_format_points_ratio": 0.0,
-            "bare_answer_risk": 0.09,
-            "lenient_undercredit_signal": 0.0064,
+            "bare_answer_risk": 0.16,
+            "lenient_undercredit_signal": 0.022,
             "unsupported_high_score_risk": 0.0,
             "metadata_coverage": 1.0,
             "explicit_chain_coverage": 0.0,
@@ -1175,9 +743,53 @@
             "weak_result_high_score_review": false,
             "stable_undercredit_review": false,
             "direct_only_high_score_risk": false,
+            "task_type": "calculation_derivation",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": true,
+            "rubric_task_profile": {
+                "task_type": "calculation_derivation",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "calculation_or_derivation": true,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 0.5,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 1.0,
+                "visual_sequence_points_ratio": 0.0,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "answer_type_counts": {
+                    "derived_numeric": 11
+                },
+                "answer_type_points": {
+                    "derived_numeric": 20.0
+                }
+            },
             "calibration_rule_hits": [],
-            "a3wa_risk": 0.203636,
-            "a3wa_mu": 0.796364,
+            "model_avg_ratio": 0.2,
+            "selected_baseline_score": 4.0,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "task_type": "calculation_derivation",
+                "final_answer_weight_high": true,
+                "upper_consensus_ready": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "score_history_min": 4.0,
+                "score_history_max": 4.0,
+                "score_history_median": 4.0,
+                "score_spread_ratio": 0.0,
+                "selected_ratio": 0.2
+            },
+            "high_score_safety_review": false,
+            "a3wa_risk": 0.19,
+            "a3wa_mu": 0.81,
             "a3wa_alpha": 0.828571,
             "a3wa_beta": 0.285714,
             "a3wa_m": 0.4,
@@ -1187,9 +799,9 @@
                 "U_extract": 0.0,
                 "U_score": 0.1,
                 "U_semantic": 0.8,
-                "U_blank": 0.090909,
-                "U_overcredit": 0.08,
-                "L_lenient_undercredit": 0.0064,
+                "U_blank": 0.0,
+                "U_overcredit": 0.16,
+                "L_lenient_undercredit": 0.022,
                 "U_unsupported_high_score": 0.0,
                 "normalized_std": 0.0,
                 "score_spread_norm": 0.0
@@ -1203,15 +815,43 @@
             "method_final_verified_ratio": 0.0,
             "direct_points_ratio": 0.0,
             "direct_awarded_ratio": 0.0,
-            "result_correctness_signal": 0.1,
-            "result_strong_signal": 0.1,
-            "method_evidence_signal": 0.1,
+            "result_correctness_signal": 0.2,
+            "result_strong_signal": 0.2,
+            "method_evidence_signal": 0.2,
             "partial_or_format_points_ratio": 0.0,
-            "bare_answer_risk": 0.09,
-            "lenient_undercredit_signal": 0.0064,
+            "bare_answer_risk": 0.16,
+            "lenient_undercredit_signal": 0.022,
             "unsupported_high_score_risk": 0.0,
             "metadata_coverage": 1.0,
             "explicit_chain_coverage": 0.0,
+            "task_type": "calculation_derivation",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": true,
+            "calculation_or_derivation": true,
+            "algorithmic_or_mapping": true,
+            "final_answer_weight_high": true,
+            "rubric_task_profile": {
+                "task_type": "calculation_derivation",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "calculation_or_derivation": true,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 0.5,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 1.0,
+                "visual_sequence_points_ratio": 0.0,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "answer_type_counts": {
+                    "derived_numeric": 11
+                },
+                "answer_type_points": {
+                    "derived_numeric": 20.0
+                }
+            },
             "core_anchor_failed": false,
             "weak_result_high_score_review": false,
             "stable_undercredit_review": false,
@@ -1221,7 +861,28 @@
             "reject_domain": false,
             "lower_bound": 0.0,
             "upper_bound": 20.0,
-            "rule_hits": []
+            "rule_hits": [],
+            "selected_baseline_score": 4.0,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "task_type": "calculation_derivation",
+                "final_answer_weight_high": true,
+                "upper_consensus_ready": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "score_history_min": 4.0,
+                "score_history_max": 4.0,
+                "score_history_median": 4.0,
+                "score_spread_ratio": 0.0,
+                "selected_ratio": 0.2
+            },
+            "score_history_max": 4.0,
+            "score_history_median": 4.0,
+            "score_history_min": 4.0,
+            "high_score_safety_review": false
         },
         "a3wa_decision": {
             "route": "NEG",
@@ -1229,9 +890,9 @@
             "hard_neg_reasons": [
                 "semantic_risk_too_high"
             ],
-            "risk": 0.203636,
-            "confidence": 0.796364,
-            "mu": 0.796364,
+            "risk": 0.19,
+            "confidence": 0.81,
+            "mu": 0.81,
             "alpha": 0.828571,
             "beta": 0.285714,
             "m": 0.4,
@@ -1243,9 +904,9 @@
                 "U_extract": 0.0,
                 "U_score": 0.1,
                 "U_semantic": 0.8,
-                "U_blank": 0.090909,
-                "U_overcredit": 0.08,
-                "L_lenient_undercredit": 0.0064,
+                "U_blank": 0.0,
+                "U_overcredit": 0.16,
+                "L_lenient_undercredit": 0.022,
                 "U_unsupported_high_score": 0.0,
                 "normalized_std": 0.0,
                 "score_spread_norm": 0.0
@@ -1256,7 +917,7 @@
         "arbitration_decision": "accept",
         "reason_log": "A3WA硬拒判：semantic_risk_too_high",
         "human_review_hint": "A3WA硬拒判：semantic_risk_too_high",
-        "facts": "{\"q6_p1_group1_bits\": \"12位\", \"q6_p1_group2_bits\": \"8位\", \"q6_p1_group3_bits\": \"16位\", \"q6_p1_group4_bits\": \"4位\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"40位\", \"q6_p1_bcf_bits\": \"9位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"57位\", \"q6_p2_control_memory_total_bits\": \"29184位\", \"q6_p2_control_memory_total_bytes\": \"3648B\"}",
+        "facts": "{\"q6_p1_group1_bits\": \"12位\", \"q6_p1_group2_bits\": \"8位\", \"q6_p1_group3_bits\": \"16位\", \"q6_p1_group4_bits\": \"4位\", \"q6_p1_non_mutually_exclusive_signals\": \"5条\", \"q6_p1_control_field_total_bits\": \"57位\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"57位\", \"q6_p2_control_memory_total_bits\": \"29184位\", \"q6_p2_control_memory_total_bytes\": \"3648B\"}",
         "strict_cot": {
             "details": [
                 {
@@ -1266,7 +927,7 @@
                     "evidence_text": "12位",
                     "expected_condition": "第1组互斥信号组需要4位",
                     "dependency_status": "failed",
-                    "reason": "学生给出12位，与正确值4位不符，属于数值错误。"
+                    "reason": "学生答案为12位，与标准答案4位不符，数值错误。"
                 },
                 {
                     "id": "q6_p1_group2_bits",
@@ -1275,7 +936,7 @@
                     "evidence_text": "8位",
                     "expected_condition": "第2组互斥信号组需要4位",
                     "dependency_status": "failed",
-                    "reason": "学生给出8位，与正确值4位不符，属于数值错误。"
+                    "reason": "学生答案为8位，与标准答案4位不符，数值错误。"
                 },
                 {
                     "id": "q6_p1_group3_bits",
@@ -1284,7 +945,7 @@
                     "evidence_text": "16位",
                     "expected_condition": "第3组互斥信号组需要5位",
                     "dependency_status": "failed",
-                    "reason": "学生给出16位，与正确值5位不符，属于数值错误。"
+                    "reason": "学生答案为16位，与标准答案5位不符，数值错误。"
                 },
                 {
                     "id": "q6_p1_group4_bits",
@@ -1293,34 +954,34 @@
                     "evidence_text": "4位",
                     "expected_condition": "第4组互斥信号组需要3位",
                     "dependency_status": "failed",
-                    "reason": "学生给出4位，与正确值3位不符，属于数值错误。"
+                    "reason": "学生答案为4位，与标准答案3位不符，数值错误。"
                 },
                 {
                     "id": "q6_p1_non_mutually_exclusive_signals",
                     "score_given": 0,
-                    "error_category": "BLANK",
-                    "evidence_text": "未书写",
+                    "error_category": "SEMANTIC_FATAL",
+                    "evidence_text": "5条",
                     "expected_condition": "非互斥信号数量为140条",
                     "dependency_status": "failed",
-                    "reason": "学生未书写该项内容，无法给分。"
+                    "reason": "学生答案为5条，与标准答案140条严重不符，数值错误。"
                 },
                 {
                     "id": "q6_p1_control_field_total_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "40位",
+                    "evidence_text": "57位",
                     "expected_condition": "控制字段总位数为156位",
                     "dependency_status": "failed",
-                    "reason": "学生给出40位，与正确值156位差距极大，属于计算结果错误。"
+                    "reason": "学生答案57位与标准答案156位不符；且与其自身各组位数之和(12+8+16+4+5=45)也不一致，数值错误。"
                 },
                 {
                     "id": "q6_p1_bcf_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "9位",
+                    "score_given": 2,
+                    "error_category": "MATCH",
+                    "evidence_text": "3位",
                     "expected_condition": "分支控制字段（BCF）需要3位",
-                    "dependency_status": "failed",
-                    "reason": "学生给出9位，与正确值3位不符，属于数值错误。"
+                    "dependency_status": "satisfied",
+                    "reason": "学生答案3位与标准答案完全一致。"
                 },
                 {
                     "id": "q6_p1_baf_bits",
@@ -1329,7 +990,7 @@
                     "evidence_text": "9位",
                     "expected_condition": "微地址字段（BAF）需要9位",
                     "dependency_status": "satisfied",
-                    "reason": "学生给出9位，与正确值完全一致。"
+                    "reason": "学生答案9位与标准答案完全一致。"
                 },
                 {
                     "id": "q6_p1_microinstruction_length_bits",
@@ -1338,7 +999,7 @@
                     "evidence_text": "57位",
                     "expected_condition": "每条微指令的总长度为168位",
                     "dependency_status": "failed",
-                    "reason": "学生给出57位，与正确值168位不符，属于计算结果错误。"
+                    "reason": "学生答案57位与标准答案168位不符，数值错误。"
                 },
                 {
                     "id": "q6_p2_control_memory_total_bits",
@@ -1347,7 +1008,7 @@
                     "evidence_text": "29184位",
                     "expected_condition": "控制存储器总容量为86016位",
                     "dependency_status": "failed",
-                    "reason": "学生给出29184位，与正确值86016位不符，属于计算结果错误。"
+                    "reason": "学生答案29184位与标准答案86016位不符，数值错误。"
                 },
                 {
                     "id": "q6_p2_control_memory_total_bytes",
@@ -1356,10 +1017,10 @@
                     "evidence_text": "3648B",
                     "expected_condition": "控制存储器总容量为10752字节",
                     "dependency_status": "failed",
-                    "reason": "学生给出3648B，与正确值10752字节不符，属于计算结果错误。"
+                    "reason": "学生答案3648B与标准答案10752B不符；虽与自身上位错误结果(29184/8=3648)内部一致，但最终数值仍然错误。"
                 }
             ],
-            "total_score": 2
+            "total_score": 4
         },
         "strict_cots_all": [
             {
@@ -1371,7 +1032,7 @@
                         "evidence_text": "12位",
                         "expected_condition": "第1组互斥信号组需要4位",
                         "dependency_status": "failed",
-                        "reason": "学生给出12位，与正确值4位不符，属于数值错误。"
+                        "reason": "学生答案为12位，与标准答案4位不符，数值错误。"
                     },
                     {
                         "id": "q6_p1_group2_bits",
@@ -1380,7 +1041,7 @@
                         "evidence_text": "8位",
                         "expected_condition": "第2组互斥信号组需要4位",
                         "dependency_status": "failed",
-                        "reason": "学生给出8位，与正确值4位不符，属于数值错误。"
+                        "reason": "学生答案为8位，与标准答案4位不符，数值错误。"
                     },
                     {
                         "id": "q6_p1_group3_bits",
@@ -1389,7 +1050,7 @@
                         "evidence_text": "16位",
                         "expected_condition": "第3组互斥信号组需要5位",
                         "dependency_status": "failed",
-                        "reason": "学生给出16位，与正确值5位不符，属于数值错误。"
+                        "reason": "学生答案为16位，与标准答案5位不符，数值错误。"
                     },
                     {
                         "id": "q6_p1_group4_bits",
@@ -1398,34 +1059,34 @@
                         "evidence_text": "4位",
                         "expected_condition": "第4组互斥信号组需要3位",
                         "dependency_status": "failed",
-                        "reason": "学生给出4位，与正确值3位不符，属于数值错误。"
+                        "reason": "学生答案为4位，与标准答案3位不符，数值错误。"
                     },
                     {
                         "id": "q6_p1_non_mutually_exclusive_signals",
                         "score_given": 0,
-                        "error_category": "BLANK",
-                        "evidence_text": "未书写",
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "5条",
                         "expected_condition": "非互斥信号数量为140条",
                         "dependency_status": "failed",
-                        "reason": "学生未书写该项内容，无法给分。"
+                        "reason": "学生答案为5条，与标准答案140条严重不符，数值错误。"
                     },
                     {
                         "id": "q6_p1_control_field_total_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "40位",
+                        "evidence_text": "57位",
                         "expected_condition": "控制字段总位数为156位",
                         "dependency_status": "failed",
-                        "reason": "学生给出40位，与正确值156位差距极大，属于计算结果错误。"
+                        "reason": "学生答案57位与标准答案156位不符；且与其自身各组位数之和(12+8+16+4+5=45)也不一致，数值错误。"
                     },
                     {
                         "id": "q6_p1_bcf_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "9位",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "3位",
                         "expected_condition": "分支控制字段（BCF）需要3位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出9位，与正确值3位不符，属于数值错误。"
+                        "dependency_status": "satisfied",
+                        "reason": "学生答案3位与标准答案完全一致。"
                     },
                     {
                         "id": "q6_p1_baf_bits",
@@ -1434,7 +1095,7 @@
                         "evidence_text": "9位",
                         "expected_condition": "微地址字段（BAF）需要9位",
                         "dependency_status": "satisfied",
-                        "reason": "学生给出9位，与正确值完全一致。"
+                        "reason": "学生答案9位与标准答案完全一致。"
                     },
                     {
                         "id": "q6_p1_microinstruction_length_bits",
@@ -1443,7 +1104,7 @@
                         "evidence_text": "57位",
                         "expected_condition": "每条微指令的总长度为168位",
                         "dependency_status": "failed",
-                        "reason": "学生给出57位，与正确值168位不符，属于计算结果错误。"
+                        "reason": "学生答案57位与标准答案168位不符，数值错误。"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bits",
@@ -1452,7 +1113,7 @@
                         "evidence_text": "29184位",
                         "expected_condition": "控制存储器总容量为86016位",
                         "dependency_status": "failed",
-                        "reason": "学生给出29184位，与正确值86016位不符，属于计算结果错误。"
+                        "reason": "学生答案29184位与标准答案86016位不符，数值错误。"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bytes",
@@ -1461,10 +1122,114 @@
                         "evidence_text": "3648B",
                         "expected_condition": "控制存储器总容量为10752字节",
                         "dependency_status": "failed",
-                        "reason": "学生给出3648B，与正确值10752字节不符，属于计算结果错误。"
+                        "reason": "学生答案3648B与标准答案10752B不符；虽与自身上位错误结果(29184/8=3648)内部一致，但最终数值仍然错误。"
                     }
                 ],
-                "total_score": 2
+                "total_score": 4
+            },
+            {
+                "details": [
+                    {
+                        "id": "q6_p1_group1_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "12位",
+                        "expected_condition": "第1组互斥信号组需要4位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生答案为12位，与正确数值4位不符，数值计算错误。"
+                    },
+                    {
+                        "id": "q6_p1_group2_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "8位",
+                        "expected_condition": "第2组互斥信号组需要4位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生答案为8位，与正确数值4位不符，数值计算错误。"
+                    },
+                    {
+                        "id": "q6_p1_group3_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "16位",
+                        "expected_condition": "第3组互斥信号组需要5位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生答案为16位，与正确数值5位不符，数值计算错误。"
+                    },
+                    {
+                        "id": "q6_p1_group4_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "4位",
+                        "expected_condition": "第4组互斥信号组需要3位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生答案为4位，与正确数值3位不符，数值计算错误。"
+                    },
+                    {
+                        "id": "q6_p1_non_mutually_exclusive_signals",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "5条",
+                        "expected_condition": "非互斥信号数量为140条",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生答案为5条，与正确数值140条相差甚远，属于根本性数据错误。"
+                    },
+                    {
+                        "id": "q6_p1_control_field_total_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "57位",
+                        "expected_condition": "控制字段总位数为156位",
+                        "dependency_status": "failed",
+                        "reason": "由于前置互斥与非互斥信号计算错误，导致总位数57位与正确结果156位不符。"
+                    },
+                    {
+                        "id": "q6_p1_bcf_bits",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "3位",
+                        "expected_condition": "分支控制字段（BCF）需要3位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生填写的分支控制字段位数3位完全正确。"
+                    },
+                    {
+                        "id": "q6_p1_baf_bits",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "9位",
+                        "expected_condition": "微地址字段（BAF）需要9位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生填写的微地址字段位数9位完全正确。"
+                    },
+                    {
+                        "id": "q6_p1_microinstruction_length_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "57位",
+                        "expected_condition": "每条微指令的总长度为168位",
+                        "dependency_status": "failed",
+                        "reason": "由于控制字段总位数计算错误，微指令总长57位与正确结果168位不符。"
+                    },
+                    {
+                        "id": "q6_p2_control_memory_total_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "29184位",
+                        "expected_condition": "控制存储器总容量为86016位",
+                        "dependency_status": "failed",
+                        "reason": "由错误的微指令长度推导出的错误容量，29184位与正确结果86016位不符。"
+                    },
+                    {
+                        "id": "q6_p2_control_memory_total_bytes",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "3648B",
+                        "expected_condition": "控制存储器总容量为10752字节",
+                        "dependency_status": "failed",
+                        "reason": "由错误的控制存储器总位数转换而来的字节数，3648B与正确结果10752字节不符。"
+                    }
+                ],
+                "total_score": 4
             },
             {
                 "details": [
@@ -1475,7 +1240,7 @@
                         "evidence_text": "12位",
                         "expected_condition": "第1组互斥信号组需要4位",
                         "dependency_status": "failed",
-                        "reason": "提取的值为12位，与正确的4位不符。"
+                        "reason": "学生给出的位数为12位，与标准答案4位不符。该数值过大，疑似直接使用了信号数量而非编码所需位数，属于核心计算方法错误。"
                     },
                     {
                         "id": "q6_p1_group2_bits",
@@ -1484,7 +1249,7 @@
                         "evidence_text": "8位",
                         "expected_condition": "第2组互斥信号组需要4位",
                         "dependency_status": "failed",
-                        "reason": "提取的值为8位，与正确的4位不符。"
+                        "reason": "学生给出的位数为8位，与标准答案4位不符，核心数值错误。"
                     },
                     {
                         "id": "q6_p1_group3_bits",
@@ -1493,7 +1258,7 @@
                         "evidence_text": "16位",
                         "expected_condition": "第3组互斥信号组需要5位",
                         "dependency_status": "failed",
-                        "reason": "提取的值为16位，与正确的5位不符。"
+                        "reason": "学生给出的位数为16位，与标准答案5位相差悬殊，编码位数计算方法错误。"
                     },
                     {
                         "id": "q6_p1_group4_bits",
@@ -1502,34 +1267,34 @@
                         "evidence_text": "4位",
                         "expected_condition": "第4组互斥信号组需要3位",
                         "dependency_status": "failed",
-                        "reason": "提取的值为4位，与正确的3位不符。"
+                        "reason": "学生给出的位数为4位，与标准答案3位不符（可能未采用+1编码或方法不同），核心数值错误。"
                     },
                     {
                         "id": "q6_p1_non_mutually_exclusive_signals",
                         "score_given": 0,
-                        "error_category": "BLANK",
-                        "evidence_text": "未书写",
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "5条",
                         "expected_condition": "非互斥信号数量为140条",
                         "dependency_status": "failed",
-                        "reason": "学生未提供该数值。"
+                        "reason": "学生给出5条非互斥信号，与标准答案140条严重不符，属于核心数值错误。"
                     },
                     {
                         "id": "q6_p1_control_field_total_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "40位",
+                        "evidence_text": "57位",
                         "expected_condition": "控制字段总位数为156位",
                         "dependency_status": "failed",
-                        "reason": "提取的值为40位，与正确的156位不符。"
+                        "reason": "学生给出的控制字段总位数57位与标准答案156位不符，由上游互斥组位数和非互斥信号数错误传播导致，核心数值错误。"
                     },
                     {
                         "id": "q6_p1_bcf_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "9位",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "3位",
                         "expected_condition": "分支控制字段（BCF）需要3位",
-                        "dependency_status": "failed",
-                        "reason": "提取的值为9位，与正确的3位不符。"
+                        "dependency_status": "satisfied",
+                        "reason": "学生给出的BCF位数为3位，与标准答案完全一致。"
                     },
                     {
                         "id": "q6_p1_baf_bits",
@@ -1538,7 +1303,7 @@
                         "evidence_text": "9位",
                         "expected_condition": "微地址字段（BAF）需要9位",
                         "dependency_status": "satisfied",
-                        "reason": "提取的数值正确，符合评分标准。"
+                        "reason": "学生给出的BAF位数为9位，与标准答案完全一致。"
                     },
                     {
                         "id": "q6_p1_microinstruction_length_bits",
@@ -1547,7 +1312,7 @@
                         "evidence_text": "57位",
                         "expected_condition": "每条微指令的总长度为168位",
                         "dependency_status": "failed",
-                        "reason": "提取的值为57位，与正确的168位不符。"
+                        "reason": "学生给出的微指令总长度57位与标准答案168位严重不符，且57位与其控制字段值相同，疑似概念混淆（未正确加上控制字段+BCF+BAF），核心结论错误。"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bits",
@@ -1556,7 +1321,7 @@
                         "evidence_text": "29184位",
                         "expected_condition": "控制存储器总容量为86016位",
                         "dependency_status": "failed",
-                        "reason": "提取的值为29184位，与正确的86016位不符。"
+                        "reason": "学生给出的控制存储器总位数29184位与标准答案86016位不符，由上游微指令长度错误传播导致，核心数值错误。"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bytes",
@@ -1565,114 +1330,10 @@
                         "evidence_text": "3648B",
                         "expected_condition": "控制存储器总容量为10752字节",
                         "dependency_status": "failed",
-                        "reason": "提取的值为3648B，与正确的10752字节不符。"
+                        "reason": "学生给出的控制存储器总字节数3648B与标准答案10752字节不符，由上游微指令长度错误传播导致，核心数值错误。"
                     }
                 ],
-                "total_score": 2
-            },
-            {
-                "details": [
-                    {
-                        "id": "q6_p1_group1_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "12位",
-                        "expected_condition": "第1组互斥信号组需要4位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出12位，与答案4位不一致，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_group2_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "8位",
-                        "expected_condition": "第2组互斥信号组需要4位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出8位，与答案4位不一致，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_group3_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "16位",
-                        "expected_condition": "第3组互斥信号组需要5位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出16位，与答案5位不一致，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_group4_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4位",
-                        "expected_condition": "第4组互斥信号组需要3位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出4位，与答案3位不一致，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_non_mutually_exclusive_signals",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "evidence_text": "未书写",
-                        "expected_condition": "非互斥信号数量为140条",
-                        "dependency_status": "failed",
-                        "reason": "学生未作答该内容。"
-                    },
-                    {
-                        "id": "q6_p1_control_field_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "40位",
-                        "expected_condition": "控制字段总位数为156位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出40位，与答案156位不一致，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_bcf_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "9位",
-                        "expected_condition": "分支控制字段（BCF）需要3位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出9位，与答案3位不一致，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_baf_bits",
-                        "score_given": 2,
-                        "error_category": "MATCH",
-                        "evidence_text": "9位",
-                        "expected_condition": "微地址字段（BAF）需要9位",
-                        "dependency_status": "satisfied",
-                        "reason": "学生给出的9位与答案一致。"
-                    },
-                    {
-                        "id": "q6_p1_microinstruction_length_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "57位",
-                        "expected_condition": "每条微指令的总长度为168位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出57位，与答案168位不一致，数值错误。"
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "29184位",
-                        "expected_condition": "控制存储器总容量为86016位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出29184位，与答案86016位不一致，数值错误。"
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bytes",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "3648B",
-                        "expected_condition": "控制存储器总容量为10752字节",
-                        "dependency_status": "failed",
-                        "reason": "学生给出3648B，与答案10752字节不一致，数值错误。"
-                    }
-                ],
-                "total_score": 2
+                "total_score": 4
             }
         ]
     },
@@ -1682,39 +1343,56 @@
         "model_scores_history": [
             3,
             3,
-            3
+            4
         ],
-        "model_avg_score": 3.0,
-        "std_dev": 0.0,
+        "model_avg_score": 3.3,
+        "selected_baseline_score": 3.3,
+        "baseline_policy": "model_avg",
+        "baseline_score_source": "model_avg_score",
+        "baseline_selection_signals": {
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": true,
+            "task_type": "calculation_derivation",
+            "final_answer_weight_high": true,
+            "upper_consensus_ready": false,
+            "high_over_unsafe": true,
+            "high_score_safety_review": false,
+            "score_history_min": 3.0,
+            "score_history_max": 4.0,
+            "score_history_median": 3.0,
+            "score_spread_ratio": 0.05,
+            "selected_ratio": 0.165
+        },
+        "std_dev": 0.4714,
         "blank_rate": 0.0,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 5.0,
+        "real_diff": 4.7,
         "3wd_route": "NEG",
-        "final_calibrated_score": 3.0,
+        "final_calibrated_score": 3.3,
         "requires_human_arbitration": true,
         "perception_risk": 0.0,
-        "uncertainty_index": 0.0,
-        "fatal_points_ratio": 0.85,
+        "uncertainty_index": 0.0236,
+        "fatal_points_ratio": 0.8167,
         "high_blank_high_score": false,
         "lenient_review_signal": true,
         "risk_features": {
             "perception_risk": 0.0,
-            "uncertainty_index": 0.0,
-            "fatal_points_ratio": 0.85,
+            "uncertainty_index": 0.0236,
+            "fatal_points_ratio": 0.8167,
             "high_blank_high_score": false,
             "lenient_review_signal": true,
             "reject_domain": true,
             "boundary_domain": false,
-            "std_ratio": 0.0,
-            "spread_ratio": 0.0,
-            "avg_ratio": 0.15,
-            "score_spread": 0,
+            "std_ratio": 0.0236,
+            "spread_ratio": 0.05,
+            "avg_ratio": 0.165,
+            "score_spread": 1,
             "blank_rate": 0.0,
             "low_quality_rate": 0.0,
             "perception_failure_rate": 0.0,
-            "partial_match_points_ratio": 0.0,
+            "partial_match_points_ratio": 0.0333,
             "format_minor_points_ratio": 0.0,
             "unsupported_match_points_ratio": 0.0,
             "method_final_verified_ratio": 0.0,
@@ -1725,7 +1403,7 @@
             "method_evidence_signal": 0.15,
             "partial_or_format_points_ratio": 0.0,
             "bare_answer_risk": 0.1275,
-            "lenient_undercredit_signal": 0.013,
+            "lenient_undercredit_signal": 0.0127,
             "unsupported_high_score_risk": 0.0,
             "metadata_coverage": 1.0,
             "explicit_chain_coverage": 0.0,
@@ -1734,9 +1412,53 @@
             "weak_result_high_score_review": false,
             "stable_undercredit_review": false,
             "direct_only_high_score_risk": false,
+            "task_type": "calculation_derivation",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": true,
+            "rubric_task_profile": {
+                "task_type": "calculation_derivation",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "calculation_or_derivation": true,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 0.5,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 1.0,
+                "visual_sequence_points_ratio": 0.0,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "answer_type_counts": {
+                    "derived_numeric": 11
+                },
+                "answer_type_points": {
+                    "derived_numeric": 20.0
+                }
+            },
             "calibration_rule_hits": [],
-            "a3wa_risk": 0.2,
-            "a3wa_mu": 0.8,
+            "model_avg_ratio": 0.165,
+            "selected_baseline_score": 3.3,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "task_type": "calculation_derivation",
+                "final_answer_weight_high": true,
+                "upper_consensus_ready": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "score_history_min": 3.0,
+                "score_history_max": 4.0,
+                "score_history_median": 3.0,
+                "score_spread_ratio": 0.05,
+                "selected_ratio": 0.165
+            },
+            "high_score_safety_review": false,
+            "a3wa_risk": 0.204369,
+            "a3wa_mu": 0.795631,
             "a3wa_alpha": 0.828571,
             "a3wa_beta": 0.285714,
             "a3wa_m": 0.4,
@@ -1744,14 +1466,14 @@
             "a3wa_reason": "hard_neg:semantic_risk_too_high",
             "a3wa_risk_components": {
                 "U_extract": 0.0,
-                "U_score": 0.1,
-                "U_semantic": 0.85,
+                "U_score": 0.136785,
+                "U_semantic": 0.816667,
                 "U_blank": 0.0,
-                "U_overcredit": 0.1275,
-                "L_lenient_undercredit": 0.013,
+                "U_overcredit": 0.13475,
+                "L_lenient_undercredit": 0.0127,
                 "U_unsupported_high_score": 0.0,
-                "normalized_std": 0.0,
-                "score_spread_norm": 0.0
+                "normalized_std": 0.02357,
+                "score_spread_norm": 0.05
             }
         },
         "post_calibration": {
@@ -1767,10 +1489,38 @@
             "method_evidence_signal": 0.15,
             "partial_or_format_points_ratio": 0.0,
             "bare_answer_risk": 0.1275,
-            "lenient_undercredit_signal": 0.013,
+            "lenient_undercredit_signal": 0.0127,
             "unsupported_high_score_risk": 0.0,
             "metadata_coverage": 1.0,
             "explicit_chain_coverage": 0.0,
+            "task_type": "calculation_derivation",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": true,
+            "calculation_or_derivation": true,
+            "algorithmic_or_mapping": true,
+            "final_answer_weight_high": true,
+            "rubric_task_profile": {
+                "task_type": "calculation_derivation",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "calculation_or_derivation": true,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 0.5,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 1.0,
+                "visual_sequence_points_ratio": 0.0,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "answer_type_counts": {
+                    "derived_numeric": 11
+                },
+                "answer_type_points": {
+                    "derived_numeric": 20.0
+                }
+            },
             "core_anchor_failed": false,
             "weak_result_high_score_review": false,
             "stable_undercredit_review": false,
@@ -1780,7 +1530,28 @@
             "reject_domain": false,
             "lower_bound": 0.0,
             "upper_bound": 20.0,
-            "rule_hits": []
+            "rule_hits": [],
+            "selected_baseline_score": 3.3,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "task_type": "calculation_derivation",
+                "final_answer_weight_high": true,
+                "upper_consensus_ready": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "score_history_min": 3.0,
+                "score_history_max": 4.0,
+                "score_history_median": 3.0,
+                "score_spread_ratio": 0.05,
+                "selected_ratio": 0.165
+            },
+            "score_history_max": 4.0,
+            "score_history_median": 3.0,
+            "score_history_min": 3.0,
+            "high_score_safety_review": false
         },
         "a3wa_decision": {
             "route": "NEG",
@@ -1788,9 +1559,9 @@
             "hard_neg_reasons": [
                 "semantic_risk_too_high"
             ],
-            "risk": 0.2,
-            "confidence": 0.8,
-            "mu": 0.8,
+            "risk": 0.204369,
+            "confidence": 0.795631,
+            "mu": 0.795631,
             "alpha": 0.828571,
             "beta": 0.285714,
             "m": 0.4,
@@ -1800,122 +1571,122 @@
             "mu2": 5.0,
             "risk_components": {
                 "U_extract": 0.0,
-                "U_score": 0.1,
-                "U_semantic": 0.85,
+                "U_score": 0.136785,
+                "U_semantic": 0.816667,
                 "U_blank": 0.0,
-                "U_overcredit": 0.1275,
-                "L_lenient_undercredit": 0.013,
+                "U_overcredit": 0.13475,
+                "L_lenient_undercredit": 0.0127,
                 "U_unsupported_high_score": 0.0,
-                "normalized_std": 0.0,
-                "score_spread_norm": 0.0
+                "normalized_std": 0.02357,
+                "score_spread_norm": 0.05
             },
-            "score_spread": 0.0
+            "score_spread": 1.0
         },
         "boundary_gate": null,
         "arbitration_decision": "accept",
         "reason_log": "A3WA硬拒判：semantic_risk_too_high",
         "human_review_hint": "A3WA硬拒判：semantic_risk_too_high",
-        "facts": "{\"q6_p1_group1_bits\": \"4\", \"q6_p1_group2_bits\": \"3\", \"q6_p1_group3_bits\": \"4\", \"q6_p1_group4_bits\": \"2\", \"q6_p1_non_mutually_exclusive_signals\": \"144\", \"q6_p1_control_field_total_bits\": \"144\", \"q6_p1_bcf_bits\": \"3\", \"q6_p1_baf_bits\": \"157\", \"q6_p1_microinstruction_length_bits\": \"32\", \"q6_p2_control_memory_total_bits\": \"2¹³\", \"q6_p2_control_memory_total_bytes\": \"1K字节\"}",
+        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"3位\", \"q6_p1_group3_bits\": \"4位\", \"q6_p1_group4_bits\": \"2位\", \"q6_p1_non_mutually_exclusive_signals\": \"144\", \"q6_p1_control_field_total_bits\": \"8位\", \"q6_p1_bcf_bits\": \"3位\", \"q6_p1_baf_bits\": \"13位\", \"q6_p1_microinstruction_length_bits\": \"32位\", \"q6_p2_control_memory_total_bits\": \"2¹³位\", \"q6_p2_control_memory_total_bytes\": \"1K字节\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "q6_p1_group1_bits",
                     "score_given": 1,
                     "error_category": "MATCH",
-                    "evidence_text": "q6_p1_group1_bits: \"4\"",
+                    "evidence_text": "4位",
                     "expected_condition": "第1组互斥信号组需要4位",
                     "dependency_status": "satisfied",
-                    "reason": "学生给出的4位与参考答案一致。"
+                    "reason": "学生答案4位与标准答案完全一致。"
                 },
                 {
                     "id": "q6_p1_group2_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_group2_bits: \"3\"",
+                    "evidence_text": "3位",
                     "expected_condition": "第2组互斥信号组需要4位",
                     "dependency_status": "failed",
-                    "reason": "学生答案为3位，与正确答案4位不一致，数值错误。"
+                    "reason": "学生答案3位，标准答案为4位，数值错误。"
                 },
                 {
                     "id": "q6_p1_group3_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_group3_bits: \"4\"",
+                    "evidence_text": "4位",
                     "expected_condition": "第3组互斥信号组需要5位",
                     "dependency_status": "failed",
-                    "reason": "学生答案为4位，与正确答案5位不一致，数值错误。"
+                    "reason": "学生答案4位，标准答案为5位，数值错误。"
                 },
                 {
                     "id": "q6_p1_group4_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_group4_bits: \"2\"",
+                    "evidence_text": "2位",
                     "expected_condition": "第4组互斥信号组需要3位",
                     "dependency_status": "failed",
-                    "reason": "学生答案为2位，与正确答案3位不一致，数值错误。"
+                    "reason": "学生答案2位，标准答案为3位，数值错误。"
                 },
                 {
                     "id": "q6_p1_non_mutually_exclusive_signals",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_non_mutually_exclusive_signals: \"144\"",
+                    "evidence_text": "144",
                     "expected_condition": "非互斥信号数量为140条",
                     "dependency_status": "failed",
-                    "reason": "学生答案为144条，与正确答案140条不符，数值错误。"
+                    "reason": "学生答案144条，标准答案为140条，数值错误。"
                 },
                 {
                     "id": "q6_p1_control_field_total_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_control_field_total_bits: \"144\"",
+                    "evidence_text": "8位",
                     "expected_condition": "控制字段总位数为156位",
                     "dependency_status": "failed",
-                    "reason": "学生答案144位与正确答案156位不一致，数值错误。"
+                    "reason": "学生答案8位，标准答案为156位，数值严重错误。"
                 },
                 {
                     "id": "q6_p1_bcf_bits",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "evidence_text": "q6_p1_bcf_bits: \"3\"",
+                    "evidence_text": "3位",
                     "expected_condition": "分支控制字段（BCF）需要3位",
                     "dependency_status": "satisfied",
-                    "reason": "学生给出的3位与参考答案一致。"
+                    "reason": "学生答案3位与标准答案完全一致。"
                 },
                 {
                     "id": "q6_p1_baf_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_baf_bits: \"157\"",
+                    "evidence_text": "13位",
                     "expected_condition": "微地址字段（BAF）需要9位",
                     "dependency_status": "failed",
-                    "reason": "学生答案157位与正确答案9位严重不一致，数值错误。"
+                    "reason": "学生答案13位，标准答案为9位，数值错误。"
                 },
                 {
                     "id": "q6_p1_microinstruction_length_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p1_microinstruction_length_bits: \"32\"",
+                    "evidence_text": "32位",
                     "expected_condition": "每条微指令的总长度为168位",
                     "dependency_status": "failed",
-                    "reason": "学生答案32位与正确答案168位严重不符，数值错误。"
+                    "reason": "学生答案32位，标准答案为168位，数值严重错误。"
                 },
                 {
                     "id": "q6_p2_control_memory_total_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p2_control_memory_total_bits: \"2¹³\"",
+                    "evidence_text": "2¹³位",
                     "expected_condition": "控制存储器总容量为86016位",
                     "dependency_status": "failed",
-                    "reason": "学生答案2¹³=8192位与正确答案86016位不一致，数值错误。"
+                    "reason": "学生答案2¹³=8192位，标准答案为86016位，数值错误。"
                 },
                 {
                     "id": "q6_p2_control_memory_total_bytes",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "q6_p2_control_memory_total_bytes: \"1K字节\"",
+                    "evidence_text": "1K字节",
                     "expected_condition": "控制存储器总容量为10752字节",
                     "dependency_status": "failed",
-                    "reason": "学生答案1K字节=1024字节与正确答案10752字节不一致，数值错误。"
+                    "reason": "学生答案1K字节=1024字节，标准答案为10752字节，数值错误。"
                 }
             ],
             "total_score": 3
@@ -1927,245 +1698,37 @@
                         "id": "q6_p1_group1_bits",
                         "score_given": 1,
                         "error_category": "MATCH",
-                        "evidence_text": "q6_p1_group1_bits: \"4\"",
+                        "evidence_text": "4位",
                         "expected_condition": "第1组互斥信号组需要4位",
                         "dependency_status": "satisfied",
-                        "reason": "学生给出的4位与参考答案一致。"
+                        "reason": "学生答案4位与标准答案完全一致。"
                     },
                     {
                         "id": "q6_p1_group2_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_group2_bits: \"3\"",
+                        "evidence_text": "3位",
                         "expected_condition": "第2组互斥信号组需要4位",
                         "dependency_status": "failed",
-                        "reason": "学生答案为3位，与正确答案4位不一致，数值错误。"
+                        "reason": "学生答案3位，标准答案为4位，数值错误。"
                     },
                     {
                         "id": "q6_p1_group3_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_group3_bits: \"4\"",
+                        "evidence_text": "4位",
                         "expected_condition": "第3组互斥信号组需要5位",
                         "dependency_status": "failed",
-                        "reason": "学生答案为4位，与正确答案5位不一致，数值错误。"
+                        "reason": "学生答案4位，标准答案为5位，数值错误。"
                     },
                     {
                         "id": "q6_p1_group4_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_group4_bits: \"2\"",
+                        "evidence_text": "2位",
                         "expected_condition": "第4组互斥信号组需要3位",
                         "dependency_status": "failed",
-                        "reason": "学生答案为2位，与正确答案3位不一致，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_non_mutually_exclusive_signals",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_non_mutually_exclusive_signals: \"144\"",
-                        "expected_condition": "非互斥信号数量为140条",
-                        "dependency_status": "failed",
-                        "reason": "学生答案为144条，与正确答案140条不符，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_control_field_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_control_field_total_bits: \"144\"",
-                        "expected_condition": "控制字段总位数为156位",
-                        "dependency_status": "failed",
-                        "reason": "学生答案144位与正确答案156位不一致，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_bcf_bits",
-                        "score_given": 2,
-                        "error_category": "MATCH",
-                        "evidence_text": "q6_p1_bcf_bits: \"3\"",
-                        "expected_condition": "分支控制字段（BCF）需要3位",
-                        "dependency_status": "satisfied",
-                        "reason": "学生给出的3位与参考答案一致。"
-                    },
-                    {
-                        "id": "q6_p1_baf_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_baf_bits: \"157\"",
-                        "expected_condition": "微地址字段（BAF）需要9位",
-                        "dependency_status": "failed",
-                        "reason": "学生答案157位与正确答案9位严重不一致，数值错误。"
-                    },
-                    {
-                        "id": "q6_p1_microinstruction_length_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_microinstruction_length_bits: \"32\"",
-                        "expected_condition": "每条微指令的总长度为168位",
-                        "dependency_status": "failed",
-                        "reason": "学生答案32位与正确答案168位严重不符，数值错误。"
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p2_control_memory_total_bits: \"2¹³\"",
-                        "expected_condition": "控制存储器总容量为86016位",
-                        "dependency_status": "failed",
-                        "reason": "学生答案2¹³=8192位与正确答案86016位不一致，数值错误。"
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bytes",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p2_control_memory_total_bytes: \"1K字节\"",
-                        "expected_condition": "控制存储器总容量为10752字节",
-                        "dependency_status": "failed",
-                        "reason": "学生答案1K字节=1024字节与正确答案10752字节不一致，数值错误。"
-                    }
-                ],
-                "total_score": 3
-            },
-            {
-                "details": [
-                    {
-                        "id": "q6_p1_group1_bits",
-                        "score_given": 1,
-                        "error_category": "MATCH",
-                        "evidence_text": "q6_p1_group1_bits: 4",
-                        "expected_condition": "第1组互斥信号组需要4位",
-                        "dependency_status": "satisfied",
-                        "reason": "Student value 4 matches the expected 4 bits exactly."
-                    },
-                    {
-                        "id": "q6_p1_group2_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_group2_bits: 3",
-                        "expected_condition": "第2组互斥信号组需要4位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 3 bits; expected is 4 bits. Numeric value is incorrect."
-                    },
-                    {
-                        "id": "q6_p1_group3_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_group3_bits: 4",
-                        "expected_condition": "第3组互斥信号组需要5位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 4 bits; expected is 5 bits. Numeric value is incorrect."
-                    },
-                    {
-                        "id": "q6_p1_group4_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_group4_bits: 2",
-                        "expected_condition": "第4组互斥信号组需要3位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 2 bits; expected is 3 bits. Numeric value is incorrect."
-                    },
-                    {
-                        "id": "q6_p1_non_mutually_exclusive_signals",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_non_mutually_exclusive_signals: 144",
-                        "expected_condition": "非互斥信号数量为140条",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 144 signals; expected is 140. Incorrect count."
-                    },
-                    {
-                        "id": "q6_p1_control_field_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_control_field_total_bits: 144",
-                        "expected_condition": "控制字段总位数为156位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 144 bits; expected is 156 bits. Numeric value is incorrect."
-                    },
-                    {
-                        "id": "q6_p1_bcf_bits",
-                        "score_given": 2,
-                        "error_category": "MATCH",
-                        "evidence_text": "q6_p1_bcf_bits: 3",
-                        "expected_condition": "分支控制字段（BCF）需要3位",
-                        "dependency_status": "satisfied",
-                        "reason": "Student value 3 matches the expected 3 bits exactly."
-                    },
-                    {
-                        "id": "q6_p1_baf_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_baf_bits: 157",
-                        "expected_condition": "微地址字段（BAF）需要9位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 157 bits; expected is 9 bits. Value is grossly incorrect and dimensionally implausible for a BAF field."
-                    },
-                    {
-                        "id": "q6_p1_microinstruction_length_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p1_microinstruction_length_bits: 32",
-                        "expected_condition": "每条微指令的总长度为168位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 32 bits; expected is 168 bits. Numeric value is incorrect."
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p2_control_memory_total_bits: 2¹³",
-                        "expected_condition": "控制存储器总容量为86016位",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 2¹³ (8192) bits; expected is 86016 bits. Numeric value is incorrect."
-                    },
-                    {
-                        "id": "q6_p2_control_memory_total_bytes",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "q6_p2_control_memory_total_bytes: 1K字节",
-                        "expected_condition": "控制存储器总容量为10752字节",
-                        "dependency_status": "failed",
-                        "reason": "Student answered 1K字节 (1024 bytes); expected is 10752 bytes. Numeric value is incorrect."
-                    }
-                ],
-                "total_score": 3
-            },
-            {
-                "details": [
-                    {
-                        "id": "q6_p1_group1_bits",
-                        "score_given": 1,
-                        "error_category": "MATCH",
-                        "evidence_text": "4",
-                        "expected_condition": "第1组互斥信号组需要4位",
-                        "dependency_status": "not_applicable",
-                        "reason": "Student correctly states 4 bits for group 1."
-                    },
-                    {
-                        "id": "q6_p1_group2_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "3",
-                        "expected_condition": "第2组互斥信号组需要4位",
-                        "dependency_status": "not_applicable",
-                        "reason": "Student states 3 bits, expected 4 bits."
-                    },
-                    {
-                        "id": "q6_p1_group3_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4",
-                        "expected_condition": "第3组互斥信号组需要5位",
-                        "dependency_status": "not_applicable",
-                        "reason": "Student states 4 bits, expected 5 bits."
-                    },
-                    {
-                        "id": "q6_p1_group4_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "2",
-                        "expected_condition": "第4组互斥信号组需要3位",
-                        "dependency_status": "not_applicable",
-                        "reason": "Student states 2 bits, expected 3 bits."
+                        "reason": "学生答案2位，标准答案为3位，数值错误。"
                     },
                     {
                         "id": "q6_p1_non_mutually_exclusive_signals",
@@ -2173,53 +1736,53 @@
                         "error_category": "SEMANTIC_FATAL",
                         "evidence_text": "144",
                         "expected_condition": "非互斥信号数量为140条",
-                        "dependency_status": "not_applicable",
-                        "reason": "Student states 144 signals, expected 140."
+                        "dependency_status": "failed",
+                        "reason": "学生答案144条，标准答案为140条，数值错误。"
                     },
                     {
                         "id": "q6_p1_control_field_total_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "144",
+                        "evidence_text": "8位",
                         "expected_condition": "控制字段总位数为156位",
-                        "dependency_status": "not_applicable",
-                        "reason": "Student states 144 bits, expected 156 bits."
+                        "dependency_status": "failed",
+                        "reason": "学生答案8位，标准答案为156位，数值严重错误。"
                     },
                     {
                         "id": "q6_p1_bcf_bits",
                         "score_given": 2,
                         "error_category": "MATCH",
-                        "evidence_text": "3",
+                        "evidence_text": "3位",
                         "expected_condition": "分支控制字段（BCF）需要3位",
-                        "dependency_status": "not_applicable",
-                        "reason": "Student correctly states 3 bits for BCF."
+                        "dependency_status": "satisfied",
+                        "reason": "学生答案3位与标准答案完全一致。"
                     },
                     {
                         "id": "q6_p1_baf_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "157",
+                        "evidence_text": "13位",
                         "expected_condition": "微地址字段（BAF）需要9位",
-                        "dependency_status": "not_applicable",
-                        "reason": "Student states 157 bits, expected 9 bits."
+                        "dependency_status": "failed",
+                        "reason": "学生答案13位，标准答案为9位，数值错误。"
                     },
                     {
                         "id": "q6_p1_microinstruction_length_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "32",
+                        "evidence_text": "32位",
                         "expected_condition": "每条微指令的总长度为168位",
-                        "dependency_status": "not_applicable",
-                        "reason": "Student states 32 bits, expected 168 bits."
+                        "dependency_status": "failed",
+                        "reason": "学生答案32位，标准答案为168位，数值严重错误。"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "2¹³",
+                        "evidence_text": "2¹³位",
                         "expected_condition": "控制存储器总容量为86016位",
-                        "dependency_status": "not_applicable",
-                        "reason": "Student states 2^13 bits, expected 86016 bits."
+                        "dependency_status": "failed",
+                        "reason": "学生答案2¹³=8192位，标准答案为86016位，数值错误。"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bytes",
@@ -2227,11 +1790,219 @@
                         "error_category": "SEMANTIC_FATAL",
                         "evidence_text": "1K字节",
                         "expected_condition": "控制存储器总容量为10752字节",
-                        "dependency_status": "not_applicable",
-                        "reason": "Student states 1K bytes, expected 10752 bytes."
+                        "dependency_status": "failed",
+                        "reason": "学生答案1K字节=1024字节，标准答案为10752字节，数值错误。"
                     }
                 ],
                 "total_score": 3
+            },
+            {
+                "details": [
+                    {
+                        "id": "q6_p1_group1_bits",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "第1组互斥信号组需要4位",
+                        "dependency_status": "satisfied",
+                        "reason": "Student answer 4位 matches the rubric requirement exactly."
+                    },
+                    {
+                        "id": "q6_p1_group2_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "3位",
+                        "expected_condition": "第2组互斥信号组需要4位",
+                        "dependency_status": "failed",
+                        "reason": "Student answers 3位, rubric requires 4位. Numerical value is incorrect."
+                    },
+                    {
+                        "id": "q6_p1_group3_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "4位",
+                        "expected_condition": "第3组互斥信号组需要5位",
+                        "dependency_status": "failed",
+                        "reason": "Student answers 4位, rubric requires 5位. Numerical value is incorrect."
+                    },
+                    {
+                        "id": "q6_p1_group4_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2位",
+                        "expected_condition": "第4组互斥信号组需要3位",
+                        "dependency_status": "failed",
+                        "reason": "Student answers 2位, rubric requires 3位. Numerical value is incorrect."
+                    },
+                    {
+                        "id": "q6_p1_non_mutually_exclusive_signals",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "144",
+                        "expected_condition": "非互斥信号数量为140条",
+                        "dependency_status": "failed",
+                        "reason": "Student answers 144, rubric requires 140. Numerical value is incorrect."
+                    },
+                    {
+                        "id": "q6_p1_control_field_total_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "8位",
+                        "expected_condition": "控制字段总位数为156位",
+                        "dependency_status": "failed",
+                        "reason": "Student answers 8位, rubric requires 156位. Value is drastically incorrect and inconsistent with other provided figures."
+                    },
+                    {
+                        "id": "q6_p1_bcf_bits",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "3位",
+                        "expected_condition": "分支控制字段（BCF）需要3位",
+                        "dependency_status": "satisfied",
+                        "reason": "Student answer 3位 matches the rubric requirement exactly."
+                    },
+                    {
+                        "id": "q6_p1_baf_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "13位",
+                        "expected_condition": "微地址字段（BAF）需要9位",
+                        "dependency_status": "failed",
+                        "reason": "Student answers 13位, rubric requires 9位. Numerical value is incorrect."
+                    },
+                    {
+                        "id": "q6_p1_microinstruction_length_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "32位",
+                        "expected_condition": "每条微指令的总长度为168位",
+                        "dependency_status": "failed",
+                        "reason": "Student answers 32位, rubric requires 168位. Value is significantly incorrect."
+                    },
+                    {
+                        "id": "q6_p2_control_memory_total_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2¹³位",
+                        "expected_condition": "控制存储器总容量为86016位",
+                        "dependency_status": "failed",
+                        "reason": "2¹³ = 8192位, which does not equal 86016位. Numerical value is incorrect."
+                    },
+                    {
+                        "id": "q6_p2_control_memory_total_bytes",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1K字节",
+                        "expected_condition": "控制存储器总容量为10752字节",
+                        "dependency_status": "failed",
+                        "reason": "1K字节 = 1024字节, which does not equal 10752字节. Numerical value is incorrect."
+                    }
+                ],
+                "total_score": 3
+            },
+            {
+                "details": [
+                    {
+                        "id": "q6_p1_group1_bits",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "第1组互斥信号组需要4位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生答案4位与标准答案完全一致。"
+                    },
+                    {
+                        "id": "q6_p1_group2_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "3位",
+                        "expected_condition": "第2组互斥信号组需要4位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案3位与标准答案4位不符，相对误差25%，超过10%容差。"
+                    },
+                    {
+                        "id": "q6_p1_group3_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "4位",
+                        "expected_condition": "第3组互斥信号组需要5位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案4位与标准答案5位不符，相对误差20%，超过10%容差。"
+                    },
+                    {
+                        "id": "q6_p1_group4_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2位",
+                        "expected_condition": "第4组互斥信号组需要3位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案2位与标准答案3位不符，相对误差33%，超过10%容差。"
+                    },
+                    {
+                        "id": "q6_p1_non_mutually_exclusive_signals",
+                        "score_given": 1,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "144",
+                        "expected_condition": "非互斥信号数量为140条",
+                        "dependency_status": "insufficient",
+                        "reason": "学生答案144接近标准答案140（相对误差2.86%），但对于离散精确计数值仍有偏差，可能是上游分组信号数计算错误的传播结果，给部分分。"
+                    },
+                    {
+                        "id": "q6_p1_control_field_total_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "8位",
+                        "expected_condition": "控制字段总位数为156位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案8位与标准答案156位相差极大，相对误差约95%，严重数值错误。"
+                    },
+                    {
+                        "id": "q6_p1_bcf_bits",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "3位",
+                        "expected_condition": "分支控制字段（BCF）需要3位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生答案3位与标准答案完全一致。"
+                    },
+                    {
+                        "id": "q6_p1_baf_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "13位",
+                        "expected_condition": "微地址字段（BAF）需要9位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案13位与标准答案9位不符，相对误差44%，超过10%容差。"
+                    },
+                    {
+                        "id": "q6_p1_microinstruction_length_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "32位",
+                        "expected_condition": "每条微指令的总长度为168位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案32位与标准答案168位相差极大，可能是上游各字段错误累积传播所致，但数值严重错误。"
+                    },
+                    {
+                        "id": "q6_p2_control_memory_total_bits",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2¹³位",
+                        "expected_condition": "控制存储器总容量为86016位",
+                        "dependency_status": "failed",
+                        "reason": "学生答案2¹³=8192位与标准答案86016位相差极大，相对误差约90%，严重数值错误。"
+                    },
+                    {
+                        "id": "q6_p2_control_memory_total_bytes",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1K字节",
+                        "expected_condition": "控制存储器总容量为10752字节",
+                        "dependency_status": "failed",
+                        "reason": "学生答案1K=1024字节与标准答案10752字节相差极大。虽然学生自身bit到byte的换算关系一致（2¹³/8=1K），但基础数值严重错误，最终结果不正确。"
+                    }
+                ],
+                "total_score": 4
             }
         ]
     },
@@ -2239,36 +2010,53 @@
         "student_id": "E12314173_Q6",
         "teacher_score": 8.0,
         "model_scores_history": [
-            2,
-            2,
-            2
+            3,
+            3,
+            3
         ],
-        "model_avg_score": 2.0,
+        "model_avg_score": 3.0,
+        "selected_baseline_score": 3.0,
+        "baseline_policy": "model_avg",
+        "baseline_score_source": "model_avg_score",
+        "baseline_selection_signals": {
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": true,
+            "task_type": "calculation_derivation",
+            "final_answer_weight_high": true,
+            "upper_consensus_ready": false,
+            "high_over_unsafe": true,
+            "high_score_safety_review": false,
+            "score_history_min": 3.0,
+            "score_history_max": 3.0,
+            "score_history_median": 3.0,
+            "score_spread_ratio": 0.0,
+            "selected_ratio": 0.15
+        },
         "std_dev": 0.0,
         "blank_rate": 0.09,
         "perception_failure_rate": 0.0,
         "low_quality_extraction_rate": 0.0,
         "extraction_quality": "high",
-        "real_diff": 6.0,
+        "real_diff": 5.0,
         "3wd_route": "NEG",
-        "final_calibrated_score": 2.0,
+        "final_calibrated_score": 3.0,
         "requires_human_arbitration": true,
         "perception_risk": 0.0,
         "uncertainty_index": 0.0,
-        "fatal_points_ratio": 0.8,
+        "fatal_points_ratio": 0.75,
         "high_blank_high_score": false,
         "lenient_review_signal": true,
         "risk_features": {
             "perception_risk": 0.0,
             "uncertainty_index": 0.0,
-            "fatal_points_ratio": 0.8,
+            "fatal_points_ratio": 0.75,
             "high_blank_high_score": false,
             "lenient_review_signal": true,
             "reject_domain": true,
             "boundary_domain": false,
             "std_ratio": 0.0,
             "spread_ratio": 0.0,
-            "avg_ratio": 0.1,
+            "avg_ratio": 0.15,
             "score_spread": 0,
             "blank_rate": 0.0909,
             "low_quality_rate": 0.0,
@@ -2279,12 +2067,12 @@
             "method_final_verified_ratio": 0.0,
             "direct_points_ratio": 0.0,
             "direct_awarded_ratio": 0.0,
-            "result_correctness_signal": 0.1,
-            "result_strong_signal": 0.1,
-            "method_evidence_signal": 0.1,
+            "result_correctness_signal": 0.15,
+            "result_strong_signal": 0.15,
+            "method_evidence_signal": 0.15,
             "partial_or_format_points_ratio": 0.0,
-            "bare_answer_risk": 0.09,
-            "lenient_undercredit_signal": 0.0064,
+            "bare_answer_risk": 0.1275,
+            "lenient_undercredit_signal": 0.0137,
             "unsupported_high_score_risk": 0.0,
             "metadata_coverage": 1.0,
             "explicit_chain_coverage": 0.0,
@@ -2293,9 +2081,53 @@
             "weak_result_high_score_review": false,
             "stable_undercredit_review": false,
             "direct_only_high_score_risk": false,
+            "task_type": "calculation_derivation",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": true,
+            "rubric_task_profile": {
+                "task_type": "calculation_derivation",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "calculation_or_derivation": true,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 0.5,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 1.0,
+                "visual_sequence_points_ratio": 0.0,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "answer_type_counts": {
+                    "derived_numeric": 11
+                },
+                "answer_type_points": {
+                    "derived_numeric": 20.0
+                }
+            },
             "calibration_rule_hits": [],
-            "a3wa_risk": 0.203636,
-            "a3wa_mu": 0.796364,
+            "model_avg_ratio": 0.15,
+            "selected_baseline_score": 3.0,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "task_type": "calculation_derivation",
+                "final_answer_weight_high": true,
+                "upper_consensus_ready": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "score_history_min": 3.0,
+                "score_history_max": 3.0,
+                "score_history_median": 3.0,
+                "score_spread_ratio": 0.0,
+                "selected_ratio": 0.15
+            },
+            "high_score_safety_review": false,
+            "a3wa_risk": 0.193636,
+            "a3wa_mu": 0.806364,
             "a3wa_alpha": 0.828571,
             "a3wa_beta": 0.285714,
             "a3wa_m": 0.4,
@@ -2304,10 +2136,10 @@
             "a3wa_risk_components": {
                 "U_extract": 0.0,
                 "U_score": 0.1,
-                "U_semantic": 0.8,
+                "U_semantic": 0.75,
                 "U_blank": 0.090909,
-                "U_overcredit": 0.08,
-                "L_lenient_undercredit": 0.0064,
+                "U_overcredit": 0.1125,
+                "L_lenient_undercredit": 0.0137,
                 "U_unsupported_high_score": 0.0,
                 "normalized_std": 0.0,
                 "score_spread_norm": 0.0
@@ -2321,15 +2153,43 @@
             "method_final_verified_ratio": 0.0,
             "direct_points_ratio": 0.0,
             "direct_awarded_ratio": 0.0,
-            "result_correctness_signal": 0.1,
-            "result_strong_signal": 0.1,
-            "method_evidence_signal": 0.1,
+            "result_correctness_signal": 0.15,
+            "result_strong_signal": 0.15,
+            "method_evidence_signal": 0.15,
             "partial_or_format_points_ratio": 0.0,
-            "bare_answer_risk": 0.09,
-            "lenient_undercredit_signal": 0.0064,
+            "bare_answer_risk": 0.1275,
+            "lenient_undercredit_signal": 0.0137,
             "unsupported_high_score_risk": 0.0,
             "metadata_coverage": 1.0,
             "explicit_chain_coverage": 0.0,
+            "task_type": "calculation_derivation",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": true,
+            "calculation_or_derivation": true,
+            "algorithmic_or_mapping": true,
+            "final_answer_weight_high": true,
+            "rubric_task_profile": {
+                "task_type": "calculation_derivation",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "calculation_or_derivation": true,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 0.5,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 1.0,
+                "visual_sequence_points_ratio": 0.0,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "answer_type_counts": {
+                    "derived_numeric": 11
+                },
+                "answer_type_points": {
+                    "derived_numeric": 20.0
+                }
+            },
             "core_anchor_failed": false,
             "weak_result_high_score_review": false,
             "stable_undercredit_review": false,
@@ -2339,7 +2199,28 @@
             "reject_domain": false,
             "lower_bound": 0.0,
             "upper_bound": 20.0,
-            "rule_hits": []
+            "rule_hits": [],
+            "selected_baseline_score": 3.0,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": true,
+                "task_type": "calculation_derivation",
+                "final_answer_weight_high": true,
+                "upper_consensus_ready": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "score_history_min": 3.0,
+                "score_history_max": 3.0,
+                "score_history_median": 3.0,
+                "score_spread_ratio": 0.0,
+                "selected_ratio": 0.15
+            },
+            "score_history_max": 3.0,
+            "score_history_median": 3.0,
+            "score_history_min": 3.0,
+            "high_score_safety_review": false
         },
         "a3wa_decision": {
             "route": "NEG",
@@ -2347,9 +2228,9 @@
             "hard_neg_reasons": [
                 "semantic_risk_too_high"
             ],
-            "risk": 0.203636,
-            "confidence": 0.796364,
-            "mu": 0.796364,
+            "risk": 0.193636,
+            "confidence": 0.806364,
+            "mu": 0.806364,
             "alpha": 0.828571,
             "beta": 0.285714,
             "m": 0.4,
@@ -2360,10 +2241,10 @@
             "risk_components": {
                 "U_extract": 0.0,
                 "U_score": 0.1,
-                "U_semantic": 0.8,
+                "U_semantic": 0.75,
                 "U_blank": 0.090909,
-                "U_overcredit": 0.08,
-                "L_lenient_undercredit": 0.0064,
+                "U_overcredit": 0.1125,
+                "L_lenient_undercredit": 0.0137,
                 "U_unsupported_high_score": 0.0,
                 "normalized_std": 0.0,
                 "score_spread_norm": 0.0
@@ -2374,44 +2255,44 @@
         "arbitration_decision": "accept",
         "reason_log": "A3WA硬拒判：semantic_risk_too_high",
         "human_review_hint": "A3WA硬拒判：semantic_risk_too_high",
-        "facts": "{\"q6_p1_group1_bits\": \"12\", \"q6_p1_group2_bits\": \"6\", \"q6_p1_group3_bits\": \"4\", \"q6_p1_group4_bits\": \"4\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"16\", \"q6_p1_bcf_bits\": \"2\", \"q6_p1_baf_bits\": \"9\", \"q6_p1_microinstruction_length_bits\": \"16\", \"q6_p2_control_memory_total_bits\": \"25\", \"q6_p2_control_memory_total_bytes\": \"409B\"}",
+        "facts": "{\"q6_p1_group1_bits\": \"4位\", \"q6_p1_group2_bits\": \"3位\", \"q6_p1_group3_bits\": \"4位\", \"q6_p1_group4_bits\": \"2位\", \"q6_p1_non_mutually_exclusive_signals\": \"未书写\", \"q6_p1_control_field_total_bits\": \"16位\", \"q6_p1_bcf_bits\": \"2位\", \"q6_p1_baf_bits\": \"9位\", \"q6_p1_microinstruction_length_bits\": \"16位\", \"q6_p2_control_memory_total_bits\": \"25位\", \"q6_p2_control_memory_total_bytes\": \"40B\"}",
         "strict_cot": {
             "details": [
                 {
                     "id": "q6_p1_group1_bits",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "12",
+                    "score_given": 1,
+                    "error_category": "MATCH",
+                    "evidence_text": "4位",
                     "expected_condition": "第1组互斥信号组需要4位",
-                    "dependency_status": "failed",
-                    "reason": "学生填写12位，与正确值4位不符，数值错误。"
+                    "dependency_status": "satisfied",
+                    "reason": "学生答案4位与评分标准期望完全一致。"
                 },
                 {
                     "id": "q6_p1_group2_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "6",
+                    "evidence_text": "3位",
                     "expected_condition": "第2组互斥信号组需要4位",
                     "dependency_status": "failed",
-                    "reason": "学生填写6位，与正确值4位不符，数值错误。"
+                    "reason": "学生给出3位，与期望值4位不一致，属数值错误。"
                 },
                 {
                     "id": "q6_p1_group3_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "4",
+                    "evidence_text": "4位",
                     "expected_condition": "第3组互斥信号组需要5位",
                     "dependency_status": "failed",
-                    "reason": "学生填写4位，与正确值5位不符，数值错误。"
+                    "reason": "学生给出4位，与期望值5位不一致，属数值错误。"
                 },
                 {
                     "id": "q6_p1_group4_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "4",
+                    "evidence_text": "2位",
                     "expected_condition": "第4组互斥信号组需要3位",
                     "dependency_status": "failed",
-                    "reason": "学生填写4位，与正确值3位不符，数值错误。"
+                    "reason": "学生给出2位，与期望值3位不一致，属数值错误。"
                 },
                 {
                     "id": "q6_p1_non_mutually_exclusive_signals",
@@ -2420,103 +2301,103 @@
                     "evidence_text": "未书写",
                     "expected_condition": "非互斥信号数量为140条",
                     "dependency_status": "failed",
-                    "reason": "提取事实为'未书写'，学生未作答该空，无法给分。"
+                    "reason": "学生未书写该内容，无法得分。"
                 },
                 {
                     "id": "q6_p1_control_field_total_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "16",
+                    "evidence_text": "16位",
                     "expected_condition": "控制字段总位数为156位",
                     "dependency_status": "failed",
-                    "reason": "学生填写16位，与正确值156位严重不符，数值错误。"
+                    "reason": "学生给出16位，与期望156位相差悬殊，属结论性数值错误。"
                 },
                 {
                     "id": "q6_p1_bcf_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "2",
+                    "evidence_text": "2位",
                     "expected_condition": "分支控制字段（BCF）需要3位",
                     "dependency_status": "failed",
-                    "reason": "学生填写2位，与正确值3位不符，数值错误。"
+                    "reason": "学生给出2位，与期望3位不一致，属数值错误。"
                 },
                 {
                     "id": "q6_p1_baf_bits",
                     "score_given": 2,
                     "error_category": "MATCH",
-                    "evidence_text": "9",
+                    "evidence_text": "9位",
                     "expected_condition": "微地址字段（BAF）需要9位",
                     "dependency_status": "satisfied",
-                    "reason": "学生填写9位，与正确值完全一致。"
+                    "reason": "学生答案9位与评分标准期望完全一致。"
                 },
                 {
                     "id": "q6_p1_microinstruction_length_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "16",
+                    "evidence_text": "16位",
                     "expected_condition": "每条微指令的总长度为168位",
                     "dependency_status": "failed",
-                    "reason": "学生填写16位，与正确值168位严重不符，数值错误。"
+                    "reason": "学生给出16位，与期望168位不一致，属结论性数值错误。"
                 },
                 {
                     "id": "q6_p2_control_memory_total_bits",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "25",
+                    "evidence_text": "25位",
                     "expected_condition": "控制存储器总容量为86016位",
                     "dependency_status": "failed",
-                    "reason": "学生填写25位，与正确值86016位严重不符，数值错误。"
+                    "reason": "学生给出25位，与期望86016位不一致，属结论性数值错误。"
                 },
                 {
                     "id": "q6_p2_control_memory_total_bytes",
                     "score_given": 0,
                     "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "409B",
+                    "evidence_text": "40B",
                     "expected_condition": "控制存储器总容量为10752字节",
                     "dependency_status": "failed",
-                    "reason": "学生填写409B，与正确值10752字节严重不符，数值错误。"
+                    "reason": "学生给出40B，与期望10752字节不一致，属结论性数值错误。"
                 }
             ],
-            "total_score": 2
+            "total_score": 3
         },
         "strict_cots_all": [
             {
                 "details": [
                     {
                         "id": "q6_p1_group1_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "12",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
                         "expected_condition": "第1组互斥信号组需要4位",
-                        "dependency_status": "failed",
-                        "reason": "学生填写12位，与正确值4位不符，数值错误。"
+                        "dependency_status": "satisfied",
+                        "reason": "学生答案4位与评分标准期望完全一致。"
                     },
                     {
                         "id": "q6_p1_group2_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "6",
+                        "evidence_text": "3位",
                         "expected_condition": "第2组互斥信号组需要4位",
                         "dependency_status": "failed",
-                        "reason": "学生填写6位，与正确值4位不符，数值错误。"
+                        "reason": "学生给出3位，与期望值4位不一致，属数值错误。"
                     },
                     {
                         "id": "q6_p1_group3_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4",
+                        "evidence_text": "4位",
                         "expected_condition": "第3组互斥信号组需要5位",
                         "dependency_status": "failed",
-                        "reason": "学生填写4位，与正确值5位不符，数值错误。"
+                        "reason": "学生给出4位，与期望值5位不一致，属数值错误。"
                     },
                     {
                         "id": "q6_p1_group4_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4",
+                        "evidence_text": "2位",
                         "expected_condition": "第4组互斥信号组需要3位",
                         "dependency_status": "failed",
-                        "reason": "学生填写4位，与正确值3位不符，数值错误。"
+                        "reason": "学生给出2位，与期望值3位不一致，属数值错误。"
                     },
                     {
                         "id": "q6_p1_non_mutually_exclusive_signals",
@@ -2525,102 +2406,102 @@
                         "evidence_text": "未书写",
                         "expected_condition": "非互斥信号数量为140条",
                         "dependency_status": "failed",
-                        "reason": "提取事实为'未书写'，学生未作答该空，无法给分。"
+                        "reason": "学生未书写该内容，无法得分。"
                     },
                     {
                         "id": "q6_p1_control_field_total_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "16",
+                        "evidence_text": "16位",
                         "expected_condition": "控制字段总位数为156位",
                         "dependency_status": "failed",
-                        "reason": "学生填写16位，与正确值156位严重不符，数值错误。"
+                        "reason": "学生给出16位，与期望156位相差悬殊，属结论性数值错误。"
                     },
                     {
                         "id": "q6_p1_bcf_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "2",
+                        "evidence_text": "2位",
                         "expected_condition": "分支控制字段（BCF）需要3位",
                         "dependency_status": "failed",
-                        "reason": "学生填写2位，与正确值3位不符，数值错误。"
+                        "reason": "学生给出2位，与期望3位不一致，属数值错误。"
                     },
                     {
                         "id": "q6_p1_baf_bits",
                         "score_given": 2,
                         "error_category": "MATCH",
-                        "evidence_text": "9",
+                        "evidence_text": "9位",
                         "expected_condition": "微地址字段（BAF）需要9位",
                         "dependency_status": "satisfied",
-                        "reason": "学生填写9位，与正确值完全一致。"
+                        "reason": "学生答案9位与评分标准期望完全一致。"
                     },
                     {
                         "id": "q6_p1_microinstruction_length_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "16",
+                        "evidence_text": "16位",
                         "expected_condition": "每条微指令的总长度为168位",
                         "dependency_status": "failed",
-                        "reason": "学生填写16位，与正确值168位严重不符，数值错误。"
+                        "reason": "学生给出16位，与期望168位不一致，属结论性数值错误。"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "25",
+                        "evidence_text": "25位",
                         "expected_condition": "控制存储器总容量为86016位",
                         "dependency_status": "failed",
-                        "reason": "学生填写25位，与正确值86016位严重不符，数值错误。"
+                        "reason": "学生给出25位，与期望86016位不一致，属结论性数值错误。"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bytes",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "409B",
+                        "evidence_text": "40B",
                         "expected_condition": "控制存储器总容量为10752字节",
                         "dependency_status": "failed",
-                        "reason": "学生填写409B，与正确值10752字节严重不符，数值错误。"
+                        "reason": "学生给出40B，与期望10752字节不一致，属结论性数值错误。"
                     }
                 ],
-                "total_score": 2
+                "total_score": 3
             },
             {
                 "details": [
                     {
                         "id": "q6_p1_group1_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "12",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
                         "expected_condition": "第1组互斥信号组需要4位",
-                        "dependency_status": "failed",
-                        "reason": "学生给出12位，与正确值4位不符，数值错误。"
+                        "dependency_status": "satisfied",
+                        "reason": "学生答案4位与标准答案完全一致"
                     },
                     {
                         "id": "q6_p1_group2_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "6",
+                        "evidence_text": "3位",
                         "expected_condition": "第2组互斥信号组需要4位",
                         "dependency_status": "failed",
-                        "reason": "学生给出6位，与正确值4位不符。"
+                        "reason": "学生答案3位与标准答案4位不符，数值错误"
                     },
                     {
                         "id": "q6_p1_group3_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4",
+                        "evidence_text": "4位",
                         "expected_condition": "第3组互斥信号组需要5位",
                         "dependency_status": "failed",
-                        "reason": "学生给出4位，与正确值5位不符。"
+                        "reason": "学生答案4位与标准答案5位不符，数值错误"
                     },
                     {
                         "id": "q6_p1_group4_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4",
+                        "evidence_text": "2位",
                         "expected_condition": "第4组互斥信号组需要3位",
                         "dependency_status": "failed",
-                        "reason": "学生给出4位，与正确值3位不符。"
+                        "reason": "学生答案2位与标准答案3位不符，数值错误"
                     },
                     {
                         "id": "q6_p1_non_mutually_exclusive_signals",
@@ -2629,102 +2510,102 @@
                         "evidence_text": "未书写",
                         "expected_condition": "非互斥信号数量为140条",
                         "dependency_status": "failed",
-                        "reason": "提取结果显示学生未书写该内容。"
+                        "reason": "学生未书写该内容"
                     },
                     {
                         "id": "q6_p1_control_field_total_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "16",
+                        "evidence_text": "16位",
                         "expected_condition": "控制字段总位数为156位",
                         "dependency_status": "failed",
-                        "reason": "学生给出16位，与正确值156位相差悬殊，数值错误。"
+                        "reason": "学生答案16位与标准答案156位相差极大，数值错误"
                     },
                     {
                         "id": "q6_p1_bcf_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "2",
+                        "evidence_text": "2位",
                         "expected_condition": "分支控制字段（BCF）需要3位",
                         "dependency_status": "failed",
-                        "reason": "学生给出2位，与正确值3位不符。"
+                        "reason": "学生答案2位与标准答案3位不符，数值错误"
                     },
                     {
                         "id": "q6_p1_baf_bits",
                         "score_given": 2,
                         "error_category": "MATCH",
-                        "evidence_text": "9",
+                        "evidence_text": "9位",
                         "expected_condition": "微地址字段（BAF）需要9位",
                         "dependency_status": "satisfied",
-                        "reason": "学生给出9位，与正确值完全一致。"
+                        "reason": "学生答案9位与标准答案完全一致"
                     },
                     {
                         "id": "q6_p1_microinstruction_length_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "16",
+                        "evidence_text": "16位",
                         "expected_condition": "每条微指令的总长度为168位",
                         "dependency_status": "failed",
-                        "reason": "学生给出16位，与正确值168位严重不符。"
+                        "reason": "学生答案16位与标准答案168位不符，数值错误"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "25",
+                        "evidence_text": "25位",
                         "expected_condition": "控制存储器总容量为86016位",
                         "dependency_status": "failed",
-                        "reason": "学生给出25位，与正确值86016位严重不符。"
+                        "reason": "学生答案25位与标准答案86016位相差极大，数值错误"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bytes",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "409B",
+                        "evidence_text": "40B",
                         "expected_condition": "控制存储器总容量为10752字节",
                         "dependency_status": "failed",
-                        "reason": "学生给出409字节，与正确值10752字节严重不符。"
+                        "reason": "学生答案40B与标准答案10752字节不符，数值错误"
                     }
                 ],
-                "total_score": 2
+                "total_score": 3
             },
             {
                 "details": [
                     {
                         "id": "q6_p1_group1_bits",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "12",
+                        "score_given": 1,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
                         "expected_condition": "第1组互斥信号组需要4位",
-                        "dependency_status": "failed",
-                        "reason": "学生答案12位，与标准答案4位不符，数值错误。"
+                        "dependency_status": "satisfied",
+                        "reason": "学生答案4位与标准答案完全一致。"
                     },
                     {
                         "id": "q6_p1_group2_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "6",
+                        "evidence_text": "3位",
                         "expected_condition": "第2组互斥信号组需要4位",
                         "dependency_status": "failed",
-                        "reason": "学生答案6位，与标准答案4位不符，数值错误。"
+                        "reason": "学生答案3位与标准答案4位不符，数值错误。"
                     },
                     {
                         "id": "q6_p1_group3_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4",
+                        "evidence_text": "4位",
                         "expected_condition": "第3组互斥信号组需要5位",
                         "dependency_status": "failed",
-                        "reason": "学生答案4位，与标准答案5位不符，数值错误。"
+                        "reason": "学生答案4位与标准答案5位不符，数值错误。"
                     },
                     {
                         "id": "q6_p1_group4_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "4",
+                        "evidence_text": "2位",
                         "expected_condition": "第4组互斥信号组需要3位",
                         "dependency_status": "failed",
-                        "reason": "学生答案4位，与标准答案3位不符，数值错误。"
+                        "reason": "学生答案2位与标准答案3位不符，数值错误。"
                     },
                     {
                         "id": "q6_p1_non_mutually_exclusive_signals",
@@ -2733,64 +2614,64 @@
                         "evidence_text": "未书写",
                         "expected_condition": "非互斥信号数量为140条",
                         "dependency_status": "failed",
-                        "reason": "学生未书写该项内容。"
+                        "reason": "学生未书写该内容，无法评分。"
                     },
                     {
                         "id": "q6_p1_control_field_total_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "16",
+                        "evidence_text": "16位",
                         "expected_condition": "控制字段总位数为156位",
                         "dependency_status": "failed",
-                        "reason": "学生答案16位，与标准答案156位严重不符，数值错误。"
+                        "reason": "学生答案16位与标准答案156位差距极大，数值严重错误。"
                     },
                     {
                         "id": "q6_p1_bcf_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "2",
+                        "evidence_text": "2位",
                         "expected_condition": "分支控制字段（BCF）需要3位",
                         "dependency_status": "failed",
-                        "reason": "学生答案2位，与标准答案3位不符，数值错误。"
+                        "reason": "学生答案2位与标准答案3位不符，数值错误。"
                     },
                     {
                         "id": "q6_p1_baf_bits",
                         "score_given": 2,
                         "error_category": "MATCH",
-                        "evidence_text": "9",
+                        "evidence_text": "9位",
                         "expected_condition": "微地址字段（BAF）需要9位",
                         "dependency_status": "satisfied",
-                        "reason": "学生答案9位，与标准答案9位一致。"
+                        "reason": "学生答案9位与标准答案完全一致。"
                     },
                     {
                         "id": "q6_p1_microinstruction_length_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "16",
+                        "evidence_text": "16位",
                         "expected_condition": "每条微指令的总长度为168位",
                         "dependency_status": "failed",
-                        "reason": "学生答案16位，与标准答案168位严重不符，数值错误。"
+                        "reason": "学生答案16位与标准答案168位严重不符。"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bits",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "25",
+                        "evidence_text": "25位",
                         "expected_condition": "控制存储器总容量为86016位",
                         "dependency_status": "failed",
-                        "reason": "学生答案25位，与标准答案86016位严重不符，数值错误。"
+                        "reason": "学生答案25位与标准答案86016位严重不符，概念或计算错误。"
                     },
                     {
                         "id": "q6_p2_control_memory_total_bytes",
                         "score_given": 0,
                         "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "409B",
+                        "evidence_text": "40B",
                         "expected_condition": "控制存储器总容量为10752字节",
                         "dependency_status": "failed",
-                        "reason": "学生答案409B，与标准答案10752字节严重不符，数值错误。"
+                        "reason": "学生答案40B与标准答案10752字节严重不符。"
                     }
                 ],
-                "total_score": 2
+                "total_score": 3
             }
         ]
     }

@@ -1,16 +1,31 @@
 """
 RefGrader evaluation script.
 
-Usage:
+用法:
+  # 使用默认题目集合进行最终三支决策分数评估。
   python evaluate.py
-  python evaluate.py --score-key model_avg_score
-  python evaluate.py --score-key selected_baseline_score
-  python evaluate.py --score-key single_first_score
-  python evaluate.py --questions Q5 Q7 --detail
-  python evaluate.py --score-key model_avg_score --detail
-  python evaluate.py --compare
-  python evaluate.py --compare --questions Q6 Q7
-  python evaluate.py --compare --questions Q6 Q7 --compare-score-keys avg selected 3wd
+
+  # 指定某一种分数来源进行评估。支持以下简写:
+  # single -> 第一次模型评分 single_first_score
+  # avg -> 三次模型评分均分 model_avg_score
+  # selected -> 三支决策选择后的基础分 selected_baseline_score
+  # 3wd -> 最终三支决策分数 final_calibrated_score
+  python evaluate.py --score-key 3wd
+  python evaluate.py --score-key avg
+  python evaluate.py --score-key selected
+  python evaluate.py --score-key single
+
+  # 只评估指定题目，例如只评估 Q6 和 Q7。
+  python evaluate.py --questions Q6 Q7
+
+  # 输出逐学生明细，并按绝对误差从大到小排序，便于定位异常样本。
+  python evaluate.py --questions Q6 Q7 --detail
+
+  # 在同一张表中对比 single / avg / selected / 3wd 四种分数形式。
+  python evaluate.py --compare --questions Q6 Q7 --compare-score-keys single avg selected 3wd
+
+  # 将逐学生的 single / avg / selected / 3wd 对比结果导出为 CSV，便于人工分析。
+  python evaluate.py --compare --questions Q6 Q7 --compare-score-keys single avg selected 3wd --compare-output outputs/q6_q7_compare.csv
 """
 
 import json
@@ -102,6 +117,9 @@ COMPARE_SCORE_KEYS = (
     "selected_baseline_score",
     "final_calibrated_score",
 )
+
+SERIOUS_ERROR_THRESHOLD = 2.0
+REVIEW_ROUTES = {"BND", "NEG"}
 
 SCORE_KEY_ALIASES = {
     "single": "single_first_score",
@@ -342,12 +360,23 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
                 "avg_diff": round(avg - teacher, 2),
                 "selected_diff": round(selected - teacher, 2),
                 "final_diff": round(final - teacher, 2),
+                "selected_abs_error": round(selected_abs, 2),
+                "final_abs_error": round(final_abs, 2),
                 "avg_gain_vs_single": round(single_abs - avg_abs, 2),
                 "selected_gain_vs_avg": round(avg_abs - selected_abs, 2),
                 "final_gain_vs_selected": round(selected_abs - final_abs, 2),
                 "final_gain_vs_avg": round(avg_abs - final_abs, 2),
                 "final_gain_vs_single": round(single_abs - final_abs, 2),
                 "route": r.get("3wd_route", ""),
+                "baseline_serious_error": selected_abs > SERIOUS_ERROR_THRESHOLD,
+                "risk_captured_by_route": (
+                    selected_abs > SERIOUS_ERROR_THRESHOLD
+                    and r.get("3wd_route", "") in REVIEW_ROUTES
+                ),
+                "safe_pos": (
+                    r.get("3wd_route", "") == "POS"
+                    and final_abs <= SERIOUS_ERROR_THRESHOLD
+                ),
                 "task_type": post_calibration.get("task_type", risk_features.get("task_type", "")),
                 "complex_derivation_task": post_calibration.get(
                     "complex_derivation_task",
@@ -374,9 +403,11 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
         "question", "student_id", "teacher",
         "single_first_score", "model_avg_score", "selected_baseline_score", "final_calibrated_score",
         "single_diff", "avg_diff", "selected_diff", "final_diff",
+        "selected_abs_error", "final_abs_error",
         "avg_gain_vs_single", "selected_gain_vs_avg", "final_gain_vs_selected",
         "final_gain_vs_avg", "final_gain_vs_single",
-        "route", "task_type", "complex_derivation_task", "upper_consensus_eligible",
+        "route", "baseline_serious_error", "risk_captured_by_route", "safe_pos",
+        "task_type", "complex_derivation_task", "upper_consensus_eligible",
         "baseline_policy", "baseline_score_source", "std_dev", "blank_rate", "boundary_action",
     ]
     with open(output_path, "w", encoding="utf-8-sig", newline="") as f:
@@ -384,6 +415,142 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
         writer.writeheader()
         writer.writerows(rows)
     return len(rows)
+
+
+def _format_rate(numerator, denominator):
+    if denominator <= 0:
+        return "--"
+    return f"{numerator / denominator:.1%}"
+
+
+def _format_mean(values, precision=3, signed=True):
+    if not values:
+        return "--"
+    fmt = f"{{:{'+' if signed else ''}.{precision}f}}"
+    return fmt.format(float(np.mean(values)))
+
+
+def collect_3wd_mechanism_records(questions, ts_db):
+    """Collect records needed to evaluate 3WD routing and BND correction."""
+    records = []
+    for q_id in questions:
+        path = f"{RESULTS_DIR}/{q_id}_graded_results.json"
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                results = json.load(f)
+        except FileNotFoundError:
+            continue
+
+        for r in results:
+            sid = r.get("student_id", "")
+            teacher = get_teacher(ts_db, sid, q_id)
+            baseline = get_score_value(r, "selected_baseline_score")
+            final = get_score_value(r, "final_calibrated_score")
+            if teacher is None or teacher < 0 or baseline is None or final is None:
+                continue
+            teacher = float(teacher)
+            baseline = float(baseline)
+            final = float(final)
+            records.append({
+                "q_id": q_id,
+                "sid": sid,
+                "teacher": teacher,
+                "baseline": baseline,
+                "final": final,
+                "route": r.get("3wd_route", ""),
+            })
+    return records
+
+
+def summarize_3wd_mechanism(records):
+    """Summarize route safety, serious-error capture, and BND correction gain."""
+    n = len(records)
+    pos_items = [r for r in records if r["route"] == "POS"]
+    review_items = [r for r in records if r["route"] in REVIEW_ROUTES]
+    serious_items = [
+        r for r in records
+        if abs(r["baseline"] - r["teacher"]) > SERIOUS_ERROR_THRESHOLD
+    ]
+    captured_items = [r for r in serious_items if r["route"] in REVIEW_ROUTES]
+    safe_pos_items = [
+        r for r in pos_items
+        if abs(r["final"] - r["teacher"]) <= SERIOUS_ERROR_THRESHOLD
+    ]
+    bnd_items = [r for r in records if r["route"] == "BND"]
+    bnd_gains = [
+        abs(r["baseline"] - r["teacher"]) - abs(r["final"] - r["teacher"])
+        for r in bnd_items
+    ]
+
+    return {
+        "n": n,
+        "pos": len(pos_items),
+        "review": len(review_items),
+        "serious": len(serious_items),
+        "captured": len(captured_items),
+        "safe_pos": len(safe_pos_items),
+        "bnd": len(bnd_items),
+        "bnd_gains": bnd_gains,
+        "bnd_improved": sum(1 for g in bnd_gains if g > 1e-9),
+        "bnd_worsened": sum(1 for g in bnd_gains if g < -1e-9),
+        "bnd_same": sum(1 for g in bnd_gains if abs(g) <= 1e-9),
+    }
+
+
+def print_3wd_mechanism_summary(questions, ts_db):
+    """Print compact mechanism metrics for the 3WD route itself."""
+    all_records = collect_3wd_mechanism_records(questions, ts_db)
+    if not all_records:
+        return
+
+    print()
+    print("  3WD mechanism summary | baseline=selected_baseline_score | serious error: abs(error) > 2")
+    print()
+
+    headers = [
+        "Q", "N", "POS cov", "Safe POS", "Risk recall",
+        "serious", "BND N", "BND gain", "BND +/0/-",
+    ]
+    rows = []
+    for q_id in questions:
+        q_records = [r for r in all_records if r["q_id"] == q_id]
+        if not q_records:
+            continue
+        mt = summarize_3wd_mechanism(q_records)
+        rows.append([
+            q_id,
+            str(mt["n"]),
+            _format_rate(mt["pos"], mt["n"]),
+            _format_rate(mt["safe_pos"], mt["pos"]),
+            _format_rate(mt["captured"], mt["serious"]),
+            f"{mt['captured']}/{mt['serious']}",
+            str(mt["bnd"]),
+            _format_mean(mt["bnd_gains"]),
+            f"{mt['bnd_improved']}/{mt['bnd_same']}/{mt['bnd_worsened']}",
+        ])
+
+    if len(questions) > 1:
+        mt = summarize_3wd_mechanism(all_records)
+        rows.append([
+            "GLOBAL",
+            str(mt["n"]),
+            _format_rate(mt["pos"], mt["n"]),
+            _format_rate(mt["safe_pos"], mt["pos"]),
+            _format_rate(mt["captured"], mt["serious"]),
+            f"{mt['captured']}/{mt['serious']}",
+            str(mt["bnd"]),
+            _format_mean(mt["bnd_gains"]),
+            f"{mt['bnd_improved']}/{mt['bnd_same']}/{mt['bnd_worsened']}",
+        ])
+
+    if rows:
+        print_closed_table(headers=headers, rows=rows, col_widths=[7, 5, 9, 10, 12, 9, 7, 10, 10])
+        print()
+        print("  Notes:")
+        print("    POS cov = POS routed samples / valid samples")
+        print("    Safe POS = POS samples with abs(final - teacher) <= 2 / POS samples")
+        print("    Risk recall = baseline serious-error samples routed to BND or NEG / baseline serious-error samples")
+        print("    BND gain = mean(abs(selected baseline - teacher) - abs(final - teacher)) on BND samples")
 
 
 def print_boundary_gain_audit(questions, ts_db):
@@ -680,6 +847,7 @@ def main():
                     )
 
     if args.compare and "final_calibrated_score" in compare_score_keys:
+        print_3wd_mechanism_summary(args.questions, ts_db)
         print_boundary_gain_audit(args.questions, ts_db)
 
     if args.compare_output:

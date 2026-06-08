@@ -24,11 +24,11 @@ METHOD_TYPES = {"formula", "method"}
 VISUAL_TYPES = {"sequence", "table_entry", "diagram_ocr"}
 TRUSTED_METADATA_THRESHOLD = 0.80
 A3WA_RISK_WEIGHTS = {
-    "extract": 0.35,
-    "score": 0.30,
+    "extract": 0.40,
+    "score": 0.25,
     "semantic": 0.20,
-    "blank": 0.15,
-    "overcredit": 0.0,
+    "blank": 0.10,
+    "overcredit": 0.05,
 }
 A3WA_LOSS_PARAMS = {
     "lambda1": 5.0,
@@ -500,6 +500,71 @@ def is_low_quality_extraction(value, rubric_item=None):
     return False
 
 
+def _has_formula_structure(text):
+    text = _normalized_text(text)
+    if any(op in text for op in ("=", "+", "-", "*", "/", "x", "^", "->", "=>", ":=")):
+        return True
+    if re.search(r"[A-Za-z_][A-Za-z0-9_]*\s*\(", text):
+        return True
+    if re.search(r"[A-Za-z_][A-Za-z0-9_]*\s*[<>]=?", text):
+        return True
+    return False
+
+
+def _has_sequence_structure(text):
+    text = str(text or "").strip()
+    compact = re.sub(r"\s+", "", text)
+    if len(re.findall(r"[01]", compact)) >= 4:
+        return True
+    if len(re.findall(r"[0-9A-Fa-f]", compact)) >= 4 and re.search(r"[HhBb]$", compact):
+        return True
+    separators = (" ", ",", "，", "->", "=>", "-", "|", "/", ";", "；")
+    tokens = re.findall(r"[A-Za-z0-9]+|[\u4e00-\u9fff]+", text)
+    return len(tokens) >= 2 and any(sep in text for sep in separators)
+
+
+def _has_table_mapping_structure(text):
+    text = str(text or "").strip()
+    if any(sep in text for sep in ("=", ":", "：", "->", "=>", ",", "，", ";", "；", "|", "\t")):
+        return True
+    tokens = re.findall(r"[A-Za-z0-9]+|[\u4e00-\u9fff]+", text)
+    return len(tokens) >= 3
+
+
+def is_structure_missing_extraction(value, rubric_item=None):
+    """Whether an extracted fact lacks the structure required by its rubric type.
+
+    This is a lightweight support check, not grading. It is designed for
+    computer-science exam answers such as numbers, formulas, sequences, tables,
+    mappings, and short judgements.
+    """
+    text = str(value).strip()
+    if not text:
+        return True
+    if is_blank_extraction(text) or is_perception_failure(text):
+        return False
+    if is_low_quality_extraction(text, rubric_item):
+        return False
+
+    meta = classify_rubric_item(rubric_item or {})
+    answer_type = meta.get("answer_type", "unknown")
+    role = meta.get("role", "unknown")
+
+    if answer_type == "judgement":
+        return False
+    if answer_type == "concept_keyword" and role not in ("method", "intermediate", "final"):
+        return False
+    if answer_type in NUMERIC_TYPES:
+        return not bool(extract_numeric_candidates(text))
+    if answer_type in METHOD_TYPES:
+        return not (_has_formula_structure(text) or len(text) >= 6)
+    if answer_type == "sequence":
+        return not _has_sequence_structure(text)
+    if answer_type in ("table_entry", "diagram_ocr"):
+        return not _has_table_mapping_structure(text)
+    return False
+
+
 def compute_extraction_quality_counts(facts_dict, rubrics_data):
     """Count blank, perception-failure, and rubric-aware low-quality facts."""
     facts_dict = facts_dict if isinstance(facts_dict, dict) else {}
@@ -507,6 +572,8 @@ def compute_extraction_quality_counts(facts_dict, rubrics_data):
     blank_count = 0
     perception_fail_count = 0
     low_quality_count = 0
+    structure_missing_count = 0
+    suspicious_items = []
 
     if rubrics_data:
         for item in rubrics_data:
@@ -514,26 +581,80 @@ def compute_extraction_quality_counts(facts_dict, rubrics_data):
             value = facts_dict.get(item_id, "") if item_id else ""
             if is_blank_extraction(value):
                 blank_count += 1
+                suspicious_items.append({"id": item_id, "reason": "blank"})
             elif is_perception_failure(value):
                 perception_fail_count += 1
+                suspicious_items.append({"id": item_id, "reason": "perception_failure"})
             elif is_low_quality_extraction(value, item):
                 low_quality_count += 1
+                suspicious_items.append({"id": item_id, "reason": "low_quality"})
+            elif is_structure_missing_extraction(value, item):
+                structure_missing_count += 1
+                suspicious_items.append({"id": item_id, "reason": "structure_missing"})
         total = len(rubrics_data)
     else:
-        for value in facts_dict.values():
+        for item_id, value in facts_dict.items():
             if is_blank_extraction(value):
                 blank_count += 1
+                suspicious_items.append({"id": str(item_id), "reason": "blank"})
             elif is_perception_failure(value):
                 perception_fail_count += 1
+                suspicious_items.append({"id": str(item_id), "reason": "perception_failure"})
             elif is_low_quality_extraction(value, None):
                 low_quality_count += 1
+                suspicious_items.append({"id": str(item_id), "reason": "low_quality"})
+            elif is_structure_missing_extraction(value, None):
+                structure_missing_count += 1
+                suspicious_items.append({"id": str(item_id), "reason": "structure_missing"})
         total = len(facts_dict)
 
     return {
         "blank_count": blank_count,
         "perception_fail_count": perception_fail_count,
         "low_quality_count": low_quality_count,
+        "structure_missing_count": structure_missing_count,
+        "suspicious_items": suspicious_items,
         "total_items": total,
+    }
+
+
+def compute_extraction_risk_features(extraction_counts):
+    """Build a rubric-agnostic extraction-risk profile from quality counts."""
+    extraction_counts = extraction_counts or {}
+    total = max(safe_float(extraction_counts.get("total_items", 0.0), 0.0), 1.0)
+    blank_rate = clamp01(safe_float(extraction_counts.get("blank_count", 0.0), 0.0) / total)
+    low_quality_rate = clamp01(safe_float(extraction_counts.get("low_quality_count", 0.0), 0.0) / total)
+    perception_failure_rate = clamp01(safe_float(extraction_counts.get("perception_fail_count", 0.0), 0.0) / total)
+    structure_missing_rate = clamp01(safe_float(extraction_counts.get("structure_missing_count", 0.0), 0.0) / total)
+    suspicious_rate = clamp01(
+        (
+            safe_float(extraction_counts.get("blank_count", 0.0), 0.0)
+            + safe_float(extraction_counts.get("low_quality_count", 0.0), 0.0)
+            + safe_float(extraction_counts.get("perception_fail_count", 0.0), 0.0)
+            + safe_float(extraction_counts.get("structure_missing_count", 0.0), 0.0)
+        )
+        / total
+    )
+    u_extract = clamp01(
+        0.40 * blank_rate
+        + 0.25 * low_quality_rate
+        + 0.20 * perception_failure_rate
+        + 0.15 * structure_missing_rate
+    )
+    if u_extract >= 0.50:
+        extraction_quality = "failed"
+    elif u_extract >= 0.20:
+        extraction_quality = "low"
+    else:
+        extraction_quality = "high"
+    return {
+        "blank_rate": round(blank_rate, 6),
+        "low_quality_rate": round(low_quality_rate, 6),
+        "perception_failure_rate": round(perception_failure_rate, 6),
+        "structure_missing_rate": round(structure_missing_rate, 6),
+        "suspicious_extraction_rate": round(suspicious_rate, 6),
+        "extraction_risk": round(u_extract, 6),
+        "extraction_quality": extraction_quality,
     }
 
 
@@ -603,6 +724,8 @@ def build_post_grading_calibration(
     points_map, fallback_points = rubric_points_map(rubrics_data)
     details_by_item = _detail_by_item(strict_cots)
     task_profile = infer_rubric_task_profile(rubrics_data, max_score=max_score)
+    extraction_counts = compute_extraction_quality_counts(facts_dict, rubrics_data)
+    extraction_risk = compute_extraction_risk_features(extraction_counts)
 
     unsupported_match_points = 0.0
     verified_method_final_points = 0.0
@@ -744,6 +867,10 @@ def build_post_grading_calibration(
         and avg_ratio >= 0.50
         and method_evidence_signal <= 0.65
     )
+    structure_missing_review = (
+        extraction_risk["structure_missing_rate"] >= 0.20
+        or extraction_risk["suspicious_extraction_rate"] >= 0.35
+    )
 
     visual_blank_review = bool(visual_items) and blank_rate >= 0.40
     if unsupported_ratio >= 0.15:
@@ -762,6 +889,8 @@ def build_post_grading_calibration(
         rule_hits.append("stable_undercredit_review")
     if direct_only_high_score_risk:
         rule_hits.append("direct_only_high_score_risk")
+    if structure_missing_review:
+        rule_hits.append("structure_missing_review")
 
     lower_bound = 0.0
     upper_bound = max_score
@@ -782,8 +911,11 @@ def build_post_grading_calibration(
         or weak_result_high_score_review
         or stable_undercredit_review
         or direct_only_high_score_risk
+        or structure_missing_review
     )
-    reject_domain = visual_blank_review
+    reject_domain = visual_blank_review or extraction_risk["extraction_quality"] == "failed"
+    if reject_domain:
+        boundary_domain = False
 
     return {
         "unsupported_match_points": round(unsupported_match_points, 4),
@@ -813,6 +945,11 @@ def build_post_grading_calibration(
         "weak_result_high_score_review": weak_result_high_score_review,
         "stable_undercredit_review": stable_undercredit_review,
         "direct_only_high_score_risk": direct_only_high_score_risk,
+        "structure_missing_review": structure_missing_review,
+        "structure_missing_rate": extraction_risk["structure_missing_rate"],
+        "suspicious_extraction_rate": extraction_risk["suspicious_extraction_rate"],
+        "extraction_risk": extraction_risk["extraction_risk"],
+        "extraction_quality": extraction_risk["extraction_quality"],
         "visual_blank_review": visual_blank_review,
         "boundary_domain": boundary_domain,
         "reject_domain": reject_domain,
@@ -905,9 +1042,26 @@ def select_baseline_score(model_scores, model_avg_score, max_score, post_calibra
     )
 
     if upper_consensus_ready and score_max > model_avg_score:
-        selected_score = score_max
+        upper_candidate = score_max
+        high_score_weak_evidence = (
+            upper_candidate / max_score >= 0.75
+            and result_strong < 0.60
+            and method_evidence < 0.55
+        )
+        explicit_over_guard = unsupported_high_score >= 0.10 or bare_answer_risk >= 0.30
+        if high_score_weak_evidence or explicit_over_guard:
+            if result_strong >= 0.75 and method_evidence >= 0.65:
+                raise_cap = max(2.0, 0.18 * max_score)
+            elif result_strong >= 0.60 or method_evidence >= 0.60:
+                raise_cap = max(1.5, 0.12 * max_score)
+            else:
+                raise_cap = max(1.0, 0.08 * max_score)
+            upper_candidate = min(score_max, model_avg_score + raise_cap)
+        selected_score = upper_candidate
+        if high_score_weak_evidence:
+            selected_score = max(model_avg_score, min(score_median, selected_score))
         baseline_policy = "upper_consensus_strict"
-        baseline_source = "max_of_three"
+        baseline_source = "guarded_max_of_three" if selected_score == score_max else "capped_max_of_three"
 
     selected_score = max(0.0, min(max_score, selected_score))
     selected_ratio = clamp01(selected_score / max_score)
@@ -937,6 +1091,7 @@ def select_baseline_score(model_scores, model_avg_score, max_score, post_calibra
             "score_history_min": round(score_min, 4),
             "score_history_max": round(score_max, 4),
             "score_history_median": round(score_median, 4),
+            "raise_cap": round(max(0.0, selected_score - model_avg_score), 4),
             "score_spread_ratio": round(score_spread_ratio, 6),
             "selected_ratio": round(selected_ratio, 6),
         },
@@ -1006,6 +1161,8 @@ def build_a3wa_decision(
     perception_failure_rate,
     extraction_quality,
     fatal_points_ratio,
+    structure_missing_rate=0.0,
+    extraction_risk=None,
     high_blank_high_score=False,
     post_calibration=None,
     weights=None,
@@ -1024,7 +1181,15 @@ def build_a3wa_decision(
     normalized_std = clamp01(std_dev / max_score)
     score_spread_norm = clamp01(score_spread / max_score)
 
-    u_extract = clamp01(0.5 * safe_float(low_quality_rate, 0.0) + 0.5 * safe_float(perception_failure_rate, 0.0))
+    if extraction_risk is None:
+        u_extract = clamp01(
+            0.40 * safe_float(blank_rate, 0.0)
+            + 0.25 * safe_float(low_quality_rate, 0.0)
+            + 0.20 * safe_float(perception_failure_rate, 0.0)
+            + 0.15 * safe_float(structure_missing_rate, 0.0)
+        )
+    else:
+        u_extract = clamp01(extraction_risk)
     u_score = clamp01(0.5 * normalized_std + 0.5 * score_spread_norm)
     u_semantic = clamp01(fatal_points_ratio)
     u_blank = clamp01(blank_rate)
@@ -1123,6 +1288,20 @@ def build_a3wa_decision(
         route = "BND"
         reason = "beta_lt_confidence_lt_alpha"
 
+    pos_safety_reasons = []
+    if route == "POS":
+        if u_extract >= 0.25:
+            pos_safety_reasons.append("extract_risk")
+        if score_spread_norm >= 0.15:
+            pos_safety_reasons.append("score_spread")
+        if unsupported_high_score >= 0.15:
+            pos_safety_reasons.append("unsupported_high_score")
+        if avg_ratio >= 0.75 and result_strong < 0.60 and method_evidence < 0.55:
+            pos_safety_reasons.append("high_score_weak_evidence")
+        if pos_safety_reasons:
+            route = "BND"
+            reason = "pos_safety_gate:" + ",".join(pos_safety_reasons)
+
     return {
         "route": route,
         "reason": reason,
@@ -1143,6 +1322,7 @@ def build_a3wa_decision(
             "U_semantic": round(u_semantic, 6),
             "U_blank": round(u_blank, 6),
             "U_overcredit": round(u_overcredit, 6),
+            "U_structure_missing": round(safe_float(structure_missing_rate, 0.0), 6),
             "L_lenient_undercredit": round(lenient_undercredit, 6),
             "U_unsupported_high_score": round(unsupported_high_score, 6),
             "normalized_std": round(normalized_std, 6),
@@ -1242,6 +1422,8 @@ def build_boundary_direction_signals(
     blank_rate = clamp01(risk_value("blank_rate", 0.0))
     low_quality_rate = clamp01(risk_value("low_quality_rate", 0.0))
     perception_failure_rate = clamp01(risk_value("perception_failure_rate", 0.0))
+    structure_missing_rate = clamp01(risk_value("structure_missing_rate", 0.0))
+    extraction_risk_profile = risk_value("extraction_risk", None)
     uncertainty_index = clamp01(risk_value("uncertainty_index", risk_value("std_ratio", 0.0)))
     spread_ratio = clamp01(risk_value("spread_ratio", 0.0))
     if not spread_ratio and a3wa_decision:
@@ -1256,7 +1438,15 @@ def build_boundary_direction_signals(
     method_evidence = clamp01(post_calibration.get("method_evidence_signal", risk_value("method_evidence_signal", 0.0)))
     bare_answer_risk = clamp01(post_calibration.get("bare_answer_risk", risk_value("bare_answer_risk", 0.0)))
     post_upper = safe_float(post_calibration.get("upper_bound", max_score), max_score)
-    extraction_risk = clamp01(0.5 * low_quality_rate + 0.5 * perception_failure_rate)
+    if extraction_risk_profile is None:
+        extraction_risk = clamp01(
+            0.40 * blank_rate
+            + 0.25 * low_quality_rate
+            + 0.20 * perception_failure_rate
+            + 0.15 * structure_missing_rate
+        )
+    else:
+        extraction_risk = clamp01(extraction_risk_profile)
     weak_result_high_score = bool(post_calibration.get("weak_result_high_score_review", False))
     stable_undercredit = bool(post_calibration.get("stable_undercredit_review", False))
     direct_only_high_score = bool(post_calibration.get("direct_only_high_score_risk", False))
@@ -1330,6 +1520,7 @@ def build_boundary_direction_signals(
         "perception_risk": round(perception_risk, 6),
         "blank_rate": round(blank_rate, 6),
         "extraction_risk": round(extraction_risk, 6),
+        "structure_missing_rate": round(structure_missing_rate, 6),
         "uncertainty_index": round(uncertainty_index, 6),
         "spread_ratio": round(spread_ratio, 6),
         "partial_match_points_ratio": round(partial_ratio, 6),
@@ -1602,7 +1793,7 @@ def apply_boundary_action_policy(
     )
 
     if abs(delta) <= minor_margin:
-        if strong_lenient_raise and (agent_summary["allowed_missed_points"] > 0 or not agent_summary["has_agent_evidence"]):
+        if strong_lenient_raise and agent_summary["allowed_missed_points"] > 0:
             high_band_gap = max(0.0, 0.85 * max_score - baseline)
             history_gap = max(0.0, score_history_max - baseline)
             final_score = min(max_score, baseline + min(large_margin, high_band_gap, history_gap))
@@ -1613,14 +1804,23 @@ def apply_boundary_action_policy(
             action = "keep_minor_change"
             gate_reason = "minor_candidate_delta"
     elif delta < 0:
-        has_over_item = agent_summary["allowed_over_points"] > 0 or not agent_summary["has_agent_evidence"]
+        has_over_item = agent_summary["allowed_over_points"] > 0
+        strong_positive_evidence = (
+            result_strong >= 0.75
+            and method_evidence >= 0.75
+            and unsupported_high_score < 0.20
+            and not direct_only_high_score
+            and not signals.get("weak_result_high_score_review", False)
+        )
         strong_lower = (
             has_over_item
+            and not strong_positive_evidence
             and avg_ratio >= 0.70
             and (unsupported_high_score >= 0.40 or direct_only_high_score)
         )
         supported_lower = (
             has_over_item
+            and not strong_positive_evidence
             and avg_ratio >= 0.50
             and (
                 unsupported_high_score >= 0.10
@@ -1652,7 +1852,7 @@ def apply_boundary_action_policy(
     elif delta > 0:
         supported_raise = (
             lenient_raise_ready
-            and (agent_summary["allowed_missed_points"] > 0 or not agent_summary["has_agent_evidence"])
+            and agent_summary["allowed_missed_points"] > 0
         )
         if supported_raise:
             high_band_gap = max(0.0, 0.85 * max_score - baseline)

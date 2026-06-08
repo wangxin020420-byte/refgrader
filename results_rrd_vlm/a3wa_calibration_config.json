@@ -1,6 +1,7 @@
 {
-  "version": 1,
-  "source": "scripts/calibrate_a3wa.py",
+  "version": 2,
+  "source": "generalized_extraction_risk_update",
+  "update_note": "Risk weights updated after adding blank/structure-aware extraction risk. Loss parameters are unchanged.",
   "selection_objective": "cost_sensitive_validation_calibration",
   "loss_params": {
     "lambda1": 5.0,
@@ -10,11 +11,11 @@
     "m": 0.4
   },
   "risk_weights": {
-    "extract": 0.35000000000000003,
-    "score": 0.30000000000000004,
-    "semantic": 0.20000000000000004,
-    "blank": 0.15000000000000002,
-    "overcredit": 0.0
+    "extract": 0.4,
+    "score": 0.25,
+    "semantic": 0.2,
+    "blank": 0.1,
+    "overcredit": 0.05
   },
   "thresholds": {
     "alpha": 0.828571,

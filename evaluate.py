@@ -1,4 +1,4 @@
-"""
+﻿"""
 RefGrader evaluation script.
 
 用法:
@@ -22,7 +22,7 @@ RefGrader evaluation script.
   python evaluate.py --questions Q6 Q7 --detail
 
   # 在同一张表中对比 single / avg / selected / 3wd 四种分数形式。
-  python evaluate.py --compare --questions Q6 Q7 --compare-score-keys single avg selected 3wd
+  python evaluate.py --compare --questions Q4 Q5 Q6 Q7 --compare-score-keys single avg selected 3wd
 
   # 将逐学生的 single / avg / selected / 3wd 对比结果导出为 CSV，便于人工分析。
   python evaluate.py --compare --questions Q6 Q7 --compare-score-keys single avg selected 3wd --compare-output outputs/q6_q7_compare.csv
@@ -93,7 +93,7 @@ except ModuleNotFoundError:
             return 1.0 if observed_loss <= 1e-12 else 0.0
         return 1.0 - observed_loss / expected_loss
 
-SCORES_MAP = {"Q1": 10, "Q2": 20, "Q3": 10, "Q4": 20, "Q5": 15, "Q6": 20, "Q7": 10}
+SCORES_MAP = {"Q1": 5, "Q2": 20, "Q3": 10, "Q4": 20, "Q5": 15, "Q6": 20, "Q7": 10}
 RESULTS_DIR = "./results_rrd_vlm"
 TEACHER_DB = "./database/teacher_scores.json"
 
@@ -175,9 +175,9 @@ def get_score_value(record, score_key):
         history = record.get("model_scores_history") or []
         if isinstance(history, list) and history:
             return history[0]
-        return record.get("model_avg_score", None)
+        return None
     if score_key == "selected_baseline_score":
-        return record.get("selected_baseline_score", record.get("model_avg_score", None))
+        return record.get("selected_baseline_score", None)
     return record.get(score_key, None)
 
 

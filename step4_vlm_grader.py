@@ -16,6 +16,11 @@ from calibration_utils import (
     build_a3wa_decision,
     build_post_grading_calibration,
     compute_extraction_quality_counts,
+    compute_extraction_risk_features,
+    is_blank_extraction,
+    is_low_quality_extraction,
+    is_perception_failure,
+    is_structure_missing_extraction,
     prepare_rubrics_for_calibration,
     select_baseline_score,
 )
@@ -311,7 +316,7 @@ def stage1_blind_extraction(question_text, student_img_path, blind_checklist, q_
             time.sleep(30)
     return None
 
-def stage1_targeted_reextraction(question_text, student_img_path, blind_checklist, initial_facts_str, q_img_path=None):
+def stage1_targeted_reextraction(question_text, student_img_path, blind_checklist, initial_facts_str, q_img_path=None, rubrics_data=None):
     """
     二次精准提取：对首次被标记为"未书写"的条目进行二次检查。
     仅在 blank_rate >= 0.3 且空白条目 >= 2 时触发，避免不必要的 API 调用。
@@ -320,11 +325,19 @@ def stage1_targeted_reextraction(question_text, student_img_path, blind_checklis
     if not isinstance(facts_dict, dict):
         return initial_facts_str
 
-    blank_items = {k: v for k, v in facts_dict.items() if str(v).strip() == "未书写"}
-    if len(blank_items) < 2:
+    rubrics_data = rubrics_data if isinstance(rubrics_data, list) else []
+    extraction_counts = compute_extraction_quality_counts(facts_dict, rubrics_data)
+    suspicious_items = extraction_counts.get("suspicious_items", [])
+    suspicious_ids = {str(item.get("id", "")) for item in suspicious_items if str(item.get("id", ""))}
+    suspicious_reason_map = {
+        str(item.get("id", "")): item.get("reason", "suspicious")
+        for item in suspicious_items
+        if str(item.get("id", ""))
+    }
+    if not suspicious_ids:
         return initial_facts_str
-    blank_rate = len(blank_items) / len(facts_dict) if len(facts_dict) > 0 else 0
-    if blank_rate < 0.3:
+    suspicious_rate = len(suspicious_ids) / max(extraction_counts.get("total_items", 0), len(facts_dict), 1)
+    if len(suspicious_ids) < 2 and suspicious_rate < 0.25:
         return initial_facts_str
 
     # 从 blind_checklist 中筛选空白条目的提取指令
@@ -332,13 +345,25 @@ def stage1_targeted_reextraction(question_text, student_img_path, blind_checklis
     focused_instructions = []
     if isinstance(checklist_items, list):
         for item in checklist_items:
-            if item.get('id') in blank_items:
-                focused_instructions.append(item)
+            item_id = str(item.get('id', ""))
+            if item_id in suspicious_ids:
+                enriched = dict(item)
+                enriched["first_pass_value"] = facts_dict.get(item_id, "")
+                enriched["suspicious_reason"] = suspicious_reason_map.get(item_id, "suspicious")
+                focused_instructions.append(enriched)
     if not focused_instructions:
-        return initial_facts_str
+        focused_instructions = [
+            {
+                "id": item_id,
+                "instruction": "Re-check this item in the student's handwritten answer area.",
+                "first_pass_value": facts_dict.get(item_id, ""),
+                "suspicious_reason": suspicious_reason_map.get(item_id, "suspicious"),
+            }
+            for item_id in sorted(suspicious_ids)
+        ]
     focused_checklist = json.dumps(focused_instructions, ensure_ascii=False)
 
-    already_extracted = {k: v for k, v in facts_dict.items() if str(v).strip() != "未书写"}
+    already_extracted = {k: v for k, v in facts_dict.items() if str(k) not in suspicious_ids}
 
     reextraction_prompt = f"""
 # Role: 二次精准提取引擎
@@ -360,6 +385,15 @@ def stage1_targeted_reextraction(question_text, student_img_path, blind_checklis
 
 输出严格的 JSON 对象，key 为条目 id：
 {{"item_id": "提取到的内容或未书写"}}
+"""
+    reextraction_prompt += f"""
+
+[Updated trigger note]
+The items above are not necessarily blank. They may be blank, generic,
+unreadable, or structurally incomplete for their rubric type. Re-check them
+as suspicious extraction items and output concrete handwritten evidence when
+it exists.
+Suspicious item reasons: {json.dumps(suspicious_reason_map, ensure_ascii=False)}
 """
     content_list = [{"type": "text", "text": reextraction_prompt}]
     if q_img_path and os.path.exists(q_img_path):
@@ -389,13 +423,23 @@ def stage1_targeted_reextraction(question_text, student_img_path, blind_checklis
             if reextracted and isinstance(reextracted, dict):
                 recovered = 0
                 for k, v in reextracted.items():
-                    if k in facts_dict and str(facts_dict[k]).strip() == "未书写":
+                    if str(k) in suspicious_ids and k in facts_dict:
                         new_val = str(v).strip()
-                        if new_val and new_val != "未书写":
+                        rubric_item = None
+                        if isinstance(rubrics_data, list):
+                            rubric_item = next((item for item in rubrics_data if str(item.get("id", "")) == str(k)), None)
+                        usable_value = (
+                            new_val
+                            and not is_blank_extraction(new_val)
+                            and not is_perception_failure(new_val)
+                            and not is_low_quality_extraction(new_val, rubric_item)
+                            and not is_structure_missing_extraction(new_val, rubric_item)
+                        )
+                        if usable_value:
                             facts_dict[k] = new_val
                             recovered += 1
                 if recovered > 0:
-                    print(f"   🔄 [二次提取] 恢复了 {recovered}/{len(blank_items)} 个空白条目")
+                    print(f"   🔄 [二次提取] 恢复了 {recovered}/{len(suspicious_ids)} 个可疑条目")
                     result = json.dumps(facts_dict, ensure_ascii=False)
                     return validate_extraction_against_question(question_text, result)
             return initial_facts_str
@@ -560,17 +604,14 @@ def _sum_agent_item_points(items):
     return total
 
 def _agent_candidate_score(parsed_agent, avg_model_score, max_score):
-    """Prefer structured missed/over credit deltas; fall back to legacy total score."""
+    """Prefer structured missed/over credit deltas; keep baseline without item evidence."""
     avg_model_score = _safe_float(avg_model_score, 0.0)
     max_score = max(_safe_float(max_score, 0.0), 1.0)
     missed = _sum_agent_item_points(parsed_agent.get("missed_credit_items"))
     over = _sum_agent_item_points(parsed_agent.get("over_credit_items"))
     if missed > 0 or over > 0:
         return _clamp(avg_model_score + missed - over, 0, max_score)
-    return _safe_float(
-        parsed_agent.get("calibrated_score", parsed_agent.get("secondary_total_score", avg_model_score)),
-        avg_model_score
-    )
+    return avg_model_score
 
 def _rubric_points_map(rubrics_data):
     if not isinstance(rubrics_data, list):
@@ -646,6 +687,9 @@ def build_risk_profile(
     low_quality_rate,
     perception_failure_rate,
     extraction_quality,
+    structure_missing_rate=0.0,
+    suspicious_extraction_rate=0.0,
+    extraction_risk=0.0,
 ):
     score_spread = max(model_scores) - min(model_scores) if len(model_scores) >= 2 else 0.0
     std_ratio = std_dev / max_score if max_score > 0 else 0.0
@@ -657,6 +701,7 @@ def build_risk_profile(
     # P: perception risk, U: uncertainty, F: fatal-error points ratio,
     # H: high-blank/high-score contradiction, L: lenient-review trigger.
     perception_risk = max(
+        extraction_risk / 0.50 if 0.50 > 0 else 0.0,
         perception_failure_rate / 0.20 if 0.20 > 0 else 0.0,
         low_quality_rate / 0.30 if 0.30 > 0 else 0.0,
     )
@@ -695,6 +740,9 @@ def build_risk_profile(
         "blank_rate": round(blank_rate, 4),
         "low_quality_rate": round(low_quality_rate, 4),
         "perception_failure_rate": round(perception_failure_rate, 4),
+        "structure_missing_rate": round(structure_missing_rate, 4),
+        "suspicious_extraction_rate": round(suspicious_extraction_rate, 4),
+        "extraction_risk": round(extraction_risk, 4),
         "partial_match_points_ratio": round(points_ratios["partial_match_points_ratio"], 4),
         "format_minor_points_ratio": round(points_ratios["format_minor_points_ratio"], 4),
     }
@@ -809,9 +857,15 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         return None
 
     # 二次提取：对高留白率学生进行聚焦复查
+    try:
+        rubrics_data_for_extraction = json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json
+        rubrics_data_for_extraction = prepare_rubrics_for_calibration(rubrics_data_for_extraction)
+    except Exception:
+        rubrics_data_for_extraction = []
+
     student_facts = stage1_targeted_reextraction(
         question_text, student_img_path, blind_checklist,
-        student_facts, q_img_path
+        student_facts, q_img_path, rubrics_data_for_extraction
     )
 
     print(f"  ⚖️ [Stage 2] 微小温度独立盲审 (3次并行采样)...")
@@ -859,21 +913,21 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         facts_dict = {}
 
     extraction_counts = compute_extraction_quality_counts(facts_dict, rubrics_data)
+    extraction_risk_features = compute_extraction_risk_features(extraction_counts)
     blank_count = extraction_counts["blank_count"]
     perception_fail_count = extraction_counts["perception_fail_count"]
     low_quality_count = extraction_counts["low_quality_count"]
+    structure_missing_count = extraction_counts.get("structure_missing_count", 0)
 
-    blank_rate = blank_count / TOTAL_ITEMS if TOTAL_ITEMS > 0 else 0
-    perception_failure_rate = perception_fail_count / TOTAL_ITEMS if TOTAL_ITEMS > 0 else 0
-    low_quality_rate = low_quality_count / TOTAL_ITEMS if TOTAL_ITEMS > 0 else 0
+    blank_rate = extraction_risk_features["blank_rate"]
+    perception_failure_rate = extraction_risk_features["perception_failure_rate"]
+    low_quality_rate = extraction_risk_features["low_quality_rate"]
+    structure_missing_rate = extraction_risk_features["structure_missing_rate"]
+    suspicious_extraction_rate = extraction_risk_features["suspicious_extraction_rate"]
+    extraction_risk = extraction_risk_features["extraction_risk"]
 
     # 综合提取质量判定
-    if low_quality_rate <= 0.1 and perception_failure_rate <= 0.1:
-        extraction_quality = "high"
-    elif low_quality_rate >= 0.3 or perception_failure_rate >= 0.2:
-        extraction_quality = "failed"
-    else:
-        extraction_quality = "low"
+    extraction_quality = extraction_risk_features["extraction_quality"]
 
     real_diff = round(teacher_score - avg_model_score, 2) if teacher_score is not None else 0.0
     route = "UNKNOWN"
@@ -882,6 +936,7 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     arbitration_flag = False
 
     print(f"\n  📊 [探测雷达指标] 均分={avg_model_score}, 标准差={std_dev:.4f}, 留白率={blank_rate:.0%}, 感知失效率={perception_failure_rate:.0%}, 低质量提取率={low_quality_rate:.0%}, 提取质量={extraction_quality}")
+    print(f"      [extraction-risk] R_ext={extraction_risk:.2f}, structure_missing={structure_missing_rate:.0%}, suspicious={suspicious_extraction_rate:.0%}")
 
     # ==========================================
     # 风险驱动三支决策 (Three-Way Decision)
@@ -903,6 +958,9 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         low_quality_rate=low_quality_rate,
         perception_failure_rate=perception_failure_rate,
         extraction_quality=extraction_quality,
+        structure_missing_rate=structure_missing_rate,
+        suspicious_extraction_rate=suspicious_extraction_rate,
+        extraction_risk=extraction_risk,
     )
     post_calibration = build_post_grading_calibration(
         facts_dict=facts_dict,
@@ -929,6 +987,10 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         "explicit_chain_coverage": post_calibration["explicit_chain_coverage"],
         "core_anchor_failed": post_calibration["core_anchor_failed"],
         "visual_blank_review": post_calibration["visual_blank_review"],
+        "structure_missing_review": post_calibration.get("structure_missing_review", False),
+        "structure_missing_rate": structure_missing_rate,
+        "suspicious_extraction_rate": suspicious_extraction_rate,
+        "extraction_risk": extraction_risk,
         "weak_result_high_score_review": post_calibration["weak_result_high_score_review"],
         "stable_undercredit_review": post_calibration["stable_undercredit_review"],
         "direct_only_high_score_risk": post_calibration["direct_only_high_score_risk"],
@@ -993,6 +1055,8 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         low_quality_rate=low_quality_rate,
         perception_failure_rate=perception_failure_rate,
         extraction_quality=extraction_quality,
+        structure_missing_rate=structure_missing_rate,
+        extraction_risk=extraction_risk,
         fatal_points_ratio=risk_profile["fatal_points_ratio"],
         high_blank_high_score=risk_profile["high_blank_high_score"],
         post_calibration=post_calibration,
@@ -1126,6 +1190,9 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         "blank_rate": round(blank_rate, 2),
         "perception_failure_rate": round(perception_failure_rate, 2),
         "low_quality_extraction_rate": round(low_quality_rate, 2),
+        "structure_missing_rate": round(structure_missing_rate, 2),
+        "suspicious_extraction_rate": round(suspicious_extraction_rate, 2),
+        "extraction_risk": round(extraction_risk, 4),
         "extraction_quality": extraction_quality,
         "real_diff": real_diff,
         "3wd_route": route,

@@ -11,9 +11,11 @@ if ROOT not in sys.path:
 
 from calibration_utils import (  # noqa: E402
     apply_boundary_action_policy,
+    a3wa_dynamic_bounds,
     build_a3wa_decision,
     build_post_grading_calibration,
     compute_extraction_quality_counts,
+    compute_extraction_risk_features,
     parse_json_maybe,
     prepare_rubrics_for_calibration,
     safe_float,
@@ -75,12 +77,24 @@ def metrics(rows, score_key, max_score):
     teachers = [r["teacher_score"] for r in rows]
     scores = [r[score_key] for r in rows]
     diffs = [s - t for s, t in zip(scores, teachers)]
+    if max_score is None:
+        qwk_teachers = [
+            100.0 * r["teacher_score"] / max(safe_float(r.get("max_score", 0.0), 0.0), 1.0)
+            for r in rows
+        ]
+        qwk_scores = [
+            100.0 * r[score_key] / max(safe_float(r.get("max_score", 0.0), 0.0), 1.0)
+            for r in rows
+        ]
+        qwk = quadratic_weighted_kappa(qwk_teachers, qwk_scores, 100.0)
+    else:
+        qwk = quadratic_weighted_kappa(teachers, scores, max_score)
     return {
         "n": len(rows),
         "mae": mean([abs(d) for d in diffs]),
         "rmse": math.sqrt(mean([d * d for d in diffs])),
         "pearson": pearson(teachers, scores),
-        "qwk": quadratic_weighted_kappa(teachers, scores, max_score),
+        "qwk": qwk,
         "tar2": mean([1.0 if abs(d) <= 2 else 0.0 for d in diffs]),
         "bias": mean(diffs),
         "high_over": sum(1 for d in diffs if d > 2),
@@ -134,6 +148,38 @@ def build_risk_profile_from_record(record):
     }
 
 
+def agent_evidence_from_saved_gate(gate):
+    """Reconstruct minimal structured evidence from a saved boundary_gate summary."""
+    if not isinstance(gate, dict):
+        return None
+    summary = gate.get("agent_evidence_summary")
+    if not isinstance(summary, dict) or not summary.get("has_agent_evidence", False):
+        return None
+
+    missed_points = safe_float(summary.get("allowed_missed_points", 0.0), 0.0)
+    over_points = safe_float(summary.get("allowed_over_points", 0.0), 0.0)
+    missed_types = summary.get("missed_reason_types") or []
+    over_types = summary.get("over_reason_types") or []
+
+    missed_reason = str(missed_types[0]).strip() if missed_types else "process_credit"
+    over_reason = str(over_types[0]).strip() if over_types else "unsupported_match"
+    evidence = "replayed from saved boundary_gate.agent_evidence_summary"
+
+    return {
+        "decision": "replay_from_saved_boundary_gate",
+        "missed_credit_items": (
+            [{"points": missed_points, "reason_type": missed_reason, "evidence": evidence}]
+            if missed_points > 0
+            else []
+        ),
+        "over_credit_items": (
+            [{"points": over_points, "reason_type": over_reason, "evidence": evidence}]
+            if over_points > 0
+            else []
+        ),
+    }
+
+
 def replay_record(record, rubrics_data, max_score, a3wa_config=None):
     a3wa_config = a3wa_config or {}
     facts = parse_json_maybe(record.get("facts", {}), {})
@@ -143,19 +189,25 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
         strict_cots = [strict_cot] if strict_cot else []
     extraction_counts = compute_extraction_quality_counts(facts, rubrics_data)
     extraction_denom = max(extraction_counts.get("total_items", 0), len(rubrics_data), 1)
+    extraction_risk_features = compute_extraction_risk_features(extraction_counts)
 
     avg_model_score = safe_float(record.get("model_avg_score", record.get("final_calibrated_score", 0.0)))
     old_score = safe_float(record.get("final_calibrated_score", avg_model_score))
-    blank_rate = extraction_counts["blank_count"] / extraction_denom
+    blank_rate = extraction_risk_features["blank_rate"]
     risk_profile = build_risk_profile_from_record(record)
     risk_features = risk_profile.get("risk_features", {})
     model_scores = record.get("model_scores_history") or []
-    low_quality_rate = extraction_counts["low_quality_count"] / extraction_denom
-    perception_failure_rate = extraction_counts["perception_fail_count"] / extraction_denom
+    low_quality_rate = extraction_risk_features["low_quality_rate"]
+    perception_failure_rate = extraction_risk_features["perception_failure_rate"]
+    structure_missing_rate = extraction_risk_features["structure_missing_rate"]
+    extraction_risk = extraction_risk_features["extraction_risk"]
     risk_profile["blank_rate"] = blank_rate
     risk_profile["risk_features"]["blank_rate"] = blank_rate
     risk_profile["risk_features"]["low_quality_rate"] = low_quality_rate
     risk_profile["risk_features"]["perception_failure_rate"] = perception_failure_rate
+    risk_profile["risk_features"]["structure_missing_rate"] = structure_missing_rate
+    risk_profile["risk_features"]["suspicious_extraction_rate"] = extraction_risk_features["suspicious_extraction_rate"]
+    risk_profile["risk_features"]["extraction_risk"] = extraction_risk
 
     post = build_post_grading_calibration(
         facts_dict=facts,
@@ -182,6 +234,13 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
         "explicit_chain_coverage": post["explicit_chain_coverage"],
         "core_anchor_failed": post["core_anchor_failed"],
         "visual_blank_review": post["visual_blank_review"],
+        "structure_missing_review": post.get("structure_missing_review", False),
+        "structure_missing_rate": structure_missing_rate,
+        "suspicious_extraction_rate": extraction_risk_features["suspicious_extraction_rate"],
+        "extraction_risk": extraction_risk,
+        "weak_result_high_score_review": post["weak_result_high_score_review"],
+        "stable_undercredit_review": post["stable_undercredit_review"],
+        "direct_only_high_score_risk": post["direct_only_high_score_risk"],
         "task_type": post.get("task_type", "mixed_or_unknown"),
         "complex_derivation_task": post.get("complex_derivation_task", False),
         "upper_consensus_eligible": post.get("upper_consensus_eligible", False),
@@ -236,7 +295,9 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
         blank_rate=blank_rate,
         low_quality_rate=low_quality_rate,
         perception_failure_rate=perception_failure_rate,
-        extraction_quality=record.get("extraction_quality", ""),
+        extraction_quality=extraction_risk_features["extraction_quality"],
+        structure_missing_rate=structure_missing_rate,
+        extraction_risk=extraction_risk,
         fatal_points_ratio=risk_profile.get("fatal_points_ratio", 0.0),
         high_blank_high_score=risk_profile.get("high_blank_high_score", False),
         post_calibration=post,
@@ -250,15 +311,31 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
     else:
         replay_route = a3wa["route"]
         if replay_route == "BND":
-            gate = apply_boundary_action_policy(
-                avg_model_score=selected_baseline_score,
-                candidate_score=old_score,
-                max_score=max_score,
-                a3wa_decision=a3wa,
-                risk_profile=risk_profile,
-                post_calibration=post,
-            )
-            replay_score = round(clamp(gate["final_score"], 0.0, max_score), 2)
+            saved_gate = record.get("boundary_gate")
+            if isinstance(saved_gate, dict):
+                candidate_score = safe_float(
+                    saved_gate.get("raw_candidate_score", selected_baseline_score),
+                    selected_baseline_score,
+                )
+                gate = apply_boundary_action_policy(
+                    avg_model_score=selected_baseline_score,
+                    candidate_score=candidate_score,
+                    max_score=max_score,
+                    a3wa_decision=a3wa,
+                    risk_profile=risk_profile,
+                    post_calibration=post,
+                    agent_evidence=agent_evidence_from_saved_gate(saved_gate),
+                )
+                replay_score = round(clamp(gate["final_score"], 0.0, max_score), 2)
+            else:
+                lower_bound, upper_bound, _ = a3wa_dynamic_bounds(
+                    avg_model_score=selected_baseline_score,
+                    max_score=max_score,
+                    a3wa_decision=a3wa,
+                    risk_profile=risk_profile,
+                    post_calibration=post,
+                )
+                replay_score = round(clamp(selected_baseline_score, lower_bound, upper_bound), 2)
         else:
             replay_score = selected_baseline_score
 
@@ -273,6 +350,7 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
         "replay_route": replay_route,
         "post_calibration": post,
         "a3wa_decision": a3wa,
+        "max_score": max_score,
     }
 
 
@@ -367,17 +445,14 @@ def main():
         files.sort()
 
     all_rows = []
-    weighted_max = []
     for path in files:
-        rows, max_score = replay_file(path, args.results_dir, a3wa_config=a3wa_config)
+        rows, _max_score = replay_file(path, args.results_dir, a3wa_config=a3wa_config)
         all_rows.extend(rows)
-        weighted_max.extend([max_score] * len(rows))
 
     if all_rows:
-        global_max = max(weighted_max) if weighted_max else 100.0
         print("\nGLOBAL")
-        print_metrics_line("current", metrics(all_rows, "old_score", global_max))
-        print_metrics_line("replay", metrics(all_rows, "replay_score", global_max))
+        print_metrics_line("current", metrics(all_rows, "old_score", None))
+        print_metrics_line("replay", metrics(all_rows, "replay_score", None))
 
 
 if __name__ == "__main__":

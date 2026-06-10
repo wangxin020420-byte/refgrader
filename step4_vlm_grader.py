@@ -337,7 +337,7 @@ def stage1_targeted_reextraction(question_text, student_img_path, blind_checklis
     if not suspicious_ids:
         return initial_facts_str
     suspicious_rate = len(suspicious_ids) / max(extraction_counts.get("total_items", 0), len(facts_dict), 1)
-    if len(suspicious_ids) < 2 and suspicious_rate < 0.25:
+    if len(suspicious_ids) < 2 and suspicious_rate < 0.15:
         return initial_facts_str
 
     # 从 blind_checklist 中筛选空白条目的提取指令

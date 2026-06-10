@@ -997,6 +997,15 @@ def select_baseline_score(model_scores, model_avg_score, max_score, post_calibra
     lenient_undercredit = clamp01(post_calibration.get("lenient_undercredit_signal", 0.0))
     unsupported_high_score = clamp01(post_calibration.get("unsupported_high_score_risk", 0.0))
     bare_answer_risk = clamp01(post_calibration.get("bare_answer_risk", 0.0))
+    extraction_risk = clamp01(post_calibration.get("extraction_risk", risk_features.get("extraction_risk", 0.0)))
+    structure_missing_rate = clamp01(
+        post_calibration.get("structure_missing_rate", risk_features.get("structure_missing_rate", 0.0))
+    )
+    suspicious_extraction_rate = clamp01(
+        post_calibration.get("suspicious_extraction_rate", risk_features.get("suspicious_extraction_rate", 0.0))
+    )
+    weak_result_high_score = bool(post_calibration.get("weak_result_high_score_review", False))
+    direct_only_high_score = bool(post_calibration.get("direct_only_high_score_risk", False))
     fatal_ratio = clamp01(
         risk_profile.get(
             "fatal_points_ratio",
@@ -1025,21 +1034,42 @@ def select_baseline_score(model_scores, model_avg_score, max_score, post_calibra
             task_profile.get("upper_consensus_eligible", False),
         )
     )
+    model_avg_ratio = clamp01(model_avg_score / max_score)
     high_over_unsafe = (
-        unsupported_high_score >= 0.20
+        unsupported_high_score >= 0.10
         or fatal_ratio >= 0.65
-        or bare_answer_risk >= 0.40
-        or result_strong < 0.30
-        or (clamp01(model_avg_score / max_score) >= 0.75 and result_strong < 0.65)
+        or bare_answer_risk >= 0.25
+        or extraction_risk >= 0.30
+        or structure_missing_rate >= 0.25
+        or suspicious_extraction_rate >= 0.40
+        or weak_result_high_score
+        or direct_only_high_score
+        or result_strong < 0.40
+        or (model_avg_ratio >= 0.70 and (result_strong < 0.70 or method_evidence < 0.55))
     )
-    upper_consensus_ready = (
+    strict_upper_consensus_ready = (
         upper_consensus_eligible
         and not high_over_unsafe
         and final_answer_weight_high
-        and result_correctness >= 0.40
-        and method_evidence >= 0.40
-        and lenient_undercredit >= 0.04
+        and result_correctness >= 0.55
+        and result_strong >= 0.45
+        and method_evidence >= 0.45
+        and lenient_undercredit >= 0.05
     )
+    low_score_undercredit_upper_ready = (
+        upper_consensus_eligible
+        and final_answer_weight_high
+        and model_avg_ratio <= 0.60
+        and lenient_undercredit >= 0.075
+        and result_correctness >= 0.45
+        and method_evidence >= 0.45
+        and unsupported_high_score < 0.05
+        and bare_answer_risk < 0.30
+        and extraction_risk < 0.25
+        and not weak_result_high_score
+        and not direct_only_high_score
+    )
+    upper_consensus_ready = strict_upper_consensus_ready or low_score_undercredit_upper_ready
 
     if upper_consensus_ready and score_max > model_avg_score:
         upper_candidate = score_max
@@ -1062,6 +1092,8 @@ def select_baseline_score(model_scores, model_avg_score, max_score, post_calibra
             selected_score = max(model_avg_score, min(score_median, selected_score))
         baseline_policy = "upper_consensus_strict"
         baseline_source = "guarded_max_of_three" if selected_score == score_max else "capped_max_of_three"
+        if low_score_undercredit_upper_ready and not strict_upper_consensus_ready:
+            baseline_policy = "upper_consensus_undercredit"
 
     selected_score = max(0.0, min(max_score, selected_score))
     selected_ratio = clamp01(selected_score / max_score)
@@ -1088,6 +1120,9 @@ def select_baseline_score(model_scores, model_avg_score, max_score, post_calibra
             "upper_consensus_ready": upper_consensus_ready,
             "high_over_unsafe": high_over_unsafe,
             "high_score_safety_review": high_score_safety_review,
+            "extraction_risk": round(extraction_risk, 6),
+            "structure_missing_rate": round(structure_missing_rate, 6),
+            "suspicious_extraction_rate": round(suspicious_extraction_rate, 6),
             "score_history_min": round(score_min, 4),
             "score_history_max": round(score_max, 4),
             "score_history_median": round(score_median, 4),
@@ -1206,12 +1241,15 @@ def build_a3wa_decision(
     high_blank_score = u_blank if avg_ratio >= 0.70 else 0.0
     lenient_undercredit = clamp01(post_calibration.get("lenient_undercredit_signal", 0.0))
     unsupported_high_score = clamp01(post_calibration.get("unsupported_high_score_risk", 0.0))
+    result_correctness = clamp01(post_calibration.get("result_correctness_signal", 0.0))
     result_strong = clamp01(post_calibration.get("result_strong_signal", 0.0))
     method_evidence = clamp01(post_calibration.get("method_evidence_signal", 0.0))
+    bare_answer_risk = clamp01(post_calibration.get("bare_answer_risk", 0.0))
     weak_result_high_score = bool(post_calibration.get("weak_result_high_score_review", False))
     stable_undercredit = bool(post_calibration.get("stable_undercredit_review", False))
     direct_only_high_score = bool(post_calibration.get("direct_only_high_score_risk", False))
     high_score_safety = bool(post_calibration.get("high_score_safety_review", False))
+    structure_missing_review = bool(post_calibration.get("structure_missing_review", False))
     u_overcredit = clamp01(
         avg_ratio * max(
             u_semantic,
@@ -1290,14 +1328,22 @@ def build_a3wa_decision(
 
     pos_safety_reasons = []
     if route == "POS":
-        if u_extract >= 0.25:
+        if u_extract >= 0.18:
             pos_safety_reasons.append("extract_risk")
-        if score_spread_norm >= 0.15:
+        if structure_missing_review or safe_float(structure_missing_rate, 0.0) >= 0.15:
+            pos_safety_reasons.append("structure_missing")
+        if score_spread_norm >= 0.10:
             pos_safety_reasons.append("score_spread")
-        if unsupported_high_score >= 0.15:
+        if unsupported_high_score >= 0.08:
             pos_safety_reasons.append("unsupported_high_score")
-        if avg_ratio >= 0.75 and result_strong < 0.60 and method_evidence < 0.55:
+        if lenient_undercredit >= 0.06 and avg_ratio <= 0.85:
+            pos_safety_reasons.append("possible_undercredit")
+        if avg_ratio <= 0.55 and (result_correctness >= 0.50 or method_evidence >= 0.45):
+            pos_safety_reasons.append("low_score_with_evidence")
+        if avg_ratio >= 0.70 and (result_strong < 0.60 or method_evidence < 0.50 or bare_answer_risk >= 0.25):
             pos_safety_reasons.append("high_score_weak_evidence")
+        if weak_result_high_score or direct_only_high_score or high_score_safety:
+            pos_safety_reasons.append("post_calibration_review")
         if pos_safety_reasons:
             route = "BND"
             reason = "pos_safety_gate:" + ",".join(pos_safety_reasons)
@@ -1756,7 +1802,10 @@ def apply_boundary_action_policy(
     direct_awarded_ratio = clamp01(post_calibration.get("direct_awarded_ratio", 1.0))
     direct_only_high_score = bool(post_calibration.get("direct_only_high_score_risk", False))
     high_score_safety = bool(post_calibration.get("high_score_safety_review", False))
+    structure_missing_review = bool(post_calibration.get("structure_missing_review", False))
+    final_answer_weight_high = bool(post_calibration.get("final_answer_weight_high", False))
     score_history_max = safe_float(post_calibration.get("score_history_max", baseline), baseline)
+    score_history_median = safe_float(post_calibration.get("score_history_median", baseline), baseline)
     partial_or_format_evidence = max(
         clamp01(signals.get("partial_match_points_ratio", 0.0)),
         clamp01(signals.get("format_minor_points_ratio", 0.0)),
@@ -1775,13 +1824,20 @@ def apply_boundary_action_policy(
         and result_strong < 0.65
     )
     lenient_raise_ready = (
-        lenient_undercredit >= 0.12
+        lenient_undercredit >= 0.08
         and result_correctness >= 0.50
-        and method_evidence >= 0.50
+        and method_evidence >= 0.35
         and result_strong >= 0.35
-        and bare_answer_risk < 0.40
-        and unsupported_high_score < 0.20
+        and bare_answer_risk < 0.35
+        and unsupported_high_score < 0.25
         and avg_ratio <= 0.90
+        and (
+            lenient_undercredit >= 0.10
+            or result_correctness >= 0.60
+            or avg_ratio <= 0.55
+            or partial_or_format_evidence >= 0.05
+        )
+        and not (structure_missing_review and avg_ratio >= 0.55 and result_correctness < 0.60)
         and not parameter_dense_weak_final
         and not direct_only_high_score
     )
@@ -1791,58 +1847,127 @@ def apply_boundary_action_policy(
         and result_strong >= 0.45
         and avg_ratio <= 0.70
     )
+    under_direction_ready = (
+        lenient_raise_ready
+        or (
+            signals.get("under_score_risk", False)
+            and result_correctness >= 0.50
+            and method_evidence >= 0.35
+            and unsupported_high_score < 0.25
+            and bare_answer_risk < 0.45
+            and not (structure_missing_review and avg_ratio >= 0.55 and result_correctness < 0.60)
+            and not direct_only_high_score
+        )
+    )
+    over_direction_ready = (
+        unsupported_high_score >= 0.10
+        or bare_answer_risk >= 0.30
+        or direct_only_high_score
+        or high_score_safety
+        or signals.get("weak_result_high_score_review", False)
+    )
+    strong_over_direction = (
+        unsupported_high_score >= 0.25
+        or direct_only_high_score
+        or signals.get("weak_result_high_score_review", False)
+        or (bare_answer_risk >= 0.35 and avg_ratio >= 0.70)
+        or (high_score_safety and result_strong < 0.60 and method_evidence < 0.55)
+    )
+    short_answer_no_evidence_lower_guard = (
+        max_score <= 10.0
+        and final_answer_weight_high
+        and agent_summary["allowed_over_points"] <= 0
+        and unsupported_high_score < 0.25
+        and bare_answer_risk < 0.35
+    )
 
     if abs(delta) <= minor_margin:
-        if strong_lenient_raise and agent_summary["allowed_missed_points"] > 0:
-            high_band_gap = max(0.0, 0.85 * max_score - baseline)
-            history_gap = max(0.0, score_history_max - baseline)
-            final_score = min(max_score, baseline + min(large_margin, high_band_gap, history_gap))
-            accepted = final_score > baseline
-            action = "auto_medium_raise" if accepted else "keep_minor_change"
-            gate_reason = "lenient_undercredit_without_agent_delta" if accepted else "minor_candidate_delta"
-        else:
-            action = "keep_minor_change"
-            gate_reason = "minor_candidate_delta"
-    elif delta < 0:
-        has_over_item = agent_summary["allowed_over_points"] > 0
         strong_positive_evidence = (
             result_strong >= 0.75
             and method_evidence >= 0.75
             and unsupported_high_score < 0.20
+            and bare_answer_risk < 0.25
+            and not direct_only_high_score
+            and not signals.get("weak_result_high_score_review", False)
+        )
+        if (
+            over_direction_ready
+            and avg_ratio >= 0.55
+            and not strong_positive_evidence
+            and not short_answer_no_evidence_lower_guard
+            and (strong_over_direction or (agent_summary["allowed_over_points"] > 0 and not under_direction_ready))
+        ):
+            lower_margin = small_margin
+            if strong_over_direction:
+                lower_margin = large_margin
+            history_target = score_history_median if score_history_median < baseline else baseline - lower_margin
+            final_score = max(0.0, min(baseline - min(lower_margin, max(0.05 * max_score, 0.5)), history_target))
+            accepted = final_score < baseline
+            action = "auto_small_lower" if accepted else "keep_minor_change"
+            gate_reason = "directional_overcredit_signal" if accepted else "minor_candidate_delta"
+        elif under_direction_ready:
+            high_band_gap = max(0.0, 0.90 * max_score - baseline)
+            history_gap = max(0.0, score_history_max - baseline)
+            fallback_gap = max(0.0, min(small_margin, 0.90 * max_score - baseline))
+            allowed_gap = max(history_gap, fallback_gap)
+            margin = large_margin if strong_lenient_raise else small_margin
+            final_score = min(max_score, baseline + min(margin, high_band_gap, allowed_gap))
+            accepted = final_score > baseline
+            action = "auto_medium_raise" if strong_lenient_raise and accepted else ("auto_small_raise" if accepted else "keep_minor_change")
+            gate_reason = "directional_undercredit_signal" if accepted else "minor_candidate_delta"
+        else:
+            action = "keep_minor_change"
+            gate_reason = "minor_candidate_delta"
+    elif delta < 0:
+        has_over_item = agent_summary["allowed_over_points"] > 0 or over_direction_ready
+        strong_positive_evidence = (
+            result_strong >= 0.75
+            and method_evidence >= 0.75
+            and unsupported_high_score < 0.20
+            and bare_answer_risk < 0.25
             and not direct_only_high_score
             and not signals.get("weak_result_high_score_review", False)
         )
         strong_lower = (
             has_over_item
             and not strong_positive_evidence
+            and not short_answer_no_evidence_lower_guard
             and avg_ratio >= 0.70
-            and (unsupported_high_score >= 0.40 or direct_only_high_score)
+            and strong_over_direction
         )
         supported_lower = (
             has_over_item
             and not strong_positive_evidence
-            and avg_ratio >= 0.50
+            and not short_answer_no_evidence_lower_guard
+            and avg_ratio >= 0.55
+            and (strong_over_direction or not under_direction_ready)
             and (
                 unsupported_high_score >= 0.10
                 or direct_only_high_score
                 or signals.get("weak_result_high_score_review", False)
                 or high_score_safety
+                or bare_answer_risk >= 0.30
             )
             and (
                 fatal >= 0.20
                 or blank >= 0.60
                 or overcredit >= 0.10
                 or bare_answer_risk >= 0.15
-                or result_strong < 0.65
+                or result_strong < 0.70
+                or method_evidence < 0.55
             )
         )
         if strong_lower:
             final_score = max(0.0, baseline - min(abs(delta), large_margin))
+            if score_history_median < baseline:
+                final_score = min(final_score, score_history_median)
             accepted = True
             action = "large_lower"
             gate_reason = "strong_unsupported_high_score_evidence"
         elif supported_lower:
             final_score = max(0.0, baseline - min(abs(delta), small_margin))
+            if score_history_median < baseline:
+                final_score = min(final_score, score_history_median)
             accepted = True
             action = "small_lower"
             gate_reason = "supported_unsupported_high_score_evidence"
@@ -1852,13 +1977,15 @@ def apply_boundary_action_policy(
     elif delta > 0:
         supported_raise = (
             lenient_raise_ready
-            and agent_summary["allowed_missed_points"] > 0
+            and (agent_summary["allowed_missed_points"] > 0 or under_direction_ready)
         )
         if supported_raise:
-            high_band_gap = max(0.0, 0.85 * max_score - baseline)
+            high_band_gap = max(0.0, 0.90 * max_score - baseline)
             history_gap = max(0.0, score_history_max - baseline)
+            fallback_gap = max(0.0, min(small_margin, 0.90 * max_score - baseline))
+            allowed_gap = max(history_gap, fallback_gap)
             margin = large_margin if strong_lenient_raise else small_margin
-            final_score = min(max_score, baseline + min(delta, margin, high_band_gap, history_gap))
+            final_score = min(max_score, baseline + min(delta, margin, high_band_gap, allowed_gap))
             accepted = final_score > baseline
             action = "medium_raise" if strong_lenient_raise else "small_raise"
             if not accepted:

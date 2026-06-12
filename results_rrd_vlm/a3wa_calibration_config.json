@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "source": "generalized_extraction_risk_update",
-  "update_note": "Risk weights updated after adding blank/structure-aware extraction risk. Loss parameters are unchanged.",
+  "source": "compressed_directional_risk_update",
+  "update_note": "Blank risk is folded into extraction risk; over-credit risk is kept as the separate high-score-without-evidence component.",
   "selection_objective": "cost_sensitive_validation_calibration",
   "loss_params": {
     "lambda1": 5.0,
@@ -14,8 +14,8 @@
     "extract": 0.4,
     "score": 0.25,
     "semantic": 0.2,
-    "blank": 0.1,
-    "overcredit": 0.05
+    "blank": 0.0,
+    "overcredit": 0.15
   },
   "thresholds": {
     "alpha": 0.828571,

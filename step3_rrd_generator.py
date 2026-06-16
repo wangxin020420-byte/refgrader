@@ -4,14 +4,111 @@ import base64
 import random
 import re
 import time
-from zhipuai import ZhipuAI
+from openai import OpenAI
+from calibration_utils import prepare_rubrics_for_calibration
 
 # 🔴 记得替换为你的真实 Key
-API_KEY = "4796e7b83db0453fbd36eee18e161630.nuJkwBYVO6FyCpQe"  
-client = ZhipuAI(api_key=API_KEY)
+CODING_PLAN_API_KEY = "132a47a6484e4a9dbfaa51fea40bbae0.LqWjKhw6WcH2sdFs"
+CODING_PLAN_BASE_URL = "https://open.bigmodel.cn/api/coding/paas/v4/"
+client = OpenAI(api_key=CODING_PLAN_API_KEY, base_url=CODING_PLAN_BASE_URL)
 
 VLM_MODEL_NAME = "glm-4.6v"
-LOGIC_MODEL_NAME = "glm-4.5-air"
+LOGIC_MODEL_NAME = "glm-5.1"
+
+SUPPORTED_ANSWER_TYPES = {
+    "direct_numeric",
+    "derived_numeric",
+    "numeric",
+    "base_number",
+    "bit_vector",
+    "sequence",
+    "set",
+    "relation",
+    "table_entry",
+    "diagram_ocr",
+    "formula",
+    "method",
+    "judgement",
+    "concept_keyword",
+}
+
+ANSWER_TYPE_ALIASES = {
+    "string": "concept_keyword",
+    "text": "concept_keyword",
+    "numeric_or_hex": "base_number",
+    "hex_string": "base_number",
+    "boolean_string": "judgement",
+    "boolean": "judgement",
+    "graph_node": "relation",
+    "graph_edge": "relation",
+    "diagram_node": "relation",
+    "diagram_edge": "relation",
+}
+
+SUPPORTED_EVIDENCE_SOURCES = {"text", "formula", "table", "diagram"}
+
+
+def normalize_answer_type(raw_type, item_text="", canonicalization=""):
+    raw = str(raw_type or "").strip()
+    lowered = raw.lower()
+    if lowered in ANSWER_TYPE_ALIASES:
+        return ANSWER_TYPE_ALIASES[lowered]
+    if lowered in SUPPORTED_ANSWER_TYPES:
+        return lowered
+
+    text = f"{item_text} {canonicalization}"
+    if re.search(r"\b[0-9A-Fa-f]+\s*[Hh]\b|[01]{4,}", text):
+        return "base_number"
+    if any(word in text for word in ("公式", "表达式", "formula", "method")):
+        return "formula"
+    if any(word in text for word in ("命中", "未命中", "溢出", "未溢出", "正确", "错误", "OF")):
+        return "judgement"
+    return "concept_keyword"
+
+
+def normalize_evidence_source(raw_source, answer_type):
+    source = str(raw_source or "").strip().lower()
+    if source in SUPPORTED_EVIDENCE_SOURCES:
+        return source
+    if answer_type in {"relation", "diagram_ocr"}:
+        return "diagram"
+    if answer_type == "table_entry":
+        return "table"
+    if answer_type in {"formula", "method"}:
+        return "formula"
+    return "text"
+
+
+def normalize_generated_rubric(rubric):
+    """Normalize model-generated rubric schema before calibration."""
+    if not isinstance(rubric, list):
+        return rubric
+    normalized = []
+    for idx, raw_item in enumerate(rubric):
+        if not isinstance(raw_item, dict):
+            continue
+        item = dict(raw_item)
+        item.setdefault("id", f"auto_item_{idx}")
+        item.setdefault("item", "")
+        item["item"] = " ".join(str(item.get("item", "")).split())
+        try:
+            item["points"] = float(item.get("points", 0))
+        except Exception:
+            item["points"] = 0.0
+        item.setdefault("source_text", item.get("item", ""))
+        item.setdefault("parent_official_item", item.get("parent_id", ""))
+
+        answer_type = normalize_answer_type(
+            item.get("answer_type"),
+            item_text=item.get("item", ""),
+            canonicalization=item.get("canonicalization", ""),
+        )
+        item["answer_type"] = answer_type
+        item["evidence_source"] = normalize_evidence_source(item.get("evidence_source"), answer_type)
+        if item.get("canonicalization") is None:
+            item.pop("canonicalization", None)
+        normalized.append(item)
+    return prepare_rubrics_for_calibration(normalized)
 
 def encode_image_to_base64(image_path):
     if not image_path or not os.path.exists(image_path):
@@ -94,6 +191,59 @@ def generate_rrd_rubrics(question_text, ref_answer, official_rubric, total_score
         {{"id": "唯一的ID", "item": "官方标准描述（包含必要的事实数值）", "points": 分值}}
     ]
     """
+    init_prompt = f"""
+你是计算机专业课程的自动阅卷评分准则结构化助手。
+请把【官方评分准则】转换为可执行的 JSON rubric。
+
+输入信息：
+- 题目满分：{total_score}
+- 题目内容：{question_text}
+- 参考答案：{ref_answer}
+- 官方评分准则：{official_rubric}
+
+基本原则：
+1. 忠实于官方评分准则，不得凭空增加新的得分点。
+2. 初始生成阶段不要过度拆分官方粗粒度条款；只有当官方条款已经包含明确子事实时，才拆成多个小项。
+3. 每个评分项必须是可检查的客观事实，例如具体数值、公式、判断结论、序列、表格项、图中关系。
+4. 禁止使用“过程完整”“逻辑清晰”“理由充分”等主观描述。
+5. 所有 points 之和必须严格等于 {total_score}。
+6. item 字段必须是单行文本，不要包含换行。
+
+answer_type 只能从下列集合中选择，不得创造新类型：
+direct_numeric, derived_numeric, numeric, base_number, bit_vector,
+sequence, set, relation, table_entry, diagram_ocr,
+formula, method, judgement, concept_keyword
+
+evidence_source 只能从下列集合中选择：
+text, formula, table, diagram
+
+字段要求：
+- id：稳定唯一 ID。
+- item：评分项描述，包含标准答案中的关键事实。
+- points：该项分值。
+- answer_type：从允许集合中选择。
+- role：parameter / intermediate / method / final / unknown。
+- canonicalization：建议的等价归一化方式，例如 numeric、base_number、bit_vector、sequence、set、formula、semantic_text。
+- evidence_source：text / formula / table / diagram。
+- source_text：来自官方评分准则或参考答案的原始依据。
+- parent_official_item：对应官方粗粒度条款。
+
+只输出 JSON 数组，不要输出 Markdown 或解释。
+示例：
+[
+  {{
+    "id": "item_1",
+    "item": "写出最终结果为 128",
+    "points": 2,
+    "answer_type": "derived_numeric",
+    "role": "final",
+    "canonicalization": "numeric",
+    "evidence_source": "text",
+    "source_text": "官方评分准则中的对应条款",
+    "parent_official_item": "official_1"
+  }}
+]
+"""
     init_content = [{"type": "text", "text": init_prompt}]
     if q_img_path and os.path.exists(q_img_path):
         init_content.append({"type": "image_url", "image_url": {"url": f"data:{get_mime_type(q_img_path)};base64,{encode_image_to_base64(q_img_path)}"}})
@@ -103,6 +253,7 @@ def generate_rrd_rubrics(question_text, ref_answer, official_rubric, total_score
     current_rubric = call_glm_vlm(init_content)
     if not current_rubric:
         return None
+    current_rubric = normalize_generated_rubric(current_rubric)
 
     if not student_images_dir or not os.path.exists(student_images_dir):
         return current_rubric
@@ -145,6 +296,22 @@ def generate_rrd_rubrics(question_text, ref_answer, official_rubric, total_score
                 "conflict_reason": "简述为什么这条粗粒度标准需要被进一步拆分为细则"
             }}
             """
+            trial_prompt = f"""
+你正在检查当前 rubric 是否存在粗粒度或歧义问题。
+
+当前 rubric：
+{json.dumps(current_rubric, ensure_ascii=False)}
+
+请阅读学生答卷图片，判断是否存在由于 rubric 本身粒度过粗或表述歧义导致的评分冲突。
+不要因为学生没写、图片看不清、OCR 失败而报告 rubric 冲突。
+
+只输出 JSON 对象：
+{{
+  "has_conflict": true 或 false,
+  "conflicted_item_ids": ["存在问题的 rubric id"],
+  "conflict_reason": "说明为什么这是 rubric 粒度或歧义问题，而不是提取失败或学生错误"
+}}
+"""
             trial_content = [{"type": "text", "text": trial_prompt}]
             trial_content.append({"type": "image_url", "image_url": {"url": f"data:{get_mime_type(img_path)};base64,{encode_image_to_base64(img_path)}"}})
             
@@ -189,7 +356,7 @@ def generate_rrd_rubrics(question_text, ref_answer, official_rubric, total_score
         refined_rubric = call_glm_vlm(refine_content)
         
         if refined_rubric:
-            current_rubric = refined_rubric
+            current_rubric = normalize_generated_rubric(refined_rubric)
             iteration += 1
         else:
             print("   ❌ 拆解生成失败，保留上一轮标准并终止迭代。")
@@ -199,12 +366,14 @@ def generate_rrd_rubrics(question_text, ref_answer, official_rubric, total_score
     # 👉 修复1：严格保留 ID 字段，防止方差修正函数因为找不到 ID 而崩溃
     final_rubric = []
     for idx, r in enumerate(current_rubric):
-        final_rubric.append({
-            "id": r.get("id", f"auto_item_{idx}"),
-            "item": r.get("item", ""),
-            "points": r.get("points", 0)
-        })
-    return final_rubric
+        item = dict(r)
+        item.setdefault("id", f"auto_item_{idx}")
+        item.setdefault("item", "")
+        item.setdefault("points", 0)
+        item.setdefault("source_text", item.get("item", ""))
+        item.setdefault("parent_official_item", item.get("parent_id", ""))
+        final_rubric.append(item)
+    return normalize_generated_rubric(final_rubric)
 
 
 #[新增] 基于高方差样本对评分规则进行全局修正。
@@ -217,10 +386,15 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
     
     samples_desc = ""
     for idx, sample in enumerate(hard_samples_info):
+        item_var = sample.get("item_variance", {})
+        top_item_var = sorted(item_var.items(), key=lambda kv: kv[1], reverse=True)[:5] if item_var else []
         samples_desc += f"""
         === 疑难样本 {idx+1} ===
         【学生作答提取】: {sample.get('facts', '无法提取')}
         【多次试打分结果】: {sample.get('scores', [])} (波动大意味着规则判定模糊)
+        【条目级方差Top】: {json.dumps(top_item_var, ensure_ascii=False)}
+        【条目得分历史】: {json.dumps(sample.get('item_scores_history', {}), ensure_ascii=False)}
+        【条目判定历史】: {json.dumps(sample.get('item_category_history', {}), ensure_ascii=False)}
         ---------------------
         """
 
@@ -257,6 +431,76 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
     """
 
     # 👉 修复3：加入重试装甲和 timeout 防止反思超时崩溃
+    prompt += """
+
+    EXTRA_CONSTRAINTS_FOR_GENERALIZATION:
+    1. Use item-level variance before total-score variance. Only rewrite items whose item_variance is high, or whose official parent item is too coarse.
+    2. First classify each issue as one of: rubric_ambiguity, rubric_granularity, extraction_failure, equivalent_representation_gap, scoring_model_error.
+    3. Only rubric_ambiguity and rubric_granularity may change the rubric body or split points.
+    4. If the issue is extraction_failure, equivalent_representation_gap, or scoring_model_error, keep the scoring meaning and only add metadata such as answer_type, canonicalization, evidence_source, dependency_group, source_text, parent_official_item.
+    5. Do not use teacher-score history or question-specific hacks. The output must remain valid for other CS courses and exams.
+    6. Preserve source traceability: every item should keep source_text and parent_official_item when possible.
+    """
+
+    prompt = f"""
+你是计算机相关课程的评分准则优化专家。现在要基于高方差样本，对当前 JSON rubric 做一次通用化修正。
+
+【题目内容】
+{question_text}
+
+【题目总分】
+{total_score}
+
+【当前 rubric】
+{json.dumps(original_rubric_list, ensure_ascii=False, indent=2)}
+
+【高方差样本诊断信息】
+{samples_desc}
+
+【优化目标】
+1. 只解决 rubric 本身的问题：表述歧义、粒度过粗、等价表达没有说明、答案类型或证据来源缺失。
+2. 不要把 OCR/视觉提取失败、学生错误、模型偶然误判，当成 rubric 内容去硬改。
+3. 不得使用教师分数历史、学生编号、具体题号等信息做针对性规则；生成结果必须能迁移到其他计算机课程题目。
+4. 所有评分项 points 之和必须严格等于 {total_score}。
+
+【问题类型判定】
+在修改前，先在内部判断每个暴露问题属于哪一类：
+- rubric_ambiguity：评分项语义不清，导致不同评分轮次解释不一致。
+- rubric_granularity：官方粗粒度条目过大，无法稳定判断局部得分。
+- equivalent_representation_gap：学生等价表达没有被描述，例如进制、单位、序列方向、图/文字等价。
+- extraction_failure：图像或 OCR 没提取到内容。
+- scoring_model_error：rubric 清楚，但评分模型执行错误。
+
+只有 rubric_ambiguity 和 rubric_granularity 可以改写或拆分评分项。
+equivalent_representation_gap 只能补充 canonicalization / answer_type / evidence_source 等元数据，不得改变得分含义。
+extraction_failure 和 scoring_model_error 不允许改变评分语义，只能保留原 rubric 或补充元数据。
+
+【允许的 answer_type】
+只能从以下集合选择，不得创造新类型：
+direct_numeric, derived_numeric, numeric, base_number, bit_vector,
+sequence, set, relation, table_entry, diagram_ocr,
+formula, method, judgement, concept_keyword
+
+【允许的 evidence_source】
+只能从以下集合选择：
+text, formula, table, diagram
+
+【字段要求】
+每个评分项必须包含：
+- id：稳定唯一 ID；未修改的原条目尽量保留原 id。
+- item：单行、客观、可检查的评分项描述，避免“逻辑清楚”“理由充分”等主观词。
+- points：该项分值。
+- answer_type：从允许集合中选择。
+- role：parameter / intermediate / method / final / unknown。
+- canonicalization：等价归一化说明，例如 numeric、base_number、bit_vector、sequence、set、formula、semantic_text。
+- evidence_source：text / formula / table / diagram。
+- source_text：来自官方评分准则或参考答案的依据。
+- parent_official_item：对应的官方粗粒度条目。
+
+【输出要求】
+只输出 JSON 数组，不输出 Markdown，不输出解释文字。
+"""
+
     max_retries = 3
     for attempt in range(max_retries):
         try:
@@ -279,7 +523,7 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
                 raise ValueError("总分不守恒")
 
             print("   ✅ 规则修正成功！")
-            return new_rubric
+            return normalize_generated_rubric(new_rubric)
 
         except Exception as e:
             print(f"   ⏳ [修正异常] (尝试 {attempt+1}/{max_retries}): {e}")
@@ -287,4 +531,4 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
                 time.sleep(5)
             else:
                 print("   ❌ 规则修正彻底失败，沿用原规则。")
-                return original_rubric_list
+                return normalize_generated_rubric(original_rubric_list)

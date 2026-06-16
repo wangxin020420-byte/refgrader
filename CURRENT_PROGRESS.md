@@ -1,6 +1,209 @@
 # Current Progress
 
-Last updated: 2026-06-06
+Last updated: 2026-06-16
+
+## 2026-06-16 Q2/Q3 Extraction-Lock Fix And Checkpoint Evaluation
+
+This update addresses the Q2/Q3 failure mode where visual extraction failure
+caused empty facts, positive evidence collapsed to zero, BND raises were blocked,
+and some samples were locked into NEG/model-average fallback.
+
+Implemented generic changes:
+
+```text
+1. step4_vlm_grader.py
+   - Added preprocess_student_image_to_base64() with contrast/upscale/sharpen
+     image views for second-pass extraction.
+   - Added a clean override of stage1_targeted_reextraction() before Stage2.
+   - The retry is triggered by blank, perception-failure, low-quality, or
+     structure-missing facts. It does not use question ids.
+   - Recovered facts are audited through _extraction_recovered_by.
+
+2. calibration_utils.py
+   - Extraction failure is no longer treated as a hard NEG reason by itself.
+     It becomes extraction_retry_review and routes to BND.
+   - fatal_points_ratio no longer counts missing method/intermediate items as
+     semantic fatal when a strong final/result item is already matched.
+   - Added result_anchored_undercredit_review and a guarded BND raise channel
+     for result-concentrated tasks with low baseline, strong result evidence,
+     low bare-answer risk, and low unsupported-high-score risk.
+   - Large score spread now triggers hard NEG only when the average score is
+     not already very low, avoiding "consistent low under-credit" being treated
+     as rejection evidence.
+
+3. evaluate.py
+   - Added --result-source graded|checkpoint.
+   - Default remains graded, preserving older commands.
+   - --result-source checkpoint reads *_grading_checkpoint.json and includes
+     NEG/rejected samples for full formal analysis.
+```
+
+Validation run:
+
+```powershell
+python -m py_compile calibration_utils.py step4_vlm_grader.py evaluate.py main_pipeline.py
+git diff --check -- calibration_utils.py step4_vlm_grader.py evaluate.py
+python scripts\replay_calibration.py --results-dir results_rrd_vlm --files results_rrd_vlm\Q2_grading_checkpoint.json results_rrd_vlm\Q3_grading_checkpoint.json results_rrd_vlm\Q4_grading_checkpoint.json
+python evaluate.py --result-source checkpoint --compare --questions Q2 Q3 Q4 --compare-score-keys single avg selected 3wd
+```
+
+Replay on existing checkpoints:
+
+```text
+Q2 current MAE=4.084 -> replay MAE=4.053; QWK 0.326 -> 0.331; Bias -3.207 -> -3.176
+Q3 current MAE=3.301 -> replay MAE=3.113; QWK 0.336 -> 0.375; Bias -3.301 -> -3.113
+Q4 unchanged: MAE=2.089; QWK=0.852
+GLOBAL current MAE=3.364 -> replay MAE=3.277; QWK 0.489 -> 0.505
+```
+
+Interpretation:
+
+```text
+The replay confirms that the route/BND logic moves in the correct direction on
+Q2/Q3 without damaging Q4 in existing checkpoints. The new image-enhanced
+second-pass extraction cannot be validated by replay; it requires a fresh FULL
+run because it changes Stage1 VLM extraction inputs.
+```
+
+Follow-up audit fix on 2026-06-16:
+
+```text
+The previous replay was not sufficient for NEG -> BND samples because old NEG
+records do not contain boundary_gate / boundary-agent evidence. Therefore replay
+can show route changes but cannot show the real score effect for those samples.
+Fresh FULL rerun is required.
+
+Additional fixes:
+  1. extraction_retry_review now also triggers on blank_rate >= 0.40 and on
+     very-low-score/no-positive-evidence extraction failure patterns. This is
+     generic and does not depend on visual item tags.
+  2. low_score_nonblank_review was added to A3WA routing. Very low baseline
+     samples with nonblank extracted facts are routed to BND instead of hard NEG.
+     This prevents nonblank but semantically-disputed answers from being locked
+     at model_avg=0 without boundary arbitration.
+  3. The old duplicate stage1_targeted_reextraction definition was removed.
+  4. Several historically mojibake logging/prompt fallback strings in
+     step4_vlm_grader.py were replaced with ASCII/English strings so the file
+     compiles reliably.
+```
+
+Validation after the follow-up fix:
+
+```text
+python -m py_compile calibration_utils.py step4_vlm_grader.py evaluate.py main_pipeline.py scripts\replay_calibration.py
+git diff --check -- calibration_utils.py step4_vlm_grader.py evaluate.py CURRENT_PROGRESS.md
+
+Q2/Q3/Q4 replay:
+  Q2: old NEG -> new BND = 7 samples; MAE 4.084 -> 4.053
+  Q3: old NEG -> new BND = 6 samples; MAE 3.301 -> 3.113
+  Q4: unchanged; MAE 2.089
+
+Q6/Q7 safety replay:
+  Q6: Over>2 remains 2; MAE 2.666 -> 2.657
+  Q7: Over>2 remains 6; MAE 0.961 -> 0.951
+  GLOBAL Q6+Q7: MAE 1.820 -> 1.810; Over>2 remains 8
+```
+
+Important interpretation:
+
+```text
+The route-level objective is now satisfied: Q2 and Q3 severe old NEG samples are
+sent to BND for fresh arbitration. Replay still cannot estimate their final
+score improvement because old NEG samples lack saved boundary-agent outputs.
+The next valid test is a --force-rerun FULL experiment.
+```
+
+## 2026-06-16 Q2/Q3 Audit Closure And Force-Rerun Checklist
+
+This section closes the audit of the 2026-06-16 Q2/Q3 fix and records the
+concrete next step: the only valid validation of the NEG->BND rescue and the
+image-enhanced extraction is a --force-rerun FULL experiment. The diagnostic
+below was run on existing checkpoints, so it validates routing only, not
+Stage1 extraction or boundary-agent raises.
+
+Audit closure findings (verified by diagnostic replay on checkpoints):
+
+```text
+1. extraction_retry_review fix works.
+   - Q2 NEG 8 -> 1 (7 rerouted to BND; the remaining one is a true
+     large_score_spread disagreement).
+   - Q3 NEG 6 -> 0 (all 6 rerouted to BND).
+   - The Q3 rescue is driven by the new blank_rate >= 0.40 branch of
+     extraction_retry_review, NOT by low_score_nonblank_review.
+
+2. low_score_nonblank_review triggers very rarely in practice
+   (Q2=1, Q3=0, Q6=3). Its avg_ratio <= 0.30 condition is too strict to be
+   the main driver. It is correct and harmless (every triggered sample has a
+   non-low teacher score, so no truly-zero paper is wrongly promoted), but it
+   should NOT be credited as the Q3 fix.
+
+3. Q6 also has 4 ex-NEG samples rerouted to BND (E12314013/29/161/173,
+   teacher 4-8, model_avg 3-4) via extraction_retry_review. This was not
+   noted in the previous summary and is an additional force-rerun risk point.
+
+4. Replay blindness is now explicit. scripts/replay_calibration.py prints a
+   WARNING for BND samples that have no saved boundary_gate (route changed
+   but score not raised in replay). Diagnostic counts:
+     Q2 = 8, Q3 = 12, GLOBAL(Q2+Q3) = 20.
+   Q3=12 is higher than the 6 ex-NEG because 6 original-BND Q3 samples also
+   lack boundary_gate. None of these samples' real effect is visible in
+   replay, by construction.
+
+5. Watch sample: E12314101_Q2 (teacher=0, blank paper) is also rerouted to
+   BND. force-rerun must confirm it stays at ~0 (not falsely raised).
+```
+
+Tooling cleanup done this round:
+
+```text
+- scripts/replay_calibration.py now reports how many BND samples are
+  unevaluable in replay (no saved boundary_gate), so route-vs-score
+  confusion is no longer silent.
+- Deleted outputs/q2_q3_20260613_full_compare.csv (byte-identical duplicate
+  of q2_q3_20260613_compare.csv).
+```
+
+Status:
+
+```text
+Implementation: correct across three rounds of changes; compiles clean; no
+side-effect misfires.
+Validation: still insufficient. 17 rerouted ex-NEG samples (Q2x7, Q3x6, Q6x4)
+plus additional original-BND samples are invisible in replay. The reported
+replay MAE improvements do NOT include any effect of the NEG->BND rescue.
+Do not conclude the rescue works until force-rerun.
+```
+
+Force-rerun command:
+
+```powershell
+python main_pipeline.py --mode FULL --questions Q2 Q3 Q6 Q7 --force-rerun --progress-file results_rrd_vlm\progress_q2_q3_q6_q7_fix.json
+python evaluate.py --result-source checkpoint --compare --questions Q2 Q3 Q6 Q7 --compare-score-keys single avg selected 3wd --compare-output outputs\q2_q3_q6_q7_fix_compare.csv
+```
+
+Force-rerun acceptance checklist (priority order):
+
+```text
+1. The 17+ rerouted ex-NEG samples: final vs teacher.
+   Expect Q2/Q3 high-teacher samples (teacher 6-20) to be raised. Also count
+   _extraction_recovered_by non-empty across all samples; if it is mostly
+   empty, image enhancement is not working and the extraction root cause
+   persists.
+
+2. Q6/Q7 Over>2 must NOT increase after force-rerun.
+   The replay "Over>2 unchanged" result is NOT trustworthy because replay did
+   not raise the rerouted samples. Only force-rerun can confirm the loosened
+   raise channels do not introduce over-credit on the main paper questions.
+
+3. E12314101_Q2 (blank paper) final must stay ~0.
+   Guards the NEG-rescue + boundary-agent path against falsely raising
+   truly-empty answers.
+
+4. Use a single --result-source checkpoint scope for all reported tables.
+   Abandon the old compare CSV (graded_results, 64 rows) to avoid mixing
+   run/scope with the 68-row checkpoint numbers (checkpoint final MAE 4.084
+   vs old graded 5.43 differ by >1 point).
+```
 
 ## 2026-06-06 Selected Baseline / Evaluation Update
 
@@ -987,4 +1190,130 @@ In a new conversation or after context loss, use:
 
 ```text
 Please first read CURRENT_PROGRESS.md, then continue from the current project state.
+```
+
+## Fixed Run Commands And Operational Notes
+
+The project already has a server-side background runner: `run_experiment.sh`.
+It wraps `main_pipeline.py` with `nohup`, writes a PID file, and provides
+`status`, `tail`, and `stop` commands. Do not manually add another `nohup`
+layer unless the script is unavailable.
+
+Local Windows run for Q2/Q3:
+
+```powershell
+python main_pipeline.py --mode FULL --questions Q2 Q3 --progress-file results_rrd_vlm\progress_q2_q3_local.json
+```
+
+Lab Linux server run for Q4/Q5:
+
+```bash
+cd /home/E125221219/projects/refgrader
+conda activate ref-grader
+./run_experiment.sh run --mode FULL --questions Q4 Q5 --progress-file results_rrd_vlm/progress_q4_q5_server.json
+```
+
+Server management:
+
+```bash
+./run_experiment.sh status
+./run_experiment.sh tail
+./run_experiment.sh stop
+python monitor.py --watch
+```
+
+Question selection priority:
+
+```text
+1. Command-line --questions has the highest priority and overrides GRADING_CONFIG.
+2. If --questions is not provided, main_pipeline.py uses GRADING_CONFIG in FULL mode.
+3. If --questions is not provided, main_pipeline.py uses VARIANCE_CONFIG in VARIANCE_OPT mode.
+4. Use separate progress files when local and server jobs run different question sets.
+```
+
+## 2026-06-14 Rubric And 3WD Simplification Update
+
+Goal: reduce over-engineered risk inputs and make the method easier to defend in a paper. The current implementation no longer relies on teacher historical error signals for rubric optimization. The pipeline keeps the official coarse rubric as the source, converts it to structured JSON, then uses high-variance samples only to identify rubric granularity or ambiguity problems.
+
+Implemented changes:
+
+```text
+1. calibration_utils.py
+   - Added structured item metadata inference: answer_type, role, canonicalization, evidence_source, source_text, parent_official_item.
+   - Added generic support for base_number, bit_vector, sequence, set, relation, table_entry, and diagram_ocr item types.
+   - Added three primary routing risks:
+     U_E = evidence quality risk,
+     U_S = score stability risk,
+     U_R = rubric adaptation risk.
+   - A3WA now prefers R(x) = (U_E + U_S + U_R) / 3 and mu(x) = 1 - R(x).
+   - Older detailed risk fields are retained only as diagnostics and backward-compatible signals.
+
+2. main_pipeline.py
+   - VARIANCE_OPT now records strict_cots, item_scores_history, item_category_history, item_variance, max_item_variance, avg_item_variance.
+   - Hard samples for rubric refinement are now ranked by item-level variance first, then total-score variance.
+   - This prevents a stable-but-wrong total score from hiding unstable or ambiguous rubric items.
+
+3. step3_rrd_generator.py
+   - Generated/refined rubrics are normalized through prepare_rubrics_for_calibration().
+   - High-variance sample prompts now include item-level variance and item-level judgment history.
+   - Added generalization constraints: only rubric_ambiguity and rubric_granularity can rewrite rubric content; extraction_failure, equivalent_representation_gap, and scoring_model_error can only add metadata, not change scoring meaning.
+
+4. step4_vlm_grader.py
+   - Formal grading output now records U_E, U_S, U_R, primary_risk, and primary_mu in risk_features.
+
+5. evaluate.py
+   - CSV comparison export now includes U_E, U_S, U_R, primary_risk, and primary_mu for route auditing.
+```
+
+Validation performed:
+
+```powershell
+python -m py_compile calibration_utils.py step4_vlm_grader.py main_pipeline.py step3_rrd_generator.py evaluate.py
+python evaluate.py --compare --questions Q2 Q3 --compare-score-keys single avg selected 3wd --compare-output outputs/q2_q3_primary_risk_compare.csv
+python scripts\replay_calibration.py --results-dir results_rrd_vlm --files results_rrd_vlm\Q2_grading_checkpoint.json results_rrd_vlm\Q3_grading_checkpoint.json
+```
+
+Replay result on old Q2/Q3 checkpoints: the code runs successfully, but improvement is small because old checkpoints were generated before this rubric optimization update. The expected effect should be evaluated by rerunning the pipeline so that new rubric metadata and item-level variance selection can take effect.
+
+## 2026-06-14 Step3 Rubric Generation Hardening
+
+Purpose: fix the rubric-generation stage after Q2-Q5 rubric regeneration exposed schema drift and unstable prompt behavior.
+
+Implemented in `step3_rrd_generator.py`:
+
+```text
+1. Switched Step3 to the same coding-plan API style used by Step4:
+   VLM model = glm-4.6v, text/rubric model = glm-5.1.
+
+2. Added generated-rubric schema normalization:
+   - Unsupported answer_type values are mapped to supported generic types.
+   - Examples: string -> concept_keyword, hex_string/numeric_or_hex -> base_number,
+     boolean_string -> judgement, graph_node/graph_edge -> relation.
+   - evidence_source is limited to text/formula/table/diagram.
+   - Every generated item is passed through prepare_rubrics_for_calibration().
+
+3. Replaced the effective Step3 prompts with clean UTF-8 Chinese prompts:
+   - Cold-start rubric generation now requires stable fields, traceability, supported answer_type,
+     supported evidence_source, and total-score conservation.
+   - Trial conflict detection only reports rubric granularity/ambiguity conflicts; OCR failure and
+     student errors are not treated as rubric problems.
+   - Variance-based refinement now classifies issues before editing. Only rubric_ambiguity and
+     rubric_granularity can rewrite or split scoring items. extraction_failure, equivalent_representation_gap,
+     and scoring_model_error can only add metadata and cannot change scoring meaning.
+
+4. Refined and fallback rubrics are normalized before being returned, so regenerated Q2-Q5 rubrics should not
+   introduce unsupported schema fields into Step4 scoring or calibration.
+```
+
+Recommended regeneration command after this update:
+
+```powershell
+python main_pipeline.py --mode VARIANCE_OPT --questions Q2 Q3 Q4 Q5 --sample-size 5 --progress-file results_rrd_vlm\progress_rubric_q2_q5_clean.json --force-rerun
+```
+
+Then rerun scoring/evaluation with a separate progress file:
+
+```powershell
+python main_pipeline.py --mode FULL --questions Q2 Q3 Q4 Q5 --progress-file results_rrd_vlm\progress_q2_q5_clean.json --force-rerun
+python evaluate.py --compare --questions Q2 Q3 Q4 Q5 --compare-score-keys single avg selected 3wd --compare-output outputs/q2_q5_clean_compare.csv
 ```

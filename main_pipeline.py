@@ -201,7 +201,7 @@ class ProgressTracker:
         try:
             with os.fdopen(tmp_fd, "w", encoding="utf-8") as f:
                 json.dump(output, f, indent=2, ensure_ascii=False)
-            os.rename(tmp_path, self.progress_path)
+            os.replace(tmp_path, self.progress_path)
         except Exception:
             try:
                 os.unlink(tmp_path)
@@ -297,7 +297,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 # ============================================================
 # 核心功能 A：基于方差的自动优化流程 (用于测试/打磨标准)
 # ============================================================
-def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=None):
+def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=None, force_rerun=False):
     q_id = q_data["question_id"]
     q_score = q_data["total_score"]
     q_text = q_data["question_text"]
@@ -314,22 +314,39 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
 
     # --- Step 1: 加载或生成初始标准 ---
     draft_rubric = None
-    if os.path.exists(rubric_save_path):
+    rubric_regenerated = False
+    if force_rerun and os.path.exists(rubric_save_path):
+        logging.info("force-rerun enabled; regenerate rubric and ignore existing rubric file.")
+    elif os.path.exists(rubric_save_path):
         with open(rubric_save_path, "r", encoding="utf-8") as f:
             draft_rubric = json.load(f)
-        logging.info("⚡ 发现已有标准草稿，跳过生成步骤。")
-    else:
-        logging.info("📝 正在生成初始草稿...")
+        logging.info("Existing rubric found; skip initial generation.")
+        if not isinstance(draft_rubric, list) or not draft_rubric:
+            logging.warning("Existing rubric file is empty or invalid; regenerating it.")
+            draft_rubric = None
+
+    if draft_rubric is None:
+        logging.info("Generating initial rubric draft...")
         draft_rubric = generate_rrd_rubrics(q_text, ref_text, official_rubric, q_score, q_img, ref_img, None)
+        if not isinstance(draft_rubric, list) or not draft_rubric:
+            logging.error(f"Failed to generate a valid rubric for {q_id}; stop VARIANCE_OPT for this question.")
+            if progress_tracker:
+                progress_tracker.record_error(q_id, "__rubric__", "rubric_generation_failed")
+            return
         with open(rubric_save_path, "w", encoding="utf-8") as f:
             json.dump(draft_rubric, f, indent=4, ensure_ascii=False)
-        logging.info("⏳ 初始标准生成完毕，强制休眠 2 秒，等待接口并发额度恢复...")
+        rubric_regenerated = True
+        logging.info("Initial rubric generated; sleep 2 seconds before sampling.")
         time.sleep(2)
 
     # --- Step 2: 加载已有的方差探测进度 ---
     hard_samples_info = []
     processed_files = set()
-    if os.path.exists(checkpoint_path):
+    if force_rerun:
+        logging.info("force-rerun enabled; ignore old variance checkpoint for this question.")
+    elif rubric_regenerated:
+        logging.info("Rubric was regenerated; ignore old variance checkpoint for this question.")
+    elif os.path.exists(checkpoint_path):
         with open(checkpoint_path, "r", encoding="utf-8") as f:
             hard_samples_info = json.load(f)
             processed_files = {s["file"] for s in hard_samples_info}
@@ -375,6 +392,7 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
             logging.info("   ⏳ [V0 保护] 视觉提取完成，准备进入打分循环，休眠 2 秒...")
             time.sleep(2)
 
+            strict_cots = []
             for i in range(3):
                 logging.info(f"   [第 {i+1}/3 次判决] 呼叫逻辑裁判...")
                 res_text = stage2_logic_grading(current_facts, json.dumps(draft_rubric, ensure_ascii=False))
@@ -383,6 +401,7 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
                     parsed = extract_and_parse_json(res_text)
                     if parsed and 'total_score' in parsed:
                         scores.append(parsed['total_score'])
+                        strict_cots.append(parsed)
                         logging.info(f"      ✅ [裁判亮分] 总得分: {parsed['total_score']}")
                         if 'details' in parsed:
                             for detail in parsed.get('details', []):
@@ -393,10 +412,34 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
                     time.sleep(2)
 
             if len(scores) >= 2:
+                item_scores_history = {}
+                item_category_history = {}
+                for cot in strict_cots:
+                    for detail in cot.get("details", []):
+                        item_id = str(detail.get("id", ""))
+                        if not item_id:
+                            continue
+                        try:
+                            item_score = float(detail.get("score_given", 0))
+                        except Exception:
+                            item_score = 0.0
+                        item_scores_history.setdefault(item_id, []).append(item_score)
+                        item_category_history.setdefault(item_id, []).append(str(detail.get("error_category", "")))
+                item_variance = {
+                    item_id: float(np.var(values))
+                    for item_id, values in item_scores_history.items()
+                    if len(values) >= 2
+                }
                 sample_data = {
                     "file": img_file,
                     "facts": current_facts,
                     "scores": scores,
+                    "strict_cots": strict_cots,
+                    "item_scores_history": item_scores_history,
+                    "item_category_history": item_category_history,
+                    "item_variance": item_variance,
+                    "max_item_variance": max(item_variance.values()) if item_variance else 0.0,
+                    "avg_item_variance": float(np.mean(list(item_variance.values()))) if item_variance else 0.0,
                 }
                 hard_samples_info.append(sample_data)
 
@@ -415,23 +458,43 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
     all_scores = [s["scores"] for s in hard_samples_info]
     variances = [np.var(s) for s in all_scores if len(s) > 1]
     avg_variance = np.mean(variances) if variances else 0
+    item_variances = [
+        float(v)
+        for sample in hard_samples_info
+        for v in (sample.get("item_variance") or {}).values()
+    ]
+    avg_item_variance = float(np.mean(item_variances)) if item_variances else 0.0
+    max_item_variance = max(item_variances) if item_variances else 0.0
     logging.info(f"\n📊 采样完成。平均方差: {avg_variance:.4f}")
+    logging.info(f"Item-level variance: avg={avg_item_variance:.4f}, max={max_item_variance:.4f}")
 
     has_coarse_item = any(item.get('points', 0) >= 4 for item in draft_rubric)
 
-    if avg_variance > 0.1 or has_coarse_item:
+    if avg_variance > 0.1 or avg_item_variance > 0.05 or has_coarse_item:
         if avg_variance > 0.1:
             logging.warning("⚠️ 方差超标！开始基于高方差样本修正标准...")
+        elif avg_item_variance > 0.05:
+            logging.warning("⚠️ Item-level 方差超标，开始定位不稳定评分项...")
         else:
             logging.warning("⚠️ 触发粗粒度警报！发现单一条款分值过高(>=4分)，强制启动向下拆解...")
 
         for sample in hard_samples_info:
             scores = sample.get('scores', [])
             sample['variance'] = np.var(scores) if len(scores) > 1 else 0.0
+            item_values = list((sample.get("item_variance") or {}).values())
+            sample["max_item_variance"] = max(item_values) if item_values else sample.get("max_item_variance", 0.0)
+            sample["avg_item_variance"] = float(np.mean(item_values)) if item_values else sample.get("avg_item_variance", 0.0)
 
-        sorted_samples = sorted(hard_samples_info, key=lambda x: x['variance'], reverse=True)
+        sorted_samples = sorted(
+            hard_samples_info,
+            key=lambda x: (x.get("max_item_variance", 0.0), x.get("variance", 0.0)),
+            reverse=True,
+        )
         TOP_N = 3
-        bad_samples = [s for s in sorted_samples[:TOP_N] if s['variance'] > 0]
+        bad_samples = [
+            s for s in sorted_samples[:TOP_N]
+            if s.get("max_item_variance", 0.0) > 0 or s.get("variance", 0.0) > 0
+        ]
 
         if not bad_samples:
             bad_samples = sorted_samples[:2]
@@ -689,12 +752,12 @@ if __name__ == "__main__":
 
     GRADING_CONFIG = {
         # "Q1": None,                          # 全量
-        # "Q2": 10,                            # 前 10 张
-        # "Q3": ["E12314093", "E12214171"],     # 指定学号
-        # "Q4": None,
-        "Q5": None,                             # 全量批改
-        "Q6": None,                             # 全量批改
-        "Q7": None,                             # 全量批改
+        "Q2": None,
+        "Q3": None,
+        "Q4": None,
+        #"Q5": None,                             # 全量批改
+        #"Q6": None,                             # 全量批改
+        #"Q7": None,                             # 全量批改
     }
 
     VARIANCE_CONFIG = {
@@ -724,6 +787,10 @@ if __name__ == "__main__":
     # 终端 --questions 会覆盖配置区
     if args.questions:
         question_ids = set(args.questions)
+        exam_data = [q for q in exam_data if q["question_id"] in question_ids]
+    else:
+        configured_questions = VARIANCE_CONFIG if args.mode == "VARIANCE_OPT" else GRADING_CONFIG
+        question_ids = set(configured_questions.keys())
         exam_data = [q for q in exam_data if q["question_id"] in question_ids]
 
     # 4. 解析 img_limit（终端参数优先）
@@ -803,6 +870,7 @@ if __name__ == "__main__":
                         q_data,
                         sample_size=variance_questions[q_id],
                         progress_tracker=tracker,
+                        force_rerun=args.force_rerun if args.force_rerun else FORCE_RERUN,
                     )
 
         elif args.mode == "FULL":
@@ -846,3 +914,28 @@ if __name__ == "__main__":
         logging.error(f"❌ 发生错误: {e}")
         import traceback
         traceback.print_exc()
+
+
+# ============================================================
+# 常用运行命令速查
+# ============================================================
+# 1. 本地 Windows 前台运行。适合临时跑少量题目，例如当前本地只跑 Q2、Q3：
+#    python main_pipeline.py --mode FULL --questions Q2 Q3 --progress-file results_rrd_vlm\progress_q2_q3_local.json
+#
+# 2. 如果不传 --questions，则使用本文件配置区的 GRADING_CONFIG。
+#    当前 GRADING_CONFIG 只保留 Q2、Q3 时，直接运行 python main_pipeline.py 也只会跑 Q2、Q3。
+#
+# 3. 实验室 Linux 服务器后台运行请优先使用 run_experiment.sh。
+#    该脚本内部已经封装 nohup，不需要再手动写 nohup python main_pipeline.py ... &。
+#    示例：服务器只跑 Q4、Q5：
+#    ./run_experiment.sh run --mode FULL --questions Q4 Q5 --progress-file results_rrd_vlm/progress_q4_q5_server.json
+#
+# 4. 服务器管理命令：
+#    ./run_experiment.sh status   # 查看后台任务是否仍在运行
+#    ./run_experiment.sh tail     # 实时查看最新日志
+#    ./run_experiment.sh stop     # 优雅停止后台任务
+#    python monitor.py --watch    # 查看 progress JSON 进度
+#
+# 5. 题目选择优先级：
+#    命令行 --questions 优先级最高，会覆盖 GRADING_CONFIG。
+#    因此服务器建议显式写 --questions Q4 Q5，本地建议显式写 --questions Q2 Q3。

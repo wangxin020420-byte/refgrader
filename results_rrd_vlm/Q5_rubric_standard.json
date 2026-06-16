@@ -1,47 +1,44 @@
 [
     {
         "id": "item_1",
-        "item": "二地址指令操作码位数: 4",
-        "points": 1
+        "item": "问题(1): 剩余二地址操作码状态数(16-12=4)及一地址指令总名额(4×64=256)",
+        "points": 5.0,
+        "answer_type": "formula",
+        "role": "intermediate",
+        "canonicalization": "formula",
+        "evidence_source": "formula",
+        "source_text": "一地址总名额 = 4×64=256 ---------------5分",
+        "parent_official_item": "official_1",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
         "id": "item_2",
-        "item": "二地址指令最大可能数量: 16",
-        "points": 1
+        "item": "问题(1): 为预留至少一条零地址指令，一地址指令最多为255条",
+        "points": 5.0,
+        "answer_type": "derived_numeric",
+        "role": "final",
+        "canonicalization": "numeric",
+        "evidence_source": "text",
+        "source_text": "一地址指令最多为 255 条 ---------------5分",
+        "parent_official_item": "official_2",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
         "id": "item_3",
-        "item": "二地址指令未使用操作码数量: 4",
-        "points": 1
-    },
-    {
-        "id": "item_4",
-        "item": "每个未使用操作码可支持的一地址指令数量: 64",
-        "points": 1
-    },
-    {
-        "id": "item_5",
-        "item": "一地址指令总名额: 256",
-        "points": 1
-    },
-    {
-        "id": "item_6",
-        "item": "部分(1)一地址指令最多: 255",
-        "points": 5
-    },
-    {
-        "id": "item_7",
-        "item": "部分(2)一地址指令未使用操作码数量: 2",
-        "points": 1
-    },
-    {
-        "id": "item_8",
-        "item": "每个未使用操作码可支持的零地址指令数量: 64",
-        "points": 1
-    },
-    {
-        "id": "item_9",
-        "item": "部分(2)零地址指令最多: 128",
-        "points": 3
+        "item": "问题(2): 剩余一地址状态数(256-254=2)及零地址指令最多条数(2×64=128)",
+        "points": 5.0,
+        "answer_type": "formula",
+        "role": "final",
+        "canonicalization": "formula",
+        "evidence_source": "formula",
+        "source_text": "零地址指令最多为2×64= 128 条 ---------------5分",
+        "parent_official_item": "official_3",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     }
 ]

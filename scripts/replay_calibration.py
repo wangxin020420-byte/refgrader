@@ -298,13 +298,14 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
         extraction_quality=extraction_risk_features["extraction_quality"],
         structure_missing_rate=structure_missing_rate,
         extraction_risk=extraction_risk,
-        fatal_points_ratio=risk_profile.get("fatal_points_ratio", 0.0),
+        fatal_points_ratio=post.get("fatal_ratio", risk_profile.get("fatal_points_ratio", 0.0)),
         high_blank_high_score=risk_profile.get("high_blank_high_score", False),
         post_calibration=post,
         weights=a3wa_config.get("risk_weights"),
         loss_params=a3wa_config.get("loss_params"),
     )
 
+    bnd_without_gate = False
     if a3wa["route"] == "NEG":
         replay_route = "NEG"
         replay_score = selected_baseline_score
@@ -328,6 +329,7 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
                 )
                 replay_score = round(clamp(gate["final_score"], 0.0, max_score), 2)
             else:
+                bnd_without_gate = True
                 lower_bound, upper_bound, _ = a3wa_dynamic_bounds(
                     avg_model_score=selected_baseline_score,
                     max_score=max_score,
@@ -348,6 +350,7 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
         "replay_score": replay_score,
         "old_route": record.get("3wd_route", ""),
         "replay_route": replay_route,
+        "bnd_without_gate": bnd_without_gate,
         "post_calibration": post,
         "a3wa_decision": a3wa,
         "max_score": max_score,
@@ -395,6 +398,13 @@ def replay_file(path, results_dir, a3wa_config=None):
     print_metrics_line("replay", replay_metric)
     print(f"rules: {dict(rule_counts)}")
     print(f"routes: {dict(route_counts)}")
+    rerouted_unraised = sum(1 for row in rows if row.get("bnd_without_gate"))
+    if rerouted_unraised:
+        print(
+            f"  WARNING: {rerouted_unraised} sample(s) routed to BND but not raised in "
+            f"replay (no saved boundary_gate; effect is invisible here, requires "
+            f"force-rerun to evaluate)."
+        )
 
     serious = sorted(
         rows,
@@ -453,6 +463,12 @@ def main():
         print("\nGLOBAL")
         print_metrics_line("current", metrics(all_rows, "old_score", None))
         print_metrics_line("replay", metrics(all_rows, "replay_score", None))
+        global_unraised = sum(1 for r in all_rows if r.get("bnd_without_gate"))
+        if global_unraised:
+            print(
+                f"  WARNING: {global_unraised} sample(s) routed to BND without saved "
+                f"boundary_gate (require force-rerun to evaluate)."
+            )
 
 
 if __name__ == "__main__":

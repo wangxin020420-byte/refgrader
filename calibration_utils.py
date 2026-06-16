@@ -19,9 +19,10 @@ JUDGEMENT_ANSWER_VALUES = {
 }
 GENERIC_PROCESS_VALUES = {"已书写", "有书写", "有提取标注", "有计算过程", "有标注", "有过程"}
 
-NUMERIC_TYPES = {"direct_numeric", "derived_numeric", "numeric"}
+NUMERIC_TYPES = {"direct_numeric", "derived_numeric", "numeric", "base_number"}
 METHOD_TYPES = {"formula", "method"}
-VISUAL_TYPES = {"sequence", "table_entry", "diagram_ocr"}
+VISUAL_TYPES = {"sequence", "relation", "table_entry", "diagram_ocr"}
+STRUCTURED_TYPES = {"base_number", "bit_vector", "sequence", "set", "relation", "table_entry", "diagram_ocr"}
 TRUSTED_METADATA_THRESHOLD = 0.80
 A3WA_RISK_WEIGHTS = {
     "extract": 0.40,
@@ -32,10 +33,10 @@ A3WA_RISK_WEIGHTS = {
 }
 A3WA_LOSS_PARAMS = {
     "lambda1": 5.0,
-    "lambda2": 1.0,
-    "mu1": 3.0,
-    "mu2": 7.0,
-    "m": 0.5,
+    "lambda2": 2.0,
+    "mu1": 2.0,
+    "mu2": 5.0,
+    "m": 0.4,
 }
 
 SUPERSCRIPT_MAP = str.maketrans({
@@ -95,6 +96,54 @@ def rubric_points_map(rubrics_data):
             points_values.append(points)
     fallback = sum(points_values) / len(points_values) if points_values else 1.0
     return points_map, fallback
+
+
+def infer_canonicalization(item, meta=None):
+    """Infer a generic evidence-normalization operator for a rubric item."""
+    if not isinstance(item, dict):
+        return "none"
+    if item.get("canonicalization"):
+        return str(item.get("canonicalization"))
+    meta = meta or classify_rubric_item(item)
+    answer_type = str(meta.get("answer_type", "unknown"))
+    text = str(item.get("item", ""))
+    norm = _normalized_text(text)
+    if answer_type == "base_number":
+        if re.search(r"\b[0-9A-Fa-f]+\s*[Hh]\b", norm) or re.search(r"\b[01]{6,}\b", norm):
+            return "base_number"
+        return "numeric_representation"
+    if answer_type == "bit_vector":
+        return "bit_vector"
+    if answer_type == "sequence":
+        return "sequence"
+    if answer_type == "set":
+        return "set"
+    if answer_type == "relation":
+        return "graph_relation"
+    if answer_type == "table_entry":
+        return "table"
+    if answer_type in NUMERIC_TYPES:
+        return "numeric"
+    if answer_type in METHOD_TYPES:
+        return "formula"
+    return "semantic_text"
+
+
+def infer_evidence_source(item, meta=None):
+    """Infer whether an item normally needs text, formula, table, or diagram evidence."""
+    if not isinstance(item, dict):
+        return "text"
+    if item.get("evidence_source"):
+        return str(item.get("evidence_source"))
+    meta = meta or classify_rubric_item(item)
+    answer_type = str(meta.get("answer_type", "unknown"))
+    if answer_type in ("relation", "diagram_ocr"):
+        return "diagram"
+    if answer_type == "table_entry":
+        return "table"
+    if answer_type in METHOD_TYPES:
+        return "formula"
+    return "text"
 
 
 def _normalized_text(text):
@@ -253,11 +302,19 @@ def prepare_rubrics_for_calibration(rubrics_data):
         item = deepcopy(raw_item)
         existing_metadata = any(
             key in item
-            for key in ("answer_type", "role", "expected", "unit", "formula", "expected_formula", "depends_on")
+            for key in (
+                "answer_type", "role", "expected", "unit", "formula",
+                "expected_formula", "depends_on", "canonicalization",
+                "evidence_source", "dependency_group",
+            )
         )
         meta = classify_rubric_item(item)
         item.setdefault("answer_type", meta["answer_type"])
         item.setdefault("role", meta["role"])
+        item.setdefault("canonicalization", infer_canonicalization(item, meta))
+        item.setdefault("evidence_source", infer_evidence_source(item, meta))
+        item.setdefault("source_text", item.get("item", ""))
+        item.setdefault("parent_official_item", item.get("parent_id", ""))
 
         confidence = safe_float(item.get("metadata_confidence", 0.0), 0.0)
         if existing_metadata:
@@ -278,6 +335,10 @@ def prepare_rubrics_for_calibration(rubrics_data):
                 item["metadata_source"] = "auto"
                 item["metadata_hard_enabled"] = False
                 confidence = 0.80
+            elif item["answer_type"] in ("bit_vector", "set"):
+                item["metadata_source"] = "auto"
+                item["metadata_hard_enabled"] = False
+                confidence = 0.75
             else:
                 item["metadata_source"] = "auto_low_confidence"
                 item["metadata_hard_enabled"] = False
@@ -294,11 +355,20 @@ def classify_rubric_item(item):
         return {"answer_type": "unknown", "role": "unknown", "visual_complexity": False}
 
     text = str(item.get("item", ""))
+    norm_text = _normalized_text(text)
     explicit_type = str(item.get("answer_type", "")).strip()
     explicit_role = str(item.get("role", "")).strip()
 
     if explicit_type:
         answer_type = explicit_type
+    elif re.search(r"\b[0-9A-Fa-f]+\s*[Hh]\b", norm_text):
+        answer_type = "base_number"
+    elif re.search(r"(?:\b[01]\s*){4,}", norm_text):
+        answer_type = "bit_vector"
+    elif re.search(r"\b[A-Za-z]\s*(?:->|=>|>|<|\.|-)\s*[A-Za-z]", norm_text):
+        answer_type = "sequence"
+    elif re.search(r"[A-Za-z](?:\s*[,/]\s*[A-Za-z]){1,}", norm_text):
+        answer_type = "set"
     elif any(word in text for word in ("公式", "方法", "表达式", "推导式", "算法")):
         answer_type = "formula"
     elif any(word in text for word in ("二进制", "十六进制", "序列", "串", "编码", "状态序列")):
@@ -319,6 +389,10 @@ def classify_rubric_item(item):
         role = explicit_role
     elif answer_type in METHOD_TYPES:
         role = "method"
+    elif answer_type in ("base_number", "bit_vector", "sequence"):
+        role = "final"
+    elif answer_type == "relation":
+        role = "intermediate"
     elif any(word in text for word in ("最终", "总", "最多", "结果", "结论", "容量", "时间")):
         role = "final"
     elif answer_type == "direct_numeric":
@@ -566,6 +640,12 @@ def is_structure_missing_extraction(value, rubric_item=None):
         return False
     if answer_type == "concept_keyword" and role not in ("method", "intermediate", "final"):
         return False
+    if answer_type == "bit_vector":
+        return len(re.findall(r"[01]", re.sub(r"\s+", "", text))) < 4
+    if answer_type == "relation":
+        return not _has_sequence_structure(text)
+    if answer_type == "set":
+        return len(re.findall(r"[A-Za-z0-9]+|[\u4e00-\u9fff]+", text)) < 2
     if answer_type in NUMERIC_TYPES:
         return not bool(extract_numeric_candidates(text))
     if answer_type in METHOD_TYPES:
@@ -719,6 +799,95 @@ def _majority_category(details):
     return Counter(categories).most_common(1)[0][0] if categories else ""
 
 
+def compute_three_way_primary_risks(
+    facts_dict,
+    rubrics_data,
+    strict_cots,
+    model_scores,
+    max_score,
+    gamma=0.20,
+):
+    """Compress routing evidence into three paper-facing risk variables.
+
+    U_E: evidence quality risk, whether facts were reliably extracted.
+    U_S: score stability risk, whether repeated grading disagrees.
+    U_R: rubric adaptation risk, whether evidence can be mapped to rubric items.
+    """
+    facts_dict = facts_dict if isinstance(facts_dict, dict) else {}
+    rubrics_data = rubrics_data if isinstance(rubrics_data, list) else []
+    strict_cots = strict_cots or []
+    model_scores = [safe_float(score, None) for score in (model_scores or [])]
+    model_scores = [score for score in model_scores if score is not None]
+    max_score = max(safe_float(max_score, 0.0), 1.0)
+    points_map, fallback_points = rubric_points_map(rubrics_data)
+    details_by_item = _detail_by_item(strict_cots)
+
+    evidence_quality_sum = 0.0
+    adaptation_sum = 0.0
+    total_points = 0.0
+    item_risks = []
+
+    for item in rubrics_data:
+        item_id = str(item.get("id", ""))
+        points = max(points_map.get(item_id, fallback_points), 0.0)
+        if points <= 0:
+            continue
+        value = facts_dict.get(item_id, "") if item_id else ""
+        details = details_by_item.get(item_id, [])
+        majority_category = _majority_category(details)
+
+        if is_blank_extraction(value) or is_perception_failure(value):
+            q_i = 0.0
+        elif is_low_quality_extraction(value, item) or is_structure_missing_extraction(value, item):
+            q_i = 0.5
+        else:
+            q_i = 1.0
+
+        if q_i <= 0.0:
+            a_i = 0.0
+        elif not details:
+            a_i = 0.5
+        elif majority_category in ("MATCH", "PARTIAL_MATCH", "FORMAT_MINOR", "SEMANTIC_FATAL", "BLANK"):
+            a_i = 1.0 if q_i >= 1.0 else 0.5
+        else:
+            a_i = 0.5
+
+        evidence_quality_sum += points * q_i
+        adaptation_sum += points * a_i
+        total_points += points
+        item_risks.append({
+            "id": item_id,
+            "points": round(points, 4),
+            "evidence_quality": round(q_i, 4),
+            "rubric_adaptation": round(a_i, 4),
+            "majority_category": majority_category,
+            "answer_type": str(item.get("answer_type", classify_rubric_item(item).get("answer_type", "unknown"))),
+            "canonicalization": str(item.get("canonicalization", infer_canonicalization(item))),
+        })
+
+    if total_points <= 1e-9:
+        total_points = max_score
+    u_e = clamp01(1.0 - evidence_quality_sum / max(total_points, 1e-9))
+
+    if len(model_scores) >= 2:
+        spread = max(model_scores) - min(model_scores)
+    else:
+        spread = 0.0
+    u_s = clamp01(spread / max(gamma * max_score, 1e-9))
+    u_r = clamp01(1.0 - adaptation_sum / max(total_points, 1e-9))
+    risk = clamp01((u_e + u_s + u_r) / 3.0)
+    return {
+        "U_E": round(u_e, 6),
+        "U_S": round(u_s, 6),
+        "U_R": round(u_r, 6),
+        "risk": round(risk, 6),
+        "mu": round(1.0 - risk, 6),
+        "score_spread": round(spread, 6),
+        "gamma": round(safe_float(gamma, 0.20), 6),
+        "item_risks": item_risks,
+    }
+
+
 def build_post_grading_calibration(
     facts_dict,
     rubrics_data,
@@ -738,6 +907,19 @@ def build_post_grading_calibration(
     task_profile = infer_rubric_task_profile(rubrics_data, max_score=max_score)
     extraction_counts = compute_extraction_quality_counts(facts_dict, rubrics_data)
     extraction_risk = compute_extraction_risk_features(extraction_counts)
+    score_history = [
+        safe_float(cot.get("total_score"), None)
+        for cot in strict_cots
+        if isinstance(cot, dict) and cot.get("total_score") is not None
+    ]
+    score_history = [score for score in score_history if score is not None]
+    primary_risks = compute_three_way_primary_risks(
+        facts_dict=facts_dict,
+        rubrics_data=rubrics_data,
+        strict_cots=strict_cots,
+        model_scores=score_history,
+        max_score=max_score,
+    )
 
     unsupported_match_points = 0.0
     verified_method_final_points = 0.0
@@ -751,6 +933,7 @@ def build_post_grading_calibration(
     method_evidence_total = 0.0
     fatal_points = 0.0
     partial_or_format_points = 0.0
+    item_judgement_summaries = []
     visual_items = 0
     rule_hits = []
     metadata_items = 0
@@ -800,8 +983,12 @@ def build_post_grading_calibration(
             method_evidence_total += points
             if majority_category in ("MATCH", "FORMAT_MINOR", "PARTIAL_MATCH"):
                 method_evidence_points += points
-        if majority_category == "SEMANTIC_FATAL":
-            fatal_points += points
+        item_judgement_summaries.append({
+            "points": points,
+            "role": role,
+            "answer_type": answer_type,
+            "majority_category": majority_category,
+        })
         if majority_category in ("PARTIAL_MATCH", "FORMAT_MINOR"):
             partial_or_format_points += points
 
@@ -822,6 +1009,19 @@ def build_post_grading_calibration(
                 verified_method_final_points += points
             if majority_category == "MATCH" and not formula_supported:
                 unsupported_match_points += points
+
+    result_any_strong = result_strong_points > 0
+    for summary in item_judgement_summaries:
+        if summary["majority_category"] != "SEMANTIC_FATAL":
+            continue
+        process_like = (
+            summary["role"] in ("method", "intermediate")
+            or summary["answer_type"] in METHOD_TYPES
+            or summary["answer_type"] == "derived_numeric"
+        )
+        if result_any_strong and process_like:
+            continue
+        fatal_points += summary["points"]
 
     unsupported_ratio = unsupported_match_points / max_score
     method_final_ratio = verified_method_final_points / max(method_final_points, 1e-9)
@@ -872,6 +1072,15 @@ def build_post_grading_calibration(
         and lenient_undercredit_signal >= 0.04
         and unsupported_high_score_risk < 0.20
     )
+    result_anchored_undercredit_review = (
+        task_profile["concentrated_result_weight"]
+        and avg_ratio <= 0.60
+        and result_strong_signal >= 0.50
+        and result_correctness_signal >= 0.50
+        and fatal_ratio <= 0.35
+        and unsupported_high_score_risk < 0.20
+        and bare_answer_risk < 0.40
+    )
     direct_only_high_score_risk = (
         direct_points_ratio >= 0.30
         and direct_awarded_ratio >= 0.80
@@ -899,6 +1108,8 @@ def build_post_grading_calibration(
         rule_hits.append("weak_result_high_score_review")
     if stable_undercredit_review:
         rule_hits.append("stable_undercredit_review")
+    if result_anchored_undercredit_review:
+        rule_hits.append("result_anchored_undercredit_review")
     if direct_only_high_score_risk:
         rule_hits.append("direct_only_high_score_risk")
     if structure_missing_review:
@@ -922,12 +1133,29 @@ def build_post_grading_calibration(
         or unsupported_high_score_risk >= 0.25
         or weak_result_high_score_review
         or stable_undercredit_review
+        or result_anchored_undercredit_review
         or direct_only_high_score_risk
         or structure_missing_review
     )
-    reject_domain = visual_blank_review or extraction_risk["extraction_quality"] == "failed"
-    if reject_domain:
-        boundary_domain = False
+    extraction_retry_review = (
+        visual_blank_review
+        or extraction_risk["extraction_quality"] == "failed"
+        or blank_rate >= 0.40
+        or (
+            avg_ratio <= 0.30
+            and lenient_undercredit_signal < 0.05
+            and result_correctness_signal < 0.30
+            and unsupported_high_score_risk < 0.20
+            and not direct_only_high_score_risk
+        )
+    )
+    if extraction_retry_review:
+        boundary_domain = True
+        reject_domain = False
+        if "extraction_retry_review" not in rule_hits:
+            rule_hits.append("extraction_retry_review")
+    else:
+        reject_domain = False
 
     return {
         "unsupported_match_points": round(unsupported_match_points, 4),
@@ -956,15 +1184,20 @@ def build_post_grading_calibration(
         "core_anchor_failed": core_anchor_failed,
         "weak_result_high_score_review": weak_result_high_score_review,
         "stable_undercredit_review": stable_undercredit_review,
+        "result_anchored_undercredit_review": result_anchored_undercredit_review,
         "direct_only_high_score_risk": direct_only_high_score_risk,
+        "extraction_retry_review": extraction_retry_review,
         "structure_missing_review": structure_missing_review,
         "structure_missing_rate": extraction_risk["structure_missing_rate"],
         "suspicious_extraction_rate": extraction_risk["suspicious_extraction_rate"],
         "extraction_risk": extraction_risk["extraction_risk"],
         "extraction_quality": extraction_risk["extraction_quality"],
+        "primary_risks": primary_risks,
+        "three_way_primary_risks": primary_risks,
         "visual_blank_review": visual_blank_review,
         "boundary_domain": boundary_domain,
         "reject_domain": reject_domain,
+        "fatal_ratio": round(fatal_ratio, 4),
         "lower_bound": round(lower_bound, 4),
         "upper_bound": round(upper_bound, 4),
         "rule_hits": rule_hits,
@@ -1273,6 +1506,8 @@ def build_a3wa_decision(
     direct_only_high_score = bool(post_calibration.get("direct_only_high_score_risk", False))
     high_score_safety = bool(post_calibration.get("high_score_safety_review", False))
     structure_missing_review = bool(post_calibration.get("structure_missing_review", False))
+    extraction_retry_review = bool(post_calibration.get("extraction_retry_review", False))
+    low_score_nonblank_review = avg_ratio <= 0.30 and u_extract < 0.40 and u_blank <= 0.35
     core_anchor_score = 1.0 if post_calibration.get("core_anchor_failed", False) else 0.0
     high_blank_score = u_extract if avg_ratio >= 0.70 and u_blank >= 0.45 else 0.0
     high_score_weak_evidence = 0.0
@@ -1293,13 +1528,23 @@ def build_a3wa_decision(
         )
     )
 
-    extract_weight = safe_float(weights.get("extract", 0.35), 0.35) + safe_float(weights.get("blank", 0.0), 0.0)
-    risk = (
-        extract_weight * u_extract
-        + safe_float(weights.get("score", 0.30), 0.30) * u_score
-        + safe_float(weights.get("semantic", 0.20), 0.20) * u_semantic
-        + safe_float(weights.get("overcredit", 0.0), 0.0) * u_overcredit
-    )
+    primary_risks = post_calibration.get("primary_risks") or post_calibration.get("three_way_primary_risks")
+    if isinstance(primary_risks, dict):
+        u_e = clamp01(primary_risks.get("U_E", u_extract))
+        u_s = clamp01(primary_risks.get("U_S", u_score))
+        u_r = clamp01(primary_risks.get("U_R", max(u_semantic, u_overcredit)))
+        risk = clamp01(primary_risks.get("risk", (u_e + u_s + u_r) / 3.0))
+    else:
+        u_e = u_extract
+        u_s = u_score
+        u_r = max(u_semantic, u_overcredit)
+        extract_weight = safe_float(weights.get("extract", 0.35), 0.35) + safe_float(weights.get("blank", 0.0), 0.0)
+        risk = (
+            extract_weight * u_extract
+            + safe_float(weights.get("score", 0.30), 0.30) * u_score
+            + safe_float(weights.get("semantic", 0.20), 0.20) * u_semantic
+            + safe_float(weights.get("overcredit", 0.0), 0.0) * u_overcredit
+        )
     risk = clamp01(risk)
     confidence = 1.0 - risk
 
@@ -1312,20 +1557,30 @@ def build_a3wa_decision(
     )
 
     hard_neg_reasons = []
-    if extraction_quality == "failed":
-        hard_neg_reasons.append("extraction_failed")
-    if score_spread >= max(2.0, max_score * 0.35):
+    if score_spread >= max(2.0, max_score * 0.35) and avg_model_score > max_score * 0.25:
         hard_neg_reasons.append("large_score_spread")
     if (
         u_semantic >= 0.75
         and lenient_undercredit < 0.10
         and result_strong < 0.50
         and method_evidence < 0.50
+        and not low_score_nonblank_review
     ):
         hard_neg_reasons.append("semantic_risk_too_high")
-    if high_blank_high_score and u_extract >= 0.50:
+    if (
+        high_blank_high_score
+        and u_extract >= 0.50
+        and result_strong < 0.30
+        and method_evidence < 0.30
+        and avg_ratio >= 0.70
+    ):
         hard_neg_reasons.append("high_blank_high_score")
-    if post_calibration.get("reject_domain", False):
+    if (
+        post_calibration.get("reject_domain", False)
+        and not extraction_retry_review
+        and result_strong < 0.30
+        and method_evidence < 0.30
+    ):
         hard_neg_reasons.extend(post_calibration.get("rule_hits", ["post_calibration_reject"]))
 
     if hard_neg_reasons:
@@ -1338,6 +1593,12 @@ def build_a3wa_decision(
         elif stable_undercredit:
             route = "BND"
             reason = "high_confidence_stable_undercredit_review"
+        elif extraction_retry_review or extraction_quality == "failed":
+            route = "BND"
+            reason = "high_confidence_extraction_retry_review"
+        elif low_score_nonblank_review:
+            route = "BND"
+            reason = "high_confidence_low_score_nonblank_review"
         elif weak_result_high_score:
             route = "BND"
             reason = "high_confidence_weak_result_high_score_review"
@@ -1354,8 +1615,15 @@ def build_a3wa_decision(
             route = "POS"
             reason = "confidence_ge_alpha"
     elif confidence <= beta:
-        route = "NEG"
-        reason = "confidence_le_beta"
+        if extraction_retry_review or extraction_quality == "failed":
+            route = "BND"
+            reason = "low_confidence_extraction_retry_review"
+        elif low_score_nonblank_review:
+            route = "BND"
+            reason = "low_confidence_low_score_nonblank_review"
+        else:
+            route = "NEG"
+            reason = "confidence_le_beta"
     else:
         route = "BND"
         reason = "beta_lt_confidence_lt_alpha"
@@ -1397,6 +1665,9 @@ def build_a3wa_decision(
         "mu1": safe_float(params.get("mu1", 3.0), 3.0),
         "mu2": safe_float(params.get("mu2", 7.0), 7.0),
         "risk_components": {
+            "U_E": round(u_e, 6),
+            "U_S": round(u_s, 6),
+            "U_R": round(u_r, 6),
             "U_extract": round(u_extract, 6),
             "U_score": round(u_score, 6),
             "U_semantic": round(u_semantic, 6),
@@ -1896,6 +2167,28 @@ def apply_boundary_action_policy(
         and direct_awarded_ratio < 0.70
         and result_strong < 0.65
     )
+    short_calc_stable_undercredit = (
+        max_score <= 10.0
+        and concentrated_result_weight
+        and bool(post_calibration.get("stable_undercredit_review", False))
+        and avg_ratio <= 0.65
+        and result_correctness >= 0.50
+        and result_strong >= 0.50
+        and method_evidence >= 0.30
+        and unsupported_high_score < 0.12
+        and bare_answer_risk < 0.40
+    )
+    result_anchored_raise = (
+        bool(post_calibration.get("result_anchored_undercredit_review", False))
+        and concentrated_result_weight
+        and avg_ratio <= 0.60
+        and result_strong >= 0.50
+        and result_correctness >= 0.50
+        and fatal <= 0.35
+        and unsupported_high_score < 0.20
+        and bare_answer_risk < 0.40
+        and not direct_only_high_score
+    )
     if concentrated_result_weight and avg_ratio <= 0.55:
         raise_evidence_floor = 0.34
     elif concentrated_result_weight:
@@ -1930,6 +2223,24 @@ def apply_boundary_action_policy(
         and result_strong >= 0.45
         and avg_ratio <= 0.70
     )
+    # Generic high-band guard: once the baseline is already in the middle/high
+    # score band, raising without explicit agent evidence is more likely to
+    # create over-credit. This is evidence-based, not question-specific.
+    high_band_non_agent_raise_guard = (
+        avg_ratio >= 0.55
+        and not raise_has_agent_evidence
+        and (
+            result_strong < 0.70
+            or method_evidence < 0.70
+            or bare_answer_risk >= 0.18
+            or unsupported_high_score >= 0.08
+        )
+    )
+    very_high_band_raise_guard = (
+        avg_ratio >= 0.70
+        and not raise_has_agent_evidence
+        and not strong_lenient_raise
+    )
     non_agent_raise_allowed = (
         (avg_ratio <= 0.55 and not fragmented_rubric)
         or (
@@ -1942,9 +2253,16 @@ def apply_boundary_action_policy(
             and lower_evidence_score < 0.45
         )
     )
+    if short_calc_stable_undercredit or result_anchored_raise:
+        high_band_non_agent_raise_guard = False
+        very_high_band_raise_guard = False
+        non_agent_raise_allowed = True
+    elif high_band_non_agent_raise_guard or very_high_band_raise_guard:
+        non_agent_raise_allowed = False
     raise_direction_permission = raise_has_agent_evidence or non_agent_raise_allowed
     under_direction_ready = (
         lenient_raise_ready
+        or result_anchored_raise
         or (
             signals.get("under_score_risk", False)
             and raise_evidence_score >= 0.55
@@ -1980,11 +2298,22 @@ def apply_boundary_action_policy(
         and unsupported_high_score < 0.25
         and bare_answer_risk < 0.35
     )
+    short_answer_positive_evidence_lower_guard = (
+        max_score <= 10.0
+        and final_answer_weight_high
+        and result_strong >= 0.70
+        and method_evidence >= 0.75
+        and result_correctness >= 0.70
+        and bare_answer_risk < 0.20
+        and avg_ratio <= 0.85
+        and not direct_only_high_score
+    )
 
     if abs(delta) <= minor_margin:
         strong_positive_evidence = (
-            result_strong >= 0.75
-            and method_evidence >= 0.75
+            result_strong >= 0.65
+            and method_evidence >= 0.70
+            and raise_evidence_score >= 0.45
             and unsupported_high_score < 0.20
             and bare_answer_risk < 0.25
             and not direct_only_high_score
@@ -1995,6 +2324,7 @@ def apply_boundary_action_policy(
             and avg_ratio >= 0.55
             and not strong_positive_evidence
             and not short_answer_no_evidence_lower_guard
+            and not short_answer_positive_evidence_lower_guard
             and (strong_over_direction or (agent_summary["allowed_over_points"] > 0 and not under_direction_ready))
         ):
             lower_margin = small_margin
@@ -2012,7 +2342,11 @@ def apply_boundary_action_policy(
             allowed_gap = fallback_gap
             if raise_has_agent_evidence:
                 allowed_gap = max(fallback_gap, min(history_gap, small_margin))
+            if result_anchored_raise:
+                allowed_gap = max(allowed_gap, min(history_gap, large_margin))
             margin = large_margin if strong_lenient_raise else small_margin
+            if result_anchored_raise:
+                margin = max(margin, small_margin)
             final_score = min(max_score, baseline + min(margin, high_band_gap, allowed_gap))
             accepted = final_score > baseline
             action = "auto_medium_raise" if strong_lenient_raise and accepted else ("auto_small_raise" if accepted else "keep_minor_change")
@@ -2023,8 +2357,9 @@ def apply_boundary_action_policy(
     elif delta < 0:
         has_over_item = agent_summary["allowed_over_points"] > 0 or over_direction_ready
         strong_positive_evidence = (
-            result_strong >= 0.75
-            and method_evidence >= 0.75
+            result_strong >= 0.65
+            and method_evidence >= 0.70
+            and raise_evidence_score >= 0.45
             and unsupported_high_score < 0.20
             and bare_answer_risk < 0.25
             and not direct_only_high_score
@@ -2034,6 +2369,7 @@ def apply_boundary_action_policy(
             has_over_item
             and not strong_positive_evidence
             and not short_answer_no_evidence_lower_guard
+            and not short_answer_positive_evidence_lower_guard
             and avg_ratio >= 0.70
             and strong_over_direction
         )
@@ -2041,6 +2377,7 @@ def apply_boundary_action_policy(
             has_over_item
             and not strong_positive_evidence
             and not short_answer_no_evidence_lower_guard
+            and not short_answer_positive_evidence_lower_guard
             and avg_ratio >= 0.55
             and (strong_over_direction or not under_direction_ready)
             and (
@@ -2078,7 +2415,7 @@ def apply_boundary_action_policy(
             gate_reason = "lower_without_sufficient_unsupported_high_score_evidence"
     elif delta > 0:
         supported_raise = (
-            lenient_raise_ready
+            (lenient_raise_ready or result_anchored_raise)
             and raise_direction_permission
             and (raise_has_agent_evidence or under_direction_ready)
         )
@@ -2089,7 +2426,11 @@ def apply_boundary_action_policy(
             allowed_gap = fallback_gap
             if raise_has_agent_evidence:
                 allowed_gap = max(fallback_gap, min(history_gap, small_margin))
+            if result_anchored_raise:
+                allowed_gap = max(allowed_gap, min(history_gap, large_margin))
             margin = large_margin if strong_lenient_raise else small_margin
+            if result_anchored_raise:
+                margin = max(margin, small_margin)
             final_score = min(max_score, baseline + min(delta, margin, high_band_gap, allowed_gap))
             accepted = final_score > baseline
             action = "medium_raise" if strong_lenient_raise else "small_raise"

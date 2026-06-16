@@ -1,47 +1,552 @@
 [
     {
         "file": "E01914115_Q3.jpg",
-        "facts": "{\n  \"item_1\": {\n    \"补码运算十六进制结果\": \"(118)₁₆\",\n    \"十进制运算十进制结果\": \"未在图中找到明确表述\",\n    \"溢出结论\": \"发生溢出\"\n  },\n  \"item_2\": {\n    \"补码运算十六进制结果\": \"(DE5)₁₀\",\n    \"十进制运算十进制结果\": \"未在图中找到明确表述\",\n    \"溢出结论\": \"未发生溢出\"\n  }\n}",
+        "facts": "{\"item_1\": \"补码运算结果数值：(100011000)₂，十进制运算结果数值：(118)₁₆，是否发生溢出：发生溢出\", \"item_2\": \"补码运算结果数值：(11100101)₂，十进制运算结果数值：(E5)₁₆，是否发生溢出：未发生溢出\"}",
         "scores": [
-            2,
-            2,
-            2
-        ]
+            0,
+            2.0,
+            0
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "补码运算结果数值：(100011000)₂，十进制运算结果数值：(118)₁₆，是否发生溢出：发生溢出",
+                        "expected_condition": "x-2y 的补码运算结果为 8EH，十进制运算结果为 142，判断发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "The extracted numeric answers (100011000 binary and 118 in base 16) do not match the expected values (8EH and 142). The calculation results are fundamentally incorrect, and without any extracted method evidence to grant partial process credit, this results in zero points."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "补码运算结果数值：(11100101)₂，十进制运算结果数值：(E5)₁₆，是否发生溢出：未发生溢出",
+                        "expected_condition": "(x ÷ 4) + 2z 的补码运算结果为 B7H，十进制运算结果为 -73，判断未发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "The extracted numeric answers (11100101 binary and E5 in base 16) do not match the expected values (B7H and -73). The calculation results are fundamentally incorrect, and without any extracted method evidence to grant partial process credit, this results in zero points."
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "补码运算结果数值：(100011000)₂，十进制运算结果数值：(118)₁₆，是否发生溢出：发生溢出",
+                        "expected_condition": "x-2y 的补码运算结果为 8EH，十进制运算结果为 142，判断发生溢出",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly concluded that an overflow occurred. However, the final numerical results (binary 100011000 and hex 118) are incorrect compared to the expected values (8EH and 142). Partial credit of 1 point is awarded for the correct overflow judgment."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "补码运算结果数值：(11100101)₂，十进制运算结果数值：(E5)₁₆，是否发生溢出：未发生溢出",
+                        "expected_condition": "(x ÷ 4) + 2z 的补码运算结果为 B7H，十进制运算结果为 -73，判断未发生溢出",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly concluded that no overflow occurred. However, the calculated numerical results (binary 11100101 and hex E5) are incorrect compared to the expected values (B7H and -73). Partial credit of 1 point is awarded for the correct overflow judgment."
+                    }
+                ],
+                "total_score": 2.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "补码运算结果数值：(100011000)₂，十进制运算结果数值：(118)₁₆，是否发生溢出：发生溢出",
+                        "expected_condition": "补码运算结果为 8EH，十进制运算结果为 142，判断发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "提取的补码结果(100011000)₂和十进制结果(118)₁₆与正确答案8EH和142均不符，且(118)₁₆作为十进制结果存在维度与数值上的根本错误。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "补码运算结果数值：(11100101)₂，十进制运算结果数值：(E5)₁₆，是否发生溢出：未发生溢出",
+                        "expected_condition": "(x ÷ 4) + 2z 的补码运算结果为 B7H，十进制运算结果为 -73，判断未发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "提取的补码结果(11100101)₂（即E5H）与十进制结果(E5)₁₆和正确答案B7H及-73均不符，核心计算数值错误。"
+                    }
+                ],
+                "total_score": 0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "item_2": [
+                0.0,
+                1.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "SEMANTIC_FATAL",
+                "PARTIAL_MATCH",
+                "SEMANTIC_FATAL"
+            ],
+            "item_2": [
+                "SEMANTIC_FATAL",
+                "PARTIAL_MATCH",
+                "SEMANTIC_FATAL"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.22222222222222224,
+            "item_2": 0.22222222222222224
+        },
+        "max_item_variance": 0.22222222222222224,
+        "avg_item_variance": 0.22222222222222224
     },
     {
         "file": "E01914214_Q3.jpg",
-        "facts": "{\n  \"item_1_视觉事实_1\": \"10001110\",\n  \"item_1_视觉事实_2\": \"未在图中找到明确表述\",\n  \"item_1_视觉事实_3\": \"发生溢出\",\n  \"item_2_视觉事实_1\": \"11110111\",\n  \"item_2_视觉事实_2\": \"未在图中找到明确表述\",\n  \"item_2_视觉事实_3\": \"无意义X\"\n}",
+        "facts": "{\"item_1\": \"10001110 未书写 发生溢出\", \"item_2\": \"11110111 未书写 未书写\"}",
         "scores": [
-            3,
-            3,
-            0
-        ]
+            3.0,
+            3.5,
+            3.0
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 3.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "10001110 未书写 发生溢出",
+                        "expected_condition": "补码运算结果为 8EH，十进制运算结果为 142，判断发生溢出",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生给出了正确的补码二进制结果 (10001110 = 8EH) 和正确的溢出判断 (发生溢出)，但未书写十进制结果 (142)。满足部分要求，得部分分。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "11110111 未书写 未书写",
+                        "expected_condition": "补码运算结果为 B7H，十进制运算结果为 -73，判断未发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "学生给出的补码运算结果错误 (11110111 为 F7H，而非 B7H/10110111)，且十进制结果和溢出判断均未书写。核心数值错误，不得分。"
+                    }
+                ],
+                "total_score": 3.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 3.5,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "10001110 未书写 发生溢出",
+                        "expected_condition": "补码结果 8EH (=10001110)，十进制结果 142，判断发生溢出",
+                        "dependency_status": "partially_satisfied",
+                        "reason": "补码运算结果 10001110 正确等于 8EH，溢出判断正确（发生溢出），但十进制运算结果（142）未书写，缺失一个关键子答案，给予 70% 部分分。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "11110111 未书写 未书写",
+                        "expected_condition": "补码结果 B7H (=10110111)，十进制结果 -73，判断未发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "学生写 11110111 (=F7H)，而正确补码结果应为 10110111 (=B7H)，核心数值错误；十进制结果与溢出判断均未书写，无法给予部分分。"
+                    }
+                ],
+                "total_score": 3.5
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 3.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "10001110 未书写 发生溢出",
+                        "expected_condition": "补码运算结果为 8EH，十进制运算结果为 142，判断发生溢出",
+                        "dependency_status": "satisfied",
+                        "reason": "学生提供的补码运算结果（10001110 即 8EH）与溢出判断（发生溢出）均正确，但十进制运算结果（142）未书写。按照评分标准，给予部分分数。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "11110111 未书写 未书写",
+                        "expected_condition": "补码运算结果为 B7H，十进制运算结果为 -73，判断未发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "学生给出的补码运算结果（11110111 即 F7H）与正确答案（B7H）不一致，且其余内容均未书写，属于核心数值错误。"
+                    }
+                ],
+                "total_score": 3.0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                3.0,
+                3.5,
+                3.0
+            ],
+            "item_2": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH"
+            ],
+            "item_2": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.05555555555555556,
+            "item_2": 0.0
+        },
+        "max_item_variance": 0.05555555555555556,
+        "avg_item_variance": 0.02777777777777778
     },
     {
         "file": "E01914290_Q3.jpg",
-        "facts": "{\n  \"item_1\": {\n    \"补码运算部分\": \"1111 0010\",\n    \"十进制运算部分\": \"-114\",\n    \"结论部分\": \"有溢出\"\n  },\n  \"item_2\": {\n    \"补码运算部分\": \"1011 0111\",\n    \"十进制运算部分\": \"-73\",\n    \"结论部分\": \"无溢出\"\n  }\n}",
+        "facts": "{\"item_1\": \"11110110, -114, 有溢出\", \"item_2\": \"10110111, -73, 无溢出\"}",
         "scores": [
-            5,
             6,
-            5
-        ]
+            6.0,
+            5.0
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "11110110, -114, 有溢出",
+                        "expected_condition": "补码运算结果为 8EH，十进制运算结果为 142，判断发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "学生正确判断“有溢出”，但补码结果 11110110 对应 F6H，不是 8EH；十进制结果 -114 也不等于 142，核心数值结果错误，故只给少量部分分。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 5,
+                        "error_category": "MATCH",
+                        "evidence_text": "10110111, -73, 无溢出",
+                        "expected_condition": "补码运算结果为 B7H，十进制运算结果为 -73，判断未发生溢出",
+                        "dependency_status": "satisfied",
+                        "reason": "10110111 即 B7H，十进制结果 -73 正确，且正确判断“无溢出”，符合评分要求。"
+                    }
+                ],
+                "total_score": 6
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "11110110, -114, 有溢出",
+                        "expected_condition": "补码结果为 8EH，十进制结果为 142，判断发生溢出",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生正确判断有溢出，但补码结果 11110110 不等于 8EH，十进制结果 -114 也不等于期望值 142，故只能给部分分。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 5.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "10110111, -73, 无溢出",
+                        "expected_condition": "补码结果为 B7H，十进制结果为 -73，判断未发生溢出",
+                        "dependency_status": "not_applicable",
+                        "reason": "10110111 即 B7H，十进制 -73 正确，且正确判断无溢出，符合评分要求。"
+                    }
+                ],
+                "total_score": 6.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "11110110, -114, 有溢出",
+                        "expected_condition": "补码运算结果为 8EH（10001110），十进制运算结果为 142，发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "The student provided incorrect binary (11110110 instead of 10001110) and incorrect decimal (-114 instead of 142). Although the overflow judgment is correct, the core calculated values contradict the expected results, indicating a fundamental calculation error."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 5.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "10110111, -73, 无溢出",
+                        "expected_condition": "补码运算结果为 B7H（10110111），十进制运算结果为 -73，未发生溢出",
+                        "dependency_status": "satisfied",
+                        "reason": "The student correctly provided the binary result (10110111), the decimal result (-73), and the correct overflow judgment (无溢出), perfectly matching the rubric requirements for this final-result item."
+                    }
+                ],
+                "total_score": 5.0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                1.0,
+                1.0,
+                0.0
+            ],
+            "item_2": [
+                5.0,
+                5.0,
+                5.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "SEMANTIC_FATAL"
+            ],
+            "item_2": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.22222222222222224,
+            "item_2": 0.0
+        },
+        "max_item_variance": 0.22222222222222224,
+        "avg_item_variance": 0.11111111111111112
     },
     {
         "file": "E02014181_Q3.jpg",
-        "facts": "{\n  \"item_1\": {\n    \"补码运算区域中最后一行计算等式右边的数值\": \"E H\",\n    \"十进制运算区域中最后一行计算等式右边的数值\": \"65E H\",\n    \"结论部分的文本内容\": \"x-2y结果发生溢出\"\n  },\n  \"item_2\": {\n    \"补码运算区域中最后一行计算等式右边的数值\": \"61 H\",\n    \"十进制运算区域中最后一行计算等式右边的数值\": \"未在图中找到明确表述\",\n    \"结论部分的文本内容\": \"发生溢出\"\n  }\n}",
-        "scores": [
-            0,
-            0,
-            1
-        ]
-    },
-    {
-        "file": "E12214006_Q3.jpg",
-        "facts": "{\n  \"item_1_补码运算最后一行数值\": \"110001110\",\n  \"item_1_十进制运算最后一行数值\": \"F1H\",\n  \"item_1_溢出结论文本\": \"结果未发生溢出 OF=0\",\n  \"item_2_补码运算最后一行数值\": \"11011011110\",\n  \"item_2_十进制运算最后一行数值\": \"91H\",\n  \"item_2_溢出结论文本\": \"结果发生溢出 OF=1\"\n}",
+        "facts": "{\"item_1\": \"E H；未书写；没有溢出\", \"item_2\": \"61 H；未书写；有发生溢出\"}",
         "scores": [
             0,
             0,
             0
-        ]
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "E H；未书写；没有溢出",
+                        "expected_condition": "补码运算结果为 8EH，十进制结果为 142，判断发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "学生判断'没有溢出'与标准答案'发生溢出'直接矛盾；补码结果'E H'不完整（缺少高位'8'无法确认为8EH）；十进制结果未书写。核心结论（溢出判断）错误，属于概念性错误。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "61 H；未书写；有发生溢出",
+                        "expected_condition": "补码运算结果为 B7H，十进制结果为 -73，判断未发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "补码结果61H与正确值B7H不符；十进制结果未书写；学生判断'有发生溢出'与标准答案'未发生溢出'直接矛盾。三项均不正确，溢出判断尤其属于核心概念错误。"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "E H；未书写；没有溢出",
+                        "expected_condition": "x-2y 的补码运算结果为 8EH，十进制运算结果为 142，判断发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "The student's conclusion states 'no overflow' (没有溢出), which directly contradicts the required conceptual conclusion that an overflow occurs (发生溢出)."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "61 H；未书写；有发生溢出",
+                        "expected_condition": "(x ÷ 4) + 2z 的补码运算结果为 B7H，十进制运算结果为 -73，判断未发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "The student's conclusion states 'overflow occurs' (有发生溢出), which directly contradicts the required conclusion of 'no overflow' (未发生溢出). The computed hex value is also incorrect."
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "E H；未书写；没有溢出",
+                        "expected_condition": "x-2y 补码结果为 8EH，十进制为 142，判断发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "提取的补码结果为“E H”，与 8EH 不符；十进制结果未书写；且溢出判断为“没有溢出”，与要求“发生溢出”直接矛盾，属核心结论错误。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "61 H；未书写；有发生溢出",
+                        "expected_condition": "(x ÷ 4) + 2z 补码结果为 B7H，十进制为 -73，判断未发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "提取的补码结果为 61H，与 B7H 不符；十进制结果未书写；且溢出判断为“有发生溢出”，与要求“未发生溢出”直接矛盾，属核心结论错误。"
+                    }
+                ],
+                "total_score": 0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_2": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ],
+            "item_2": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0
+        },
+        "max_item_variance": 0.0,
+        "avg_item_variance": 0.0
+    },
+    {
+        "file": "E12214006_Q3.jpg",
+        "facts": "{\"item_1\": \"11000110 [01110001] 结果未发生溢出\", \"item_2\": \"11011011110 [1001000001] 结果发生溢出\"}",
+        "scores": [
+            0,
+            0,
+            0
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "11000110 [01110001] 结果未发生溢出",
+                        "expected_condition": "补码运算结果为8EH(10001110)，十进制142，判断发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "学生给出的二进制结果11000110(C6H)与标准答案8EH(10001110)不符；且关键结论错误——学生判断'未发生溢出'，而正确结论应为'发生溢出'（8位补码无法表示142，超出表示范围），属于核心结论与数值双重矛盾。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "11011011110 [1001000001] 结果发生溢出",
+                        "expected_condition": "补码运算结果为B7H(10110111)，十进制-73，判断未发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "学生给出的二进制串11011011110与标准答案B7H(10110111)不符；且关键结论错误——学生判断'发生溢出'，而正确结论应为'未发生溢出'（-73在8位补码范围内），属于核心结论与数值双重矛盾。"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "11000110 [01110001] 结果未发生溢出",
+                        "expected_condition": "x-2y 的补码运算结果为 8EH，十进制运算结果为 142，判断发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "学生写出的运算结果（01110001=71H）与标准答案 8EH 不符，且溢出判断与题目要求的“发生溢出”完全相反，属于结论性矛盾。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "11011011110 [1001000001] 结果发生溢出",
+                        "expected_condition": "(x ÷ 4) + 2z 的补码运算结果为 B7H，十进制运算结果为 -73，判断未发生溢出",
+                        "dependency_status": "failed",
+                        "reason": "学生的运算结果与标准答案 B7H 不符，且溢出判断与题目要求的“未发生溢出”完全相反，属于结论性错误。"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "11000110 [01110001] 结果未发生溢出",
+                        "expected_condition": "x-2y 的补码运算结果为 8EH (10001110)，十进制结果为 142，判断发生溢出",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student's binary result (11000110) does not match the expected result (10001110). Additionally, the student concludes '未发生溢出' (no overflow), which directly contradicts the correct conclusion that an overflow occurred."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "11011011110 [1001000001] 结果发生溢出",
+                        "expected_condition": "(x ÷ 4) + 2z 的补码运算结果为 B7H (10110111)，十进制结果为 -73，判断未发生溢出",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student's binary result (11011011110) does not match the expected result (10110111). Furthermore, the student concludes '结果发生溢出' (overflow occurred), which directly contradicts the correct conclusion that no overflow occurred."
+                    }
+                ],
+                "total_score": 0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_2": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ],
+            "item_2": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0
+        },
+        "max_item_variance": 0.0,
+        "avg_item_variance": 0.0
     }
 ]

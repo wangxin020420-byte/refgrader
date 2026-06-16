@@ -1,47 +1,1503 @@
 [
     {
         "file": "E01914115_Q2.jpg",
-        "facts": "{\n  \"中断优先级顺序\": \"A>D>C>E>B\",\n  \"A级中断屏蔽字\": \"1 - - - -\",\n  \"B级中断屏蔽字\": \"0 1 0 0 0\",\n  \"C级中断屏蔽字\": \"0 - 1 0 -\",\n  \"D级中断屏蔽字\": \"0 1 - - -\",\n  \"E级中断屏蔽字\": \"0 - 0 0 1\",\n  \"CPU执行程序和处理中断的顺序图内容\": \"图中显示用户程序，随后有标注为A的矩形块，接着是标注为C的矩形块，之后有标注为D、E的矩形块，最后是标注为B的矩形块，各矩形块之间有箭头连接，坐标轴横轴为t，纵轴为用户程序和各级服务程序（A、B、C、D、E依次排列）\"\n}",
+        "facts": "{\"item_1\": \"A>D>C>E>B\", \"item_2\": \"1 - - - -\", \"item_3\": \"0 • 1 0 0\", \"item_4\": \"0 - 1 0 -\", \"item_5\": \"0 1 - - -\", \"item_6\": \"0 - 0 0 1\", \"item_7\": \"用户程序 A C D E B t\"}",
         "scores": [
-            4,
-            4,
-            4
-        ]
+            9.7,
+            8.5,
+            7.2
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student's sequence A>D>C>E>B is exactly equivalent to A→D→C→E→B; full match."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0.5,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "1 - - - -",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "insufficient",
+                        "reason": "Only first bit (1) captured and correct; remaining four bits are unextracted (dashes). Cannot confirm full vector, so partial credit only."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "0 • 1 0 0",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "insufficient",
+                        "reason": "Positions 1,4,5 match (0,0,0); position 2 unknown (•); position 3 shows 1 but expected 0 — one genuine discrepancy. Partial credit for majority correct bits."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1.2,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "0 - 1 0 -",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "insufficient",
+                        "reason": "Three known bits (positions 1,3,4 = 0,1,0) all match expected; two bits unextracted. No wrong values, but incomplete extraction limits credit."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "0 1 - - -",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "insufficient",
+                        "reason": "Two known bits (0, 1) both correct; three bits unextracted. Consistent with expected pattern but insufficient evidence for full credit."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 1.5,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "0 - 0 0 1",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "insufficient",
+                        "reason": "Four of five bits captured (0,?,0,0,1) and all match expected values. Only position 2 unextracted. Strong partial match."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 2.5,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 A C D E B t",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图（8分）",
+                        "dependency_status": "insufficient",
+                        "reason": "OCR captured key elements: user program, interrupt sequence (A,C,D,E,B), and time axis (t), indicating a diagram was attempted. However, extraction is far too sparse to verify timeline structure, interrupt nesting, or return points for the full 8-point diagram."
+                    }
+                ],
+                "total_score": 9.7
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student's sequence A>D>C>E>B exactly matches the required order A→D→C→E→B; '>' used in place of '→' is a non-substantive format variation."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0.5,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "1 - - - -",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "insufficient",
+                        "reason": "Only the first bit (1) is extracted and correct; remaining four bits are dashes/missing. First bit matches expected but the full 5-bit mask word is not demonstrably provided. Low partial credit."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "0 • 1 0 0",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "insufficient",
+                        "reason": "Extracted bits 0, 0, 0 at positions 1, 4, 5 match expected; position 2 is ambiguous (•), and position 3 shows 1 instead of expected 0. Majority of bits align but with at least one discrepancy, warranting partial credit."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "0 - 1 0 -",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "insufficient",
+                        "reason": "Bits at positions 1, 3, 4 (0, 1, 0) match expected; positions 2 and 5 are dashes/missing. Three of five bits correct with two unknowns gives partial credit."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0.5,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "0 1 - - -",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "insufficient",
+                        "reason": "Bits at positions 1 and 2 (0, 1) match expected; positions 3, 4, 5 are dashes/missing. Only 2 of 5 bits demonstrably correct, so low partial credit."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 1.5,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "0 - 0 0 1",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "insufficient",
+                        "reason": "Bits at positions 1, 3, 4, 5 (0, 0, 0, 1) match expected; only position 2 is a dash/missing. Four of five bits correct, so generous partial credit."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 2.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 A C D E B t",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图（含时间轴、各程序段和中断处理过程）",
+                        "dependency_status": "insufficient",
+                        "reason": "Extracted text contains relevant elements (user program label, interrupt sequence A C D E B, and time axis t), suggesting the student attempted the diagram. However, no timing bars, interrupt intervals, or execution flow structure are captured. Far too sparse for full 8-point diagram credit; modest partial credit."
+                    }
+                ],
+                "total_score": 8.5
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生给出的顺序 A-D-C-E-B 与标准答案完全一致，仅用 '>' 代替 '→'，属于非实质性符号差异，按宽松评分给予满分。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0.4,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "1 - - - -",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "insufficient",
+                        "reason": "学生仅写出首位1，其余4位以 '-' 表示，疑似未填写或不可识别。仅1/5位正确，给予少量部分分。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0.6,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "0 • 1 0 0",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "insufficient",
+                        "reason": "与标准 0 1 0 0 0 相比，第1、4、5位匹配，但第2位为不明符号 '•'，第3位为1（应为0）。存在部分正确位但不完全一致。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0.6,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "0 - 1 0 -",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "insufficient",
+                        "reason": "第1、3、4位匹配标准答案，第2、5位以 '-' 表示为空。约3/5位一致，给予部分分。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0.4,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "0 1 - - -",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "insufficient",
+                        "reason": "仅前两位 0 1 与标准答案一致，后三位为 '-' 表示未填写。完成度较低，给予少量部分分。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 1.2,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "0 - 0 0 1",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "insufficient",
+                        "reason": "第1、3、4、5位与标准 0 1 0 0 1 完全匹配，仅第2位为 '-' 不明。4/5位一致，给予较高部分分。"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 2.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 A C D E B t",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图",
+                        "dependency_status": "insufficient",
+                        "reason": "学生仅给出了 '用户程序' 标签、级别序列 A C D E B 及时间轴 't' 的零散要素，未形成完整的CPU执行与中断处理时序图，且序列顺序与item_1的A-D-C-E-B不一致。属于部分要素存在但图不完整。"
+                    }
+                ],
+                "total_score": 7.2
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_2": [
+                0.5,
+                0.5,
+                0.4
+            ],
+            "item_3": [
+                1.0,
+                1.0,
+                0.6
+            ],
+            "item_4": [
+                1.2,
+                1.0,
+                0.6
+            ],
+            "item_5": [
+                1.0,
+                0.5,
+                0.4
+            ],
+            "item_6": [
+                1.5,
+                1.5,
+                1.2
+            ],
+            "item_7": [
+                2.5,
+                2.0,
+                2.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_2": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH"
+            ],
+            "item_3": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH"
+            ],
+            "item_4": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH"
+            ],
+            "item_5": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH"
+            ],
+            "item_6": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH"
+            ],
+            "item_7": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0022222222222222214,
+            "item_3": 0.03555555555555556,
+            "item_4": 0.062222222222222213,
+            "item_5": 0.06888888888888889,
+            "item_6": 0.020000000000000007,
+            "item_7": 0.05555555555555556
+        },
+        "max_item_variance": 0.06888888888888889,
+        "avg_item_variance": 0.03492063492063492
     },
     {
         "file": "E01914214_Q2.jpg",
-        "facts": "{\n  \"1. 中断处理优先级排列顺序\": \"A＞D＞C＞E＞B\",\n  \"2. A级中断的中断屏蔽字\": \"1 1 1 1 1\",\n  \"3. B级中断的中断屏蔽字\": \"0 1 0 0 0\",\n  \"4. C级中断的中断屏蔽字\": \"0 1 1 0 1\",\n  \"5. D级中断的中断屏蔽字\": \"0 1 1 1 1\",\n  \"6. E级中断的中断屏蔽字\": \"0 1 0 0 1\",\n  \"7. CPU执行程序和处理中断顺序图\": \"纵轴标签为“服务程序”，横轴标签为“t/T”，包含多个矩形框，框内标签依次为A、C、D、E、B，框之间通过箭头连接，箭头方向沿横轴（时间轴）从左到右，每个框代表一个中断处理阶段\"\n}",
+        "facts": "{\"item_1\": \"A＞D＞C＞E＞B\", \"item_2\": \"11111\", \"item_3\": \"01000\", \"item_4\": \"01101\", \"item_5\": \"01111\", \"item_6\": \"01001\", \"item_7\": \"用户程序 服务程序 A D C E B t/T\"}",
         "scores": [
-            12,
-            12,
-            20
-        ]
+            17.0,
+            12.0,
+            18
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A＞D＞C＞E＞B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student wrote A＞D＞C＞E＞B, which is an equivalent representation of the required sequence A→D→C→E→B. Same order, same symbols, only notation differs (＞ vs →). Full credit."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "11111",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student wrote '11111' which equals '1 1 1 1 1'; only missing spaces between bits. The bit vector values are identical. Full credit."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "01000",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student wrote '01000' which equals '0 1 0 0 0'. Same bit vector, only spacing differs. Full credit."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "01101",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student wrote '01101' which equals '0 1 1 0 1'. Same bit vector, only spacing differs. Full credit."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "01111",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student wrote '01111' which equals '0 1 1 1 1'. Same bit vector, only spacing differs. Full credit."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "01001",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student wrote '01001' which equals '0 1 0 0 1'. Same bit vector, only spacing differs. Full credit."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 5.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 服务程序 A D C E B t/T",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图（完整时间轴图，包含用户程序、各级中断服务程序的执行时间区间及嵌套关系）",
+                        "dependency_status": "insufficient",
+                        "reason": "Extracted fact contains the key diagram elements: user program label (用户程序), service program label (服务程序), the interrupt handler sequence A D C E B in correct priority order matching item 1, and time axis (t/T). These elements are consistent with a correct diagram. However, the extraction is fragmented and does not capture the full diagram structure (time intervals, nesting, return points), so the complete correctness cannot be fully verified. Under lenient policy, award substantial partial credit for the correct elements present."
+                    }
+                ],
+                "total_score": 17.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A＞D＞C＞E＞B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly provided the interrupt processing priority sequence matching the rubric."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "11111",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly provided the bit vector 11111 for Level A interrupts."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "01000",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly provided the bit vector 01000 for Level B interrupts."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "01101",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly provided the bit vector 01101 for Level C interrupts."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "01111",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly provided the bit vector 01111 for Level D interrupts."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "01001",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly provided the bit vector 01001 for Level E interrupts."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "INSUFFICIENT_INFO",
+                        "evidence_text": "用户程序 服务程序 A D C E B t/T",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图",
+                        "dependency_status": "insufficient",
+                        "reason": "The extracted fact only contains labels and keywords from the diagram. Without the structural connections or execution trace, there is insufficient information to judge the correctness of the diagram."
+                    }
+                ],
+                "total_score": 12.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "A＞D＞C＞E＞B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student's sequence A>D>C>E>B is identical to the required A→D→C→E→B; using ＞ instead of → is purely notational."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "11111",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Bit vector 11111 matches the expected mask for level A exactly."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "01000",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "not_applicable",
+                        "reason": "Bit vector 01000 matches the expected mask for level B exactly."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "01101",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Bit vector 01101 matches the expected mask for level C exactly."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "01111",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Bit vector 01111 matches the expected mask for level D exactly."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "01001",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Bit vector 01001 matches the expected mask for level E exactly."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 6,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 服务程序 A D C E B t/T",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图，应包含用户程序、服务程序、各级中断的处理时序及时间轴",
+                        "dependency_status": "insufficient",
+                        "reason": "OCR从图中提取到了关键元素（用户程序、服务程序、中断级别A D C E B、时间轴t/T），且A D C E B的出现顺序与item_1的优先级一致，说明学生绘制了正确结构的图。但仅凭提取的标签文字无法完全验证图中所有时间段的划分和中断嵌套关系是否精确无误，故给予部分扣分。"
+                    }
+                ],
+                "total_score": 18
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_2": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_3": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_4": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_5": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_6": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_7": [
+                5.0,
+                0.0,
+                6.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_2": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_3": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_4": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_5": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_6": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_7": [
+                "PARTIAL_MATCH",
+                "INSUFFICIENT_INFO",
+                "PARTIAL_MATCH"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0,
+            "item_3": 0.0,
+            "item_4": 0.0,
+            "item_5": 0.0,
+            "item_6": 0.0,
+            "item_7": 6.888888888888889
+        },
+        "max_item_variance": 6.888888888888889,
+        "avg_item_variance": 0.9841269841269842
     },
     {
         "file": "E01914290_Q2.jpg",
-        "facts": "{\n  \"1. 中断处理优先级排列顺序\": \"A＞D＞C＞E＞B\",\n  \"2. A级中断对应的“中断屏蔽字”列填写的内容\": \"B＜DE\",\n  \"3. B级中断对应的“中断屏蔽字”列填写的内容\": \"无屏蔽字\",\n  \"4. C级中断对应的“中断屏蔽字”列填写的内容\": \"B.E\",\n  \"5. D级中断对应的“中断屏蔽字”列填写的内容\": \"B,C,及E\",\n  \"6. E级中断对应的“中断屏蔽字”列填写的内容\": \"B.\",\n  \"7. “CPU执行程序和处理中断顺序图”的构成元素、元素间的连接关系及箭头上的标注文字\": \"纵轴标注“中断服务程序”，从下到上依次为A、B、C、D、E；横轴标注“t”；元素包括用户程序、A级中断服务程序、B级中断服务程序、C级中断服务程序、D级中断服务程序、E级中断服务程序；元素间通过时间轴上的流程连接，箭头表示执行顺序，图中显示用户程序后进入A级中断服务程序，之后有其他中断服务程序的流程（具体流程按考生答卷图示呈现）\"\n}",
+        "facts": "{\"item_1\": \"A＞D＞C＞E＞B\", \"item_2\": \"B＜DE\", \"item_3\": \"无屏蔽字\", \"item_4\": \"B、E\", \"item_5\": \"B、C、E\", \"item_6\": \"B\", \"item_7\": \"用户程序 t 中断服务程序 E D C B A\"}",
         "scores": [
-            0,
-            2,
-            2
-        ]
+            5.0,
+            2.0,
+            2.0
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A＞D＞C＞E＞B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student wrote A＞D＞C＞E＞B, which exactly represents the priority order A→D→C→E→B using ＞ instead of →. Fully correct."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B＜DE",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "failed",
+                        "reason": "Extracted fact 'B＜DE' does not contain the A-level mask word (11111). No mask word information for A is present."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "无屏蔽字",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "failed",
+                        "reason": "Student wrote '无屏蔽字' (no mask word), indicating the mask word was not provided. Required B-level mask word (01000) is absent."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B、E",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "failed",
+                        "reason": "Extracted fact 'B、E' does not contain the C-level mask word (01101). No relevant mask word data."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B、C、E",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "failed",
+                        "reason": "Extracted fact 'B、C、E' does not contain the D-level mask word (01111). No relevant mask word data."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "failed",
+                        "reason": "Extracted fact 'B' does not contain the E-level mask word (01001). No relevant mask word data."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 3.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 t 中断服务程序 E D C B A",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图（完整时间轴图）",
+                        "dependency_status": "insufficient",
+                        "reason": "Student provided partial trace elements (用户程序, 中断服务程序, and some ordering E D C B A) but this is far from a complete execution/interrupt sequence diagram. Shows minimum valid conceptual evidence but lacks the required full timeline diagram. Partial credit awarded."
+                    }
+                ],
+                "total_score": 5.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A＞D＞C＞E＞B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "satisfied",
+                        "reason": "The extracted sequence A>D>C>E>B exactly matches the required priority order A→D→C→E→B."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B＜DE",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "failed",
+                        "reason": "The extracted fact does not contain the bit vector for A's interrupt mask word, providing an unrelated statement instead."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "无屏蔽字",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "failed",
+                        "reason": "The student explicitly states there is no mask word, which contradicts the requirement to provide the 5-bit mask word for B."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B、E",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "failed",
+                        "reason": "The extracted fact does not provide the bit vector for C's interrupt mask word."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B、C、E",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "failed",
+                        "reason": "The extracted fact does not provide the bit vector for D's interrupt mask word."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "failed",
+                        "reason": "The extracted fact does not provide the bit vector for E's interrupt mask word."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "INSUFFICIENT_INFO",
+                        "evidence_text": "用户程序 t 中断服务程序 E D C B A",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图",
+                        "dependency_status": "insufficient",
+                        "reason": "The extracted fact only contains scattered labels and lacks the necessary diagram structure, timing, or sequence to evaluate the CPU execution trace."
+                    }
+                ],
+                "total_score": 2.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A＞D＞C＞E＞B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "satisfied",
+                        "reason": "The student correctly provided the interrupt processing priority order."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B＜DE",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "failed",
+                        "reason": "The extracted fact is unrelated and does not provide the bit vector for level A interrupt."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "无屏蔽字",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "failed",
+                        "reason": "The student explicitly stated there is no mask word, contradicting the problem's fundamental concept."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B、E",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "failed",
+                        "reason": "The extracted fact is unrelated and does not provide the bit vector for level C interrupt."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B、C、E",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "failed",
+                        "reason": "The extracted fact is unrelated and does not provide the bit vector for level D interrupt."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "failed",
+                        "reason": "The extracted fact is unrelated and does not provide the bit vector for level E interrupt."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "INSUFFICIENT_INFO",
+                        "evidence_text": "用户程序 t 中断服务程序 E D C B A",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图",
+                        "dependency_status": "insufficient",
+                        "reason": "The extracted text only provides scattered labels/components rather than an actual sequence diagram or trace, which is insufficient to award the 8 diagram points."
+                    }
+                ],
+                "total_score": 2.0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_2": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_3": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_4": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_5": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_6": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_7": [
+                3.0,
+                0.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_2": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_3": [
+                "BLANK",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ],
+            "item_4": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_5": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_6": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_7": [
+                "PARTIAL_MATCH",
+                "INSUFFICIENT_INFO",
+                "INSUFFICIENT_INFO"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0,
+            "item_3": 0.0,
+            "item_4": 0.0,
+            "item_5": 0.0,
+            "item_6": 0.0,
+            "item_7": 2.0
+        },
+        "max_item_variance": 2.0,
+        "avg_item_variance": 0.2857142857142857
     },
     {
         "file": "E02014181_Q2.jpg",
-        "facts": "{\n  \"1. 提取中断处理优先级排列顺序的文本内容\": \"A＞D＞C＞E＞B\",\n  \"2. 提取A级中断的中断屏蔽字字段中填写的数值\": \"DCEB\",\n  \"3. 提取B级中断的中断屏蔽字字段中填写的数值\": \"无\",\n  \"4. 提取C级中断的中断屏蔽字字段中填写的数值\": \"EB\",\n  \"5. 提取D级中断的中断屏蔽字字段中填写的数值\": \"CEB\",\n  \"6. 提取E级中断的中断屏蔽字字段中填写的数值\": \"B\",\n  \"7. 描述CPU执行程序和处理中断顺序图中从各个节点引出的箭头的指向，以及箭头旁边的标注文字\": \"箭头从“用户程序”指向“A”，箭头从“A”指向“D”，箭头从“D”指向“C”，箭头从“C”指向“E”，箭头从“E”指向“B”；箭头旁边的标注文字分别为“用户程序”、“A”、“D”、“C”、“E”、“B”\"\n}",
+        "facts": "{\"item_1\": \"A>D>C>E>B\", \"item_2\": \"DCEB\", \"item_3\": \"无\", \"item_4\": \"EB\", \"item_5\": \"CEB\", \"item_6\": \"B\", \"item_7\": \"用户程序 纵轴：E、D、C、B、A 横轴：t 折线轨迹（包含从用户程序起始点向上延伸，经过A、C、D、E等层级的折线）\"}",
         "scores": [
-            10,
-            10,
-            10
-        ]
+            6.0,
+            18.0,
+            6.0
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "提取的学生事实提供了完全一致的中断处理优先级顺序。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "DCEB",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "failed",
+                        "reason": "学生回答包含字母序列而不是预期的5位二进制屏蔽字，属于核心概念错误。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0.0,
+                        "error_category": "BLANK",
+                        "evidence_text": "无",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "failed",
+                        "reason": "提取的学生事实为'无'，未提供任何回答内容。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "EB",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "failed",
+                        "reason": "学生回答包含字母而不是预期的二进制屏蔽字，概念完全错误。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "CEB",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "failed",
+                        "reason": "学生回答包含字母而不是预期的二进制屏蔽字，概念完全错误。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "B",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "failed",
+                        "reason": "学生回答包含字母而不是预期的二进制屏蔽字，概念完全错误。"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 4.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 纵轴：E、D、C、B、A 横轴：t 折线轨迹（包含从用户程序起始点向上延伸，经过A、C、D、E等层级的折线）",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图",
+                        "dependency_status": "insufficient",
+                        "reason": "学生绘制了图表的基础框架（坐标轴、用户程序以及部分中断层级轨迹），具备部分的正确结构，但由于缺少完整或精确的轨迹验证，授予一半的分值。"
+                    }
+                ],
+                "total_score": 6.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student gives order A>D>C>E>B, which exactly matches the required sequence A→D→C→E→B."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "DCEB",
+                        "expected_condition": "A级中断屏蔽字为1 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student lists the levels A masks as D, C, E, B plus self = all five levels, equivalent to bitmask 11111. Correct conceptually and numerically."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "无",
+                        "expected_condition": "B级中断屏蔽字为0 1 0 0 0",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student indicates B masks no other levels ('无' = none), meaning B only masks itself, equivalent to bitmask 01000. Correct."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "EB",
+                        "expected_condition": "C级中断屏蔽字为0 1 1 0 1",
+                        "expected_condition_detail": "C masks itself plus E and B → 01101",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student lists C masks E, B plus self → B,C,E masked → bitmask 01101. Matches expected."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "CEB",
+                        "expected_condition": "D级中断屏蔽字为0 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student lists D masks C, E, B plus self → B,C,D,E masked → bitmask 01111. Matches expected."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "B",
+                        "expected_condition": "E级中断屏蔽字为0 1 0 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student lists E masks B plus self → B,E masked → bitmask 01001. Matches expected."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 6.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 纵轴：E、D、C、B、A 横轴：t 折线轨迹（包含从用户程序起始点向上延伸，经过A、C、D、E等层级的折线）",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图，需展示完整轨迹含所有中断层级A–E及用户程序",
+                        "dependency_status": "insufficient",
+                        "reason": "Diagram has correct axes (纵轴 E-D-C-B-A priority levels, 横轴 time t) and a trajectory through user program, A, C, D, E levels. Core structure is correct, but extracted description is too vague to fully verify B-level trajectory and complete correctness. Award 6/8 for largely correct diagram structure under lenient policy."
+                    }
+                ],
+                "total_score": 18.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "satisfied",
+                        "reason": "提取的学生事实给出了完整的正确优先级顺序，与标准答案一致。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "DCEB",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "failed",
+                        "reason": "学生提供的 'DCEB' 不是有效的位向量，也未包含代表全1屏蔽字的正确内容或格式。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "无",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "failed",
+                        "reason": "提取的事实为“无”，表示学生未作答或答案无效。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "EB",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "failed",
+                        "reason": "学生提供的 'EB' 不是有效的位向量表示，无法对应正确的屏蔽字。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "CEB",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "failed",
+                        "reason": "学生提供的 'CEB' 不是有效的位向量表示，无法对应正确的屏蔽字。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "failed",
+                        "reason": "学生提供的 'B' 不是有效的位向量表示，无法对应正确的屏蔽字。"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 4.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 纵轴：E、D、C、B、A 横轴：t 折线轨迹（包含从用户程序起始点向上延伸，经过A、C、D、E等层级的折线）",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图",
+                        "dependency_status": "insufficient",
+                        "reason": "学生绘制了包含坐标轴（纵轴、横轴）和跨越多个中断层级折线的轨迹图，展示了部分正确的处理结构。但由于缺乏详细的时序和转折点信息，无法完全确认时序图的准确性，故给予一半的部分分。"
+                    }
+                ],
+                "total_score": 6.0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_2": [
+                0.0,
+                2.0,
+                0.0
+            ],
+            "item_3": [
+                0.0,
+                2.0,
+                0.0
+            ],
+            "item_4": [
+                0.0,
+                2.0,
+                0.0
+            ],
+            "item_5": [
+                0.0,
+                2.0,
+                0.0
+            ],
+            "item_6": [
+                0.0,
+                2.0,
+                0.0
+            ],
+            "item_7": [
+                4.0,
+                6.0,
+                4.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_2": [
+                "SEMANTIC_FATAL",
+                "MATCH",
+                "BLANK"
+            ],
+            "item_3": [
+                "BLANK",
+                "MATCH",
+                "BLANK"
+            ],
+            "item_4": [
+                "SEMANTIC_FATAL",
+                "MATCH",
+                "BLANK"
+            ],
+            "item_5": [
+                "SEMANTIC_FATAL",
+                "MATCH",
+                "BLANK"
+            ],
+            "item_6": [
+                "SEMANTIC_FATAL",
+                "MATCH",
+                "BLANK"
+            ],
+            "item_7": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.888888888888889,
+            "item_3": 0.888888888888889,
+            "item_4": 0.888888888888889,
+            "item_5": 0.888888888888889,
+            "item_6": 0.888888888888889,
+            "item_7": 0.888888888888889
+        },
+        "max_item_variance": 0.888888888888889,
+        "avg_item_variance": 0.761904761904762
     },
     {
         "file": "E12214006_Q2.jpg",
-        "facts": "{\n  \"中断处理优先级排列顺序\": \"A>D>C>E>B\",\n  \"A级中断屏蔽字\": \"1 1 1 1 1\",\n  \"B级中断屏蔽字\": \"0 1 0 0 0\",\n  \"C级中断屏蔽字\": \"0 1 1 0 1\",\n  \"D级中断屏蔽字\": \"0 1 1 1 1\",\n  \"E级中断屏蔽字\": \"0 1 0 0 1\",\n  \"CPU执行程序和处理中断顺序图视觉结构\": \"图中包含‘用户程序’‘A处理完’‘D处理完’‘C处理完’‘E处理完’‘B处理完’等节点，节点间通过箭头连接；箭头旁标注有‘A、B、C中断请求’‘D、E中断请求’等文字，节点按‘用户程序’→‘A处理完’→‘D处理完’→‘C处理完’→‘E处理完’→‘B处理完’的顺序排列，箭头指示流程方向\"\n}",
+        "facts": "{\"item_1\": \"A>D>C>E>B\", \"item_2\": \"1 1 1 1 1\", \"item_3\": \"0 1 0 0 0\", \"item_4\": \"0 1 1 0 1\", \"item_5\": \"0 1 1 1 1\", \"item_6\": \"0 1 0 0 1\", \"item_7\": \"用户程序 A处理完 D处理完 C处理完 E处理完 B处理完 A、B、C 中断请求 D、E 中断请求\"}",
         "scores": [
-            20,
-            20,
-            20
-        ]
+            18.0,
+            18.0,
+            20.0
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student's sequence A>D>C>E>B exactly matches the required priority order A→D→C→E→B."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "1 1 1 1 1",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "A-level mask word 1 1 1 1 1 matches exactly."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "0 1 0 0 0",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "not_applicable",
+                        "reason": "B-level mask word 0 1 0 0 0 matches exactly."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "0 1 1 0 1",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "C-level mask word 0 1 1 0 1 matches exactly."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "0 1 1 1 1",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "D-level mask word 0 1 1 1 1 matches exactly."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "0 1 0 0 1",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "E-level mask word 0 1 0 0 1 matches exactly."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 6.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 A处理完 D处理完 C处理完 E处理完 B处理完 A、B、C 中断请求 D、E 中断请求",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图，需展示用户程序、各中断到达时刻、嵌套处理和完成顺序",
+                        "dependency_status": "satisfied",
+                        "reason": "Extracted evidence captures the correct completion order (A→D→C→E→B matching the priority) and correctly groups interrupt requests (A,B,C first, then D,E). Core structure is correct, but the full diagram details (preemption nesting, exact timing of interrupt arrival during processing) cannot be fully verified from the textual extraction alone, warranting partial credit."
+                    }
+                ],
+                "total_score": 18.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student's sequence A>D>C>E>B matches the rubric order A→D→C→E·B exactly; '>' instead of '→' is a trivial separator difference."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "1 1 1 1 1",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Exact match for the A-level interrupt mask word."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "0 1 0 0 0",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "not_applicable",
+                        "reason": "Exact match for the B-level interrupt mask word."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "0 1 1 0 1",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Exact match for the C-level interrupt mask word."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "0 1 1 1 1",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Exact match for the D-level interrupt mask word."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "0 1 0 0 1",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Exact match for the E-level interrupt mask word."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 6.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 A处理完 D处理完 C处理完 E处理完 B处理完 A、B、C 中断请求 D、E 中断请求",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图（含用户程序、各级中断处理段、中断请求标注，完整时间线）",
+                        "dependency_status": "insufficient",
+                        "reason": "The extracted text captures the core processing-completion order (A→D→C→E→B) and interrupt request groupings (A,B,C / D,E), which are the essential content of the diagram. However, the extraction does not confirm a fully drawn timeline/Gantt structure with all visual elements; awarding 6/8 under lenient partial credit."
+                    }
+                ],
+                "total_score": 18.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student wrote A>D>C>E>B, which is exactly the required priority order A→D→C→E→B."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "1 1 1 1 1",
+                        "expected_condition": "A级中断的屏蔽字为1 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student's bit vector 1 1 1 1 1 exactly matches the rubric for A-level mask word."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "0 1 0 0 0",
+                        "expected_condition": "B级中断的屏蔽字为0 1 0 0 0",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student's bit vector 0 1 0 0 0 exactly matches the rubric for B-level mask word."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "0 1 1 0 1",
+                        "expected_condition": "C级中断的屏蔽字为0 1 1 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student's bit vector 0 1 1 0 1 exactly matches the rubric for C-level mask word."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "0 1 1 1 1",
+                        "expected_condition": "D级中断的屏蔽字为0 1 1 1 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student's bit vector 0 1 1 1 1 exactly matches the rubric for D-level mask word."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "0 1 0 0 1",
+                        "expected_condition": "E级中断的屏蔽字为0 1 0 0 1",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student's bit vector 0 1 0 0 1 exactly matches the rubric for E-level mask word."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 8.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "用户程序 A处理完 D处理完 C处理完 E处理完 B处理完 A、B、C 中断请求 D、E 中断请求",
+                        "expected_condition": "CPU执行程序和处理中断的顺序图，展示中断嵌套处理流程",
+                        "dependency_status": "satisfied",
+                        "reason": "Student provides the key diagram elements: user program, interrupt requests grouped as A/B/C and D/E, and completion order A→D→C→E→B which is fully consistent with the priority order and masking words. The sequence of processing completion events is correct."
+                    }
+                ],
+                "total_score": 20.0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_2": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_3": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_4": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_5": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_6": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_7": [
+                6.0,
+                6.0,
+                8.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_2": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_3": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_4": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_5": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_6": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_7": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "MATCH"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0,
+            "item_3": 0.0,
+            "item_4": 0.0,
+            "item_5": 0.0,
+            "item_6": 0.0,
+            "item_7": 0.888888888888889
+        },
+        "max_item_variance": 0.888888888888889,
+        "avg_item_variance": 0.126984126984127
     }
 ]

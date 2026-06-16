@@ -1,47 +1,1502 @@
 [
     {
         "file": "E01914115_Q4.jpg",
-        "facts": "{\n  \"项目1：物理地址位数\": \"20位\",\n  \"项目2：块内偏移位数\": \"6位\",\n  \"项目3：组号位数\": \"4位\",\n  \"项目4：主存地址格式\": \"字块标记、Cache组号、块内偏移\",\n  \"项目5：Cache地址格式\": \"Cache组号、组内块号、块内偏移\",\n  \"项目6：地址2D07FFH访问判断\": {\n    \"访问字块标记位\": \"00... 1101 0000 0111 1111 1111\",\n    \"Cache该位置存放块编号\": \"块X\",\n    \"主存地址中Cache组号字段\": \"0111\",\n    \"命中判断\": \"无法访问到该单元的数据\"\n  },\n  \"项目7：地址7F0057H访问判断\": {\n    \"访问字块标记位\": \"0111 1111 0000 0000 0101 0111\",\n    \"Cache该位置存放块编号\": \"块3\",\n    \"主存地址中Cache组号字段\": \"0000\",\n    \"命中判断\": \"可访问到块3的数据\"\n  }\n}",
+        "facts": "{\"item_1\": \"23位\", \"item_2\": \"11位\", \"item_3\": \"4位\", \"item_4\": \"标记(8位) 组号(4位) 块内偏移(11位)\", \"item_5\": \"组号(4位) 块内偏移(11位)\", \"item_6\": \"未命中，由表可知无法访问到该单元的数据\", \"item_7\": \"命中，由表可知至少可访问到块3的数据\"}",
         "scores": [
-            2,
-            2,
-            2
-        ]
-    },
-    {
-        "file": "E01914214_Q4.jpg",
-        "facts": "{\n  \"条目1\": \"\",\n  \"条目2\": \"12\",\n  \"条目3\": \"4\",\n  \"条目4\": \"\",\n  \"条目5\": \"\",\n  \"条目6\": {\n    \"字块标记位数字序列\": \"00101101\",\n    \"存放块编号数字\": \"15\",\n    \"组号字段数字\": \"1111\"\n  },\n  \"条目7\": {\n    \"字块标记位数字序列\": \"01111111\",\n    \"存放块编号数字\": \"7\",\n    \"组号字段数字\": \"0111\"\n  }\n}",
-        "scores": [
-            0,
-            2,
-            2
-        ]
+            19.0,
+            19.0,
+            19.0
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "23位",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly states the physical address is 23 bits."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "11位",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly provides the block offset as 11 bits."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly provides the set number as 4 bits."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "标记(8位) 组号(4位) 块内偏移(11位)",
+                        "expected_condition": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "satisfied",
+                        "reason": "The student correctly identifies all fields and their corresponding bit widths for the main memory address format."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "组号(4位) 块内偏移(11位)",
+                        "expected_condition": "Cache地址格式 [ Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "insufficient",
+                        "reason": "The student correctly identifies the set number and block offset but completely omits the 1-bit block number within the set."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 5.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "未命中，由表可知无法访问到该单元的数据",
+                        "expected_condition": "地址2D07FFH访问判断（未命中）及理由",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly concludes 'miss' and provides a valid reason based on the table."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 5.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "命中，由表可知至少可访问到块3的数据",
+                        "expected_condition": "地址7F0057H访问判断（命中）及理由",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student correctly concludes 'hit' and provides a valid reason based on accessing block 3 data."
+                    }
+                ],
+                "total_score": 19.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "23位",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student correctly states 23 bits for physical address."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "11位",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student correctly states 11 bits for block offset."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student correctly states 4 bits for group number."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "标记(8位) 组号(4位) 块内偏移(11位)",
+                        "expected_condition": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "satisfied",
+                        "reason": "All three fields present with correct bit counts matching the required main memory address format."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "组号(4位) 块内偏移(11位)",
+                        "expected_condition": "Cache地址格式 [ Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "failed",
+                        "reason": "Student has 2 of 3 components correct but is missing the 组内块号(1位) field, which is essential for a 2-way set-associative Cache address format. Partial credit for correct group number and offset."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 5.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "未命中，由表可知无法访问到该单元的数据",
+                        "expected_condition": "地址2D07FFH访问判断（未命中）及理由",
+                        "dependency_status": "satisfied",
+                        "reason": "Correct conclusion (miss) with supporting reason referencing the table. Under lenient policy, conclusion correctness with brief reasoning suffices."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 5.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "命中，由表可知至少可访问到块3的数据",
+                        "expected_condition": "地址7F0057H访问判断（命中）及理由",
+                        "dependency_status": "satisfied",
+                        "reason": "Correct conclusion (hit) with supporting reason referencing block 3 in the table. Under lenient policy, conclusion correctness with brief reasoning suffices."
+                    }
+                ],
+                "total_score": 19.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "23位",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student states 23 bits, exactly matching the required physical address width."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "11位",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student states 11 bits, exactly matching the required block offset width."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student states 4 bits, exactly matching the required group number width."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "标记(8位) 组号(4位) 块内偏移(11位)",
+                        "expected_condition": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "satisfied",
+                        "reason": "Student lists all three fields (tag 8 bits, group 4 bits, offset 11 bits) matching the main memory address format exactly."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "组号(4位) 块内偏移(11位)",
+                        "expected_condition": "Cache地址格式 [ Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "partial",
+                        "reason": "Student provides group number (4 bits) and block offset (11 bits) correctly, but the required 组内块号 1 位 field is entirely missing. Two of three components correct."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 5.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "未命中，由表可知无法访问到该单元的数据",
+                        "expected_condition": "地址2D07FFH访问判断（未命中）及理由",
+                        "dependency_status": "satisfied",
+                        "reason": "Student correctly concludes miss and provides a concrete reason referencing the table showing the unit's data is inaccessible. Conclusion and reasoning are present and correct."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 5.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "命中，由表可知至少可访问到块3的数据",
+                        "expected_condition": "地址7F0057H访问判断（命中）及理由",
+                        "dependency_status": "satisfied",
+                        "reason": "Student correctly concludes hit and provides a concrete reason referencing the table and block 3, showing valid analysis."
+                    }
+                ],
+                "total_score": 19.0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_2": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_3": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_4": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_5": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "item_6": [
+                5.0,
+                5.0,
+                5.0
+            ],
+            "item_7": [
+                5.0,
+                5.0,
+                5.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_2": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_3": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_4": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_5": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH"
+            ],
+            "item_6": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_7": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0,
+            "item_3": 0.0,
+            "item_4": 0.0,
+            "item_5": 0.0,
+            "item_6": 0.0,
+            "item_7": 0.0
+        },
+        "max_item_variance": 0.0,
+        "avg_item_variance": 0.0
     },
     {
         "file": "E01914290_Q4.jpg",
-        "facts": "{\n  \"项目1（物理地址位数）\": \"\",\n  \"项目2（块内偏移位数）\": \"\",\n  \"项目3（组号位数）\": \"4\",\n  \"项目4（主存地址格式）\": \"\",\n  \"项目5（Cache地址格式）\": \"\",\n  \"项目6（地址2D07FFH访问判断）\": \"能\",\n  \"项目7（地址7F0057H访问判断）\": \"能\"\n}",
+        "facts": "{\"item_1\": \"未书写\", \"item_2\": \"未书写\", \"item_3\": \"4位\", \"item_4\": \"未书写\", \"item_5\": \"未书写\", \"item_6\": \"能\", \"item_7\": \"能\"}",
         "scores": [
-            7,
-            7,
-            7
-        ]
+            2.0,
+            4,
+            2
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student left this item blank."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student left this item blank."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "satisfied",
+                        "reason": "The student provided the correct number of bits for the group number."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student left this item blank."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "Cache地址格式 [ Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student left this item blank."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "INSUFFICIENT_INFO",
+                        "evidence_text": "能",
+                        "expected_condition": "地址2D07FFH访问判断（未命中）及理由",
+                        "dependency_status": "insufficient",
+                        "reason": "The extraction '能' is a generic value and does not provide the specific judgment or reasoning required by the rubric."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "INSUFFICIENT_INFO",
+                        "evidence_text": "能",
+                        "expected_condition": "地址7F0057H访问判断（命中）及理由",
+                        "dependency_status": "insufficient",
+                        "reason": "The extraction '能' is a generic value and does not provide the specific judgment or reasoning required by the rubric."
+                    }
+                ],
+                "total_score": 2.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写该项，无任何内容可评分。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写该项，无任何内容可评分。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生明确写出组号为4位，数值正确，完全匹配。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写主存地址格式，无内容可评分。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "Cache地址格式 [ Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写Cache地址格式，无内容可评分。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "能",
+                        "expected_condition": "地址2D07FFH访问判断及理由（未命中）",
+                        "dependency_status": "failed",
+                        "reason": "标准答案为未命中，学生回答'能'（暗示能命中），结论与正确判断矛盾，且无任何理由支撑。"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 2,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "能",
+                        "expected_condition": "地址7F0057H访问判断及理由（命中）",
+                        "dependency_status": "insufficient",
+                        "reason": "学生判断方向正确（'能'对应命中），与标准答案'命中'一致，但仅给出单字判断，完全缺少理由分析过程。给予部分分。"
+                    }
+                ],
+                "total_score": 4
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写答案。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写答案。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生答案数值正确，符合评分标准。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写答案。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "Cache地址格式 [ Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写答案。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "INSUFFICIENT_INFO",
+                        "evidence_text": "能",
+                        "expected_condition": "地址2D07FFH访问判断（未命中）及理由",
+                        "dependency_status": "insufficient",
+                        "reason": "提取信息过于笼统，不足以证明得出具体未命中判断及其推导理由。"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "INSUFFICIENT_INFO",
+                        "evidence_text": "能",
+                        "expected_condition": "地址7F0057H访问判断（命中）及理由",
+                        "dependency_status": "insufficient",
+                        "reason": "提取信息过于笼统，不足以证明得出具体命中判断及其推导理由。"
+                    }
+                ],
+                "total_score": 2
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_2": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_3": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_4": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_5": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_6": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_7": [
+                0.0,
+                2.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_2": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_3": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_4": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_5": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_6": [
+                "INSUFFICIENT_INFO",
+                "SEMANTIC_FATAL",
+                "INSUFFICIENT_INFO"
+            ],
+            "item_7": [
+                "INSUFFICIENT_INFO",
+                "PARTIAL_MATCH",
+                "INSUFFICIENT_INFO"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0,
+            "item_3": 0.0,
+            "item_4": 0.0,
+            "item_5": 0.0,
+            "item_6": 0.0,
+            "item_7": 0.888888888888889
+        },
+        "max_item_variance": 0.888888888888889,
+        "avg_item_variance": 0.126984126984127
     },
     {
         "file": "E02014181_Q4.jpg",
-        "facts": "{\n  \"1\": \"23\",\n  \"2\": \"11\",\n  \"3\": \"4\",\n  \"4\": [\n    \"8\",\n    \"4\",\n    \"11\"\n  ],\n  \"5\": [\n    \"4\",\n    \"1\",\n    \"11\"\n  ],\n  \"6\": [\n    \"01011010\",\n    \"块2\",\n    \"0000\",\n    \"计算过程：将2D07FFH转换为二进制，提取组号和标记...\"\n  ],\n  \"7\": [\n    \"11111110\",\n    \"块3或块1\",\n    \"0000\",\n    \"计算过程：将7F0057H转换为二进制，提取组号和标记...\"\n  ]\n}",
+        "facts": "{\"id\": \"item_1\", \"instruction\": \"提取学生关于'物理地址位数'所写的具体数值（例如：xx位）\", \"content\": \"未书写\"}, {\"id\": \"item_2\", \"instruction\": \"提取学生关于'块内偏移位数'所写的具体数值（例如：xx位）\", \"content\": \"未书写\"}, {\"id\": \"item_3\", \"instruction\": \"提取学生关于'组号位数'所写的具体数值（例如：xx位）\", \"content\": \"未书写\"}, {\"id\": \"item_4\", \"instruction\": \"提取学生关于'主存地址格式'所写的完整结构文字（需包含各字段名称及对应的位数）\", \"content\": \"未书写\"}, {\"id\": \"item_5\", \"instruction\": \"提取学生关于'Cache地址格式'所写的完整结构文字（需包含各字段名称及对应的位数）\", \"content\": \"未书写\"}, {\"id\": \"item_6\", \"instruction\": \"提取学生对于地址2D07FFH的命中/未命中判断结果文字及其给出的具体分析理由\", \"content\": \"未书写\"}, {\"id\": \"item_7\", \"instruction\": \"提取学生对于地址7F0057H的命中/未命中判断结果文字及其给出的具体分析理由\", \"content\": \"未书写\"}",
         "scores": [
-            10,
-            10,
-            15
-        ]
+            0,
+            0,
+            0
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "物理地址位数为23位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写物理地址位数，无任何内容可供评分。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "块内偏移为11位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写块内偏移位数，无任何内容可供评分。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写组号位数，无任何内容可供评分。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "主存地址格式 [字块标记8位 | Cache组号4位 | 块内偏移11位]",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写主存地址格式，无任何内容可供评分。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "Cache地址格式 [Cache组号4位 | 组内块号1位 | 块内偏移11位]",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写Cache地址格式，无任何内容可供评分。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "地址2D07FFH访问判断为未命中，并给出具体分析理由",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写地址2D07FFH的命中/未命中判断及分析理由，无任何内容可供评分。"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "地址7F0057H访问判断为命中，并给出具体分析理由",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写地址7F0057H的命中/未命中判断及分析理由，无任何内容可供评分。"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact indicates the student did not write an answer for this item."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact indicates the student did not write an answer for this item."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact indicates the student did not write an answer for this item."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact indicates the student did not write an answer for this item."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "Cache地址格式 [ Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact indicates the student did not write an answer for this item."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "地址2D07FFH访问判断及理由（未命中）",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact indicates the student did not write an answer for this item."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "地址7F0057H访问判断及理由（命中）",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact indicates the student did not write an answer for this item."
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student did not provide an answer."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student did not provide an answer."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student did not provide an answer."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student did not provide an answer."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "Cache地址格式 [ Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student did not provide an answer."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "地址2D07FFH访问判断（未命中）及理由",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student did not provide an answer."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "地址7F0057H访问判断（命中）及理由",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student did not provide an answer."
+                    }
+                ],
+                "total_score": 0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_2": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_3": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_4": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_5": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_6": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_7": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_2": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_3": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_4": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_5": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_6": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_7": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0,
+            "item_3": 0.0,
+            "item_4": 0.0,
+            "item_5": 0.0,
+            "item_6": 0.0,
+            "item_7": 0.0
+        },
+        "max_item_variance": 0.0,
+        "avg_item_variance": 0.0
     },
     {
         "file": "E12214006_Q4.jpg",
-        "facts": "{\n  \"1\": \"23位\",\n  \"2\": \"11位\",\n  \"3\": \"4位\",\n  \"4\": \"标记8位、组号4位、块内地址11位\",\n  \"5\": \"标记4位、块号1位、块内地址11位\",\n  \"6\": {\n    \"访问地址\": \"2D07FFH\",\n    \"命中判断\": \"命中\"\n  },\n  \"7\": {\n    \"访问地址\": \"7F0057H\",\n    \"命中判断\": \"命中\"\n  }\n}",
+        "facts": "{\"item_1\": \"23位\", \"item_2\": \"11位\", \"item_3\": \"4位\", \"item_4\": \"标记 8位 | 组号 4位 | 块内地址 11位\", \"item_5\": \"标记 4位 | 块号 1位 | 块内地址 11位\", \"item_6\": \"能在Cache中访问\", \"item_7\": \"能在Cache中访问\"}",
         "scores": [
-            13,
-            8,
-            13
-        ]
+            11.0,
+            10.4,
+            10.0
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "23位",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student states 23位, matching the expected physical address width of 23 bits."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "11位",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student states 11位, matching the expected block offset width of 11 bits."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "not_applicable",
+                        "reason": "Student states 4位, matching the expected set index width of 4 bits."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "标记 8位 | 组号 4位 | 块内地址 11位",
+                        "expected_condition": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "satisfied",
+                        "reason": "All three field widths (8, 4, 11) are correct and the structure matches the expected main memory address format. Minor naming differences (组号 vs Cache组号, 块内地址 vs 块内偏移) are non-substantive."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "标记 4位 | 块号 1位 | 块内地址 11位",
+                        "expected_condition": "Cache地址格式 [ Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "satisfied",
+                        "reason": "All three bit-width values (4, 1, 11) are correct, but the first field is labeled '标记' (tag) instead of 'Cache组号' (set index), which is a conceptual naming error since a Cache address does not contain a tag field."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "能在Cache中访问",
+                        "expected_condition": "地址2D07FFH访问判断为未命中（miss）",
+                        "dependency_status": "failed",
+                        "reason": "Student's conclusion '能在Cache中访问' (can access in Cache) implies a hit, contradicting the expected answer of '未命中' (miss) for address 2D07FFH."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 2.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "能在Cache中访问",
+                        "expected_condition": "地址7F0057H访问判断为命中（hit）及理由",
+                        "dependency_status": "insufficient",
+                        "reason": "Student's conclusion '能在Cache中访问' correctly implies a hit, matching the expected result. However, no supporting reasoning or computation is provided; the rubric requires both judgment and justification."
+                    }
+                ],
+                "total_score": 11.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "23位",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "satisfied",
+                        "reason": "Student states physical address is 23 bits, matching the rubric exactly."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "11位",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "satisfied",
+                        "reason": "Student states block offset is 11 bits, matching the rubric exactly."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "satisfied",
+                        "reason": "Student states set number is 4 bits, matching the rubric exactly."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "标记 8位 | 组号 4位 | 块内地址 11位",
+                        "expected_condition": "主存地址格式 [字块标记 8位 | Cache组号 4位 | 块内偏移 11位]",
+                        "dependency_status": "satisfied",
+                        "reason": "Address format has correct bit allocation (8|4|11) for tag|set|offset with only minor naming abbreviations; structure is fully correct."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1.4,
+                        "error_category": "FORMAT_MINOR",
+                        "evidence_text": "标记 4位 | 块号 1位 | 块内地址 11位",
+                        "expected_condition": "Cache地址格式 [Cache组号 4位 | 组内块号 1位 | 块内偏移 11位]",
+                        "dependency_status": "satisfied",
+                        "reason": "Bit widths (4|1|11) are correct, but first field is labeled '标记'(tag) instead of '组号'(set index). In a Cache address the set index is used for addressing, not the tag; this is a naming/conceptual label error but values are correct."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "能在Cache中访问",
+                        "expected_condition": "地址2D07FFH访问判断应为未命中(miss)及理由",
+                        "dependency_status": "failed",
+                        "reason": "Correct answer is cache miss, but student states 'can be accessed in Cache' implying a hit, directly contradicting the required conclusion. No reasoning provided."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "能在Cache中访问",
+                        "expected_condition": "地址7F0057H访问判断应为命中(hit)及理由",
+                        "dependency_status": "insufficient",
+                        "reason": "Correct answer is hit, and student's 'can be accessed in Cache' is consistent with hit direction. However, the statement is very vague, doesn't explicitly state '命中', and provides no reasoning. Same generic statement used for both items suggests no differentiation."
+                    }
+                ],
+                "total_score": 10.4
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "23位",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "satisfied",
+                        "reason": "The extracted value '23位' correctly matches the required physical address length."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "11位",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "satisfied",
+                        "reason": "The extracted value '11位' correctly matches the required block offset length."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "satisfied",
+                        "reason": "The extracted value '4位' correctly matches the required set number length."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "标记 8位 | 组号 4位 | 块内地址 11位",
+                        "expected_condition": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "satisfied",
+                        "reason": "The mapping, bit allocations, and formula for the main memory address format are completely correct."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "标记 4位 | 块号 1位 | 块内地址 11位",
+                        "expected_condition": "Cache地址格式 [ Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "failed",
+                        "reason": "The student uses '标记 4位' (Tag 4 bits) instead of the set number. A Cache address format contains physical index/block fields, not a tag. This is a conceptual mapping contradiction."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "能在Cache中访问",
+                        "expected_condition": "地址2D07FFH访问判断及理由（未命中）",
+                        "dependency_status": "failed",
+                        "reason": "The student concludes 'Can be accessed in Cache' (Hit), which contradicts the required correct conclusion of '未命中' (Miss)."
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 2.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "能在Cache中访问",
+                        "expected_condition": "地址7F0057H访问判断（命中）及理由",
+                        "dependency_status": "insufficient",
+                        "reason": "The final judgment '能在Cache中访问' (Hit) is correct, but the extraction provides no process evidence or reason. Partial credit is awarded for the correct final answer."
+                    }
+                ],
+                "total_score": 10.0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_2": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_3": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_4": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_5": [
+                1.0,
+                1.4,
+                0.0
+            ],
+            "item_6": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_7": [
+                2.0,
+                1.0,
+                2.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_2": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_3": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_4": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_5": [
+                "PARTIAL_MATCH",
+                "FORMAT_MINOR",
+                "SEMANTIC_FATAL"
+            ],
+            "item_6": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ],
+            "item_7": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0,
+            "item_3": 0.0,
+            "item_4": 0.0,
+            "item_5": 0.3466666666666667,
+            "item_6": 0.0,
+            "item_7": 0.2222222222222222
+        },
+        "max_item_variance": 0.3466666666666667,
+        "avg_item_variance": 0.08126984126984127
+    },
+    {
+        "file": "E12214023_Q4.jpg",
+        "facts": "{\"id\": \"item_1\", \"instruction\": \"提取学生关于'物理地址位数'所写的具体数值（如：xx位）\", \"content\": \"23位\"}, {\"id\": \"item_2\", \"instruction\": \"提取学生关于'块内偏移位数'所写的具体数值（如：xx位）\", \"content\": \"11位\"}, {\"id\": \"item_3\", \"instruction\": \"提取学生关于'组号位数'所写的具体数值（如：xx位）\", \"content\": \"4位\"}, {\"id\": \"item_4\", \"instruction\": \"提取学生书写的'主存地址格式'的具体表达式或完整文字（包含各组成部分的名称及对应分配的位数）\", \"content\": \"tag(8位) 组号(4位) 块内地址(11位)\"}, {\"id\": \"item_5\", \"instruction\": \"提取学生书写的'Cache地址格式'的具体表达式或完整文字（包含各组成部分的名称及对应分配的位数）\", \"content\": \"组号(4位) 块内地址(11位)\"}, {\"id\": \"item_6\", \"instruction\": \"提取学生对于地址'2D07FFH'的访问判断结果文字（如：命中或未命中）以及所写的具体分析理由\", \"content\": \"不能访问到 2D07FFH对应标记位为：00101101 ∴不能访问到\"}, {\"id\": \"item_7\", \"instruction\": \"提取学生对于地址'7F0057H'的访问判断结果文字（如：命中或未命中）以及所写的具体分析理由\", \"content\": \"不能访问到 7F0057H对应标记位为：01111111 不能访问到\"}",
+        "scores": [
+            12.0,
+            16.0,
+            14.0
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "23位",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生明确写出物理地址为23位，与标准答案完全一致。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "11位",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生明确写出块内偏移为11位，与标准答案完全一致。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生明确写出组号为4位，与标准答案完全一致。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "tag(8位) 组号(4位) 块内地址(11位)",
+                        "expected_condition": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "satisfied",
+                        "reason": "学生写出了Tag 8位、组号4位、块内地址11位，结构正确、数值正确、顺序正确。'tag'对应'字块标记'、'块内地址'对应'块内偏移'为命名差异，不影响核心结构。按宽松评分给满分。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "组号(4位) 块内地址(11位)",
+                        "expected_condition": "Cache地址格式 [ Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "failed",
+                        "reason": "学生缺少'组内块号1位'这一关键字段，仅写了组号和块内地址，总位数仅为15位而非正确的16位。部分字段正确但遗漏核心组成部分。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 3.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "不能访问到 2D07FFH对应标记位为：00101101 ∴不能访问到",
+                        "expected_condition": "地址2D07FFH访问判断（未命中）及理由",
+                        "dependency_status": "insufficient",
+                        "reason": "学生的最终结论'不能访问到'即未命中，与标准答案一致。但学生计算的标记位00101101(2DH)不正确，正确值应为01011010(5AH)，说明标记位提取方法有误。结论正确但分析过程中tag计算有误，给予部分分。"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "不能访问到 7F0057H对应标记位为：01111111 不能访问到",
+                        "expected_condition": "地址7F0057H访问判断（命中）及理由",
+                        "dependency_status": "failed",
+                        "reason": "标准答案为'命中'，但学生结论为'不能访问到'即未命中，结论完全相反。且标记位01111111(7FH)的计算也不正确（正确应为11111110(FEH)），结论和方法均有误。"
+                    }
+                ],
+                "total_score": 12.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "23位",
+                        "expected_condition": "物理地址23位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生给出的物理地址位数为23位，与标准答案完全一致。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "11位",
+                        "expected_condition": "块内偏移11位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生得出的块内偏移位数为11位，与标准答案一致。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "组号需要4位",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生得出的组号位数为4位，完全正确。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "tag(8位) 组号(4位) 块内地址(11位)",
+                        "expected_condition": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "satisfied",
+                        "reason": "学生写出的主存地址格式各部分位数分配完全正确（tag 8位，组号 4位，块内地址 11位），'块内地址'与'块内偏移'属于同义表达，给满分。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "组号(4位) 块内地址(11位)",
+                        "expected_condition": "Cache地址格式 [ Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+                        "dependency_status": "failed",
+                        "reason": "学生写出了组号(4位)和块内偏移(11位)，但遗漏了'组内块号 1 位'。由于缺少了关键组成字段且总位数不符，给部分分。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 5.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "不能访问到 2D07FFH对应标记位为：00101101 ∴不能访问到",
+                        "expected_condition": "地址2D07FFH访问判断（未命中）及理由",
+                        "dependency_status": "satisfied",
+                        "reason": "学生正确提取了地址对应的标记位(00101101)，且得出的最终结论“不能访问到”在含义上等同于“未命中”，符合 lenient policy 的最终结论正确判定。"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 2.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "不能访问到 7F0057H对应标记位为：01111111 不能访问到",
+                        "expected_condition": "地址7F0057H访问判断（命中）及理由",
+                        "dependency_status": "partial",
+                        "reason": "学生正确求出了对应地址的标记位（01111111），过程有据，但最终判断结论为“不能访问到”（未命中），与标准答案“命中”截然相反，结论错误，故给部分过程分。"
+                    }
+                ],
+                "total_score": 16.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "23位",
+                        "expected_condition": "物理地址位数为23位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生明确写出物理地址为23位，与标准答案一致。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "11位",
+                        "expected_condition": "块内偏移位数为11位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生给出块内偏移11位，数值正确。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "4位",
+                        "expected_condition": "组号位数为4位",
+                        "dependency_status": "satisfied",
+                        "reason": "学生明确写出组号4位，与标准答案一致。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "tag(8位) 组号(4位) 块内地址(11位)",
+                        "expected_condition": "主存地址格式 [字块标记8位 | Cache组号4位 | 块内偏移11位]",
+                        "dependency_status": "satisfied",
+                        "reason": "学生写出tag 8位、组号4位、块内地址11位，结构与位数均正确，仅术语略有差异（tag/块内地址），属可接受命名。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "组号(4位) 块内地址(11位)",
+                        "expected_condition": "Cache地址格式 [Cache组号4位 | 组内块号1位 | 块内偏移11位]",
+                        "dependency_status": "failed",
+                        "reason": "学生写出了组号4位和块内地址11位，但缺少了组内块号1位的字段，总位数不全，属于结构性遗漏，给部分分。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 5.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "不能访问到 2D07FFH对应标记位为：00101101 ∴不能访问到",
+                        "expected_condition": "地址2D07FFH访问判断为未命中，并给出理由",
+                        "dependency_status": "satisfied",
+                        "reason": "学生判断结果为不能访问到（未命中），与标准答案一致，并给出了对应的标记位作为分析依据，结论正确。"
+                    },
+                    {
+                        "id": "item_7",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "不能访问到 7F0057H对应标记位为：01111111 不能访问到",
+                        "expected_condition": "地址7F0057H访问判断为命中，并给出理由",
+                        "dependency_status": "failed",
+                        "reason": "学生判断7F0057H不能访问到（未命中），但标准答案为命中，最终判断结论与正确答案相反，属结论性错误。"
+                    }
+                ],
+                "total_score": 14.0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_2": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_3": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_4": [
+                2.0,
+                2.0,
+                2.0
+            ],
+            "item_5": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "item_6": [
+                3.0,
+                5.0,
+                5.0
+            ],
+            "item_7": [
+                0.0,
+                2.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_2": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_3": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_4": [
+                "MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_5": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH"
+            ],
+            "item_6": [
+                "PARTIAL_MATCH",
+                "MATCH",
+                "MATCH"
+            ],
+            "item_7": [
+                "SEMANTIC_FATAL",
+                "PARTIAL_MATCH",
+                "SEMANTIC_FATAL"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0,
+            "item_3": 0.0,
+            "item_4": 0.0,
+            "item_5": 0.0,
+            "item_6": 0.888888888888889,
+            "item_7": 0.888888888888889
+        },
+        "max_item_variance": 0.888888888888889,
+        "avg_item_variance": 0.253968253968254
     }
 ]

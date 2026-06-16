@@ -1,32 +1,86 @@
 [
     {
-        "id": "item_1_1",
-        "item": "补码运算求出x-2y的结果为8EH",
-        "points": 2
+        "id": "item_1_result_hex",
+        "item": "x-2y 的补码运算结果为 8EH",
+        "points": 2.0,
+        "answer_type": "base_number",
+        "role": "final",
+        "canonicalization": "base_number",
+        "evidence_source": "text",
+        "source_text": "x-2y 的补码运算结果为 8EH",
+        "parent_official_item": "补码运算及十进制运算求出x-2y，发生溢出",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "item_1_2",
-        "item": "十进制运算求出x-2y的结果为142",
-        "points": 2
+        "id": "item_1_result_dec",
+        "item": "x-2y 的十进制运算结果为 142",
+        "points": 1.0,
+        "answer_type": "derived_numeric",
+        "role": "final",
+        "canonicalization": "numeric",
+        "evidence_source": "text",
+        "source_text": "十进制运算结果为 142",
+        "parent_official_item": "补码运算及十进制运算求出x-2y，发生溢出",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "item_1_3",
-        "item": "x-2y结论为发生溢出",
-        "points": 1
+        "id": "item_1_of",
+        "item": "判断 x-2y 结果发生溢出",
+        "points": 2.0,
+        "answer_type": "judgement",
+        "role": "final",
+        "canonicalization": "semantic_text",
+        "evidence_source": "text",
+        "source_text": "判断发生溢出",
+        "parent_official_item": "补码运算及十进制运算求出x-2y，发生溢出",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "item_2_1",
-        "item": "补码运算求出(x÷4)+2z的结果为B7H",
-        "points": 2
+        "id": "item_2_result_hex",
+        "item": "(x ÷ 4) + 2z 的补码运算结果为 B7H",
+        "points": 2.0,
+        "answer_type": "base_number",
+        "role": "final",
+        "canonicalization": "base_number",
+        "evidence_source": "text",
+        "source_text": "(x ÷ 4) + 2z 的补码运算结果为 B7H",
+        "parent_official_item": "补码运算及十进制运算求出(x ÷ 4) + 2z，未发生溢出",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "item_2_2",
-        "item": "十进制运算求出(x÷4)+2z的结果为-73",
-        "points": 2
+        "id": "item_2_result_dec",
+        "item": "(x ÷ 4) + 2z 的十进制运算结果为 -73",
+        "points": 1.0,
+        "answer_type": "derived_numeric",
+        "role": "final",
+        "canonicalization": "numeric",
+        "evidence_source": "text",
+        "source_text": "十进制运算结果为 -73",
+        "parent_official_item": "补码运算及十进制运算求出(x ÷ 4) + 2z，未发生溢出",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "item_2_3",
-        "item": "(x÷4)+2z结论为未发生溢出",
-        "points": 1
+        "id": "item_2_of",
+        "item": "判断 (x ÷ 4) + 2z 结果未发生溢出",
+        "points": 2.0,
+        "answer_type": "judgement",
+        "role": "final",
+        "canonicalization": "semantic_text",
+        "evidence_source": "text",
+        "source_text": "判断未发生溢出",
+        "parent_official_item": "补码运算及十进制运算求出(x ÷ 4) + 2z，未发生溢出",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     }
 ]

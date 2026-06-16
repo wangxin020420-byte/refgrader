@@ -1,4 +1,4 @@
-import os
+﻿import os
 import json
 import math
 from json_repair import repair_json
@@ -7,7 +7,7 @@ import re
 import time
 import concurrent.futures
 from openai import OpenAI
-from PIL import Image
+from PIL import Image, ImageEnhance, ImageOps
 import io
 import numpy as np
 from calibration_utils import (
@@ -25,8 +25,8 @@ from calibration_utils import (
     select_baseline_score,
 )
 
-# ==================== 配置区 ====================
-# 视觉模型切换：修改此处即可，可选 "glm4v" / "glm5v"
+# ==================== 閰嶇疆鍖?====================
+# 瑙嗚妯″瀷鍒囨崲锛氫慨鏀规澶勫嵆鍙紝鍙€?"glm4v" / "glm5v"
 VLM_MODEL_PROVIDER = "glm4v"
 VLM_MODELS = {
     "glm4v": "glm-4.6v",
@@ -41,10 +41,10 @@ A3WA_CALIBRATION_CONFIG_PATH = os.getenv(
 _A3WA_RUNTIME_CONFIG = None
 PROMPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts")
 
-# 文本模型切换：修改此处即可，可选 "glm" / "glm5" / "deepseek"
+# 鏂囨湰妯″瀷鍒囨崲锛氫慨鏀规澶勫嵆鍙紝鍙€?"glm" / "glm5" / "deepseek"
 TEXT_MODEL_PROVIDER = "glm5"
 
-# Coding Plan 统一配置（OpenAI 兼容接口）
+# Coding Plan 缁熶竴閰嶇疆锛圤penAI 鍏煎鎺ュ彛锛?
 CODING_PLAN_API_KEY = "132a47a6484e4a9dbfaa51fea40bbae0.LqWjKhw6WcH2sdFs"
 CODING_PLAN_BASE_URL = "https://open.bigmodel.cn/api/coding/paas/v4/"
 
@@ -58,21 +58,21 @@ GLM5_API_KEY = CODING_PLAN_API_KEY
 GLM5_BASE_URL = CODING_PLAN_BASE_URL
 GLM5_MODEL_NAME = "glm-5.1"
 
-# DeepSeek 配置
+# DeepSeek 閰嶇疆
 DEEPSEEK_API_KEY = "sk-6lCywlyf1xwXyV8G937sOrRF7kGThWMrwFVksuwGZaAWrAzP"
 DEEPSEEK_BASE_URL = "https://gpt-agent.cc/v1"
 DEEPSEEK_MODEL_NAME = "deepseek-v4-flash"
 
-# 并发配置：{provider: (外层学生并发, 内层Stage2探测并发)}
+# 骞跺彂閰嶇疆锛歿provider: (澶栧眰瀛︾敓骞跺彂, 鍐呭眰Stage2鎺㈡祴骞跺彂)}
 MODEL_CONCURRENCY = {
-    "glm":      (3, 3),  # GLM-4.5-air 并发能力强
-    "glm5":     (2, 2),  # GLM-5.1 Coding Pro 限流较严，降低并发
-    "deepseek": (2, 2),  # 第三方代理，保守一点
+    "glm":      (3, 3),  # GLM-4.5-air 骞跺彂鑳藉姏寮?
+    "glm5":     (2, 2),  # GLM-5.1 Coding Pro 闄愭祦杈冧弗锛岄檷浣庡苟鍙?
+    "deepseek": (2, 2),  # 绗笁鏂逛唬鐞嗭紝淇濆畧涓€鐐?
 }
 MAX_WORKERS_OUTER = MODEL_CONCURRENCY.get(TEXT_MODEL_PROVIDER, (3, 3))[0]
 MAX_WORKERS_STAGE2 = MODEL_CONCURRENCY.get(TEXT_MODEL_PROVIDER, (3, 3))[1]
 
-# 全局客户端
+# 鍏ㄥ眬瀹㈡埛绔?
 glm_client = OpenAI(api_key=GLM_API_KEY, base_url=GLM_BASE_URL)
 deepseek_client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url=DEEPSEEK_BASE_URL)
 
@@ -89,10 +89,10 @@ def render_prompt_template(filename, replacements, fallback):
         print(f"      [Prompt template] fallback to inline prompt: {filename} ({exc})")
         return fallback
 
-# ==================== 统一文本模型调用 ====================
+# ==================== 缁熶竴鏂囨湰妯″瀷璋冪敤 ====================
 
 def call_text_model(messages, temperature=0.2, timeout=120):
-    """统一文本模型调用入口，根据 TEXT_MODEL_PROVIDER 自动分发"""
+    """缁熶竴鏂囨湰妯″瀷璋冪敤鍏ュ彛锛屾牴鎹?TEXT_MODEL_PROVIDER 鑷姩鍒嗗彂"""
     if TEXT_MODEL_PROVIDER == "glm5":
         for attempt in range(4):
             try:
@@ -106,11 +106,11 @@ def call_text_model(messages, temperature=0.2, timeout=120):
                 return response.choices[0].message.content.strip()
             except Exception as e:
                 wait = 5 * (attempt + 1)
-                print(f"         ⚠️ [GLM-5 重试 {attempt+1}/4] {type(e).__name__}: {str(e)[:80]}... 等待{wait}秒")
+                print(f"         [GLM-5 retry {attempt+1}/4] {type(e).__name__}: {str(e)[:80]}... wait {wait}s")
                 time.sleep(wait)
-        raise Exception("GLM-5 4次重试均失败")
+        raise Exception("GLM-5 4娆￠噸璇曞潎澶辫触")
     elif TEXT_MODEL_PROVIDER == "deepseek":
-        # DeepSeek：每请求独立客户端 + 指数退避重试，解决并发限流
+        # DeepSeek锛氭瘡璇锋眰鐙珛瀹㈡埛绔?+ 鎸囨暟閫€閬块噸璇曪紝瑙ｅ喅骞跺彂闄愭祦
         for attempt in range(4):
             try:
                 client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url=DEEPSEEK_BASE_URL)
@@ -123,9 +123,9 @@ def call_text_model(messages, temperature=0.2, timeout=120):
                 return response.choices[0].message.content.strip()
             except Exception as e:
                 wait = 5 * (attempt + 1)
-                print(f"         ⚠️ [DeepSeek 重试 {attempt+1}/4] {type(e).__name__}: {str(e)[:80]}... 等待{wait}秒")
+                print(f"         [DeepSeek retry {attempt+1}/4] {type(e).__name__}: {str(e)[:80]}... wait {wait}s")
                 time.sleep(wait)
-        raise Exception("DeepSeek 4次重试均失败")
+        raise Exception("DeepSeek 4娆￠噸璇曞潎澶辫触")
     else:
         response = glm_client.chat.completions.create(
             model=GLM_MODEL_NAME,
@@ -135,7 +135,7 @@ def call_text_model(messages, temperature=0.2, timeout=120):
         )
         return response.choices[0].message.content.strip()
 
-# ==================== 工具函数 (不变) ====================
+# ==================== 宸ュ叿鍑芥暟 (涓嶅彉) ====================
 
 def compress_image_to_bytes(image_path, max_long_edge=1920):
     try:
@@ -154,13 +154,13 @@ def compress_image_to_bytes(image_path, max_long_edge=1920):
             new_width = int(width * scale)
             new_height = int(height * scale)
             img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
-            print(f"   🗜️ [压缩] {width}x{height} -> {new_width}x{new_height}")
+            print(f"   馃棞锔?[鍘嬬缉] {width}x{height} -> {new_width}x{new_height}")
         
         buffer = io.BytesIO()
         img.save(buffer, format="JPEG", quality=95)
         return buffer.getvalue()
     except Exception as e:
-        print(f"   ⚠️ 压缩出错: {e}")
+        print(f"   鈿狅笍 鍘嬬缉鍑洪敊: {e}")
         try: return open(image_path, "rb").read()
         except: return None
 
@@ -168,6 +168,39 @@ def encode_image_to_base64(image_path):
     if not image_path or not os.path.exists(image_path): return None
     img_bytes = compress_image_to_bytes(image_path)
     return base64.b64encode(img_bytes).decode('utf-8') if img_bytes else None
+
+def preprocess_student_image_to_base64(image_path, mode="contrast"):
+    """Return an enhanced student answer image for visual retry extraction."""
+    if not image_path or not os.path.exists(image_path):
+        return None
+    try:
+        img = Image.open(image_path)
+        if img.mode == "RGBA":
+            background = Image.new("RGB", img.size, (255, 255, 255))
+            background.paste(img, mask=img.split()[3])
+            img = background
+        elif img.mode != "RGB":
+            img = img.convert("RGB")
+
+        if mode == "contrast":
+            gray = ImageOps.grayscale(img)
+            gray = ImageOps.autocontrast(gray, cutoff=3)
+            img = gray.point(lambda x: 0 if x < 115 else 255).convert("RGB")
+        elif mode == "upscale":
+            img = img.resize((int(img.width * 2), int(img.height * 2)), Image.Resampling.LANCZOS)
+        elif mode == "sharpen":
+            img = img.resize((int(img.width * 2), int(img.height * 2)), Image.Resampling.LANCZOS)
+            img = ImageEnhance.Sharpness(img).enhance(2.0)
+            img = ImageEnhance.Contrast(img).enhance(1.35)
+        else:
+            return encode_image_to_base64(image_path)
+
+        buffer = io.BytesIO()
+        img.save(buffer, format="JPEG", quality=95)
+        return base64.b64encode(buffer.getvalue()).decode("utf-8")
+    except Exception as e:
+        print(f"   [image preprocess] {mode} failed; fallback to original image: {e}")
+        return encode_image_to_base64(image_path)
 
 def extract_and_parse_json(text):
     match = re.search(r'```json\s*(.*?)\s*```', text, re.DOTALL)
@@ -180,26 +213,31 @@ def extract_and_parse_json(text):
     except:
         try: return json.loads(repair_json(text))
         except Exception as e: 
-            print(f"❌ JSON 解析失败: {e}")
+            print(f"鉂?JSON 瑙ｆ瀽澶辫触: {e}")
             return None
 
-# ==================== 提取后题目参数守卫 ====================
+# ==================== 鎻愬彇鍚庨鐩弬鏁板畧鍗?====================
 
 def validate_extraction_against_question(question_text, extracted_facts_str):
-    """检查提取结果是否误抄了题目原文参数，返回清洗后的 facts JSON 字符串"""
+    """Remove extracted values that are likely copied from printed question text."""
     prompt = f"""
-你是提取质量审核员。请检查以下【提取结果】中的值，是否直接来自【题目原文】的参数。
+You audit whether extracted facts were copied from the printed question text.
 
-【题目原文】：{question_text}
-【提取结果】：{extracted_facts_str}
+Question text:
+{question_text}
 
-规则：
-- 如果某个提取值在题目原文中完整出现，且该条目要求学生自己计算或写出答案而非抄录题目，则标记为 suspicious。
-- 如果提取值虽然与题目参数相同，但它是学生公式或计算表达式的一部分（即学生将该参数用于自己的推导过程，而非单独抄录），标记为 ok——学生在计算中使用题目参数是合法的。
-- 如果提取值是学生独有的计算结果（不在题目原文中出现），标记为 ok。
-- "未书写"和"字迹模糊"始终标记为 ok。
+Extracted facts JSON:
+{extracted_facts_str}
 
-输出纯 JSON 对象，key 为 item 编号，value 为 "ok" 或 "suspicious"：
+Rules:
+- Mark an item as "suspicious" only when the extracted value appears verbatim
+  in the printed question and looks like copied question text rather than a
+  student's handwritten computation or answer.
+- Mark "ok" for handwritten formulas that legally reuse question parameters.
+- Mark "ok" for student-specific computed results.
+- Mark "ok" for blank/unreadable values.
+
+Return strict JSON where keys are item ids and values are "ok" or "suspicious":
 {{"1": "ok", "2": "suspicious", ...}}
 """
     try:
@@ -219,35 +257,26 @@ def validate_extraction_against_question(question_text, extracted_facts_str):
                 changed += 1
 
         if changed > 0:
-            print(f"   🛡️ [参数守卫] 检测到 {changed} 处疑似抄录题目的提取值，已替换为'未书写'")
+            print(f"   [parameter guard] replaced {changed} suspicious copied values with 未书写")
             return json.dumps(facts_dict, ensure_ascii=False)
         return extracted_facts_str
     except Exception as e:
-        print(f"   ⚠️ [参数守卫] 验证调用异常，跳过: {e}")
+        print(f"   [parameter guard] skipped due to error: {e}")
         return extracted_facts_str
 
-# ==================== 核心业务逻辑 ====================
+# ==================== 鏍稿績涓氬姟閫昏緫 ====================
 
 def generate_blind_checklist(rubrics_json_str):
-    prompt = f"""
-你是一个视觉提取指令生成器。请根据以下【评分标准】，为每个评分项生成一条精确的提取指令。
-
-🚨【红线】：绝对不能把正确答案的具体数值或正确状态写进指令里！
-
-要求：
-1. 每条指令必须明确要求提取"学生写的具体内容"（数值、公式、文字、判断结果等），而不是"是否存在"。
-2. 只描述需要观察什么类型的作答内容，不暗示答案。
-3. 输出严格的 JSON 数组格式，id 与评分标准条目一一对应。
-
-【评分标准】：{rubrics_json_str}
-
-输出格式示例：
-[
-    {{"id": "1", "instruction": "提取学生关于'物理地址位数'所写的具体数值（如：xx位）"}},
-    {{"id": "2", "instruction": "提取学生关于'块内偏移位数'所写的具体数值（如：xx位）"}},
-    {{"id": "10", "instruction": "提取学生对于地址2D07FFH的命中/未命中判断结果文字"}}
-]
-"""
+    prompt = render_prompt_template(
+        "blind_checklist.md",
+        {"RUBRICS_JSON": rubrics_json_str},
+        fallback=(
+            "You are a visual extraction instruction generator. For each rubric item "
+            "produce one precise instruction asking for the student's concrete written "
+            "answer. Never put the correct answer into the instruction. Output a strict "
+            "JSON array with ids matching the rubric items. Rubric: " + rubrics_json_str
+        ),
+    )
     for attempt in range(3):
         try:
             raw = call_text_model([{"role": "user", "content": prompt}], temperature=0.3, timeout=240)
@@ -256,54 +285,29 @@ def generate_blind_checklist(rubrics_json_str):
                 return json.dumps(parsed, ensure_ascii=False)
         except Exception as e:
             time.sleep(3)
-    return json.dumps([{"id": str(i+1), "instruction": f"提取第{i+1}个评分项对应的学生作答具体内容"} for i in range(15)])
+    return json.dumps([
+        {"id": str(i + 1), "instruction": f"Extract the student's concrete answer content for rubric item {i + 1}."}
+        for i in range(15)
+    ], ensure_ascii=False)
 
 def stage1_blind_extraction(question_text, student_img_path, blind_checklist, q_img_path=None):
-    blind_prompt = f"""
-# Role: 纯视觉 OCR 提取引擎
-你的唯一职责：逐字转录学生答卷图片中的具体内容。严禁逻辑推理，严禁判断对错。
-
-【题目背景】：{question_text}
-【提取清单（每条对应一个评分项）】：{blind_checklist}
-
-🚨【区域辨别铁律——防止抄录题目】：
-答题卷图片中通常同时包含"打印的题目文本"和"学生手写的作答内容"两部分。
-- 你只应提取学生手写作答区域的内容。
-- 如果某个评分项对应的作答区域没有学生的手写内容（空白、只有印刷文字），必须输出"未书写"，绝不能从打印的题目文本中抄录参数值。
-- 🚨 特别警惕：如果提取到的数值与题目背景中给出的参数完全相同（如题目说"指令数10万条"而你提取到"10⁵"），这极有可能是你误读了题目文本，请重新确认该区域是否有学生手写作答痕迹。
-
-🚨【输出规则——三级优先级，必须严格遵循】：
-对于清单中的每一项，你必须在以下三种状态中选择一种输出：
-1. 【具体内容】（最优先）：尽可能逐字转录学生写的数值、公式、文字或判断结果。保留原始表达。
-2. "未书写"：仅当对应区域完全空白、没有任何笔迹时使用。
-3. "字迹模糊"：有笔迹但完全无法辨认（狂草、严重涂改、污损）时使用。
-
-🚨【值嵌入识别规则】：
-学生经常不会将参数或中间结果单独写成独立的一行，而是直接将其嵌入在公式、表达式或推导链中（例如把参数值写在分式里、写在等式的某一项中）。对于清单中的每一项，你不应只在答卷中寻找"独立成行的参数声明"，而必须全局扫描学生的全部手写内容。只要学生在任何公式、表达式、计算步骤或推导链中写出了该清单项所要求的具体值，你就必须从中提取该值作为该项输出，而不是报"未书写"。
-
-🚨【数值序列提取专项规则】：
-- 二进制/十六进制数字：必须逐位提取，严禁截断、增添或遗漏任何一位数字（包括前导零）。
-- 如果学生写了分组格式（如 "0010 1101"），保留原始格式输出。
-- 如果学生写了进制标记（如后缀 B、H、₂ 等），一并保留。
-- 数值位数不正确的提取是严重错误！提取时必须仔细数清每一位数字，确保与试卷上学生书写的位数完全一致。
-
-🚨【绝对禁止输出以下废品值】：
-- "是"、"有"、"存在"、"已书写"、"有书写"、"对"、"正确" → 这些是判断，不是内容！
-- "有提取标注"、"有计算过程"、"有标注" → 同样是废话！
-
-【正例】（合格输出）：
-  {{"1": "23位", "2": "11位", "3": "4位", "6": "001011010000011111111111", "10": "不能访问到", "15": "能访问到"}}
-【反例】（废品输出，绝对禁止）：
-  {{"1": "是", "2": "有", "3": "已书写", "6": "存在", "10": "是", "15": "有"}}
-
-请严格按照清单中每项的 id 作为 key，输出 JSON 对象。
-"""
+    blind_prompt = render_prompt_template(
+        "stage1_extraction.md",
+        {"QUESTION_TEXT": question_text, "BLIND_CHECKLIST": blind_checklist},
+        fallback=(
+            "# Visual OCR extraction engine\n"
+            "Transcribe verbatim ONLY the student's handwritten answer region. "
+            "Do NOT copy printed question text. For each checklist item output "
+            "the concrete value, or BLANK if truly blank.\n"
+            "Question:\n" + question_text + "\nChecklist:\n" + blind_checklist
+        ),
+    )
     content_list = [{"type": "text", "text": blind_prompt}]
     if q_img_path and os.path.exists(q_img_path):
         q_b64 = encode_image_to_base64(q_img_path)
-        content_list.extend([{"type": "text", "text": "\n【附图】:"}, {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{q_b64}"}}])
+        content_list.extend([{"type": "text", "text": "附图"}, {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{q_b64}"}}])
     student_b64 = encode_image_to_base64(student_img_path)
-    content_list.extend([{"type": "text", "text": "\n【考卷】:"}, {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{student_b64}"}}])
+    content_list.extend([{"type": "text", "text": "考卷"}, {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{student_b64}"}}])
     
     for attempt in range(4):
         try:
@@ -317,9 +321,10 @@ def stage1_blind_extraction(question_text, student_img_path, blind_checklist, q_
     return None
 
 def stage1_targeted_reextraction(question_text, student_img_path, blind_checklist, initial_facts_str, q_img_path=None, rubrics_data=None):
-    """
-    二次精准提取：对首次被标记为"未书写"的条目进行二次检查。
-    仅在 blank_rate >= 0.3 且空白条目 >= 2 时触发，避免不必要的 API 调用。
+    """Risk-triggered second-pass extraction with multi-view image retry.
+
+    The retry is generic: it is triggered by blank, unreadable, low-quality, or
+    structurally incomplete facts. It does not depend on a question id.
     """
     facts_dict = json.loads(initial_facts_str) if isinstance(initial_facts_str, str) else initial_facts_str
     if not isinstance(facts_dict, dict):
@@ -327,29 +332,36 @@ def stage1_targeted_reextraction(question_text, student_img_path, blind_checklis
 
     rubrics_data = rubrics_data if isinstance(rubrics_data, list) else []
     extraction_counts = compute_extraction_quality_counts(facts_dict, rubrics_data)
+    extraction_risk_features = compute_extraction_risk_features(extraction_counts)
     suspicious_items = extraction_counts.get("suspicious_items", [])
     suspicious_ids = {str(item.get("id", "")) for item in suspicious_items if str(item.get("id", ""))}
-    suspicious_reason_map = {
+    if not suspicious_ids:
+        return initial_facts_str
+
+    total_items = max(extraction_counts.get("total_items", 0), len(facts_dict), 1)
+    suspicious_rate = len(suspicious_ids) / total_items
+    force_visual_retry = (
+        extraction_risk_features.get("blank_rate", 0.0) >= 0.50
+        or extraction_risk_features.get("perception_failure_rate", 0.0) >= 0.20
+        or extraction_risk_features.get("structure_missing_rate", 0.0) >= 0.20
+    )
+    if len(suspicious_ids) < 2 and suspicious_rate < 0.25 and not force_visual_retry:
+        return initial_facts_str
+
+    checklist_items = json.loads(blind_checklist) if isinstance(blind_checklist, str) else blind_checklist
+    focused_instructions = []
+    reason_map = {
         str(item.get("id", "")): item.get("reason", "suspicious")
         for item in suspicious_items
         if str(item.get("id", ""))
     }
-    if not suspicious_ids:
-        return initial_facts_str
-    suspicious_rate = len(suspicious_ids) / max(extraction_counts.get("total_items", 0), len(facts_dict), 1)
-    if len(suspicious_ids) < 2 and suspicious_rate < 0.15:
-        return initial_facts_str
-
-    # 从 blind_checklist 中筛选空白条目的提取指令
-    checklist_items = json.loads(blind_checklist) if isinstance(blind_checklist, str) else blind_checklist
-    focused_instructions = []
     if isinstance(checklist_items, list):
         for item in checklist_items:
-            item_id = str(item.get('id', ""))
+            item_id = str(item.get("id", ""))
             if item_id in suspicious_ids:
                 enriched = dict(item)
                 enriched["first_pass_value"] = facts_dict.get(item_id, "")
-                enriched["suspicious_reason"] = suspicious_reason_map.get(item_id, "suspicious")
+                enriched["suspicious_reason"] = reason_map.get(item_id, "suspicious")
                 focused_instructions.append(enriched)
     if not focused_instructions:
         focused_instructions = [
@@ -357,162 +369,172 @@ def stage1_targeted_reextraction(question_text, student_img_path, blind_checklis
                 "id": item_id,
                 "instruction": "Re-check this item in the student's handwritten answer area.",
                 "first_pass_value": facts_dict.get(item_id, ""),
-                "suspicious_reason": suspicious_reason_map.get(item_id, "suspicious"),
+                "suspicious_reason": reason_map.get(item_id, "suspicious"),
             }
             for item_id in sorted(suspicious_ids)
         ]
-    focused_checklist = json.dumps(focused_instructions, ensure_ascii=False)
 
     already_extracted = {k: v for k, v in facts_dict.items() if str(k) not in suspicious_ids}
-
     reextraction_prompt = f"""
-# Role: 二次精准提取引擎
-第一轮提取中，以下条目被标记为"未书写"。请对【考卷图片】进行极其仔细的二次检查。
+# Role: second-pass visual extraction engine
+Only inspect the student's handwritten answer region. Do not copy printed
+question text. The first extraction produced suspicious values for the items
+below. Re-check the image carefully and return concrete handwritten content
+when it exists.
 
-**特别注意**：学生经常将数值、参数或计算结果直接写在公式内部、等式的某一项中、或者计算过程的推导链中，而不是单独写成独立的一行。请仔细扫描学生手写内容的每一处，寻找这些条目所要求的具体数值。
+Question context:
+{question_text}
 
-【题目背景】：{question_text}
-【需要重新检查的条目（第一轮均被标记为"未书写"）】：{focused_checklist}
-【第一轮已成功提取的其他条目（供上下文参考）】：{json.dumps(already_extracted, ensure_ascii=False)}
+Suspicious checklist items:
+{json.dumps(focused_instructions, ensure_ascii=False)}
 
-🚨【区域辨别铁律】：
-- 你只应提取学生手写作答区域的内容，绝不能从打印的题目文本中抄录参数值。
-- 如果某个条目的提取值与题目背景中的参数完全相同，这极有可能是你误读了题目文本，请重新确认。
+Already extracted context:
+{json.dumps(already_extracted, ensure_ascii=False)}
 
-对每个条目，请输出：
-- 如果发现了学生写的具体内容（包括嵌入在公式/推导过程中的值），输出该具体内容
-- 如果确实完全空白、没有任何笔迹，维持输出"未书写"
-
-输出严格的 JSON 对象，key 为条目 id：
-{{"item_id": "提取到的内容或未书写"}}
+Rules:
+1. Preserve exact handwritten numeric strings, bit vectors, sequence labels,
+   formulas, arrows, units, and base suffixes.
+2. Preserve leading zeros in binary or bit-vector answers.
+3. If there are handwriting traces but they are unreadable, output 字迹模糊.
+4. If the item area is truly blank, output 未书写.
+5. Return strict JSON where keys are item ids and values are extracted strings.
 """
-    reextraction_prompt += f"""
 
-[Updated trigger note]
-The items above are not necessarily blank. They may be blank, generic,
-unreadable, or structurally incomplete for their rubric type. Re-check them
-as suspicious extraction items and output concrete handwritten evidence when
-it exists.
-Suspicious item reasons: {json.dumps(suspicious_reason_map, ensure_ascii=False)}
-"""
-    content_list = [{"type": "text", "text": reextraction_prompt}]
+    base_content = [{"type": "text", "text": reextraction_prompt}]
     if q_img_path and os.path.exists(q_img_path):
         q_b64 = encode_image_to_base64(q_img_path)
-        content_list.extend([
-            {"type": "text", "text": "\n【附图】:"},
-            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{q_b64}"}}
+        if q_b64:
+            base_content.extend([
+                {"type": "text", "text": "\nQuestion figure:"},
+                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{q_b64}"}},
+            ])
+
+    retry_modes = ["original"]
+    if force_visual_retry or suspicious_rate >= 0.25 or len(suspicious_ids) >= 2:
+        retry_modes.extend(["contrast", "upscale", "sharpen"])
+
+    recovered_by = {}
+    for mode in retry_modes:
+        student_b64 = (
+            encode_image_to_base64(student_img_path)
+            if mode == "original"
+            else preprocess_student_image_to_base64(student_img_path, mode=mode)
+        )
+        if not student_b64:
+            continue
+        content = list(base_content)
+        content.extend([
+            {"type": "text", "text": f"\nStudent answer image view: {mode}"},
+            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{student_b64}"}},
         ])
-    student_b64 = encode_image_to_base64(student_img_path)
-    content_list.extend([
-        {"type": "text", "text": "\n【考卷】:"},
-        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{student_b64}"}}
-    ])
+        for _ in range(2):
+            try:
+                fresh_client = OpenAI(api_key=GLM_API_KEY, base_url=GLM_BASE_URL)
+                res = fresh_client.chat.completions.create(
+                    model=VLM_MODEL_NAME,
+                    messages=[{"role": "user", "content": content}],
+                    temperature=0.1,
+                    timeout=180,
+                )
+                time.sleep(2)
+                parsed = extract_and_parse_json(res.choices[0].message.content.strip())
+                if not isinstance(parsed, dict):
+                    break
+                for raw_id, raw_value in parsed.items():
+                    item_id = str(raw_id)
+                    if item_id not in suspicious_ids or item_id not in facts_dict:
+                        continue
+                    rubric_item = next(
+                        (item for item in rubrics_data if str(item.get("id", "")) == item_id),
+                        None,
+                    )
+                    new_val = str(raw_value).strip()
+                    usable_value = (
+                        new_val
+                        and not is_blank_extraction(new_val)
+                        and not is_perception_failure(new_val)
+                        and not is_low_quality_extraction(new_val, rubric_item)
+                        and not is_structure_missing_extraction(new_val, rubric_item)
+                    )
+                    if usable_value:
+                        facts_dict[item_id] = new_val
+                        recovered_by[item_id] = mode
+                break
+            except Exception:
+                time.sleep(10)
 
-    for attempt in range(2):
-        try:
-            fresh_client = OpenAI(api_key=GLM_API_KEY, base_url=GLM_BASE_URL)
-            res = fresh_client.chat.completions.create(
-                model=VLM_MODEL_NAME,
-                messages=[{"role": "user", "content": content_list}],
-                temperature=0.1, timeout=180
-            )
-            time.sleep(2)
-            raw_result = res.choices[0].message.content.strip()
-
-            reextracted = extract_and_parse_json(raw_result)
-            if reextracted and isinstance(reextracted, dict):
-                recovered = 0
-                for k, v in reextracted.items():
-                    if str(k) in suspicious_ids and k in facts_dict:
-                        new_val = str(v).strip()
-                        rubric_item = None
-                        if isinstance(rubrics_data, list):
-                            rubric_item = next((item for item in rubrics_data if str(item.get("id", "")) == str(k)), None)
-                        usable_value = (
-                            new_val
-                            and not is_blank_extraction(new_val)
-                            and not is_perception_failure(new_val)
-                            and not is_low_quality_extraction(new_val, rubric_item)
-                            and not is_structure_missing_extraction(new_val, rubric_item)
-                        )
-                        if usable_value:
-                            facts_dict[k] = new_val
-                            recovered += 1
-                if recovered > 0:
-                    print(f"   🔄 [二次提取] 恢复了 {recovered}/{len(suspicious_ids)} 个可疑条目")
-                    result = json.dumps(facts_dict, ensure_ascii=False)
-                    return validate_extraction_against_question(question_text, result)
-            return initial_facts_str
-        except Exception as e:
-            time.sleep(10)
+    if recovered_by:
+        facts_dict["_extraction_recovered_by"] = recovered_by
+        print(f"   [targeted re-extraction] recovered {len(recovered_by)}/{len(suspicious_ids)} suspicious items via {sorted(set(recovered_by.values()))}")
+        return validate_extraction_against_question(question_text, json.dumps(facts_dict, ensure_ascii=False))
     return initial_facts_str
 
 def stage2_logic_grading(student_facts_str, rubrics_json_str, temperature=0.35):
     """
-    Stage 2：语义匹配判分。通过内容语义匹配规则判断学生事实与标准是否等价。
+    Stage 2锛氳涔夊尮閰嶅垽鍒嗐€傞€氳繃鍐呭璇箟鍖归厤瑙勫垯鍒ゆ柇瀛︾敓浜嬪疄涓庢爣鍑嗘槸鍚︾瓑浠枫€?
     """
     logic_prompt = f"""
-    你是一个极其严谨的计算机科学阅卷裁判。你的职责是判断学生的作答在语义上是否与评分标准匹配，而非进行表面的字符串对比。
-    你需要严格根据【客观事实文本】，对照【细粒度评分标准】，计算总分。
+    浣犳槸涓€涓瀬鍏朵弗璋ㄧ殑璁＄畻鏈虹瀛﹂槄鍗疯鍒ゃ€備綘鐨勮亴璐ｆ槸鍒ゆ柇瀛︾敓鐨勪綔绛斿湪璇箟涓婃槸鍚︿笌璇勫垎鏍囧噯鍖归厤锛岃€岄潪杩涜琛ㄩ潰鐨勫瓧绗︿覆瀵规瘮銆?
+    浣犻渶瑕佷弗鏍兼牴鎹€愬瑙備簨瀹炴枃鏈€戯紝瀵圭収銆愮粏绮掑害璇勫垎鏍囧噯銆戯紝璁＄畻鎬诲垎銆?
     
-    【客观事实文本】: {student_facts_str}
-    【细粒度标准】: {rubrics_json_str}
+    銆愬瑙備簨瀹炴枃鏈€? {student_facts_str}
+    銆愮粏绮掑害鏍囧噯銆? {rubrics_json_str}
     
-    🚨【最高判决红线】:
-    1. 只能依靠【客观事实文本】判决！只要该碎片化步骤标为”未书写”或”字迹模糊”，绝对无情扣除对应分数！
-    2. 严禁动用同理心！严禁基于最终结果正确而去脑补学生懂了！没写就是没写！
-    3. 🚨【信息不足拦截】：当客观事实的值为”是”、”有”、”已书写”、”存在”、”有书写”、”对”、”正确”、”有提取标注”、”有计算过程”、”有标注”等非具体内容时，该条目必须判 0 分，reason 填写”提取信息不足，无法判定”。
-    4. 🚨【下游结果回溯规则】：评分项之间往往存在推导依赖关系——上游项（如参数识别、中间计算）是下游项（如最终结果、综合结论）的必要输入。当某个上游项的客观事实为"未书写"时，不能机械地判 BLANK，而应检查其下游依赖项：
-    ① 如果存在至少一个下游项的结果数值正确（在容差范围内），且该下游项的正确结果在数学/逻辑上必然依赖于这个"未书写"项所要求的参数或中间步骤，则该"未书写"项应判为 MATCH 并给满分——正确的下游结果本身就是学生掌握了上游参数的铁证。
-    ② 只有当所有依赖该参数的下游项结果也全部错误时，"未书写"才维持 BLANK 判决。
-    ③ reason 中应注明"下游项正确，回溯推断该参数已正确使用"。
+    馃毃銆愭渶楂樺垽鍐崇孩绾裤€?
+    1. 鍙兘渚濋潬銆愬瑙備簨瀹炴枃鏈€戝垽鍐筹紒鍙璇ョ鐗囧寲姝ラ鏍囦负鈥濇湭涔﹀啓鈥濇垨鈥濆瓧杩规ā绯娾€濓紝缁濆鏃犳儏鎵ｉ櫎瀵瑰簲鍒嗘暟锛?
+    2. 涓ョ鍔ㄧ敤鍚岀悊蹇冿紒涓ョ鍩轰簬鏈€缁堢粨鏋滄纭€屽幓鑴戣ˉ瀛︾敓鎳備簡锛佹病鍐欏氨鏄病鍐欙紒
+    3. 馃毃銆愪俊鎭笉瓒虫嫤鎴€戯細褰撳瑙備簨瀹炵殑鍊间负鈥濇槸鈥濄€佲€濇湁鈥濄€佲€濆凡涔﹀啓鈥濄€佲€濆瓨鍦ㄢ€濄€佲€濇湁涔﹀啓鈥濄€佲€濆鈥濄€佲€濇纭€濄€佲€濇湁鎻愬彇鏍囨敞鈥濄€佲€濇湁璁＄畻杩囩▼鈥濄€佲€濇湁鏍囨敞鈥濈瓑闈炲叿浣撳唴瀹规椂锛岃鏉＄洰蹇呴』鍒?0 鍒嗭紝reason 濉啓鈥濇彁鍙栦俊鎭笉瓒筹紝鏃犳硶鍒ゅ畾鈥濄€?
+    4. 馃毃銆愪笅娓哥粨鏋滃洖婧鍒欍€戯細璇勫垎椤逛箣闂村線寰€瀛樺湪鎺ㄥ渚濊禆鍏崇郴鈥斺€斾笂娓搁」锛堝鍙傛暟璇嗗埆銆佷腑闂磋绠楋級鏄笅娓搁」锛堝鏈€缁堢粨鏋溿€佺患鍚堢粨璁猴級鐨勫繀瑕佽緭鍏ャ€傚綋鏌愪釜涓婃父椤圭殑瀹㈣浜嬪疄涓?鏈功鍐?鏃讹紝涓嶈兘鏈烘鍦板垽 BLANK锛岃€屽簲妫€鏌ュ叾涓嬫父渚濊禆椤癸細
+    鈶?濡傛灉瀛樺湪鑷冲皯涓€涓笅娓搁」鐨勭粨鏋滄暟鍊兼纭紙鍦ㄥ宸寖鍥村唴锛夛紝涓旇涓嬫父椤圭殑姝ｇ‘缁撴灉鍦ㄦ暟瀛?閫昏緫涓婂繀鐒朵緷璧栦簬杩欎釜"鏈功鍐?椤规墍瑕佹眰鐨勫弬鏁版垨涓棿姝ラ锛屽垯璇?鏈功鍐?椤瑰簲鍒や负 MATCH 骞剁粰婊″垎鈥斺€旀纭殑涓嬫父缁撴灉鏈韩灏辨槸瀛︾敓鎺屾彙浜嗕笂娓稿弬鏁扮殑閾佽瘉銆?
+    鈶?鍙湁褰撴墍鏈変緷璧栬鍙傛暟鐨勪笅娓搁」缁撴灉涔熷叏閮ㄩ敊璇椂锛?鏈功鍐?鎵嶇淮鎸?BLANK 鍒ゅ喅銆?
+    鈶?reason 涓簲娉ㄦ槑"涓嬫父椤规纭紝鍥炴函鎺ㄦ柇璇ュ弬鏁板凡姝ｇ‘浣跨敤"銆?
 
-    5. 🚨【内容语义匹配规则】：在判断”匹配/不匹配”时，必须透过格式差异识别语义等价。具体原则：
-    6. 🚨【核心能力锚定规则】：当评分条目呈现”参数识别→公式/方法→最终结果”的层次依赖关系时，如果学生的核心推导项（公式/方法条目）和最终结果条目**全部**被判为 SEMANTIC_FATAL 或 BLANK，说明学生仅完成了低认知负荷的参数抄录，未展现对核心知识点的掌握。此时：
-       - 所有纯参数识别类条目（仅需从题干直接读取、不涉及计算或分析的条目）的得分上限降为该条目满分的 30%。
-       - reason 中注明”核心推导全错，参数识别分降级”。
-       - 如果核心推导项中至少有一项被判为 MATCH 或 PARTIAL_MATCH，则不触发此降级。
-       (a) 数值类：只比较核心数值，忽略单位格式差异（如”23位”=”23 位”=”23bit”=”23”）。忽略表达中的空格、标点、后缀符号。
-           🚨【数值容差规则】：当评分项的标准答案是一个数值时，如果学生的数值与标准答案的相对误差 ≤ 10%，应判为 MATCH（满分）而非 SEMANTIC_FATAL。
-           判断方法：提取学生答案和标准答案中的纯数值部分，计算 |学生值 - 标准值| / 标准值。例如标准=156，学生=162，误差=3.8% ≤ 10%，判 MATCH。
-           单位换算：遇到”K”/”M”等单位缩写时，先换算为统一单位再比较（如 84Kb = 86016位）。如果换算后数值匹配或误差 ≤ 10%，判 MATCH。
-           注意：只有当标准答案是明确的单一数值时才适用此规则。
-           🚨【链式推导一致性规则】：当评分项的数值可由其他评分项推导得出时，验证步骤为：①先从标准答案推断正确的推导公式及常数（如标准控存容量86016=标准微指令长度168×512，则公式为微指令长度×512）；②用相同公式和常数作用于学生的上游项（如学生微指令33×512=16896）；③比较计算结果与学生的推导项（16896≠5940→不一致→SEMANTIC_FATAL）。只有当学生的推导项 = 正确公式(学生上游项) 时才判 MATCH。禁止通过找到一个能凑出学生答案的任意公式来判定一致。
-           🚨【错误起点链式推导恢复规则】：当评分项之间存在明确的数学推导依赖关系时（如 item_1→item_2→item_3 形成计算链），如果学生的起始项值错误（被判 SEMANTIC_FATAL），但其下游项的值能够通过该错误起始值使用正确的公式和推导步骤计算得出（即学生使用了正确的方法，只是起点不同），则：起始项维持 SEMANTIC_FATAL（0分），下游推导项改为 PARTIAL_MATCH 并给予该条目 50% 的分数。验证方法：将学生的上游值代入标准公式，如果计算结果等于学生的下游答案，则确认推导正确。此规则仅适用于分值 ≥ 2 的推导类条目，不适用于识别/抄录类条目。reason 中注明链式推导内部一致：方法正确但起始值错误。
-           🚨【数量级感知规则】：当学生的数值与标准答案的相对误差 > 10%，但满足以下全部条件时，将 error_category 从 SEMANTIC_FATAL 降级为 PARTIAL_MATCH，给予该条目满分的 50%：
-           ① 学生的数值与标准答案的比值恰好为 10^n（n为非零整数，如 0.1倍、10倍、100倍），或与另一评分项的正确值的 10^n 倍一致（说明学生混淆了两个相似参数）。
-           ② 该条目存在上游依赖项，且至少一个上游依赖项已被判为 SEMANTIC_FATAL 或 PARTIAL_MATCH（说明错误是从上游传播而来，不是凭空产生）。
-           ③ 学生的答案不是 0 或极端异常值（排除完全不会做的情况）。
-           reason 中注明"数量级偏差但方法论可循"。
-           注意：此规则不与 10% 容差规则叠加。先检查 10% 容差，不满足时再检查此规则。
-       (b) 序列类（二进制/十六进制/矩阵等）：去除所有空格、分隔符、进制标记后，比较纯字符序列是否一致。
-           序列类宽容：如果学生序列与标准序列长度一致，且差异位数 ≤ 总位数的 10%（即 24 位序列允许 2-3 位错误），应判为 FORMAT_MINOR 而非 SEMANTIC_FATAL。只有当序列长度不一致或错误位数超过 10% 时才判 SEMANTIC_FATAL。
-       (c) 过程类：不要求与标准措辞一致。只要学生的描述中包含了标准所要求的关键语义要素（即：操作了什么对象、进行了什么运算/比较、得出了什么中间结果），即判为匹配。允许表述顺序不同、详略不同。
-       (d) 结论类：接受同义表达（如”不能””无法””不可以”均视为等价）。
-       (e) 唯一拒判条件：学生的事实内容在语义上确实与标准矛盾（数值不同、结论相反），才可判不匹配。格式差异绝不能作为拒判理由。
-       (f) 格式结构描述类：如果学生用字段名称、位范围、分区描述等方式表达了与标准相同的结构框架（字段的含义和顺序一致），即使未写出具体的位数数值，也应视为语义匹配。只有当学生描述的结构本身错误（字段缺失、顺序颠倒、含义不符）时才判不匹配。
-       (g) 比例给分规则：当评分项分值 ≥ 3 分且包含多个可独立验证的评分要素时，如果学生的作答匹配了部分要素但非全部，应使用 PARTIAL_MATCH 并给予比例分数。禁止对多要素项目使用全有全无的 0/满分二分法。
+    5. 馃毃銆愬唴瀹硅涔夊尮閰嶈鍒欍€戯細鍦ㄥ垽鏂€濆尮閰?涓嶅尮閰嶁€濇椂锛屽繀椤婚€忚繃鏍煎紡宸紓璇嗗埆璇箟绛変环銆傚叿浣撳師鍒欙細
+    6. 馃毃銆愭牳蹇冭兘鍔涢敋瀹氳鍒欍€戯細褰撹瘎鍒嗘潯鐩憟鐜扳€濆弬鏁拌瘑鍒啋鍏紡/鏂规硶鈫掓渶缁堢粨鏋溾€濈殑灞傛渚濊禆鍏崇郴鏃讹紝濡傛灉瀛︾敓鐨勬牳蹇冩帹瀵奸」锛堝叕寮?鏂规硶鏉＄洰锛夊拰鏈€缁堢粨鏋滄潯鐩?*鍏ㄩ儴**琚垽涓?SEMANTIC_FATAL 鎴?BLANK锛岃鏄庡鐢熶粎瀹屾垚浜嗕綆璁ょ煡璐熻嵎鐨勫弬鏁版妱褰曪紝鏈睍鐜板鏍稿績鐭ヨ瘑鐐圭殑鎺屾彙銆傛鏃讹細
+       - 鎵€鏈夌函鍙傛暟璇嗗埆绫绘潯鐩紙浠呴渶浠庨骞茬洿鎺ヨ鍙栥€佷笉娑夊強璁＄畻鎴栧垎鏋愮殑鏉＄洰锛夌殑寰楀垎涓婇檺闄嶄负璇ユ潯鐩弧鍒嗙殑 30%銆?
+       - reason 涓敞鏄庘€濇牳蹇冩帹瀵煎叏閿欙紝鍙傛暟璇嗗埆鍒嗛檷绾р€濄€?
+       - 濡傛灉鏍稿績鎺ㄥ椤逛腑鑷冲皯鏈変竴椤硅鍒や负 MATCH 鎴?PARTIAL_MATCH锛屽垯涓嶈Е鍙戞闄嶇骇銆?
+       (a) 鏁板€肩被锛氬彧姣旇緝鏍稿績鏁板€硷紝蹇界暐鍗曚綅鏍煎紡宸紓锛堝鈥?3浣嶁€?鈥?3 浣嶁€?鈥?3bit鈥?鈥?3鈥濓級銆傚拷鐣ヨ〃杈句腑鐨勭┖鏍笺€佹爣鐐广€佸悗缂€绗﹀彿銆?
+           馃毃銆愭暟鍊煎宸鍒欍€戯細褰撹瘎鍒嗛」鐨勬爣鍑嗙瓟妗堟槸涓€涓暟鍊兼椂锛屽鏋滃鐢熺殑鏁板€间笌鏍囧噯绛旀鐨勭浉瀵硅宸?鈮?10%锛屽簲鍒や负 MATCH锛堟弧鍒嗭級鑰岄潪 SEMANTIC_FATAL銆?
+           鍒ゆ柇鏂规硶锛氭彁鍙栧鐢熺瓟妗堝拰鏍囧噯绛旀涓殑绾暟鍊奸儴鍒嗭紝璁＄畻 |瀛︾敓鍊?- 鏍囧噯鍊紎 / 鏍囧噯鍊笺€備緥濡傛爣鍑?156锛屽鐢?162锛岃宸?3.8% 鈮?10%锛屽垽 MATCH銆?
+           鍗曚綅鎹㈢畻锛氶亣鍒扳€滽鈥?鈥滿鈥濈瓑鍗曚綅缂╁啓鏃讹紝鍏堟崲绠椾负缁熶竴鍗曚綅鍐嶆瘮杈冿紙濡?84Kb = 86016浣嶏級銆傚鏋滄崲绠楀悗鏁板€煎尮閰嶆垨璇樊 鈮?10%锛屽垽 MATCH銆?
+           娉ㄦ剰锛氬彧鏈夊綋鏍囧噯绛旀鏄槑纭殑鍗曚竴鏁板€兼椂鎵嶉€傜敤姝よ鍒欍€?
+           馃毃銆愰摼寮忔帹瀵间竴鑷存€ц鍒欍€戯細褰撹瘎鍒嗛」鐨勬暟鍊煎彲鐢卞叾浠栬瘎鍒嗛」鎺ㄥ寰楀嚭鏃讹紝楠岃瘉姝ラ涓猴細鈶犲厛浠庢爣鍑嗙瓟妗堟帹鏂纭殑鎺ㄥ鍏紡鍙婂父鏁帮紙濡傛爣鍑嗘帶瀛樺閲?6016=鏍囧噯寰寚浠ら暱搴?68脳512锛屽垯鍏紡涓哄井鎸囦护闀垮害脳512锛夛紱鈶＄敤鐩稿悓鍏紡鍜屽父鏁颁綔鐢ㄤ簬瀛︾敓鐨勪笂娓搁」锛堝瀛︾敓寰寚浠?3脳512=16896锛夛紱鈶㈡瘮杈冭绠楃粨鏋滀笌瀛︾敓鐨勬帹瀵奸」锛?6896鈮?940鈫掍笉涓€鑷粹啋SEMANTIC_FATAL锛夈€傚彧鏈夊綋瀛︾敓鐨勬帹瀵奸」 = 姝ｇ‘鍏紡(瀛︾敓涓婃父椤? 鏃舵墠鍒?MATCH銆傜姝㈤€氳繃鎵惧埌涓€涓兘鍑戝嚭瀛︾敓绛旀鐨勪换鎰忓叕寮忔潵鍒ゅ畾涓€鑷淬€?
+           馃毃銆愰敊璇捣鐐归摼寮忔帹瀵兼仮澶嶈鍒欍€戯細褰撹瘎鍒嗛」涔嬮棿瀛樺湪鏄庣‘鐨勬暟瀛︽帹瀵间緷璧栧叧绯绘椂锛堝 item_1鈫抜tem_2鈫抜tem_3 褰㈡垚璁＄畻閾撅級锛屽鏋滃鐢熺殑璧峰椤瑰€奸敊璇紙琚垽 SEMANTIC_FATAL锛夛紝浣嗗叾涓嬫父椤圭殑鍊艰兘澶熼€氳繃璇ラ敊璇捣濮嬪€间娇鐢ㄦ纭殑鍏紡鍜屾帹瀵兼楠よ绠楀緱鍑猴紙鍗冲鐢熶娇鐢ㄤ簡姝ｇ‘鐨勬柟娉曪紝鍙槸璧风偣涓嶅悓锛夛紝鍒欙細璧峰椤圭淮鎸?SEMANTIC_FATAL锛?鍒嗭級锛屼笅娓告帹瀵奸」鏀逛负 PARTIAL_MATCH 骞剁粰浜堣鏉＄洰 50% 鐨勫垎鏁般€傞獙璇佹柟娉曪細灏嗗鐢熺殑涓婃父鍊间唬鍏ユ爣鍑嗗叕寮忥紝濡傛灉璁＄畻缁撴灉绛変簬瀛︾敓鐨勪笅娓哥瓟妗堬紝鍒欑‘璁ゆ帹瀵兼纭€傛瑙勫垯浠呴€傜敤浜庡垎鍊?鈮?2 鐨勬帹瀵肩被鏉＄洰锛屼笉閫傜敤浜庤瘑鍒?鎶勫綍绫绘潯鐩€俽eason 涓敞鏄庨摼寮忔帹瀵煎唴閮ㄤ竴鑷达細鏂规硶姝ｇ‘浣嗚捣濮嬪€奸敊璇€?
+           馃毃銆愭暟閲忕骇鎰熺煡瑙勫垯銆戯細褰撳鐢熺殑鏁板€间笌鏍囧噯绛旀鐨勭浉瀵硅宸?> 10%锛屼絾婊¤冻浠ヤ笅鍏ㄩ儴鏉′欢鏃讹紝灏?error_category 浠?SEMANTIC_FATAL 闄嶇骇涓?PARTIAL_MATCH锛岀粰浜堣鏉＄洰婊″垎鐨?50%锛?
+           鈶?瀛︾敓鐨勬暟鍊间笌鏍囧噯绛旀鐨勬瘮鍊兼伆濂戒负 10^n锛坣涓洪潪闆舵暣鏁帮紝濡?0.1鍊嶃€?0鍊嶃€?00鍊嶏級锛屾垨涓庡彟涓€璇勫垎椤圭殑姝ｇ‘鍊肩殑 10^n 鍊嶄竴鑷达紙璇存槑瀛︾敓娣锋穯浜嗕袱涓浉浼煎弬鏁帮級銆?
+           鈶?璇ユ潯鐩瓨鍦ㄤ笂娓镐緷璧栭」锛屼笖鑷冲皯涓€涓笂娓镐緷璧栭」宸茶鍒や负 SEMANTIC_FATAL 鎴?PARTIAL_MATCH锛堣鏄庨敊璇槸浠庝笂娓镐紶鎾€屾潵锛屼笉鏄嚟绌轰骇鐢燂級銆?
+           鈶?瀛︾敓鐨勭瓟妗堜笉鏄?0 鎴栨瀬绔紓甯稿€硷紙鎺掗櫎瀹屽叏涓嶄細鍋氱殑鎯呭喌锛夈€?
+           reason 涓敞鏄?鏁伴噺绾у亸宸絾鏂规硶璁哄彲寰?銆?
+           娉ㄦ剰锛氭瑙勫垯涓嶄笌 10% 瀹瑰樊瑙勫垯鍙犲姞銆傚厛妫€鏌?10% 瀹瑰樊锛屼笉婊¤冻鏃跺啀妫€鏌ユ瑙勫垯銆?
+       (b) 搴忓垪绫伙紙浜岃繘鍒?鍗佸叚杩涘埗/鐭╅樀绛夛級锛氬幓闄ゆ墍鏈夌┖鏍笺€佸垎闅旂銆佽繘鍒舵爣璁板悗锛屾瘮杈冪函瀛楃搴忓垪鏄惁涓€鑷淬€?
+           搴忓垪绫诲瀹癸細濡傛灉瀛︾敓搴忓垪涓庢爣鍑嗗簭鍒楅暱搴︿竴鑷达紝涓斿樊寮備綅鏁?鈮?鎬讳綅鏁扮殑 10%锛堝嵆 24 浣嶅簭鍒楀厑璁?2-3 浣嶉敊璇級锛屽簲鍒や负 FORMAT_MINOR 鑰岄潪 SEMANTIC_FATAL銆傚彧鏈夊綋搴忓垪闀垮害涓嶄竴鑷存垨閿欒浣嶆暟瓒呰繃 10% 鏃舵墠鍒?SEMANTIC_FATAL銆?
+       (c) 杩囩▼绫伙細涓嶈姹備笌鏍囧噯鎺緸涓€鑷淬€傚彧瑕佸鐢熺殑鎻忚堪涓寘鍚簡鏍囧噯鎵€瑕佹眰鐨勫叧閿涔夎绱狅紙鍗筹細鎿嶄綔浜嗕粈涔堝璞°€佽繘琛屼簡浠€涔堣繍绠?姣旇緝銆佸緱鍑轰簡浠€涔堜腑闂寸粨鏋滐級锛屽嵆鍒や负鍖归厤銆傚厑璁歌〃杩伴『搴忎笉鍚屻€佽鐣ヤ笉鍚屻€?
+       (d) 缁撹绫伙細鎺ュ彈鍚屼箟琛ㄨ揪锛堝鈥濅笉鑳解€濃€濇棤娉曗€濃€濅笉鍙互鈥濆潎瑙嗕负绛変环锛夈€?
+       (e) 鍞竴鎷掑垽鏉′欢锛氬鐢熺殑浜嬪疄鍐呭鍦ㄨ涔変笂纭疄涓庢爣鍑嗙煕鐩撅紙鏁板€间笉鍚屻€佺粨璁虹浉鍙嶏級锛屾墠鍙垽涓嶅尮閰嶃€傛牸寮忓樊寮傜粷涓嶈兘浣滀负鎷掑垽鐞嗙敱銆?
+       (f) 鏍煎紡缁撴瀯鎻忚堪绫伙細濡傛灉瀛︾敓鐢ㄥ瓧娈靛悕绉般€佷綅鑼冨洿銆佸垎鍖烘弿杩扮瓑鏂瑰紡琛ㄨ揪浜嗕笌鏍囧噯鐩稿悓鐨勭粨鏋勬鏋讹紙瀛楁鐨勫惈涔夊拰椤哄簭涓€鑷达級锛屽嵆浣挎湭鍐欏嚭鍏蜂綋鐨勪綅鏁版暟鍊硷紝涔熷簲瑙嗕负璇箟鍖归厤銆傚彧鏈夊綋瀛︾敓鎻忚堪鐨勭粨鏋勬湰韬敊璇紙瀛楁缂哄け銆侀『搴忛鍊掋€佸惈涔変笉绗︼級鏃舵墠鍒や笉鍖归厤銆?
+       (g) 姣斾緥缁欏垎瑙勫垯锛氬綋璇勫垎椤瑰垎鍊?鈮?3 鍒嗕笖鍖呭惈澶氫釜鍙嫭绔嬮獙璇佺殑璇勫垎瑕佺礌鏃讹紝濡傛灉瀛︾敓鐨勪綔绛斿尮閰嶄簡閮ㄥ垎瑕佺礌浣嗛潪鍏ㄩ儴锛屽簲浣跨敤 PARTIAL_MATCH 骞剁粰浜堟瘮渚嬪垎鏁般€傜姝㈠澶氳绱犻」鐩娇鐢ㄥ叏鏈夊叏鏃犵殑 0/婊″垎浜屽垎娉曘€?
     
-    必须输出纯 JSON，每条 detail 必须包含 error_category 字段。
+    蹇呴』杈撳嚭绾?JSON锛屾瘡鏉?detail 蹇呴』鍖呭惈 error_category 瀛楁銆?
     {{
         "details": [
-            {{"id": "1", "score_given": 0, "error_category": "BLANK", "reason": "未书写"}},
-            {{"id": "2", "score_given": 2, "error_category": "MATCH", "reason": "匹配成功"}},
-            {{"id": "3", "score_given": 0, "error_category": "SEMANTIC_FATAL", "reason": "数值矛盾"}},
-            {{"id": "4", "score_given": 1, "error_category": "FORMAT_MINOR", "reason": "单位书写不规范（如重复标注GHz），核心数值正确，70%给分"}},
-            {{"id": "5", "score_given": 0, "error_category": "INSUFFICIENT_INFO", "reason": "提取信息不足"}},
-            {{"id": "6", "score_given": 3, "error_category": "PARTIAL_MATCH", "reason": "部分匹配：答对2/3个要素"}}
+            {{"id": "1", "score_given": 0, "error_category": "BLANK", "reason": "鏈功鍐?}},
+            {{"id": "2", "score_given": 2, "error_category": "MATCH", "reason": "鍖归厤鎴愬姛"}},
+            {{"id": "3", "score_given": 0, "error_category": "SEMANTIC_FATAL", "reason": "鏁板€肩煕鐩?}},
+            {{"id": "4", "score_given": 1, "error_category": "FORMAT_MINOR", "reason": "鍗曚綅涔﹀啓涓嶈鑼冿紙濡傞噸澶嶆爣娉℅Hz锛夛紝鏍稿績鏁板€兼纭紝70%缁欏垎"}},
+            {{"id": "5", "score_given": 0, "error_category": "INSUFFICIENT_INFO", "reason": "鎻愬彇淇℃伅涓嶈冻"}},
+            {{"id": "6", "score_given": 3, "error_category": "PARTIAL_MATCH", "reason": "閮ㄥ垎鍖归厤锛氱瓟瀵?/3涓绱?}}
         ],
         "total_score": 2
     }}
 
-    🚨【error_category 枚举定义】（必须严格从以下6种中选择一个）：
-    - "MATCH"：该条目得分 = 满分（语义匹配成功）
-    - "BLANK"：学生未书写或字迹模糊（score_given 必须为 0）
-    - "SEMANTIC_FATAL"：核心知识错误、结论相反、数值矛盾（score_given 必须为 0）
-    - "FORMAT_MINOR"：格式不符、缺少单位、同义表达未对齐等非实质性错误。如果该条目的核心数值/结论正确，仅格式有瑕疵，给予该条目满分的 70%（向上取整，最少 1 分）。如果该条目的核心数值/结论也错误，则 score_given 为 0。reason 中注明格式差异的具体内容。
-    - "INSUFFICIENT_INFO"：提取信息不足，无法判定（score_given 必须为 0）
-    - "PARTIAL_MATCH"：该条目部分匹配，学生完成了部分评分要素但非全部。score_given 为按完成比例计算的部分分数（≥1 且 < 满分）。例如满分 5 分含 3 个要素，答对 2 个给 3 分。只有完全未涉及任何要素时才用 BLANK 或 SEMANTIC_FATAL。
+    馃毃銆恊rror_category 鏋氫妇瀹氫箟銆戯紙蹇呴』涓ユ牸浠庝互涓?绉嶄腑閫夋嫨涓€涓級锛?
+    - "MATCH"锛氳鏉＄洰寰楀垎 = 婊″垎锛堣涔夊尮閰嶆垚鍔燂級
+    - "BLANK"锛氬鐢熸湭涔﹀啓鎴栧瓧杩规ā绯婏紙score_given 蹇呴』涓?0锛?
+    - "SEMANTIC_FATAL"锛氭牳蹇冪煡璇嗛敊璇€佺粨璁虹浉鍙嶃€佹暟鍊肩煕鐩撅紙score_given 蹇呴』涓?0锛?
+    - "FORMAT_MINOR"锛氭牸寮忎笉绗︺€佺己灏戝崟浣嶃€佸悓涔夎〃杈炬湭瀵归綈绛夐潪瀹炶川鎬ч敊璇€傚鏋滆鏉＄洰鐨勬牳蹇冩暟鍊?缁撹姝ｇ‘锛屼粎鏍煎紡鏈夌憰鐤碉紝缁欎簣璇ユ潯鐩弧鍒嗙殑 70%锛堝悜涓婂彇鏁达紝鏈€灏?1 鍒嗭級銆傚鏋滆鏉＄洰鐨勬牳蹇冩暟鍊?缁撹涔熼敊璇紝鍒?score_given 涓?0銆俽eason 涓敞鏄庢牸寮忓樊寮傜殑鍏蜂綋鍐呭銆?
+    - "INSUFFICIENT_INFO"锛氭彁鍙栦俊鎭笉瓒筹紝鏃犳硶鍒ゅ畾锛坰core_given 蹇呴』涓?0锛?
+    - "PARTIAL_MATCH"锛氳鏉＄洰閮ㄥ垎鍖归厤锛屽鐢熷畬鎴愪簡閮ㄥ垎璇勫垎瑕佺礌浣嗛潪鍏ㄩ儴銆俿core_given 涓烘寜瀹屾垚姣斾緥璁＄畻鐨勯儴鍒嗗垎鏁帮紙鈮? 涓?< 婊″垎锛夈€備緥濡傛弧鍒?5 鍒嗗惈 3 涓绱狅紝绛斿 2 涓粰 3 鍒嗐€傚彧鏈夊畬鍏ㄦ湭娑夊強浠讳綍瑕佺礌鏃舵墠鐢?BLANK 鎴?SEMANTIC_FATAL銆?
     """
     logic_prompt = render_prompt_template(
         "stage2_logic_grading.md",
@@ -534,45 +556,45 @@ def stage2_logic_grading(student_facts_str, rubrics_json_str, temperature=0.35):
 
 def zero_shot_leniency_agent(student_facts_str, strict_cot_str, rubrics_json_str):
     """
-    宽容复查导师：以教师宽松阅卷的视角对初审扣分进行二次审查
+    瀹藉澶嶆煡瀵煎笀锛氫互鏁欏笀瀹芥澗闃呭嵎鐨勮瑙掑鍒濆鎵ｅ垎杩涜浜屾瀹℃煡
     """
     leniency_prompt = f"""
-# Role: 高校阅卷组长（教师视角复查）
-你是一位经验丰富的高校教师，正在对机器初审的结果进行复查。
-真实教师在批改时往往比较宽松：只要学生展现了对核心知识点的理解，即使表述不完全规范、中间步骤有省略，教师通常也会给分。
+# Role: 楂樻牎闃呭嵎缁勯暱锛堟暀甯堣瑙掑鏌ワ級
+浣犳槸涓€浣嶇粡楠屼赴瀵岀殑楂樻牎鏁欏笀锛屾鍦ㄥ鏈哄櫒鍒濆鐨勭粨鏋滆繘琛屽鏌ャ€?
+鐪熷疄鏁欏笀鍦ㄦ壒鏀规椂寰€寰€姣旇緝瀹芥澗锛氬彧瑕佸鐢熷睍鐜颁簡瀵规牳蹇冪煡璇嗙偣鐨勭悊瑙ｏ紝鍗充娇琛ㄨ堪涓嶅畬鍏ㄨ鑼冦€佷腑闂存楠ゆ湁鐪佺暐锛屾暀甯堥€氬父涔熶細缁欏垎銆?
 
-【评分标准】: {rubrics_json_str}
-【学生客观事实】: {student_facts_str}
-【初审扣分记录】: {strict_cot_str}
+銆愯瘎鍒嗘爣鍑嗐€? {rubrics_json_str}
+銆愬鐢熷瑙備簨瀹炪€? {student_facts_str}
+銆愬垵瀹℃墸鍒嗚褰曘€? {strict_cot_str}
 
-# 复查原则（教师宽松视角）
-对初审中每个 score_given 为 0 的条目，用以下标准逐一复查：
-1. **结论正确即给分**：如果学生写出了正确的最终结论（如”不能访问到””能访问到”），即使没有完整展示推导过程，教师通常会给予大部分分数。
-2. **实质理解优先**：如果学生的表述虽然与标准答案措辞不同，但展现了对知识点的实质性理解（如正确识别了标记匹配关系），应恢复分数。
-3. **过程省略宽容**：中间步骤省略但结论正确，教师一般只扣少量分甚至不扣。只有当学生的答案明显错误（数值算错、概念搞反）时才维持扣分。
-4. **不恢复的情况**：学生确实在核心结论上完全错误（概念搞反、方法错误），维持 0 分。
-5. **参数未单独列出的宽容**：如果某个条目因"未书写"被扣分，但该条目所要求的参数/中间值在逻辑上是另一个已正确作答条目的必要输入（例如正确算出了最终结果，说明学生必然正确使用了公式中的参数），教师通常会恢复分数。只有当依赖该参数的下游结果也错误时，才维持扣分。
-6. **比例恢复原则**：对于分值 ≥ 3 分且含多个可独立评分要素的条目，如果学生被判 0 分但实际正确完成了部分要素（如计算过程正确但最终结果错误），应恢复比例分数（约 完成要素占比 × 满分），而非全有或全无。
-7. **数值类评分项分层宽容原则**：仅适用于标准答案包含明确数值的评分项（如"23位"、"140条"、"86016位"）。对于描述性/概念性评分项（标准答案为文字描述、公式、结论），本原则不适用，仍按原则 1-5 判断。适用时按以下标准恢复：
-   - 相对误差 ≤ 15%：恢复满分（计算过程中的合理误差，如进位、近似）
-   - 相对误差 15%-50%：如果学生给出了非空白的具体数值答案且该数值在合理数量级内（非极端异常值如 0、1、999），恢复 ≥50% 分数（过程分——学生进行了计算但结果偏差较大）
-   - 相对误差 > 50%：维持 0 分，除非适用原则 7（链式一致性）或学生展现了对计算方法的理解（如正确使用了单位换算、科学记数法等）
-8. **链式推导内部一致性原则**：仅适用于数值类评分项。某些评分项的值可由其他评分项的数值推导得出。复查时验证步骤：①从标准答案推断正确的推导公式及常数（如标准控存86016=标准168×512，公式为微指令长度×512）；②用相同公式作用于学生的上游项；③如果学生的推导项等于计算结果，说明学生掌握了正确的计算方法，恢复满分。验证时必须使用正确的公式和常数（如×512而非×180），禁止用任意凑出的公式来判定一致。
-9. **整体质量门控原则**：在应用原则 7 和 8 之前，先统计初审中被判为 SEMANTIC_FATAL 的条目占比。如果 SEMANTIC_FATAL 占比超过 50%（即超过一半的条目存在严重错误），说明学生对知识点掌握严重不足，此时原则 7 降级为仅恢复误差 ≤15% 的条目（15%-50% 的过程分不再适用），原则 8（链式推导）不再适用。只有 SEMANTIC_FATAL 占比 ≤ 50% 时，原则 6 和 7 才完整适用。原则 5（比例恢复）不受此限制。
-10. **小分值条目宽容原则**：对于分值 ≤ 2 分的条目，教师通常采用"差不多就给"的宽松标准：
-   - 如果学生的答案与标准在核心结论上一致（如命中/未命中判断正确、字段名称和顺序正确），但具体数值有微小偏差（如二进制提取中个别位错误、数值的最后一位不同），应恢复满分。
-   - 如果学生的答案结构框架正确但数值完全错误，恢复 50% 分数（展现了对方法的理解）。
-   - 只有当学生的结论完全相反（如命中判成未命中）或完全未涉及该知识点时，才维持 0 分。
+# 澶嶆煡鍘熷垯锛堟暀甯堝鏉捐瑙掞級
+瀵瑰垵瀹′腑姣忎釜 score_given 涓?0 鐨勬潯鐩紝鐢ㄤ互涓嬫爣鍑嗛€愪竴澶嶆煡锛?
+1. **缁撹姝ｇ‘鍗崇粰鍒?*锛氬鏋滃鐢熷啓鍑轰簡姝ｇ‘鐨勬渶缁堢粨璁猴紙濡傗€濅笉鑳借闂埌鈥濃€濊兘璁块棶鍒扳€濓級锛屽嵆浣挎病鏈夊畬鏁村睍绀烘帹瀵艰繃绋嬶紝鏁欏笀閫氬父浼氱粰浜堝ぇ閮ㄥ垎鍒嗘暟銆?
+2. **瀹炶川鐞嗚В浼樺厛**锛氬鏋滃鐢熺殑琛ㄨ堪铏界劧涓庢爣鍑嗙瓟妗堟帾杈炰笉鍚岋紝浣嗗睍鐜颁簡瀵圭煡璇嗙偣鐨勫疄璐ㄦ€х悊瑙ｏ紙濡傛纭瘑鍒簡鏍囪鍖归厤鍏崇郴锛夛紝搴旀仮澶嶅垎鏁般€?
+3. **杩囩▼鐪佺暐瀹藉**锛氫腑闂存楠ょ渷鐣ヤ絾缁撹姝ｇ‘锛屾暀甯堜竴鑸彧鎵ｅ皯閲忓垎鐢氳嚦涓嶆墸銆傚彧鏈夊綋瀛︾敓鐨勭瓟妗堟槑鏄鹃敊璇紙鏁板€肩畻閿欍€佹蹇垫悶鍙嶏級鏃舵墠缁存寔鎵ｅ垎銆?
+4. **涓嶆仮澶嶇殑鎯呭喌**锛氬鐢熺‘瀹炲湪鏍稿績缁撹涓婂畬鍏ㄩ敊璇紙姒傚康鎼炲弽銆佹柟娉曢敊璇級锛岀淮鎸?0 鍒嗐€?
+5. **鍙傛暟鏈崟鐙垪鍑虹殑瀹藉**锛氬鏋滄煇涓潯鐩洜"鏈功鍐?琚墸鍒嗭紝浣嗚鏉＄洰鎵€瑕佹眰鐨勫弬鏁?涓棿鍊煎湪閫昏緫涓婃槸鍙︿竴涓凡姝ｇ‘浣滅瓟鏉＄洰鐨勫繀瑕佽緭鍏ワ紙渚嬪姝ｇ‘绠楀嚭浜嗘渶缁堢粨鏋滐紝璇存槑瀛︾敓蹇呯劧姝ｇ‘浣跨敤浜嗗叕寮忎腑鐨勫弬鏁帮級锛屾暀甯堥€氬父浼氭仮澶嶅垎鏁般€傚彧鏈夊綋渚濊禆璇ュ弬鏁扮殑涓嬫父缁撴灉涔熼敊璇椂锛屾墠缁存寔鎵ｅ垎銆?
+6. **姣斾緥鎭㈠鍘熷垯**锛氬浜庡垎鍊?鈮?3 鍒嗕笖鍚涓彲鐙珛璇勫垎瑕佺礌鐨勬潯鐩紝濡傛灉瀛︾敓琚垽 0 鍒嗕絾瀹為檯姝ｇ‘瀹屾垚浜嗛儴鍒嗚绱狅紙濡傝绠楄繃绋嬫纭絾鏈€缁堢粨鏋滈敊璇級锛屽簲鎭㈠姣斾緥鍒嗘暟锛堢害 瀹屾垚瑕佺礌鍗犳瘮 脳 婊″垎锛夛紝鑰岄潪鍏ㄦ湁鎴栧叏鏃犮€?
+7. **鏁板€肩被璇勫垎椤瑰垎灞傚瀹瑰師鍒?*锛氫粎閫傜敤浜庢爣鍑嗙瓟妗堝寘鍚槑纭暟鍊肩殑璇勫垎椤癸紙濡?23浣?銆?140鏉?銆?86016浣?锛夈€傚浜庢弿杩版€?姒傚康鎬ц瘎鍒嗛」锛堟爣鍑嗙瓟妗堜负鏂囧瓧鎻忚堪銆佸叕寮忋€佺粨璁猴級锛屾湰鍘熷垯涓嶉€傜敤锛屼粛鎸夊師鍒?1-5 鍒ゆ柇銆傞€傜敤鏃舵寜浠ヤ笅鏍囧噯鎭㈠锛?
+   - 鐩稿璇樊 鈮?15%锛氭仮澶嶆弧鍒嗭紙璁＄畻杩囩▼涓殑鍚堢悊璇樊锛屽杩涗綅銆佽繎浼硷級
+   - 鐩稿璇樊 15%-50%锛氬鏋滃鐢熺粰鍑轰簡闈炵┖鐧界殑鍏蜂綋鏁板€肩瓟妗堜笖璇ユ暟鍊煎湪鍚堢悊鏁伴噺绾у唴锛堥潪鏋佺寮傚父鍊煎 0銆?銆?99锛夛紝鎭㈠ 鈮?0% 鍒嗘暟锛堣繃绋嬪垎鈥斺€斿鐢熻繘琛屼簡璁＄畻浣嗙粨鏋滃亸宸緝澶э級
+   - 鐩稿璇樊 > 50%锛氱淮鎸?0 鍒嗭紝闄ら潪閫傜敤鍘熷垯 7锛堥摼寮忎竴鑷存€э級鎴栧鐢熷睍鐜颁簡瀵硅绠楁柟娉曠殑鐞嗚В锛堝姝ｇ‘浣跨敤浜嗗崟浣嶆崲绠椼€佺瀛﹁鏁版硶绛夛級
+8. **閾惧紡鎺ㄥ鍐呴儴涓€鑷存€у師鍒?*锛氫粎閫傜敤浜庢暟鍊肩被璇勫垎椤广€傛煇浜涜瘎鍒嗛」鐨勫€煎彲鐢卞叾浠栬瘎鍒嗛」鐨勬暟鍊兼帹瀵煎緱鍑恒€傚鏌ユ椂楠岃瘉姝ラ锛氣憼浠庢爣鍑嗙瓟妗堟帹鏂纭殑鎺ㄥ鍏紡鍙婂父鏁帮紙濡傛爣鍑嗘帶瀛?6016=鏍囧噯168脳512锛屽叕寮忎负寰寚浠ら暱搴γ?12锛夛紱鈶＄敤鐩稿悓鍏紡浣滅敤浜庡鐢熺殑涓婃父椤癸紱鈶㈠鏋滃鐢熺殑鎺ㄥ椤圭瓑浜庤绠楃粨鏋滐紝璇存槑瀛︾敓鎺屾彙浜嗘纭殑璁＄畻鏂规硶锛屾仮澶嶆弧鍒嗐€傞獙璇佹椂蹇呴』浣跨敤姝ｇ‘鐨勫叕寮忓拰甯告暟锛堝脳512鑰岄潪脳180锛夛紝绂佹鐢ㄤ换鎰忓噾鍑虹殑鍏紡鏉ュ垽瀹氫竴鑷淬€?
+9. **鏁翠綋璐ㄩ噺闂ㄦ帶鍘熷垯**锛氬湪搴旂敤鍘熷垯 7 鍜?8 涔嬪墠锛屽厛缁熻鍒濆涓鍒や负 SEMANTIC_FATAL 鐨勬潯鐩崰姣斻€傚鏋?SEMANTIC_FATAL 鍗犳瘮瓒呰繃 50%锛堝嵆瓒呰繃涓€鍗婄殑鏉＄洰瀛樺湪涓ラ噸閿欒锛夛紝璇存槑瀛︾敓瀵圭煡璇嗙偣鎺屾彙涓ラ噸涓嶈冻锛屾鏃跺師鍒?7 闄嶇骇涓轰粎鎭㈠璇樊 鈮?5% 鐨勬潯鐩紙15%-50% 鐨勮繃绋嬪垎涓嶅啀閫傜敤锛夛紝鍘熷垯 8锛堥摼寮忔帹瀵硷級涓嶅啀閫傜敤銆傚彧鏈?SEMANTIC_FATAL 鍗犳瘮 鈮?50% 鏃讹紝鍘熷垯 6 鍜?7 鎵嶅畬鏁撮€傜敤銆傚師鍒?5锛堟瘮渚嬫仮澶嶏級涓嶅彈姝ら檺鍒躲€?
+10. **灏忓垎鍊兼潯鐩瀹瑰師鍒?*锛氬浜庡垎鍊?鈮?2 鍒嗙殑鏉＄洰锛屾暀甯堥€氬父閲囩敤"宸笉澶氬氨缁?鐨勫鏉炬爣鍑嗭細
+   - 濡傛灉瀛︾敓鐨勭瓟妗堜笌鏍囧噯鍦ㄦ牳蹇冪粨璁轰笂涓€鑷达紙濡傚懡涓?鏈懡涓垽鏂纭€佸瓧娈靛悕绉板拰椤哄簭姝ｇ‘锛夛紝浣嗗叿浣撴暟鍊兼湁寰皬鍋忓樊锛堝浜岃繘鍒舵彁鍙栦腑涓埆浣嶉敊璇€佹暟鍊肩殑鏈€鍚庝竴浣嶄笉鍚岋級锛屽簲鎭㈠婊″垎銆?
+   - 濡傛灉瀛︾敓鐨勭瓟妗堢粨鏋勬鏋舵纭絾鏁板€煎畬鍏ㄩ敊璇紝鎭㈠ 50% 鍒嗘暟锛堝睍鐜颁簡瀵规柟娉曠殑鐞嗚В锛夈€?
+   - 鍙湁褰撳鐢熺殑缁撹瀹屽叏鐩稿弽锛堝鍛戒腑鍒ゆ垚鏈懡涓級鎴栧畬鍏ㄦ湭娑夊強璇ョ煡璇嗙偣鏃讹紝鎵嶇淮鎸?0 鍒嗐€?
 
-🚨【硬约束】：
-- 必须对每个被扣分条目逐一给出复查结论
-- analysis_cot 中简要列出每条的复查决策（恢复/维持 + 一句话理由）
+馃毃銆愮‖绾︽潫銆戯細
+- 蹇呴』瀵规瘡涓鎵ｅ垎鏉＄洰閫愪竴缁欏嚭澶嶆煡缁撹
+- analysis_cot 涓畝瑕佸垪鍑烘瘡鏉＄殑澶嶆煡鍐崇瓥锛堟仮澶?缁存寔 + 涓€鍙ヨ瘽鐞嗙敱锛?
 
-输出纯 JSON：
+杈撳嚭绾?JSON锛?
 {{
-    “secondary_total_score”: 复查后的总分(数字),
-    “leniency_reason”: “简述主要纠正项，20字内”,
-    “analysis_cot”: “逐条复查过程”
+    鈥渟econdary_total_score鈥? 澶嶆煡鍚庣殑鎬诲垎(鏁板瓧),
+    鈥渓eniency_reason鈥? 鈥滅畝杩颁富瑕佺籂姝ｉ」锛?0瀛楀唴鈥?
+    鈥渁nalysis_cot鈥? 鈥滈€愭潯澶嶆煡杩囩▼鈥?
 }}
 """
     for attempt in range(3):
@@ -760,36 +782,36 @@ def build_risk_profile(
 
 def boundary_arbitration_agent(student_facts_str, strict_cots, rubrics_json_str, risk_profile):
     arbitration_prompt = f"""
-# Role: 边界样本双向校准仲裁员
-你正在复核一份自动阅卷结果。你的目标是使评分尽可能接近真实教师的评分。
+# Role: 杈圭晫鏍锋湰鍙屽悜鏍″噯浠茶鍛?
+浣犳鍦ㄥ鏍镐竴浠借嚜鍔ㄩ槄鍗风粨鏋溿€備綘鐨勭洰鏍囨槸浣胯瘎鍒嗗敖鍙兘鎺ヨ繎鐪熷疄鏁欏笀鐨勮瘎鍒嗐€?
 
-【评分标准】
+銆愯瘎鍒嗘爣鍑嗐€?
 {rubrics_json_str}
 
-【学生客观作答事实】
+銆愬鐢熷瑙備綔绛斾簨瀹炪€?
 {student_facts_str}
 
-【三次独立评分记录】
+銆愪笁娆＄嫭绔嬭瘎鍒嗚褰曘€?
 {json.dumps(strict_cots, ensure_ascii=False)}
 
-【风险特征】
+銆愰闄╃壒寰併€?
 {json.dumps(risk_profile, ensure_ascii=False)}
 
-仲裁原则：
-1. 双向校准：你需要同时考虑模型可能高估和低估的情况。
-   - 当学生有正确的过程推导但被判 SEMANTIC_FATAL 时，考虑上调。
-   - 当学生的核心结论完全错误但被判 MATCH 时，考虑下调。
-2. 过程分恢复：如果学生的计算方法论正确但初始参数有误导致结果偏差，这是典型的低估场景，应适当上调。
-3. 空洞分纠正：如果学生仅正确识别了题干参数但核心推导和结果全错，大量参数识别分可能是高估，应适当下调。
-4. 格式不应重罚：格式问题（单位书写习惯、变量名不规范）不应实质性影响分数。
-5. 最终分数必须在 [0, 题目满分] 范围内。
-6. 如果证据不足以确定方向，保持原分。
+浠茶鍘熷垯锛?
+1. 鍙屽悜鏍″噯锛氫綘闇€瑕佸悓鏃惰€冭檻妯″瀷鍙兘楂樹及鍜屼綆浼扮殑鎯呭喌銆?
+   - 褰撳鐢熸湁姝ｇ‘鐨勮繃绋嬫帹瀵间絾琚垽 SEMANTIC_FATAL 鏃讹紝鑰冭檻涓婅皟銆?
+   - 褰撳鐢熺殑鏍稿績缁撹瀹屽叏閿欒浣嗚鍒?MATCH 鏃讹紝鑰冭檻涓嬭皟銆?
+2. 杩囩▼鍒嗘仮澶嶏細濡傛灉瀛︾敓鐨勮绠楁柟娉曡姝ｇ‘浣嗗垵濮嬪弬鏁版湁璇鑷寸粨鏋滃亸宸紝杩欐槸鍏稿瀷鐨勪綆浼板満鏅紝搴旈€傚綋涓婅皟銆?
+3. 绌烘礊鍒嗙籂姝ｏ細濡傛灉瀛︾敓浠呮纭瘑鍒簡棰樺共鍙傛暟浣嗘牳蹇冩帹瀵煎拰缁撴灉鍏ㄩ敊锛屽ぇ閲忓弬鏁拌瘑鍒垎鍙兘鏄珮浼帮紝搴旈€傚綋涓嬭皟銆?
+4. 鏍煎紡涓嶅簲閲嶇綒锛氭牸寮忛棶棰橈紙鍗曚綅涔﹀啓涔犳儻銆佸彉閲忓悕涓嶈鑼冿級涓嶅簲瀹炶川鎬у奖鍝嶅垎鏁般€?
+5. 鏈€缁堝垎鏁板繀椤诲湪 [0, 棰樼洰婊″垎] 鑼冨洿鍐呫€?
+6. 濡傛灉璇佹嵁涓嶈冻浠ョ‘瀹氭柟鍚戯紝淇濇寔鍘熷垎銆?
 
-请输出纯 JSON：
+璇疯緭鍑虹函 JSON锛?
 {{
-  "decision": "raise 或 keep 或 cautious_lower",
-  "calibrated_score": 数字,
-  "reason": "50字以内说明"
+  "decision": "raise 鎴?keep 鎴?cautious_lower",
+  "calibrated_score": 鏁板瓧,
+  "reason": "50瀛椾互鍐呰鏄?
 }}
 """
     arbitration_prompt = render_prompt_template(
@@ -813,22 +835,23 @@ def boundary_arbitration_agent(student_facts_str, strict_cots, rubrics_json_str,
     return None
 
 def generate_neg_debate_summary(strict_cots):
-    """为 NEG 拒绝域生成分歧焦点摘要，辅助人工审查"""
+    """Generate a short disagreement summary for NEG/manual-review samples."""
     if not strict_cots or len(strict_cots) < 2:
-        return "分歧信息不足，无法生成摘要。"
+        return "Insufficient grading traces for disagreement summary."
     summaries = []
     for i, cot in enumerate(strict_cots):
-        total = cot.get('total_score', '?')
+        total = cot.get("total_score", "?")
         details_summary = "; ".join(
-            f"条目{d.get('id','?')}={d.get('score_given',0)}分({d.get('reason','')[:20]})"
-            for d in cot.get('details', [])[:5]
+            f"item {d.get('id', '?')}={d.get('score_given', 0)} ({str(d.get('reason', ''))[:40]})"
+            for d in cot.get("details", [])[:5]
         )
-        summaries.append(f"判决{i+1}: 总分{total} | {details_summary}")
+        summaries.append(f"judgement {i + 1}: total={total} | {details_summary}")
 
-    prompt = f"""以下是3次对同一份考卷的独立评分结果，它们之间存在严重分歧：
+    prompt = f"""The following are independent grading traces for the same answer.
+They may disagree substantially:
 {chr(10).join(summaries)}
 
-请用一句话（30字以内）总结评分分歧的核心焦点。只输出这句话，不要任何额外内容。"""
+Summarize the core disagreement in one concise sentence. Output only that sentence."""
     for attempt in range(2):
         try:
             return call_text_model(
@@ -837,26 +860,26 @@ def generate_neg_debate_summary(strict_cots):
             )
         except Exception:
             time.sleep(2)
-    return "摘要生成失败，请人工核查。"
+    return "Summary generation failed; manual review is required."
 
-# ==================== 核心管线：零样本无监督 3WD ====================
+# ==================== 鏍稿績绠＄嚎锛氶浂鏍锋湰鏃犵洃鐫?3WD ====================
 
 def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, teacher_score, q_img_path=None, blind_checklist=None):
     student_id = os.path.splitext(os.path.basename(student_img_path))[0]
     print(f"\n=============================================")
-    print(f"🚀 开始批改试卷: [{student_id}]")
+    print(f"Start grading student [{student_id}]")
     print(f"=============================================")
 
-    print(f"  👁️ [Stage 1] 纯视觉物理特征提取...")
+    print("  [Stage 1] visual fact extraction...")
     if blind_checklist is None:
         blind_checklist = generate_blind_checklist(rubrics_json)
     student_facts = stage1_blind_extraction(question_text, student_img_path, blind_checklist, q_img_path)
 
     if not student_facts:
-        print(f"  ❌ 视觉提取失败，终止。")
+        print("  [Stage 1] visual extraction failed; stop this sample.")
         return None
 
-    # 二次提取：对高留白率学生进行聚焦复查
+    # 浜屾鎻愬彇锛氬楂樼暀鐧界巼瀛︾敓杩涜鑱氱劍澶嶆煡
     try:
         rubrics_data_for_extraction = json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json
         rubrics_data_for_extraction = prepare_rubrics_for_calibration(rubrics_data_for_extraction)
@@ -868,7 +891,7 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         student_facts, q_img_path, rubrics_data_for_extraction
     )
 
-    print(f"  ⚖️ [Stage 2] 微小温度独立盲审 (3次并行采样)...")
+    print("  [Stage 2] independent semantic grading probes...")
     model_scores = []
     strict_cots = []
 
@@ -885,17 +908,17 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         for future in concurrent.futures.as_completed(s2_futures):
             idx, score, cot = future.result()
             if score is not None:
-                print(f"      ✅ [第 {idx+1}/3 次探测完成] 得分: {score}")
+                print(f"      鉁?[绗?{idx+1}/3 娆℃帰娴嬪畬鎴怾 寰楀垎: {score}")
                 model_scores.append(score)
                 strict_cots.append(cot) 
     
     if len(model_scores) == 0: return None
 
-    # 计算均分与标准差 (Self-Consistency)
+    # 璁＄畻鍧囧垎涓庢爣鍑嗗樊 (Self-Consistency)
     avg_model_score = round(float(np.mean(model_scores)), 1)
     std_dev = round(float(np.std(model_scores)), 4)
     
-    # 动态解析评价标准总条目数和总分
+    # 鍔ㄦ€佽В鏋愯瘎浠锋爣鍑嗘€绘潯鐩暟鍜屾€诲垎
     try:
         rubrics_data = json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json
         rubrics_data = prepare_rubrics_for_calibration(rubrics_data)
@@ -904,7 +927,7 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     except:
         TOTAL_ITEMS, MAX_SCORE = 10, 10.0
     
-    # 解析 Stage 1 提取的 JSON 事实，逐条检查 value 值
+    # 瑙ｆ瀽 Stage 1 鎻愬彇鐨?JSON 浜嬪疄锛岄€愭潯妫€鏌?value 鍊?
     try:
         facts_dict = json.loads(student_facts) if isinstance(student_facts, str) else student_facts
         if not isinstance(facts_dict, dict):
@@ -926,7 +949,7 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     suspicious_extraction_rate = extraction_risk_features["suspicious_extraction_rate"]
     extraction_risk = extraction_risk_features["extraction_risk"]
 
-    # 综合提取质量判定
+    # 缁煎悎鎻愬彇璐ㄩ噺鍒ゅ畾
     extraction_quality = extraction_risk_features["extraction_quality"]
 
     real_diff = round(teacher_score - avg_model_score, 2) if teacher_score is not None else 0.0
@@ -935,14 +958,14 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     reason_log = ""
     arbitration_flag = False
 
-    print(f"\n  📊 [探测雷达指标] 均分={avg_model_score}, 标准差={std_dev:.4f}, 留白率={blank_rate:.0%}, 感知失效率={perception_failure_rate:.0%}, 低质量提取率={low_quality_rate:.0%}, 提取质量={extraction_quality}")
+    print(f"\n  馃搳 [鎺㈡祴闆疯揪鎸囨爣] 鍧囧垎={avg_model_score}, 鏍囧噯宸?{std_dev:.4f}, 鐣欑櫧鐜?{blank_rate:.0%}, 鎰熺煡澶辨晥鐜?{perception_failure_rate:.0%}, 浣庤川閲忔彁鍙栫巼={low_quality_rate:.0%}, 鎻愬彇璐ㄩ噺={extraction_quality}")
     print(f"      [extraction-risk] R_ext={extraction_risk:.2f}, structure_missing={structure_missing_rate:.0%}, suspicious={suspicious_extraction_rate:.0%}")
 
     # ==========================================
-    # 风险驱动三支决策 (Three-Way Decision)
-    # POS：低风险直接接受
-    # BND：中风险宽松优先、谨慎下调
-    # NEG：高风险拒判/人工复核
+    # 椋庨櫓椹卞姩涓夋敮鍐崇瓥 (Three-Way Decision)
+    # POS锛氫綆椋庨櫓鐩存帴鎺ュ彈
+    # BND锛氫腑椋庨櫓瀹芥澗浼樺厛銆佽皑鎱庝笅璋?
+    # NEG锛氶珮椋庨櫓鎷掑垽/浜哄伐澶嶆牳
     # ==========================================
     risk_profile = build_risk_profile(
         question_text=question_text,
@@ -971,7 +994,13 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         blank_rate=blank_rate,
         risk_profile=risk_profile,
     )
+    primary_risks = post_calibration.get("primary_risks", {})
     risk_profile["risk_features"].update({
+        "U_E": primary_risks.get("U_E", None),
+        "U_S": primary_risks.get("U_S", None),
+        "U_R": primary_risks.get("U_R", None),
+        "primary_risk": primary_risks.get("risk", None),
+        "primary_mu": primary_risks.get("mu", None),
         "unsupported_match_points_ratio": post_calibration["unsupported_match_points_ratio"],
         "method_final_verified_ratio": post_calibration["method_final_verified_ratio"],
         "direct_points_ratio": post_calibration["direct_points_ratio"],
@@ -1057,7 +1086,7 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         extraction_quality=extraction_quality,
         structure_missing_rate=structure_missing_rate,
         extraction_risk=extraction_risk,
-        fatal_points_ratio=risk_profile["fatal_points_ratio"],
+        fatal_points_ratio=post_calibration.get("fatal_ratio", risk_profile["fatal_points_ratio"]),
         high_blank_high_score=risk_profile["high_blank_high_score"],
         post_calibration=post_calibration,
         weights=a3wa_config.get("risk_weights"),
@@ -1090,22 +1119,22 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     boundary_gate = None
 
     print(
-        "      📡 [风险画像] "
+        "      馃摗 [椋庨櫓鐢诲儚] "
         f"P={perception_risk:.2f}, U={uncertainty_index:.2%}, F={fatal_points_ratio:.2%}, "
         f"H={high_blank_high_score}, L={lenient_review_signal}"
     )
     if post_calibration["rule_hits"]:
         print(
-            "      🧭 [通用校准] "
+            "      馃Л [閫氱敤鏍″噯] "
             f"rules={post_calibration['rule_hits']}, "
             f"UM={post_calibration['unsupported_match_points_ratio']:.2%}, "
             f"MF={post_calibration['method_final_verified_ratio']:.2%}, "
             f"cap={post_calibration['upper_bound']:.2f}"
         )
     print(
-        "      🧮 [A3WA可信度] "
-        f"R={a3wa_decision['risk']:.3f}, μ={a3wa_decision['mu']:.3f}, "
-        f"α={a3wa_decision['alpha']:.3f}, β={a3wa_decision['beta']:.3f}, "
+        "      馃М [A3WA鍙俊搴 "
+        f"R={a3wa_decision['risk']:.3f}, 渭={a3wa_decision['mu']:.3f}, "
+        f"伪={a3wa_decision['alpha']:.3f}, 尾={a3wa_decision['beta']:.3f}, "
         f"route={a3wa_decision['route']} | {a3wa_decision['reason']}"
     )
 
@@ -1113,16 +1142,16 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         route = "NEG"
         arbitration_flag = True
         if a3wa_decision["hard_neg_reasons"]:
-            reason_log = "A3WA硬拒判：" + ",".join(a3wa_decision["hard_neg_reasons"])
+            reason_log = "A3WA hard_neg: " + ",".join(a3wa_decision["hard_neg_reasons"])
         else:
-            reason_log = f"A3WA低可信度拒判：μ={a3wa_decision['mu']:.3f} <= β={a3wa_decision['beta']:.3f}"
-        print(f"      🛑 [路由 -> NEG] 高风险拒判 | P={perception_risk:.2f}, U={uncertainty_index:.2%}, F={fatal_points_ratio:.2%}, H={high_blank_high_score}")
-        print(f"         🔍 [复核提示] {reason_log}")
+            reason_log = f"A3WA low_confidence_neg: mu={a3wa_decision['mu']:.3f} <= beta={a3wa_decision['beta']:.3f}"
+        print(f"      馃洃 [璺敱 -> NEG] 楂橀闄╂嫆鍒?| P={perception_risk:.2f}, U={uncertainty_index:.2%}, F={fatal_points_ratio:.2%}, H={high_blank_high_score}")
+        print(f"         馃攳 [澶嶆牳鎻愮ず] {reason_log}")
 
     elif boundary_domain:
         route = "BND"
         print(
-            f"      ⚠️ [路由 -> BND] 边界样本 | "
+            f"      鈿狅笍 [璺敱 -> BND] 杈圭晫鏍锋湰 | "
             f"P={perception_risk:.2f}, U={uncertainty_index:.2%}, F={fatal_points_ratio:.2%}, H={high_blank_high_score}, L={lenient_review_signal}"
         )
 
@@ -1147,8 +1176,8 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
                 risk_features["boundary_gate_accepted"] = boundary_gate["accepted"]
                 reason_log = parsed_agent.get("reason", parsed_agent.get("leniency_reason", ""))
                 print(
-                    f"         ✨ [Agent 仲裁] {arbitration_decision} | "
-                    f"原始仲裁分: {raw_agent_score} | 限幅后最终分: {final_score} | {reason_log}"
+                    f"         鉁?[Agent 浠茶] {arbitration_decision} | "
+                    f"鍘熷浠茶鍒? {raw_agent_score} | 闄愬箙鍚庢渶缁堝垎: {final_score} | {reason_log}"
                 )
             else:
                 arbitration_decision = "keep"
@@ -1174,9 +1203,9 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     else:
         route = "POS"
         final_score = selected_baseline_score
-        print(f"      ✅ [路由 -> POS] A3WA高可信自动接受，直接采信 selected_baseline_score={selected_baseline_score}。")
+        print(f"      [route -> POS] accept selected_baseline_score={selected_baseline_score}")
 
-    # 结果封装
+    # 缁撴灉灏佽
     ordered_result = {
         "student_id": student_id,
         "teacher_score": teacher_score,

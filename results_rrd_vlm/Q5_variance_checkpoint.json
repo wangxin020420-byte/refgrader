@@ -1,47 +1,742 @@
 [
     {
         "file": "E01914115_Q5.jpg",
-        "facts": "{\n  \"item_1\": \"未在图中找到明确表述\",\n  \"item_2\": \"254\",\n  \"item_3\": \"256\"\n}",
+        "facts": "{\"item_1\": \"2⁸×2⁶\", \"item_2\": \"4096条\", \"item_3\": \"2⁸=256\"}",
         "scores": [
-            5,
+            0,
             0,
             0
-        ]
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2⁸×2⁶",
+                        "expected_condition": "一地址总名额 = 4×64=256，即 2²×2⁶=2⁸=256",
+                        "dependency_status": "failed",
+                        "reason": "学生写的是 2⁸×2⁶=2¹⁴=16384，与正确公式 4×64=256（即2²×2⁶）完全不同，数值和关系均不匹配。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "4096条",
+                        "expected_condition": "一地址指令最多为 255 条",
+                        "dependency_status": "failed",
+                        "reason": "学生答案 4096 与正确答案 255 差距巨大，数值错误，且无正确推导过程支撑。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2⁸=256",
+                        "expected_condition": "零地址指令最多为 2×64=128 条",
+                        "dependency_status": "failed",
+                        "reason": "学生写的是 2⁸=256，与正确公式 2×64=128 完全不同，数值和关系均不匹配。"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2⁸×2⁶",
+                        "expected_condition": "一地址总名额 = 4×64 = 256",
+                        "dependency_status": "failed",
+                        "reason": "学生写的 2⁸×2⁶ = 256×64 = 16384，与评分标准要求的 4×64=256 完全不同。核心公式关系错误——应为剩余操作码数(4)乘以扩展倍数(64)，而学生使用了错误的256×64，导致数值和关系均不匹配。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "4096条",
+                        "expected_condition": "一地址指令最多为 255 条",
+                        "dependency_status": "failed",
+                        "reason": "学生回答4096条，与正确答案255条严重不符，数值完全错误，属于结论性错误。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2⁸=256",
+                        "expected_condition": "零地址指令最多为 2×64 = 128 条",
+                        "dependency_status": "failed",
+                        "reason": "学生写的 2⁸=256，与评分标准要求的 2×64=128 完全不同。公式关系和最终数值(256≠128)均不正确，且扩展方向有误。"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2⁸×2⁶",
+                        "expected_condition": "一地址总名额 = 4×64=256",
+                        "dependency_status": "failed",
+                        "reason": "Student's expression 2⁸×2⁶ equals 256×64=16384, not 256. The formula uses different operands (2⁸=256 instead of 4 as the first factor), computing a fundamentally different quantity. This is a wrong method, not a minor arithmetic slip."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "4096条",
+                        "expected_condition": "一地址指令最多为 255 条",
+                        "dependency_status": "failed",
+                        "reason": "Student's answer 4096 is drastically different from the expected 255. No compatible relationship exists; this is a wrong final conclusion."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2⁸=256",
+                        "expected_condition": "零地址指令最多为 2×64 = 128 条",
+                        "dependency_status": "failed",
+                        "reason": "Student's result 256 ≠ 128, and the formula 2⁸=256 is structurally different from the required 2×64=128. The computation targets a different quantity with a different relation."
+                    }
+                ],
+                "total_score": 0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_2": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_3": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ],
+            "item_2": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ],
+            "item_3": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0,
+            "item_3": 0.0
+        },
+        "max_item_variance": 0.0,
+        "avg_item_variance": 0.0
     },
     {
         "file": "E01914214_Q5.jpg",
-        "facts": "{\n  \"item_1\": \"16\",\n  \"item_2\": \"16\",\n  \"item_3\": \"256\"\n}",
+        "facts": "{\"item_1\": \"2⁶\", \"item_2\": \"16\", \"item_3\": \"2⁸=256\"}",
         "scores": [
-            0,
-            0,
-            0
-        ]
+            2,
+            1,
+            2.0
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "2⁶",
+                        "expected_condition": "一地址总名额 = 4×64=256 (formula showing total one-address slots)",
+                        "dependency_status": "insufficient",
+                        "reason": "Student wrote 2⁶ (=64), which is a correct component/operand used in the rubric formula 4×64=256, but the full formula (multiplication by 4 and result 256) is not shown. Partial credit for one valid intermediate value."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "16",
+                        "expected_condition": "一地址指令最多为 255 条 (maximum one-address instructions = 255)",
+                        "dependency_status": "failed",
+                        "reason": "Student wrote 16, which is numerically incorrect (expected 255 = 256−1). This is a wrong final answer with no supporting method or formula shown."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2⁸=256",
+                        "expected_condition": "零地址指令最多为2×64=128 条 (maximum zero-address instructions = 128)",
+                        "dependency_status": "failed",
+                        "reason": "Student wrote 2⁸=256, yielding 256 instead of the expected 128 (=2×64). The computation target is the zero-address instruction maximum, and 256 is the wrong value, contradicting the required result."
+                    }
+                ],
+                "total_score": 2
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 1,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "2⁶",
+                        "expected_condition": "一地址总名额 = 4×64=256",
+                        "dependency_status": "insufficient",
+                        "reason": "Student wrote '2⁶' (=64), which is a relevant component used in the formula 4×64=256, but does not show the actual formula, multiplication by 4, or the result 256. Only a partial computation trace of one sub-component; not sufficient for full formula credit."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "16",
+                        "expected_condition": "一地址指令最多为 255 条",
+                        "dependency_status": "failed",
+                        "reason": "Student answer is 16, which is fundamentally different from the correct value 255. This is a wrong numerical conclusion with no supporting formula shown."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2⁸=256",
+                        "expected_condition": "零地址指令最多为2×64= 128 条",
+                        "dependency_status": "failed",
+                        "reason": "Student wrote 2⁸=256, which computes a different quantity entirely. The rubric requires 2×64=128 for zero-address instructions. 2⁸=256 is mathematically true but is the wrong formula and wrong result (256 vs 128) for this item."
+                    }
+                ],
+                "total_score": 1
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "2⁶",
+                        "expected_condition": "一地址总名额 = 4×64=256, showing the formula and result for total one-address instruction slots",
+                        "dependency_status": "insufficient",
+                        "reason": "Student wrote 2⁶ (=64), which is a relevant sub-component of the formula (the 64 factor), but does not show the full relation 4×64=256 or the result 256. Partial process evidence only."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "16",
+                        "expected_condition": "一地址指令最多为 255 条",
+                        "dependency_status": "failed",
+                        "reason": "Student answer is 16; expected value is 255. This is a wrong final numeric answer with no coherent supporting relation."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2⁸=256",
+                        "expected_condition": "零地址指令最多为2×64= 128 条",
+                        "dependency_status": "failed",
+                        "reason": "Student wrote 2⁸=256; the rubric requires 2×64=128. The formula and result both differ (256 vs 128), indicating a wrong computation for the target quantity."
+                    }
+                ],
+                "total_score": 2.0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                2.0,
+                1.0,
+                2.0
+            ],
+            "item_2": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_3": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH",
+                "PARTIAL_MATCH"
+            ],
+            "item_2": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ],
+            "item_3": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.2222222222222222,
+            "item_2": 0.0,
+            "item_3": 0.0
+        },
+        "max_item_variance": 0.2222222222222222,
+        "avg_item_variance": 0.07407407407407407
     },
     {
         "file": "E01914290_Q5.jpg",
-        "facts": "{\n  \"item_1\": \"1011\",\n  \"item_2\": \"254\",\n  \"item_3\": \"758\"\n}",
+        "facts": "{\"item_1\": \"2¹⁰ -12 -1 = 1011条\", \"item_2\": \"1011\", \"item_3\": \"2¹² -12 -254= 758条\"}",
         "scores": [
             0,
             0,
             0
-        ]
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2¹⁰ -12 -1 = 1011条",
+                        "expected_condition": "一地址总名额 = 4×64 = 256，采用扩展操作码剩余前缀乘以扩展空间的方法",
+                        "dependency_status": "failed",
+                        "reason": "学生使用 2^10 - 12 - 1 = 1011 的扁平减法，概念上错误。正确方法应是 (16-12)×64 = 4×64 = 256，即剩余操作码前缀乘以地址扩展空间。学生的公式与方法均与扩展操作码的核心关系矛盾。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1011",
+                        "expected_condition": "一地址指令最多为 255 条（总名额 256 中保留 1 个用于零地址扩展）",
+                        "dependency_status": "failed",
+                        "reason": "最终数值 1011 与正确答案 255 不符，且来源于错误方法（item_1 的 SEMANTIC_FATAL 传播），无任何正确过程证据。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2¹² -12 -254= 758条",
+                        "expected_condition": "零地址指令最多为 2×64 = 128 条（剩余 2 个一地址前缀 × 6 位扩展 = 2×64）",
+                        "dependency_status": "failed",
+                        "reason": "学生使用 2^12 - 12 - 254 的扁平减法，方法根本性错误。正确方法为 (256-254)×64 = 2×64 = 128。且学生算术本身也不正确（4096-12-254=3830≠758）。公式、方法、数值均与扩展操作码乘法关系矛盾。"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2¹⁰ -12 -1 = 1011条",
+                        "expected_condition": "一地址总名额 = 4×64=256",
+                        "dependency_status": "failed",
+                        "reason": "The student writes 2^10 - 12 - 1 = 1011, which is an entirely different formula and yields a wrong value (1011 vs 256). The core relation (expansion slots = remaining_two_address_opcodes × 2^6) is absent and contradicted."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1011",
+                        "expected_condition": "一地址指令最多为 255 条",
+                        "dependency_status": "failed",
+                        "reason": "The student's final numeric answer is 1011, which is far from the expected 255. This is a wrong conclusion, not a minor arithmetic slip."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2¹² -12 -254= 758条",
+                        "expected_condition": "零地址指令最多为2×64= 128 条",
+                        "dependency_status": "failed",
+                        "reason": "The student writes 2^12 - 12 - 254 = 758, which uses a completely different expansion formula and yields 758 instead of the expected 128. The method and result both contradict the rubric."
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2¹⁰ -12 -1 = 1011条",
+                        "expected_condition": "一地址总名额 = 4×64=256 (total one-address instruction slots = 4×64 = 256)",
+                        "dependency_status": "failed",
+                        "reason": "The student's formula 2¹⁰−12−1=1011 computes an entirely different quantity using a different base (2¹⁰=1024) and different subtractions. It does not match the expected relation 4×64=256 in formula, value, or target quantity. This is a wrong method, not merely missing detail."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1011",
+                        "expected_condition": "一地址指令最多为 255 条 (max one-address instructions = 255)",
+                        "dependency_status": "failed",
+                        "reason": "The student's value 1011 is drastically different from the expected 255 (relative error far exceeds 10% tolerance). The value is derived from a wrong upstream computation and does not match the expected result."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "2¹² -12 -254= 758条",
+                        "expected_condition": "零地址指令最多为2×64= 128 条 (max zero-address instructions = 2×64 = 128)",
+                        "dependency_status": "failed",
+                        "reason": "The student's formula 2¹²−12−254=758 uses a completely different relation (2¹² base, subtracting 12 and 254) compared to the expected 2×64=128. Both the formula and final value are incompatible with the rubric's target quantity and core relation."
+                    }
+                ],
+                "total_score": 0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_2": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_3": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ],
+            "item_2": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ],
+            "item_3": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0,
+            "item_3": 0.0
+        },
+        "max_item_variance": 0.0,
+        "avg_item_variance": 0.0
     },
     {
         "file": "E02014181_Q5.jpg",
-        "facts": "{\"item_1\": \"未在图中找到明确表述\", \"item_2\": \"未在图中找到明确表述\", \"item_3\": \"未在图中找到明确表述\"}",
+        "facts": "{\"item_1\": \"未书写\", \"item_2\": \"未书写\", \"item_3\": \"未书写\"}",
         "scores": [
             0,
             0,
             0
-        ]
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "一地址总名额 = 4×64=256",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact indicates the student did not write anything for this item."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "一地址指令最多为 255 条",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact indicates the student did not write anything for this item."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "零地址指令最多为2×64= 128 条",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact indicates the student did not write anything for this item."
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "Calculates the total one-address quota as 4×64=256.",
+                        "dependency_status": "failed",
+                        "reason": "The extracted fact indicates the student did not write anything for this item."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "Concludes that the maximum number of one-address instructions is 255.",
+                        "dependency_status": "failed",
+                        "reason": "The extracted fact indicates the student did not write anything for this item."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "Calculates the maximum number of zero-address instructions as 2×64=128.",
+                        "dependency_status": "failed",
+                        "reason": "The extracted fact indicates the student did not write anything for this item."
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "一地址总名额 = 4×64=256",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact is blank; the student did not write the required content."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "一地址指令最多为 255 条",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact is blank; the student did not write the required content."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "零地址指令最多为2×64= 128 条",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted fact is blank; the student did not write the required content."
+                    }
+                ],
+                "total_score": 0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_2": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_3": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_2": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ],
+            "item_3": [
+                "BLANK",
+                "BLANK",
+                "BLANK"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0,
+            "item_3": 0.0
+        },
+        "max_item_variance": 0.0,
+        "avg_item_variance": 0.0
     },
     {
         "file": "E12214006_Q5.jpg",
-        "facts": "{\n  \"item_1\": \"3372\",\n  \"item_2\": \"254\",\n  \"item_3\": \"未在图中找到明确表述\"\n}",
+        "facts": "{\"item_1\": \"(2⁶-12)×2⁶=3372条\", \"item_2\": \"3372\", \"item_3\": \"(2⁶-12)×2⁶-254=3138条\"}",
         "scores": [
             0,
             0,
             0
-        ]
+        ],
+        "strict_cots": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "(2⁶-12)×2⁶=3372条",
+                        "expected_condition": "一地址总名额 = 4×64=256",
+                        "dependency_status": "failed",
+                        "reason": "学生式子 (64-12)×64 目标量与“一地址总名额”不符，且自身算术也错误（应为3328≠3372），与所要求的关系 4×64=256 矛盾。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "3372",
+                        "expected_condition": "一地址指令最多为 255 条",
+                        "dependency_status": "failed",
+                        "reason": "数值 3372 与正确结论 255 完全不符，属于结论性数值错误，无任何部分匹配证据。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "(2⁶-12)×2⁶-254=3138条",
+                        "expected_condition": "零地址指令最多为2×64= 128 条",
+                        "dependency_status": "failed",
+                        "reason": "公式与结果均与所要求的 零地址指令最多=2×64=128 矛盾；同时 (64-12)×64−254=3074≠3138，算术亦错误，方法针对的是不同的量。"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "(2⁶-12)×2⁶=3372条",
+                        "expected_condition": "一地址总名额 = 4×64=256",
+                        "dependency_status": "failed",
+                        "reason": "学生给出的公式 (2⁶-12)×2⁶=3372 与期望的 4×64=256 在目标量、关系和数值上均不一致，属于概念/方法性错误；且算术本身 (52×64=3328) 也不等于 3372。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "3372",
+                        "expected_condition": "一地址指令最多为 255 条",
+                        "dependency_status": "failed",
+                        "reason": "学生给出的数值 3372 与期望的 255 完全不符，且无任何公式或关系支持该数值，属于结论性错误。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "(2⁶-12)×2⁶-254=3138条",
+                        "expected_condition": "零地址指令最多为 2×64= 128 条",
+                        "dependency_status": "failed",
+                        "reason": "学生给出的公式 (2⁶-12)×2⁶-254 与期望的 2×64=128 在目标量、核心关系、量纲上均不匹配；且 (52×64-254=3074) 也不等于所写 3138，方法与结论均错误。"
+                    }
+                ],
+                "total_score": 0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "(2⁶-12)×2⁶=3372条",
+                        "expected_condition": "一地址总名额 = 4×64=256",
+                        "dependency_status": "failed",
+                        "reason": "The extracted formula uses incorrect base values and mathematical logic compared to the expected formula (4×64=256). It also computes an entirely different quantity."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "3372",
+                        "expected_condition": "一地址指令最多为 255 条",
+                        "dependency_status": "failed",
+                        "reason": "The provided numeric answer is 3372, which is completely incorrect and contradicts the expected value of 255."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "(2⁶-12)×2⁶-254=3138条",
+                        "expected_condition": "零地址指令最多为2×64= 128 条",
+                        "dependency_status": "failed",
+                        "reason": "The student provides a formula and result that are conceptually incorrect and fail to match the expected mapping of 2×64=128."
+                    }
+                ],
+                "total_score": 0
+            }
+        ],
+        "item_scores_history": {
+            "item_1": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_2": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "item_3": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "item_category_history": {
+            "item_1": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ],
+            "item_2": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ],
+            "item_3": [
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL",
+                "SEMANTIC_FATAL"
+            ]
+        },
+        "item_variance": {
+            "item_1": 0.0,
+            "item_2": 0.0,
+            "item_3": 0.0
+        },
+        "max_item_variance": 0.0,
+        "avg_item_variance": 0.0
     }
 ]

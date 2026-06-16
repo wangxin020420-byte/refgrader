@@ -1,5 +1,80 @@
 # RefGrader Latest Status
 
+## 2026-06-14 Generalized Rubric And 3WD Update
+
+Current paper-facing chain:
+
+```text
+official coarse rubric -> structured JSON rubric -> high-variance item diagnosis
+-> metadata-aware rubric refinement -> U_E/U_S/U_R primary risks -> A3WA route
+```
+
+Key implementation points:
+
+```text
+1. No teacher historical error signal is used to rewrite rubrics.
+2. High-variance samples are diagnostic evidence, not direct answer keys.
+3. Rubric refinement must classify the issue source first:
+   rubric_ambiguity, rubric_granularity, extraction_failure,
+   equivalent_representation_gap, or scoring_model_error.
+4. Only rubric_ambiguity and rubric_granularity may change rubric wording or split points.
+5. Extraction failure and equivalent-expression gaps can only add metadata:
+   answer_type, canonicalization, evidence_source, dependency_group,
+   source_text, parent_official_item.
+6. 3WD routing exposes three primary variables:
+   U_E = evidence quality risk,
+   U_S = score stability risk,
+   U_R = rubric adaptation risk.
+7. Route risk is R(x) = (U_E + U_S + U_R) / 3,
+   and confidence is mu(x) = 1 - R(x).
+```
+
+Updated files: `calibration_utils.py`, `main_pipeline.py`, `step3_rrd_generator.py`, `step4_vlm_grader.py`, and `evaluate.py`.
+
+Validation commands:
+
+```powershell
+python -m py_compile calibration_utils.py step4_vlm_grader.py main_pipeline.py step3_rrd_generator.py evaluate.py
+python evaluate.py --compare --questions Q2 Q3 --compare-score-keys single avg selected 3wd --compare-output outputs/q2_q3_primary_risk_compare.csv
+python scripts\replay_calibration.py --results-dir results_rrd_vlm --files results_rrd_vlm\Q2_grading_checkpoint.json results_rrd_vlm\Q3_grading_checkpoint.json
+```
+
+## 运行命令速查
+
+项目已经提供服务器后台运行脚本 `run_experiment.sh`。该脚本内部已经使用 `nohup` 启动 `main_pipeline.py`，因此在实验室服务器上不要再手动套一层 `nohup python main_pipeline.py ... &`。
+
+本地 Windows 只跑 Q2、Q3：
+
+```powershell
+python main_pipeline.py --mode FULL --questions Q2 Q3 --progress-file results_rrd_vlm\progress_q2_q3_local.json
+```
+
+实验室 Linux 服务器只跑 Q4、Q5：
+
+```bash
+cd /home/E125221219/projects/refgrader
+conda activate ref-grader
+./run_experiment.sh run --mode FULL --questions Q4 Q5 --progress-file results_rrd_vlm/progress_q4_q5_server.json
+```
+
+服务器管理命令：
+
+```bash
+./run_experiment.sh status
+./run_experiment.sh tail
+./run_experiment.sh stop
+python monitor.py --watch
+```
+
+题目选择优先级：
+
+```text
+1. 命令行 --questions 优先级最高，会覆盖 main_pipeline.py 中的 GRADING_CONFIG。
+2. 不传 --questions 时，FULL 模式使用 GRADING_CONFIG。
+3. 不传 --questions 时，VARIANCE_OPT 模式使用 VARIANCE_CONFIG。
+4. 本地和服务器同时跑不同题目时，建议使用不同 progress 文件。
+```
+
 ## 2026-06-06 Selected Baseline Update
 
 Read this section first. It records the latest code change after the Q6/Q7

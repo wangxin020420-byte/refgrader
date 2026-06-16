@@ -1,77 +1,128 @@
 [
     {
-        "id": "1",
-        "item": "物理地址 23 位（主存容量 8 MB = 2²³ B）",
-        "points": 2
+        "id": "item_1",
+        "item": "物理地址位数 23位",
+        "points": 2.0,
+        "answer_type": "derived_numeric",
+        "role": "parameter",
+        "canonicalization": "numeric",
+        "evidence_source": "text",
+        "source_text": "物理地址 23 位 ---------------2分",
+        "parent_official_item": "物理地址 23 位",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "2",
-        "item": "块内偏移：11 位（块大小 2 KB = 2¹¹ B）",
-        "points": 2
+        "id": "item_2",
+        "item": "块内偏移位数 11位",
+        "points": 2.0,
+        "answer_type": "derived_numeric",
+        "role": "parameter",
+        "canonicalization": "numeric",
+        "evidence_source": "text",
+        "source_text": "块内偏移：11 位 ---------------2分",
+        "parent_official_item": "块内偏移：11 位",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "3",
-        "item": "组号需要 4 位（Cache 总块数 32 块，2 路组相联，16 组 = 2⁴）",
-        "points": 2
+        "id": "item_3",
+        "item": "组号位数 4位",
+        "points": 2.0,
+        "answer_type": "derived_numeric",
+        "role": "parameter",
+        "canonicalization": "numeric",
+        "evidence_source": "text",
+        "source_text": "组号需要4位 ------2分",
+        "parent_official_item": "组号需要4位",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "4",
-        "item": "主存地址格式 [ 字块标记 8 位 | Cache 组号 4 位 | 块内偏移 11 位 ]",
-        "points": 2
+        "id": "item_4",
+        "item": "主存地址格式包含 [字块标记 8位 | Cache组号 4位 | 块内偏移 11位]",
+        "points": 2.0,
+        "answer_type": "formula",
+        "role": "intermediate",
+        "canonicalization": "formula",
+        "evidence_source": "formula",
+        "source_text": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ] ---------------2分",
+        "parent_official_item": "主存地址格式 [ 字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位 ]",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "5",
-        "item": "Cache 地址格式 [ Cache 组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
-        "points": 2
+        "id": "item_5",
+        "item": "Cache地址格式包含 [Cache组号 4位 | 组内块号 1位 | 块内偏移 11位]",
+        "points": 2.0,
+        "answer_type": "formula",
+        "role": "intermediate",
+        "canonicalization": "formula",
+        "evidence_source": "formula",
+        "source_text": "Cache地址格式 [  Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ] ---------------2分",
+        "parent_official_item": "Cache地址格式 [  Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位 ]",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "6",
-        "item": "地址2D07FFH的二进制表示为001011010000011111111111",
-        "points": 1
+        "id": "item_6_1",
+        "item": "地址2D07FFH的访问判断结果（未命中）",
+        "points": 2.0,
+        "answer_type": "judgement",
+        "role": "final",
+        "canonicalization": "semantic_text",
+        "evidence_source": "text",
+        "source_text": "地址 2D07FFH 访问判断及理由（未命中） ---------------5分",
+        "parent_official_item": "地址 2D07FFH 访问判断及理由（未命中）",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "7",
-        "item": "地址2D07FFH提取的标记位为01011010B",
-        "points": 1
+        "id": "item_6_2",
+        "item": "地址2D07FFH的字段分解与标记比对说明（如Tag=00101101，组号=0000，与块0标记不一致）",
+        "points": 3.0,
+        "answer_type": "method",
+        "role": "method",
+        "canonicalization": "semantic_text",
+        "evidence_source": "text",
+        "source_text": "地址 2D07FFH 访问判断及理由（未命中） ---------------5分",
+        "parent_official_item": "地址 2D07FFH 访问判断及理由（未命中）",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "8",
-        "item": "地址2D07FFH提取的组号为0000B",
-        "points": 1
+        "id": "item_7_1",
+        "item": "地址7F0057H的访问判断结果（命中）",
+        "points": 2.0,
+        "answer_type": "judgement",
+        "role": "final",
+        "canonicalization": "semantic_text",
+        "evidence_source": "text",
+        "source_text": "地址 7F0057H 访问判断及理由（命中） ---------------5分",
+        "parent_official_item": "地址 7F0057H 访问判断及理由（命中）",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     },
     {
-        "id": "9",
-        "item": "地址2D07FFH在Cache组0的块标记比较：标记01011010B与块2标记匹配",
-        "points": 1
-    },
-    {
-        "id": "10",
-        "item": "地址2D07FFH判断结果：未命中（块2不在组0的有效块中）",
-        "points": 1
-    },
-    {
-        "id": "11",
-        "item": "地址7F0057H的二进制表示为0111111100000000001010111",
-        "points": 1
-    },
-    {
-        "id": "12",
-        "item": "地址7F0057H提取的标记位为11111110B",
-        "points": 1
-    },
-    {
-        "id": "13",
-        "item": "地址7F0057H提取的组号为0000B",
-        "points": 1
-    },
-    {
-        "id": "14",
-        "item": "地址7F0057H在Cache组0的块标记比较：标记11111110B与块1或块3标记匹配",
-        "points": 1
-    },
-    {
-        "id": "15",
-        "item": "地址7F0057H判断结果：命中（标记11111110B在组0中存在）",
-        "points": 1
+        "id": "item_7_2",
+        "item": "地址7F0057H的字段分解与标记比对说明（如Tag=01111111，组号=0000，与表中标记比对）",
+        "points": 3.0,
+        "answer_type": "method",
+        "role": "method",
+        "canonicalization": "semantic_text",
+        "evidence_source": "text",
+        "source_text": "地址 7F0057H 访问判断及理由（命中） ---------------5分",
+        "parent_official_item": "地址 7F0057H 访问判断及理由（命中）",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0
     }
 ]

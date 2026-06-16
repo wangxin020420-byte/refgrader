@@ -24,6 +24,9 @@ RefGrader evaluation script.
   # 在同一张表中对比 single / avg / selected / 3wd 四种分数形式。
   python evaluate.py --compare --questions Q4 Q5 Q6 Q7 --compare-score-keys single avg selected 3wd
 
+  # 使用完整 checkpoint 口径评估，会纳入 NEG/rejected 样本，适合正式论文分析。
+  python evaluate.py --result-source checkpoint --compare --questions Q2 Q3 Q4 Q5 --compare-score-keys single avg selected 3wd
+
   # 将逐学生的 single / avg / selected / 3wd 对比结果导出为 CSV，便于人工分析。
   python evaluate.py --compare --questions Q6 Q7 --compare-score-keys single avg selected 3wd --compare-output outputs/q6_q7_compare.csv
 """
@@ -96,6 +99,7 @@ except ModuleNotFoundError:
 SCORES_MAP = {"Q1": 5, "Q2": 20, "Q3": 10, "Q4": 20, "Q5": 15, "Q6": 20, "Q7": 10}
 RESULTS_DIR = "./results_rrd_vlm"
 TEACHER_DB = "./database/teacher_scores.json"
+RESULT_SOURCE = "graded"
 
 SCORE_KEY_LABEL = {
     "final_calibrated_score": "3WD final score",
@@ -157,6 +161,11 @@ def normalize_score_keys(raw_keys, default_keys=COMPARE_SCORE_KEYS):
         valid = "single, avg, selected, 3wd"
         raise ValueError(f"Unsupported score key(s): {', '.join(invalid)}. Valid choices: {valid}")
     return tuple(normalized or default_keys)
+
+
+def result_path_for(q_id):
+    suffix = "grading_checkpoint" if RESULT_SOURCE == "checkpoint" else "graded_results"
+    return f"{RESULTS_DIR}/{q_id}_{suffix}.json"
 
 
 def load_teacher_scores():
@@ -223,7 +232,7 @@ def append_row_to_table(col_widths, cells):
 
 def compute_question_metrics(q_id, total_score, ts_db, score_key="final_calibrated_score"):
     """Compute metrics for one question and return (metrics, details) or None."""
-    path = f"{RESULTS_DIR}/{q_id}_graded_results.json"
+    path = result_path_for(q_id)
     with open(path, "r", encoding="utf-8") as f:
         results = json.load(f)
 
@@ -316,7 +325,7 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
     """Export per-student comparison among single, avg, selected baseline, and 3WD."""
     rows = []
     for q_id in questions:
-        path = f"{RESULTS_DIR}/{q_id}_graded_results.json"
+        path = result_path_for(q_id)
         try:
             with open(path, "r", encoding="utf-8") as f:
                 results = json.load(f)
@@ -348,6 +357,13 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
             gate = r.get("boundary_gate") or {}
             risk_features = r.get("risk_features") or {}
             post_calibration = r.get("post_calibration") or {}
+            primary_risks = (
+                post_calibration.get("primary_risks")
+                or post_calibration.get("three_way_primary_risks")
+                or {}
+            )
+            a3wa_decision = r.get("a3wa_decision") or {}
+            risk_components = a3wa_decision.get("risk_components") or {}
             rows.append({
                 "question": q_id,
                 "student_id": sid.split("_")[0],
@@ -390,6 +406,11 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
                 "baseline_score_source": r.get("baseline_score_source", ""),
                 "std_dev": r.get("std_dev", ""),
                 "blank_rate": r.get("blank_rate", ""),
+                "U_E": primary_risks.get("U_E", risk_features.get("U_E", risk_components.get("U_E", ""))),
+                "U_S": primary_risks.get("U_S", risk_features.get("U_S", risk_components.get("U_S", ""))),
+                "U_R": primary_risks.get("U_R", risk_features.get("U_R", risk_components.get("U_R", ""))),
+                "primary_risk": primary_risks.get("risk", risk_features.get("primary_risk", "")),
+                "primary_mu": primary_risks.get("mu", risk_features.get("primary_mu", "")),
                 "boundary_action": gate.get("action", ""),
             })
 
@@ -408,7 +429,8 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
         "final_gain_vs_avg", "final_gain_vs_single",
         "route", "baseline_serious_error", "risk_captured_by_route", "safe_pos",
         "task_type", "complex_derivation_task", "upper_consensus_eligible",
-        "baseline_policy", "baseline_score_source", "std_dev", "blank_rate", "boundary_action",
+        "baseline_policy", "baseline_score_source", "std_dev", "blank_rate",
+        "U_E", "U_S", "U_R", "primary_risk", "primary_mu", "boundary_action",
     ]
     with open(output_path, "w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -434,7 +456,7 @@ def collect_3wd_mechanism_records(questions, ts_db):
     """Collect records needed to evaluate 3WD routing and BND correction."""
     records = []
     for q_id in questions:
-        path = f"{RESULTS_DIR}/{q_id}_graded_results.json"
+        path = result_path_for(q_id)
         try:
             with open(path, "r", encoding="utf-8") as f:
                 results = json.load(f)
@@ -563,7 +585,7 @@ def print_boundary_gain_audit(questions, ts_db):
     top_worsened = []
 
     for q_id in questions:
-        path = f"{RESULTS_DIR}/{q_id}_graded_results.json"
+        path = result_path_for(q_id)
         try:
             with open(path, "r", encoding="utf-8") as f:
                 results = json.load(f)
@@ -712,7 +734,11 @@ def main():
                         ))
     parser.add_argument("--compare-output", default=None,
                         help="Optional CSV path for per-student single/avg/selected/3WD comparison")
+    parser.add_argument("--result-source", choices=["graded", "checkpoint"], default="graded",
+                        help="graded reads *_graded_results.json; checkpoint reads full *_grading_checkpoint.json")
     args = parser.parse_args()
+    global RESULT_SOURCE
+    RESULT_SOURCE = args.result_source
     try:
         compare_score_keys = normalize_score_keys(args.compare_score_keys)
     except ValueError as exc:
@@ -721,7 +747,7 @@ def main():
 
     ts_db = load_teacher_scores()
     label = SCORE_KEY_LABEL.get(score_key, score_key)
-    print(f"\n  Loaded teacher scores: {len(ts_db)} students | score field: {label}")
+    print(f"\n  Loaded teacher scores: {len(ts_db)} students | score field: {label} | result source: {RESULT_SOURCE}")
 
     all_metrics = []
     for q_id in args.questions:
@@ -754,7 +780,7 @@ def main():
     # Global metrics
     all_t, all_m = [], []
     for q_id in args.questions:
-        path = f"{RESULTS_DIR}/{q_id}_graded_results.json"
+        path = result_path_for(q_id)
         try:
             with open(path, "r", encoding="utf-8") as f:
                 results = json.load(f)
@@ -806,7 +832,7 @@ def main():
                     str(mt["high_over"]), str(mt["high_under"]),
                 ])
             # Collect global data.
-            path = f"{RESULTS_DIR}/{q_id}_graded_results.json"
+            path = result_path_for(q_id)
             try:
                 with open(path, "r", encoding="utf-8") as f:
                     results = json.load(f)

@@ -1,0 +1,41 @@
+{
+  "experiment": {
+    "run_id": "20260614_140235",
+    "mode": "VARIANCE_OPT",
+    "pid": 37632,
+    "status": "error",
+    "started_at": "2026-06-14T14:02:35.253195",
+    "last_updated": "2026-06-14T14:03:04.020146",
+    "model_provider": "glm5",
+    "vlm_model": "glm-4.6v",
+    "text_model": "glm-5.1",
+    "max_workers_outer": 2,
+    "cli_args": {
+      "mode": "VARIANCE_OPT",
+      "questions": [
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5"
+      ],
+      "force_rerun": true,
+      "img_limit": null,
+      "sample_size": 5
+    }
+  },
+  "questions": {
+    "Q2": {
+      "total_students": 5,
+      "completed": 0,
+      "failed": 0,
+      "remaining": 5,
+      "started_at": "2026-06-14T14:03:04.017856",
+      "last_student_at": null,
+      "eta_seconds": null,
+      "avg_seconds_per_student": null,
+      "route_distribution": {},
+      "current_errors": [],
+      "recent_completions": []
+    }
+  }
+}

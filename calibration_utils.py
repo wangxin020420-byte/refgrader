@@ -2313,7 +2313,7 @@ def apply_boundary_action_policy(
         strong_positive_evidence = (
             result_strong >= 0.65
             and method_evidence >= 0.70
-            and raise_evidence_score >= 0.45
+            and lower_evidence_score < 0.45
             and unsupported_high_score < 0.20
             and bare_answer_risk < 0.25
             and not direct_only_high_score
@@ -2359,7 +2359,7 @@ def apply_boundary_action_policy(
         strong_positive_evidence = (
             result_strong >= 0.65
             and method_evidence >= 0.70
-            and raise_evidence_score >= 0.45
+            and lower_evidence_score < 0.45
             and unsupported_high_score < 0.20
             and bare_answer_risk < 0.25
             and not direct_only_high_score

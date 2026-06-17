@@ -27,7 +27,9 @@ from step4_vlm_grader import (
 # ============================================================
 # 全局配置
 # ============================================================
-OUTPUT_DIR = "./results_rrd_vlm"
+DEFAULT_OUTPUT_DIR = "./results_rrd_vlm"
+OUTPUT_DIR = DEFAULT_OUTPUT_DIR
+RUBRIC_DIR = OUTPUT_DIR
 DATABASE_PATH = "./database/exam_database.json"
 
 # 全局变量，用于缓存加载的成绩单，避免每次都读文件
@@ -254,6 +256,14 @@ def parse_args():
         help="进度 JSON 文件路径 (默认: results_rrd_vlm/progress.json)",
     )
     parser.add_argument(
+        "--results-dir", default=None,
+        help="Result output directory. Default: results_rrd_vlm",
+    )
+    parser.add_argument(
+        "--rubric-dir", default=None,
+        help="Directory used to read Qx_rubric_standard.json files. Default: results-dir",
+    )
+    parser.add_argument(
         "--log-dir", default="logs",
         help="日志文件目录 (默认: logs)",
     )
@@ -271,6 +281,116 @@ def get_text_model_display():
     provider_map = {"glm": GLM_MODEL_NAME, "glm5": GLM5_MODEL_NAME, "deepseek": DEEPSEEK_MODEL_NAME}
     actual = provider_map.get(TEXT_MODEL_PROVIDER, "unknown")
     return f"{TEXT_MODEL_PROVIDER} -> {actual}"
+
+
+def question_output_paths(q_id):
+    return {
+        "checkpoint": os.path.join(OUTPUT_DIR, f"{q_id}_grading_checkpoint.json"),
+        "graded": os.path.join(OUTPUT_DIR, f"{q_id}_graded_results.json"),
+        "rejected": os.path.join(OUTPUT_DIR, f"{q_id}_rejected.json"),
+        "failed": os.path.join(OUTPUT_DIR, f"{q_id}_failed.json"),
+    }
+
+
+def load_json_list(path):
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, list) else []
+    except Exception:
+        logging.warning(f"[result hygiene] failed to read JSON list: {path}")
+        return []
+
+
+def save_json_list(path, data):
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
+
+
+def cleanup_question_outputs(q_id):
+    paths = question_output_paths(q_id)
+    removed = []
+    for key in ("checkpoint", "graded", "rejected", "failed"):
+        path = paths[key]
+        if os.path.exists(path):
+            os.remove(path)
+            removed.append(os.path.basename(path))
+    if removed:
+        logging.info(f"[force-rerun] cleaned old result files for {q_id}: {', '.join(removed)}")
+
+
+def make_failed_record(q_id, img_file, error_type, reason, attempts=2):
+    file_base_name = os.path.splitext(img_file)[0]
+    return {
+        "question_id": q_id,
+        "student_id": file_base_name,
+        "image_file": img_file,
+        "error_type": error_type,
+        "attempts": attempts,
+        "reason": str(reason),
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
+    }
+
+
+def validate_question_outputs(q_id, expected_count):
+    paths = question_output_paths(q_id)
+    checkpoint = load_json_list(paths["checkpoint"])
+    graded = load_json_list(paths["graded"])
+    rejected = load_json_list(paths["rejected"])
+    failed = load_json_list(paths["failed"])
+
+    def ids(records):
+        return {str(r.get("student_id", "")) for r in records if isinstance(r, dict) and r.get("student_id")}
+
+    checkpoint_ids = ids(checkpoint)
+    graded_ids = ids(graded)
+    rejected_ids = ids(rejected)
+    failed_ids = ids(failed)
+    overlap = graded_ids & rejected_ids
+    union = graded_ids | rejected_ids
+    missing_from_split = checkpoint_ids - union
+    extra_in_split = union - checkpoint_ids
+    accounted = len(checkpoint_ids) + len(failed_ids)
+
+    warnings = []
+    if overlap:
+        warnings.append(f"graded/rejected overlap={len(overlap)}")
+    if missing_from_split or extra_in_split:
+        warnings.append(
+            f"checkpoint/split mismatch: missing_from_split={len(missing_from_split)}, extra_in_split={len(extra_in_split)}"
+        )
+    if accounted != expected_count:
+        warnings.append(f"success+failed={accounted} != expected={expected_count}")
+
+    if warnings:
+        logging.warning(
+            f"[RESULT CONSISTENCY WARNING] {q_id}: "
+            f"checkpoint={len(checkpoint_ids)}, graded={len(graded_ids)}, "
+            f"rejected={len(rejected_ids)}, failed={len(failed_ids)}, expected={expected_count}; "
+            + "; ".join(warnings)
+        )
+    else:
+        logging.info(
+            f"[result consistency] {q_id}: checkpoint={len(checkpoint_ids)}, "
+            f"graded={len(graded_ids)}, rejected={len(rejected_ids)}, failed={len(failed_ids)}, expected={expected_count}"
+        )
+
+
+def rubric_path_for(q_id):
+    rubric_name = f"{q_id}_rubric_standard.json"
+    primary = os.path.join(RUBRIC_DIR, rubric_name)
+    if os.path.exists(primary):
+        return primary
+    fallback = os.path.join(DEFAULT_OUTPUT_DIR, rubric_name)
+    if os.path.abspath(primary) != os.path.abspath(fallback) and os.path.exists(fallback):
+        logging.warning(
+            f"[rubric fallback] {primary} not found; using existing rubric from {fallback}"
+        )
+        return fallback
+    return primary
 
 
 def get_teacher_score_from_your_database(student_id, q_id):
@@ -533,7 +653,7 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
     logging.info(f"\n🚀 [标准模式] 开始处理: {q_id}")
 
     # 1. 生成/读取标准
-    rubric_output_path = os.path.join(OUTPUT_DIR, f"{q_id}_rubric_standard.json")
+    rubric_output_path = rubric_path_for(q_id)
 
     try:
         with open(rubric_output_path, "r", encoding="utf-8") as f:
@@ -570,11 +690,12 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
         progress_tracker.register_question(q_id, len(image_files))
 
     # 断点续传：加载已完成的学生
-    checkpoint_path = os.path.join(OUTPUT_DIR, f"{q_id}_grading_checkpoint.json")
+    paths = question_output_paths(q_id)
+    checkpoint_path = paths["checkpoint"]
+    failed_path = paths["failed"]
     completed_ids = set()
-    if force_rerun and os.path.exists(checkpoint_path):
-        os.remove(checkpoint_path)
-        logging.info("🔄 [强制重跑] 已删除 checkpoint，从头开始批改。")
+    if force_rerun:
+        cleanup_question_outputs(q_id)
     if not force_rerun and os.path.exists(checkpoint_path):
         with open(checkpoint_path, "r", encoding="utf-8") as f:
             existing = json.load(f)
@@ -597,21 +718,24 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
         results_list = existing
         normal_results = [r for r in results_list if r.get('3wd_route') != 'NEG']
         rejected_results = [r for r in results_list if r.get('3wd_route') == 'NEG']
-        save_path = os.path.join(OUTPUT_DIR, f"{q_id}_graded_results.json")
-        with open(save_path, "w", encoding="utf-8") as f:
-            json.dump(normal_results, f, indent=4, ensure_ascii=False)
+        save_path = paths["graded"]
+        save_json_list(save_path, normal_results)
         if rejected_results:
-            rejected_path = os.path.join(OUTPUT_DIR, f"{q_id}_rejected.json")
-            with open(rejected_path, "w", encoding="utf-8") as f:
-                json.dump(rejected_results, f, indent=4, ensure_ascii=False)
+            rejected_path = paths["rejected"]
+            save_json_list(rejected_path, rejected_results)
             logging.info(f"💾 最终结果已保存: {save_path} ({len(normal_results)} 人) + {rejected_path} ({len(rejected_results)} 人)")
         else:
+            rejected_path = paths["rejected"]
+            if os.path.exists(rejected_path):
+                os.remove(rejected_path)
             logging.info(f"💾 最终结果已保存: {save_path} ({len(normal_results)} 人)")
+        validate_question_outputs(q_id, expected_count=len(all_target_files))
         if progress_tracker:
             progress_tracker.mark_question_done(q_id)
         return
 
     results_list = []
+    failed_results = load_json_list(failed_path) if not force_rerun else []
     total_count = 0
 
     # 预生成脱敏清单（同题共用，只调一次 API）
@@ -640,6 +764,18 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
                     blind_checklist=cached_blind_checklist,
                 )
 
+                if res and res.get("_pipeline_failed"):
+                    failure = make_failed_record(
+                        q_id,
+                        img_file,
+                        res.get("error_type", "empty_result"),
+                        res.get("reason", "pipeline returned a structured failure"),
+                        attempts=attempt + 1,
+                    )
+                    if progress_tracker:
+                        progress_tracker.record_error(q_id, pure_student_id, failure["reason"])
+                    return failure
+
                 if res:
                     eq = res.get('extraction_quality', 'unknown')
                     eq_icon = "🟢" if eq == "high" else ("🟡" if eq == "low" else "🔴")
@@ -663,9 +799,16 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
                     time.sleep(5)
 
         logging.error(f"❌ [最终失败] {file_base_name} | 两次尝试均失败，跳过。")
+        failure = make_failed_record(
+            q_id,
+            img_file,
+            "empty_result",
+            "pipeline returned no result after retry",
+            attempts=2,
+        )
         if progress_tracker:
-            progress_tracker.record_error(q_id, pure_student_id, "两次尝试均失败")
-        return None
+            progress_tracker.record_error(q_id, pure_student_id, failure["reason"])
+        return failure
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS_OUTER) as executor:
         futures = {executor.submit(process_one_student, f): f for f in image_files}
@@ -685,6 +828,24 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
                 import traceback
                 logging.error(f"❌ [主线程] future.result() 异常: {e}")
                 traceback.print_exc()
+                failed_record = make_failed_record(
+                    q_id,
+                    futures.get(future, "unknown"),
+                    "pipeline_exception",
+                    e,
+                    attempts=2,
+                )
+                failed_results.append(failed_record)
+                save_json_list(failed_path, failed_results)
+                continue
+
+            if result and result.get("error_type") and not result.get("3wd_route"):
+                failed_results.append(result)
+                save_json_list(failed_path, failed_results)
+                logging.error(
+                    f"[failed sample recorded] {result.get('student_id')} | "
+                    f"{result.get('error_type')}: {result.get('reason')}"
+                )
                 continue
 
             if result:
@@ -712,18 +873,21 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
     normal_results = [r for r in all_results if r.get('3wd_route') != 'NEG']
     rejected_results = [r for r in all_results if r.get('3wd_route') == 'NEG']
 
-    save_path = os.path.join(OUTPUT_DIR, f"{q_id}_graded_results.json")
-    with open(save_path, "w", encoding="utf-8") as f:
-        json.dump(normal_results, f, indent=4, ensure_ascii=False)
+    save_path = paths["graded"]
+    save_json_list(save_path, normal_results)
     logging.info(f"💾 正常批改结果已保存: {save_path} ({len(normal_results)} 人)")
 
     if rejected_results:
-        rejected_path = os.path.join(OUTPUT_DIR, f"{q_id}_rejected.json")
-        with open(rejected_path, "w", encoding="utf-8") as f:
-            json.dump(rejected_results, f, indent=4, ensure_ascii=False)
+        rejected_path = paths["rejected"]
+        save_json_list(rejected_path, rejected_results)
         logging.info(f"🛑 拒绝域结果已单独保存: {rejected_path} ({len(rejected_results)} 人)")
     else:
+        rejected_path = paths["rejected"]
+        if os.path.exists(rejected_path):
+            os.remove(rejected_path)
         logging.info("✅ 无拒绝域案例。")
+
+    validate_question_outputs(q_id, expected_count=len(all_target_files))
 
     if progress_tracker:
         progress_tracker.mark_question_done(q_id)
@@ -772,6 +936,10 @@ if __name__ == "__main__":
     # 解析终端参数（终端参数优先于上面配置区）
     # ==========================================
     args = parse_args()
+    if args.results_dir:
+        OUTPUT_DIR = args.results_dir
+    RUBRIC_DIR = args.rubric_dir or OUTPUT_DIR
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     # 1. 初始化日志系统
     log_file, run_id = setup_logging(log_dir=args.log_dir, run_id=args.run_id)
@@ -825,6 +993,8 @@ if __name__ == "__main__":
     logging.info(f"   题目范围: {[q['question_id'] for q in exam_data]}")
     logging.info(f"   文本模型: {get_text_model_display()}")
     logging.info(f"   并发数:   {MAX_WORKERS_OUTER}")
+    logging.info(f"   结果目录: {OUTPUT_DIR}")
+    logging.info(f"   Rubric目录: {RUBRIC_DIR}")
     logging.info(f"   进度文件: {progress_path}")
     logging.info(f"   日志文件: {log_file}")
 
@@ -841,6 +1011,8 @@ if __name__ == "__main__":
         "force_rerun": args.force_rerun if args.force_rerun else FORCE_RERUN,
         "img_limit": cli_img_limit,
         "sample_size": args.sample_size,
+        "results_dir": OUTPUT_DIR,
+        "rubric_dir": RUBRIC_DIR,
     }
     tracker = ProgressTracker(
         progress_path=progress_path,

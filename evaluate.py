@@ -27,6 +27,9 @@ RefGrader evaluation script.
   # 使用完整 checkpoint 口径评估，会纳入 NEG/rejected 样本，适合正式论文分析。
   python evaluate.py --result-source checkpoint --compare --questions Q2 Q3 Q4 Q5 --compare-score-keys single avg selected 3wd
 
+  # 指定结果目录评估独立 run。rubric-dir 参数保留用于 run 目录扩展；当前评估指标不依赖 rubric 文件。
+  python evaluate.py --results-dir results_runs/20260617_q4_verify --result-source checkpoint --questions Q4
+
   # 将逐学生的 single / avg / selected / 3wd 对比结果导出为 CSV，便于人工分析。
   python evaluate.py --compare --questions Q6 Q7 --compare-score-keys single avg selected 3wd --compare-output outputs/q6_q7_compare.csv
 """
@@ -98,6 +101,7 @@ except ModuleNotFoundError:
 
 SCORES_MAP = {"Q1": 5, "Q2": 20, "Q3": 10, "Q4": 20, "Q5": 15, "Q6": 20, "Q7": 10}
 RESULTS_DIR = "./results_rrd_vlm"
+RUBRIC_DIR = RESULTS_DIR
 TEACHER_DB = "./database/teacher_scores.json"
 RESULT_SOURCE = "graded"
 
@@ -165,7 +169,23 @@ def normalize_score_keys(raw_keys, default_keys=COMPARE_SCORE_KEYS):
 
 def result_path_for(q_id):
     suffix = "grading_checkpoint" if RESULT_SOURCE == "checkpoint" else "graded_results"
-    return f"{RESULTS_DIR}/{q_id}_{suffix}.json"
+    return os.path.join(RESULTS_DIR, f"{q_id}_{suffix}.json")
+
+
+def failed_path_for(q_id):
+    return os.path.join(RESULTS_DIR, f"{q_id}_failed.json")
+
+
+def load_failed_records(q_id):
+    path = failed_path_for(q_id)
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, list) else []
+    except Exception:
+        return []
 
 
 def load_teacher_scores():
@@ -692,6 +712,10 @@ def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_scor
         print()
         print("  Route distribution: " + " | ".join(f"{k}={v}" for k, v in sorted(route_counts.items())))
 
+    failed_records = load_failed_records(q_id)
+    if failed_records:
+        print(f"  Failed records: {len(failed_records)} (see {failed_path_for(q_id)})")
+
     if show_detail:
         print()
         det_w = [13, 6, 6, 7, 7, 6, 7, 7, 6]
@@ -713,6 +737,8 @@ def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_scor
 
 
 def main():
+    global RESULT_SOURCE, RESULTS_DIR, RUBRIC_DIR
+
     parser = argparse.ArgumentParser(description="RefGrader evaluation script")
     parser.add_argument("--questions", nargs="+", default=["Q4", "Q5", "Q6", "Q7"],
                         help="Questions to evaluate, e.g. Q6 Q7")
@@ -736,9 +762,14 @@ def main():
                         help="Optional CSV path for per-student single/avg/selected/3WD comparison")
     parser.add_argument("--result-source", choices=["graded", "checkpoint"], default="graded",
                         help="graded reads *_graded_results.json; checkpoint reads full *_grading_checkpoint.json")
+    parser.add_argument("--results-dir", default=RESULTS_DIR,
+                        help="Directory containing Qx result JSON files")
+    parser.add_argument("--rubric-dir", default=None,
+                        help="Reserved for run directories that keep rubrics elsewhere")
     args = parser.parse_args()
-    global RESULT_SOURCE
     RESULT_SOURCE = args.result_source
+    RESULTS_DIR = args.results_dir
+    RUBRIC_DIR = args.rubric_dir or RESULTS_DIR
     try:
         compare_score_keys = normalize_score_keys(args.compare_score_keys)
     except ValueError as exc:
@@ -747,7 +778,10 @@ def main():
 
     ts_db = load_teacher_scores()
     label = SCORE_KEY_LABEL.get(score_key, score_key)
-    print(f"\n  Loaded teacher scores: {len(ts_db)} students | score field: {label} | result source: {RESULT_SOURCE}")
+    print(
+        f"\n  Loaded teacher scores: {len(ts_db)} students | score field: {label} | "
+        f"result source: {RESULT_SOURCE} | results dir: {RESULTS_DIR}"
+    )
 
     all_metrics = []
     for q_id in args.questions:

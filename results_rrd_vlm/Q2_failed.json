@@ -1,0 +1,11 @@
+[
+    {
+        "question_id": "Q2",
+        "student_id": "E01914214_Q2",
+        "image_file": "E01914214_Q2.jpg",
+        "error_type": "stage2_failed",
+        "attempts": 1,
+        "reason": "all semantic grading probes failed or returned unparsable scores",
+        "timestamp": "2026-06-17T23:02:13"
+    }
+]

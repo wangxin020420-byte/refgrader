@@ -1,14 +1,14 @@
 [
     {
-        "student_id": "E12314105_Q2",
-        "teacher_score": 18.0,
+        "student_id": "E02014181_Q2",
+        "teacher_score": 15.0,
         "model_scores_history": [
+            10.0,
             2.0,
-            12.0,
             12.0
         ],
-        "model_avg_score": 8.7,
-        "selected_baseline_score": 8.7,
+        "model_avg_score": 8.0,
+        "selected_baseline_score": 8.0,
         "baseline_policy": "model_avg",
         "baseline_score_source": "model_avg_score",
         "baseline_selection_signals": {
@@ -21,51 +21,51 @@
             "low_score_undercredit_upper_candidate": false,
             "high_over_unsafe": true,
             "high_score_safety_review": false,
-            "extraction_risk": 0.235,
+            "extraction_risk": 0.155,
             "structure_missing_rate": 0.5,
             "suspicious_extraction_rate": 0.9,
             "score_history_min": 2.0,
             "score_history_max": 12.0,
-            "score_history_median": 12.0,
+            "score_history_median": 10.0,
             "raise_cap": 0.0,
             "score_spread_ratio": 0.5,
-            "selected_ratio": 0.435
+            "selected_ratio": 0.4
         },
-        "std_dev": 4.714,
-        "blank_rate": 0.4,
-        "perception_failure_rate": 0.0,
+        "std_dev": 4.3205,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.4,
         "low_quality_extraction_rate": 0.0,
         "structure_missing_rate": 0.5,
         "suspicious_extraction_rate": 0.9,
-        "extraction_risk": 0.235,
-        "extraction_quality": "low",
-        "real_diff": 9.3,
+        "extraction_risk": 0.155,
+        "extraction_quality": "high",
+        "real_diff": 7.0,
         "3wd_route": "NEG",
-        "final_calibrated_score": 8.7,
+        "final_calibrated_score": 8.0,
         "requires_human_arbitration": true,
-        "perception_risk": 0.47,
-        "uncertainty_index": 0.2357,
-        "fatal_points_ratio": 0.1667,
+        "perception_risk": 2.0,
+        "uncertainty_index": 0.216,
+        "fatal_points_ratio": 0.0,
         "high_blank_high_score": false,
-        "lenient_review_signal": false,
+        "lenient_review_signal": true,
         "risk_features": {
-            "perception_risk": 0.47,
-            "uncertainty_index": 0.2357,
-            "fatal_points_ratio": 0.1667,
+            "perception_risk": 2.0,
+            "uncertainty_index": 0.216,
+            "fatal_points_ratio": 0.0,
             "high_blank_high_score": false,
-            "lenient_review_signal": false,
+            "lenient_review_signal": true,
             "reject_domain": true,
             "boundary_domain": false,
-            "std_ratio": 0.2357,
+            "std_ratio": 0.216,
             "spread_ratio": 0.5,
-            "avg_ratio": 0.435,
+            "avg_ratio": 0.4,
             "score_spread": 10.0,
-            "blank_rate": 0.4,
+            "blank_rate": 0.0,
             "low_quality_rate": 0.0,
-            "perception_failure_rate": 0.0,
+            "perception_failure_rate": 0.4,
             "structure_missing_rate": 0.5,
             "suspicious_extraction_rate": 0.9,
-            "extraction_risk": 0.235,
+            "extraction_risk": 0.155,
             "partial_match_points_ratio": 0.0,
             "format_minor_points_ratio": 0.0,
             "U_E": 0.65,
@@ -77,17 +77,17 @@
             "method_final_verified_ratio": 0.0,
             "direct_points_ratio": 0.0,
             "direct_awarded_ratio": 0.0,
-            "result_correctness_signal": 0.6,
-            "result_strong_signal": 0.6,
-            "method_evidence_signal": 0.6,
+            "result_correctness_signal": 0.5,
+            "result_strong_signal": 0.5,
+            "method_evidence_signal": 0.5,
             "partial_or_format_points_ratio": 0.0,
-            "bare_answer_risk": 0.24,
-            "lenient_undercredit_signal": 0.1758,
+            "bare_answer_risk": 0.25,
+            "lenient_undercredit_signal": 0.1324,
             "unsupported_high_score_risk": 0.0,
             "metadata_coverage": 1.0,
             "explicit_chain_coverage": 0.0,
             "core_anchor_failed": false,
-            "visual_blank_review": true,
+            "visual_blank_review": false,
             "structure_missing_review": true,
             "weak_result_high_score_review": false,
             "stable_undercredit_review": true,
@@ -126,15 +126,13 @@
                 }
             },
             "calibration_rule_hits": [
-                "visual_blank_review",
                 "lenient_undercredit_review",
                 "stable_undercredit_review",
                 "result_anchored_undercredit_review",
-                "structure_missing_review",
-                "extraction_retry_review"
+                "structure_missing_review"
             ],
-            "model_avg_ratio": 0.435,
-            "selected_baseline_score": 8.7,
+            "model_avg_ratio": 0.4,
+            "selected_baseline_score": 8.0,
             "baseline_policy": "model_avg",
             "baseline_score_source": "model_avg_score",
             "baseline_selection_signals": {
@@ -147,15 +145,15 @@
                 "low_score_undercredit_upper_candidate": false,
                 "high_over_unsafe": true,
                 "high_score_safety_review": false,
-                "extraction_risk": 0.235,
+                "extraction_risk": 0.155,
                 "structure_missing_rate": 0.5,
                 "suspicious_extraction_rate": 0.9,
                 "score_history_min": 2.0,
                 "score_history_max": 12.0,
-                "score_history_median": 12.0,
+                "score_history_median": 10.0,
                 "raise_cap": 0.0,
                 "score_spread_ratio": 0.5,
-                "selected_ratio": 0.435
+                "selected_ratio": 0.4
             },
             "high_score_safety_review": false,
             "a3wa_risk": 0.766667,
@@ -169,15 +167,15 @@
                 "U_E": 0.65,
                 "U_S": 1.0,
                 "U_R": 0.65,
-                "U_extract": 0.235,
-                "U_score": 0.46785,
+                "U_extract": 0.155,
+                "U_score": 0.458013,
                 "U_semantic": 0.0,
-                "U_blank": 0.4,
-                "U_overcredit": 0.1044,
+                "U_blank": 0.0,
+                "U_overcredit": 0.1,
                 "U_structure_missing": 0.5,
-                "L_lenient_undercredit": 0.1758,
+                "L_lenient_undercredit": 0.1324,
                 "U_unsupported_high_score": 0.0,
-                "normalized_std": 0.2357,
+                "normalized_std": 0.216025,
                 "score_spread_norm": 0.5
             }
         },
@@ -189,12 +187,12 @@
             "method_final_verified_ratio": 0.0,
             "direct_points_ratio": 0.0,
             "direct_awarded_ratio": 0.0,
-            "result_correctness_signal": 0.6,
-            "result_strong_signal": 0.6,
-            "method_evidence_signal": 0.6,
+            "result_correctness_signal": 0.5,
+            "result_strong_signal": 0.5,
+            "method_evidence_signal": 0.5,
             "partial_or_format_points_ratio": 0.0,
-            "bare_answer_risk": 0.24,
-            "lenient_undercredit_signal": 0.1758,
+            "bare_answer_risk": 0.25,
+            "lenient_undercredit_signal": 0.1324,
             "unsupported_high_score_risk": 0.0,
             "metadata_coverage": 1.0,
             "explicit_chain_coverage": 0.0,
@@ -239,12 +237,12 @@
             "stable_undercredit_review": true,
             "result_anchored_undercredit_review": true,
             "direct_only_high_score_risk": false,
-            "extraction_retry_review": true,
+            "extraction_retry_review": false,
             "structure_missing_review": true,
             "structure_missing_rate": 0.5,
             "suspicious_extraction_rate": 0.9,
-            "extraction_risk": 0.235,
-            "extraction_quality": "low",
+            "extraction_risk": 0.155,
+            "extraction_quality": "high",
             "primary_risks": {
                 "U_E": 0.65,
                 "U_S": 1.0,
@@ -277,7 +275,7 @@
                         "points": 2.0,
                         "evidence_quality": 0.5,
                         "rubric_adaptation": 0.5,
-                        "majority_category": "MATCH",
+                        "majority_category": "BLANK",
                         "answer_type": "bit_vector",
                         "canonicalization": "bit_vector"
                     },
@@ -378,6 +376,1818 @@
                         "points": 2.0,
                         "evidence_quality": 0.5,
                         "rubric_adaptation": 0.5,
+                        "majority_category": "BLANK",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_4",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_5",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_6",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "points": 2.0,
+                        "evidence_quality": 0.0,
+                        "rubric_adaptation": 0.0,
+                        "majority_category": "BLANK",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "points": 2.0,
+                        "evidence_quality": 0.0,
+                        "rubric_adaptation": 0.0,
+                        "majority_category": "BLANK",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "points": 2.0,
+                        "evidence_quality": 0.0,
+                        "rubric_adaptation": 0.0,
+                        "majority_category": "BLANK",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "points": 2.0,
+                        "evidence_quality": 0.0,
+                        "rubric_adaptation": 0.0,
+                        "majority_category": "BLANK",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    }
+                ]
+            },
+            "visual_blank_review": false,
+            "boundary_domain": true,
+            "reject_domain": false,
+            "fatal_ratio": 0.0,
+            "lower_bound": 0.0,
+            "upper_bound": 20.0,
+            "rule_hits": [
+                "lenient_undercredit_review",
+                "stable_undercredit_review",
+                "result_anchored_undercredit_review",
+                "structure_missing_review"
+            ],
+            "selected_baseline_score": 8.0,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "task_type": "algorithmic_or_mapping",
+                "final_answer_weight_high": true,
+                "concentrated_result_weight": true,
+                "upper_consensus_ready": false,
+                "low_score_undercredit_upper_candidate": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "extraction_risk": 0.155,
+                "structure_missing_rate": 0.5,
+                "suspicious_extraction_rate": 0.9,
+                "score_history_min": 2.0,
+                "score_history_max": 12.0,
+                "score_history_median": 10.0,
+                "raise_cap": 0.0,
+                "score_spread_ratio": 0.5,
+                "selected_ratio": 0.4
+            },
+            "score_history_max": 12.0,
+            "score_history_median": 10.0,
+            "score_history_min": 2.0,
+            "high_score_safety_review": false
+        },
+        "a3wa_decision": {
+            "route": "NEG",
+            "reason": "hard_neg:large_score_spread",
+            "hard_neg_reasons": [
+                "large_score_spread"
+            ],
+            "risk": 0.766667,
+            "confidence": 0.233333,
+            "mu": 0.233333,
+            "alpha": 0.828571,
+            "beta": 0.285714,
+            "m": 0.4,
+            "lambda1": 5.0,
+            "lambda2": 2.0,
+            "mu1": 2.0,
+            "mu2": 5.0,
+            "risk_components": {
+                "U_E": 0.65,
+                "U_S": 1.0,
+                "U_R": 0.65,
+                "U_extract": 0.155,
+                "U_score": 0.458013,
+                "U_semantic": 0.0,
+                "U_blank": 0.0,
+                "U_overcredit": 0.1,
+                "U_structure_missing": 0.5,
+                "L_lenient_undercredit": 0.1324,
+                "U_unsupported_high_score": 0.0,
+                "normalized_std": 0.216025,
+                "score_spread_norm": 0.5
+            },
+            "score_spread": 10.0
+        },
+        "boundary_gate": null,
+        "arbitration_decision": "accept",
+        "reason_log": "A3WA hard_neg: large_score_spread",
+        "human_review_hint": "A3WA hard_neg: large_score_spread",
+        "facts": "{\n  \"item_1\": \"A > D > C > E > B\",\n  \"item_2\": \"DCEB\",\n  \"item_3\": \"无\",\n  \"item_4\": \"EB\",\n  \"item_5\": \"CEB\",\n  \"item_6\": \"B\",\n  \"item_7_1\": \"字迹模糊\",\n  \"item_7_2\": \"字迹模糊\",\n  \"item_7_3\": \"字迹模糊\",\n  \"item_7_4\": \"字迹模糊\"\n}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "item_1",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "A > D > C > E > B",
+                    "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生给出的优先级顺序与标准答案完全一致。"
+                },
+                {
+                    "id": "item_2",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "DCEB",
+                    "expected_condition": "A级中断屏蔽字为11111（或等价表述为A级中断屏蔽B、C、D、E所有其他级中断）",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生列出D、C、E、B四个被屏蔽的中断，等价于A级屏蔽所有其它级中断（11111），符合rubric允许的等价表述。"
+                },
+                {
+                    "id": "item_3",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "evidence_text": "无",
+                    "expected_condition": "B级中断屏蔽字为01000",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生答案为“无”，未提供B级屏蔽字信息。"
+                },
+                {
+                    "id": "item_4",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "EB",
+                    "expected_condition": "C级中断屏蔽字为01101（或等价表述为C级屏蔽B、E级）",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生列出E、B两个被屏蔽的中断，等价于C级屏蔽B、E级，符合rubric允许的等价表述。"
+                },
+                {
+                    "id": "item_5",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "CEB",
+                    "expected_condition": "D级中断屏蔽字为01111（或等价表述为D级屏蔽B、C、E级）",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生列出C、E、B三个被屏蔽的中断，等价于D级屏蔽B、C、E级，符合rubric允许的等价表述。"
+                },
+                {
+                    "id": "item_6",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "B",
+                    "expected_condition": "E级中断屏蔽字为01001（或等价表述为E级屏蔽B级）",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生列出B，等价于E级仅屏蔽B级，符合rubric允许的等价表述。"
+                },
+                {
+                    "id": "item_7_1",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "evidence_text": "字迹模糊",
+                    "expected_condition": "顺序图中同时出现A、B、C请求时优先响应并执行A级中断服务程序",
+                    "dependency_status": "not_applicable",
+                    "reason": "图示内容字迹模糊，无法辨识，按未作答处理。"
+                },
+                {
+                    "id": "item_7_2",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "evidence_text": "字迹模糊",
+                    "expected_condition": "顺序图中A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                    "dependency_status": "not_applicable",
+                    "reason": "图示内容字迹模糊，无法辨识，按未作答处理。"
+                },
+                {
+                    "id": "item_7_3",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "evidence_text": "字迹模糊",
+                    "expected_condition": "顺序图中D级中断服务程序执行完毕后正确返回C级中断或断点",
+                    "dependency_status": "not_applicable",
+                    "reason": "图示内容字迹模糊，无法辨识，按未作答处理。"
+                },
+                {
+                    "id": "item_7_4",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "evidence_text": "字迹模糊",
+                    "expected_condition": "顺序图中后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                    "dependency_status": "not_applicable",
+                    "reason": "图示内容字迹模糊，无法辨识，按未作答处理。"
+                }
+            ],
+            "total_score": 10.0
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A > D > C > E > B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生给出的优先级顺序与标准答案完全一致。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "DCEB",
+                        "expected_condition": "A级中断屏蔽字为11111（或等价表述为A级中断屏蔽B、C、D、E所有其他级中断）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生列出D、C、E、B四个被屏蔽的中断，等价于A级屏蔽所有其它级中断（11111），符合rubric允许的等价表述。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "无",
+                        "expected_condition": "B级中断屏蔽字为01000",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生答案为“无”，未提供B级屏蔽字信息。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "EB",
+                        "expected_condition": "C级中断屏蔽字为01101（或等价表述为C级屏蔽B、E级）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生列出E、B两个被屏蔽的中断，等价于C级屏蔽B、E级，符合rubric允许的等价表述。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "CEB",
+                        "expected_condition": "D级中断屏蔽字为01111（或等价表述为D级屏蔽B、C、E级）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生列出C、E、B三个被屏蔽的中断，等价于D级屏蔽B、C、E级，符合rubric允许的等价表述。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "B",
+                        "expected_condition": "E级中断屏蔽字为01001（或等价表述为E级屏蔽B级）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生列出B，等价于E级仅屏蔽B级，符合rubric允许的等价表述。"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "字迹模糊",
+                        "expected_condition": "顺序图中同时出现A、B、C请求时优先响应并执行A级中断服务程序",
+                        "dependency_status": "not_applicable",
+                        "reason": "图示内容字迹模糊，无法辨识，按未作答处理。"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "字迹模糊",
+                        "expected_condition": "顺序图中A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                        "dependency_status": "not_applicable",
+                        "reason": "图示内容字迹模糊，无法辨识，按未作答处理。"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "字迹模糊",
+                        "expected_condition": "顺序图中D级中断服务程序执行完毕后正确返回C级中断或断点",
+                        "dependency_status": "not_applicable",
+                        "reason": "图示内容字迹模糊，无法辨识，按未作答处理。"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "字迹模糊",
+                        "expected_condition": "顺序图中后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "not_applicable",
+                        "reason": "图示内容字迹模糊，无法辨识，按未作答处理。"
+                    }
+                ],
+                "total_score": 10.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A > D > C > E > B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B（或写作A>D>C>E>B）",
+                        "dependency_status": "satisfied",
+                        "reason": "学生提取的答案完全符合标准答案中的中断处理优先级顺序。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0.0,
+                        "error_category": "BLANK",
+                        "evidence_text": "DCEB",
+                        "expected_condition": "A级中断屏蔽字为11111",
+                        "dependency_status": "failed",
+                        "reason": "提取的内容为字母组合，未提供题目要求的二进制屏蔽字信息，无法匹配。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0.0,
+                        "error_category": "BLANK",
+                        "evidence_text": "无",
+                        "expected_condition": "B级中断屏蔽字为01000",
+                        "dependency_status": "failed",
+                        "reason": "学生作答为“无”，未提供任何有效数值。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0.0,
+                        "error_category": "BLANK",
+                        "evidence_text": "EB",
+                        "expected_condition": "C级中断屏蔽字为01101",
+                        "dependency_status": "failed",
+                        "reason": "提取的内容为字母组合，未提供题目要求的二进制屏蔽字信息，无法匹配。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0.0,
+                        "error_category": "BLANK",
+                        "evidence_text": "CEB",
+                        "expected_condition": "D级中断屏蔽字为01111",
+                        "dependency_status": "failed",
+                        "reason": "提取的内容为字母组合，未提供题目要求的二进制屏蔽字信息，无法匹配。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0.0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B",
+                        "expected_condition": "E级中断屏蔽字为01001",
+                        "dependency_status": "failed",
+                        "reason": "提取的内容为单个字母，未提供题目要求的二进制屏蔽字信息，无法匹配。"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "score_given": 0.0,
+                        "error_category": "BLANK",
+                        "evidence_text": "字迹模糊",
+                        "expected_condition": "同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                        "dependency_status": "failed",
+                        "reason": "作答字迹模糊，无法辨认相关作图内容。"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "score_given": 0.0,
+                        "error_category": "BLANK",
+                        "evidence_text": "字迹模糊",
+                        "expected_condition": "顺序图中，A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                        "dependency_status": "failed",
+                        "reason": "作答字迹模糊，无法辨认相关作图内容。"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "score_given": 0.0,
+                        "error_category": "BLANK",
+                        "evidence_text": "字迹模糊",
+                        "expected_condition": "顺序图中，D级中断服务程序执行完毕后正确返回C级中断或断点",
+                        "dependency_status": "failed",
+                        "reason": "作答字迹模糊，无法辨认相关作图内容。"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "score_given": 0.0,
+                        "error_category": "BLANK",
+                        "evidence_text": "字迹模糊",
+                        "expected_condition": "顺序图中，后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "failed",
+                        "reason": "作答字迹模糊，无法辨认相关作图内容。"
+                    }
+                ],
+                "total_score": 2.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A > D > C > E > B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B（或A>D>C>E>B）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生写出的优先级顺序 A>D>C>E>B 与标准答案完全一致。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "DCEB",
+                        "expected_condition": "A级中断屏蔽字为11111，即A级屏蔽B、C、D、E所有其他级中断",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生用列表形式写出A级屏蔽D、C、E、B（即所有其他级），与11111等价，评分标准明确允许等价表述。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "无",
+                        "expected_condition": "B级中断屏蔽字为01000，即B级仅屏蔽自身，不屏蔽其它中断",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生写\"无\"表示B级不屏蔽任何其他中断，仅屏蔽自身，与01000等价。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "EB",
+                        "expected_condition": "C级中断屏蔽字为01101，即C级屏蔽B、E级",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生写出C级屏蔽E、B，与标准答案C屏蔽B、E完全一致，仅顺序不同。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "CEB",
+                        "expected_condition": "D级中断屏蔽字为01111，即D级屏蔽B、C、E级",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生写出D级屏蔽C、E、B，与标准答案D屏蔽B、C、E完全一致，仅顺序不同。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "B",
+                        "expected_condition": "E级中断屏蔽字为01001，即E级屏蔽B级",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生写出E级屏蔽B，与标准答案完全一致。"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "字迹模糊",
+                        "expected_condition": "顺序图中同时出现A、B、C请求时优先响应并执行A级中断服务程序",
+                        "dependency_status": "failed",
+                        "reason": "图中对应内容字迹模糊，无法辨识学生是否正确绘制，按BLANK处理。"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "字迹模糊",
+                        "expected_condition": "A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                        "dependency_status": "failed",
+                        "reason": "图中对应内容字迹模糊，无法辨识，按BLANK处理。"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "字迹模糊",
+                        "expected_condition": "D级中断服务程序执行完毕后正确返回C级中断或断点",
+                        "dependency_status": "failed",
+                        "reason": "图中对应内容字迹模糊，无法辨识，按BLANK处理。"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "字迹模糊",
+                        "expected_condition": "后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "failed",
+                        "reason": "图中对应内容字迹模糊，无法辨识，按BLANK处理。"
+                    }
+                ],
+                "total_score": 12.0
+            }
+        ]
+    },
+    {
+        "student_id": "E12314041_Q2",
+        "teacher_score": 18.0,
+        "model_scores_history": [
+            9.4,
+            6.0,
+            13.4
+        ],
+        "model_avg_score": 9.6,
+        "selected_baseline_score": 9.6,
+        "baseline_policy": "model_avg",
+        "baseline_score_source": "model_avg_score",
+        "baseline_selection_signals": {
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": false,
+            "task_type": "algorithmic_or_mapping",
+            "final_answer_weight_high": true,
+            "concentrated_result_weight": true,
+            "upper_consensus_ready": false,
+            "low_score_undercredit_upper_candidate": false,
+            "high_over_unsafe": true,
+            "high_score_safety_review": false,
+            "extraction_risk": 0.0,
+            "structure_missing_rate": 0.0,
+            "suspicious_extraction_rate": 0.0,
+            "score_history_min": 6.0,
+            "score_history_max": 13.4,
+            "score_history_median": 9.4,
+            "raise_cap": 0.0,
+            "score_spread_ratio": 0.37,
+            "selected_ratio": 0.48
+        },
+        "std_dev": 3.0243,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "structure_missing_rate": 0.0,
+        "suspicious_extraction_rate": 0.0,
+        "extraction_risk": 0.0,
+        "extraction_quality": "high",
+        "real_diff": 8.4,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 9.6,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.0,
+        "uncertainty_index": 0.1512,
+        "fatal_points_ratio": 0.4,
+        "high_blank_high_score": false,
+        "lenient_review_signal": true,
+        "risk_features": {
+            "perception_risk": 0.0,
+            "uncertainty_index": 0.1512,
+            "fatal_points_ratio": 0.4,
+            "high_blank_high_score": false,
+            "lenient_review_signal": true,
+            "reject_domain": true,
+            "boundary_domain": false,
+            "std_ratio": 0.1512,
+            "spread_ratio": 0.37,
+            "avg_ratio": 0.48,
+            "score_spread": 7.4,
+            "blank_rate": 0.0,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "structure_missing_rate": 0.0,
+            "suspicious_extraction_rate": 0.0,
+            "extraction_risk": 0.0,
+            "partial_match_points_ratio": 0.1,
+            "format_minor_points_ratio": 0.1,
+            "U_E": 0.0,
+            "U_S": 1.0,
+            "U_R": 0.0,
+            "primary_risk": 0.333333,
+            "primary_mu": 0.666667,
+            "unsupported_match_points_ratio": 0.0,
+            "method_final_verified_ratio": 0.0,
+            "direct_points_ratio": 0.0,
+            "direct_awarded_ratio": 0.0,
+            "result_correctness_signal": 0.6,
+            "result_strong_signal": 0.4,
+            "method_evidence_signal": 0.6,
+            "partial_or_format_points_ratio": 0.3,
+            "bare_answer_risk": 0.24,
+            "lenient_undercredit_signal": 0.1348,
+            "unsupported_high_score_risk": 0.0,
+            "metadata_coverage": 1.0,
+            "explicit_chain_coverage": 0.0,
+            "core_anchor_failed": false,
+            "visual_blank_review": false,
+            "structure_missing_review": false,
+            "weak_result_high_score_review": false,
+            "stable_undercredit_review": true,
+            "direct_only_high_score_risk": false,
+            "task_type": "algorithmic_or_mapping",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": false,
+            "rubric_task_profile": {
+                "task_type": "algorithmic_or_mapping",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "calculation_or_derivation": false,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 1.0,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 0.0,
+                "visual_sequence_points_ratio": 0.5,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "max_item_points_ratio": 0.1,
+                "small_item_ratio": 1.0,
+                "fragmented_rubric": true,
+                "concentrated_result_weight": true,
+                "answer_type_counts": {
+                    "sequence": 1,
+                    "bit_vector": 5,
+                    "diagram_ocr": 4
+                },
+                "answer_type_points": {
+                    "sequence": 2.0,
+                    "bit_vector": 10.0,
+                    "diagram_ocr": 8.0
+                }
+            },
+            "calibration_rule_hits": [
+                "lenient_undercredit_review",
+                "stable_undercredit_review"
+            ],
+            "model_avg_ratio": 0.48,
+            "selected_baseline_score": 9.6,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "task_type": "algorithmic_or_mapping",
+                "final_answer_weight_high": true,
+                "concentrated_result_weight": true,
+                "upper_consensus_ready": false,
+                "low_score_undercredit_upper_candidate": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "extraction_risk": 0.0,
+                "structure_missing_rate": 0.0,
+                "suspicious_extraction_rate": 0.0,
+                "score_history_min": 6.0,
+                "score_history_max": 13.4,
+                "score_history_median": 9.4,
+                "raise_cap": 0.0,
+                "score_spread_ratio": 0.37,
+                "selected_ratio": 0.48
+            },
+            "high_score_safety_review": false,
+            "a3wa_risk": 0.333333,
+            "a3wa_mu": 0.666667,
+            "a3wa_alpha": 0.828571,
+            "a3wa_beta": 0.285714,
+            "a3wa_m": 0.4,
+            "a3wa_route": "NEG",
+            "a3wa_reason": "hard_neg:large_score_spread",
+            "a3wa_risk_components": {
+                "U_E": 0.0,
+                "U_S": 1.0,
+                "U_R": 0.0,
+                "U_extract": 0.0,
+                "U_score": 0.360607,
+                "U_semantic": 0.4,
+                "U_blank": 0.0,
+                "U_overcredit": 0.192,
+                "U_structure_missing": 0.0,
+                "L_lenient_undercredit": 0.1348,
+                "U_unsupported_high_score": 0.0,
+                "normalized_std": 0.151215,
+                "score_spread_norm": 0.37
+            }
+        },
+        "post_calibration": {
+            "unsupported_match_points": 0.0,
+            "unsupported_match_points_ratio": 0.0,
+            "method_final_points": 20.0,
+            "verified_method_final_points": 0.0,
+            "method_final_verified_ratio": 0.0,
+            "direct_points_ratio": 0.0,
+            "direct_awarded_ratio": 0.0,
+            "result_correctness_signal": 0.6,
+            "result_strong_signal": 0.4,
+            "method_evidence_signal": 0.6,
+            "partial_or_format_points_ratio": 0.3,
+            "bare_answer_risk": 0.24,
+            "lenient_undercredit_signal": 0.1348,
+            "unsupported_high_score_risk": 0.0,
+            "metadata_coverage": 1.0,
+            "explicit_chain_coverage": 0.0,
+            "task_type": "algorithmic_or_mapping",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": false,
+            "calculation_or_derivation": false,
+            "algorithmic_or_mapping": true,
+            "final_answer_weight_high": true,
+            "rubric_task_profile": {
+                "task_type": "algorithmic_or_mapping",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "calculation_or_derivation": false,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 1.0,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 0.0,
+                "visual_sequence_points_ratio": 0.5,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "max_item_points_ratio": 0.1,
+                "small_item_ratio": 1.0,
+                "fragmented_rubric": true,
+                "concentrated_result_weight": true,
+                "answer_type_counts": {
+                    "sequence": 1,
+                    "bit_vector": 5,
+                    "diagram_ocr": 4
+                },
+                "answer_type_points": {
+                    "sequence": 2.0,
+                    "bit_vector": 10.0,
+                    "diagram_ocr": 8.0
+                }
+            },
+            "core_anchor_failed": false,
+            "weak_result_high_score_review": false,
+            "stable_undercredit_review": true,
+            "result_anchored_undercredit_review": false,
+            "direct_only_high_score_risk": false,
+            "extraction_retry_review": false,
+            "structure_missing_review": false,
+            "structure_missing_rate": 0.0,
+            "suspicious_extraction_rate": 0.0,
+            "extraction_risk": 0.0,
+            "extraction_quality": "high",
+            "primary_risks": {
+                "U_E": 0.0,
+                "U_S": 1.0,
+                "U_R": 0.0,
+                "risk": 0.333333,
+                "mu": 0.666667,
+                "score_spread": 7.4,
+                "gamma": 0.2,
+                "item_risks": [
+                    {
+                        "id": "item_1",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "sequence",
+                        "canonicalization": "sequence"
+                    },
+                    {
+                        "id": "item_2",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "FORMAT_MINOR",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_3",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_4",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_5",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_6",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "PARTIAL_MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "PARTIAL_MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    }
+                ]
+            },
+            "three_way_primary_risks": {
+                "U_E": 0.0,
+                "U_S": 1.0,
+                "U_R": 0.0,
+                "risk": 0.333333,
+                "mu": 0.666667,
+                "score_spread": 7.4,
+                "gamma": 0.2,
+                "item_risks": [
+                    {
+                        "id": "item_1",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "sequence",
+                        "canonicalization": "sequence"
+                    },
+                    {
+                        "id": "item_2",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "FORMAT_MINOR",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_3",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_4",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_5",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_6",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "PARTIAL_MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "PARTIAL_MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    }
+                ]
+            },
+            "visual_blank_review": false,
+            "boundary_domain": true,
+            "reject_domain": false,
+            "fatal_ratio": 0.4,
+            "lower_bound": 0.0,
+            "upper_bound": 20.0,
+            "rule_hits": [
+                "lenient_undercredit_review",
+                "stable_undercredit_review"
+            ],
+            "selected_baseline_score": 9.6,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "task_type": "algorithmic_or_mapping",
+                "final_answer_weight_high": true,
+                "concentrated_result_weight": true,
+                "upper_consensus_ready": false,
+                "low_score_undercredit_upper_candidate": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "extraction_risk": 0.0,
+                "structure_missing_rate": 0.0,
+                "suspicious_extraction_rate": 0.0,
+                "score_history_min": 6.0,
+                "score_history_max": 13.4,
+                "score_history_median": 9.4,
+                "raise_cap": 0.0,
+                "score_spread_ratio": 0.37,
+                "selected_ratio": 0.48
+            },
+            "score_history_max": 13.4,
+            "score_history_median": 9.4,
+            "score_history_min": 6.0,
+            "high_score_safety_review": false
+        },
+        "a3wa_decision": {
+            "route": "NEG",
+            "reason": "hard_neg:large_score_spread",
+            "hard_neg_reasons": [
+                "large_score_spread"
+            ],
+            "risk": 0.333333,
+            "confidence": 0.666667,
+            "mu": 0.666667,
+            "alpha": 0.828571,
+            "beta": 0.285714,
+            "m": 0.4,
+            "lambda1": 5.0,
+            "lambda2": 2.0,
+            "mu1": 2.0,
+            "mu2": 5.0,
+            "risk_components": {
+                "U_E": 0.0,
+                "U_S": 1.0,
+                "U_R": 0.0,
+                "U_extract": 0.0,
+                "U_score": 0.360607,
+                "U_semantic": 0.4,
+                "U_blank": 0.0,
+                "U_overcredit": 0.192,
+                "U_structure_missing": 0.0,
+                "L_lenient_undercredit": 0.1348,
+                "U_unsupported_high_score": 0.0,
+                "normalized_std": 0.151215,
+                "score_spread_norm": 0.37
+            },
+            "score_spread": 7.4
+        },
+        "boundary_gate": null,
+        "arbitration_decision": "accept",
+        "reason_log": "A3WA hard_neg: large_score_spread",
+        "human_review_hint": "A3WA hard_neg: large_score_spread",
+        "facts": "{\n  \"item_1\": \"A.D.C.E.B\",\n  \"item_2\": \"1111\",\n  \"item_3\": \"1001\",\n  \"item_4\": \"1100\",\n  \"item_5\": \"1110\",\n  \"item_6\": \"1010\",\n  \"item_7_1\": \"用户程序 A,B,C中断 A结束 D,E中断 C结束 D,E结束 B结束\",\n  \"item_7_2\": \"D,E中断 C结束 D,E结束\",\n  \"item_7_3\": \"B结束 → 用户程序\",\n  \"item_7_4\": \"用户程序 → A,B,C中断 → A结束 → D,E中断 → C结束 → D,E结束 → B结束 → 用户程序\"\n}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "item_1",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "A.D.C.E.B",
+                    "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                    "dependency_status": "satisfied",
+                    "reason": "学生给出的顺序 A.D.C.E.B 与标准答案 A→D→C→E·B 一致，仅用点号分隔代替箭头，非实质性问题。"
+                },
+                {
+                    "id": "item_2",
+                    "score_given": 1.4,
+                    "error_category": "FORMAT_MINOR",
+                    "evidence_text": "1111",
+                    "expected_condition": "A级中断屏蔽字为11111",
+                    "dependency_status": "satisfied",
+                    "reason": "学生给出 1111，比标准 5 位屏蔽字 11111 少一位，但全 1 模式表示屏蔽所有其它中断，意图正确，按格式小错处理（2.0×0.7≈1.4）。"
+                },
+                {
+                    "id": "item_3",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "evidence_text": "1001",
+                    "expected_condition": "B级中断屏蔽字为01000",
+                    "dependency_status": "failed",
+                    "reason": "学生给出 1001，与标准 B 级屏蔽字 01000 在位数和数值上均不一致，核心数值错误。"
+                },
+                {
+                    "id": "item_4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "evidence_text": "1100",
+                    "expected_condition": "C级中断屏蔽字为01101",
+                    "dependency_status": "failed",
+                    "reason": "学生给出 1100，与标准 C 级屏蔽字 01101 完全不同，核心数值错误。"
+                },
+                {
+                    "id": "item_5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "evidence_text": "1110",
+                    "expected_condition": "D级中断屏蔽字为01111",
+                    "dependency_status": "failed",
+                    "reason": "学生给出 1110，与标准 D 级屏蔽字 01111 完全不同，核心数值错误。"
+                },
+                {
+                    "id": "item_6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "evidence_text": "1010",
+                    "expected_condition": "E级中断屏蔽字为01001",
+                    "dependency_status": "failed",
+                    "reason": "学生给出 1010，与标准 E 级屏蔽字 01001 完全不同，核心数值错误。"
+                },
+                {
+                    "id": "item_7_1",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "用户程序 A,B,C中断 A结束 D,E中断 C结束 D,E结束 B结束",
+                    "expected_condition": "同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                    "dependency_status": "satisfied",
+                    "reason": "学生序列显示 A,B,C 同时中断后 A 先结束，正确反映了 A 最先被响应执行。"
+                },
+                {
+                    "id": "item_7_2",
+                    "score_given": 1.0,
+                    "error_category": "PARTIAL_MATCH",
+                    "evidence_text": "D,E中断 C结束 D,E结束",
+                    "expected_condition": "A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                    "dependency_status": "insufficient",
+                    "reason": "学生提及 D,E 在 C 处理期间到达，体现了嵌套中断概念，但把 E 也并入中断 C，且未明确 C 先于 D,E 结束的正确嵌套返回关系，属部分正确。"
+                },
+                {
+                    "id": "item_7_3",
+                    "score_given": 1.0,
+                    "error_category": "PARTIAL_MATCH",
+                    "evidence_text": "用户程序 → A,B,C中断 → A结束 → D,E中断 → C结束 → D,E结束 → B结束 → 用户程序",
+                    "expected_condition": "D级中断服务程序执行完毕后正确返回C级中断或断点",
+                    "dependency_status": "insufficient",
+                    "reason": "学生序列包含 D,E 结束后继续后续流程，但顺序为 C结束后才 D,E结束，与标准嵌套返回（D 结束后返回 C）相反，仅有部分过程证据。"
+                },
+                {
+                    "id": "item_7_4",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "B结束 → 用户程序",
+                    "expected_condition": "后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                    "dependency_status": "satisfied",
+                    "reason": "学生序列明确写出 B 结束后返回用户程序，符合最终返回用户程序的要求，B 为最后处理也符合优先级最低的处理顺序。"
+                }
+            ],
+            "total_score": 9.4
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A.D.C.E.B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "satisfied",
+                        "reason": "学生给出的顺序 A.D.C.E.B 与标准答案 A→D→C→E·B 一致，仅用点号分隔代替箭头，非实质性问题。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 1.4,
+                        "error_category": "FORMAT_MINOR",
+                        "evidence_text": "1111",
+                        "expected_condition": "A级中断屏蔽字为11111",
+                        "dependency_status": "satisfied",
+                        "reason": "学生给出 1111，比标准 5 位屏蔽字 11111 少一位，但全 1 模式表示屏蔽所有其它中断，意图正确，按格式小错处理（2.0×0.7≈1.4）。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1001",
+                        "expected_condition": "B级中断屏蔽字为01000",
+                        "dependency_status": "failed",
+                        "reason": "学生给出 1001，与标准 B 级屏蔽字 01000 在位数和数值上均不一致，核心数值错误。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1100",
+                        "expected_condition": "C级中断屏蔽字为01101",
+                        "dependency_status": "failed",
+                        "reason": "学生给出 1100，与标准 C 级屏蔽字 01101 完全不同，核心数值错误。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1110",
+                        "expected_condition": "D级中断屏蔽字为01111",
+                        "dependency_status": "failed",
+                        "reason": "学生给出 1110，与标准 D 级屏蔽字 01111 完全不同，核心数值错误。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1010",
+                        "expected_condition": "E级中断屏蔽字为01001",
+                        "dependency_status": "failed",
+                        "reason": "学生给出 1010，与标准 E 级屏蔽字 01001 完全不同，核心数值错误。"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "用户程序 A,B,C中断 A结束 D,E中断 C结束 D,E结束 B结束",
+                        "expected_condition": "同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                        "dependency_status": "satisfied",
+                        "reason": "学生序列显示 A,B,C 同时中断后 A 先结束，正确反映了 A 最先被响应执行。"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "D,E中断 C结束 D,E结束",
+                        "expected_condition": "A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                        "dependency_status": "insufficient",
+                        "reason": "学生提及 D,E 在 C 处理期间到达，体现了嵌套中断概念，但把 E 也并入中断 C，且未明确 C 先于 D,E 结束的正确嵌套返回关系，属部分正确。"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 → A,B,C中断 → A结束 → D,E中断 → C结束 → D,E结束 → B结束 → 用户程序",
+                        "expected_condition": "D级中断服务程序执行完毕后正确返回C级中断或断点",
+                        "dependency_status": "insufficient",
+                        "reason": "学生序列包含 D,E 结束后继续后续流程，但顺序为 C结束后才 D,E结束，与标准嵌套返回（D 结束后返回 C）相反，仅有部分过程证据。"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "B结束 → 用户程序",
+                        "expected_condition": "后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "satisfied",
+                        "reason": "学生序列明确写出 B 结束后返回用户程序，符合最终返回用户程序的要求，B 为最后处理也符合优先级最低的处理顺序。"
+                    }
+                ],
+                "total_score": 9.4
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A.D.C.E.B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student provided the correct sequence A.D.C.E.B which matches the required priority order exactly."
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 1.0,
+                        "error_category": "FORMAT_MINOR",
+                        "evidence_text": "1111",
+                        "expected_condition": "A级中断屏蔽字为11111",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student provided 1111 instead of the 5-bit 11111. Conceptually it implies masking all other levels, but misses a bit in length/format."
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1001",
+                        "expected_condition": "B级中断屏蔽字为01000",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted bit vector 1001 is entirely incorrect for the B level mask word."
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1100",
+                        "expected_condition": "C级中断屏蔽字为01101",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted bit vector 1100 is completely wrong for the C level mask word."
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1110",
+                        "expected_condition": "D级中断屏蔽字为01111",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted bit vector 1110 is entirely incorrect for the D level mask word."
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1010",
+                        "expected_condition": "E级中断屏蔽字为01001",
+                        "dependency_status": "not_applicable",
+                        "reason": "The extracted bit vector 1010 is completely wrong for the E level mask word."
+                    },
+                    {
+                        "id": "item_7_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "用户程序 A,B,C中断 A结束",
+                        "expected_condition": "同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student diagram text shows that when A, B, and C interrupts occur simultaneously, A is executed and finishes first."
+                    },
+                    {
+                        "id": "item_7_2",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "D,E中断 C结束 D,E结束",
+                        "expected_condition": "A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                        "dependency_status": "failed",
+                        "reason": "The student's sequence indicates D and E interrupt and end around the same time as C, failing to demonstrate the correct nesting where C starts after A and is interrupted by D."
+                    },
+                    {
+                        "id": "item_7_3",
+                        "score_given": 0.0,
+                        "error_category": "BLANK",
+                        "evidence_text": "B结束 → 用户程序",
+                        "expected_condition": "D级中断服务程序执行完毕后正确返回C级中断或断点",
+                        "dependency_status": "failed",
+                        "reason": "The extracted fact contains no evidence regarding the D level interrupt returning to the C level."
+                    },
+                    {
+                        "id": "item_7_4",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "用户程序 → A,B,C中断 → A结束 → D,E中断 → C结束 → D,E结束 → B结束 → 用户程序",
+                        "expected_condition": "后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "not_applicable",
+                        "reason": "The student's sequence shows E and B finishing and correctly returning to the user program at the end, but the overall ordering and nesting of C, D, and E are flawed."
+                    }
+                ],
+                "total_score": 6.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A.D.C.E.B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生给出的优先级顺序A, D, C, E, B与评分标准完全一致。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 1.4,
+                        "error_category": "FORMAT_MINOR",
+                        "evidence_text": "1111",
+                        "expected_condition": "A级中断屏蔽字为11111",
+                        "dependency_status": "not_applicable",
+                        "reason": "A级中断屏蔽字应为5位11111。学生写1111，虽然概念上表达了屏蔽其他所有中断，但缺失了格式位数，属于细节格式错误，酌情给70%分数。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1001",
+                        "expected_condition": "B级中断屏蔽字为01000",
+                        "dependency_status": "not_applicable",
+                        "reason": "B级中断屏蔽字应为01000，学生答案1001概念完全错误，不符合B级仅屏蔽自身的规则。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1100",
+                        "expected_condition": "C级中断屏蔽字为01101",
+                        "dependency_status": "not_applicable",
+                        "reason": "C级中断屏蔽字应为01101，学生答案1100与标准屏蔽关系严重不符。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1110",
+                        "expected_condition": "D级中断屏蔽字为01111",
+                        "dependency_status": "not_applicable",
+                        "reason": "D级中断屏蔽字应为01111，学生答案1110屏蔽关系错误。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "1010",
+                        "expected_condition": "E级中断屏蔽字为01001",
+                        "dependency_status": "not_applicable",
+                        "reason": "E级中断屏蔽字应为01001，学生答案1010屏蔽关系完全错误。"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "用户程序 → A,B,C中断 → A结束 → D,E中断 → C结束 → D,E结束 → B结束 → 用户程序",
+                        "expected_condition": "顺序图中，同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                        "dependency_status": "satisfied",
+                        "reason": "从学生的执行顺序图提取信息中可以看出，A、B、C同时中断时，最先执行并结束的是A级中断服务程序，符合要求。"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A结束 → D,E中断 → C结束",
+                        "expected_condition": "顺序图中，A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                        "dependency_status": "satisfied",
+                        "reason": "学生流程显示A结束后发生D,E中断，随后C结束，说明在C级处理期间嵌套响应了D级（及E级）中断，逻辑符合标准。"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "D,E结束 B结束",
+                        "expected_condition": "顺序图中，D级中断服务程序执行完毕后正确返回C级中断或断点",
+                        "dependency_status": "satisfied",
+                        "reason": "学生图表流程显示D、E中断在C级结束前完成，证明D级中断执行完毕后正确返回到了C级断点。"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "B结束 → 用户程序",
+                        "expected_condition": "顺序图中，后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "satisfied",
+                        "reason": "学生流程明确写出最后B结束并返回用户程序，展示了低级中断最后处理并返回主程序的正确顺序。"
+                    }
+                ],
+                "total_score": 13.4
+            }
+        ]
+    },
+    {
+        "student_id": "E12314057_Q2",
+        "teacher_score": 12.0,
+        "model_scores_history": [
+            10.0,
+            12.0,
+            2.0
+        ],
+        "model_avg_score": 8.0,
+        "selected_baseline_score": 8.0,
+        "baseline_policy": "model_avg",
+        "baseline_score_source": "model_avg_score",
+        "baseline_selection_signals": {
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": false,
+            "task_type": "algorithmic_or_mapping",
+            "final_answer_weight_high": true,
+            "concentrated_result_weight": true,
+            "upper_consensus_ready": false,
+            "low_score_undercredit_upper_candidate": false,
+            "high_over_unsafe": true,
+            "high_score_safety_review": false,
+            "extraction_risk": 0.235,
+            "structure_missing_rate": 0.5,
+            "suspicious_extraction_rate": 0.9,
+            "score_history_min": 2.0,
+            "score_history_max": 12.0,
+            "score_history_median": 10.0,
+            "raise_cap": 0.0,
+            "score_spread_ratio": 0.5,
+            "selected_ratio": 0.4
+        },
+        "std_dev": 4.3205,
+        "blank_rate": 0.4,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "structure_missing_rate": 0.5,
+        "suspicious_extraction_rate": 0.9,
+        "extraction_risk": 0.235,
+        "extraction_quality": "low",
+        "real_diff": 4.0,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 8.0,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.47,
+        "uncertainty_index": 0.216,
+        "fatal_points_ratio": 0.0,
+        "high_blank_high_score": false,
+        "lenient_review_signal": false,
+        "risk_features": {
+            "perception_risk": 0.47,
+            "uncertainty_index": 0.216,
+            "fatal_points_ratio": 0.0,
+            "high_blank_high_score": false,
+            "lenient_review_signal": false,
+            "reject_domain": true,
+            "boundary_domain": false,
+            "std_ratio": 0.216,
+            "spread_ratio": 0.5,
+            "avg_ratio": 0.4,
+            "score_spread": 10.0,
+            "blank_rate": 0.4,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "structure_missing_rate": 0.5,
+            "suspicious_extraction_rate": 0.9,
+            "extraction_risk": 0.235,
+            "partial_match_points_ratio": 0.0,
+            "format_minor_points_ratio": 0.0,
+            "U_E": 0.65,
+            "U_S": 1.0,
+            "U_R": 0.65,
+            "primary_risk": 0.766667,
+            "primary_mu": 0.233333,
+            "unsupported_match_points_ratio": 0.0,
+            "method_final_verified_ratio": 0.0,
+            "direct_points_ratio": 0.0,
+            "direct_awarded_ratio": 0.0,
+            "result_correctness_signal": 0.5,
+            "result_strong_signal": 0.5,
+            "method_evidence_signal": 0.5,
+            "partial_or_format_points_ratio": 0.0,
+            "bare_answer_risk": 0.25,
+            "lenient_undercredit_signal": 0.1324,
+            "unsupported_high_score_risk": 0.0,
+            "metadata_coverage": 1.0,
+            "explicit_chain_coverage": 0.0,
+            "core_anchor_failed": false,
+            "visual_blank_review": true,
+            "structure_missing_review": true,
+            "weak_result_high_score_review": false,
+            "stable_undercredit_review": true,
+            "direct_only_high_score_risk": false,
+            "task_type": "algorithmic_or_mapping",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": false,
+            "rubric_task_profile": {
+                "task_type": "algorithmic_or_mapping",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "calculation_or_derivation": false,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 1.0,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 0.0,
+                "visual_sequence_points_ratio": 0.5,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "max_item_points_ratio": 0.1,
+                "small_item_ratio": 1.0,
+                "fragmented_rubric": true,
+                "concentrated_result_weight": true,
+                "answer_type_counts": {
+                    "sequence": 1,
+                    "bit_vector": 5,
+                    "diagram_ocr": 4
+                },
+                "answer_type_points": {
+                    "sequence": 2.0,
+                    "bit_vector": 10.0,
+                    "diagram_ocr": 8.0
+                }
+            },
+            "calibration_rule_hits": [
+                "visual_blank_review",
+                "lenient_undercredit_review",
+                "stable_undercredit_review",
+                "result_anchored_undercredit_review",
+                "structure_missing_review",
+                "extraction_retry_review"
+            ],
+            "model_avg_ratio": 0.4,
+            "selected_baseline_score": 8.0,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "task_type": "algorithmic_or_mapping",
+                "final_answer_weight_high": true,
+                "concentrated_result_weight": true,
+                "upper_consensus_ready": false,
+                "low_score_undercredit_upper_candidate": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "extraction_risk": 0.235,
+                "structure_missing_rate": 0.5,
+                "suspicious_extraction_rate": 0.9,
+                "score_history_min": 2.0,
+                "score_history_max": 12.0,
+                "score_history_median": 10.0,
+                "raise_cap": 0.0,
+                "score_spread_ratio": 0.5,
+                "selected_ratio": 0.4
+            },
+            "high_score_safety_review": false,
+            "a3wa_risk": 0.766667,
+            "a3wa_mu": 0.233333,
+            "a3wa_alpha": 0.828571,
+            "a3wa_beta": 0.285714,
+            "a3wa_m": 0.4,
+            "a3wa_route": "NEG",
+            "a3wa_reason": "hard_neg:large_score_spread",
+            "a3wa_risk_components": {
+                "U_E": 0.65,
+                "U_S": 1.0,
+                "U_R": 0.65,
+                "U_extract": 0.235,
+                "U_score": 0.458013,
+                "U_semantic": 0.0,
+                "U_blank": 0.4,
+                "U_overcredit": 0.1,
+                "U_structure_missing": 0.5,
+                "L_lenient_undercredit": 0.1324,
+                "U_unsupported_high_score": 0.0,
+                "normalized_std": 0.216025,
+                "score_spread_norm": 0.5
+            }
+        },
+        "post_calibration": {
+            "unsupported_match_points": 0.0,
+            "unsupported_match_points_ratio": 0.0,
+            "method_final_points": 20.0,
+            "verified_method_final_points": 0.0,
+            "method_final_verified_ratio": 0.0,
+            "direct_points_ratio": 0.0,
+            "direct_awarded_ratio": 0.0,
+            "result_correctness_signal": 0.5,
+            "result_strong_signal": 0.5,
+            "method_evidence_signal": 0.5,
+            "partial_or_format_points_ratio": 0.0,
+            "bare_answer_risk": 0.25,
+            "lenient_undercredit_signal": 0.1324,
+            "unsupported_high_score_risk": 0.0,
+            "metadata_coverage": 1.0,
+            "explicit_chain_coverage": 0.0,
+            "task_type": "algorithmic_or_mapping",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": false,
+            "calculation_or_derivation": false,
+            "algorithmic_or_mapping": true,
+            "final_answer_weight_high": true,
+            "rubric_task_profile": {
+                "task_type": "algorithmic_or_mapping",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "calculation_or_derivation": false,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 1.0,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 0.0,
+                "visual_sequence_points_ratio": 0.5,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "max_item_points_ratio": 0.1,
+                "small_item_ratio": 1.0,
+                "fragmented_rubric": true,
+                "concentrated_result_weight": true,
+                "answer_type_counts": {
+                    "sequence": 1,
+                    "bit_vector": 5,
+                    "diagram_ocr": 4
+                },
+                "answer_type_points": {
+                    "sequence": 2.0,
+                    "bit_vector": 10.0,
+                    "diagram_ocr": 8.0
+                }
+            },
+            "core_anchor_failed": false,
+            "weak_result_high_score_review": false,
+            "stable_undercredit_review": true,
+            "result_anchored_undercredit_review": true,
+            "direct_only_high_score_risk": false,
+            "extraction_retry_review": true,
+            "structure_missing_review": true,
+            "structure_missing_rate": 0.5,
+            "suspicious_extraction_rate": 0.9,
+            "extraction_risk": 0.235,
+            "extraction_quality": "low",
+            "primary_risks": {
+                "U_E": 0.65,
+                "U_S": 1.0,
+                "U_R": 0.65,
+                "risk": 0.766667,
+                "mu": 0.233333,
+                "score_spread": 10.0,
+                "gamma": 0.2,
+                "item_risks": [
+                    {
+                        "id": "item_1",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "sequence",
+                        "canonicalization": "sequence"
+                    },
+                    {
+                        "id": "item_2",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "BLANK",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_3",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_4",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_5",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_6",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "points": 2.0,
+                        "evidence_quality": 0.0,
+                        "rubric_adaptation": 0.0,
+                        "majority_category": "BLANK",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "points": 2.0,
+                        "evidence_quality": 0.0,
+                        "rubric_adaptation": 0.0,
+                        "majority_category": "BLANK",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "points": 2.0,
+                        "evidence_quality": 0.0,
+                        "rubric_adaptation": 0.0,
+                        "majority_category": "BLANK",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "points": 2.0,
+                        "evidence_quality": 0.0,
+                        "rubric_adaptation": 0.0,
+                        "majority_category": "BLANK",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    }
+                ]
+            },
+            "three_way_primary_risks": {
+                "U_E": 0.65,
+                "U_S": 1.0,
+                "U_R": 0.65,
+                "risk": 0.766667,
+                "mu": 0.233333,
+                "score_spread": 10.0,
+                "gamma": 0.2,
+                "item_risks": [
+                    {
+                        "id": "item_1",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "sequence",
+                        "canonicalization": "sequence"
+                    },
+                    {
+                        "id": "item_2",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "BLANK",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_3",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
                         "majority_category": "MATCH",
                         "answer_type": "bit_vector",
                         "canonicalization": "bit_vector"
@@ -461,7 +2271,7 @@
                 "structure_missing_review",
                 "extraction_retry_review"
             ],
-            "selected_baseline_score": 8.7,
+            "selected_baseline_score": 8.0,
             "baseline_policy": "model_avg",
             "baseline_score_source": "model_avg_score",
             "baseline_selection_signals": {
@@ -479,13 +2289,13 @@
                 "suspicious_extraction_rate": 0.9,
                 "score_history_min": 2.0,
                 "score_history_max": 12.0,
-                "score_history_median": 12.0,
+                "score_history_median": 10.0,
                 "raise_cap": 0.0,
                 "score_spread_ratio": 0.5,
-                "selected_ratio": 0.435
+                "selected_ratio": 0.4
             },
             "score_history_max": 12.0,
-            "score_history_median": 12.0,
+            "score_history_median": 10.0,
             "score_history_min": 2.0,
             "high_score_safety_review": false
         },
@@ -510,14 +2320,14 @@
                 "U_S": 1.0,
                 "U_R": 0.65,
                 "U_extract": 0.235,
-                "U_score": 0.46785,
+                "U_score": 0.458013,
                 "U_semantic": 0.0,
                 "U_blank": 0.4,
-                "U_overcredit": 0.1044,
+                "U_overcredit": 0.1,
                 "U_structure_missing": 0.5,
-                "L_lenient_undercredit": 0.1758,
+                "L_lenient_undercredit": 0.1324,
                 "U_unsupported_high_score": 0.0,
-                "normalized_std": 0.2357,
+                "normalized_std": 0.216025,
                 "score_spread_norm": 0.5
             },
             "score_spread": 10.0
@@ -526,7 +2336,7 @@
         "arbitration_decision": "accept",
         "reason_log": "A3WA hard_neg: large_score_spread",
         "human_review_hint": "A3WA hard_neg: large_score_spread",
-        "facts": "{\n  \"item_1\": \"A>D>C>E>B\",\n  \"item_2\": \"ABCDE\",\n  \"item_3\": \"B\",\n  \"item_4\": \"BCE\",\n  \"item_5\": \"BCDE\",\n  \"item_6\": \"EB\",\n  \"item_7_1\": \"未书写\",\n  \"item_7_2\": \"未书写\",\n  \"item_7_3\": \"未书写\",\n  \"item_7_4\": \"未书写\"\n}",
+        "facts": "{\n  \"item_1\": \"A>D>C>E>B\",\n  \"item_2\": \"无\",\n  \"item_3\": \"A,C,D,E\",\n  \"item_4\": \"A,D\",\n  \"item_5\": \"A\",\n  \"item_6\": \"A,C,D\",\n  \"item_7_1\": \"未书写\",\n  \"item_7_2\": \"未书写\",\n  \"item_7_3\": \"未书写\",\n  \"item_7_4\": \"未书写\"\n}",
         "strict_cot": {
             "details": [
                 {
@@ -534,63 +2344,63 @@
                     "score_given": 2.0,
                     "error_category": "MATCH",
                     "evidence_text": "A>D>C>E>B",
-                    "expected_condition": "中断处理优先级顺序为A→D→C→E→B（或A>D>C>E>B）",
+                    "expected_condition": "中断处理优先级顺序为A→D→C→E→B（或写作A>D>C>E>B）",
                     "dependency_status": "not_applicable",
-                    "reason": "Student's sequence A>D>C>E>B exactly matches the required priority order."
+                    "reason": "学生答案A>D>C>E>B与标准答案完全一致，完全匹配。"
                 },
                 {
                     "id": "item_2",
                     "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "ABCDE",
+                    "error_category": "BLANK",
+                    "evidence_text": "无",
                     "expected_condition": "A级中断屏蔽字为11111",
-                    "dependency_status": "failed",
-                    "reason": "Extracted fact 'ABCDE' does not represent the required bit vector 11111; it appears to be a header/label rather than the answer."
+                    "dependency_status": "not_applicable",
+                    "reason": "学生答案为'无'，未提供A级中断屏蔽字。"
                 },
                 {
                     "id": "item_3",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "B",
-                    "expected_condition": "B级中断屏蔽字为01000",
-                    "dependency_status": "failed",
-                    "reason": "Extracted fact 'B' is merely the interrupt level label, not the required bit vector 01000."
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "A,C,D,E",
+                    "expected_condition": "B级中断屏蔽字为01000（或等价表述为B级中断仅屏蔽自身，不屏蔽其它中断）",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生列出B级可被A、C、D、E中断，即B仅屏蔽自身，与01000等价表述一致，经验证四个屏蔽字项的模式完全吻合，属于等价表述。"
                 },
                 {
                     "id": "item_4",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "BCE",
-                    "expected_condition": "C级中断屏蔽字为01101（即屏蔽B、E级）",
-                    "dependency_status": "failed",
-                    "reason": "Extracted fact 'BCE' does not represent bit vector 01101; core value is incorrect."
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "A,D",
+                    "expected_condition": "C级中断屏蔽字为01101（或等价表述为C级中断屏蔽B、E级）",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生列出C级可被A、D中断，对应01101中A(0)和D(0)位未屏蔽，与屏蔽字01101等价表述一致。"
                 },
                 {
                     "id": "item_5",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "BCDE",
-                    "expected_condition": "D级中断屏蔽字为01111（即屏蔽B、C、E级）",
-                    "dependency_status": "failed",
-                    "reason": "Extracted fact 'BCDE' does not represent bit vector 01111; core value is incorrect."
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "A",
+                    "expected_condition": "D级中断屏蔽字为01111（或等价表述为D级中断屏蔽B、C、E级）",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生列出D级可被A中断，对应01111中仅A(0)位未屏蔽，与屏蔽字01111等价表述一致。"
                 },
                 {
                     "id": "item_6",
-                    "score_given": 0,
-                    "error_category": "SEMANTIC_FATAL",
-                    "evidence_text": "EB",
-                    "expected_condition": "E级中断屏蔽字为01001（即屏蔽B级）",
-                    "dependency_status": "failed",
-                    "reason": "Extracted fact 'EB' does not represent bit vector 01001; core value is incorrect."
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "A,C,D",
+                    "expected_condition": "E级中断屏蔽字为01001（或等价表述为E级中断屏蔽B级）",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生列出E级可被A、C、D中断，对应01001中A(0)、C(0)、D(0)位未屏蔽，与屏蔽字01001等价表述一致。"
                 },
                 {
                     "id": "item_7_1",
                     "score_given": 0,
                     "error_category": "BLANK",
                     "evidence_text": "未书写",
-                    "expected_condition": "顺序图中同时出现A、B、C请求时优先响应并执行A级中断服务程序",
-                    "dependency_status": "failed",
-                    "reason": "Student did not write/draw this part of the diagram."
+                    "expected_condition": "顺序图中同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生未书写顺序图内容，无法评分。"
                 },
                 {
                     "id": "item_7_2",
@@ -598,8 +2408,8 @@
                     "error_category": "BLANK",
                     "evidence_text": "未书写",
                     "expected_condition": "A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
-                    "dependency_status": "failed",
-                    "reason": "Student did not write/draw this part of the diagram."
+                    "dependency_status": "not_applicable",
+                    "reason": "学生未书写顺序图内容，无法评分。"
                 },
                 {
                     "id": "item_7_3",
@@ -607,20 +2417,20 @@
                     "error_category": "BLANK",
                     "evidence_text": "未书写",
                     "expected_condition": "D级中断服务程序执行完毕后正确返回C级中断或断点",
-                    "dependency_status": "failed",
-                    "reason": "Student did not write/draw this part of the diagram."
+                    "dependency_status": "not_applicable",
+                    "reason": "学生未书写顺序图内容，无法评分。"
                 },
                 {
                     "id": "item_7_4",
                     "score_given": 0,
                     "error_category": "BLANK",
                     "evidence_text": "未书写",
-                    "expected_condition": "后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
-                    "dependency_status": "failed",
-                    "reason": "Student did not write/draw this part of the diagram."
+                    "expected_condition": "顺序图中后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生未书写顺序图内容，无法评分。"
                 }
             ],
-            "total_score": 2.0
+            "total_score": 10.0
         },
         "strict_cots_all": [
             {
@@ -630,63 +2440,63 @@
                         "score_given": 2.0,
                         "error_category": "MATCH",
                         "evidence_text": "A>D>C>E>B",
-                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B（或A>D>C>E>B）",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B（或写作A>D>C>E>B）",
                         "dependency_status": "not_applicable",
-                        "reason": "Student's sequence A>D>C>E>B exactly matches the required priority order."
+                        "reason": "学生答案A>D>C>E>B与标准答案完全一致，完全匹配。"
                     },
                     {
                         "id": "item_2",
                         "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "ABCDE",
+                        "error_category": "BLANK",
+                        "evidence_text": "无",
                         "expected_condition": "A级中断屏蔽字为11111",
-                        "dependency_status": "failed",
-                        "reason": "Extracted fact 'ABCDE' does not represent the required bit vector 11111; it appears to be a header/label rather than the answer."
+                        "dependency_status": "not_applicable",
+                        "reason": "学生答案为'无'，未提供A级中断屏蔽字。"
                     },
                     {
                         "id": "item_3",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "B",
-                        "expected_condition": "B级中断屏蔽字为01000",
-                        "dependency_status": "failed",
-                        "reason": "Extracted fact 'B' is merely the interrupt level label, not the required bit vector 01000."
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A,C,D,E",
+                        "expected_condition": "B级中断屏蔽字为01000（或等价表述为B级中断仅屏蔽自身，不屏蔽其它中断）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生列出B级可被A、C、D、E中断，即B仅屏蔽自身，与01000等价表述一致，经验证四个屏蔽字项的模式完全吻合，属于等价表述。"
                     },
                     {
                         "id": "item_4",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "BCE",
-                        "expected_condition": "C级中断屏蔽字为01101（即屏蔽B、E级）",
-                        "dependency_status": "failed",
-                        "reason": "Extracted fact 'BCE' does not represent bit vector 01101; core value is incorrect."
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A,D",
+                        "expected_condition": "C级中断屏蔽字为01101（或等价表述为C级中断屏蔽B、E级）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生列出C级可被A、D中断，对应01101中A(0)和D(0)位未屏蔽，与屏蔽字01101等价表述一致。"
                     },
                     {
                         "id": "item_5",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "BCDE",
-                        "expected_condition": "D级中断屏蔽字为01111（即屏蔽B、C、E级）",
-                        "dependency_status": "failed",
-                        "reason": "Extracted fact 'BCDE' does not represent bit vector 01111; core value is incorrect."
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A",
+                        "expected_condition": "D级中断屏蔽字为01111（或等价表述为D级中断屏蔽B、C、E级）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生列出D级可被A中断，对应01111中仅A(0)位未屏蔽，与屏蔽字01111等价表述一致。"
                     },
                     {
                         "id": "item_6",
-                        "score_given": 0,
-                        "error_category": "SEMANTIC_FATAL",
-                        "evidence_text": "EB",
-                        "expected_condition": "E级中断屏蔽字为01001（即屏蔽B级）",
-                        "dependency_status": "failed",
-                        "reason": "Extracted fact 'EB' does not represent bit vector 01001; core value is incorrect."
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A,C,D",
+                        "expected_condition": "E级中断屏蔽字为01001（或等价表述为E级中断屏蔽B级）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生列出E级可被A、C、D中断，对应01001中A(0)、C(0)、D(0)位未屏蔽，与屏蔽字01001等价表述一致。"
                     },
                     {
                         "id": "item_7_1",
                         "score_given": 0,
                         "error_category": "BLANK",
                         "evidence_text": "未书写",
-                        "expected_condition": "顺序图中同时出现A、B、C请求时优先响应并执行A级中断服务程序",
-                        "dependency_status": "failed",
-                        "reason": "Student did not write/draw this part of the diagram."
+                        "expected_condition": "顺序图中同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写顺序图内容，无法评分。"
                     },
                     {
                         "id": "item_7_2",
@@ -694,8 +2504,8 @@
                         "error_category": "BLANK",
                         "evidence_text": "未书写",
                         "expected_condition": "A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
-                        "dependency_status": "failed",
-                        "reason": "Student did not write/draw this part of the diagram."
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写顺序图内容，无法评分。"
                     },
                     {
                         "id": "item_7_3",
@@ -703,115 +2513,20 @@
                         "error_category": "BLANK",
                         "evidence_text": "未书写",
                         "expected_condition": "D级中断服务程序执行完毕后正确返回C级中断或断点",
-                        "dependency_status": "failed",
-                        "reason": "Student did not write/draw this part of the diagram."
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写顺序图内容，无法评分。"
                     },
                     {
                         "id": "item_7_4",
                         "score_given": 0,
                         "error_category": "BLANK",
                         "evidence_text": "未书写",
-                        "expected_condition": "后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
-                        "dependency_status": "failed",
-                        "reason": "Student did not write/draw this part of the diagram."
+                        "expected_condition": "顺序图中后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未书写顺序图内容，无法评分。"
                     }
                 ],
-                "total_score": 2.0
-            },
-            {
-                "details": [
-                    {
-                        "id": "item_1",
-                        "score_given": 2.0,
-                        "error_category": "MATCH",
-                        "evidence_text": "A>D>C>E>B",
-                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
-                        "dependency_status": "not_applicable",
-                        "reason": "学生书写的A>D>C>E>B与标准答案A→D→C→E→B完全一致。"
-                    },
-                    {
-                        "id": "item_2",
-                        "score_given": 2.0,
-                        "error_category": "MATCH",
-                        "evidence_text": "ABCDE",
-                        "expected_condition": "A级中断屏蔽字为11111",
-                        "dependency_status": "not_applicable",
-                        "reason": "学生用字母集合ABCDE表示A级屏蔽A、B、C、D、E（即全部置1），等价于屏蔽字11111，符合等价表述。"
-                    },
-                    {
-                        "id": "item_3",
-                        "score_given": 2.0,
-                        "error_category": "MATCH",
-                        "evidence_text": "B",
-                        "expected_condition": "B级中断屏蔽字为01000",
-                        "dependency_status": "not_applicable",
-                        "reason": "学生仅写B，表示B级仅屏蔽自身，等价于屏蔽字01000，符合等价表述。"
-                    },
-                    {
-                        "id": "item_4",
-                        "score_given": 2.0,
-                        "error_category": "MATCH",
-                        "evidence_text": "BCE",
-                        "expected_condition": "C级中断屏蔽字为01101",
-                        "dependency_status": "not_applicable",
-                        "reason": "学生写BCE表示C级屏蔽B、C（自身）、E，对应位图01101，符合等价表述。"
-                    },
-                    {
-                        "id": "item_5",
-                        "score_given": 2.0,
-                        "error_category": "MATCH",
-                        "evidence_text": "BCDE",
-                        "expected_condition": "D级中断屏蔽字为01111",
-                        "dependency_status": "not_applicable",
-                        "reason": "学生写BCDE表示D级屏蔽B、C、D（自身）、E，对应位图01111，符合等价表述。"
-                    },
-                    {
-                        "id": "item_6",
-                        "score_given": 2.0,
-                        "error_category": "MATCH",
-                        "evidence_text": "EB",
-                        "expected_condition": "E级中断屏蔽字为01001",
-                        "dependency_status": "not_applicable",
-                        "reason": "学生写EB表示E级屏蔽E（自身）和B，对应位图01001，符合等价表述。"
-                    },
-                    {
-                        "id": "item_7_1",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "evidence_text": "未书写",
-                        "expected_condition": "顺序图中同时出现A、B、C请求时优先响应并执行A级中断服务程序",
-                        "dependency_status": "failed",
-                        "reason": "图中相关内容未书写，无法评分。"
-                    },
-                    {
-                        "id": "item_7_2",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "evidence_text": "未书写",
-                        "expected_condition": "A执行完后响应C级中断，C处理期间响应D级中断请求",
-                        "dependency_status": "failed",
-                        "reason": "图中相关内容未书写，无法评分。"
-                    },
-                    {
-                        "id": "item_7_3",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "evidence_text": "未书写",
-                        "expected_condition": "D级中断执行完毕后正确返回C级中断或断点",
-                        "dependency_status": "failed",
-                        "reason": "图中相关内容未书写，无法评分。"
-                    },
-                    {
-                        "id": "item_7_4",
-                        "score_given": 0,
-                        "error_category": "BLANK",
-                        "evidence_text": "未书写",
-                        "expected_condition": "后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
-                        "dependency_status": "failed",
-                        "reason": "图中相关内容未书写，无法评分。"
-                    }
-                ],
-                "total_score": 12.0
+                "total_score": 10.0
             },
             {
                 "details": [
@@ -822,91 +2537,1894 @@
                         "evidence_text": "A>D>C>E>B",
                         "expected_condition": "中断处理优先级顺序为A→D→C→E→B（或写作A>D>C>E>B）",
                         "dependency_status": "not_applicable",
-                        "reason": "Student wrote A>D>C>E>B, exactly matching the required priority order."
+                        "reason": "学生给出的优先级顺序A>D>C>E>B与标准答案完全一致。"
                     },
                     {
                         "id": "item_2",
                         "score_given": 2.0,
                         "error_category": "MATCH",
-                        "evidence_text": "ABCDE",
+                        "evidence_text": "无",
                         "expected_condition": "A级中断屏蔽字为11111（或等价表述为A级中断屏蔽B、C、D、E所有其他级中断）",
                         "dependency_status": "not_applicable",
-                        "reason": "Student listed 'ABCDE' meaning A masks A,B,C,D,E, which is equivalent to bit vector 11111. The rubric explicitly allows equivalent representations, and this set-listing notation matches exactly."
+                        "reason": "学生写\"无\"，表示A级中断不放过（不屏蔽）任何中断为空集，即A级屏蔽所有其他级中断，与11111等价。结合item_3~item_6的一致性验证，此处为A级屏蔽字的等价表述。"
                     },
                     {
                         "id": "item_3",
                         "score_given": 2.0,
                         "error_category": "MATCH",
-                        "evidence_text": "B",
+                        "evidence_text": "A,C,D,E",
                         "expected_condition": "B级中断屏蔽字为01000（或等价表述为B级中断仅屏蔽自身，不屏蔽其它中断）",
                         "dependency_status": "not_applicable",
-                        "reason": "Student listed only 'B', meaning B masks only itself, equivalent to 01000. Matches rubric's equivalent expression exactly."
+                        "reason": "学生列出未被B屏蔽的中断为A,C,D,E，即B仅屏蔽自身B，等价于屏蔽字01000。与rubric允许的等价表述一致。"
                     },
                     {
                         "id": "item_4",
                         "score_given": 2.0,
                         "error_category": "MATCH",
-                        "evidence_text": "BCE",
+                        "evidence_text": "A,D",
                         "expected_condition": "C级中断屏蔽字为01101（或等价表述为C级中断屏蔽B、E级）",
                         "dependency_status": "not_applicable",
-                        "reason": "Student listed 'BCE' meaning C masks B, C(self), E, equivalent to bit vector 01101 (A=0,B=1,C=1,D=0,E=1). Correct equivalent representation."
+                        "reason": "学生列出未被C屏蔽的中断为A,D，即C屏蔽B、C、E（自身加B、E），等价于屏蔽字01101。与rubric一致。"
                     },
                     {
                         "id": "item_5",
                         "score_given": 2.0,
                         "error_category": "MATCH",
-                        "evidence_text": "BCDE",
+                        "evidence_text": "A",
                         "expected_condition": "D级中断屏蔽字为01111（或等价表述为D级中断屏蔽B、C、E级）",
                         "dependency_status": "not_applicable",
-                        "reason": "Student listed 'BCDE' meaning D masks B, C, D(self), E, equivalent to bit vector 01111 (A=0,B=1,C=1,D=1,E=1). Correct equivalent representation."
+                        "reason": "学生列出未被D屏蔽的中断仅为A，即D屏蔽B、C、D、E，等价于屏蔽字01111。与rubric一致。"
                     },
                     {
                         "id": "item_6",
                         "score_given": 2.0,
                         "error_category": "MATCH",
-                        "evidence_text": "EB",
+                        "evidence_text": "A,C,D",
                         "expected_condition": "E级中断屏蔽字为01001（或等价表述为E级中断屏蔽B级）",
                         "dependency_status": "not_applicable",
-                        "reason": "Student listed 'EB' meaning E masks E(self), B, equivalent to bit vector 01001 (A=0,B=1,C=0,D=0,E=1). Correct equivalent representation."
+                        "reason": "学生列出未被E屏蔽的中断为A,C,D，即E屏蔽B、E（自身加B），等价于屏蔽字01001。与rubric一致。"
                     },
                     {
                         "id": "item_7_1",
-                        "score_given": 0.0,
+                        "score_given": 0,
                         "error_category": "BLANK",
                         "evidence_text": "未书写",
                         "expected_condition": "顺序图中，同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
                         "dependency_status": "failed",
-                        "reason": "Student did not write the diagram; no content to evaluate."
+                        "reason": "学生未书写CPU执行程序和处理中断顺序图，无法评判。"
                     },
                     {
                         "id": "item_7_2",
-                        "score_given": 0.0,
+                        "score_given": 0,
                         "error_category": "BLANK",
                         "evidence_text": "未书写",
                         "expected_condition": "顺序图中，A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
                         "dependency_status": "failed",
-                        "reason": "Student did not write the diagram; no content to evaluate."
+                        "reason": "学生未书写顺序图，无法评判。"
                     },
                     {
                         "id": "item_7_3",
-                        "score_given": 0.0,
+                        "score_given": 0,
                         "error_category": "BLANK",
                         "evidence_text": "未书写",
                         "expected_condition": "顺序图中，D级中断服务程序执行完毕后正确返回C级中断或断点",
                         "dependency_status": "failed",
-                        "reason": "Student did not write the diagram; no content to evaluate."
+                        "reason": "学生未书写顺序图，无法评判。"
                     },
                     {
                         "id": "item_7_4",
-                        "score_given": 0.0,
+                        "score_given": 0,
                         "error_category": "BLANK",
                         "evidence_text": "未书写",
                         "expected_condition": "顺序图中，后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
                         "dependency_status": "failed",
-                        "reason": "Student did not write the diagram; no content to evaluate."
+                        "reason": "学生未书写顺序图，无法评判。"
                     }
                 ],
                 "total_score": 12.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "提取的学生答案与标准顺序完全一致。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "无",
+                        "expected_condition": "A级中断屏蔽字为11111",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未提供A级中断屏蔽字的任何有效内容。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "A,C,D,E",
+                        "expected_condition": "B级中断屏蔽字为01000",
+                        "dependency_status": "not_applicable",
+                        "reason": "提取的答案与标准答案01000（或只屏蔽B自身）严重不符，存在概念性错误。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "A,D",
+                        "expected_condition": "C级中断屏蔽字为01101",
+                        "dependency_status": "not_applicable",
+                        "reason": "提取的答案与标准答案01101（或屏蔽B、E级）严重不符，存在概念性错误。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "A",
+                        "expected_condition": "D级中断屏蔽字为01111",
+                        "dependency_status": "not_applicable",
+                        "reason": "提取的答案与标准答案01111（或屏蔽B、C、E级）严重不符，存在概念性错误。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "A,C,D",
+                        "expected_condition": "E级中断屏蔽字为01001",
+                        "dependency_status": "not_applicable",
+                        "reason": "提取的答案与标准答案01001（或屏蔽B级）严重不符，存在概念性错误。"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "图中同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未绘制或书写相关的执行顺序图。"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "顺序图中，A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未绘制或书写相关的执行顺序图。"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "顺序图中，D级中断服务程序执行完毕后正确返回C级中断或断点",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未绘制或书写相关的执行顺序图。"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "未书写",
+                        "expected_condition": "顺序图中，后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生未绘制或书写相关的执行顺序图。"
+                    }
+                ],
+                "total_score": 2.0
+            }
+        ]
+    },
+    {
+        "student_id": "E12314117_Q2",
+        "teacher_score": 15.0,
+        "model_scores_history": [
+            5.0,
+            14.0
+        ],
+        "model_avg_score": 9.5,
+        "selected_baseline_score": 9.5,
+        "baseline_policy": "model_avg",
+        "baseline_score_source": "model_avg_score",
+        "baseline_selection_signals": {
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": false,
+            "task_type": "algorithmic_or_mapping",
+            "final_answer_weight_high": true,
+            "concentrated_result_weight": true,
+            "upper_consensus_ready": false,
+            "low_score_undercredit_upper_candidate": false,
+            "high_over_unsafe": true,
+            "high_score_safety_review": false,
+            "extraction_risk": 0.12,
+            "structure_missing_rate": 0.8,
+            "suspicious_extraction_rate": 0.8,
+            "score_history_min": 5.0,
+            "score_history_max": 14.0,
+            "score_history_median": 14.0,
+            "raise_cap": 0.0,
+            "score_spread_ratio": 0.45,
+            "selected_ratio": 0.475
+        },
+        "std_dev": 4.5,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "structure_missing_rate": 0.8,
+        "suspicious_extraction_rate": 0.8,
+        "extraction_risk": 0.12,
+        "extraction_quality": "high",
+        "real_diff": 5.5,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 9.5,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.24,
+        "uncertainty_index": 0.225,
+        "fatal_points_ratio": 0.6,
+        "high_blank_high_score": false,
+        "lenient_review_signal": true,
+        "risk_features": {
+            "perception_risk": 0.24,
+            "uncertainty_index": 0.225,
+            "fatal_points_ratio": 0.6,
+            "high_blank_high_score": false,
+            "lenient_review_signal": true,
+            "reject_domain": true,
+            "boundary_domain": false,
+            "std_ratio": 0.225,
+            "spread_ratio": 0.45,
+            "avg_ratio": 0.475,
+            "score_spread": 9.0,
+            "blank_rate": 0.0,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "structure_missing_rate": 0.8,
+            "suspicious_extraction_rate": 0.8,
+            "extraction_risk": 0.12,
+            "partial_match_points_ratio": 0.05,
+            "format_minor_points_ratio": 0.0,
+            "U_E": 0.4,
+            "U_S": 1.0,
+            "U_R": 0.4,
+            "primary_risk": 0.6,
+            "primary_mu": 0.4,
+            "unsupported_match_points_ratio": 0.0,
+            "method_final_verified_ratio": 0.0,
+            "direct_points_ratio": 0.0,
+            "direct_awarded_ratio": 0.0,
+            "result_correctness_signal": 0.3,
+            "result_strong_signal": 0.2,
+            "method_evidence_signal": 0.3,
+            "partial_or_format_points_ratio": 0.1,
+            "bare_answer_risk": 0.21,
+            "lenient_undercredit_signal": 0.0314,
+            "unsupported_high_score_risk": 0.0,
+            "metadata_coverage": 1.0,
+            "explicit_chain_coverage": 0.0,
+            "core_anchor_failed": false,
+            "visual_blank_review": false,
+            "structure_missing_review": true,
+            "weak_result_high_score_review": false,
+            "stable_undercredit_review": false,
+            "direct_only_high_score_risk": false,
+            "task_type": "algorithmic_or_mapping",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": false,
+            "rubric_task_profile": {
+                "task_type": "algorithmic_or_mapping",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "calculation_or_derivation": false,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 1.0,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 0.0,
+                "visual_sequence_points_ratio": 0.5,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "max_item_points_ratio": 0.1,
+                "small_item_ratio": 1.0,
+                "fragmented_rubric": true,
+                "concentrated_result_weight": true,
+                "answer_type_counts": {
+                    "sequence": 1,
+                    "bit_vector": 5,
+                    "diagram_ocr": 4
+                },
+                "answer_type_points": {
+                    "sequence": 2.0,
+                    "bit_vector": 10.0,
+                    "diagram_ocr": 8.0
+                }
+            },
+            "calibration_rule_hits": [
+                "structure_missing_review"
+            ],
+            "model_avg_ratio": 0.475,
+            "selected_baseline_score": 9.5,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "task_type": "algorithmic_or_mapping",
+                "final_answer_weight_high": true,
+                "concentrated_result_weight": true,
+                "upper_consensus_ready": false,
+                "low_score_undercredit_upper_candidate": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "extraction_risk": 0.12,
+                "structure_missing_rate": 0.8,
+                "suspicious_extraction_rate": 0.8,
+                "score_history_min": 5.0,
+                "score_history_max": 14.0,
+                "score_history_median": 14.0,
+                "raise_cap": 0.0,
+                "score_spread_ratio": 0.45,
+                "selected_ratio": 0.475
+            },
+            "high_score_safety_review": false,
+            "a3wa_risk": 0.6,
+            "a3wa_mu": 0.4,
+            "a3wa_alpha": 0.828571,
+            "a3wa_beta": 0.285714,
+            "a3wa_m": 0.4,
+            "a3wa_route": "NEG",
+            "a3wa_reason": "hard_neg:large_score_spread",
+            "a3wa_risk_components": {
+                "U_E": 0.4,
+                "U_S": 1.0,
+                "U_R": 0.4,
+                "U_extract": 0.12,
+                "U_score": 0.4375,
+                "U_semantic": 0.6,
+                "U_blank": 0.0,
+                "U_overcredit": 0.285,
+                "U_structure_missing": 0.8,
+                "L_lenient_undercredit": 0.0314,
+                "U_unsupported_high_score": 0.0,
+                "normalized_std": 0.225,
+                "score_spread_norm": 0.45
+            }
+        },
+        "post_calibration": {
+            "unsupported_match_points": 0.0,
+            "unsupported_match_points_ratio": 0.0,
+            "method_final_points": 20.0,
+            "verified_method_final_points": 0.0,
+            "method_final_verified_ratio": 0.0,
+            "direct_points_ratio": 0.0,
+            "direct_awarded_ratio": 0.0,
+            "result_correctness_signal": 0.3,
+            "result_strong_signal": 0.2,
+            "method_evidence_signal": 0.3,
+            "partial_or_format_points_ratio": 0.1,
+            "bare_answer_risk": 0.21,
+            "lenient_undercredit_signal": 0.0314,
+            "unsupported_high_score_risk": 0.0,
+            "metadata_coverage": 1.0,
+            "explicit_chain_coverage": 0.0,
+            "task_type": "algorithmic_or_mapping",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": false,
+            "calculation_or_derivation": false,
+            "algorithmic_or_mapping": true,
+            "final_answer_weight_high": true,
+            "rubric_task_profile": {
+                "task_type": "algorithmic_or_mapping",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "calculation_or_derivation": false,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 1.0,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 0.0,
+                "visual_sequence_points_ratio": 0.5,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "max_item_points_ratio": 0.1,
+                "small_item_ratio": 1.0,
+                "fragmented_rubric": true,
+                "concentrated_result_weight": true,
+                "answer_type_counts": {
+                    "sequence": 1,
+                    "bit_vector": 5,
+                    "diagram_ocr": 4
+                },
+                "answer_type_points": {
+                    "sequence": 2.0,
+                    "bit_vector": 10.0,
+                    "diagram_ocr": 8.0
+                }
+            },
+            "core_anchor_failed": false,
+            "weak_result_high_score_review": false,
+            "stable_undercredit_review": false,
+            "result_anchored_undercredit_review": false,
+            "direct_only_high_score_risk": false,
+            "extraction_retry_review": false,
+            "structure_missing_review": true,
+            "structure_missing_rate": 0.8,
+            "suspicious_extraction_rate": 0.8,
+            "extraction_risk": 0.12,
+            "extraction_quality": "high",
+            "primary_risks": {
+                "U_E": 0.4,
+                "U_S": 1.0,
+                "U_R": 0.4,
+                "risk": 0.6,
+                "mu": 0.4,
+                "score_spread": 9.0,
+                "gamma": 0.2,
+                "item_risks": [
+                    {
+                        "id": "item_1",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "sequence",
+                        "canonicalization": "sequence"
+                    },
+                    {
+                        "id": "item_2",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_3",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "BLANK",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_4",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_5",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_6",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "PARTIAL_MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    }
+                ]
+            },
+            "three_way_primary_risks": {
+                "U_E": 0.4,
+                "U_S": 1.0,
+                "U_R": 0.4,
+                "risk": 0.6,
+                "mu": 0.4,
+                "score_spread": 9.0,
+                "gamma": 0.2,
+                "item_risks": [
+                    {
+                        "id": "item_1",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "sequence",
+                        "canonicalization": "sequence"
+                    },
+                    {
+                        "id": "item_2",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_3",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "BLANK",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_4",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_5",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_6",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "PARTIAL_MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    }
+                ]
+            },
+            "visual_blank_review": false,
+            "boundary_domain": true,
+            "reject_domain": false,
+            "fatal_ratio": 0.6,
+            "lower_bound": 0.0,
+            "upper_bound": 20.0,
+            "rule_hits": [
+                "structure_missing_review"
+            ],
+            "selected_baseline_score": 9.5,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "task_type": "algorithmic_or_mapping",
+                "final_answer_weight_high": true,
+                "concentrated_result_weight": true,
+                "upper_consensus_ready": false,
+                "low_score_undercredit_upper_candidate": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "extraction_risk": 0.12,
+                "structure_missing_rate": 0.8,
+                "suspicious_extraction_rate": 0.8,
+                "score_history_min": 5.0,
+                "score_history_max": 14.0,
+                "score_history_median": 14.0,
+                "raise_cap": 0.0,
+                "score_spread_ratio": 0.45,
+                "selected_ratio": 0.475
+            },
+            "score_history_max": 14.0,
+            "score_history_median": 14.0,
+            "score_history_min": 5.0,
+            "high_score_safety_review": false
+        },
+        "a3wa_decision": {
+            "route": "NEG",
+            "reason": "hard_neg:large_score_spread",
+            "hard_neg_reasons": [
+                "large_score_spread"
+            ],
+            "risk": 0.6,
+            "confidence": 0.4,
+            "mu": 0.4,
+            "alpha": 0.828571,
+            "beta": 0.285714,
+            "m": 0.4,
+            "lambda1": 5.0,
+            "lambda2": 2.0,
+            "mu1": 2.0,
+            "mu2": 5.0,
+            "risk_components": {
+                "U_E": 0.4,
+                "U_S": 1.0,
+                "U_R": 0.4,
+                "U_extract": 0.12,
+                "U_score": 0.4375,
+                "U_semantic": 0.6,
+                "U_blank": 0.0,
+                "U_overcredit": 0.285,
+                "U_structure_missing": 0.8,
+                "L_lenient_undercredit": 0.0314,
+                "U_unsupported_high_score": 0.0,
+                "normalized_std": 0.225,
+                "score_spread_norm": 0.45
+            },
+            "score_spread": 9.0
+        },
+        "boundary_gate": null,
+        "arbitration_decision": "accept",
+        "reason_log": "A3WA hard_neg: large_score_spread",
+        "human_review_hint": "A3WA hard_neg: large_score_spread",
+        "facts": "{\n  \"item_1\": \"A>D>C>E>B\",\n  \"item_2\": \"A、D、C、E、B\",\n  \"item_3\": \"无\",\n  \"item_4\": \"C、E、B\",\n  \"item_5\": \"D、C、E、B\",\n  \"item_6\": \"E、B\",\n  \"item_7_1\": \"用户程序→A\",\n  \"item_7_2\": \"A→D→C\",\n  \"item_7_3\": \"E→B\",\n  \"item_7_4\": \"B→用户程序\"\n}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "item_1",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "A>D>C>E>B",
+                    "expected_condition": "中断处理优先级顺序为A→D→C→E→B（或写作A>D>C>E>B）",
+                    "dependency_status": "satisfied",
+                    "reason": "学生给出的顺序A>D>C>E>B与标准答案完全一致。"
+                },
+                {
+                    "id": "item_2",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "evidence_text": "A、D、C、E、B",
+                    "expected_condition": "A级中断屏蔽字为11111（或等价表述为A级中断屏蔽B、C、D、E所有其他级中断）",
+                    "dependency_status": "failed",
+                    "reason": "学生提供的是字母序列而非屏蔽字，与期望的位向量11111完全不符。"
+                },
+                {
+                    "id": "item_3",
+                    "score_given": 0,
+                    "error_category": "BLANK",
+                    "evidence_text": "无",
+                    "expected_condition": "B级中断屏蔽字为01000（或等价表述为B级中断仅屏蔽自身，不屏蔽其它中断）",
+                    "dependency_status": "failed",
+                    "reason": "学生明确写了\"无\"，未提供B级中断屏蔽字。"
+                },
+                {
+                    "id": "item_4",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "evidence_text": "C、E、B",
+                    "expected_condition": "C级中断屏蔽字为01101（或等价表述为C级中断屏蔽B、E级）",
+                    "dependency_status": "failed",
+                    "reason": "学生提供的是字母序列而非屏蔽字，与期望的位向量01101完全不符。"
+                },
+                {
+                    "id": "item_5",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "evidence_text": "D、C、E、B",
+                    "expected_condition": "D级中断屏蔽字为01111（或等价表述为D级中断屏蔽B、C、E级）",
+                    "dependency_status": "failed",
+                    "reason": "学生提供的是字母序列而非屏蔽字，与期望的位向量01111完全不符。"
+                },
+                {
+                    "id": "item_6",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "evidence_text": "E、B",
+                    "expected_condition": "E级中断屏蔽字为01001（或等价表述为E级中断屏蔽B级）",
+                    "dependency_status": "failed",
+                    "reason": "学生提供的是字母序列而非屏蔽字，与期望的位向量01001完全不符。"
+                },
+                {
+                    "id": "item_7_1",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "用户程序→A",
+                    "expected_condition": "同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                    "dependency_status": "satisfied",
+                    "reason": "图中显示用户程序首先转向A，表明优先响应A级中断。"
+                },
+                {
+                    "id": "item_7_2",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "evidence_text": "A→D→C",
+                    "expected_condition": "A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                    "dependency_status": "failed",
+                    "reason": "学生给出的顺序为A→D→C，与标准答案A执行完后先响应C再在C中响应D相反，存在概念性错误。"
+                },
+                {
+                    "id": "item_7_3",
+                    "score_given": 0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "evidence_text": "E→B",
+                    "expected_condition": "D级中断服务程序执行完毕后正确返回C级中断或断点",
+                    "dependency_status": "failed",
+                    "reason": "学生提供的是E→B，与D执行完毕后返回C级中断的要求无关，未能满足。"
+                },
+                {
+                    "id": "item_7_4",
+                    "score_given": 1.0,
+                    "error_category": "PARTIAL_MATCH",
+                    "evidence_text": "B→用户程序",
+                    "expected_condition": "后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                    "dependency_status": "insufficient",
+                    "reason": "图中显示了B最后返回用户程序，符合返回用户程序的要求，但未体现E级先于B执行的完整顺序。"
+                }
+            ],
+            "total_score": 5.0
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B（或写作A>D>C>E>B）",
+                        "dependency_status": "satisfied",
+                        "reason": "学生给出的顺序A>D>C>E>B与标准答案完全一致。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "A、D、C、E、B",
+                        "expected_condition": "A级中断屏蔽字为11111（或等价表述为A级中断屏蔽B、C、D、E所有其他级中断）",
+                        "dependency_status": "failed",
+                        "reason": "学生提供的是字母序列而非屏蔽字，与期望的位向量11111完全不符。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "无",
+                        "expected_condition": "B级中断屏蔽字为01000（或等价表述为B级中断仅屏蔽自身，不屏蔽其它中断）",
+                        "dependency_status": "failed",
+                        "reason": "学生明确写了\"无\"，未提供B级中断屏蔽字。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "C、E、B",
+                        "expected_condition": "C级中断屏蔽字为01101（或等价表述为C级中断屏蔽B、E级）",
+                        "dependency_status": "failed",
+                        "reason": "学生提供的是字母序列而非屏蔽字，与期望的位向量01101完全不符。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "D、C、E、B",
+                        "expected_condition": "D级中断屏蔽字为01111（或等价表述为D级中断屏蔽B、C、E级）",
+                        "dependency_status": "failed",
+                        "reason": "学生提供的是字母序列而非屏蔽字，与期望的位向量01111完全不符。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "E、B",
+                        "expected_condition": "E级中断屏蔽字为01001（或等价表述为E级中断屏蔽B级）",
+                        "dependency_status": "failed",
+                        "reason": "学生提供的是字母序列而非屏蔽字，与期望的位向量01001完全不符。"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "用户程序→A",
+                        "expected_condition": "同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                        "dependency_status": "satisfied",
+                        "reason": "图中显示用户程序首先转向A，表明优先响应A级中断。"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "A→D→C",
+                        "expected_condition": "A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                        "dependency_status": "failed",
+                        "reason": "学生给出的顺序为A→D→C，与标准答案A执行完后先响应C再在C中响应D相反，存在概念性错误。"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "E→B",
+                        "expected_condition": "D级中断服务程序执行完毕后正确返回C级中断或断点",
+                        "dependency_status": "failed",
+                        "reason": "学生提供的是E→B，与D执行完毕后返回C级中断的要求无关，未能满足。"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "B→用户程序",
+                        "expected_condition": "后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "insufficient",
+                        "reason": "图中显示了B最后返回用户程序，符合返回用户程序的要求，但未体现E级先于B执行的完整顺序。"
+                    }
+                ],
+                "total_score": 5.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B（或写作A>D>C>E>B）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生给出的优先级顺序与标准答案完全一致，使用>符号表述等价于→。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A、D、C、E、B",
+                        "expected_condition": "A级中断屏蔽字为11111（或等价表述为A级中断屏蔽B、C、D、E所有其他级中断）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生以集合形式给出A级屏蔽的对象为D、C、E、B（即屏蔽所有其他级），与等价表述\"A级中断屏蔽B、C、D、E所有其他级中断\"语义一致。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "无",
+                        "expected_condition": "B级中断屏蔽字为01000（或等价表述为B级中断仅屏蔽自身，不屏蔽其它中断）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生填写为\"无\"，未提供有效的屏蔽字或等价描述，无法判定B级屏蔽自身这一关键信息。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "C、E、B",
+                        "expected_condition": "C级中断屏蔽字为01101（或等价表述为C级中断屏蔽B、E级）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生以集合形式给出C级屏蔽E、B，与等价表述\"C级中断屏蔽B、E级\"语义一致（集合无序）。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "D、C、E、B",
+                        "expected_condition": "D级中断屏蔽字为01111（或等价表述为D级中断屏蔽B、C、E级）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生以集合形式给出D级屏蔽C、E、B，与等价表述\"D级中断屏蔽B、C、E级\"语义一致。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "E、B",
+                        "expected_condition": "E级中断屏蔽字为01001（或等价表述为E级中断屏蔽B级）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生以集合形式给出E级屏蔽B，与等价表述\"E级中断屏蔽B级\"完全一致。"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "用户程序→A",
+                        "expected_condition": "顺序图中，同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                        "dependency_status": "satisfied",
+                        "reason": "学生图中用户程序首先进入A级中断服务程序，符合\"A级优先响应\"的要求。"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "A→D→C",
+                        "expected_condition": "顺序图中，A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                        "dependency_status": "failed",
+                        "reason": "标准答案要求A完成后先响应C，C执行期间再被D打断（嵌套关系D在C内）；学生给出A→D→C，将D与C的响应顺序颠倒，反映了错误的中断响应与嵌套关系。"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "score_given": 0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "A→D→C",
+                        "expected_condition": "顺序图中，D级中断服务程序执行完毕后正确返回C级中断或断点",
+                        "dependency_status": "failed",
+                        "reason": "由于学生图中D先于C执行（A→D→C），不存在\"D执行完返回到C\"的嵌套返回关系，与标准答案要求的D嵌套于C内并返回C的概念矛盾。"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "E→B ; B→用户程序",
+                        "expected_condition": "顺序图中，后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "satisfied",
+                        "reason": "学生图中明确给出E→B→用户程序的返回链路，与标准答案\"E级、B级依次执行完毕后返回用户程序\"一致。"
+                    }
+                ],
+                "total_score": 14.0
+            }
+        ]
+    },
+    {
+        "student_id": "E12314145_Q2",
+        "teacher_score": 18.0,
+        "model_scores_history": [
+            18.0,
+            14.0,
+            5.0
+        ],
+        "model_avg_score": 12.3,
+        "selected_baseline_score": 12.3,
+        "baseline_policy": "model_avg",
+        "baseline_score_source": "model_avg_score",
+        "baseline_selection_signals": {
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": false,
+            "task_type": "algorithmic_or_mapping",
+            "final_answer_weight_high": true,
+            "concentrated_result_weight": true,
+            "upper_consensus_ready": false,
+            "low_score_undercredit_upper_candidate": false,
+            "high_over_unsafe": true,
+            "high_score_safety_review": false,
+            "extraction_risk": 0.12,
+            "structure_missing_rate": 0.8,
+            "suspicious_extraction_rate": 0.8,
+            "score_history_min": 5.0,
+            "score_history_max": 18.0,
+            "score_history_median": 14.0,
+            "raise_cap": 0.0,
+            "score_spread_ratio": 0.65,
+            "selected_ratio": 0.615
+        },
+        "std_dev": 5.4365,
+        "blank_rate": 0.0,
+        "perception_failure_rate": 0.0,
+        "low_quality_extraction_rate": 0.0,
+        "structure_missing_rate": 0.8,
+        "suspicious_extraction_rate": 0.8,
+        "extraction_risk": 0.12,
+        "extraction_quality": "high",
+        "real_diff": 5.7,
+        "3wd_route": "NEG",
+        "final_calibrated_score": 12.3,
+        "requires_human_arbitration": true,
+        "perception_risk": 0.24,
+        "uncertainty_index": 0.2718,
+        "fatal_points_ratio": 0.1,
+        "high_blank_high_score": false,
+        "lenient_review_signal": false,
+        "risk_features": {
+            "perception_risk": 0.24,
+            "uncertainty_index": 0.2718,
+            "fatal_points_ratio": 0.1,
+            "high_blank_high_score": false,
+            "lenient_review_signal": false,
+            "reject_domain": true,
+            "boundary_domain": false,
+            "std_ratio": 0.2718,
+            "spread_ratio": 0.65,
+            "avg_ratio": 0.615,
+            "score_spread": 13.0,
+            "blank_rate": 0.0,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "structure_missing_rate": 0.8,
+            "suspicious_extraction_rate": 0.8,
+            "extraction_risk": 0.12,
+            "partial_match_points_ratio": 0.1,
+            "format_minor_points_ratio": 0.0,
+            "U_E": 0.4,
+            "U_S": 1.0,
+            "U_R": 0.4,
+            "primary_risk": 0.6,
+            "primary_mu": 0.4,
+            "unsupported_match_points_ratio": 0.0,
+            "method_final_verified_ratio": 0.0,
+            "direct_points_ratio": 0.0,
+            "direct_awarded_ratio": 0.0,
+            "result_correctness_signal": 0.8,
+            "result_strong_signal": 0.8,
+            "method_evidence_signal": 0.8,
+            "partial_or_format_points_ratio": 0.0,
+            "bare_answer_risk": 0.16,
+            "lenient_undercredit_signal": 0.1707,
+            "unsupported_high_score_risk": 0.0,
+            "metadata_coverage": 1.0,
+            "explicit_chain_coverage": 0.0,
+            "core_anchor_failed": false,
+            "visual_blank_review": false,
+            "structure_missing_review": true,
+            "weak_result_high_score_review": false,
+            "stable_undercredit_review": false,
+            "direct_only_high_score_risk": false,
+            "task_type": "algorithmic_or_mapping",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": false,
+            "rubric_task_profile": {
+                "task_type": "algorithmic_or_mapping",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "calculation_or_derivation": false,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 1.0,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 0.0,
+                "visual_sequence_points_ratio": 0.5,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "max_item_points_ratio": 0.1,
+                "small_item_ratio": 1.0,
+                "fragmented_rubric": true,
+                "concentrated_result_weight": true,
+                "answer_type_counts": {
+                    "sequence": 1,
+                    "bit_vector": 5,
+                    "diagram_ocr": 4
+                },
+                "answer_type_points": {
+                    "sequence": 2.0,
+                    "bit_vector": 10.0,
+                    "diagram_ocr": 8.0
+                }
+            },
+            "calibration_rule_hits": [
+                "lenient_undercredit_review",
+                "structure_missing_review"
+            ],
+            "model_avg_ratio": 0.615,
+            "selected_baseline_score": 12.3,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "task_type": "algorithmic_or_mapping",
+                "final_answer_weight_high": true,
+                "concentrated_result_weight": true,
+                "upper_consensus_ready": false,
+                "low_score_undercredit_upper_candidate": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "extraction_risk": 0.12,
+                "structure_missing_rate": 0.8,
+                "suspicious_extraction_rate": 0.8,
+                "score_history_min": 5.0,
+                "score_history_max": 18.0,
+                "score_history_median": 14.0,
+                "raise_cap": 0.0,
+                "score_spread_ratio": 0.65,
+                "selected_ratio": 0.615
+            },
+            "high_score_safety_review": false,
+            "a3wa_risk": 0.6,
+            "a3wa_mu": 0.4,
+            "a3wa_alpha": 0.828571,
+            "a3wa_beta": 0.285714,
+            "a3wa_m": 0.4,
+            "a3wa_route": "NEG",
+            "a3wa_reason": "hard_neg:large_score_spread",
+            "a3wa_risk_components": {
+                "U_E": 0.4,
+                "U_S": 1.0,
+                "U_R": 0.4,
+                "U_extract": 0.12,
+                "U_score": 0.560913,
+                "U_semantic": 0.1,
+                "U_blank": 0.0,
+                "U_overcredit": 0.0984,
+                "U_structure_missing": 0.8,
+                "L_lenient_undercredit": 0.1707,
+                "U_unsupported_high_score": 0.0,
+                "normalized_std": 0.271825,
+                "score_spread_norm": 0.65
+            }
+        },
+        "post_calibration": {
+            "unsupported_match_points": 0.0,
+            "unsupported_match_points_ratio": 0.0,
+            "method_final_points": 20.0,
+            "verified_method_final_points": 0.0,
+            "method_final_verified_ratio": 0.0,
+            "direct_points_ratio": 0.0,
+            "direct_awarded_ratio": 0.0,
+            "result_correctness_signal": 0.8,
+            "result_strong_signal": 0.8,
+            "method_evidence_signal": 0.8,
+            "partial_or_format_points_ratio": 0.0,
+            "bare_answer_risk": 0.16,
+            "lenient_undercredit_signal": 0.1707,
+            "unsupported_high_score_risk": 0.0,
+            "metadata_coverage": 1.0,
+            "explicit_chain_coverage": 0.0,
+            "task_type": "algorithmic_or_mapping",
+            "complex_derivation_task": true,
+            "upper_consensus_eligible": false,
+            "calculation_or_derivation": false,
+            "algorithmic_or_mapping": true,
+            "final_answer_weight_high": true,
+            "rubric_task_profile": {
+                "task_type": "algorithmic_or_mapping",
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "calculation_or_derivation": false,
+                "algorithmic_or_mapping": true,
+                "final_answer_weight_high": true,
+                "concept_dominant": false,
+                "process_points_ratio": 1.0,
+                "result_points_ratio": 1.0,
+                "parameter_points_ratio": 0.0,
+                "numeric_formula_points_ratio": 0.0,
+                "visual_sequence_points_ratio": 0.5,
+                "concept_judgement_points_ratio": 0.0,
+                "metadata_points_ratio": 1.0,
+                "max_item_points_ratio": 0.1,
+                "small_item_ratio": 1.0,
+                "fragmented_rubric": true,
+                "concentrated_result_weight": true,
+                "answer_type_counts": {
+                    "sequence": 1,
+                    "bit_vector": 5,
+                    "diagram_ocr": 4
+                },
+                "answer_type_points": {
+                    "sequence": 2.0,
+                    "bit_vector": 10.0,
+                    "diagram_ocr": 8.0
+                }
+            },
+            "core_anchor_failed": false,
+            "weak_result_high_score_review": false,
+            "stable_undercredit_review": false,
+            "result_anchored_undercredit_review": false,
+            "direct_only_high_score_risk": false,
+            "extraction_retry_review": false,
+            "structure_missing_review": true,
+            "structure_missing_rate": 0.8,
+            "suspicious_extraction_rate": 0.8,
+            "extraction_risk": 0.12,
+            "extraction_quality": "high",
+            "primary_risks": {
+                "U_E": 0.4,
+                "U_S": 1.0,
+                "U_R": 0.4,
+                "risk": 0.6,
+                "mu": 0.4,
+                "score_spread": 13.0,
+                "gamma": 0.2,
+                "item_risks": [
+                    {
+                        "id": "item_1",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "sequence",
+                        "canonicalization": "sequence"
+                    },
+                    {
+                        "id": "item_2",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "BLANK",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_3",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_4",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_5",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_6",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    }
+                ]
+            },
+            "three_way_primary_risks": {
+                "U_E": 0.4,
+                "U_S": 1.0,
+                "U_R": 0.4,
+                "risk": 0.6,
+                "mu": 0.4,
+                "score_spread": 13.0,
+                "gamma": 0.2,
+                "item_risks": [
+                    {
+                        "id": "item_1",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "sequence",
+                        "canonicalization": "sequence"
+                    },
+                    {
+                        "id": "item_2",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "BLANK",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_3",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_4",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_5",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "SEMANTIC_FATAL",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_6",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "bit_vector",
+                        "canonicalization": "bit_vector"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "points": 2.0,
+                        "evidence_quality": 1.0,
+                        "rubric_adaptation": 1.0,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "points": 2.0,
+                        "evidence_quality": 0.5,
+                        "rubric_adaptation": 0.5,
+                        "majority_category": "MATCH",
+                        "answer_type": "diagram_ocr",
+                        "canonicalization": "diagram_ocr"
+                    }
+                ]
+            },
+            "visual_blank_review": false,
+            "boundary_domain": true,
+            "reject_domain": false,
+            "fatal_ratio": 0.1,
+            "lower_bound": 0.0,
+            "upper_bound": 20.0,
+            "rule_hits": [
+                "lenient_undercredit_review",
+                "structure_missing_review"
+            ],
+            "selected_baseline_score": 12.3,
+            "baseline_policy": "model_avg",
+            "baseline_score_source": "model_avg_score",
+            "baseline_selection_signals": {
+                "complex_derivation_task": true,
+                "upper_consensus_eligible": false,
+                "task_type": "algorithmic_or_mapping",
+                "final_answer_weight_high": true,
+                "concentrated_result_weight": true,
+                "upper_consensus_ready": false,
+                "low_score_undercredit_upper_candidate": false,
+                "high_over_unsafe": true,
+                "high_score_safety_review": false,
+                "extraction_risk": 0.12,
+                "structure_missing_rate": 0.8,
+                "suspicious_extraction_rate": 0.8,
+                "score_history_min": 5.0,
+                "score_history_max": 18.0,
+                "score_history_median": 14.0,
+                "raise_cap": 0.0,
+                "score_spread_ratio": 0.65,
+                "selected_ratio": 0.615
+            },
+            "score_history_max": 18.0,
+            "score_history_median": 14.0,
+            "score_history_min": 5.0,
+            "high_score_safety_review": false
+        },
+        "a3wa_decision": {
+            "route": "NEG",
+            "reason": "hard_neg:large_score_spread",
+            "hard_neg_reasons": [
+                "large_score_spread"
+            ],
+            "risk": 0.6,
+            "confidence": 0.4,
+            "mu": 0.4,
+            "alpha": 0.828571,
+            "beta": 0.285714,
+            "m": 0.4,
+            "lambda1": 5.0,
+            "lambda2": 2.0,
+            "mu1": 2.0,
+            "mu2": 5.0,
+            "risk_components": {
+                "U_E": 0.4,
+                "U_S": 1.0,
+                "U_R": 0.4,
+                "U_extract": 0.12,
+                "U_score": 0.560913,
+                "U_semantic": 0.1,
+                "U_blank": 0.0,
+                "U_overcredit": 0.0984,
+                "U_structure_missing": 0.8,
+                "L_lenient_undercredit": 0.1707,
+                "U_unsupported_high_score": 0.0,
+                "normalized_std": 0.271825,
+                "score_spread_norm": 0.65
+            },
+            "score_spread": 13.0
+        },
+        "boundary_gate": null,
+        "arbitration_decision": "accept",
+        "reason_log": "A3WA hard_neg: large_score_spread",
+        "human_review_hint": "A3WA hard_neg: large_score_spread",
+        "facts": "{\n  \"item_1\": \"A>D>C>E>B\",\n  \"item_2\": \"无\",\n  \"item_3\": \"A,D,C,E\",\n  \"item_4\": \"A,D\",\n  \"item_5\": \"θ\",\n  \"item_6\": \"A,D,C\",\n  \"item_7_1\": \"A B C\",\n  \"item_7_2\": \"D E\",\n  \"item_7_3\": \"返回C\",\n  \"item_7_4\": \"返回用户程序\"\n}",
+        "strict_cot": {
+            "details": [
+                {
+                    "id": "item_1",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "A>D>C>E>B",
+                    "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生写出的优先级顺序A>D>C>E>B与标准答案完全一致。"
+                },
+                {
+                    "id": "item_2",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "无",
+                    "expected_condition": "A级中断屏蔽字为11111（A级屏蔽所有其他级中断）",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生用等价表述'无'表示没有中断可抢占A级，即A级屏蔽所有其他中断，与11111等价。"
+                },
+                {
+                    "id": "item_3",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "A,D,C,E",
+                    "expected_condition": "B级中断屏蔽字为01000（B级仅屏蔽自身）",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生列出可抢占B级的中断为A,D,C,E，等价于B级仅屏蔽自身（01000），属等价表述。"
+                },
+                {
+                    "id": "item_4",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "A,D",
+                    "expected_condition": "C级中断屏蔽字为01101（C级屏蔽B、E级）",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生列出可抢占C级的中断为A,D，意味着C屏蔽B和E（以及自身），与01101等价。"
+                },
+                {
+                    "id": "item_5",
+                    "score_given": 0.0,
+                    "error_category": "SEMANTIC_FATAL",
+                    "evidence_text": "θ",
+                    "expected_condition": "D级中断屏蔽字为01111（D级屏蔽B、C、E级，仅A可抢占）",
+                    "dependency_status": "not_applicable",
+                    "reason": "D级屏蔽字为01111，仅A级可抢占D级，学生应写出'A'。θ（空集）表示无中断可抢占D，概念错误。"
+                },
+                {
+                    "id": "item_6",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "A,D,C",
+                    "expected_condition": "E级中断屏蔽字为01001（E级屏蔽B级）",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生列出可抢占E级的中断为A,D,C，意味着E仅屏蔽B（及自身），与01001等价。"
+                },
+                {
+                    "id": "item_7_1",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "A B C",
+                    "expected_condition": "同时出现A、B、C请求时优先响应并执行A级中断服务程序",
+                    "dependency_status": "not_applicable",
+                    "reason": "图中标注A B C表明同时出现三级请求，且A排在最前优先响应，符合要求。"
+                },
+                {
+                    "id": "item_7_2",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "D E",
+                    "expected_condition": "A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                    "dependency_status": "not_applicable",
+                    "reason": "图中D出现在初始A B C之后、返回C之前，结合item_7_3'返回C'，可判断D在C处理期间被响应，符合中断流程。"
+                },
+                {
+                    "id": "item_7_3",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "返回C",
+                    "expected_condition": "D级中断服务程序执行完毕后正确返回C级中断或断点",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生明确标注'返回C'，表示D级处理完毕后返回C级断点，完全正确。"
+                },
+                {
+                    "id": "item_7_4",
+                    "score_given": 2.0,
+                    "error_category": "MATCH",
+                    "evidence_text": "返回用户程序",
+                    "expected_condition": "后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                    "dependency_status": "not_applicable",
+                    "reason": "学生标注'返回用户程序'，表示所有中断处理完毕后正确返回用户程序。结合D E标注，E和B的后续处理流程完整。"
+                }
+            ],
+            "total_score": 18.0
+        },
+        "strict_cots_all": [
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生写出的优先级顺序A>D>C>E>B与标准答案完全一致。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "无",
+                        "expected_condition": "A级中断屏蔽字为11111（A级屏蔽所有其他级中断）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生用等价表述'无'表示没有中断可抢占A级，即A级屏蔽所有其他中断，与11111等价。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A,D,C,E",
+                        "expected_condition": "B级中断屏蔽字为01000（B级仅屏蔽自身）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生列出可抢占B级的中断为A,D,C,E，等价于B级仅屏蔽自身（01000），属等价表述。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A,D",
+                        "expected_condition": "C级中断屏蔽字为01101（C级屏蔽B、E级）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生列出可抢占C级的中断为A,D，意味着C屏蔽B和E（以及自身），与01101等价。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "θ",
+                        "expected_condition": "D级中断屏蔽字为01111（D级屏蔽B、C、E级，仅A可抢占）",
+                        "dependency_status": "not_applicable",
+                        "reason": "D级屏蔽字为01111，仅A级可抢占D级，学生应写出'A'。θ（空集）表示无中断可抢占D，概念错误。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A,D,C",
+                        "expected_condition": "E级中断屏蔽字为01001（E级屏蔽B级）",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生列出可抢占E级的中断为A,D,C，意味着E仅屏蔽B（及自身），与01001等价。"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A B C",
+                        "expected_condition": "同时出现A、B、C请求时优先响应并执行A级中断服务程序",
+                        "dependency_status": "not_applicable",
+                        "reason": "图中标注A B C表明同时出现三级请求，且A排在最前优先响应，符合要求。"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "D E",
+                        "expected_condition": "A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                        "dependency_status": "not_applicable",
+                        "reason": "图中D出现在初始A B C之后、返回C之前，结合item_7_3'返回C'，可判断D在C处理期间被响应，符合中断流程。"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "返回C",
+                        "expected_condition": "D级中断服务程序执行完毕后正确返回C级中断或断点",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生明确标注'返回C'，表示D级处理完毕后返回C级断点，完全正确。"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "返回用户程序",
+                        "expected_condition": "后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "not_applicable",
+                        "reason": "学生标注'返回用户程序'，表示所有中断处理完毕后正确返回用户程序。结合D E标注，E和B的后续处理流程完整。"
+                    }
+                ],
+                "total_score": 18.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B（或写作A>D>C>E>B）",
+                        "dependency_status": "satisfied",
+                        "reason": "学生给出的优先级顺序A>D>C>E>B与标准答案完全一致。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "无",
+                        "expected_condition": "A级中断屏蔽字为11111",
+                        "dependency_status": "failed",
+                        "reason": "学生未给出A级中断屏蔽字，提取内容为'无'。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A,D,C,E",
+                        "expected_condition": "B级中断屏蔽字为01000（B级仅屏蔽自身，不屏蔽其它中断）",
+                        "dependency_status": "satisfied",
+                        "reason": "学生列出B级不屏蔽的中断为A,C,D,E（集合等价），与01000（仅屏蔽自身）的等价表述一致。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A,D",
+                        "expected_condition": "C级中断屏蔽字为01101（C级屏蔽B、E级，不屏蔽A、D级）",
+                        "dependency_status": "satisfied",
+                        "reason": "学生列出C级不屏蔽的中断为A,D，与01101的等价表述一致。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0,
+                        "error_category": "BLANK",
+                        "evidence_text": "θ",
+                        "expected_condition": "D级中断屏蔽字为01111",
+                        "dependency_status": "failed",
+                        "reason": "学生未给出D级屏蔽字的有效内容，提取为空白符号。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A,D,C",
+                        "expected_condition": "E级中断屏蔽字为01001（E级仅屏蔽B级和自身，不屏蔽A、C、D级）",
+                        "dependency_status": "satisfied",
+                        "reason": "学生列出E级不屏蔽的中断为A,C,D，与01001的等价表述一致。"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "A B C",
+                        "expected_condition": "同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                        "dependency_status": "insufficient",
+                        "reason": "学生图中显示了A、B、C三个请求同时出现，但提取信息不足以确认是否优先响应并执行A级。"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "D E",
+                        "expected_condition": "A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                        "dependency_status": "insufficient",
+                        "reason": "学生图中显示了D、E级中断的处理，但提取信息不足以确认A→C→D的嵌套关系。"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "返回C",
+                        "expected_condition": "D级中断服务程序执行完毕后正确返回C级中断或断点",
+                        "dependency_status": "satisfied",
+                        "reason": "学生明确标注D级完成后返回C级，与标准答案一致。"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "返回用户程序",
+                        "expected_condition": "后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "satisfied",
+                        "reason": "学生明确标注最终返回用户程序，与标准答案一致。"
+                    }
+                ],
+                "total_score": 14.0
+            },
+            {
+                "details": [
+                    {
+                        "id": "item_1",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "A>D>C>E>B",
+                        "expected_condition": "中断处理优先级顺序为A→D→C→E→B（或写作A>D>C>E>B）",
+                        "dependency_status": "not_applicable",
+                        "reason": "提取的事实与标准答案的中断处理优先级顺序完全一致。"
+                    },
+                    {
+                        "id": "item_2",
+                        "score_given": 0.0,
+                        "error_category": "BLANK",
+                        "evidence_text": "无",
+                        "expected_condition": "A级中断屏蔽字为11111（或等价表述为A级中断屏蔽B、C、D、E所有其他级中断）",
+                        "dependency_status": "failed",
+                        "reason": "提取内容显示学生未作答A级中断屏蔽字。"
+                    },
+                    {
+                        "id": "item_3",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "A,D,C,E",
+                        "expected_condition": "B级中断屏蔽字为01000（或等价表述为B级中断仅屏蔽自身，不屏蔽其它中断）",
+                        "dependency_status": "failed",
+                        "reason": "提取的答案为A,D,C,E，完全不符合B级中断屏蔽字01000或其等价描述，属于答非所问或概念错误。"
+                    },
+                    {
+                        "id": "item_4",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "A,D",
+                        "expected_condition": "C级中断屏蔽字为01101（或等价表述为C级中断屏蔽B、E级）",
+                        "dependency_status": "failed",
+                        "reason": "提取的答案为A,D，完全不等于C级屏蔽字01101或其等价文字描述。"
+                    },
+                    {
+                        "id": "item_5",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "θ",
+                        "expected_condition": "D级中断屏蔽字为01111（或等价表述为D级中断屏蔽B、C、E级）",
+                        "dependency_status": "failed",
+                        "reason": "提取的内容仅为希腊字母θ，与D级中断屏蔽字毫不相关。"
+                    },
+                    {
+                        "id": "item_6",
+                        "score_given": 0.0,
+                        "error_category": "SEMANTIC_FATAL",
+                        "evidence_text": "A,D,C",
+                        "expected_condition": "E级中断屏蔽字为01001（或等价表述为E级中断屏蔽B级）",
+                        "dependency_status": "failed",
+                        "reason": "提取的答案为A,D,C，与E级屏蔽字01001或等价描述不匹配，属于无关错误内容。"
+                    },
+                    {
+                        "id": "item_7_1",
+                        "score_given": 0.0,
+                        "error_category": "INSUFFICIENT_INFO",
+                        "evidence_text": "A B C",
+                        "expected_condition": "CPU执行程序和处理中断顺序图中，同时出现A、B、C请求时，优先响应并执行A级中断服务程序",
+                        "dependency_status": "insufficient",
+                        "reason": "提取的事实仅为'A B C'，可能只标出了请求信号，但缺乏体现'优先响应并执行A级中断'的动作或断言证据，无法判定得分。"
+                    },
+                    {
+                        "id": "item_7_2",
+                        "score_given": 0.0,
+                        "error_category": "INSUFFICIENT_INFO",
+                        "evidence_text": "D E",
+                        "expected_condition": "顺序图中，A执行完后响应C级中断，并在C级处理期间响应D级中断请求",
+                        "dependency_status": "insufficient",
+                        "reason": "提取的事实仅为'D E'，缺乏体现'A执行完后响应C并在C期间响应D'的完整嵌套关系和顺序证据。"
+                    },
+                    {
+                        "id": "item_7_3",
+                        "score_given": 2.0,
+                        "error_category": "MATCH",
+                        "evidence_text": "返回C",
+                        "expected_condition": "顺序图中，D级中断服务程序执行完毕后正确返回C级中断或断点",
+                        "dependency_status": "satisfied",
+                        "reason": "提取的'返回C'符合评分标准中'D级执行完毕后正确返回C级'的要求。"
+                    },
+                    {
+                        "id": "item_7_4",
+                        "score_given": 1.0,
+                        "error_category": "PARTIAL_MATCH",
+                        "evidence_text": "返回用户程序",
+                        "expected_condition": "顺序图中，后续按E级、B级顺序依次执行完毕，最后正确返回用户程序",
+                        "dependency_status": "insufficient",
+                        "reason": "提取事实体现了最后正确返回用户程序的最终动作，但未包含E、B级依次执行完毕的顺序或证据，根据规则给予部分分。"
+                    }
+                ],
+                "total_score": 5.0
             }
         ]
     }

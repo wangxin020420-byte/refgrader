@@ -6,10 +6,13 @@ import base64
 import re
 import time
 import concurrent.futures
+from datetime import datetime
 from openai import OpenAI
 from PIL import Image, ImageEnhance, ImageOps
 import io
 import numpy as np
+from ocr.backend import load_json as load_ocr_json
+from ocr.backend import sha256_file
 from calibration_utils import (
     a3wa_dynamic_bounds,
     apply_boundary_action_policy,
@@ -135,6 +138,28 @@ def call_text_model(messages, temperature=0.2, timeout=120):
         )
         return response.choices[0].message.content.strip()
 
+
+def call_glm5_text(messages, temperature=0.1, timeout=180):
+    """Call GLM-5.1 explicitly for OCR-to-fact mapping."""
+    for attempt in range(4):
+        try:
+            client = OpenAI(api_key=GLM5_API_KEY, base_url=GLM5_BASE_URL)
+            response = client.chat.completions.create(
+                model=GLM5_MODEL_NAME,
+                messages=messages,
+                temperature=temperature,
+                timeout=timeout,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as exc:
+            wait = 5 * (attempt + 1)
+            print(
+                f"         [GLM-5.1 mapping retry {attempt + 1}/4] "
+                f"{type(exc).__name__}: {str(exc)[:80]}... wait {wait}s"
+            )
+            time.sleep(wait)
+    raise RuntimeError("GLM-5.1 OCR fact mapping failed after 4 attempts")
+
 # ==================== 工具函数 ====================
 
 def compress_image_to_bytes(image_path, max_long_edge=1920):
@@ -201,6 +226,27 @@ def preprocess_student_image_to_base64(image_path, mode="contrast"):
     except Exception as e:
         print(f"   [image preprocess] {mode} failed; fallback to original image: {e}")
         return encode_image_to_base64(image_path)
+
+
+def diagram_focus_to_base64(image_path):
+    """Create an enlarged lower-page view for timing/order diagrams."""
+    if not image_path or not os.path.exists(image_path):
+        return None
+    try:
+        image = Image.open(image_path).convert("RGB")
+        top = int(image.height * 0.43)
+        crop = image.crop((0, top, image.width, image.height))
+        crop = ImageOps.autocontrast(crop, cutoff=1)
+        crop = crop.resize(
+            (crop.width * 2, crop.height * 2),
+            Image.Resampling.LANCZOS,
+        )
+        buffer = io.BytesIO()
+        crop.save(buffer, format="JPEG", quality=98)
+        return base64.b64encode(buffer.getvalue()).decode("utf-8")
+    except Exception as exc:
+        print(f"   [diagram focus] failed: {exc}")
+        return None
 
 def extract_and_parse_json(text):
     match = re.search(r'```json\s*(.*?)\s*```', text, re.DOTALL)
@@ -319,6 +365,261 @@ def stage1_blind_extraction(question_text, student_img_path, blind_checklist, q_
         except Exception as e:
             time.sleep(30)
     return None
+
+
+def _checklist_ids(blind_checklist):
+    parsed = extract_and_parse_json(blind_checklist) if isinstance(blind_checklist, str) else blind_checklist
+    if not isinstance(parsed, list):
+        return []
+    return [str(item.get("id", "")) for item in parsed if str(item.get("id", ""))]
+
+
+def _diagram_checklist(blind_checklist, rubrics_json):
+    checklist = extract_and_parse_json(blind_checklist) if isinstance(blind_checklist, str) else blind_checklist
+    rubrics = extract_and_parse_json(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json
+    checklist = checklist if isinstance(checklist, list) else []
+    rubrics = rubrics if isinstance(rubrics, list) else []
+    diagram_ids = {
+        str(item.get("id", ""))
+        for item in rubrics
+        if (
+            str(item.get("evidence_source", "")).lower() == "diagram"
+            or "diagram" in str(item.get("answer_type", "")).lower()
+            or "图" in str(item.get("answer_type", ""))
+        )
+    }
+    return [item for item in checklist if str(item.get("id", "")) in diagram_ids]
+
+
+def map_paddle_ocr_to_facts(question_text, blind_checklist, ocr_payload):
+    """Map raw OCR evidence to blind checklist items with GLM-5.1."""
+    checklist_ids = _checklist_ids(blind_checklist)
+    blank_status = (
+        ocr_payload.get("summary", {})
+        .get("blank_authenticity", {})
+        .get("status", "uncertain")
+    )
+    if blank_status == "confirmed_blank":
+        return {item_id: "未书写" for item_id in checklist_ids}
+
+    tokens = [
+        {
+            "text": token.get("text", ""),
+            "confidence": token.get("confidence"),
+            "box": token.get("box"),
+        }
+        for token in ocr_payload.get("tokens", [])
+    ]
+    prompt = f"""
+# Role: OCR evidence to rubric-fact mapper
+
+Map the raw OCR tokens to the blind checklist. Use only visible student-answer
+evidence. Printed question text, axes, score marks, and OCR noise are not student
+answers. Do not solve the question and do not invent missing relations.
+
+Question context (for locating printed text only):
+{question_text}
+
+Blind checklist:
+{blind_checklist}
+
+OCR tokens with confidence and coordinates:
+{json.dumps(tokens, ensure_ascii=False)}
+
+Blank diagnostic:
+{json.dumps(ocr_payload.get("summary", {}).get("blank_authenticity", {}), ensure_ascii=False)}
+
+Return one strict JSON object. Its keys must be exactly the checklist ids.
+For each value:
+- transcribe the concrete observed answer;
+- use "未书写" only when the area is truly blank;
+- use "字迹模糊" when marks exist but cannot be read;
+- for diagrams, report only labels/text visible to OCR; do not infer edges.
+"""
+    raw = call_glm5_text([{"role": "user", "content": prompt}], temperature=0.1, timeout=180)
+    mapped = extract_and_parse_json(raw)
+    if not isinstance(mapped, dict):
+        raise ValueError("GLM-5.1 OCR mapping did not return a JSON object")
+    return {item_id: mapped.get(item_id, "未书写") for item_id in checklist_ids}
+
+
+def parse_diagram_relations_with_glm4v(
+    question_text,
+    student_img_path,
+    diagram_checklist,
+    q_img_path=None,
+):
+    """Conditionally parse diagram topology with GLM-4.6V."""
+    if not diagram_checklist:
+        return {}, None
+    prompt = f"""
+# Role: diagram relation transcriber
+
+Inspect only the student's drawn diagram. Do not grade and do not solve the
+question from its wording. Report the topology actually visible in the answer:
+segment order, nesting/return edges, labels, and transitions. If a requested
+relation is not visibly supported, return "图中未明确显示"; if no diagram was
+drawn, return "未书写".
+
+For staircase/timing/order diagrams, trace the drawn solid path strictly from
+left to right. Write every visited level, including repeated levels after a
+return. For example, a visible rise from C to D and fall back to C must be
+reported as C→D→C. Do not summarize separate time segments as boxes "inside"
+another block. Distinguish the solid execution path from dashed request markers.
+
+Question context:
+{question_text}
+
+Diagram-only blind checklist:
+{json.dumps(diagram_checklist, ensure_ascii=False)}
+
+First produce one full left-to-right trace of the solid execution path, then map
+that trace to each checklist item. Return strict JSON in this shape:
+{{
+  "observed_execution_path": "level1→level2→... including repeated return levels",
+  "items": {{
+    "checklist_id": "visible relation for this item"
+  }}
+}}
+"""
+    content = [{"type": "text", "text": prompt}]
+    if q_img_path and os.path.exists(q_img_path):
+        q_b64 = encode_image_to_base64(q_img_path)
+        content.extend(
+            [
+                {"type": "text", "text": "Printed axis/template reference:"},
+                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{q_b64}"}},
+            ]
+        )
+    student_b64 = encode_image_to_base64(student_img_path)
+    content.extend(
+        [
+            {"type": "text", "text": "Student answer image:"},
+            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{student_b64}"}},
+        ]
+    )
+    diagram_focus_b64 = diagram_focus_to_base64(student_img_path)
+    if diagram_focus_b64:
+        content.extend(
+            [
+                {
+                    "type": "text",
+                    "text": (
+                        "Enlarged lower-page diagram view. Use this view to trace "
+                        "every rise, fall, repeated level, and return segment:"
+                    ),
+                },
+                {
+                    "type": "image_url",
+                    "image_url": {"url": f"data:image/jpeg;base64,{diagram_focus_b64}"},
+                },
+            ]
+        )
+    for attempt in range(4):
+        try:
+            client = OpenAI(api_key=GLM_API_KEY, base_url=GLM_BASE_URL)
+            response = client.chat.completions.create(
+                model=VLM_MODELS["glm4v"],
+                messages=[{"role": "user", "content": content}],
+                temperature=0.1,
+                timeout=180,
+            )
+            parsed = extract_and_parse_json(response.choices[0].message.content.strip())
+            if isinstance(parsed, dict):
+                allowed = {str(item.get("id", "")) for item in diagram_checklist}
+                item_values = parsed.get("items", parsed)
+                if isinstance(item_values, dict):
+                    facts = {
+                        str(key): value
+                        for key, value in item_values.items()
+                        if str(key) in allowed
+                    }
+                    return facts, parsed.get("observed_execution_path")
+        except Exception as exc:
+            print(f"         [GLM-4.6V diagram retry {attempt + 1}/4] {exc}")
+            time.sleep(10 * (attempt + 1))
+    return {}, None
+
+
+def stage1_extract_with_backend(
+    question_text,
+    student_img_path,
+    blind_checklist,
+    rubrics_json,
+    q_img_path=None,
+    extraction_backend="glm_vlm",
+    ocr_json_path=None,
+    extraction_cache_path=None,
+    force_extraction=False,
+):
+    """Run or load one Stage-1 extraction backend."""
+    if extraction_backend == "glm_vlm":
+        facts = stage1_blind_extraction(
+            question_text, student_img_path, blind_checklist, q_img_path
+        )
+        return facts, {"backend": "glm_vlm", "diagram_parser_used": False}
+
+    if extraction_backend != "paddle_glm5":
+        raise ValueError(f"Unsupported extraction backend: {extraction_backend}")
+
+    image_hash = sha256_file(student_img_path)
+    if extraction_cache_path and not force_extraction:
+        cached = load_ocr_json(extraction_cache_path)
+        if (
+            cached
+            and cached.get("backend") == extraction_backend
+            and cached.get("image_sha256") == image_hash
+            and isinstance(cached.get("facts"), dict)
+        ):
+            return json.dumps(cached["facts"], ensure_ascii=False), cached
+
+    if not ocr_json_path:
+        raise ValueError("paddle_glm5 requires ocr_json_path")
+    ocr_payload = load_ocr_json(ocr_json_path)
+    if not ocr_payload:
+        raise FileNotFoundError(f"OCR evidence not found or invalid: {ocr_json_path}")
+    if ocr_payload.get("image", {}).get("sha256") != image_hash:
+        raise ValueError(f"OCR cache image hash mismatch: {ocr_json_path}")
+
+    facts = map_paddle_ocr_to_facts(question_text, blind_checklist, ocr_payload)
+    diagram_items = _diagram_checklist(blind_checklist, rubrics_json)
+    diagram_facts, observed_execution_path = parse_diagram_relations_with_glm4v(
+        question_text,
+        student_img_path,
+        diagram_items,
+        q_img_path=q_img_path,
+    )
+    if observed_execution_path:
+        diagram_facts = {
+            item_id: (
+                f"{value}；完整可见路径：{observed_execution_path}"
+                if observed_execution_path not in str(value)
+                else value
+            )
+            for item_id, value in diagram_facts.items()
+        }
+    facts.update(diagram_facts)
+    evidence = {
+        "schema_version": 1,
+        "created_at": datetime.now().isoformat(),
+        "backend": extraction_backend,
+        "image_path": os.path.abspath(student_img_path),
+        "image_sha256": image_hash,
+        "ocr_json_path": os.path.abspath(ocr_json_path),
+        "ocr_engine": ocr_payload.get("engine", {}),
+        "ocr_summary": ocr_payload.get("summary", {}),
+        "diagram_parser_used": bool(diagram_items),
+        "diagram_model": VLM_MODELS["glm4v"] if diagram_items else None,
+        "observed_execution_path": observed_execution_path,
+        "diagram_facts": diagram_facts,
+        "diagram_checklist": diagram_items,
+        "facts": facts,
+    }
+    if extraction_cache_path:
+        os.makedirs(os.path.dirname(extraction_cache_path) or ".", exist_ok=True)
+        with open(extraction_cache_path, "w", encoding="utf-8") as handle:
+            json.dump(evidence, handle, indent=2, ensure_ascii=False)
+    return json.dumps(facts, ensure_ascii=False), evidence
 
 def stage1_targeted_reextraction(question_text, student_img_path, blind_checklist, initial_facts_str, q_img_path=None, rubrics_data=None):
     """Risk-triggered second-pass extraction with multi-view image retry.
@@ -820,7 +1121,19 @@ Summarize the core disagreement in one concise sentence. Output only that senten
 
 # ==================== 核心流水线：零样本无监督 3WD ====================
 
-def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, teacher_score, q_img_path=None, blind_checklist=None):
+def grade_student_3wd_pipeline(
+    student_img_path,
+    question_text,
+    rubrics_json,
+    teacher_score,
+    q_img_path=None,
+    blind_checklist=None,
+    extraction_backend="glm_vlm",
+    ocr_json_path=None,
+    extraction_cache_path=None,
+    force_extraction=False,
+    grade_only=False,
+):
     student_id = os.path.splitext(os.path.basename(student_img_path))[0]
     def _pipeline_failure(error_type, reason):
         return {
@@ -834,14 +1147,43 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     print(f"Start grading student [{student_id}]")
     print(f"=============================================")
 
-    print("  [Stage 1] visual fact extraction...")
-    if blind_checklist is None:
+    print(f"  [Stage 1] fact extraction backend={extraction_backend}...")
+    if blind_checklist is None and not grade_only:
         blind_checklist = generate_blind_checklist(rubrics_json)
-    student_facts = stage1_blind_extraction(question_text, student_img_path, blind_checklist, q_img_path)
+    extraction_evidence = {"backend": extraction_backend}
+    if grade_only:
+        cached = load_ocr_json(extraction_cache_path) if extraction_cache_path else None
+        if not cached or not isinstance(cached.get("facts"), dict):
+            return _pipeline_failure(
+                "extraction_cache_missing",
+                f"GRADE_ONLY requires a valid extraction cache: {extraction_cache_path}",
+            )
+        if cached.get("image_sha256") != sha256_file(student_img_path):
+            return _pipeline_failure(
+                "extraction_cache_stale",
+                f"GRADE_ONLY extraction cache hash mismatch: {extraction_cache_path}",
+            )
+        student_facts = json.dumps(cached["facts"], ensure_ascii=False)
+        extraction_evidence = cached
+    else:
+        try:
+            student_facts, extraction_evidence = stage1_extract_with_backend(
+                question_text=question_text,
+                student_img_path=student_img_path,
+                blind_checklist=blind_checklist,
+                rubrics_json=rubrics_json,
+                q_img_path=q_img_path,
+                extraction_backend=extraction_backend,
+                ocr_json_path=ocr_json_path,
+                extraction_cache_path=extraction_cache_path,
+                force_extraction=force_extraction,
+            )
+        except Exception as exc:
+            return _pipeline_failure("stage1_failed", exc)
 
     if not student_facts:
-        print("  [Stage 1] visual extraction failed; stop this sample.")
-        return _pipeline_failure("stage1_failed", "visual extraction returned empty result")
+        print("  [Stage 1] extraction failed; stop this sample.")
+        return _pipeline_failure("stage1_failed", "fact extraction returned empty result")
 
     # 二次提取：对疑似提取失败或高留白样本进行聚焦复查。
     try:
@@ -850,10 +1192,11 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
     except Exception:
         rubrics_data_for_extraction = []
 
-    student_facts = stage1_targeted_reextraction(
-        question_text, student_img_path, blind_checklist,
-        student_facts, q_img_path, rubrics_data_for_extraction
-    )
+    if extraction_backend == "glm_vlm":
+        student_facts = stage1_targeted_reextraction(
+            question_text, student_img_path, blind_checklist,
+            student_facts, q_img_path, rubrics_data_for_extraction
+        )
 
     print("  [Stage 2] independent semantic grading probes...")
     model_scores = []
@@ -1207,6 +1550,8 @@ def grade_student_3wd_pipeline(student_img_path, question_text, rubrics_json, te
         "arbitration_decision": arbitration_decision,
         "reason_log": reason_log,
         "human_review_hint": reason_log if route == "NEG" else "",
+        "extraction_backend": extraction_backend,
+        "extraction_evidence": extraction_evidence,
         "facts": student_facts,
         "strict_cot": strict_cots[0] if strict_cots else {},
         "strict_cots_all": strict_cots

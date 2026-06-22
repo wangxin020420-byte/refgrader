@@ -14,6 +14,7 @@ from step4_vlm_grader import (
     grade_student_3wd_pipeline,
     generate_blind_checklist,
     stage1_blind_extraction,
+    stage1_extract_with_backend,
     stage2_logic_grading,
     extract_and_parse_json,
     VLM_MODEL_NAME,
@@ -23,6 +24,14 @@ from step4_vlm_grader import (
     DEEPSEEK_MODEL_NAME,
     MAX_WORKERS_OUTER,
 )
+from ocr.backend import ensure_paddle_ocr_cache, ocr_json_path
+
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 # ============================================================
 # 全局配置
@@ -228,8 +237,11 @@ def parse_args():
         """,
     )
     parser.add_argument(
-        "--mode", choices=["FULL", "VARIANCE_OPT"], default="FULL",
-        help="运行模式: FULL=正式批改, VARIANCE_OPT=方差优化 (默认: FULL)",
+        "--mode", choices=["FULL", "VARIANCE_OPT", "OCR_ONLY", "GRADE_ONLY"], default="FULL",
+        help=(
+            "FULL=提取并评分, VARIANCE_OPT=方差优化, "
+            "OCR_ONLY=只生成提取缓存, GRADE_ONLY=只读取缓存评分"
+        ),
     )
     parser.add_argument(
         "--questions", nargs="+", default=None,
@@ -270,6 +282,17 @@ def parse_args():
     parser.add_argument(
         "--run-id", default=None,
         help="运行标识符，用于日志和进度文件命名 (默认: 自动生成时间戳)",
+    )
+    parser.add_argument(
+        "--extraction-backend",
+        choices=["glm_vlm", "paddle_glm5"],
+        default="glm_vlm",
+        help="Stage-1 extraction backend. Default: glm_vlm.",
+    )
+    parser.add_argument(
+        "--ocr-cache-dir",
+        default="ocr_cache",
+        help="Root directory for raw OCR and mapped fact caches.",
     )
     return parser.parse_args()
 
@@ -639,7 +662,121 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
 # ============================================================
 # 核心功能 B：标准批改流程 (保留原有的逻辑)
 # ============================================================
-def process_single_question(q_data, img_limit=None, generate_only=False, force_rerun=False, progress_tracker=None):
+def process_ocr_only_question(
+    q_data,
+    img_limit=None,
+    force_rerun=False,
+    progress_tracker=None,
+    extraction_backend="paddle_glm5",
+    ocr_cache_dir="ocr_cache",
+):
+    """Generate auditable Stage-1 facts without running semantic grading."""
+    q_id = q_data["question_id"]
+    q_text = q_data["question_text"]
+    q_img = q_data.get("question_image")
+    images_folder = q_data["student_images_dir"]
+    with open(rubric_path_for(q_id), "r", encoding="utf-8") as handle:
+        dynamic_rubrics = json.load(handle)
+    rubrics_json = json.dumps(dynamic_rubrics, ensure_ascii=False)
+
+    all_image_files = sorted(
+        f for f in os.listdir(images_folder)
+        if f.lower().endswith((".png", ".jpg", ".jpeg"))
+    )
+    image_files = all_image_files[:]
+    if isinstance(img_limit, list):
+        target_ids = set(img_limit)
+        image_files = [
+            f for f in image_files
+            if os.path.splitext(f)[0].split("_")[0] in target_ids
+        ]
+    elif isinstance(img_limit, int):
+        image_files = image_files[:img_limit]
+
+    if progress_tracker:
+        progress_tracker.register_question(q_id, len(image_files))
+
+    raw_dir = os.path.join(ocr_cache_dir, q_id)
+    facts_dir = os.path.join(ocr_cache_dir, "facts", q_id)
+    os.makedirs(raw_dir, exist_ok=True)
+    os.makedirs(facts_dir, exist_ok=True)
+
+    if extraction_backend == "paddle_glm5":
+        if image_files == all_image_files:
+            completed = ensure_paddle_ocr_cache(
+                images_folder,
+                raw_dir,
+                force=force_rerun,
+            )
+            if completed.stdout.strip():
+                logging.info(completed.stdout.strip())
+        else:
+            for img_file in image_files:
+                img_path = os.path.join(images_folder, img_file)
+                completed = ensure_paddle_ocr_cache(
+                    img_path,
+                    raw_dir,
+                    force=force_rerun,
+                )
+                if completed.stdout.strip():
+                    logging.info(completed.stdout.strip())
+
+    blind_checklist = generate_blind_checklist(rubrics_json)
+    records = []
+    for img_file in image_files:
+        started = time.time()
+        img_path = os.path.join(images_folder, img_file)
+        student_id = os.path.splitext(img_file)[0]
+        try:
+            facts, evidence = stage1_extract_with_backend(
+                question_text=q_text,
+                student_img_path=img_path,
+                blind_checklist=blind_checklist,
+                rubrics_json=rubrics_json,
+                q_img_path=q_img,
+                extraction_backend=extraction_backend,
+                ocr_json_path=str(ocr_json_path(raw_dir, img_path)),
+                extraction_cache_path=os.path.join(facts_dir, f"{student_id}.json"),
+                force_extraction=force_rerun,
+            )
+            records.append({
+                "question_id": q_id,
+                "student_id": student_id,
+                "extraction_backend": extraction_backend,
+                "facts": extract_and_parse_json(facts) or facts,
+                "extraction_cache_path": os.path.join(facts_dir, f"{student_id}.json"),
+                "blank_authenticity": evidence.get("ocr_summary", {}).get("blank_authenticity"),
+                "diagram_parser_used": evidence.get("diagram_parser_used", False),
+            })
+            if progress_tracker:
+                progress_tracker.record_completion(
+                    q_id,
+                    student_id,
+                    {"3wd_route": "OCR_ONLY"},
+                    time.time() - started,
+                )
+        except Exception as exc:
+            logging.error(f"[OCR_ONLY failed] {student_id}: {exc}")
+            if progress_tracker:
+                progress_tracker.record_error(q_id, student_id, exc)
+
+    output_path = os.path.join(OUTPUT_DIR, f"{q_id}_ocr_only.json")
+    save_json_list(output_path, records)
+    logging.info(f"[OCR_ONLY] saved {len(records)} extraction records to {output_path}")
+    if progress_tracker:
+        progress_tracker.mark_question_done(q_id)
+
+
+def process_single_question(
+    q_data,
+    img_limit=None,
+    generate_only=False,
+    force_rerun=False,
+    progress_tracker=None,
+    extraction_backend="glm_vlm",
+    ocr_cache_dir="ocr_cache",
+    grade_only=False,
+):
     """处理单道题目的完整流水线"""
     q_id = q_data["question_id"]
     q_score = q_data["total_score"]
@@ -673,8 +810,12 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
         logging.warning(f"⚠️ 找不到文件夹: {images_folder}")
         return
 
-    image_files = [f for f in os.listdir(images_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
-    image_files.sort()
+    all_image_files = [
+        f for f in os.listdir(images_folder)
+        if f.lower().endswith(('.png', '.jpg', '.jpeg'))
+    ]
+    all_image_files.sort()
+    image_files = all_image_files[:]
 
     # 灵活选人：支持 int(前N张)、list(指定学号)、None(全量)
     if isinstance(img_limit, list):
@@ -684,6 +825,30 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
     elif isinstance(img_limit, int):
         image_files = image_files[:img_limit]
         logging.info(f"📷 极速测试模式: 仅处理前 {img_limit} 张图片")
+
+    raw_ocr_dir = os.path.join(ocr_cache_dir, q_id)
+    facts_cache_dir = os.path.join(ocr_cache_dir, "facts", q_id)
+    os.makedirs(raw_ocr_dir, exist_ok=True)
+    os.makedirs(facts_cache_dir, exist_ok=True)
+    if extraction_backend == "paddle_glm5" and not grade_only:
+        logging.info(f"[PaddleOCR] preparing {len(image_files)} raw OCR cache entries...")
+        if image_files == all_image_files:
+            completed = ensure_paddle_ocr_cache(
+                images_folder,
+                raw_ocr_dir,
+                force=force_rerun,
+            )
+            if completed.stdout.strip():
+                logging.info(completed.stdout.strip())
+        else:
+            for img_file in image_files:
+                completed = ensure_paddle_ocr_cache(
+                    os.path.join(images_folder, img_file),
+                    raw_ocr_dir,
+                    force=force_rerun,
+                )
+                if completed.stdout.strip():
+                    logging.info(completed.stdout.strip())
 
     # 注册进度追踪
     if progress_tracker:
@@ -739,8 +904,14 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
     total_count = 0
 
     # 预生成脱敏清单（同题共用，只调一次 API）
-    cached_blind_checklist = generate_blind_checklist(json.dumps(dynamic_rubrics, ensure_ascii=False))
-    logging.info(f"⚡ 脱敏清单已预生成，{len(image_files)} 名学生共享复用。")
+    cached_blind_checklist = None
+    if not grade_only:
+        cached_blind_checklist = generate_blind_checklist(
+            json.dumps(dynamic_rubrics, ensure_ascii=False)
+        )
+        logging.info(f"⚡ 脱敏清单已预生成，{len(image_files)} 名学生共享复用。")
+    else:
+        logging.info("⚡ GRADE_ONLY: directly reuse mapped fact cache.")
 
     logging.info(f"🏃 开始批改 {len(image_files)} 张试卷 (⚡ 开启多线程模式)...")
 
@@ -762,6 +933,13 @@ def process_single_question(q_data, img_limit=None, generate_only=False, force_r
                     teacher_score=real_teacher_score,
                     q_img_path=q_img,
                     blind_checklist=cached_blind_checklist,
+                    extraction_backend=extraction_backend,
+                    ocr_json_path=str(ocr_json_path(raw_ocr_dir, img_path)),
+                    extraction_cache_path=os.path.join(
+                        facts_cache_dir, f"{file_base_name}.json"
+                    ),
+                    force_extraction=force_rerun,
+                    grade_only=grade_only,
                 )
 
                 if res and res.get("_pipeline_failed"):
@@ -912,7 +1090,7 @@ if __name__ == "__main__":
     # 支持断点续传：中断后重新运行，已完成的学生会自动跳过。
 
     RUN_MODE = "FULL"              # "FULL" = 正式批改, "VARIANCE_OPT" = 方差优化
-    FORCE_RERUN = True             # True = 忽略检查点从头重跑, False = 断点续传
+    FORCE_RERUN = False            # True = 忽略检查点从头重跑, False = 断点续传
 
     GRADING_CONFIG = {
         # "Q1": None,                          # 全量
@@ -976,6 +1154,7 @@ if __name__ == "__main__":
         "vlm": VLM_MODEL_NAME,
         "text": provider_map.get(TEXT_MODEL_PROVIDER, "unknown"),
         "max_workers_outer": MAX_WORKERS_OUTER,
+        "extraction_backend": args.extraction_backend,
     }
 
     # 6. 确定实际运行模式
@@ -992,6 +1171,7 @@ if __name__ == "__main__":
     logging.info(f"   运行模式: {args.mode}")
     logging.info(f"   题目范围: {[q['question_id'] for q in exam_data]}")
     logging.info(f"   文本模型: {get_text_model_display()}")
+    logging.info(f"   提取后端: {args.extraction_backend}")
     logging.info(f"   并发数:   {MAX_WORKERS_OUTER}")
     logging.info(f"   结果目录: {OUTPUT_DIR}")
     logging.info(f"   Rubric目录: {RUBRIC_DIR}")
@@ -1013,6 +1193,8 @@ if __name__ == "__main__":
         "sample_size": args.sample_size,
         "results_dir": OUTPUT_DIR,
         "rubric_dir": RUBRIC_DIR,
+        "extraction_backend": args.extraction_backend,
+        "ocr_cache_dir": args.ocr_cache_dir,
     }
     tracker = ProgressTracker(
         progress_path=progress_path,
@@ -1045,8 +1227,35 @@ if __name__ == "__main__":
                         force_rerun=args.force_rerun if args.force_rerun else FORCE_RERUN,
                     )
 
-        elif args.mode == "FULL":
-            logging.info("🚀 当前处于【精准批改模式】(FULL MODE)")
+        elif args.mode == "OCR_ONLY":
+            logging.info("🔎 当前处于【仅提取模式】(OCR_ONLY)")
+            if args.extraction_backend != "paddle_glm5":
+                logging.warning(
+                    "OCR_ONLY is most useful with --extraction-backend paddle_glm5."
+                )
+            for q_data in exam_data:
+                if _shutdown_requested:
+                    break
+                process_ocr_only_question(
+                    q_data,
+                    img_limit=cli_img_limit,
+                    force_rerun=args.force_rerun,
+                    progress_tracker=tracker,
+                    extraction_backend=args.extraction_backend,
+                    ocr_cache_dir=args.ocr_cache_dir,
+                )
+
+        elif args.mode in ("FULL", "GRADE_ONLY"):
+            logging.info(
+                "🚀 当前处于【精准批改模式】"
+                if args.mode == "FULL"
+                else "🧮 当前处于【仅评分模式】(GRADE_ONLY)"
+            )
+            if args.mode == "GRADE_ONLY" and args.extraction_backend != "paddle_glm5":
+                raise ValueError(
+                    "GRADE_ONLY currently requires --extraction-backend paddle_glm5 "
+                    "and an existing mapped fact cache."
+                )
 
             # 确定要处理的题目：终端 --questions 优先，否则用 GRADING_CONFIG
             if args.questions:
@@ -1059,6 +1268,9 @@ if __name__ == "__main__":
                         img_limit=cli_img_limit,
                         force_rerun=args.force_rerun if args.force_rerun else FORCE_RERUN,
                         progress_tracker=tracker,
+                        extraction_backend=args.extraction_backend,
+                        ocr_cache_dir=args.ocr_cache_dir,
+                        grade_only=args.mode == "GRADE_ONLY",
                     )
             else:
                 # 用配置区的 GRADING_CONFIG（每题可以不同限制）
@@ -1073,6 +1285,9 @@ if __name__ == "__main__":
                             img_limit=limit,
                             force_rerun=FORCE_RERUN,
                             progress_tracker=tracker,
+                            extraction_backend=args.extraction_backend,
+                            ocr_cache_dir=args.ocr_cache_dir,
+                            grade_only=args.mode == "GRADE_ONLY",
                         )
 
         tracker.mark_finished(status="interrupted" if _shutdown_requested else "completed")
@@ -1089,25 +1304,123 @@ if __name__ == "__main__":
 
 
 # ============================================================
-# 常用运行命令速查
+# 当前流水线与常用运行命令
 # ============================================================
-# 1. 本地 Windows 前台运行。适合临时跑少量题目，例如当前本地只跑 Q2、Q3：
-#    python main_pipeline.py --mode FULL --questions Q2 Q3 --progress-file results_rrd_vlm\progress_q2_q3_local.json
 #
-# 2. 如果不传 --questions，则使用本文件配置区的 GRADING_CONFIG。
-#    当前 GRADING_CONFIG 只保留 Q2、Q3 时，直接运行 python main_pipeline.py 也只会跑 Q2、Q3。
+# PaddleOCR 只是新增的可选提取工具。日常只需要记住下面几条命令。
+# 以下命令均以“单个题目 Q2”为例；更换题目时只改 Q2。
 #
-# 3. 实验室 Linux 服务器后台运行请优先使用 run_experiment.sh。
-#    该脚本内部已经封装 nohup，不需要再手动写 nohup python main_pipeline.py ... &。
-#    示例：服务器只跑 Q4、Q5：
-#    ./run_experiment.sh run --mode FULL --questions Q4 Q5 --progress-file results_rrd_vlm/progress_q4_q5_server.json
+# 一、首次使用 PaddleOCR 时，只安装一次
 #
-# 4. 服务器管理命令：
-#    ./run_experiment.sh status   # 查看后台任务是否仍在运行
-#    ./run_experiment.sh tail     # 实时查看最新日志
-#    ./run_experiment.sh stop     # 优雅停止后台任务
-#    python monitor.py --watch    # 查看 progress JSON 进度
+#    .\scripts\setup_paddle_ocr.ps1
 #
-# 5. 题目选择优先级：
-#    命令行 --questions 优先级最高，会覆盖 GRADING_CONFIG。
-#    因此服务器建议显式写 --questions Q4 Q5，本地建议显式写 --questions Q2 Q3。
+# 二、只使用 PaddleOCR 提取 Q2，不评分
+#
+#    .\venv\Scripts\python.exe main_pipeline.py `
+#      --mode OCR_ONLY --questions Q2 `
+#      --extraction-backend paddle_glm5
+#
+# 输出：
+#    ocr_cache\Q2\                  PaddleOCR 原始 JSON
+#    ocr_cache\facts\Q2\            GLM-5.1 映射后的事实 JSON
+#    results_rrd_vlm\Q2_ocr_only.json
+#
+# 三、使用已经提取好的 Q2 事实进行评分
+#
+#    .\venv\Scripts\python.exe main_pipeline.py `
+#      --mode GRADE_ONLY --questions Q2 `
+#      --extraction-backend paddle_glm5 `
+#      --force-rerun
+#
+# GRADE_ONLY 不会重新执行 PaddleOCR、GLM-5.1 映射和图形提取。
+#
+# 四、一条命令完成 PaddleOCR 提取和评分
+#
+#    .\venv\Scripts\python.exe main_pipeline.py `
+#      --mode FULL --questions Q2 `
+#      --extraction-backend paddle_glm5 `
+#      --force-rerun
+#
+# 这条命令等价于先执行 OCR_ONLY，再执行 GRADE_ONLY。
+#
+# 五、使用原有 glm_vlm 后端进行对比
+#
+#    .\venv\Scripts\python.exe main_pipeline.py `
+#      --mode FULL --questions Q2 `
+#      --extraction-backend glm_vlm `
+#      --force-rerun
+#
+# 不写 --extraction-backend 时，默认也是 glm_vlm。
+#
+# ============================================================
+# 推荐的完整命令流程（单个题目 Q2）
+# ============================================================
+#
+# 第一次使用时安装 PaddleOCR（只执行一次，不是每次批改都执行）：
+#
+# Windows：
+#    .\scripts\setup_paddle_ocr.ps1
+#
+# Linux 服务器：
+#    chmod +x scripts/setup_paddle_ocr.sh
+#    ./scripts/setup_paddle_ocr.sh
+#
+#    │          └─ 运行项目提供的 PowerShell 安装脚本
+#    └─ 在当前项目目录执行脚本
+#
+# 作用：
+# 1. 创建独立环境 .venv-ocr，避免 PaddleOCR 依赖影响主项目 venv。
+# 2. 安装 PaddlePaddle、PaddleOCR 及固定版本依赖。
+# 3. 输出安装版本，确认 OCR 环境可以使用。
+# 4. 如果 .venv-ocr 已经安装完成，以后可以跳过这一步。
+# 5. .venv-ocr 不提交到 Git；本地和服务器分别执行对应安装脚本重建。
+#
+# 第一步：只提取，先检查 OCR 和图形关系是否正确（可选调试步骤）：
+#
+#    .\venv\Scripts\python.exe main_pipeline.py `
+#    │                         └─ 运行主流水线入口 main_pipeline.py
+#    └─ 使用主项目 venv 中的 Python；PaddleOCR 本身仍由 .venv-ocr 执行
+#
+#      --mode OCR_ONLY --questions Q2 `
+#      │               │
+#      │               └─ 本次只处理单个题目 Q2；改成 Q3 即处理 Q3
+#      └─ 只执行提取，不执行 Stage2 评分和 3WD
+#
+#      --extraction-backend paddle_glm5
+#      └─ 使用新增后端：
+#         PaddleOCR 原始识别
+#         -> GLM-5.1 映射到 rubric 事实
+#         -> 遇到图形条目时调用 GLM-4.6V 解析图形关系
+#
+# 该命令会生成：
+# 1. ocr_cache\Q2\：PaddleOCR 原始文字、坐标、置信度和图片哈希。
+# 2. ocr_cache\facts\Q2\：映射后的评分事实和图形关系。
+# 3. results_rrd_vlm\Q2_ocr_only.json：本次提取结果汇总。
+#
+# OCR_ONLY 的目的只是先检查提取是否正确。例如检查 Q2 顺序图是否包含
+# C->D->C。它不是正式运行必须经历的步骤。
+#
+# 如果已经安装 PaddleOCR，并且不需要分阶段检查，可以跳过 OCR_ONLY，
+# 直接执行下面的 FULL 命令，一次完成提取和评分：
+#
+#    .\venv\Scripts\python.exe main_pipeline.py `
+#      --mode FULL --questions Q2 `
+#      --extraction-backend paddle_glm5 `
+#      --force-rerun
+#
+# 第二步：确认事实缓存后，只评分：
+#    .\venv\Scripts\python.exe main_pipeline.py `
+#      --mode GRADE_ONLY --questions Q2 `
+#      --extraction-backend paddle_glm5 `
+#      --force-rerun
+#
+# 如果不需要分阶段检查，直接使用一条完整命令：
+#    .\venv\Scripts\python.exe main_pipeline.py `
+#      --mode FULL --questions Q2 `
+#      --extraction-backend paddle_glm5 `
+#      --force-rerun
+#
+# 注意：
+# 1. --force-rerun 会覆盖该题已有的正式评分结果。
+# 2. OCR_ONLY 本身不需要 --force-rerun；图片哈希未变化时会复用缓存。
+# 3. 当前默认正式后端仍是 glm_vlm，paddle_glm5 用于实验和消融对比。

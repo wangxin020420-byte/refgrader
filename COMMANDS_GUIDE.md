@@ -175,3 +175,82 @@ python evaluate.py --result-source checkpoint --compare --questions Q2 Q3 Q4 --c
 4. 如果使用 `--force-rerun`，当前代码会清理对应题目的旧结果文件，防止新旧结果混用。
 5. 如果出现 `Qx_failed.json`，说明有样本运行失败，需要结合日志和 failed 文件分析原因。
 6. replay 只能验证已有结果上的后校准逻辑，不能验证重新视觉提取和重新评分的真实效果。
+
+## 10. PaddleOCR 本地独立测试
+
+首次安装或重建独立 OCR 环境：
+
+```powershell
+.\scripts\setup_paddle_ocr.ps1
+```
+
+作用：在项目目录创建 `.venv-ocr`，安装 CPU 版 PaddlePaddle 和 PaddleOCR。
+该环境与现有 `venv` 相互独立，不会修改正式评分环境。
+
+测试单张正常作答图片：
+
+```powershell
+.\scripts\run_paddle_ocr.ps1 `
+  -InputPath cleaned_patches\Q5\E01914115_Q5.jpg `
+  -OutputDir ocr_cache\q5_test
+```
+
+测试已确认的空白图片：
+
+```powershell
+.\scripts\run_paddle_ocr.ps1 `
+  -InputPath cleaned_patches\Q5\E02014181_Q5.jpg `
+  -OutputDir ocr_cache\q5_blank_test
+```
+
+批量识别一个题目的全部答卷：
+
+```powershell
+.\scripts\run_paddle_ocr.ps1 `
+  -InputPath cleaned_patches\Q2 `
+  -OutputDir ocr_cache\Q2
+```
+
+作用：把每张图片的识别文字、置信度、坐标和图片哈希保存为独立 JSON。
+当前只用于评估 OCR 能力，尚未替换正式 Stage1 视觉提取。
+
+## 11. 可选 OCR 正式后端与分阶段模式
+
+只提取并写缓存：
+
+```powershell
+.\venv\Scripts\python.exe main_pipeline.py `
+  --mode OCR_ONLY --questions Q2 --student-ids E01914115 `
+  --extraction-backend paddle_glm5 `
+  --results-dir results_runs\q2_ocr_backend_test `
+  --rubric-dir results_rrd_vlm
+```
+
+只读取缓存评分：
+
+```powershell
+.\venv\Scripts\python.exe main_pipeline.py `
+  --mode GRADE_ONLY --questions Q2 --student-ids E01914115 `
+  --extraction-backend paddle_glm5 `
+  --results-dir results_runs\q2_grade_only_test `
+  --rubric-dir results_rrd_vlm --force-rerun
+```
+
+完整实验后端：
+
+```powershell
+.\venv\Scripts\python.exe main_pipeline.py `
+  --mode FULL --questions Q2 `
+  --extraction-backend paddle_glm5
+```
+
+旧提取器消融基线：
+
+```powershell
+.\venv\Scripts\python.exe main_pipeline.py `
+  --mode FULL --questions Q2 `
+  --extraction-backend glm_vlm
+```
+
+`glm_vlm` 仍是默认值。当前 Q2 测试表明新后端的图形关系优于纯 OCR，
+但五位屏蔽字识别仍弱，不能直接替换旧后端。

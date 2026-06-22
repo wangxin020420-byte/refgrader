@@ -1192,6 +1192,91 @@ In a new conversation or after context loss, use:
 Please first read CURRENT_PROGRESS.md, then continue from the current project state.
 ```
 
+## 2026-06-18 Local PaddleOCR Evaluation Setup
+
+Purpose: evaluate PaddleOCR as an isolated visual-transcription backend before
+changing the formal Stage1 grading pipeline.
+
+Installed locally:
+
+```text
+Environment: .venv-ocr
+Python: 3.11
+PaddlePaddle: 3.3.1 CPU
+PaddleOCR: 3.7.0
+```
+
+Added files:
+
+```text
+ocr/paddle_ocr_worker.py       Single-image or directory OCR to auditable JSON.
+ocr/requirements.txt           Reproducible local OCR dependency versions.
+scripts/setup_paddle_ocr.ps1   Rebuild the isolated OCR environment.
+scripts/run_paddle_ocr.ps1     One-command OCR test entry point.
+OCR_GUIDE.md                   Chinese usage and current capability boundary.
+```
+
+Validated:
+
+```text
+1. Normal Q5 answer E01914115_Q5: 7 OCR lines, mean confidence 0.944906.
+2. Confirmed blank Q5 answer E02014181_Q5: PaddleOCR still detected printed
+   question text and low-confidence noise. At confidence >= 0.5, 3 tokens
+   remained. Therefore OCR output alone cannot verify a blank answer.
+3. OCR JSON cache skips unchanged images by SHA-256.
+4. PaddlePaddle 3.3.1 Windows CPU requires oneDNN/MKL-DNN disabled in the
+   worker; this is now the default.
+5. `pip check` and worker compilation passed.
+```
+
+Boundary at the end of the isolated-worker step:
+
+```text
+PaddleOCR was installed only for extraction evaluation. It was not yet connected
+to step4_vlm_grader.py and does not affect formal scoring results. Before formal
+integration, add printed-region suppression / handwriting detection and measure
+OCR accuracy on blank, numeric, formula, bit-vector, table, and diagram samples.
+```
+
+## 2026-06-18 Optional PaddleOCR Formal Backend
+
+The isolated OCR worker is now connected as an optional backend without
+changing the default legacy extractor.
+
+Implemented:
+
+```text
+--extraction-backend glm_vlm|paddle_glm5
+--mode OCR_ONLY
+--mode GRADE_ONLY
+raw OCR cache: ocr_cache/<Qx>/<student>.json
+mapped fact cache: ocr_cache/facts/<Qx>/<student>.json
+GLM-5.1 blind fact mapping
+conditional GLM-4.6V diagram parsing
+conservative blank authenticity: confirmed_blank/nonblank/uncertain
+```
+
+Focused Q2 test:
+
+```text
+sample = E01914115_Q2
+PaddleOCR tokens = 23
+mean confidence = 0.891514
+diagram path = 用户程序→A→C→D→C→E→B→用户程序
+Q2 relation check = 5/5 PASS
+```
+
+One-sample ablation:
+
+```text
+legacy glm_vlm: model_avg=16.9, final=18.0, teacher=18.0
+paddle_glm5:   model_avg=11.1, final=12.5, teacher=18.0
+```
+
+Conclusion: the conditional diagram parser fixes the important Q2 `C→D→C`
+middle relation, but PaddleOCR still misses handwritten five-bit masks. Keep
+`glm_vlm` as default and use `paddle_glm5` for staged experiments/ablation.
+
 ## Fixed Run Commands And Operational Notes
 
 The project already has a server-side background runner: `run_experiment.sh`.

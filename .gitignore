@@ -1,8 +1,12 @@
 # Python virtual environment (pip install 重建即可)
 venv/
+.venv-ocr/
 __pycache__/
 *.pyc
 *.pyo
+
+# PaddleOCR runtime cache and generated OCR evidence
+ocr_cache/
 
 # IDE
 .vscode/
@@ -15,4 +19,5 @@ desktop.ini
 
 # Logs and runtime files
 logs/
+results_runs/
 *.pid

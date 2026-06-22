@@ -1,5 +1,144 @@
 # RefGrader Latest Status
 
+## 2026-06-18 PaddleOCR Optional Backend And Q2 Sequence Test
+
+The legacy `glm_vlm` extractor remains the default. A new optional extraction
+path is now available:
+
+```text
+PaddleOCR raw evidence
+-> conservative blank-authenticity triage
+-> GLM-5.1 blind fact mapping
+-> conditional GLM-4.6V diagram-relation parsing
+-> mapped-fact cache
+-> existing Stage2 / 3WD grading
+```
+
+Implemented in order:
+
+```text
+1. Verified isolated .venv-ocr environment and single-image OCR.
+2. Upgraded ocr/paddle_ocr_worker.py to schema_version=2.
+3. Added SHA-256 raw OCR caching and conservative blank triage.
+4. Added --extraction-backend {glm_vlm,paddle_glm5}.
+5. Added OCR_ONLY and GRADE_ONLY modes.
+6. Added GLM-5.1 OCR-to-checklist fact mapping.
+7. Added conditional GLM-4.6V parsing only for diagram rubric items.
+8. Kept glm_vlm unchanged for ablation comparison.
+```
+
+Cache layout:
+
+```text
+ocr_cache/Q2/E01914115_Q2.json
+  Raw PaddleOCR tokens, confidence, coordinates, image hash, blank evidence.
+
+ocr_cache/facts/Q2/E01914115_Q2.json
+  GLM-5.1 mapped facts, conditional diagram facts, model metadata, image hash.
+```
+
+Focused Q2 second-subquestion test:
+
+```text
+Sample: E01914115_Q2
+PaddleOCR: 23 tokens, mean confidence 0.891514
+Blank authenticity: confirmed_nonblank
+Conditional diagram parser: enabled
+Observed sequence:
+  用户程序→A→C→D→C→E→B→用户程序
+
+Automated relation checks:
+  first A              PASS
+  C interrupted by D   PASS
+  D returns to C       PASS
+  E before B           PASS
+  return to user       PASS
+```
+
+Run the focused check:
+
+```powershell
+.\venv\Scripts\python.exe scripts\check_q2_sequence_extraction.py
+```
+
+Actual one-sample `GRADE_ONLY` result:
+
+```text
+backend        model scores       avg    final   teacher
+glm_vlm        15.8,18.0,17.0     16.9   18.0    18.0
+paddle_glm5    12.0,11.4,10.0     11.1   12.5    18.0
+```
+
+Interpretation: the new conditional diagram path now captures the important
+`C→D→C` middle nesting/return relation. PaddleOCR still misses several
+handwritten five-bit mask words in the upper answer, so `paddle_glm5` must
+remain optional and must not replace `glm_vlm` as the formal default yet.
+
+Commands:
+
+```powershell
+# Extraction only: create/reuse raw OCR and mapped-fact caches.
+.\venv\Scripts\python.exe main_pipeline.py `
+  --mode OCR_ONLY --questions Q2 --student-ids E01914115 `
+  --extraction-backend paddle_glm5 `
+  --results-dir results_runs\q2_ocr_backend_test `
+  --rubric-dir results_rrd_vlm
+
+# Grade only: no PaddleOCR or diagram extraction is rerun.
+.\venv\Scripts\python.exe main_pipeline.py `
+  --mode GRADE_ONLY --questions Q2 --student-ids E01914115 `
+  --extraction-backend paddle_glm5 `
+  --results-dir results_runs\q2_grade_only_test `
+  --rubric-dir results_rrd_vlm --force-rerun
+
+# End-to-end optional backend.
+.\venv\Scripts\python.exe main_pipeline.py `
+  --mode FULL --questions Q2 `
+  --extraction-backend paddle_glm5
+
+# Legacy ablation baseline; this remains the default.
+.\venv\Scripts\python.exe main_pipeline.py `
+  --mode FULL --questions Q2 `
+  --extraction-backend glm_vlm
+```
+
+Blank test result:
+
+```text
+Normal Q5 E01914115_Q5: confirmed_nonblank.
+Known blank Q5 E02014181_Q5: uncertain, not falsely confirmed as blank/nonblank.
+```
+
+`uncertain` is intentional: printed question text and score marks prevent a
+truthful blank conclusion from OCR alone.
+
+### Local/server synchronization
+
+Commit and synchronize source code, scripts, and dependency declarations. Do
+not synchronize `venv/`, `.venv-ocr/`, `ocr_cache/`, or `results_runs/`.
+Virtual environments contain platform-specific binaries and must be rebuilt on
+each machine.
+
+After pulling the same commit on a Linux server, run once:
+
+```bash
+chmod +x scripts/setup_paddle_ocr.sh
+./scripts/setup_paddle_ocr.sh
+```
+
+Then run one question with the optional backend:
+
+```bash
+./run_experiment.sh run \
+  --mode FULL \
+  --questions Q2 \
+  --extraction-backend paddle_glm5 \
+  --force-rerun
+```
+
+The runtime automatically uses `.venv-ocr/Scripts/python.exe` on Windows and
+`.venv-ocr/bin/python` on Linux.
+
 ## 2026-06-14 Generalized Rubric And 3WD Update
 
 Current paper-facing chain:

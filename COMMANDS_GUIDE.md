@@ -254,3 +254,47 @@ python evaluate.py --result-source checkpoint --compare --questions Q2 Q3 Q4 --c
 
 `glm_vlm` 仍是默认值。当前 Q2 测试表明新后端的图形关系优于纯 OCR，
 但五位屏蔽字识别仍弱，不能直接替换旧后端。
+
+## 12. CSBench 外部数据集
+
+首次或数据集更新后生成兼容视图：
+
+```powershell
+.\venv\Scripts\python.exe scripts\prepare_csbench.py `
+  --dataset-root C:\Users\wx\Desktop\CSBench_new `
+  --output-dir data\csbench `
+  --link-mode copy `
+  --exclude-questions OS_1 OS_2 `
+  --force
+```
+
+离线检查：
+
+```powershell
+.\venv\Scripts\python.exe scripts\check_csbench_integration.py `
+  --prepared-dir data\csbench
+```
+
+先优化 CO_2 评分准则：
+
+```powershell
+.\venv\Scripts\python.exe main_pipeline.py --mode VARIANCE_OPT --questions CO_2 --sample-size 5 --database-path data\csbench\exam_database.json --answer-metadata data\csbench\answer_metadata.jsonl --initial-rubric-dir data\csbench\rubrics\initial --rubric-dir data\csbench\rubrics\optimized --results-dir results_runs\csbench_co2_rubric_opt --extraction-backend csbench_hybrid --ocr-cache-dir ocr_cache\csbench --force-rerun
+```
+
+单题五份样本：
+
+```powershell
+.\venv\Scripts\python.exe main_pipeline.py `
+  --mode FULL --questions CO_2 --answer-split test --img-limit 5 `
+  --database-path data\csbench\exam_database.json `
+  --teacher-db data\csbench\teacher_scores.json `
+  --answer-metadata data\csbench\answer_metadata.jsonl `
+  --initial-rubric-dir data\csbench\rubrics\initial `
+  --rubric-dir data\csbench\rubrics\optimized `
+  --results-dir results_runs\csbench_co2_5 `
+  --extraction-backend csbench_hybrid `
+  --ocr-cache-dir ocr_cache\csbench `
+  --force-rerun
+```
+
+完整说明见 `CSBENCH_GUIDE.md`。

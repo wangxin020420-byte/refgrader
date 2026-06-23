@@ -1,5 +1,47 @@
 # RefGrader Latest Status
 
+## 2026-06-22 CSBench Hybrid Dataset Support
+
+RefGrader can now use the external `CSBench_new` dataset without copying it
+into this repository. See `CSBENCH_GUIDE.md`.
+
+Implemented:
+
+```text
+scripts/prepare_csbench.py
+  Converts 8 primary answer JSONL files and question JSON files.
+  Excludes answer1.jsonl, delete/, and currently undefined OS_1/OS_2.
+  Builds per-question hard-link views without duplicating image bytes.
+
+csbench_hybrid extraction backend
+  Uses existing human raw_text for written content.
+  Runs PaddleOCR + GLM-4.6V only for answers marked as visual or containing
+  placeholders such as "如图所示".
+  Never treats the placeholder itself as diagram evidence.
+
+Dynamic runtime inputs
+  --database-path
+  --teacher-db
+  --answer-metadata
+
+Evaluation
+  evaluate.py reads dynamic question max scores and complete answer IDs.
+```
+
+Local prepared-data validation:
+
+```text
+43 questions
+3326 answers
+31/5/7 question-level train/validation/test split
+complete answer ID lookup: PASS
+text transcription route: PASS
+visual-placeholder route: PASS
+diagram merge: PASS
+```
+
+The original Q1-Q7 defaults remain unchanged.
+
 ## 2026-06-18 PaddleOCR Optional Backend And Q2 Sequence Test
 
 The legacy `glm_vlm` extractor remains the default. A new optional extraction
@@ -745,6 +787,11 @@ python evaluate.py
 3. 评分标准生成与优化
 
    `step3_rrd_generator.py` 将官方评分标准转成 JSON 细则。`main_pipeline.py` 的 `VARIANCE_OPT` 模式会抽取少量样本，使用同一份盲提取事实多次打分，依据分数方差和粗粒度高分条目触发细则拆分。
+
+   CSBench 使用三层准则目录：`rubrics/source` 保存原始准则副本，
+   `rubrics/initial` 保存标准化初始准则，`rubrics/optimized` 保存
+   `VARIANCE_OPT` 的输出。优化阶段只使用每题的 calibration 答案，
+   不覆盖原始数据，也不使用 test 答案或教师真实分数。
 
 4. 正式批改
 

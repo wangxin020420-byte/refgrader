@@ -5,6 +5,7 @@ import logging
 import argparse
 import signal
 import tempfile
+import hashlib
 import concurrent.futures
 import time
 import numpy as np
@@ -13,7 +14,6 @@ from step3_rrd_generator import generate_rrd_rubrics, refine_rubric_based_on_var
 from step4_vlm_grader import (
     grade_student_3wd_pipeline,
     generate_blind_checklist,
-    stage1_blind_extraction,
     stage1_extract_with_backend,
     stage2_logic_grading,
     extract_and_parse_json,
@@ -39,10 +39,15 @@ if hasattr(sys.stdout, "reconfigure"):
 DEFAULT_OUTPUT_DIR = "./results_rrd_vlm"
 OUTPUT_DIR = DEFAULT_OUTPUT_DIR
 RUBRIC_DIR = OUTPUT_DIR
+INITIAL_RUBRIC_DIR = None
+ALLOW_INITIAL_RUBRIC = False
 DATABASE_PATH = "./database/exam_database.json"
+TEACHER_DB_PATH = "./database/teacher_scores.json"
+ANSWER_METADATA_PATH = None
 
 # 全局变量，用于缓存加载的成绩单，避免每次都读文件
 _GLOBAL_SCORES_DB = None
+_GLOBAL_ANSWER_METADATA = None
 
 # 优雅关闭标志
 _shutdown_requested = False
@@ -273,7 +278,24 @@ def parse_args():
     )
     parser.add_argument(
         "--rubric-dir", default=None,
-        help="Directory used to read Qx_rubric_standard.json files. Default: results-dir",
+        help=(
+            "Directory for optimized rubric files. VARIANCE_OPT writes here; "
+            "FULL/GRADE_ONLY read here. Default: results-dir"
+        ),
+    )
+    parser.add_argument(
+        "--initial-rubric-dir", default=None,
+        help=(
+            "Optional directory containing immutable initial rubrics used to "
+            "seed VARIANCE_OPT."
+        ),
+    )
+    parser.add_argument(
+        "--allow-initial-rubric", action="store_true",
+        help=(
+            "Allow OCR_ONLY/FULL/GRADE_ONLY to fall back to the initial rubric "
+            "when no optimized rubric exists. Intended for smoke tests only."
+        ),
     )
     parser.add_argument(
         "--log-dir", default="logs",
@@ -285,7 +307,7 @@ def parse_args():
     )
     parser.add_argument(
         "--extraction-backend",
-        choices=["glm_vlm", "paddle_glm5"],
+        choices=["glm_vlm", "paddle_glm5", "csbench_hybrid"],
         default="glm_vlm",
         help="Stage-1 extraction backend. Default: glm_vlm.",
     )
@@ -293,6 +315,30 @@ def parse_args():
         "--ocr-cache-dir",
         default="ocr_cache",
         help="Root directory for raw OCR and mapped fact caches.",
+    )
+    parser.add_argument(
+        "--database-path",
+        default=DATABASE_PATH,
+        help="Question database JSON. Default: database/exam_database.json",
+    )
+    parser.add_argument(
+        "--teacher-db",
+        default=TEACHER_DB_PATH,
+        help="Teacher score JSON. Default: database/teacher_scores.json",
+    )
+    parser.add_argument(
+        "--answer-metadata",
+        default=None,
+        help="Optional CSBench answer_metadata.jsonl containing raw_text.",
+    )
+    parser.add_argument(
+        "--answer-split",
+        choices=["all", "calibration", "validation", "test"],
+        default="all",
+        help=(
+            "Optional per-question answer partition. Use test for final CSBench "
+            "experiments. Default: all."
+        ),
     )
     return parser.parse_args()
 
@@ -402,11 +448,97 @@ def validate_question_outputs(q_id, expected_count):
         )
 
 
-def rubric_path_for(q_id):
+def rubric_group_for(q_id, q_data=None):
+    if q_data and q_data.get("rubric_group"):
+        return str(q_data["rubric_group"])
+    return str(q_id).split("_", 1)[0]
+
+
+def rubric_candidates(base_dir, q_id, q_data=None):
     rubric_name = f"{q_id}_rubric_standard.json"
-    primary = os.path.join(RUBRIC_DIR, rubric_name)
-    if os.path.exists(primary):
-        return primary
+    group = rubric_group_for(q_id, q_data)
+    return [
+        os.path.join(base_dir, group, rubric_name),
+        os.path.join(base_dir, rubric_name),
+    ]
+
+
+def first_existing_path(paths):
+    return next((path for path in paths if path and os.path.exists(path)), None)
+
+
+def initial_rubric_path_for(q_data):
+    q_id = q_data["question_id"]
+    explicit = q_data.get("initial_rubric_path")
+    candidates = [explicit] if explicit else []
+    if INITIAL_RUBRIC_DIR:
+        candidates.extend(rubric_candidates(INITIAL_RUBRIC_DIR, q_id, q_data))
+    return first_existing_path(candidates)
+
+
+def optimized_rubric_output_path(q_data):
+    q_id = q_data["question_id"]
+    return rubric_candidates(RUBRIC_DIR, q_id, q_data)[0]
+
+
+def optimization_manifest_path(q_data):
+    q_id = q_data["question_id"]
+    root = (
+        os.path.join(os.path.dirname(os.path.abspath(RUBRIC_DIR)), "manifests")
+        if os.path.basename(os.path.normpath(RUBRIC_DIR)).lower() == "optimized"
+        else os.path.join(RUBRIC_DIR, "manifests")
+    )
+    return os.path.join(
+        root,
+        rubric_group_for(q_id, q_data),
+        f"{q_id}_optimization.json",
+    )
+
+
+def validate_optimized_rubric_provenance(q_data, rubric_path):
+    if not INITIAL_RUBRIC_DIR:
+        return
+    manifest_path = optimization_manifest_path(q_data)
+    if not os.path.exists(manifest_path):
+        raise FileNotFoundError(
+            f"Optimized rubric manifest is missing for "
+            f"{q_data['question_id']}: {manifest_path}. Run VARIANCE_OPT first."
+        )
+    with open(manifest_path, "r", encoding="utf-8") as handle:
+        manifest = json.load(handle)
+    initial_path = initial_rubric_path_for(q_data)
+    expected_initial_hash = sha256_path(initial_path)
+    if manifest.get("initial_sha256") != expected_initial_hash:
+        raise ValueError(
+            f"Optimized rubric for {q_data['question_id']} was produced from "
+            "a different initial rubric. Re-run VARIANCE_OPT."
+        )
+    if manifest.get("optimized_sha256") != sha256_path(rubric_path):
+        raise ValueError(
+            f"Optimized rubric hash mismatch for {q_data['question_id']}. "
+            "Re-run VARIANCE_OPT or restore the recorded file."
+        )
+
+
+def rubric_path_for(q_id, q_data=None):
+    rubric_name = f"{q_id}_rubric_standard.json"
+    primary_candidates = rubric_candidates(RUBRIC_DIR, q_id, q_data)
+    existing = first_existing_path(primary_candidates)
+    if existing:
+        if q_data:
+            validate_optimized_rubric_provenance(q_data, existing)
+        return existing
+
+    if ALLOW_INITIAL_RUBRIC and q_data:
+        initial = initial_rubric_path_for(q_data)
+        if initial:
+            logging.warning(
+                f"[rubric fallback] optimized rubric missing for {q_id}; "
+                f"using initial rubric for this explicitly allowed run: {initial}"
+            )
+            return initial
+
+    primary = primary_candidates[0]
     fallback = os.path.join(DEFAULT_OUTPUT_DIR, rubric_name)
     if os.path.abspath(primary) != os.path.abspath(fallback) and os.path.exists(fallback):
         logging.warning(
@@ -416,12 +548,64 @@ def rubric_path_for(q_id):
     return primary
 
 
+def sha256_path(path):
+    if not path or not os.path.exists(path):
+        return None
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def rubric_total(rubric):
+    return sum(float(item.get("points", 0)) for item in rubric or [])
+
+
+def load_calibration_ids(q_data):
+    ids = q_data.get("rubric_calibration_ids")
+    if isinstance(ids, list):
+        return [str(value) for value in ids]
+    split_path = q_data.get("rubric_split_path")
+    if split_path and os.path.exists(split_path):
+        with open(split_path, "r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+        return [str(value) for value in payload.get("calibration", [])]
+    return []
+
+
+def answer_ids_for_split(q_data, split_name):
+    if not split_name or split_name == "all":
+        return None
+    if split_name == "calibration":
+        return set(load_calibration_ids(q_data))
+    split_path = q_data.get("rubric_split_path")
+    if not split_path or not os.path.exists(split_path):
+        raise FileNotFoundError(
+            f"{q_data['question_id']} has no split metadata for {split_name}."
+        )
+    with open(split_path, "r", encoding="utf-8") as handle:
+        payload = json.load(handle)
+    return {str(value) for value in payload.get(split_name, [])}
+
+
+def select_question_images(image_files, img_limit, q_data, answer_split="all"):
+    allowed_ids = answer_ids_for_split(q_data, answer_split)
+    if allowed_ids is not None:
+        image_files = [
+            filename
+            for filename in image_files
+            if os.path.splitext(filename)[0] in allowed_ids
+        ]
+    return selected_image_files(image_files, img_limit)
+
+
 def get_teacher_score_from_your_database(student_id, q_id):
     """数据接口：从 step0 生成的 JSON 数据库中获取教师评分"""
     global _GLOBAL_SCORES_DB
 
     if _GLOBAL_SCORES_DB is None:
-        db_path = "./database/teacher_scores.json"
+        db_path = TEACHER_DB_PATH
         if os.path.exists(db_path):
             with open(db_path, "r", encoding="utf-8") as f:
                 _GLOBAL_SCORES_DB = json.load(f)
@@ -435,12 +619,79 @@ def get_teacher_score_from_your_database(student_id, q_id):
     return float(score)
 
 
+def load_answer_metadata():
+    """Load optional answer metadata keyed by complete answer_id."""
+    global _GLOBAL_ANSWER_METADATA
+    if _GLOBAL_ANSWER_METADATA is not None:
+        return _GLOBAL_ANSWER_METADATA
+    _GLOBAL_ANSWER_METADATA = {}
+    if not ANSWER_METADATA_PATH:
+        return _GLOBAL_ANSWER_METADATA
+    if not os.path.exists(ANSWER_METADATA_PATH):
+        logging.warning(f"[metadata] answer metadata not found: {ANSWER_METADATA_PATH}")
+        return _GLOBAL_ANSWER_METADATA
+    with open(ANSWER_METADATA_PATH, "r", encoding="utf-8") as handle:
+        for line in handle:
+            if not line.strip():
+                continue
+            record = json.loads(line)
+            answer_id = str(record.get("answer_id", ""))
+            if answer_id:
+                _GLOBAL_ANSWER_METADATA[answer_id] = record
+    logging.info(
+        f"[metadata] loaded {len(_GLOBAL_ANSWER_METADATA)} answer records "
+        f"from {ANSWER_METADATA_PATH}"
+    )
+    return _GLOBAL_ANSWER_METADATA
+
+
+def answer_metadata_for(answer_id):
+    return load_answer_metadata().get(str(answer_id), {})
+
+
+def selected_image_files(image_files, img_limit):
+    """Select images by complete filename stem; preserve legacy student IDs."""
+    if isinstance(img_limit, list):
+        target_ids = {str(value) for value in img_limit}
+        return [
+            filename
+            for filename in image_files
+            if os.path.splitext(filename)[0] in target_ids
+            or os.path.splitext(filename)[0].split("_")[0] in target_ids
+        ]
+    if isinstance(img_limit, int):
+        return image_files[:img_limit]
+    return image_files
+
+
+def sample_needs_ocr(extraction_backend, q_data, image_filename):
+    if extraction_backend == "paddle_glm5":
+        return True
+    if extraction_backend != "csbench_hybrid":
+        return False
+    if not q_data.get("requires_visual_evidence"):
+        return False
+    answer_id = os.path.splitext(image_filename)[0]
+    metadata = answer_metadata_for(answer_id)
+    return bool(
+        metadata.get("isimagine")
+        or metadata.get("visual_placeholder_detected")
+    )
+
+
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # ============================================================
 # 核心功能 A：基于方差的自动优化流程 (用于测试/打磨标准)
 # ============================================================
-def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=None, force_rerun=False):
+def run_variance_optimization_process(
+    q_data,
+    sample_size=3,
+    progress_tracker=None,
+    force_rerun=False,
+    extraction_backend="glm_vlm",
+    ocr_cache_dir="ocr_cache",
+):
     q_id = q_data["question_id"]
     q_score = q_data["total_score"]
     q_text = q_data["question_text"]
@@ -450,8 +701,13 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
     images_folder = q_data["student_images_dir"]
     official_rubric = q_data.get("official_rubric", "")
 
-    rubric_save_path = os.path.join(OUTPUT_DIR, f"{q_id}_rubric_standard.json")
+    rubric_save_path = optimized_rubric_output_path(q_data)
+    initial_rubric_path = initial_rubric_path_for(q_data)
     checkpoint_path = os.path.join(OUTPUT_DIR, f"{q_id}_variance_checkpoint.json")
+    manifest_path = optimization_manifest_path(q_data)
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    os.makedirs(os.path.dirname(rubric_save_path), exist_ok=True)
+    os.makedirs(os.path.dirname(manifest_path), exist_ok=True)
 
     logging.info(f"\n{'='*60}\n🔬 [断点续传模式] 处理题目: {q_id}\n{'='*60}")
 
@@ -459,7 +715,10 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
     draft_rubric = None
     rubric_regenerated = False
     if force_rerun and os.path.exists(rubric_save_path):
-        logging.info("force-rerun enabled; regenerate rubric and ignore existing rubric file.")
+        logging.info(
+            "force-rerun enabled; restart from the immutable initial rubric "
+            "and ignore the existing optimized rubric."
+        )
     elif os.path.exists(rubric_save_path):
         with open(rubric_save_path, "r", encoding="utf-8") as f:
             draft_rubric = json.load(f)
@@ -468,19 +727,39 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
             logging.warning("Existing rubric file is empty or invalid; regenerating it.")
             draft_rubric = None
 
+    if draft_rubric is None and initial_rubric_path:
+        with open(initial_rubric_path, "r", encoding="utf-8") as handle:
+            draft_rubric = json.load(handle)
+        if not isinstance(draft_rubric, list) or not draft_rubric:
+            raise ValueError(f"Invalid initial rubric: {initial_rubric_path}")
+        logging.info(f"Loaded immutable initial rubric: {initial_rubric_path}")
+        rubric_regenerated = True
+
     if draft_rubric is None:
-        logging.info("Generating initial rubric draft...")
-        draft_rubric = generate_rrd_rubrics(q_text, ref_text, official_rubric, q_score, q_img, ref_img, None)
+        logging.info(
+            "No external initial rubric configured; generating the legacy "
+            "initial rubric draft."
+        )
+        draft_rubric = generate_rrd_rubrics(
+            q_text, ref_text, official_rubric, q_score, q_img, ref_img, None
+        )
         if not isinstance(draft_rubric, list) or not draft_rubric:
             logging.error(f"Failed to generate a valid rubric for {q_id}; stop VARIANCE_OPT for this question.")
             if progress_tracker:
                 progress_tracker.record_error(q_id, "__rubric__", "rubric_generation_failed")
             return
-        with open(rubric_save_path, "w", encoding="utf-8") as f:
-            json.dump(draft_rubric, f, indent=4, ensure_ascii=False)
         rubric_regenerated = True
         logging.info("Initial rubric generated; sleep 2 seconds before sampling.")
         time.sleep(2)
+
+    initial_total = rubric_total(draft_rubric)
+    if abs(initial_total - float(q_score)) > 1e-6:
+        raise ValueError(
+            f"{q_id} initial rubric total {initial_total} does not match "
+            f"question total_score {q_score}."
+        )
+    with open(rubric_save_path, "w", encoding="utf-8") as handle:
+        json.dump(draft_rubric, handle, indent=4, ensure_ascii=False)
 
     # --- Step 2: 加载已有的方差探测进度 ---
     hard_samples_info = []
@@ -498,11 +777,50 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
     # --- Step 3: 探测方差 ---
     image_files = [f for f in os.listdir(images_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
     image_files.sort()
+    calibration_ids = load_calibration_ids(q_data)
+    if calibration_ids:
+        calibration_set = set(calibration_ids)
+        image_files = [
+            filename
+            for filename in image_files
+            if os.path.splitext(filename)[0] in calibration_set
+        ]
+        logging.info(
+            f"[data isolation] variance optimization is restricted to "
+            f"{len(image_files)} calibration answers."
+        )
+    else:
+        logging.warning(
+            f"[data isolation] {q_id} has no calibration split metadata; "
+            "using the legacy sorted-image sampling behavior."
+        )
+    allowed_files = set(image_files)
+    if processed_files - allowed_files:
+        hard_samples_info = [
+            sample
+            for sample in hard_samples_info
+            if sample.get("file") in allowed_files
+        ]
+        processed_files = {
+            sample["file"]
+            for sample in hard_samples_info
+            if sample.get("file")
+        }
+        logging.warning(
+            f"[data isolation] removed checkpoint samples outside the current "
+            f"{q_id} calibration split."
+        )
+    effective_sample_size = min(sample_size, len(image_files))
+    if effective_sample_size < sample_size:
+        logging.warning(
+            f"{q_id} requested {sample_size} calibration samples, but only "
+            f"{effective_sample_size} are available."
+        )
 
     if progress_tracker:
-        progress_tracker.register_question(q_id, sample_size)
+        progress_tracker.register_question(q_id, effective_sample_size)
 
-    remaining_needed = sample_size - len(processed_files)
+    remaining_needed = effective_sample_size - len(processed_files)
     if remaining_needed <= 0:
         logging.info("✅ 方差采样已全部完成，直接进入修正环节。")
     else:
@@ -514,6 +832,7 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
 
             _sample_start = time.time()
             img_path = os.path.join(images_folder, img_file)
+            student_id = os.path.splitext(img_file)[0]
             scores = []
 
             logging.info(f"\n👉 正在处理新样本: {img_file}")
@@ -523,12 +842,39 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
             time.sleep(2)
 
             logging.info("   [单次视觉采样] 正在看图提取事实...")
-            current_facts = stage1_blind_extraction(q_text, img_path, blind_checklist, q_img)
+            raw_ocr_dir = os.path.join(ocr_cache_dir, q_id)
+            facts_cache_dir = os.path.join(
+                ocr_cache_dir, "variance_facts", q_id
+            )
+            os.makedirs(raw_ocr_dir, exist_ok=True)
+            os.makedirs(facts_cache_dir, exist_ok=True)
+            if sample_needs_ocr(extraction_backend, q_data, img_file):
+                ensure_paddle_ocr_cache(
+                    img_path,
+                    raw_ocr_dir,
+                    force=force_rerun,
+                )
+            metadata = answer_metadata_for(student_id)
+            current_facts, extraction_evidence = stage1_extract_with_backend(
+                question_text=q_text,
+                student_img_path=img_path,
+                blind_checklist=blind_checklist,
+                rubrics_json=json.dumps(draft_rubric, ensure_ascii=False),
+                q_img_path=q_img,
+                extraction_backend=extraction_backend,
+                ocr_json_path=str(ocr_json_path(raw_ocr_dir, img_path)),
+                extraction_cache_path=os.path.join(
+                    facts_cache_dir, f"{student_id}.json"
+                ),
+                force_extraction=True,
+                student_transcription=metadata.get("raw_text"),
+                answer_metadata=metadata,
+            )
 
             if not current_facts:
                 logging.warning("   ⚠️ 视觉提取失败，跳过...")
                 if progress_tracker:
-                    student_id = os.path.splitext(img_file)[0].split('_')[0]
+                    student_id = os.path.splitext(img_file)[0]
                     progress_tracker.record_error(q_id, student_id, "视觉提取失败")
                 continue
 
@@ -576,6 +922,7 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
                 sample_data = {
                     "file": img_file,
                     "facts": current_facts,
+                    "extraction_evidence": extraction_evidence,
                     "scores": scores,
                     "strict_cots": strict_cots,
                     "item_scores_history": item_scores_history,
@@ -591,7 +938,7 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
                 logging.info(f"💾 样本 {img_file} 进度已保存。")
 
                 if progress_tracker:
-                    student_id = os.path.splitext(img_file)[0].split('_')[0]
+                    student_id = os.path.splitext(img_file)[0]
                     progress_tracker.record_completion(q_id, student_id, {"3wd_route": "VARIANCE"}, time.time() - _sample_start)
 
                 logging.info("⏳ 样本间冷却 15 秒...")
@@ -612,6 +959,8 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
     logging.info(f"Item-level variance: avg={avg_item_variance:.4f}, max={max_item_variance:.4f}")
 
     has_coarse_item = any(item.get('points', 0) >= 4 for item in draft_rubric)
+    final_rubric = draft_rubric
+    refinement_applied = False
 
     if avg_variance > 0.1 or avg_item_variance > 0.05 or has_coarse_item:
         if avg_variance > 0.1:
@@ -644,16 +993,57 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
 
         logging.info(f"🔧 [规则修正] 正在基于 {len(bad_samples)} 份精选样本优化规则...")
 
-        final_rubric = refine_rubric_based_on_variance(draft_rubric, q_text, q_score, bad_samples)
+        refined_rubric = refine_rubric_based_on_variance(
+            draft_rubric, q_text, q_score, bad_samples
+        )
 
-        if final_rubric:
-            with open(rubric_save_path, "w", encoding="utf-8") as f:
-                json.dump(final_rubric, f, indent=4, ensure_ascii=False)
-            logging.info("🎉 修正后的最终标准已保存。")
+        if refined_rubric:
+            refined_total = rubric_total(refined_rubric)
+            if abs(refined_total - float(q_score)) > 1e-6:
+                logging.error(
+                    f"Refined rubric rejected: total {refined_total} does not "
+                    f"match question total_score {q_score}."
+                )
+            else:
+                final_rubric = refined_rubric
+                refinement_applied = True
+                logging.info("🎉 修正后的最终标准已通过总分校验。")
         else:
             logging.error("❌ 修正请求失败或 JSON 解析错误，保留原草稿。")
     else:
         logging.info("✅ 标准足够稳定且粒度精细，无需进一步修正。")
+
+    with open(rubric_save_path, "w", encoding="utf-8") as handle:
+        json.dump(final_rubric, handle, indent=4, ensure_ascii=False)
+    manifest = {
+        "schema_version": 1,
+        "question_id": q_id,
+        "rubric_group": rubric_group_for(q_id, q_data),
+        "source_rubric": q_data.get("source_rubric_path"),
+        "initial_rubric": initial_rubric_path,
+        "optimized_rubric": os.path.abspath(rubric_save_path),
+        "calibration_answer_ids": [
+            os.path.splitext(sample["file"])[0]
+            for sample in hard_samples_info
+        ],
+        "requested_sample_size": sample_size,
+        "completed_sample_size": len(hard_samples_info),
+        "extraction_backend": extraction_backend,
+        "question_total_score": float(q_score),
+        "initial_total_score": initial_total,
+        "optimized_total_score": rubric_total(final_rubric),
+        "average_score_variance": float(avg_variance),
+        "average_item_variance": avg_item_variance,
+        "maximum_item_variance": max_item_variance,
+        "refinement_applied": refinement_applied,
+        "source_sha256": sha256_path(q_data.get("source_rubric_path")),
+        "initial_sha256": sha256_path(initial_rubric_path),
+        "optimized_sha256": sha256_path(rubric_save_path),
+        "created_at": datetime.now().isoformat(timespec="seconds"),
+    }
+    with open(manifest_path, "w", encoding="utf-8") as handle:
+        json.dump(manifest, handle, indent=2, ensure_ascii=False)
+    logging.info(f"[rubric manifest] saved: {manifest_path}")
 
     if progress_tracker:
         progress_tracker.mark_question_done(q_id)
@@ -665,6 +1055,7 @@ def run_variance_optimization_process(q_data, sample_size=3, progress_tracker=No
 def process_ocr_only_question(
     q_data,
     img_limit=None,
+    answer_split="all",
     force_rerun=False,
     progress_tracker=None,
     extraction_backend="paddle_glm5",
@@ -675,7 +1066,7 @@ def process_ocr_only_question(
     q_text = q_data["question_text"]
     q_img = q_data.get("question_image")
     images_folder = q_data["student_images_dir"]
-    with open(rubric_path_for(q_id), "r", encoding="utf-8") as handle:
+    with open(rubric_path_for(q_id, q_data), "r", encoding="utf-8") as handle:
         dynamic_rubrics = json.load(handle)
     rubrics_json = json.dumps(dynamic_rubrics, ensure_ascii=False)
 
@@ -683,15 +1074,9 @@ def process_ocr_only_question(
         f for f in os.listdir(images_folder)
         if f.lower().endswith((".png", ".jpg", ".jpeg"))
     )
-    image_files = all_image_files[:]
-    if isinstance(img_limit, list):
-        target_ids = set(img_limit)
-        image_files = [
-            f for f in image_files
-            if os.path.splitext(f)[0].split("_")[0] in target_ids
-        ]
-    elif isinstance(img_limit, int):
-        image_files = image_files[:img_limit]
+    image_files = select_question_images(
+        all_image_files, img_limit, q_data, answer_split
+    )
 
     if progress_tracker:
         progress_tracker.register_question(q_id, len(image_files))
@@ -701,8 +1086,13 @@ def process_ocr_only_question(
     os.makedirs(raw_dir, exist_ok=True)
     os.makedirs(facts_dir, exist_ok=True)
 
-    if extraction_backend == "paddle_glm5":
-        if image_files == all_image_files:
+    ocr_image_files = [
+        filename
+        for filename in image_files
+        if sample_needs_ocr(extraction_backend, q_data, filename)
+    ]
+    if ocr_image_files:
+        if ocr_image_files == all_image_files:
             completed = ensure_paddle_ocr_cache(
                 images_folder,
                 raw_dir,
@@ -711,7 +1101,7 @@ def process_ocr_only_question(
             if completed.stdout.strip():
                 logging.info(completed.stdout.strip())
         else:
-            for img_file in image_files:
+            for img_file in ocr_image_files:
                 img_path = os.path.join(images_folder, img_file)
                 completed = ensure_paddle_ocr_cache(
                     img_path,
@@ -727,6 +1117,7 @@ def process_ocr_only_question(
         started = time.time()
         img_path = os.path.join(images_folder, img_file)
         student_id = os.path.splitext(img_file)[0]
+        metadata = answer_metadata_for(student_id)
         try:
             facts, evidence = stage1_extract_with_backend(
                 question_text=q_text,
@@ -738,6 +1129,8 @@ def process_ocr_only_question(
                 ocr_json_path=str(ocr_json_path(raw_dir, img_path)),
                 extraction_cache_path=os.path.join(facts_dir, f"{student_id}.json"),
                 force_extraction=force_rerun,
+                student_transcription=metadata.get("raw_text"),
+                answer_metadata=metadata,
             )
             records.append({
                 "question_id": q_id,
@@ -747,6 +1140,9 @@ def process_ocr_only_question(
                 "extraction_cache_path": os.path.join(facts_dir, f"{student_id}.json"),
                 "blank_authenticity": evidence.get("ocr_summary", {}).get("blank_authenticity"),
                 "diagram_parser_used": evidence.get("diagram_parser_used", False),
+                "visual_placeholder_detected": evidence.get(
+                    "visual_placeholder_detected", False
+                ),
             })
             if progress_tracker:
                 progress_tracker.record_completion(
@@ -770,6 +1166,7 @@ def process_ocr_only_question(
 def process_single_question(
     q_data,
     img_limit=None,
+    answer_split="all",
     generate_only=False,
     force_rerun=False,
     progress_tracker=None,
@@ -790,7 +1187,7 @@ def process_single_question(
     logging.info(f"\n🚀 [标准模式] 开始处理: {q_id}")
 
     # 1. 生成/读取标准
-    rubric_output_path = rubric_path_for(q_id)
+    rubric_output_path = rubric_path_for(q_id, q_data)
 
     try:
         with open(rubric_output_path, "r", encoding="utf-8") as f:
@@ -815,12 +1212,12 @@ def process_single_question(
         if f.lower().endswith(('.png', '.jpg', '.jpeg'))
     ]
     all_image_files.sort()
-    image_files = all_image_files[:]
+    image_files = select_question_images(
+        all_image_files, img_limit, q_data, answer_split
+    )
 
-    # 灵活选人：支持 int(前N张)、list(指定学号)、None(全量)
+    # 灵活选人：支持 int(前N张)、list(完整答案ID/旧学号)、None(全量)
     if isinstance(img_limit, list):
-        target_ids = set(img_limit)
-        image_files = [f for f in image_files if os.path.splitext(f)[0].split('_')[0] in target_ids]
         logging.info(f"📷 指定学号模式: 筛选出 {len(image_files)} 张试卷")
     elif isinstance(img_limit, int):
         image_files = image_files[:img_limit]
@@ -830,9 +1227,17 @@ def process_single_question(
     facts_cache_dir = os.path.join(ocr_cache_dir, "facts", q_id)
     os.makedirs(raw_ocr_dir, exist_ok=True)
     os.makedirs(facts_cache_dir, exist_ok=True)
-    if extraction_backend == "paddle_glm5" and not grade_only:
-        logging.info(f"[PaddleOCR] preparing {len(image_files)} raw OCR cache entries...")
-        if image_files == all_image_files:
+    ocr_image_files = [
+        filename
+        for filename in image_files
+        if sample_needs_ocr(extraction_backend, q_data, filename)
+    ]
+    if ocr_image_files and not grade_only:
+        logging.info(
+            f"[PaddleOCR] preparing {len(ocr_image_files)}/{len(image_files)} "
+            "visual-answer cache entries..."
+        )
+        if ocr_image_files == all_image_files:
             completed = ensure_paddle_ocr_cache(
                 images_folder,
                 raw_ocr_dir,
@@ -841,7 +1246,7 @@ def process_single_question(
             if completed.stdout.strip():
                 logging.info(completed.stdout.strip())
         else:
-            for img_file in image_files:
+            for img_file in ocr_image_files:
                 completed = ensure_paddle_ocr_cache(
                     os.path.join(images_folder, img_file),
                     raw_ocr_dir,
@@ -917,9 +1322,10 @@ def process_single_question(
 
     def process_one_student(img_file):
         file_base_name = os.path.splitext(img_file)[0]
-        pure_student_id = file_base_name.split('_')[0]
+        student_id = file_base_name
         img_path = os.path.join(images_folder, img_file)
-        real_teacher_score = get_teacher_score_from_your_database(pure_student_id, q_id)
+        real_teacher_score = get_teacher_score_from_your_database(student_id, q_id)
+        metadata = answer_metadata_for(student_id)
         _start_time = time.time()
 
         for attempt in range(2):
@@ -940,6 +1346,8 @@ def process_single_question(
                     ),
                     force_extraction=force_rerun,
                     grade_only=grade_only,
+                    student_transcription=metadata.get("raw_text"),
+                    answer_metadata=metadata,
                 )
 
                 if res and res.get("_pipeline_failed"):
@@ -951,7 +1359,7 @@ def process_single_question(
                         attempts=attempt + 1,
                     )
                     if progress_tracker:
-                        progress_tracker.record_error(q_id, pure_student_id, failure["reason"])
+                        progress_tracker.record_error(q_id, student_id, failure["reason"])
                     return failure
 
                 if res:
@@ -966,7 +1374,7 @@ def process_single_question(
                     )
                     logging.info(f"✅ [批改完成] {file_base_name} | 路由: {res['3wd_route']} | 最终分: {res['final_calibrated_score']} | 风险: {risk_brief} | 提取质量: {eq_icon}{eq} | 留白率: {res['blank_rate']:.0%} | 低质量率: {res.get('low_quality_extraction_rate', 0):.0%}")
                     if progress_tracker:
-                        progress_tracker.record_completion(q_id, pure_student_id, res, time.time() - _start_time)
+                        progress_tracker.record_completion(q_id, student_id, res, time.time() - _start_time)
                     return res
                 elif attempt == 0:
                     logging.warning(f"⚠️ [流水线返回空] {file_base_name} | 等待 5 秒后重试...")
@@ -985,7 +1393,7 @@ def process_single_question(
             attempts=2,
         )
         if progress_tracker:
-            progress_tracker.record_error(q_id, pure_student_id, failure["reason"])
+            progress_tracker.record_error(q_id, student_id, failure["reason"])
         return failure
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS_OUTER) as executor:
@@ -1114,6 +1522,11 @@ if __name__ == "__main__":
     # 解析终端参数（终端参数优先于上面配置区）
     # ==========================================
     args = parse_args()
+    DATABASE_PATH = args.database_path
+    TEACHER_DB_PATH = args.teacher_db
+    ANSWER_METADATA_PATH = args.answer_metadata
+    INITIAL_RUBRIC_DIR = args.initial_rubric_dir
+    ALLOW_INITIAL_RUBRIC = args.allow_initial_rubric
     if args.results_dir:
         OUTPUT_DIR = args.results_dir
     RUBRIC_DIR = args.rubric_dir or OUTPUT_DIR
@@ -1172,9 +1585,16 @@ if __name__ == "__main__":
     logging.info(f"   题目范围: {[q['question_id'] for q in exam_data]}")
     logging.info(f"   文本模型: {get_text_model_display()}")
     logging.info(f"   提取后端: {args.extraction_backend}")
+    logging.info(f"   题库文件: {DATABASE_PATH}")
+    logging.info(f"   教师分文件: {TEACHER_DB_PATH}")
+    if ANSWER_METADATA_PATH:
+        logging.info(f"   答案元数据: {ANSWER_METADATA_PATH}")
     logging.info(f"   并发数:   {MAX_WORKERS_OUTER}")
     logging.info(f"   结果目录: {OUTPUT_DIR}")
     logging.info(f"   Rubric目录: {RUBRIC_DIR}")
+    if INITIAL_RUBRIC_DIR:
+        logging.info(f"   初始Rubric目录: {INITIAL_RUBRIC_DIR}")
+    logging.info(f"   允许回退初始Rubric: {ALLOW_INITIAL_RUBRIC}")
     logging.info(f"   进度文件: {progress_path}")
     logging.info(f"   日志文件: {log_file}")
 
@@ -1193,8 +1613,14 @@ if __name__ == "__main__":
         "sample_size": args.sample_size,
         "results_dir": OUTPUT_DIR,
         "rubric_dir": RUBRIC_DIR,
+        "initial_rubric_dir": INITIAL_RUBRIC_DIR,
+        "allow_initial_rubric": ALLOW_INITIAL_RUBRIC,
         "extraction_backend": args.extraction_backend,
         "ocr_cache_dir": args.ocr_cache_dir,
+        "database_path": DATABASE_PATH,
+        "teacher_db": TEACHER_DB_PATH,
+        "answer_metadata": ANSWER_METADATA_PATH,
+        "answer_split": args.answer_split,
     }
     tracker = ProgressTracker(
         progress_path=progress_path,
@@ -1225,11 +1651,13 @@ if __name__ == "__main__":
                         sample_size=variance_questions[q_id],
                         progress_tracker=tracker,
                         force_rerun=args.force_rerun if args.force_rerun else FORCE_RERUN,
+                        extraction_backend=args.extraction_backend,
+                        ocr_cache_dir=args.ocr_cache_dir,
                     )
 
         elif args.mode == "OCR_ONLY":
             logging.info("🔎 当前处于【仅提取模式】(OCR_ONLY)")
-            if args.extraction_backend != "paddle_glm5":
+            if args.extraction_backend not in ("paddle_glm5", "csbench_hybrid"):
                 logging.warning(
                     "OCR_ONLY is most useful with --extraction-backend paddle_glm5."
                 )
@@ -1239,6 +1667,7 @@ if __name__ == "__main__":
                 process_ocr_only_question(
                     q_data,
                     img_limit=cli_img_limit,
+                    answer_split=args.answer_split,
                     force_rerun=args.force_rerun,
                     progress_tracker=tracker,
                     extraction_backend=args.extraction_backend,
@@ -1251,7 +1680,10 @@ if __name__ == "__main__":
                 if args.mode == "FULL"
                 else "🧮 当前处于【仅评分模式】(GRADE_ONLY)"
             )
-            if args.mode == "GRADE_ONLY" and args.extraction_backend != "paddle_glm5":
+            if args.mode == "GRADE_ONLY" and args.extraction_backend not in (
+                "paddle_glm5",
+                "csbench_hybrid",
+            ):
                 raise ValueError(
                     "GRADE_ONLY currently requires --extraction-backend paddle_glm5 "
                     "and an existing mapped fact cache."
@@ -1266,6 +1698,7 @@ if __name__ == "__main__":
                     process_single_question(
                         q_data,
                         img_limit=cli_img_limit,
+                        answer_split=args.answer_split,
                         force_rerun=args.force_rerun if args.force_rerun else FORCE_RERUN,
                         progress_tracker=tracker,
                         extraction_backend=args.extraction_backend,
@@ -1283,6 +1716,7 @@ if __name__ == "__main__":
                         process_single_question(
                             q_data,
                             img_limit=limit,
+                            answer_split=args.answer_split,
                             force_rerun=FORCE_RERUN,
                             progress_tracker=tracker,
                             extraction_backend=args.extraction_backend,
@@ -1303,124 +1737,63 @@ if __name__ == "__main__":
         traceback.print_exc()
 
 
-# ============================================================
-# 当前流水线与常用运行命令
-# ============================================================
-#
-# PaddleOCR 只是新增的可选提取工具。日常只需要记住下面几条命令。
-# 以下命令均以“单个题目 Q2”为例；更换题目时只改 Q2。
-#
-# 一、首次使用 PaddleOCR 时，只安装一次
-#
-#    .\scripts\setup_paddle_ocr.ps1
-#
-# 二、只使用 PaddleOCR 提取 Q2，不评分
-#
-#    .\venv\Scripts\python.exe main_pipeline.py `
-#      --mode OCR_ONLY --questions Q2 `
-#      --extraction-backend paddle_glm5
-#
-# 输出：
-#    ocr_cache\Q2\                  PaddleOCR 原始 JSON
-#    ocr_cache\facts\Q2\            GLM-5.1 映射后的事实 JSON
-#    results_rrd_vlm\Q2_ocr_only.json
-#
-# 三、使用已经提取好的 Q2 事实进行评分
-#
-#    .\venv\Scripts\python.exe main_pipeline.py `
-#      --mode GRADE_ONLY --questions Q2 `
-#      --extraction-backend paddle_glm5 `
-#      --force-rerun
-#
-# GRADE_ONLY 不会重新执行 PaddleOCR、GLM-5.1 映射和图形提取。
-#
-# 四、一条命令完成 PaddleOCR 提取和评分
-#
-#    .\venv\Scripts\python.exe main_pipeline.py `
-#      --mode FULL --questions Q2 `
-#      --extraction-backend paddle_glm5 `
-#      --force-rerun
-#
-# 这条命令等价于先执行 OCR_ONLY，再执行 GRADE_ONLY。
-#
-# 五、使用原有 glm_vlm 后端进行对比
-#
-#    .\venv\Scripts\python.exe main_pipeline.py `
-#      --mode FULL --questions Q2 `
-#      --extraction-backend glm_vlm `
-#      --force-rerun
-#
-# 不写 --extraction-backend 时，默认也是 glm_vlm。
-#
-# ============================================================
-# 推荐的完整命令流程（单个题目 Q2）
-# ============================================================
-#
-# 第一次使用时安装 PaddleOCR（只执行一次，不是每次批改都执行）：
-#
-# Windows：
-#    .\scripts\setup_paddle_ocr.ps1
-#
-# Linux 服务器：
-#    chmod +x scripts/setup_paddle_ocr.sh
-#    ./scripts/setup_paddle_ocr.sh
-#
-#    │          └─ 运行项目提供的 PowerShell 安装脚本
-#    └─ 在当前项目目录执行脚本
-#
-# 作用：
-# 1. 创建独立环境 .venv-ocr，避免 PaddleOCR 依赖影响主项目 venv。
-# 2. 安装 PaddlePaddle、PaddleOCR 及固定版本依赖。
-# 3. 输出安装版本，确认 OCR 环境可以使用。
-# 4. 如果 .venv-ocr 已经安装完成，以后可以跳过这一步。
-# 5. .venv-ocr 不提交到 Git；本地和服务器分别执行对应安装脚本重建。
-#
-# 第一步：只提取，先检查 OCR 和图形关系是否正确（可选调试步骤）：
-#
-#    .\venv\Scripts\python.exe main_pipeline.py `
-#    │                         └─ 运行主流水线入口 main_pipeline.py
-#    └─ 使用主项目 venv 中的 Python；PaddleOCR 本身仍由 .venv-ocr 执行
-#
-#      --mode OCR_ONLY --questions Q2 `
-#      │               │
-#      │               └─ 本次只处理单个题目 Q2；改成 Q3 即处理 Q3
-#      └─ 只执行提取，不执行 Stage2 评分和 3WD
-#
-#      --extraction-backend paddle_glm5
-#      └─ 使用新增后端：
-#         PaddleOCR 原始识别
-#         -> GLM-5.1 映射到 rubric 事实
-#         -> 遇到图形条目时调用 GLM-4.6V 解析图形关系
-#
-# 该命令会生成：
-# 1. ocr_cache\Q2\：PaddleOCR 原始文字、坐标、置信度和图片哈希。
-# 2. ocr_cache\facts\Q2\：映射后的评分事实和图形关系。
-# 3. results_rrd_vlm\Q2_ocr_only.json：本次提取结果汇总。
-#
-# OCR_ONLY 的目的只是先检查提取是否正确。例如检查 Q2 顺序图是否包含
-# C->D->C。它不是正式运行必须经历的步骤。
-#
-# 如果已经安装 PaddleOCR，并且不需要分阶段检查，可以跳过 OCR_ONLY，
-# 直接执行下面的 FULL 命令，一次完成提取和评分：
-#
-#    .\venv\Scripts\python.exe main_pipeline.py `
-#      --mode FULL --questions Q2 `
-#      --extraction-backend paddle_glm5 `
-#      --force-rerun
-#
-# 第二步：确认事实缓存后，只评分：
-#    .\venv\Scripts\python.exe main_pipeline.py `
-#      --mode GRADE_ONLY --questions Q2 `
-#      --extraction-backend paddle_glm5 `
-#      --force-rerun
-#
-# 如果不需要分阶段检查，直接使用一条完整命令：
-#    .\venv\Scripts\python.exe main_pipeline.py `
-#      --mode FULL --questions Q2 `
-#      --extraction-backend paddle_glm5 `
-#      --force-rerun
-#
-# 注意：
-# 1. --force-rerun 会覆盖该题已有的正式评分结果。
-# 2. OCR_ONLY 本身不需要 --force-rerun；图片哈希未变化时会复用缓存。
-# 3. 当前默认正式后端仍是 glm_vlm，paddle_glm5 用于实验和消融对比。
+RUN_COMMANDS = r"""
+RefGrader 常用命令。下面每条命令都可以整行直接复制到 PowerShell。
+
+【首次安装 PaddleOCR，仅执行一次】
+.\scripts\setup_paddle_ocr.ps1
+作用：创建 .venv-ocr 并安装 PaddlePaddle、PaddleOCR。
+
+【原 Q2：只提取，不评分】
+.\venv\Scripts\python.exe main_pipeline.py --mode OCR_ONLY --questions Q2 --extraction-backend paddle_glm5
+作用：生成 PaddleOCR 原始结果和 rubric 事实缓存，不进入 Stage2 和 3WD。
+
+【原 Q2：读取已有事实缓存评分】
+.\venv\Scripts\python.exe main_pipeline.py --mode GRADE_ONLY --questions Q2 --extraction-backend paddle_glm5 --force-rerun
+作用：不重新执行 OCR 和图形提取，直接执行 Stage2 与 3WD。
+
+【原 Q2：PaddleOCR 后端完整运行】
+.\venv\Scripts\python.exe main_pipeline.py --mode FULL --questions Q2 --extraction-backend paddle_glm5 --force-rerun
+作用：一次完成 PaddleOCR、事实映射、图形解析、Stage2 和 3WD。
+
+【原 Q2：旧 glm_vlm 后端对比】
+.\venv\Scripts\python.exe main_pipeline.py --mode FULL --questions Q2 --extraction-backend glm_vlm --force-rerun
+作用：使用旧视觉提取器运行消融基线。
+
+【CSBench：首次生成兼容视图】
+.\venv\Scripts\python.exe scripts\prepare_csbench.py --dataset-root C:\Users\wx\Desktop\CSBench_new --output-dir data\csbench --link-mode copy --exclude-questions OS_1 OS_2 --force
+作用：只读外部 CSBench，在当前项目生成 source/initial/optimized 三层准则、校准/验证/测试划分和独立图片副本。
+
+【CSBench：离线检查兼容数据与路由逻辑】
+.\venv\Scripts\python.exe scripts\check_csbench_integration.py --prepared-dir data\csbench
+作用：检查三层准则、总分一致性、数据划分隔离、文字转录路由和图形事实融合。
+
+【CSBench CO_2：评分准则优化阶段，可整行复制】
+.\venv\Scripts\python.exe main_pipeline.py --mode VARIANCE_OPT --questions CO_2 --sample-size 5 --database-path data\csbench\exam_database.json --answer-metadata data\csbench\answer_metadata.jsonl --initial-rubric-dir data\csbench\rubrics\initial --rubric-dir data\csbench\rubrics\optimized --results-dir results_runs\csbench_co2_rubric_opt --extraction-backend csbench_hybrid --ocr-cache-dir ocr_cache\csbench --progress-file results_runs\csbench_co2_rubric_opt\progress.json --force-rerun
+作用：只使用 CO_2 的 calibration 校准答案，从 initial 初始准则开始执行方差检测和准则优化，不使用 validation、test 或教师真实分数。
+参数说明：--mode VARIANCE_OPT 表示只运行准则优化；--questions CO_2 表示优化 CO_2；--sample-size 5 表示从校准集选取 5 份答案。
+参数说明：--initial-rubric-dir 读取不可覆盖的初始准则；--rubric-dir 将最终准则写入 optimized；--extraction-backend csbench_hybrid 使用 raw_text、PaddleOCR 和条件式图形解析提取校准事实。
+参数说明：--results-dir 保存方差检查点；--ocr-cache-dir 保存 OCR 和事实缓存；--progress-file 保存运行进度；--force-rerun 表示忽略旧检查点并重新优化。
+输出准则：data\csbench\rubrics\optimized\CO\CO_2_rubric_standard.json
+优化记录：data\csbench\rubrics\manifests\CO\CO_2_optimization.json
+
+【CSBench CO_2：先测试前 5 份答案】
+.\venv\Scripts\python.exe main_pipeline.py --mode FULL --questions CO_2 --answer-split test --img-limit 5 --database-path data\csbench\exam_database.json --teacher-db data\csbench\teacher_scores.json --answer-metadata data\csbench\answer_metadata.jsonl --initial-rubric-dir data\csbench\rubrics\initial --rubric-dir data\csbench\rubrics\optimized --results-dir results_runs\csbench_co2_5 --extraction-backend csbench_hybrid --ocr-cache-dir ocr_cache\csbench --progress-file results_runs\csbench_co2_5\progress.json --force-rerun
+作用：用少量样本验证完整混合证据评分流程。
+
+【CSBench CO_2：完整运行全部答案】
+.\venv\Scripts\python.exe main_pipeline.py --mode FULL --questions CO_2 --answer-split test --database-path data\csbench\exam_database.json --teacher-db data\csbench\teacher_scores.json --answer-metadata data\csbench\answer_metadata.jsonl --initial-rubric-dir data\csbench\rubrics\initial --rubric-dir data\csbench\rubrics\optimized --results-dir results_runs\csbench_co2_full --extraction-backend csbench_hybrid --ocr-cache-dir ocr_cache\csbench --progress-file results_runs\csbench_co2_full\progress.json --force-rerun
+作用：raw_text 与条件式视觉证据融合后，执行 Stage2、3WD 并保存完整结果。
+
+【CSBench CO_2：评估完整 checkpoint】
+.\venv\Scripts\python.exe evaluate.py --questions CO_2 --results-dir results_runs\csbench_co2_full --result-source checkpoint --teacher-db data\csbench\teacher_scores.json --database-path data\csbench\exam_database.json --compare --compare-score-keys single avg selected 3wd
+作用：评估 POS、BND、NEG 全部成功样本，并比较 single、avg、selected 和 3WD。
+
+主要结果目录：
+results_runs\csbench_co2_full\CO_2_grading_checkpoint.json  全部成功样本
+results_runs\csbench_co2_full\CO_2_graded_results.json      非 NEG 样本
+results_runs\csbench_co2_full\CO_2_rejected.json            NEG 样本
+results_runs\csbench_co2_full\CO_2_failed.json              失败样本
+ocr_cache\csbench\CO_2                                      PaddleOCR 原始缓存
+ocr_cache\csbench\facts\CO_2                                融合事实缓存
+"""

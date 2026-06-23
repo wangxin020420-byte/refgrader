@@ -383,12 +383,72 @@ def _diagram_checklist(blind_checklist, rubrics_json):
         str(item.get("id", ""))
         for item in rubrics
         if (
-            str(item.get("evidence_source", "")).lower() == "diagram"
+            "diagram" in str(item.get("evidence_source", "")).lower()
             or "diagram" in str(item.get("answer_type", "")).lower()
             or "图" in str(item.get("answer_type", ""))
         )
     }
     return [item for item in checklist if str(item.get("id", "")) in diagram_ids]
+
+
+VISUAL_PLACEHOLDER_PATTERNS = (
+    r"如图所示",
+    r"见图",
+    r"图如下",
+    r"如下图",
+    r"答案见图",
+    r"状态图略",
+    r"如下表",
+)
+
+
+def detect_visual_placeholder(text):
+    compact = re.sub(r"\s+", "", str(text or ""))
+    return any(re.search(pattern, compact) for pattern in VISUAL_PLACEHOLDER_PATTERNS)
+
+
+def map_transcription_to_facts(
+    question_text,
+    blind_checklist,
+    student_transcription,
+    visual_placeholder_detected=False,
+):
+    """Map the human transcription to blind rubric facts with GLM-5.1."""
+    checklist_ids = _checklist_ids(blind_checklist)
+    prompt = f"""
+# Role: student-transcription fact mapper
+
+Map the student's existing human transcription to the blind checklist. Do not
+grade, solve the question, or use the reference answer. Preserve concrete
+student statements, formulas, numbers, code, and intermediate reasoning.
+
+Question context:
+{question_text}
+
+Blind checklist:
+{blind_checklist}
+
+Student transcription:
+{student_transcription}
+
+Visual-placeholder detected: {visual_placeholder_detected}
+
+Rules:
+- Return one strict JSON object whose keys are exactly the checklist ids.
+- "如图所示", "见图", "如下图" and similar phrases are placeholders, not
+  diagram content. For diagram-dependent items return "需要查看图像".
+- Use "未书写" only when the transcription has no relevant answer.
+- Do not overwrite valid transcribed text with guesses from the question.
+"""
+    raw = call_glm5_text(
+        [{"role": "user", "content": prompt}],
+        temperature=0.1,
+        timeout=180,
+    )
+    mapped = extract_and_parse_json(raw)
+    if not isinstance(mapped, dict):
+        raise ValueError("GLM-5.1 transcription mapping did not return JSON")
+    return {item_id: mapped.get(item_id, "未书写") for item_id in checklist_ids}
 
 
 def map_paddle_ocr_to_facts(question_text, blind_checklist, ocr_payload):
@@ -448,6 +508,7 @@ def parse_diagram_relations_with_glm4v(
     student_img_path,
     diagram_checklist,
     q_img_path=None,
+    ocr_payload=None,
 ):
     """Conditionally parse diagram topology with GLM-4.6V."""
     if not diagram_checklist:
@@ -461,11 +522,19 @@ segment order, nesting/return edges, labels, and transitions. If a requested
 relation is not visibly supported, return "图中未明确显示"; if no diagram was
 drawn, return "未书写".
 
-For staircase/timing/order diagrams, trace the drawn solid path strictly from
-left to right. Write every visited level, including repeated levels after a
-return. For example, a visible rise from C to D and fall back to C must be
-reported as C→D→C. Do not summarize separate time segments as boxes "inside"
-another block. Distinguish the solid execution path from dashed request markers.
+Evidence rules:
+- Never turn isolated labels, repeated letters, table cells, or spatially
+  aligned marks into arrows or execution order unless visible lines/arrows
+  connect them.
+- For staircase/timing/order diagrams, output a path only when a continuous
+  solid path is visibly drawn. Preserve repeated return levels, e.g. C→D→C.
+- For state graphs, report only visibly connected directed edges.
+- For tables, report row/column/cell relations instead of inventing a path.
+- For trees, Hasse diagrams, circuits, and parse graphs, report visible nodes
+  and edges with direction when present.
+- Distinguish solid execution paths from dashed request markers and axes.
+- If labels exist but no required connecting relation is visible, explicitly
+  say "图中有标签但未形成可确认的连接关系".
 
 Question context:
 {question_text}
@@ -473,10 +542,20 @@ Question context:
 Diagram-only blind checklist:
 {json.dumps(diagram_checklist, ensure_ascii=False)}
 
-First produce one full left-to-right trace of the solid execution path, then map
-that trace to each checklist item. Return strict JSON in this shape:
+PaddleOCR labels and coordinates from the student image:
+{json.dumps([
+    {
+        "text": token.get("text", ""),
+        "confidence": token.get("confidence"),
+        "box": token.get("box"),
+    }
+    for token in (ocr_payload or {}).get("tokens", [])
+], ensure_ascii=False)}
+
+Return strict JSON in this shape:
 {{
-  "observed_execution_path": "level1→level2→... including repeated return levels",
+  "diagram_status": "present_clear|present_uncertain|missing",
+  "observed_execution_path": "only when a continuous visible path exists; otherwise null",
   "items": {{
     "checklist_id": "visible relation for this item"
   }}
@@ -551,6 +630,8 @@ def stage1_extract_with_backend(
     ocr_json_path=None,
     extraction_cache_path=None,
     force_extraction=False,
+    student_transcription=None,
+    answer_metadata=None,
 ):
     """Run or load one Stage-1 extraction backend."""
     if extraction_backend == "glm_vlm":
@@ -559,10 +640,13 @@ def stage1_extract_with_backend(
         )
         return facts, {"backend": "glm_vlm", "diagram_parser_used": False}
 
-    if extraction_backend != "paddle_glm5":
+    if extraction_backend not in ("paddle_glm5", "csbench_hybrid"):
         raise ValueError(f"Unsupported extraction backend: {extraction_backend}")
 
     image_hash = sha256_file(student_img_path)
+    answer_metadata = answer_metadata if isinstance(answer_metadata, dict) else {}
+    transcription = str(student_transcription or "")
+    visual_placeholder_detected = detect_visual_placeholder(transcription)
     if extraction_cache_path and not force_extraction:
         cached = load_ocr_json(extraction_cache_path)
         if (
@@ -570,24 +654,54 @@ def stage1_extract_with_backend(
             and cached.get("backend") == extraction_backend
             and cached.get("image_sha256") == image_hash
             and isinstance(cached.get("facts"), dict)
+            and (
+                extraction_backend != "csbench_hybrid"
+                or cached.get("student_transcription") == transcription
+            )
         ):
             return json.dumps(cached["facts"], ensure_ascii=False), cached
 
-    if not ocr_json_path:
-        raise ValueError("paddle_glm5 requires ocr_json_path")
-    ocr_payload = load_ocr_json(ocr_json_path)
-    if not ocr_payload:
-        raise FileNotFoundError(f"OCR evidence not found or invalid: {ocr_json_path}")
-    if ocr_payload.get("image", {}).get("sha256") != image_hash:
-        raise ValueError(f"OCR cache image hash mismatch: {ocr_json_path}")
-
-    facts = map_paddle_ocr_to_facts(question_text, blind_checklist, ocr_payload)
     diagram_items = _diagram_checklist(blind_checklist, rubrics_json)
+    if extraction_backend == "csbench_hybrid" and not (
+        bool(answer_metadata.get("isimagine")) or visual_placeholder_detected
+    ):
+        diagram_items = []
+    ocr_payload = {}
+    if extraction_backend == "paddle_glm5" or diagram_items:
+        if not ocr_json_path:
+            raise ValueError(f"{extraction_backend} requires ocr_json_path")
+        ocr_payload = load_ocr_json(ocr_json_path)
+        if not ocr_payload:
+            raise FileNotFoundError(
+                f"OCR evidence not found or invalid: {ocr_json_path}"
+            )
+        if ocr_payload.get("image", {}).get("sha256") != image_hash:
+            raise ValueError(f"OCR cache image hash mismatch: {ocr_json_path}")
+
+    if extraction_backend == "csbench_hybrid":
+        if not transcription.strip():
+            facts = {
+                item_id: "未书写"
+                for item_id in _checklist_ids(blind_checklist)
+            }
+        else:
+            facts = map_transcription_to_facts(
+                question_text,
+                blind_checklist,
+                transcription,
+                visual_placeholder_detected=visual_placeholder_detected,
+            )
+    else:
+        facts = map_paddle_ocr_to_facts(
+            question_text, blind_checklist, ocr_payload
+        )
+
     diagram_facts, observed_execution_path = parse_diagram_relations_with_glm4v(
         question_text,
         student_img_path,
         diagram_items,
         q_img_path=q_img_path,
+        ocr_payload=ocr_payload,
     )
     if observed_execution_path:
         diagram_facts = {
@@ -605,9 +719,25 @@ def stage1_extract_with_backend(
         "backend": extraction_backend,
         "image_path": os.path.abspath(student_img_path),
         "image_sha256": image_hash,
-        "ocr_json_path": os.path.abspath(ocr_json_path),
+        "ocr_json_path": (
+            os.path.abspath(ocr_json_path)
+            if ocr_json_path and ocr_payload
+            else None
+        ),
         "ocr_engine": ocr_payload.get("engine", {}),
         "ocr_summary": ocr_payload.get("summary", {}),
+        "student_transcription": transcription if extraction_backend == "csbench_hybrid" else None,
+        "transcription_source": (
+            "csbench_human_transcription"
+            if extraction_backend == "csbench_hybrid"
+            else None
+        ),
+        "visual_placeholder_detected": visual_placeholder_detected,
+        "answer_metadata": {
+            key: answer_metadata.get(key)
+            for key in ("answer_id", "question_id", "subject", "isimagine")
+            if key in answer_metadata
+        },
         "diagram_parser_used": bool(diagram_items),
         "diagram_model": VLM_MODELS["glm4v"] if diagram_items else None,
         "observed_execution_path": observed_execution_path,
@@ -1133,6 +1263,8 @@ def grade_student_3wd_pipeline(
     extraction_cache_path=None,
     force_extraction=False,
     grade_only=False,
+    student_transcription=None,
+    answer_metadata=None,
 ):
     student_id = os.path.splitext(os.path.basename(student_img_path))[0]
     def _pipeline_failure(error_type, reason):
@@ -1177,6 +1309,8 @@ def grade_student_3wd_pipeline(
                 ocr_json_path=ocr_json_path,
                 extraction_cache_path=extraction_cache_path,
                 force_extraction=force_extraction,
+                student_transcription=student_transcription,
+                answer_metadata=answer_metadata,
             )
         except Exception as exc:
             return _pipeline_failure("stage1_failed", exc)
@@ -1552,6 +1686,11 @@ def grade_student_3wd_pipeline(
         "human_review_hint": reason_log if route == "NEG" else "",
         "extraction_backend": extraction_backend,
         "extraction_evidence": extraction_evidence,
+        "answer_metadata": {
+            key: (answer_metadata or {}).get(key)
+            for key in ("answer_id", "question_id", "subject", "isimagine")
+            if key in (answer_metadata or {})
+        },
         "facts": student_facts,
         "strict_cot": strict_cots[0] if strict_cots else {},
         "strict_cots_all": strict_cots

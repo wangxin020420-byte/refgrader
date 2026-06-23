@@ -103,6 +103,7 @@ SCORES_MAP = {"Q1": 5, "Q2": 20, "Q3": 10, "Q4": 20, "Q5": 15, "Q6": 20, "Q7": 1
 RESULTS_DIR = "./results_rrd_vlm"
 RUBRIC_DIR = RESULTS_DIR
 TEACHER_DB = "./database/teacher_scores.json"
+DATABASE_PATH = "./database/exam_database.json"
 RESULT_SOURCE = "graded"
 
 SCORE_KEY_LABEL = {
@@ -194,8 +195,28 @@ def load_teacher_scores():
 
 
 def get_teacher(ts_db, student_id, q_id):
+    record = ts_db.get(student_id)
+    if isinstance(record, dict) and q_id in record:
+        return record.get(q_id)
+    # Backward compatibility for legacy E12314093_Q2 result IDs.
     pure_id = student_id.split("_")[0]
     return ts_db.get(pure_id, {}).get(q_id, None)
+
+
+def load_score_map(database_path):
+    score_map = dict(SCORES_MAP)
+    if not database_path or not os.path.exists(database_path):
+        return score_map
+    with open(database_path, "r", encoding="utf-8") as handle:
+        questions = json.load(handle)
+    if isinstance(questions, list):
+        for question in questions:
+            if not isinstance(question, dict) or not question.get("question_id"):
+                continue
+            score_map[str(question["question_id"])] = float(
+                question.get("total_score", question.get("max_score", 20))
+            )
+    return score_map
 
 
 def get_score_value(record, score_key):
@@ -737,7 +758,7 @@ def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_scor
 
 
 def main():
-    global RESULT_SOURCE, RESULTS_DIR, RUBRIC_DIR
+    global RESULT_SOURCE, RESULTS_DIR, RUBRIC_DIR, TEACHER_DB, DATABASE_PATH
 
     parser = argparse.ArgumentParser(description="RefGrader evaluation script")
     parser.add_argument("--questions", nargs="+", default=["Q4", "Q5", "Q6", "Q7"],
@@ -766,10 +787,17 @@ def main():
                         help="Directory containing Qx result JSON files")
     parser.add_argument("--rubric-dir", default=None,
                         help="Reserved for run directories that keep rubrics elsewhere")
+    parser.add_argument("--teacher-db", default=TEACHER_DB,
+                        help="Teacher score JSON")
+    parser.add_argument("--database-path", default=DATABASE_PATH,
+                        help="Question database JSON used to read dynamic max scores")
     args = parser.parse_args()
     RESULT_SOURCE = args.result_source
     RESULTS_DIR = args.results_dir
     RUBRIC_DIR = args.rubric_dir or RESULTS_DIR
+    TEACHER_DB = args.teacher_db
+    DATABASE_PATH = args.database_path
+    score_map = load_score_map(DATABASE_PATH)
     try:
         compare_score_keys = normalize_score_keys(args.compare_score_keys)
     except ValueError as exc:
@@ -785,7 +813,7 @@ def main():
 
     all_metrics = []
     for q_id in args.questions:
-        total = SCORES_MAP.get(q_id, 20)
+        total = score_map.get(q_id, 20)
         m = evaluate_question(q_id, total, ts_db, score_key=score_key, show_detail=args.detail)
         if m:
             all_metrics.append(m)
@@ -852,7 +880,7 @@ def main():
         cmp_global = {key: ([], []) for key in compare_score_keys}
 
         for q_id in args.questions:
-            total = SCORES_MAP.get(q_id, 20)
+            total = score_map.get(q_id, 20)
             for key in compare_score_keys:
                 res = compute_question_metrics(q_id, total, ts_db, score_key=key)
                 if res is None:

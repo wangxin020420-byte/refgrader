@@ -20,4 +20,10 @@ desktop.ini
 # Logs and runtime files
 logs/
 results_runs/
+data/csbench/
+
+# External CSBench source dataset (keep it outside this repository)
+/CSBench_new/
+/csbenchnew/
+/csbench_new/
 *.pid

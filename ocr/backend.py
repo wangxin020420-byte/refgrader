@@ -71,6 +71,7 @@ def ensure_paddle_ocr_cache(
         os.getenv("REFGRADER_OCR_PYTHON", str(default_ocr_python()))
     )
     worker_path = Path(os.getenv("REFGRADER_OCR_WORKER", str(DEFAULT_WORKER)))
+    ocr_device = os.getenv("REFGRADER_OCR_DEVICE", "cpu")
     if not python_path.exists():
         raise FileNotFoundError(
             f"Isolated OCR Python not found: {python_path}. "
@@ -88,7 +89,7 @@ def ensure_paddle_ocr_cache(
         "--output-dir",
         str(output_dir),
         "--device",
-        "cpu",
+        ocr_device,
         "--min-confidence",
         str(min_confidence),
     ]

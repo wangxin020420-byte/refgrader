@@ -11,6 +11,7 @@ ocr_cache/
 # IDE
 .vscode/
 .idea/
+*.code-workspace
 
 # OS
 Thumbs.db

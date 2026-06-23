@@ -307,3 +307,45 @@ python scripts/run_csbench.py grade DM_2 --background --force
 ```bash
 python scripts/run_csbench.py evaluate DM_2 --export
 ```
+
+## 10. 发布服务器实验产物到独立仓库
+
+仅发布已经存在的评分准则优化结果：
+
+```bash
+python scripts/run_csbench.py publish CO_2 --stage rubric --push
+```
+
+作用：将服务器已有的 CO_2 初始准则、优化准则、optimization manifest、方差检查点、优化事实缓存和日志复制到同级目录 `../refgrader-artifacts`，转换绝对路径后自动提交并推送。
+
+正式批改和评估完成后发布完整结果：
+
+```bash
+python scripts/run_csbench.py publish CO_2 --stage full --include-raw-ocr --push
+```
+
+作用：除准则优化产物外，同时发布 grading checkpoint、graded/rejected/failed、Stage1事实缓存、原始OCR缓存、评估CSV和日志。
+
+自动判断当前可发布阶段：
+
+```bash
+python scripts/run_csbench.py publish CO_2 --push
+```
+
+作用：如果正式 checkpoint 已存在则发布完整实验，否则只发布准则优化阶段。
+
+一次发布多个题目：
+
+```bash
+python scripts/run_csbench.py publish CO_2 CO_3 CO_4 --stage full --include-raw-ocr --push
+```
+
+作用：使用同一个 run ID 将多个题目分别发布到 `csbench/CO_2/runs/`、`csbench/CO_3/runs/`、`csbench/CO_4/runs/`，每道题的文件保持独立。
+
+本地同步服务器产物：
+
+```powershell
+git -C C:\Users\wx\Desktop\refgrader-artifacts pull origin main
+```
+
+作用：将服务器已发布的实验产物拉取到本地，供 VS Code 和 Codex 分析。

@@ -16,8 +16,11 @@ import hashlib
 import json
 import os
 import shlex
+import shutil
+import socket
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -263,6 +266,100 @@ def execute(
     env = os.environ.copy()
     env.update(env_overrides)
     return subprocess.run(command, cwd=PROJECT_ROOT, env=env).returncode
+
+
+def git_output(repository: Path, *args: str) -> str:
+    completed = subprocess.run(
+        ["git", "-C", str(repository), *args],
+        check=True,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+    return completed.stdout.strip()
+
+
+def portable_value(value: Any, replacements: list[tuple[str, str]]) -> Any:
+    if isinstance(value, dict):
+        return {
+            str(key): portable_value(item, replacements)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [portable_value(item, replacements) for item in value]
+    if isinstance(value, str):
+        normalized = value.replace("\\", "/")
+        for source, replacement in replacements:
+            source_normalized = source.replace("\\", "/").rstrip("/")
+            if normalized == source_normalized:
+                return replacement
+            if normalized.startswith(source_normalized + "/"):
+                return replacement + normalized[len(source_normalized) :]
+        return value
+    return value
+
+
+def copy_portable_json(
+    source: Path,
+    destination: Path,
+    replacements: list[tuple[str, str]],
+) -> None:
+    payload = json.loads(source.read_text(encoding="utf-8"))
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(
+        json.dumps(
+            portable_value(payload, replacements),
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+
+
+def copy_if_exists(
+    source: Path,
+    destination: Path,
+    replacements: list[tuple[str, str]],
+) -> bool:
+    if not source.is_file():
+        return False
+    if source.suffix.lower() in {".json", ".jsonl"}:
+        if source.suffix.lower() == ".json":
+            copy_portable_json(source, destination, replacements)
+        else:
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            with source.open(encoding="utf-8") as input_handle, destination.open(
+                "w", encoding="utf-8"
+            ) as output_handle:
+                for line in input_handle:
+                    if line.strip():
+                        payload = json.loads(line)
+                        output_handle.write(
+                            json.dumps(
+                                portable_value(payload, replacements),
+                                ensure_ascii=False,
+                            )
+                            + "\n"
+                        )
+    else:
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination)
+    return True
+
+
+def copy_json_directory(
+    source: Path,
+    destination: Path,
+    replacements: list[tuple[str, str]],
+) -> int:
+    if not source.is_dir():
+        return 0
+    copied = 0
+    for path in sorted(source.glob("*.json")):
+        copy_portable_json(path, destination / path.name, replacements)
+        copied += 1
+    return copied
 
 
 def ensure_background_slot_available() -> None:
@@ -572,6 +669,287 @@ def show_outputs(args: argparse.Namespace) -> int:
     return 0
 
 
+def publish(args: argparse.Namespace) -> int:
+    contexts = build_contexts(args.prepared_dir, args.questions)
+    slug = batch_slug(contexts)
+    artifacts_repo = Path(args.artifacts_repo).expanduser().resolve()
+    if not (artifacts_repo / ".git").is_dir():
+        raise ValueError(
+            f"Artifacts repository is not a Git repository: {artifacts_repo}"
+        )
+
+    status = git_output(artifacts_repo, "status", "--porcelain")
+    if status:
+        raise RuntimeError(
+            "Artifacts repository has uncommitted changes. Commit, discard, "
+            "or pull them before publishing:\n" + status
+        )
+    if args.push:
+        subprocess.run(
+            ["git", "-C", str(artifacts_repo), "pull", "--rebase", "origin", "main"],
+            check=True,
+        )
+
+    optimize_dir = (
+        PROJECT_ROOT / "results_runs" / f"csbench_{slug}_rubric_opt"
+    ).resolve()
+    grade_dir = (
+        PROJECT_ROOT / "results_runs" / f"csbench_{slug}_full"
+    ).resolve()
+    run_id = args.run_id or datetime.now().strftime("%Y%m%d_%H%M%S")
+    code_commit = git_output(PROJECT_ROOT, "rev-parse", "HEAD")
+
+    prepared_manifest = {}
+    prepared_manifest_path = contexts[0].root / "manifest.json"
+    if prepared_manifest_path.is_file():
+        prepared_manifest = json.loads(
+            prepared_manifest_path.read_text(encoding="utf-8")
+        )
+    dataset_root = Path(
+        prepared_manifest.get("dataset_root", "")
+    ).expanduser()
+    dataset_commit = None
+    if dataset_root and (dataset_root / ".git").exists():
+        try:
+            dataset_commit = git_output(dataset_root, "rev-parse", "HEAD")
+        except subprocess.CalledProcessError:
+            dataset_commit = None
+
+    replacements = [
+        (str(PROJECT_ROOT), "${REFGRADER_ROOT}"),
+        (str(contexts[0].root), "${PREPARED_CSBENCH_ROOT}"),
+    ]
+    if str(dataset_root):
+        replacements.append((str(dataset_root), "${CSBENCH_ROOT}"))
+
+    latest_log = None
+    log_candidates = sorted(
+        (PROJECT_ROOT / "logs").glob("experiment_*.log"),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+    if log_candidates:
+        latest_log = log_candidates[0]
+
+    published_paths = []
+    for ctx in contexts:
+        ctx.validate_optimized()
+        checkpoint = grade_dir / f"{ctx.question_id}_grading_checkpoint.json"
+        has_full_results = checkpoint.is_file()
+        if args.stage == "full" and not has_full_results:
+            raise FileNotFoundError(
+                f"Full grading checkpoint not found: {checkpoint}"
+            )
+        include_full = args.stage == "full" or (
+            args.stage == "auto" and has_full_results
+        )
+
+        destination = (
+            artifacts_repo
+            / "csbench"
+            / ctx.question_id
+            / "runs"
+            / run_id
+        )
+        if destination.exists():
+            raise FileExistsError(
+                f"Artifact run already exists: {destination}. "
+                "Use a different --run-id."
+            )
+
+        copy_portable_json(
+            ctx.initial_rubric,
+            destination / "rubrics" / "initial_rubric.json",
+            replacements,
+        )
+        copy_portable_json(
+            ctx.optimized_rubric,
+            destination / "rubrics" / "optimized_rubric.json",
+            replacements,
+        )
+        copy_portable_json(
+            ctx.optimization_manifest,
+            destination / "rubrics" / "optimization_manifest.json",
+            replacements,
+        )
+        copy_if_exists(
+            optimize_dir / f"{ctx.question_id}_variance_checkpoint.json",
+            destination
+            / "rubric_optimization"
+            / "variance_checkpoint.json",
+            replacements,
+        )
+        copy_if_exists(
+            optimize_dir / "progress.json",
+            destination / "rubric_optimization" / "progress.json",
+            replacements,
+        )
+        variance_facts_count = copy_json_directory(
+            PROJECT_ROOT
+            / "ocr_cache"
+            / "csbench"
+            / "variance_facts"
+            / ctx.question_id,
+            destination / "rubric_optimization" / "facts",
+            replacements,
+        )
+
+        result_counts = {}
+        facts_count = 0
+        raw_ocr_count = 0
+        if include_full:
+            result_files = {
+                "checkpoint": (
+                    f"{ctx.question_id}_grading_checkpoint.json",
+                    "grading_checkpoint.json",
+                ),
+                "graded": (
+                    f"{ctx.question_id}_graded_results.json",
+                    "graded_results.json",
+                ),
+                "rejected": (
+                    f"{ctx.question_id}_rejected.json",
+                    "rejected.json",
+                ),
+                "failed": (
+                    f"{ctx.question_id}_failed.json",
+                    "failed.json",
+                ),
+            }
+            for key, (source_name, destination_name) in result_files.items():
+                source = grade_dir / source_name
+                if copy_if_exists(
+                    source,
+                    destination / "grading" / destination_name,
+                    replacements,
+                ):
+                    payload = json.loads(source.read_text(encoding="utf-8"))
+                    result_counts[key] = (
+                        len(payload) if isinstance(payload, list) else 0
+                    )
+                else:
+                    result_counts[key] = 0
+            copy_if_exists(
+                grade_dir / "progress.json",
+                destination / "grading" / "progress.json",
+                replacements,
+            )
+            facts_count = copy_json_directory(
+                PROJECT_ROOT
+                / "ocr_cache"
+                / "csbench"
+                / "facts"
+                / ctx.question_id,
+                destination / "facts",
+                replacements,
+            )
+            if args.include_raw_ocr:
+                raw_ocr_count = copy_json_directory(
+                    PROJECT_ROOT
+                    / "ocr_cache"
+                    / "csbench"
+                    / ctx.question_id,
+                    destination / "raw_ocr",
+                    replacements,
+                )
+            compare_csv = (
+                PROJECT_ROOT / "outputs" / f"csbench_{slug}_compare.csv"
+            )
+            copy_if_exists(
+                compare_csv,
+                destination / "evaluation" / "compare.csv",
+                replacements,
+            )
+
+        if latest_log:
+            copy_if_exists(
+                latest_log,
+                destination / "logs" / "experiment.log",
+                replacements,
+            )
+
+        manifest = {
+            "schema_version": 1,
+            "run_id": run_id,
+            "question_id": ctx.question_id,
+            "published_stage": "full" if include_full else "rubric",
+            "question_batch": [item.question_id for item in contexts],
+            "code_commit": code_commit,
+            "dataset_commit": dataset_commit,
+            "extraction_backend": "csbench_hybrid",
+            "answer_split": "test" if include_full else None,
+            "ocr_device": os.getenv(
+                "REFGRADER_OCR_DEVICE", DEFAULT_OCR_DEVICE
+            ),
+            "source_server": socket.gethostname(),
+            "created_at": datetime.now().isoformat(timespec="seconds"),
+            "portable_path_variables": {
+                "${REFGRADER_ROOT}": "RefGrader project root",
+                "${PREPARED_CSBENCH_ROOT}": "prepared data/csbench root",
+                "${CSBENCH_ROOT}": "source CSBench repository root",
+            },
+            "result_counts": result_counts,
+            "variance_fact_files": variance_facts_count,
+            "fact_files": facts_count,
+            "raw_ocr_files": raw_ocr_count,
+        }
+        (destination / "run_manifest.json").write_text(
+            json.dumps(manifest, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        published_paths.append(destination)
+
+    index_path = artifacts_repo / "csbench" / "index.json"
+    index = []
+    if index_path.is_file():
+        loaded = json.loads(index_path.read_text(encoding="utf-8"))
+        if isinstance(loaded, list):
+            index = loaded
+    for destination, ctx in zip(published_paths, contexts):
+        index.append(
+            {
+                "question_id": ctx.question_id,
+                "run_id": run_id,
+                "path": destination.relative_to(artifacts_repo).as_posix(),
+                "published_at": datetime.now().isoformat(timespec="seconds"),
+            }
+        )
+    index_path.parent.mkdir(parents=True, exist_ok=True)
+    index_path.write_text(
+        json.dumps(index, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+
+    for path in published_paths:
+        print(f"Published: {path}")
+
+    if args.push:
+        subprocess.run(
+            ["git", "-C", str(artifacts_repo), "add", "csbench"],
+            check=True,
+        )
+        commit_message = (
+            "Publish CSBench "
+            + ", ".join(ctx.question_id for ctx in contexts)
+            + f" artifacts {run_id}"
+        )
+        subprocess.run(
+            ["git", "-C", str(artifacts_repo), "commit", "-m", commit_message],
+            check=True,
+        )
+        subprocess.run(
+            ["git", "-C", str(artifacts_repo), "push", "origin", "main"],
+            check=True,
+        )
+        print("Artifacts committed and pushed.")
+    else:
+        print(
+            "Artifacts copied but not committed. Review them, then commit "
+            "manually or rerun with --push using a new --run-id."
+        )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
@@ -645,6 +1023,25 @@ def build_parser() -> argparse.ArgumentParser:
     )
     outputs_parser.set_defaults(handler=show_outputs)
 
+    publish_parser = subparsers.add_parser(
+        "publish",
+        help="Publish portable experiment artifacts to a separate Git repository.",
+    )
+    publish_parser.add_argument(
+        "questions", nargs="+", type=normalize_question_id
+    )
+    publish_parser.add_argument(
+        "--artifacts-repo",
+        default=str((PROJECT_ROOT.parent / "refgrader-artifacts").resolve()),
+    )
+    publish_parser.add_argument(
+        "--stage", choices=["auto", "rubric", "full"], default="auto"
+    )
+    publish_parser.add_argument("--run-id")
+    publish_parser.add_argument("--include-raw-ocr", action="store_true")
+    publish_parser.add_argument("--push", action="store_true")
+    publish_parser.set_defaults(handler=publish)
+
     for action in ("status", "tail", "stop"):
         action_parser = subparsers.add_parser(
             action, help=f"Run run_experiment.sh {action}."
@@ -660,7 +1057,13 @@ def main() -> int:
     args = parser.parse_args()
     try:
         return int(args.handler(args))
-    except (FileNotFoundError, FileExistsError, RuntimeError, ValueError) as exc:
+    except (
+        FileNotFoundError,
+        FileExistsError,
+        RuntimeError,
+        ValueError,
+        subprocess.CalledProcessError,
+    ) as exc:
         parser.error(str(exc))
     return 2
 

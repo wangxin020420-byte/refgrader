@@ -76,6 +76,16 @@ python scripts/run_csbench.py optimize CO_3
 
 作用：使用 CO_3 的 5 份 calibration 答案优化评分准则。脚本自动设置题库、答案元数据、初始准则、优化准则、OCR缓存、结果目录和进度文件。
 
+优化成功后，脚本会自动把可移植的 CO_3 准则产物写入同级 `refgrader-artifacts` 仓库。服务器 VS Code 的 `refgrader-artifacts` 源代码管理会直接显示新增文件，你只需在该仓库点击暂存、提交和推送。
+
+优化完成后自动提交并推送产物：
+
+```bash
+python scripts/run_csbench.py optimize CO_3 --push-artifacts
+```
+
+作用：优化完成后自动写入、提交并推送 `refgrader-artifacts`，无需在 VS Code 手动提交。
+
 一次优化多个题目：
 
 ```bash
@@ -195,6 +205,8 @@ python scripts/run_csbench.py evaluate CO_3
 
 作用：评估 CO_3 完整 checkpoint，对比 single、avg、selected 和最终 3WD 分数。
 
+评估成功后，脚本会自动把完整实验产物写入 `refgrader-artifacts`。默认只产生可见的 Git 更改，方便你在源代码管理中检查后手动提交。
+
 联合评估多个题目：
 
 ```bash
@@ -210,6 +222,14 @@ python scripts/run_csbench.py evaluate CO_3 --export
 ```
 
 作用：评估并导出逐答案对比 CSV。
+
+评估后自动提交并推送全部产物：
+
+```bash
+python scripts/run_csbench.py evaluate CO_3 --export --include-raw-ocr --push-artifacts
+```
+
+作用：评估完成后自动发布准则、评分结果、事实缓存、原始OCR、CSV和日志，并推送到远程产物仓库。
 
 联合评估并导出 CSV：
 
@@ -308,7 +328,14 @@ python scripts/run_csbench.py grade DM_2 --background --force
 python scripts/run_csbench.py evaluate DM_2 --export
 ```
 
-## 10. 发布服务器实验产物到独立仓库
+## 10. 已有结果的补充发布
+
+正常情况下不需要单独执行 `publish`：
+
+- `optimize` 成功后自动发布准则阶段。
+- `evaluate` 成功后自动发布完整实验阶段。
+
+`publish` 只用于迁移以前已经生成、但尚未进入产物仓库的历史结果。
 
 仅发布已经存在的评分准则优化结果：
 

@@ -443,7 +443,29 @@ def optimize(args: argparse.Namespace) -> int:
     for ctx in contexts:
         print(f"{ctx.question_id} initial rubric: {ctx.initial_rubric}")
         print(f"{ctx.question_id} optimized rubric: {ctx.optimized_rubric}")
-    return execute(command, env_overrides=env, dry_run=args.dry_run)
+    return_code = execute(
+        command, env_overrides=env, dry_run=args.dry_run
+    )
+    if return_code != 0 or args.dry_run or args.no_artifacts:
+        return return_code
+    if args.background:
+        print(
+            "Background optimization started. Automatic artifact publishing "
+            "is skipped because the job has not finished yet."
+        )
+        return return_code
+    print("Optimization finished; publishing rubric artifacts automatically.")
+    return publish(
+        argparse.Namespace(
+            prepared_dir=args.prepared_dir,
+            questions=args.questions,
+            artifacts_repo=args.artifacts_repo,
+            stage="rubric",
+            run_id=None,
+            include_raw_ocr=False,
+            push=args.push_artifacts,
+        )
+    )
 
 
 def grade(args: argparse.Namespace) -> int:
@@ -548,7 +570,21 @@ def evaluate(args: argparse.Namespace) -> int:
         )
     if args.detail:
         command.append("--detail")
-    return execute(command, dry_run=args.dry_run)
+    return_code = execute(command, dry_run=args.dry_run)
+    if return_code != 0 or args.dry_run or args.no_artifacts:
+        return return_code
+    print("Evaluation finished; publishing full experiment artifacts automatically.")
+    return publish(
+        argparse.Namespace(
+            prepared_dir=args.prepared_dir,
+            questions=args.questions,
+            artifacts_repo=args.artifacts_repo,
+            stage="full",
+            run_id=None,
+            include_raw_ocr=args.include_raw_ocr,
+            push=args.push_artifacts,
+        )
+    )
 
 
 def manage_background(args: argparse.Namespace) -> int:
@@ -975,6 +1011,20 @@ def build_parser() -> argparse.ArgumentParser:
     optimize_parser.add_argument("--background", action="store_true")
     optimize_parser.add_argument("--force", action="store_true")
     optimize_parser.add_argument("--dry-run", action="store_true")
+    optimize_parser.add_argument(
+        "--artifacts-repo",
+        default=str((PROJECT_ROOT.parent / "refgrader-artifacts").resolve()),
+    )
+    optimize_parser.add_argument(
+        "--no-artifacts",
+        action="store_true",
+        help="Do not copy completed rubric artifacts to refgrader-artifacts.",
+    )
+    optimize_parser.add_argument(
+        "--push-artifacts",
+        action="store_true",
+        help="Commit and push artifacts after automatic publishing.",
+    )
     optimize_parser.set_defaults(handler=optimize)
 
     grade_parser = subparsers.add_parser(
@@ -1004,6 +1054,25 @@ def build_parser() -> argparse.ArgumentParser:
     evaluate_parser.add_argument("--export", action="store_true")
     evaluate_parser.add_argument("--detail", action="store_true")
     evaluate_parser.add_argument("--dry-run", action="store_true")
+    evaluate_parser.add_argument(
+        "--artifacts-repo",
+        default=str((PROJECT_ROOT.parent / "refgrader-artifacts").resolve()),
+    )
+    evaluate_parser.add_argument(
+        "--no-artifacts",
+        action="store_true",
+        help="Do not copy completed experiment artifacts to refgrader-artifacts.",
+    )
+    evaluate_parser.add_argument(
+        "--push-artifacts",
+        action="store_true",
+        help="Commit and push artifacts after automatic publishing.",
+    )
+    evaluate_parser.add_argument(
+        "--include-raw-ocr",
+        action="store_true",
+        help="Include raw PaddleOCR JSON files in automatic publishing.",
+    )
     evaluate_parser.set_defaults(handler=evaluate)
 
     monitor_parser = subparsers.add_parser(

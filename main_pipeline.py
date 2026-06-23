@@ -1768,32 +1768,21 @@ RefGrader 常用命令。下面每条命令都可以整行直接复制到 PowerS
 .\venv\Scripts\python.exe scripts\check_csbench_integration.py --prepared-dir data\csbench
 作用：检查三层准则、总分一致性、数据划分隔离、文字转录路由和图形事实融合。
 
-【CSBench CO_2：评分准则优化阶段，可整行复制】
-.\venv\Scripts\python.exe main_pipeline.py --mode VARIANCE_OPT --questions CO_2 --sample-size 5 --database-path data\csbench\exam_database.json --answer-metadata data\csbench\answer_metadata.jsonl --initial-rubric-dir data\csbench\rubrics\initial --rubric-dir data\csbench\rubrics\optimized --results-dir results_runs\csbench_co2_rubric_opt --extraction-backend csbench_hybrid --ocr-cache-dir ocr_cache\csbench --progress-file results_runs\csbench_co2_rubric_opt\progress.json --force-rerun
-作用：只使用 CO_2 的 calibration 校准答案，从 initial 初始准则开始执行方差检测和准则优化，不使用 validation、test 或教师真实分数。
-参数说明：--mode VARIANCE_OPT 表示只运行准则优化；--questions CO_2 表示优化 CO_2；--sample-size 5 表示从校准集选取 5 份答案。
-参数说明：--initial-rubric-dir 读取不可覆盖的初始准则；--rubric-dir 将最终准则写入 optimized；--extraction-backend csbench_hybrid 使用 raw_text、PaddleOCR 和条件式图形解析提取校准事实。
-参数说明：--results-dir 保存方差检查点；--ocr-cache-dir 保存 OCR 和事实缓存；--progress-file 保存运行进度；--force-rerun 表示忽略旧检查点并重新优化。
-输出准则：data\csbench\rubrics\optimized\CO\CO_2_rubric_standard.json
-优化记录：data\csbench\rubrics\manifests\CO\CO_2_optimization.json
+【CSBench统一入口：优化某道题准则】
+python scripts/run_csbench.py optimize CO_3
+作用：只需修改题号，其他数据库、准则、缓存、结果和进度路径自动生成。
 
-【CSBench CO_2：先测试前 5 份答案】
-.\venv\Scripts\python.exe main_pipeline.py --mode FULL --questions CO_2 --answer-split test --img-limit 5 --database-path data\csbench\exam_database.json --teacher-db data\csbench\teacher_scores.json --answer-metadata data\csbench\answer_metadata.jsonl --initial-rubric-dir data\csbench\rubrics\initial --rubric-dir data\csbench\rubrics\optimized --results-dir results_runs\csbench_co2_5 --extraction-backend csbench_hybrid --ocr-cache-dir ocr_cache\csbench --progress-file results_runs\csbench_co2_5\progress.json --force-rerun
-作用：用少量样本验证完整混合证据评分流程。
+【CSBench统一入口：后台正式批改】
+python scripts/run_csbench.py grade CO_3 --background --force
+作用：后台批改该题全部test答案；普通答案使用raw_text，视觉答案条件式使用PaddleOCR与GLM-4.6V。
 
-【CSBench CO_2：完整运行全部答案】
-.\venv\Scripts\python.exe main_pipeline.py --mode FULL --questions CO_2 --answer-split test --database-path data\csbench\exam_database.json --teacher-db data\csbench\teacher_scores.json --answer-metadata data\csbench\answer_metadata.jsonl --initial-rubric-dir data\csbench\rubrics\initial --rubric-dir data\csbench\rubrics\optimized --results-dir results_runs\csbench_co2_full --extraction-backend csbench_hybrid --ocr-cache-dir ocr_cache\csbench --progress-file results_runs\csbench_co2_full\progress.json --force-rerun
-作用：raw_text 与条件式视觉证据融合后，执行 Stage2、3WD 并保存完整结果。
+【CSBench统一入口：查看状态与日志】
+python scripts/run_csbench.py status
+python scripts/run_csbench.py tail
 
-【CSBench CO_2：评估完整 checkpoint】
-.\venv\Scripts\python.exe evaluate.py --questions CO_2 --results-dir results_runs\csbench_co2_full --result-source checkpoint --teacher-db data\csbench\teacher_scores.json --database-path data\csbench\exam_database.json --compare --compare-score-keys single avg selected 3wd
-作用：评估 POS、BND、NEG 全部成功样本，并比较 single、avg、selected 和 3WD。
+【CSBench统一入口：断点续跑】
+python scripts/run_csbench.py grade CO_3 --background
 
-主要结果目录：
-results_runs\csbench_co2_full\CO_2_grading_checkpoint.json  全部成功样本
-results_runs\csbench_co2_full\CO_2_graded_results.json      非 NEG 样本
-results_runs\csbench_co2_full\CO_2_rejected.json            NEG 样本
-results_runs\csbench_co2_full\CO_2_failed.json              失败样本
-ocr_cache\csbench\CO_2                                      PaddleOCR 原始缓存
-ocr_cache\csbench\facts\CO_2                                融合事实缓存
+【CSBench统一入口：评估并导出CSV】
+python scripts/run_csbench.py evaluate CO_3 --export
 """

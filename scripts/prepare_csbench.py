@@ -27,6 +27,17 @@ DEFAULT_ANSWER_FILES = (
     "answer_POC_25.jsonl",
     "answer_POC_26.jsonl",
 )
+SUBJECT_NAMES = {
+    "CO": "计算机组成原理",
+    "CPL": "C语言/程序设计",
+    "DM": "离散数学",
+    "ISC": "计算机导论",
+    "ML": "数字逻辑",
+    "POC": "编译原理",
+    "POC_24": "编译原理",
+    "POC_25": "编译原理",
+    "POC_26": "编译原理",
+}
 VISUAL_PLACEHOLDERS = (
     "如图所示",
     "见图",
@@ -325,6 +336,10 @@ def main() -> int:
                 "answer_id": answer_id,
                 "question_id": question_id,
                 "subject": questions[question_id].get("subject"),
+                "subject_name": SUBJECT_NAMES.get(
+                    str(questions[question_id].get("subject", "")),
+                    str(questions[question_id].get("subject", "")),
+                ),
                 "raw_text": raw_text,
                 "isimagine": bool(answer.get("isimagine")),
                 "visual_placeholder_detected": is_placeholder_text(raw_text),
@@ -389,6 +404,10 @@ def main() -> int:
             {
                 "question_id": question_id,
                 "subject": question.get("subject"),
+                "subject_name": SUBJECT_NAMES.get(
+                    str(question.get("subject", "")),
+                    str(question.get("subject", "")),
+                ),
                 "max_score": question.get("max_score"),
                 "grading_rubric": question.get("grading_rubric") or [],
                 "metadata_source": "csbench",

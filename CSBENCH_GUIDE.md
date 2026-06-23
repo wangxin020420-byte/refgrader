@@ -88,136 +88,48 @@ visual_placeholder_route
 diagram_merge
 ```
 
-## 5. 优化评分准则
+## 5. 统一实验入口
 
-正式评分前，先使用每道题独立的 calibration 答案优化准则：
+`scripts/run_csbench.py` 会根据题号自动推导题库、准则、缓存、结果和进度路径。
+更换题目时只修改一个题号。
 
-```powershell
-.\venv\Scripts\python.exe main_pipeline.py --mode VARIANCE_OPT --questions CO_2 --sample-size 5 --database-path data\csbench\exam_database.json --answer-metadata data\csbench\answer_metadata.jsonl --initial-rubric-dir data\csbench\rubrics\initial --rubric-dir data\csbench\rubrics\optimized --results-dir results_runs\csbench_co2_rubric_opt --extraction-backend csbench_hybrid --ocr-cache-dir ocr_cache\csbench --progress-file results_runs\csbench_co2_rubric_opt\progress.json --force-rerun
+优化 CO_3 准则：
+
+```bash
+python scripts/run_csbench.py optimize CO_3
 ```
 
-该过程不读取教师真实分数，不覆盖 `source` 或 `initial`，结果写入：
+后台正式批改：
 
-```text
-data/csbench/rubrics/optimized/CO/CO_2_rubric_standard.json
-data/csbench/rubrics/manifests/CO/CO_2_optimization.json
+```bash
+python scripts/run_csbench.py grade CO_3 --background --force
 ```
 
-## 6. 测试普通文字答案
+查看状态和日志：
 
-```powershell
-.\venv\Scripts\python.exe main_pipeline.py `
-  --mode OCR_ONLY `
-  --questions CO_1 `
-  --student-ids ANS_CO_01 `
-  --database-path data\csbench\exam_database.json `
-  --teacher-db data\csbench\teacher_scores.json `
-  --answer-metadata data\csbench\answer_metadata.jsonl `
-  --initial-rubric-dir data\csbench\rubrics\initial `
-  --rubric-dir data\csbench\rubrics\optimized `
-  --results-dir results_runs\csbench_text_smoke `
-  --extraction-backend csbench_hybrid `
-  --ocr-cache-dir ocr_cache\csbench
+```bash
+python scripts/run_csbench.py status
 ```
 
-普通文字题应直接使用 `raw_text`，不生成该样本的 PaddleOCR JSON。
-
-## 7. 测试“如图所示”答案
-
-```powershell
-.\venv\Scripts\python.exe main_pipeline.py `
-  --mode OCR_ONLY `
-  --questions CO_2 `
-  --student-ids ANS_CO_516 `
-  --database-path data\csbench\exam_database.json `
-  --teacher-db data\csbench\teacher_scores.json `
-  --answer-metadata data\csbench\answer_metadata.jsonl `
-  --initial-rubric-dir data\csbench\rubrics\initial `
-  --rubric-dir data\csbench\rubrics\optimized `
-  --results-dir results_runs\csbench_visual_smoke `
-  --extraction-backend csbench_hybrid `
-  --ocr-cache-dir ocr_cache\csbench `
-  --force-rerun
+```bash
+python scripts/run_csbench.py tail
 ```
 
-结果位置：
+断点续跑：
 
-```text
-ocr_cache/csbench/CO_2/ANS_CO_516.json
-ocr_cache/csbench/facts/CO_2/ANS_CO_516.json
-results_runs/csbench_visual_smoke/CO_2_ocr_only.json
+```bash
+python scripts/run_csbench.py grade CO_3 --background
 ```
 
-视觉模型只报告可见连接。离散标签不会被强行拼成执行路径。
+评估并导出 CSV：
 
-## 8. 完整运行一份答案
-
-```powershell
-.\venv\Scripts\python.exe main_pipeline.py `
-  --mode FULL `
-  --questions CO_1 `
-  --student-ids ANS_CO_01 `
-  --database-path data\csbench\exam_database.json `
-  --teacher-db data\csbench\teacher_scores.json `
-  --answer-metadata data\csbench\answer_metadata.jsonl `
-  --initial-rubric-dir data\csbench\rubrics\initial `
-  --rubric-dir data\csbench\rubrics\optimized `
-  --results-dir results_runs\csbench_full_smoke `
-  --extraction-backend csbench_hybrid `
-  --ocr-cache-dir ocr_cache\csbench `
-  --force-rerun
+```bash
+python scripts/run_csbench.py evaluate CO_3 --export
 ```
 
-## 9. 先运行少量样本，再运行整题
+完整命令说明见 `COMMANDS_GUIDE.md`。
 
-五份样本：
-
-```powershell
-.\venv\Scripts\python.exe main_pipeline.py `
-  --mode FULL --questions CO_2 --answer-split test --img-limit 5 `
-  --database-path data\csbench\exam_database.json `
-  --teacher-db data\csbench\teacher_scores.json `
-  --answer-metadata data\csbench\answer_metadata.jsonl `
-  --initial-rubric-dir data\csbench\rubrics\initial `
-  --rubric-dir data\csbench\rubrics\optimized `
-  --results-dir results_runs\csbench_co2_5 `
-  --extraction-backend csbench_hybrid `
-  --ocr-cache-dir ocr_cache\csbench `
-  --force-rerun
-```
-
-整道题：
-
-```powershell
-.\venv\Scripts\python.exe main_pipeline.py `
-  --mode FULL --questions CO_2 --answer-split test `
-  --database-path data\csbench\exam_database.json `
-  --teacher-db data\csbench\teacher_scores.json `
-  --answer-metadata data\csbench\answer_metadata.jsonl `
-  --initial-rubric-dir data\csbench\rubrics\initial `
-  --rubric-dir data\csbench\rubrics\optimized `
-  --results-dir results_runs\csbench_co2_full `
-  --extraction-backend csbench_hybrid `
-  --ocr-cache-dir ocr_cache\csbench `
-  --force-rerun
-```
-
-## 10. 评估
-
-```powershell
-.\venv\Scripts\python.exe evaluate.py `
-  --questions CO_2 `
-  --results-dir results_runs\csbench_co2_full `
-  --result-source checkpoint `
-  --teacher-db data\csbench\teacher_scores.json `
-  --database-path data\csbench\exam_database.json `
-  --compare `
-  --compare-score-keys single avg selected 3wd
-```
-
-`evaluate.py` 会从 CSBench 兼容题库动态读取每道题满分。
-
-## 11. 数据安全
+## 6. 数据安全
 
 - `actual_score` 只在评估和结果记录中使用，不进入 Stage1 提示词。
 - `answer1.jsonl` 不参与转换，避免重复。

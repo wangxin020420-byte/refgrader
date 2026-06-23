@@ -11,7 +11,11 @@ Implemented:
 scripts/prepare_csbench.py
   Converts 8 primary answer JSONL files and question JSON files.
   Excludes answer1.jsonl, delete/, and currently undefined OS_1/OS_2.
-  Builds per-question hard-link views without duplicating image bytes.
+  Builds per-question copy/hard-link views and three-layer rubric directories.
+
+scripts/run_csbench.py
+  Provides one unified interface for rubric optimization, grading, monitoring,
+  and evaluation. Only the question ID normally needs to change.
 
 csbench_hybrid extraction backend
   Uses existing human raw_text for written content.

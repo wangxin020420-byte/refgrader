@@ -273,6 +273,7 @@ def build_publish_command(
     questions: list[str],
     *,
     stage: str,
+    include_facts: bool = False,
     include_raw_ocr: bool = False,
     push: bool = False,
 ) -> list[str]:
@@ -288,6 +289,8 @@ def build_publish_command(
         "--artifacts-repo",
         args.artifacts_repo,
     ]
+    if include_facts:
+        command.append("--include-facts")
     if include_raw_ocr:
         command.append("--include-raw-ocr")
     if push:
@@ -460,6 +463,7 @@ def optimize(args: argparse.Namespace) -> int:
                     args,
                     args.questions,
                     stage="rubric",
+                    include_facts=args.include_facts,
                     push=args.push_artifacts,
                 )
             )
@@ -499,6 +503,7 @@ def optimize(args: argparse.Namespace) -> int:
             stage="rubric",
             run_id=None,
             include_raw_ocr=False,
+            include_facts=args.include_facts,
             push=args.push_artifacts,
         )
     )
@@ -541,6 +546,7 @@ def grade(args: argparse.Namespace) -> int:
                     args,
                     args.questions,
                     stage="full",
+                    include_facts=args.include_facts,
                     include_raw_ocr=args.include_raw_ocr,
                     push=args.push_artifacts,
                 )
@@ -577,6 +583,7 @@ def grade(args: argparse.Namespace) -> int:
             artifacts_repo=args.artifacts_repo,
             stage="full",
             run_id=None,
+            include_facts=args.include_facts,
             include_raw_ocr=args.include_raw_ocr,
             push=args.push_artifacts,
         )
@@ -647,6 +654,7 @@ def evaluate(args: argparse.Namespace) -> int:
             artifacts_repo=args.artifacts_repo,
             stage="full",
             run_id=None,
+            include_facts=args.include_facts,
             include_raw_ocr=args.include_raw_ocr,
             push=args.push_artifacts,
         )
@@ -890,15 +898,17 @@ def publish(args: argparse.Namespace) -> int:
             destination / "rubric_optimization" / "progress.json",
             replacements,
         )
-        variance_facts_count = copy_json_directory(
-            PROJECT_ROOT
-            / "ocr_cache"
-            / "csbench"
-            / "variance_facts"
-            / ctx.question_id,
-            destination / "rubric_optimization" / "facts",
-            replacements,
-        )
+        variance_facts_count = 0
+        if args.include_facts:
+            variance_facts_count = copy_json_directory(
+                PROJECT_ROOT
+                / "ocr_cache"
+                / "csbench"
+                / "variance_facts"
+                / ctx.question_id,
+                destination / "rubric_optimization" / "facts",
+                replacements,
+            )
 
         result_counts = {}
         facts_count = 0
@@ -940,15 +950,16 @@ def publish(args: argparse.Namespace) -> int:
                 destination / "grading" / "progress.json",
                 replacements,
             )
-            facts_count = copy_json_directory(
-                PROJECT_ROOT
-                / "ocr_cache"
-                / "csbench"
-                / "facts"
-                / ctx.question_id,
-                destination / "facts",
-                replacements,
-            )
+            if args.include_facts:
+                facts_count = copy_json_directory(
+                    PROJECT_ROOT
+                    / "ocr_cache"
+                    / "csbench"
+                    / "facts"
+                    / ctx.question_id,
+                    destination / "facts",
+                    replacements,
+                )
             if args.include_raw_ocr:
                 raw_ocr_count = copy_json_directory(
                     PROJECT_ROOT
@@ -1095,6 +1106,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Commit and push artifacts after automatic publishing.",
     )
+    optimize_parser.add_argument(
+        "--include-facts",
+        action="store_true",
+        help="Include per-answer Stage1 fact cache JSON files in publishing.",
+    )
     optimize_parser.set_defaults(handler=optimize)
 
     grade_parser = subparsers.add_parser(
@@ -1132,6 +1148,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Include raw PaddleOCR JSON files in automatic publishing.",
     )
+    grade_parser.add_argument(
+        "--include-facts",
+        action="store_true",
+        help="Include per-answer Stage1 fact cache JSON files in publishing.",
+    )
     grade_parser.set_defaults(handler=grade)
 
     evaluate_parser = subparsers.add_parser(
@@ -1161,6 +1182,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--include-raw-ocr",
         action="store_true",
         help="Include raw PaddleOCR JSON files in automatic publishing.",
+    )
+    evaluate_parser.add_argument(
+        "--include-facts",
+        action="store_true",
+        help="Include per-answer Stage1 fact cache JSON files in publishing.",
     )
     evaluate_parser.set_defaults(handler=evaluate)
 
@@ -1196,6 +1222,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--stage", choices=["auto", "rubric", "full"], default="auto"
     )
     publish_parser.add_argument("--run-id")
+    publish_parser.add_argument("--include-facts", action="store_true")
     publish_parser.add_argument("--include-raw-ocr", action="store_true")
     publish_parser.add_argument("--push", action="store_true")
     publish_parser.set_defaults(handler=publish)

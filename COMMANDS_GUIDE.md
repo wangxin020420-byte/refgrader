@@ -232,13 +232,13 @@ python scripts/run_csbench.py evaluate CO_3 --export
 
 作用：评估并导出逐答案对比 CSV。
 
-评估后自动提交并推送全部产物：
+评估后自动提交并推送精简产物：
 
 ```bash
-python scripts/run_csbench.py evaluate CO_3 --export --include-raw-ocr --push-artifacts
+python scripts/run_csbench.py evaluate CO_3 --export --push-artifacts
 ```
 
-作用：评估完成后自动发布准则、评分结果、事实缓存、原始OCR、CSV和日志，并推送到远程产物仓库。
+作用：评估完成后自动发布准则、评分结果、CSV和日志，并推送到远程产物仓库。默认不发布逐答案 facts 和原始 OCR 缓存，避免产物仓库出现大量缓存文件。
 
 联合评估并导出 CSV：
 
@@ -358,10 +358,10 @@ python scripts/run_csbench.py publish CO_2 --stage rubric --push
 正式批改和评估完成后发布完整结果：
 
 ```bash
-python scripts/run_csbench.py publish CO_2 --stage full --include-raw-ocr --push
+python scripts/run_csbench.py publish CO_2 --stage full --push
 ```
 
-作用：除准则优化产物外，同时发布 grading checkpoint、graded/rejected/failed、Stage1事实缓存、原始OCR缓存、评估CSV和日志。
+作用：除准则优化产物外，同时发布 grading checkpoint、graded/rejected/failed、评估CSV和日志。默认不发布 Stage1 facts 和原始 OCR 缓存。
 
 自动判断当前可发布阶段：
 
@@ -374,7 +374,7 @@ python scripts/run_csbench.py publish CO_2 --push
 一次发布多个题目：
 
 ```bash
-python scripts/run_csbench.py publish CO_2 CO_3 CO_4 --stage full --include-raw-ocr --push
+python scripts/run_csbench.py publish CO_2 CO_3 CO_4 --stage full --push
 ```
 
 作用：使用同一个 run ID 将多个题目分别发布到 `csbench/CO_2/runs/`、`csbench/CO_3/runs/`、`csbench/CO_4/runs/`，每道题的文件保持独立。

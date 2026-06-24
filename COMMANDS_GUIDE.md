@@ -119,6 +119,15 @@ python scripts/run_csbench.py grade CO_3 --background --force
 ```
 
 作用：后台批改 CO_3 全部 test 答案。脚本自动检查优化准则与 manifest，并使用 `csbench_hybrid`：普通答案读取 `raw_text`，视觉答案按条件调用 PaddleOCR 和 GLM-4.6V。
+批改成功结束后，脚本会自动把完整评分产物复制到同级 `refgrader-artifacts` 仓库，源代码管理会直接显示该仓库的新增/修改文件；不需要再额外执行发布命令。
+
+批改成功后自动复制、提交并推送产物：
+
+```bash
+python scripts/run_csbench.py grade CO_3 --background --force --push-artifacts
+```
+
+作用：后台批改完成后自动发布到 `refgrader-artifacts`，并自动提交、推送远程产物仓库。默认不加 `--push-artifacts` 时只产生本地 Git 更改，方便检查后手动提交。
 
 一次后台批改多个题目：
 
@@ -333,6 +342,7 @@ python scripts/run_csbench.py evaluate DM_2 --export
 正常情况下不需要单独执行 `publish`：
 
 - `optimize` 成功后自动发布准则阶段。
+- `grade --background` 成功结束后自动发布完整评分产物阶段。
 - `evaluate` 成功后自动发布完整实验阶段。
 
 `publish` 只用于迁移以前已经生成、但尚未进入产物仓库的历史结果。

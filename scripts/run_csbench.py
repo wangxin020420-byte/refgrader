@@ -268,6 +268,33 @@ def execute(
     return subprocess.run(command, cwd=PROJECT_ROOT, env=env).returncode
 
 
+def build_publish_command(
+    args: argparse.Namespace,
+    questions: list[str],
+    *,
+    stage: str,
+    include_raw_ocr: bool = False,
+    push: bool = False,
+) -> list[str]:
+    command = [
+        sys.executable,
+        str(PROJECT_ROOT / "scripts" / "run_csbench.py"),
+        "--prepared-dir",
+        args.prepared_dir,
+        "publish",
+        *questions,
+        "--stage",
+        stage,
+        "--artifacts-repo",
+        args.artifacts_repo,
+    ]
+    if include_raw_ocr:
+        command.append("--include-raw-ocr")
+    if push:
+        command.append("--push")
+    return command
+
+
 def git_output(repository: Path, *args: str) -> str:
     completed = subprocess.run(
         ["git", "-C", str(repository), *args],
@@ -427,6 +454,15 @@ def optimize(args: argparse.Namespace) -> int:
         if os.name == "nt":
             raise RuntimeError("--background is only supported on Linux.")
         ensure_background_slot_available()
+        if not args.no_artifacts:
+            env["REFGRADER_POST_SUCCESS_CMD"] = shlex.join(
+                build_publish_command(
+                    args,
+                    args.questions,
+                    stage="rubric",
+                    push=args.push_artifacts,
+                )
+            )
         command = [
             str(PROJECT_ROOT / "run_experiment.sh"),
             "run",
@@ -450,8 +486,8 @@ def optimize(args: argparse.Namespace) -> int:
         return return_code
     if args.background:
         print(
-            "Background optimization started. Automatic artifact publishing "
-            "is skipped because the job has not finished yet."
+            "Background optimization started. Rubric artifacts will be "
+            "published automatically after the job finishes successfully."
         )
         return return_code
     print("Optimization finished; publishing rubric artifacts automatically.")
@@ -499,6 +535,16 @@ def grade(args: argparse.Namespace) -> int:
         if os.name == "nt":
             raise RuntimeError("--background is only supported on Linux.")
         ensure_background_slot_available()
+        if not args.no_artifacts:
+            env["REFGRADER_POST_SUCCESS_CMD"] = shlex.join(
+                build_publish_command(
+                    args,
+                    args.questions,
+                    stage="full",
+                    include_raw_ocr=args.include_raw_ocr,
+                    push=args.push_artifacts,
+                )
+            )
         command = [
             str(PROJECT_ROOT / "run_experiment.sh"),
             "run",
@@ -514,7 +560,27 @@ def grade(args: argparse.Namespace) -> int:
     print("Questions: " + ", ".join(ctx.question_id for ctx in contexts))
     print(f"Answer split: {args.split}")
     print(f"Results: {results_dir}")
-    return execute(command, env_overrides=env, dry_run=args.dry_run)
+    return_code = execute(command, env_overrides=env, dry_run=args.dry_run)
+    if return_code != 0 or args.dry_run or args.no_artifacts:
+        return return_code
+    if args.background:
+        print(
+            "Background grading started. Full grading artifacts will be "
+            "published automatically after the job finishes successfully."
+        )
+        return return_code
+    print("Grading finished; publishing full artifacts automatically.")
+    return publish(
+        argparse.Namespace(
+            prepared_dir=args.prepared_dir,
+            questions=args.questions,
+            artifacts_repo=args.artifacts_repo,
+            stage="full",
+            run_id=None,
+            include_raw_ocr=args.include_raw_ocr,
+            push=args.push_artifacts,
+        )
+    )
 
 
 def evaluate(args: argparse.Namespace) -> int:
@@ -715,7 +781,7 @@ def publish(args: argparse.Namespace) -> int:
         )
 
     status = git_output(artifacts_repo, "status", "--porcelain")
-    if status:
+    if args.push and status:
         raise RuntimeError(
             "Artifacts repository has uncommitted changes. Commit, discard, "
             "or pull them before publishing:\n" + status
@@ -732,7 +798,11 @@ def publish(args: argparse.Namespace) -> int:
     grade_dir = (
         PROJECT_ROOT / "results_runs" / f"csbench_{slug}_full"
     ).resolve()
-    run_id = args.run_id or datetime.now().strftime("%Y%m%d_%H%M%S")
+    run_id = (
+        args.run_id
+        or os.getenv("REFGRADER_ARTIFACT_RUN_ID")
+        or datetime.now().strftime("%Y%m%d_%H%M%S")
+    )
     code_commit = git_output(PROJECT_ROOT, "rev-parse", "HEAD")
 
     prepared_manifest = {}
@@ -1043,6 +1113,25 @@ def build_parser() -> argparse.ArgumentParser:
     grade_parser.add_argument("--background", action="store_true")
     grade_parser.add_argument("--force", action="store_true")
     grade_parser.add_argument("--dry-run", action="store_true")
+    grade_parser.add_argument(
+        "--artifacts-repo",
+        default=str((PROJECT_ROOT.parent / "refgrader-artifacts").resolve()),
+    )
+    grade_parser.add_argument(
+        "--no-artifacts",
+        action="store_true",
+        help="Do not copy completed grading artifacts to refgrader-artifacts.",
+    )
+    grade_parser.add_argument(
+        "--push-artifacts",
+        action="store_true",
+        help="Commit and push artifacts after automatic publishing.",
+    )
+    grade_parser.add_argument(
+        "--include-raw-ocr",
+        action="store_true",
+        help="Include raw PaddleOCR JSON files in automatic publishing.",
+    )
     grade_parser.set_defaults(handler=grade)
 
     evaluate_parser = subparsers.add_parser(

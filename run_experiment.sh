@@ -45,14 +45,43 @@ case "${1:-run}" in
         RUN_ID="$(date +%Y%m%d_%H%M%S)"
         mkdir -p "$LOG_DIR"
         LOG_FILE="$LOG_DIR/experiment_${RUN_ID}.log"
+        export REFGRADER_ARTIFACT_RUN_ID="$RUN_ID"
 
         echo "[$RUN_ID] 正在启动 RefGrader 实验..."
         echo "  日志文件: $LOG_FILE"
 
-        nohup python3 main_pipeline.py \
-            --run-id "$RUN_ID" \
-            --log-dir "$LOG_DIR" \
-            "$@" \
+        nohup bash -c '
+            child_pid=""
+            terminate_child() {
+                if [ -n "$child_pid" ] && kill -0 "$child_pid" 2>/dev/null; then
+                    kill -TERM "$child_pid" 2>/dev/null || true
+                    wait "$child_pid" 2>/dev/null || true
+                fi
+                exit 143
+            }
+            trap terminate_child TERM INT
+
+            python3 main_pipeline.py \
+                --run-id "$1" \
+                --log-dir "$2" \
+                "${@:3}" &
+            child_pid=$!
+            wait "$child_pid"
+            status=$?
+
+            if [ "$status" -eq 0 ] && [ -n "${REFGRADER_POST_SUCCESS_CMD:-}" ]; then
+                echo ""
+                echo "Main pipeline completed successfully. Running post-success command:"
+                echo "  $REFGRADER_POST_SUCCESS_CMD"
+                bash -c "$REFGRADER_POST_SUCCESS_CMD" &
+                child_pid=$!
+                wait "$child_pid"
+                status=$?
+                child_pid=""
+            fi
+            trap - TERM INT
+            exit "$status"
+        ' _ "$RUN_ID" "$LOG_DIR" "$@" \
             >> "$LOG_FILE" 2>&1 &
 
         PID=$!

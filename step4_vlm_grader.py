@@ -228,25 +228,64 @@ def preprocess_student_image_to_base64(image_path, mode="contrast"):
         return encode_image_to_base64(image_path)
 
 
-def diagram_focus_to_base64(image_path):
-    """Create an enlarged lower-page view for timing/order diagrams."""
+def _encode_pil_image_to_base64(image, quality=98):
+    buffer = io.BytesIO()
+    image.save(buffer, format="JPEG", quality=quality)
+    return base64.b64encode(buffer.getvalue()).decode("utf-8")
+
+
+def diagram_focus_views_to_base64(image_path):
+    """Create multiple enlarged candidate views for diagram relation parsing.
+
+    Student diagrams in CSBench are not layout-stable: CO_2-style timing
+    diagrams can appear in the lower-left, the right half, or spread across the
+    lower page. A single fixed lower-page crop misses right-upper diagrams, so
+    the VLM receives several focused views and is instructed to use the view
+    that actually contains the target diagram.
+    """
     if not image_path or not os.path.exists(image_path):
-        return None
+        return []
     try:
         image = Image.open(image_path).convert("RGB")
-        top = int(image.height * 0.43)
-        crop = image.crop((0, top, image.width, image.height))
-        crop = ImageOps.autocontrast(crop, cutoff=1)
-        crop = crop.resize(
-            (crop.width * 2, crop.height * 2),
-            Image.Resampling.LANCZOS,
-        )
-        buffer = io.BytesIO()
-        crop.save(buffer, format="JPEG", quality=98)
-        return base64.b64encode(buffer.getvalue()).decode("utf-8")
+        width, height = image.size
+        crop_specs = [
+            (
+                "lower-page enlarged view",
+                (0, int(height * 0.34), width, height),
+            ),
+            (
+                "right-half enlarged view",
+                (int(width * 0.45), int(height * 0.06), width, int(height * 0.88)),
+            ),
+            (
+                "left-lower enlarged view",
+                (0, int(height * 0.30), int(width * 0.62), height),
+            ),
+        ]
+        views = []
+        for label, box in crop_specs:
+            left, top, right, bottom = box
+            if right - left < 32 or bottom - top < 32:
+                continue
+            crop = image.crop((left, top, right, bottom))
+            crop = ImageOps.autocontrast(crop, cutoff=1)
+            scale = 2 if max(crop.size) < 1800 else 1
+            if scale > 1:
+                crop = crop.resize(
+                    (crop.width * scale, crop.height * scale),
+                    Image.Resampling.LANCZOS,
+                )
+            views.append((label, _encode_pil_image_to_base64(crop)))
+        return views
     except Exception as exc:
-        print(f"   [diagram focus] failed: {exc}")
-        return None
+        print(f"   [diagram focus views] failed: {exc}")
+        return []
+
+
+def diagram_focus_to_base64(image_path):
+    """Backward-compatible first diagram focus view."""
+    views = diagram_focus_views_to_base64(image_path)
+    return views[0][1] if views else None
 
 def extract_and_parse_json(text):
     match = re.search(r'```json\s*(.*?)\s*```', text, re.DOTALL)
@@ -516,18 +555,25 @@ def parse_diagram_relations_with_glm4v(
     prompt = f"""
 # Role: diagram relation transcriber
 
-Inspect only the student's drawn diagram. Do not grade and do not solve the
-question from its wording. Report the topology actually visible in the answer:
-segment order, nesting/return edges, labels, and transitions. If a requested
-relation is not visibly supported, return "图中未明确显示"; if no diagram was
-drawn, return "未书写".
+Inspect the student's drawn diagram directly. OCR tokens are auxiliary anchors
+for handwritten labels only; do not rely on OCR coordinates alone. Do not grade
+and do not solve the question from its wording. Report the topology actually
+visible in the answer: axes, staircase/polyline shape, segment order,
+nesting/return edges, labels, and transitions. If a requested relation is not
+visibly supported, return "图中未明确显示"; if no diagram was drawn, return
+"未书写".
 
 Evidence rules:
 - Never turn isolated labels, repeated letters, table cells, or spatially
   aligned marks into arrows or execution order unless visible lines/arrows
   connect them.
-- For staircase/timing/order diagrams, output a path only when a continuous
-  solid path is visibly drawn. Preserve repeated return levels, e.g. C→D→C.
+- For staircase/timing/order diagrams, the drawn staircase/polyline itself is
+  valid relation evidence even when arrowheads are absent. Trace rises, falls,
+  plateaus, repeated levels, and final return by directly looking at the image.
+  Preserve repeated return levels, e.g. C→D→C.
+- Prefer the focused crop that actually contains the diagram. Ignore unrelated
+  text, score marks, red teacher marks, and other subquestions outside the
+  diagram region.
 - For state graphs, report only visibly connected directed edges.
 - For tables, report row/column/cell relations instead of inventing a path.
 - For trees, Hasse diagrams, circuits, and parse graphs, report visible nodes
@@ -555,7 +601,9 @@ PaddleOCR labels and coordinates from the student image:
 Return strict JSON in this shape:
 {{
   "diagram_status": "present_clear|present_uncertain|missing",
-  "observed_execution_path": "only when a continuous visible path exists; otherwise null",
+  "observed_execution_path": "visible path/level sequence when a staircase/polyline or connected graph exists; otherwise null",
+  "diagram_summary": "concise visual description of axes, labels, line shape, and trigger markers",
+  "visual_limitations": ["uncertain or unreadable parts"],
   "items": {{
     "checklist_id": "visible relation for this item"
   }}
@@ -577,20 +625,21 @@ Return strict JSON in this shape:
             {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{student_b64}"}},
         ]
     )
-    diagram_focus_b64 = diagram_focus_to_base64(student_img_path)
-    if diagram_focus_b64:
+    focus_views = diagram_focus_views_to_base64(student_img_path)
+    for label, focus_b64 in focus_views:
         content.extend(
             [
                 {
                     "type": "text",
                     "text": (
-                        "Enlarged lower-page diagram view. Use this view to trace "
-                        "every rise, fall, repeated level, and return segment:"
+                        f"Focused student diagram candidate: {label}. Use this "
+                        "view if it contains the target diagram; trace every rise, "
+                        "fall, plateau, repeated level, and return segment:"
                     ),
                 },
                 {
                     "type": "image_url",
-                    "image_url": {"url": f"data:image/jpeg;base64,{diagram_focus_b64}"},
+                    "image_url": {"url": f"data:image/jpeg;base64,{focus_b64}"},
                 },
             ]
         )

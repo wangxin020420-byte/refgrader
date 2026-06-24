@@ -858,11 +858,17 @@ def publish(args: argparse.Namespace) -> int:
             args.stage == "auto" and has_full_results
         )
 
+        published_stage = "full" if include_full else "rubric"
+        stage_dir = (
+            "grading_runs"
+            if published_stage == "full"
+            else "rubric_optimizations"
+        )
         destination = (
             artifacts_repo
             / "csbench"
             / ctx.question_id
-            / "runs"
+            / stage_dir
             / run_id
         )
         if destination.exists():
@@ -989,7 +995,11 @@ def publish(args: argparse.Namespace) -> int:
             "schema_version": 1,
             "run_id": run_id,
             "question_id": ctx.question_id,
-            "published_stage": "full" if include_full else "rubric",
+            "published_stage": published_stage,
+            "artifact_stage_dir": stage_dir,
+            "artifact_path": destination.relative_to(
+                artifacts_repo
+            ).as_posix(),
             "question_batch": [item.question_id for item in contexts],
             "code_commit": code_commit,
             "dataset_commit": dataset_commit,
@@ -1023,10 +1033,16 @@ def publish(args: argparse.Namespace) -> int:
         if isinstance(loaded, list):
             index = loaded
     for destination, ctx in zip(published_paths, contexts):
+        entry_stage_dir = destination.parent.name
+        entry_stage = (
+            "full" if entry_stage_dir == "grading_runs" else "rubric"
+        )
         index.append(
             {
                 "question_id": ctx.question_id,
                 "run_id": run_id,
+                "stage": entry_stage,
+                "stage_dir": entry_stage_dir,
                 "path": destination.relative_to(artifacts_repo).as_posix(),
                 "published_at": datetime.now().isoformat(timespec="seconds"),
             }

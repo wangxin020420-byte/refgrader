@@ -337,6 +337,22 @@ python scripts/run_csbench.py grade DM_2 --background --force
 python scripts/run_csbench.py evaluate DM_2 --export
 ```
 
+## 9.5. refgrader-artifacts 发布目录说明
+
+从本次版本开始，发布到 `refgrader-artifacts` 的结果按阶段分目录：
+
+- 评分准则优化结果：`csbench/<题目ID>/rubric_optimizations/<run_id>/`
+- 正式批改结果：`csbench/<题目ID>/grading_runs/<run_id>/`
+
+例如：
+
+```text
+refgrader-artifacts/csbench/CO_2/rubric_optimizations/20260624_153000/
+refgrader-artifacts/csbench/CO_2/grading_runs/20260624_170000/
+```
+
+这样在 VS Code 中可以直接通过目录名区分“评分准则优化”和“正式批改”。历史结果如果仍在 `csbench/<题目ID>/runs/<run_id>/` 下，不需要迁移；新发布的结果会自动使用新结构。
+
 ## 10. 已有结果的补充发布
 
 正常情况下不需要单独执行 `publish`：
@@ -377,7 +393,7 @@ python scripts/run_csbench.py publish CO_2 --push
 python scripts/run_csbench.py publish CO_2 CO_3 CO_4 --stage full --push
 ```
 
-作用：使用同一个 run ID 将多个题目分别发布到 `csbench/CO_2/runs/`、`csbench/CO_3/runs/`、`csbench/CO_4/runs/`，每道题的文件保持独立。
+作用：使用同一个 run ID 将多个题目分别发布到 `csbench/CO_2/grading_runs/`、`csbench/CO_3/grading_runs/`、`csbench/CO_4/grading_runs/`，每道题的文件保持独立。
 
 本地同步服务器产物：
 

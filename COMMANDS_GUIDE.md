@@ -68,7 +68,47 @@ conda activate ref-grader
 cd /home/E125221219/projects/refgrader
 ```
 
-## 3. 评分准则优化
+## 3. CO_1 到 CO_7 全量覆盖重跑
+
+适用于重新跑计算机组成原理前 7 道题，包含“重新生成兼容视图 → 重新优化评分准则 → 正式后台批改 → 查看状态 → 评估导出”。如果 CO_2、CO_3 已经生成过优化准则，下面的 `--force` 会覆盖旧准则并重新生成。
+
+```bash
+python scripts/prepare_csbench.py --dataset-root /home/E125221219/CSBench_new --output-dir data/csbench --link-mode hardlink --exclude-questions OS_1 OS_2 --force
+```
+
+作用：根据服务器上的最新 CSBench 数据集重新生成 RefGrader 兼容视图，确保 CO_1 到 CO_7 使用的是最新题目、参考答案和答案元数据。
+
+```bash
+python scripts/run_csbench.py optimize CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --force
+```
+
+作用：重新优化 CO_1 到 CO_7 的评分准则。`--force` 表示即使 CO_2、CO_3 已经存在优化后的评分准则，也会全部覆盖重跑，避免沿用旧准则。
+
+```bash
+python scripts/run_csbench.py grade CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --background --force
+```
+
+作用：后台正式批改 CO_1 到 CO_7 的全部 test 答案。`--background` 表示任务在服务器后台运行；`--force` 表示重新生成本次批改结果，不沿用旧 checkpoint。
+
+```bash
+python scripts/run_csbench.py status
+```
+
+作用：查看后台批改任务是否仍在运行，以及日志文件和进度文件位置。
+
+```bash
+python scripts/run_csbench.py tail
+```
+
+作用：实时查看后台批改日志。按 `Ctrl+C` 只会退出日志查看，不会停止后台批改任务。
+
+```bash
+python scripts/run_csbench.py evaluate CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --export
+```
+
+作用：批改结束后评估 CO_1 到 CO_7 的结果，并导出逐答案对比 CSV。失败样本会保存在 failed 文件中，正式分析时可按实验设计排除。
+
+## 4. 评分准则优化
 
 ```bash
 python scripts/run_csbench.py optimize CO_3
@@ -112,7 +152,7 @@ python scripts/run_csbench.py optimize CO_3 --sample-size 10 --force
 python scripts/run_csbench.py optimize CO_3 --dry-run
 ```
 
-## 4. 正式后台批改
+## 5. 正式后台批改
 
 ```bash
 python scripts/run_csbench.py grade CO_3 --background --force
@@ -156,7 +196,7 @@ python scripts/run_csbench.py grade CO_3 --limit 5 --force
 python scripts/run_csbench.py grade CO_3 --background --force --dry-run
 ```
 
-## 5. 查看运行状态
+## 6. 查看运行状态
 
 ```bash
 python scripts/run_csbench.py status
@@ -184,7 +224,7 @@ python scripts/run_csbench.py monitor CO_2 CO_3 CO_4
 
 作用：打开 CO_2、CO_3、CO_4 联合批改任务对应的共享进度文件。题目集合需要与启动 `grade` 时一致，题目输入顺序可以不同。
 
-## 6. 停止与断点续跑
+## 7. 停止与断点续跑
 
 ```bash
 python scripts/run_csbench.py stop
@@ -206,7 +246,7 @@ python scripts/run_csbench.py grade CO_2 CO_3 CO_4 --background
 
 作用：继续同一组多题实验，逐题跳过已经写入 checkpoint 的答案，只处理未完成部分。
 
-## 7. 正式评估
+## 8. 正式评估
 
 ```bash
 python scripts/run_csbench.py evaluate CO_3
@@ -254,7 +294,7 @@ python scripts/run_csbench.py evaluate CO_3 --detail
 
 作用：增加逐答案误差明细。
 
-## 8. 查看输出文件位置
+## 9. 查看输出文件位置
 
 ```bash
 python scripts/run_csbench.py outputs CO_3
@@ -303,7 +343,7 @@ logs/experiment_<run_id>.log
 - CO_3 当前准则不要求图形证据，因此正式 test 预计不会触发 PaddleOCR；`ocr_cache/csbench/CO_3/` 可能不存在或为空。
 - `facts/CO_3/` 仍会保存由 `raw_text` 经 GLM-5.1 映射得到的评分点事实缓存。
 
-## 9. 日常顺序
+## 10. 日常顺序
 
 首次运行某道题：
 
@@ -337,7 +377,7 @@ python scripts/run_csbench.py grade DM_2 --background --force
 python scripts/run_csbench.py evaluate DM_2 --export
 ```
 
-## 9.5. refgrader-artifacts 发布目录说明
+## 11. refgrader-artifacts 发布目录说明
 
 从本次版本开始，发布到 `refgrader-artifacts` 的结果按阶段分目录：
 
@@ -353,7 +393,7 @@ refgrader-artifacts/csbench/CO_2/grading_runs/20260624_170000/
 
 这样在 VS Code 中可以直接通过目录名区分“评分准则优化”和“正式批改”。历史结果如果仍在 `csbench/<题目ID>/runs/<run_id>/` 下，不需要迁移；新发布的结果会自动使用新结构。
 
-## 10. 已有结果的补充发布
+## 12. 已有结果的补充发布
 
 正常情况下不需要单独执行 `publish`：
 
@@ -402,3 +442,4 @@ git -C C:\Users\wx\Desktop\refgrader-artifacts pull origin main
 ```
 
 作用：将服务器已发布的实验产物拉取到本地，供 VS Code 和 Codex 分析。
+

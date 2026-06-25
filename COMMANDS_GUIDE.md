@@ -68,27 +68,51 @@ conda activate ref-grader
 cd /home/E125221219/projects/refgrader
 ```
 
-## 3. CO_1 到 CO_7 全量覆盖重跑
+## 3. CO_1 到 CO_7 四种常用执行方式
 
-适用于重新跑计算机组成原理前 7 道题，包含“重新生成兼容视图 → 重新优化评分准则 → 正式后台批改 → 查看状态 → 评估导出”。如果 CO_2、CO_3 已经生成过优化准则，下面的 `--force` 会覆盖旧准则并重新生成。
+下面四种命令都以 CO_1 到 CO_7 为例。`--force` 表示覆盖已有优化准则或旧 checkpoint；`--background` 表示正式批改阶段在服务器后台运行。
+
+### 3.1 重新生成兼容视图 → 重新优化评分准则 → 正式后台批改
+
+适用场景：数据集刚更新过、刚修改过 `CSBench_new/question/question_CO.json`、刚拉取过数据集，或者不确定 `data/csbench` 是否最新。推荐用于这次 CO_1 到 CO_7 全量重跑。
 
 ```bash
-python scripts/prepare_csbench.py --dataset-root /home/E125221219/CSBench_new --output-dir data/csbench --link-mode hardlink --exclude-questions OS_1 OS_2 --force
+python scripts/run_csbench.py run CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --dataset-root /home/E125221219/CSBench_new --force --background
 ```
 
-作用：根据服务器上的最新 CSBench 数据集重新生成 RefGrader 兼容视图，确保 CO_1 到 CO_7 使用的是最新题目、参考答案和答案元数据。
+作用：一条命令完成 CO_1 到 CO_7 的完整实验。执行顺序是：先根据 `/home/E125221219/CSBench_new` 重新生成 `data/csbench` 兼容视图，再覆盖重跑 CO_1 到 CO_7 的评分准则优化，最后后台启动 CO_1 到 CO_7 的正式批改。`--background` 只作用于正式批改阶段，评分准则优化会先在前台完成，避免准则没生成就开始批改。
+
+### 3.2 重新优化评分准则 → 正式后台批改
+
+适用场景：`data/csbench` 已经是最新的，不需要重新生成兼容视图，但需要覆盖旧评分准则并重新批改。
+
+```bash
+python scripts/run_csbench.py run CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --force --background
+```
+
+作用：跳过兼容视图生成，直接基于当前 `data/csbench` 覆盖重跑 CO_1 到 CO_7 的评分准则优化，然后后台启动正式批改。
+
+### 3.3 只重新优化评分准则
+
+适用场景：只想重新生成 optimized rubric，先不正式批改。例如你要先检查优化后的评分准则是否合理。
 
 ```bash
 python scripts/run_csbench.py optimize CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --force
 ```
 
-作用：重新优化 CO_1 到 CO_7 的评分准则。`--force` 表示即使 CO_2、CO_3 已经存在优化后的评分准则，也会全部覆盖重跑，避免沿用旧准则。
+作用：只覆盖重跑 CO_1 到 CO_7 的评分准则优化，不进入正式批改阶段。
+
+### 3.4 只正式后台批改
+
+适用场景：评分准则已经优化完成，只想重新批改 test 答案。
 
 ```bash
 python scripts/run_csbench.py grade CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --background --force
 ```
 
-作用：后台正式批改 CO_1 到 CO_7 的全部 test 答案。`--background` 表示任务在服务器后台运行；`--force` 表示重新生成本次批改结果，不沿用旧 checkpoint。
+作用：只后台批改 CO_1 到 CO_7 的全部 test 答案。运行前会检查每道题是否已有 optimized rubric 和 optimization manifest。
+
+### 3.5 查看状态、日志和评估
 
 ```bash
 python scripts/run_csbench.py status

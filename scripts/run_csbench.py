@@ -1,6 +1,7 @@
 """Unified command-line entry point for CSBench experiments.
 
 Examples:
+    python scripts/run_csbench.py run CO_1 CO_2 CO_3 --force --background
     python scripts/run_csbench.py optimize CO_3
     python scripts/run_csbench.py optimize CO_2 CO_3 CO_4
     python scripts/run_csbench.py grade CO_3 --background --force
@@ -590,6 +591,69 @@ def grade(args: argparse.Namespace) -> int:
     )
 
 
+def run_experiment(args: argparse.Namespace) -> int:
+    if args.dataset_root:
+        prepare_command = [
+            sys.executable,
+            str(PROJECT_ROOT / "scripts" / "prepare_csbench.py"),
+            "--dataset-root",
+            args.dataset_root,
+            "--output-dir",
+            args.prepared_dir,
+            "--link-mode",
+            args.link_mode,
+        ]
+        if args.exclude_questions:
+            prepare_command.extend(["--exclude-questions", *args.exclude_questions])
+        if args.force:
+            prepare_command.append("--force")
+        print("Preparing CSBench compatible view.")
+        prepare_code = execute(prepare_command, dry_run=args.dry_run)
+        if prepare_code != 0:
+            return prepare_code
+
+    print("Step 1/2: optimizing rubrics.")
+    optimize_code = optimize(
+        argparse.Namespace(
+            prepared_dir=args.prepared_dir,
+            questions=args.questions,
+            sample_size=args.sample_size,
+            device=args.device,
+            background=False,
+            force=args.force,
+            dry_run=args.dry_run,
+            artifacts_repo=args.artifacts_repo,
+            no_artifacts=args.no_artifacts,
+            push_artifacts=args.push_artifacts,
+            include_facts=args.include_facts,
+        )
+    )
+    if optimize_code != 0:
+        return optimize_code
+    if args.dry_run:
+        print("Step 2/2: grading skipped after dry-run optimization preview.")
+        return 0
+
+    print("Step 2/2: grading answers.")
+    return grade(
+        argparse.Namespace(
+            prepared_dir=args.prepared_dir,
+            questions=args.questions,
+            split=args.split,
+            limit=args.limit,
+            device=args.device,
+            background=args.background,
+            force=args.force,
+            dry_run=False,
+            artifacts_repo=args.artifacts_repo,
+            no_artifacts=args.no_artifacts,
+            push_artifacts=args.push_artifacts,
+            include_raw_ocr=args.include_raw_ocr,
+            include_facts=args.include_facts,
+        )
+    )
+
+
 def evaluate(args: argparse.Namespace) -> int:
     contexts = build_contexts(args.prepared_dir, args.questions)
     slug = batch_slug(contexts)
@@ -1096,6 +1160,86 @@ def build_parser() -> argparse.ArgumentParser:
         help="Prepared CSBench directory. Default: data/csbench",
     )
     subparsers = parser.add_subparsers(dest="action", required=True)
+
+    run_parser = subparsers.add_parser(
+        "run",
+        help=(
+            "Prepare optionally, optimize rubrics, then grade one or more "
+            "questions with one command."
+        ),
+    )
+    run_parser.add_argument(
+        "questions", nargs="+", type=normalize_question_id
+    )
+    run_parser.add_argument(
+        "--dataset-root",
+        help=(
+            "Optional source CSBench repository. When provided, prepare_csbench "
+            "runs before optimization."
+        ),
+    )
+    run_parser.add_argument(
+        "--link-mode",
+        choices=["hardlink", "symlink", "copy"],
+        default="hardlink",
+        help="Link mode passed to prepare_csbench when --dataset-root is used.",
+    )
+    run_parser.add_argument(
+        "--exclude-questions",
+        nargs="*",
+        default=["OS_1", "OS_2"],
+        help="Questions excluded when --dataset-root triggers prepare_csbench.",
+    )
+    run_parser.add_argument("--sample-size", type=int, default=5)
+    run_parser.add_argument(
+        "--split",
+        choices=["all", "calibration", "validation", "test"],
+        default="test",
+    )
+    run_parser.add_argument("--limit", type=int)
+    run_parser.add_argument("--device", default=DEFAULT_OCR_DEVICE)
+    run_parser.add_argument(
+        "--background",
+        action="store_true",
+        help=(
+            "Run the grading stage in background after foreground rubric "
+            "optimization succeeds."
+        ),
+    )
+    run_parser.add_argument(
+        "--force",
+        action="store_true",
+        help=(
+            "Regenerate prepared data, optimized rubrics, and grading "
+            "checkpoints where applicable."
+        ),
+    )
+    run_parser.add_argument("--dry-run", action="store_true")
+    run_parser.add_argument(
+        "--artifacts-repo",
+        default=str((PROJECT_ROOT.parent / "refgrader-artifacts").resolve()),
+    )
+    run_parser.add_argument(
+        "--no-artifacts",
+        action="store_true",
+        help="Do not copy completed artifacts to refgrader-artifacts.",
+    )
+    run_parser.add_argument(
+        "--push-artifacts",
+        action="store_true",
+        help="Commit and push artifacts after automatic publishing.",
+    )
+    run_parser.add_argument(
+        "--include-raw-ocr",
+        action="store_true",
+        help="Include raw PaddleOCR JSON files in automatic publishing.",
+    )
+    run_parser.add_argument(
+        "--include-facts",
+        action="store_true",
+        help="Include per-answer Stage1 fact cache JSON files in publishing.",
+    )
+    run_parser.set_defaults(handler=run_experiment)
 
     optimize_parser = subparsers.add_parser(
         "optimize", help="Optimize one or more question rubrics."

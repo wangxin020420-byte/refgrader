@@ -1,6 +1,112 @@
 # Current Progress
 
-Last updated: 2026-06-16
+Last updated: 2026-06-25
+
+## 2026-06-25 CSBench Unified Run Command And CO_1-CO_7 Batch Plan
+
+Current implementation status:
+
+```text
+1. CSBench_new remains an external dataset repository.
+   It is not copied into RefGrader.
+
+2. RefGrader uses scripts/prepare_csbench.py to generate a compatible
+   data/csbench view from CSBench_new.
+
+3. scripts/run_csbench.py now has a unified `run` subcommand.
+   It can execute:
+     prepare compatible view -> optimize rubrics -> formal grading
+   from one command.
+
+4. The separate commands still exist:
+     optimize = only rubric optimization
+     grade    = only formal grading
+     evaluate = metric evaluation/export
+
+5. For `run --background`, the whole chained workflow is started in the
+   background. Inside that background process, stages still run sequentially:
+     prepare -> optimize -> grade
+   This allows the local window to be closed while still preventing grading
+   from starting before optimized rubrics exist.
+```
+
+Recommended CO_1 to CO_7 full rerun command on the lab server:
+
+```bash
+cd /home/E125221219/projects/refgrader
+conda activate ref-grader
+python scripts/run_csbench.py run CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --dataset-root /home/E125221219/CSBench_new --force --background
+```
+
+Meaning:
+
+```text
+1. Regenerate data/csbench from /home/E125221219/CSBench_new.
+2. Re-optimize CO_1 to CO_7 rubrics.
+3. Run formal CO_1 to CO_7 grading after optimization succeeds.
+4. The whole chain runs in the background, so the terminal can be closed after
+   the command returns.
+5. --force overwrites old optimized rubrics and old grading checkpoints.
+```
+
+Use this shorter command only when `data/csbench` is already current:
+
+```bash
+python scripts/run_csbench.py run CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --force --background
+```
+
+Separate-stage commands remain available:
+
+```bash
+python scripts/run_csbench.py optimize CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --force
+python scripts/run_csbench.py grade CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --background --force
+python scripts/run_csbench.py evaluate CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --export
+```
+
+Monitoring commands:
+
+```bash
+python scripts/run_csbench.py status
+python scripts/run_csbench.py tail
+python scripts/run_csbench.py outputs CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7
+```
+
+CSBench answer-source correction status:
+
+```text
+CO_2:
+  The interrupt mask words were corrected to match the original Q2 answer:
+    A: 11111
+    B: 01000
+    C: 01101
+    D: 01111
+    E: 01001
+
+CO_4:
+  The final cache-hit judgement was corrected to match the original Q4 answer:
+    address 7F0057H hits Cache block 1.
+```
+
+Important synchronization rule:
+
+```text
+RefGrader code changes are committed to the RefGrader repository.
+CSBench question/answer corrections are committed to the CSBench_new repository.
+Portable experiment results are committed to refgrader-artifacts.
+
+After pulling CSBench_new on the server, rerun prepare_csbench or use the
+unified run command with --dataset-root so data/csbench is regenerated.
+```
+
+Current command documentation:
+
+```text
+COMMANDS_GUIDE.md now lists four CO_1-CO_7 execution modes:
+  1. prepare -> optimize -> grade
+  2. optimize -> grade
+  3. optimize only
+  4. grade only
+```
 
 ## 2026-06-16 Q2/Q3 Extraction-Lock Fix And Checkpoint Evaluation
 

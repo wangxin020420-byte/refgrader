@@ -418,6 +418,104 @@ def ensure_background_slot_available() -> None:
     )
 
 
+def build_run_command(args: argparse.Namespace, *, background: bool) -> list[str]:
+    command = [
+        sys.executable,
+        str(PROJECT_ROOT / "scripts" / "run_csbench.py"),
+        "--prepared-dir",
+        args.prepared_dir,
+        "run",
+        *args.questions,
+    ]
+    if args.dataset_root:
+        command.extend(["--dataset-root", args.dataset_root])
+        command.extend(["--link-mode", args.link_mode])
+        if args.exclude_questions:
+            command.extend(["--exclude-questions", *args.exclude_questions])
+    if args.sample_size != 5:
+        command.extend(["--sample-size", str(args.sample_size)])
+    if args.split != "test":
+        command.extend(["--split", args.split])
+    if args.limit is not None:
+        command.extend(["--limit", str(args.limit)])
+    if args.device != DEFAULT_OCR_DEVICE:
+        command.extend(["--device", args.device])
+    if background:
+        command.append("--background")
+    if args.force:
+        command.append("--force")
+    if args.dry_run:
+        command.append("--dry-run")
+    command.extend(["--artifacts-repo", args.artifacts_repo])
+    if args.no_artifacts:
+        command.append("--no-artifacts")
+    if args.push_artifacts:
+        command.append("--push-artifacts")
+    if args.include_raw_ocr:
+        command.append("--include-raw-ocr")
+    if args.include_facts:
+        command.append("--include-facts")
+    return command
+
+
+def start_run_in_background(args: argparse.Namespace) -> int:
+    if os.name == "nt":
+        raise RuntimeError("--background is only supported on Linux.")
+    ensure_background_slot_available()
+    run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_dir = PROJECT_ROOT / "logs"
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_file = log_dir / f"experiment_{run_id}.log"
+    pid_file = log_dir / "refgrader.pid"
+    command = build_run_command(args, background=False)
+    env = os.environ.copy()
+    env["REFGRADER_ARTIFACT_RUN_ID"] = run_id
+    env["REFGRADER_RUN_BACKGROUND_CHILD"] = "1"
+    wrapper = [
+        "bash",
+        "-c",
+        """
+child_pid=""
+terminate_child() {
+    if [ -n "$child_pid" ] && kill -0 "$child_pid" 2>/dev/null; then
+        kill -TERM "$child_pid" 2>/dev/null || true
+        wait "$child_pid" 2>/dev/null || true
+    fi
+    exit 143
+}
+trap terminate_child TERM INT
+"$@" &
+child_pid=$!
+wait "$child_pid"
+status=$?
+child_pid=""
+trap - TERM INT
+exit "$status"
+""",
+        "_",
+        *command,
+    ]
+    with log_file.open("ab") as handle:
+        process = subprocess.Popen(
+            wrapper,
+            cwd=PROJECT_ROOT,
+            env=env,
+            stdout=handle,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+    pid_file.write_text(f"{log_file}\n{process.pid}\n", encoding="utf-8")
+    print(f"[{run_id}] CSBench workflow started in background.")
+    print(f"  PID: {process.pid}")
+    print(f"  Log: {log_file}")
+    print("")
+    print("  Manage:")
+    print("    python scripts/run_csbench.py status")
+    print("    python scripts/run_csbench.py tail")
+    print("    python scripts/run_csbench.py stop")
+    return 0
+
+
 def optimize(args: argparse.Namespace) -> int:
     contexts = build_contexts(args.prepared_dir, args.questions)
     for ctx in contexts:
@@ -592,6 +690,12 @@ def grade(args: argparse.Namespace) -> int:
 
 
 def run_experiment(args: argparse.Namespace) -> int:
+    if args.background and not os.getenv("REFGRADER_RUN_BACKGROUND_CHILD"):
+        if args.dry_run:
+            print(display_command(build_run_command(args, background=False), {}))
+            return 0
+        return start_run_in_background(args)
+
     if args.dataset_root:
         prepare_command = [
             sys.executable,
@@ -642,7 +746,7 @@ def run_experiment(args: argparse.Namespace) -> int:
             split=args.split,
             limit=args.limit,
             device=args.device,
-            background=args.background,
+            background=False,
             force=args.force,
             dry_run=False,
             artifacts_repo=args.artifacts_repo,
@@ -1202,8 +1306,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--background",
         action="store_true",
         help=(
-            "Run the grading stage in background after foreground rubric "
-            "optimization succeeds."
+            "Run the whole prepare/optimize/grade workflow in background."
         ),
     )
     run_parser.add_argument(

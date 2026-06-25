@@ -1,5 +1,100 @@
 # RefGrader Latest Status
 
+## 2026-06-25 Unified CSBench Execution Flow
+
+RefGrader now supports a single CSBench command that can prepare data, optimize
+rubrics, and launch formal grading in sequence. This is the recommended entry
+point for CO_1 to CO_7 batch experiments.
+
+Main idea:
+
+```text
+CSBench_new source dataset
+-> prepare_csbench compatible view under data/csbench
+-> rubric optimization from data/csbench/rubrics/initial
+-> formal grading with data/csbench/rubrics/optimized
+-> optional evaluation/export
+-> portable artifacts copied to refgrader-artifacts
+```
+
+Important directories:
+
+```text
+/home/E125221219/CSBench_new
+  Source CSBench dataset repository. Keep it separate from RefGrader.
+
+data/csbench
+  Generated RefGrader-compatible view. This is recreated by prepare_csbench.py.
+
+data/csbench/rubrics/initial
+  Initial rubrics converted from the source dataset.
+
+data/csbench/rubrics/optimized
+  Rubrics produced by the variance optimization stage.
+
+results_runs
+  Runtime checkpoints and local run outputs.
+
+../refgrader-artifacts
+  Portable experiment artifacts for syncing server results back to local.
+```
+
+Four common CO_1 to CO_7 commands:
+
+```bash
+python scripts/run_csbench.py run CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --dataset-root /home/E125221219/CSBench_new --force --background
+```
+
+Use this when the source dataset changed or after pulling CSBench. It runs:
+
+```text
+background prepare compatible view -> optimize rubrics -> formal grading
+```
+
+```bash
+python scripts/run_csbench.py run CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --force --background
+```
+
+Use this when `data/csbench` is already current. It runs:
+
+```text
+background optimize rubrics -> formal grading
+```
+
+```bash
+python scripts/run_csbench.py optimize CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --force
+```
+
+Use this to regenerate optimized rubrics only.
+
+```bash
+python scripts/run_csbench.py grade CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --background --force
+```
+
+Use this to rerun formal grading only, assuming optimized rubrics already
+exist and match their manifests.
+
+Monitoring and evaluation:
+
+```bash
+python scripts/run_csbench.py status
+python scripts/run_csbench.py tail
+python scripts/run_csbench.py evaluate CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --export
+```
+
+Notes:
+
+```text
+1. prepare_csbench.py is not a model step. It only converts CSBench_new into
+   the data/csbench layout expected by RefGrader.
+2. Re-run prepare only when the dataset changed, after pulling CSBench, or
+   when data/csbench may be stale.
+3. With --background, the new run subcommand starts the whole chained workflow
+   in the background. The background process still runs stages sequentially, so
+   grading cannot start before optimized rubrics exist.
+4. Separate optimize and grade commands remain available for controlled tests.
+```
+
 ## 2026-06-22 CSBench Hybrid Dataset Support
 
 RefGrader can now use the external `CSBench_new` dataset without copying it

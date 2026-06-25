@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 from collections import Counter
 from pathlib import Path
@@ -61,6 +62,70 @@ VISUAL_KEYWORDS = (
     "拓扑",
     "波形",
     "时序",
+)
+TABLE_OR_GRID_KEYWORDS = (
+    "table",
+    "grid",
+    "matrix",
+    "truth table",
+    "cache",
+    "tag",
+    "index",
+    "offset",
+    "field",
+    "row",
+    "column",
+    "cell",
+    "表",
+    "表格",
+    "矩阵",
+    "真值表",
+    "字段",
+    "地址划分",
+    "位划分",
+    "组号",
+    "组索引",
+    "块内地址",
+    "行",
+    "列",
+)
+
+TOPOLOGY_OR_RELATION_KEYWORDS = (
+    "diagram_relation",
+    "topology",
+    "graph",
+    "tree",
+    "syntax tree",
+    "parse tree",
+    "state diagram",
+    "flowchart",
+    "timing",
+    "sequence",
+    "staircase",
+    "hasse",
+    "circuit",
+    "edge",
+    "edges",
+    "arrow",
+    "arrows",
+    "node",
+    "nodes",
+    "path",
+    "拓扑",
+    "关系图",
+    "结构图",
+    "语法树",
+    "分析树",
+    "状态图",
+    "流程图",
+    "时序图",
+    "顺序图",
+    "阶梯图",
+    "哈斯图",
+    "电路图",
+    "连线",
+    "箭头",
+    "路径",
 )
 
 
@@ -138,18 +203,57 @@ def is_placeholder_text(text: str) -> bool:
     return any(marker in compact for marker in VISUAL_PLACEHOLDERS)
 
 
+def contains_marker(text: str, marker: str) -> bool:
+    marker = str(marker or "").strip()
+    if not marker:
+        return False
+    if marker.isascii():
+        return bool(
+            re.search(
+                rf"\b{re.escape(marker.lower())}\b",
+                str(text or "").lower(),
+            )
+        )
+    return marker in str(text or "")
+
+
+def has_any_marker(text: str, markers: tuple[str, ...]) -> bool:
+    return any(contains_marker(text, marker) for marker in markers)
+
+
 def classify_rubric_item(item: dict[str, Any]) -> tuple[str, str]:
     description = str(item.get("description", ""))
     standard_text = str(item.get("standard_answer_text", ""))
     has_standard_image = bool(item.get("standard_answer_image"))
-    looks_visual = has_standard_image or any(
-        keyword in description for keyword in VISUAL_KEYWORDS
+    item_text = " ".join(
+        str(item.get(key, ""))
+        for key in (
+            "description",
+            "standard_answer_text",
+            "answer_type",
+            "evidence_source",
+        )
+    )
+    item_text_lower = item_text.lower()
+    looks_table_or_grid = has_any_marker(item_text_lower, TABLE_OR_GRID_KEYWORDS)
+    looks_topology_or_relation = has_any_marker(
+        item_text_lower, TOPOLOGY_OR_RELATION_KEYWORDS
+    )
+    looks_visual = (
+        has_standard_image
+        or looks_table_or_grid
+        or looks_topology_or_relation
+        or any(keyword in description for keyword in VISUAL_KEYWORDS)
     )
     substantive_text = bool(
         standard_text.strip()
         and not is_placeholder_text(standard_text)
         and standard_text.strip() not in {"详见标准答案图片", "见标准答案图片"}
     )
+    if looks_visual and looks_table_or_grid and not looks_topology_or_relation:
+        return "table", "text_and_ocr" if substantive_text else "ocr_table"
+    if looks_visual and looks_topology_or_relation:
+        return "diagram_relation", "text_and_diagram" if substantive_text else "diagram"
     if looks_visual and substantive_text:
         return "diagram_relation", "text_and_diagram"
     if looks_visual:
@@ -447,7 +551,16 @@ def main() -> int:
                     (student_root / question_id).resolve()
                 ),
                 "requires_visual_evidence": any(
-                    "diagram" in str(item.get("evidence_source", ""))
+                    str(item.get("evidence_source", "")) in {
+                        "diagram",
+                        "text_and_diagram",
+                        "ocr_table",
+                        "text_and_ocr",
+                    }
+                    or str(item.get("answer_type", "")) in {
+                        "diagram_relation",
+                        "table",
+                    }
                     for item in rubric
                 ),
                 "sample_count": question_counts[question_id],

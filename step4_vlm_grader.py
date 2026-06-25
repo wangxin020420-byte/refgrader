@@ -413,6 +413,116 @@ def _checklist_ids(blind_checklist):
     return [str(item.get("id", "")) for item in parsed if str(item.get("id", ""))]
 
 
+TABLE_OR_GRID_MARKERS = (
+    "table",
+    "ocr_table",
+    "text_and_ocr",
+    "grid",
+    "matrix",
+    "truth table",
+    "cache",
+    "tag",
+    "index",
+    "offset",
+    "field",
+    "row",
+    "column",
+    "cell",
+    "表",
+    "表格",
+    "矩阵",
+    "真值表",
+    "字段",
+    "地址划分",
+    "位划分",
+    "组号",
+    "组索引",
+    "块内地址",
+    "行",
+    "列",
+)
+
+TOPOLOGY_OR_RELATION_MARKERS = (
+    "diagram_relation",
+    "diagram",
+    "text_and_diagram",
+    "topology",
+    "graph",
+    "tree",
+    "syntax tree",
+    "parse tree",
+    "state diagram",
+    "flowchart",
+    "timing",
+    "sequence",
+    "staircase",
+    "hasse",
+    "circuit",
+    "edge",
+    "edges",
+    "arrow",
+    "arrows",
+    "node",
+    "nodes",
+    "path",
+    "图",
+    "拓扑",
+    "关系图",
+    "结构图",
+    "语法树",
+    "分析树",
+    "状态图",
+    "流程图",
+    "时序图",
+    "顺序图",
+    "阶梯图",
+    "哈斯图",
+    "电路图",
+    "连线",
+    "箭头",
+    "路径",
+)
+
+CSBENCH_EXTRACTION_SCHEMA_VERSION = 2
+
+
+def _rubric_item_text(item):
+    return " ".join(
+        str(item.get(key, ""))
+        for key in (
+            "id",
+            "description",
+            "standard_answer_text",
+            "answer_type",
+            "evidence_source",
+        )
+    )
+
+
+def _contains_marker(text, marker):
+    marker = str(marker or "").strip()
+    if not marker:
+        return False
+    if marker.isascii():
+        return bool(
+            re.search(
+                rf"\b{re.escape(marker.lower())}\b",
+                str(text or "").lower(),
+            )
+        )
+    return marker in str(text or "")
+
+
+def _is_table_or_grid_item(item):
+    text = _rubric_item_text(item).lower()
+    return any(_contains_marker(text, marker) for marker in TABLE_OR_GRID_MARKERS)
+
+
+def _is_topology_or_relation_item(item):
+    text = _rubric_item_text(item).lower()
+    return any(_contains_marker(text, marker) for marker in TOPOLOGY_OR_RELATION_MARKERS)
+
+
 def _diagram_checklist(blind_checklist, rubrics_json):
     checklist = extract_and_parse_json(blind_checklist) if isinstance(blind_checklist, str) else blind_checklist
     rubrics = extract_and_parse_json(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json
@@ -421,13 +531,22 @@ def _diagram_checklist(blind_checklist, rubrics_json):
     diagram_ids = {
         str(item.get("id", ""))
         for item in rubrics
-        if (
-            "diagram" in str(item.get("evidence_source", "")).lower()
-            or "diagram" in str(item.get("answer_type", "")).lower()
-            or "图" in str(item.get("answer_type", ""))
-        )
+        if _is_topology_or_relation_item(item) and not _is_table_or_grid_item(item)
     }
     return [item for item in checklist if str(item.get("id", "")) in diagram_ids]
+
+
+def _table_checklist(blind_checklist, rubrics_json):
+    checklist = extract_and_parse_json(blind_checklist) if isinstance(blind_checklist, str) else blind_checklist
+    rubrics = extract_and_parse_json(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json
+    checklist = checklist if isinstance(checklist, list) else []
+    rubrics = rubrics if isinstance(rubrics, list) else []
+    table_ids = {
+        str(item.get("id", ""))
+        for item in rubrics
+        if _is_table_or_grid_item(item)
+    }
+    return [item for item in checklist if str(item.get("id", "")) in table_ids]
 
 
 VISUAL_PLACEHOLDER_PATTERNS = (
@@ -540,6 +659,165 @@ For each value:
     if not isinstance(mapped, dict):
         raise ValueError("GLM-5.1 OCR mapping did not return a JSON object")
     return {item_id: mapped.get(item_id, "未书写") for item_id in checklist_ids}
+
+
+def _token_box_bounds(box):
+    if not isinstance(box, list) or not box:
+        return None
+    points = []
+    if all(isinstance(point, (list, tuple)) and len(point) >= 2 for point in box):
+        points = [(float(point[0]), float(point[1])) for point in box]
+    elif len(box) >= 4 and all(isinstance(value, (int, float)) for value in box[:4]):
+        x1, y1, x2, y2 = [float(value) for value in box[:4]]
+        points = [(x1, y1), (x2, y1), (x2, y2), (x1, y2)]
+    if not points:
+        return None
+    xs = [point[0] for point in points]
+    ys = [point[1] for point in points]
+    return min(xs), min(ys), max(xs), max(ys)
+
+
+def _tokens_to_table_view(tokens):
+    positioned = []
+    for token in tokens:
+        text = str(token.get("text", "")).strip()
+        if not text:
+            continue
+        bounds = _token_box_bounds(token.get("box"))
+        if bounds:
+            x1, y1, x2, y2 = bounds
+            positioned.append(
+                {
+                    "text": text,
+                    "confidence": token.get("confidence"),
+                    "x": round((x1 + x2) / 2, 2),
+                    "y": round((y1 + y2) / 2, 2),
+                    "width": round(x2 - x1, 2),
+                    "height": round(y2 - y1, 2),
+                }
+            )
+        else:
+            positioned.append(
+                {
+                    "text": text,
+                    "confidence": token.get("confidence"),
+                    "x": None,
+                    "y": None,
+                    "width": None,
+                    "height": None,
+                }
+            )
+
+    positioned_with_y = [token for token in positioned if token["y"] is not None]
+    positioned_without_y = [token for token in positioned if token["y"] is None]
+    positioned_with_y.sort(key=lambda token: (token["y"], token["x"] or 0))
+    if not positioned_with_y:
+        return {
+            "rows": [],
+            "unpositioned_tokens": positioned_without_y,
+            "plain_text": "\n".join(token["text"] for token in positioned),
+        }
+
+    heights = [token["height"] for token in positioned_with_y if token["height"]]
+    median_height = sorted(heights)[len(heights) // 2] if heights else 24
+    row_threshold = max(16, median_height * 0.8)
+    rows = []
+    for token in positioned_with_y:
+        if not rows or abs(token["y"] - rows[-1]["y_center"]) > row_threshold:
+            rows.append({"y_center": token["y"], "tokens": [token]})
+            continue
+        rows[-1]["tokens"].append(token)
+        rows[-1]["y_center"] = round(
+            sum(item["y"] for item in rows[-1]["tokens"]) / len(rows[-1]["tokens"]),
+            2,
+        )
+
+    normalized_rows = []
+    plain_lines = []
+    for row_index, row in enumerate(rows, start=1):
+        sorted_tokens = sorted(row["tokens"], key=lambda token: token["x"] or 0)
+        normalized_row = {
+            "row": row_index,
+            "y_center": row["y_center"],
+            "cells_left_to_right": [
+                {
+                    "text": token["text"],
+                    "x_center": token["x"],
+                    "confidence": token["confidence"],
+                }
+                for token in sorted_tokens
+            ],
+        }
+        normalized_rows.append(normalized_row)
+        plain_lines.append(
+            f"Row {row_index}: "
+            + " | ".join(
+                f"x={token['x']}: {token['text']}" for token in sorted_tokens
+            )
+        )
+
+    return {
+        "rows": normalized_rows,
+        "unpositioned_tokens": positioned_without_y,
+        "plain_text": "\n".join(plain_lines),
+    }
+
+
+def map_paddle_ocr_table_to_facts(question_text, table_checklist, ocr_payload):
+    """Map OCR row/column evidence to table/grid checklist items with GLM-5.1."""
+    checklist_ids = _checklist_ids(table_checklist)
+    if not checklist_ids:
+        return {}, {}
+    blank_status = (
+        ocr_payload.get("summary", {})
+        .get("blank_authenticity", {})
+        .get("status", "uncertain")
+    )
+    if blank_status == "confirmed_blank":
+        return {item_id: "未书写" for item_id in checklist_ids}, {"rows": [], "plain_text": ""}
+
+    tokens = [
+        {
+            "text": token.get("text", ""),
+            "confidence": token.get("confidence"),
+            "box": token.get("box"),
+        }
+        for token in ocr_payload.get("tokens", [])
+    ]
+    table_view = _tokens_to_table_view(tokens)
+    prompt = f"""
+# Role: OCR table/grid fact mapper
+
+Map OCR evidence to the table/grid-related blind checklist items. Use the
+student's visible handwritten content only. Preserve row/column/cell relations,
+field order, numeric values, bit strings, labels, and cache/tag/index/offset
+grouping when visible.
+
+Do not grade. Do not solve missing values from the question. Do not convert a
+table or field-division drawing into a topology/path relation. If the table
+structure is too unclear, say "表格结构不清晰"; if marks exist but cannot be read,
+say "字迹模糊".
+
+Question context:
+{question_text}
+
+Table/grid-only blind checklist:
+{json.dumps(table_checklist, ensure_ascii=False)}
+
+OCR row view reconstructed from token coordinates:
+{json.dumps(table_view, ensure_ascii=False)}
+
+Raw OCR tokens:
+{json.dumps(tokens, ensure_ascii=False)}
+
+Return one strict JSON object whose keys are exactly:
+{json.dumps(checklist_ids, ensure_ascii=False)}
+"""
+    raw = call_glm5_text([{"role": "user", "content": prompt}], temperature=0.1, timeout=180)
+    mapped = extract_and_parse_json(raw)
+    if not isinstance(mapped, dict):
+        raise ValueError("GLM-5.1 OCR table mapping did not return a JSON object")
+    return {item_id: mapped.get(item_id, "未书写") for item_id in checklist_ids}, table_view
 
 
 def parse_diagram_relations_with_glm4v(
@@ -700,6 +978,7 @@ def stage1_extract_with_backend(
         cached = load_ocr_json(extraction_cache_path)
         if (
             cached
+            and cached.get("schema_version") == CSBENCH_EXTRACTION_SCHEMA_VERSION
             and cached.get("backend") == extraction_backend
             and cached.get("image_sha256") == image_hash
             and isinstance(cached.get("facts"), dict)
@@ -710,13 +989,15 @@ def stage1_extract_with_backend(
         ):
             return json.dumps(cached["facts"], ensure_ascii=False), cached
 
+    table_items = _table_checklist(blind_checklist, rubrics_json)
     diagram_items = _diagram_checklist(blind_checklist, rubrics_json)
     if extraction_backend == "csbench_hybrid" and not (
         bool(answer_metadata.get("isimagine")) or visual_placeholder_detected
     ):
+        table_items = []
         diagram_items = []
     ocr_payload = {}
-    if extraction_backend == "paddle_glm5" or diagram_items:
+    if extraction_backend == "paddle_glm5" or table_items or diagram_items:
         if not ocr_json_path:
             raise ValueError(f"{extraction_backend} requires ocr_json_path")
         ocr_payload = load_ocr_json(ocr_json_path)
@@ -745,6 +1026,16 @@ def stage1_extract_with_backend(
             question_text, blind_checklist, ocr_payload
         )
 
+    table_facts = {}
+    table_view = {}
+    if table_items:
+        table_facts, table_view = map_paddle_ocr_table_to_facts(
+            question_text,
+            table_items,
+            ocr_payload,
+        )
+        facts.update(table_facts)
+
     diagram_facts, observed_execution_path = parse_diagram_relations_with_glm4v(
         question_text,
         student_img_path,
@@ -763,7 +1054,7 @@ def stage1_extract_with_backend(
         }
     facts.update(diagram_facts)
     evidence = {
-        "schema_version": 1,
+        "schema_version": CSBENCH_EXTRACTION_SCHEMA_VERSION,
         "created_at": datetime.now().isoformat(),
         "backend": extraction_backend,
         "image_path": os.path.abspath(student_img_path),
@@ -787,6 +1078,10 @@ def stage1_extract_with_backend(
             for key in ("answer_id", "question_id", "subject", "isimagine")
             if key in answer_metadata
         },
+        "table_parser_used": bool(table_items),
+        "table_facts": table_facts,
+        "table_checklist": table_items,
+        "table_view": table_view,
         "diagram_parser_used": bool(diagram_items),
         "diagram_model": VLM_MODELS["glm4v"] if diagram_items else None,
         "observed_execution_path": observed_execution_path,
@@ -1343,6 +1638,17 @@ def grade_student_3wd_pipeline(
             return _pipeline_failure(
                 "extraction_cache_stale",
                 f"GRADE_ONLY extraction cache hash mismatch: {extraction_cache_path}",
+            )
+        if (
+            extraction_backend in ("paddle_glm5", "csbench_hybrid")
+            and cached.get("schema_version") != CSBENCH_EXTRACTION_SCHEMA_VERSION
+        ):
+            return _pipeline_failure(
+                "extraction_cache_schema_mismatch",
+                (
+                    "GRADE_ONLY extraction cache was produced by an older "
+                    f"extractor schema; rerun extraction/FULL first: {extraction_cache_path}"
+                ),
             )
         student_facts = json.dumps(cached["facts"], ensure_ascii=False)
         extraction_evidence = cached

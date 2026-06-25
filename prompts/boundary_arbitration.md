@@ -11,6 +11,9 @@ unsupported high-score credit relative to the three prior grading records.
 ## Extracted student facts
 {{STUDENT_FACTS}}
 
+## Canonical equivalence context
+{{CANONICAL_CONTEXT}}
+
 ## Three grading records
 {{STRICT_COTS_JSON}}
 
@@ -20,28 +23,35 @@ unsupported high-score credit relative to the three prior grading records.
 # Instructor-Aligned Arbitration Principles
 
 1. Use only the extracted student facts and the rubric.
-2. Prefer keep when evidence is insufficient.
-3. For calculation, derivation, numerical conversion, mapping, and algorithmic
+2. Use canonical equivalence context as deterministic normalization evidence.
+   If an item has `comparison.match=true` but prior grading gave little or no
+   credit, treat it as concrete missed credit unless the extracted facts clearly
+   belong to another item.
+3. For `partial_or_mismatch`, use normalized structural fields such as
+   `student_bits`, `standard_bits`, `student_items`, `standard_items`, and
+   `edge_overlap_ratio` to decide whether a limited raise is justified.
+4. Prefer keep when evidence is insufficient.
+5. For calculation, derivation, numerical conversion, mapping, and algorithmic
    problems, do not require the full standard-solution derivation.
-4. If the final answer is correct or near-correct and the student shows any
+6. If the final answer is correct or near-correct and the student shows any
    relevant formula, variable relation, unit conversion, mapping idea, or
    computation trace, identify missed lenient process credit when prior grading
    was too strict.
-5. Do not lower a high score merely because intermediate arithmetic expansion
+7. Do not lower a high score merely because intermediate arithmetic expansion
    is incomplete.
-6. Lower only when the high score is unsupported: wrong answer, bare answer
+8. Lower only when the high score is unsupported: wrong answer, bare answer
    with no process evidence, unrelated formula, contradiction, or severe
    extraction absence.
-7. A bare correct final answer can receive answer credit, but it should not
+9. A bare correct final answer can receive answer credit, but it should not
    receive full method/process credit.
-8. Generic facts such as "has calculation process" or "written" are not enough
+10. Generic facts such as "has calculation process" or "written" are not enough
    without concrete content.
-9. For chained calculations, distinguish a propagated upstream error from an
+11. For chained calculations, distinguish a propagated upstream error from an
    unrelated fatal error. If the formula/path is valid but a later value is
    wrong only because an earlier value was wrong, use reason_type
    "propagated_error" in missed_credit_items rather than treating every
    downstream item as unrelated.
-10. When known parameters are correct but core formula/result/conclusion credit
+12. When known parameters are correct but core formula/result/conclusion credit
     is unsupported, use reason_type "direct_only", "unsupported_final", or
     "wrong_core_result" in over_credit_items.
 

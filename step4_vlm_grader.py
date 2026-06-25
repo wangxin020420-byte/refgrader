@@ -13,6 +13,7 @@ import io
 import numpy as np
 from ocr.backend import load_json as load_ocr_json
 from ocr.backend import sha256_file
+from canonicalizers import build_canonical_grading_context
 from calibration_utils import (
     a3wa_dynamic_bounds,
     apply_boundary_action_policy,
@@ -1244,13 +1245,21 @@ Rules:
         return validate_extraction_against_question(question_text, json.dumps(facts_dict, ensure_ascii=False))
     return initial_facts_str
 
-def stage2_logic_grading(student_facts_str, rubrics_json_str, temperature=0.35):
+def stage2_logic_grading(student_facts_str, rubrics_json_str, temperature=0.35, canonical_context=None):
     """Stage 2：根据视觉提取事实和细粒度评分准则进行语义判分。"""
+    canonical_context_str = (
+        json.dumps(canonical_context, ensure_ascii=False, indent=2)
+        if canonical_context
+        else "{}"
+    )
     logic_prompt = f"""
 你是严格的计算机类课程阅卷助手。你的任务是依据【学生客观事实】和【细粒度评分准则】逐项给分，不做表面字符串匹配，也不能凭空补全学生没有写出的内容。
 
 【学生客观事实】
 {student_facts_str}
+
+【规范化等价比较】
+{canonical_context_str}
 
 【细粒度评分准则】
 {rubrics_json_str}
@@ -1258,12 +1267,15 @@ def stage2_logic_grading(student_facts_str, rubrics_json_str, temperature=0.35):
 判分规则：
 1. 只能依据学生客观事实判分。若事实标注为“未书写”“字迹模糊”或没有具体内容，不能脑补给分。
 2. 若事实只写“有”“是”“正确”“有计算过程”等非具体内容，判为 INSUFFICIENT_INFO，给 0 分。
-3. 数值题优先比较核心数值；没有显式容差时，相对误差 <= 10% 可判 MATCH。单位可换算后比较。
-4. 格式、单位、空格、箭头、大小写等非实质差异不应重罚；核心值或核心结论正确时可判 FORMAT_MINOR。
-5. 多要素评分项应允许 PARTIAL_MATCH，按已完成要素比例给分，避免全有全无。
-6. 对链式推导题，若学生起点值错误但后续用正确公式一致推导，可将后续过程项判为 PARTIAL_MATCH；若最终结论完全相反或核心方法错误，判 SEMANTIC_FATAL。
-7. 若最终结果正确且能反推必要的上游参数或中间量已被正确使用，可对未单独展开的上游项谨慎判 MATCH，并在 reason 中说明“由下游正确结果回溯确认”。
-8. 若参数识别正确但核心公式、方法和最终结果均错误，不应给大量空洞参数分。
+3. 若【规范化等价比较】中某项 comparison.match=true，应优先判为 MATCH，除非学生客观事实明显说明该项不是学生答案。
+4. 若 comparison.status=partial_or_mismatch，应结合 edge_overlap_ratio、student_items、student_bits、standard_bits 等结构化结果给 PARTIAL_MATCH 或 SEMANTIC_FATAL。
+5. bit_vector 题允许二进制、十六进制、标签集合、紧凑字母串等价表达；sequence 题允许箭头、逗号、空格、大于号等分隔符差异。
+6. 数值题优先比较核心数值；没有显式容差时，相对误差 <= 10% 可判 MATCH。单位可换算后比较。
+7. 格式、单位、空格、箭头、大小写等非实质差异不应重罚；核心值或核心结论正确时可判 FORMAT_MINOR。
+8. 多要素评分项应允许 PARTIAL_MATCH，按已完成要素比例给分，避免全有全无。
+9. 对链式推导题，若学生起点值错误但后续用正确公式一致推导，可将后续过程项判为 PARTIAL_MATCH；若最终结论完全相反或核心方法错误，判 SEMANTIC_FATAL。
+10. 若最终结果正确且能反推必要的上游参数或中间量已被正确使用，可对未单独展开的上游项谨慎判 MATCH，并在 reason 中说明“由下游正确结果回溯确认”。
+11. 若参数识别正确但核心公式、方法和最终结果均错误，不应给大量空洞参数分。
 
 error_category 只能取以下值之一：
 - MATCH：语义匹配，给该项满分。
@@ -1286,6 +1298,7 @@ error_category 只能取以下值之一：
         {
             "STUDENT_FACTS": student_facts_str,
             "RUBRICS_JSON": rubrics_json_str,
+            "CANONICAL_CONTEXT": canonical_context_str,
         },
         logic_prompt,
     )
@@ -1298,6 +1311,78 @@ error_category 只能取以下值之一：
         except Exception:
             time.sleep(3)
     return None
+
+
+def apply_canonical_score_floor(grading_result, canonical_context):
+    """Raise deterministically matched canonical items to their rubric points.
+
+    This is intentionally conservative: it only applies when the canonical
+    comparator returned comparison.match=true. Unknown, blank, partial, and
+    mismatch cases are left untouched.
+    """
+    if not isinstance(grading_result, dict) or not isinstance(canonical_context, dict):
+        return grading_result
+    details = grading_result.get("details")
+    if not isinstance(details, list):
+        return grading_result
+
+    matched = {}
+    for item in canonical_context.get("items", []):
+        if not isinstance(item, dict):
+            continue
+        comparison = item.get("comparison") or {}
+        if comparison.get("match") is True:
+            try:
+                points = float(item.get("points", 0))
+            except Exception:
+                points = 0.0
+            if points > 0:
+                matched[str(item.get("id", ""))] = {
+                    "points": points,
+                    "comparison": comparison,
+                }
+
+    if not matched:
+        return grading_result
+
+    changed = False
+    for detail in details:
+        if not isinstance(detail, dict):
+            continue
+        item_id = str(detail.get("id", ""))
+        if item_id not in matched:
+            continue
+        try:
+            current_score = float(detail.get("score_given", 0))
+        except Exception:
+            current_score = 0.0
+        target_score = matched[item_id]["points"]
+        if current_score + 1e-9 < target_score:
+            detail["score_given"] = target_score
+            detail["error_category"] = "MATCH"
+            detail["dependency_status"] = "satisfied"
+            detail["canonical_override"] = True
+            detail["canonical_comparison"] = matched[item_id]["comparison"]
+            old_reason = str(detail.get("reason", "")).strip()
+            detail["reason"] = (
+                "规范化等价比较确认该项与标准答案等价；"
+                + (old_reason if old_reason else "按确定性规范化结果恢复满分。")
+            )
+            changed = True
+
+    if changed:
+        total = 0.0
+        for detail in details:
+            if not isinstance(detail, dict):
+                continue
+            try:
+                total += float(detail.get("score_given", 0))
+            except Exception:
+                pass
+        grading_result["total_score"] = round(total, 2)
+        grading_result["canonical_score_floor_applied"] = True
+    return grading_result
+
 
 def zero_shot_leniency_agent(student_facts_str, strict_cot_str, rubrics_json_str):
     """宽松复查 Agent：模拟教师宽松阅卷口径，对初审扣分项进行二次审查。"""
@@ -1512,8 +1597,13 @@ def build_risk_profile(
         "risk_features": risk_features,
     }
 
-def boundary_arbitration_agent(student_facts_str, strict_cots, rubrics_json_str, risk_profile):
+def boundary_arbitration_agent(student_facts_str, strict_cots, rubrics_json_str, risk_profile, canonical_context=None):
     """BND 边界样本仲裁：在证据充分时进行有限上调或下调。"""
+    canonical_context_str = (
+        json.dumps(canonical_context, ensure_ascii=False, indent=2)
+        if canonical_context
+        else "{}"
+    )
     arbitration_prompt = f"""
 # Role: 边界样本双向校准仲裁员
 你正在复核一份自动阅卷结果，目标是让分数更接近真实教师评分。
@@ -1523,6 +1613,9 @@ def boundary_arbitration_agent(student_facts_str, strict_cots, rubrics_json_str,
 
 【学生客观作答事实】
 {student_facts_str}
+
+【规范化等价比较】
+{canonical_context_str}
 
 【三次独立评分记录】
 {json.dumps(strict_cots, ensure_ascii=False)}
@@ -1550,6 +1643,7 @@ def boundary_arbitration_agent(student_facts_str, strict_cots, rubrics_json_str,
         {
             "RUBRICS_JSON": rubrics_json_str,
             "STUDENT_FACTS": student_facts_str,
+            "CANONICAL_CONTEXT": canonical_context_str,
             "STRICT_COTS_JSON": json.dumps(strict_cots, ensure_ascii=False),
             "RISK_PROFILE_JSON": json.dumps(risk_profile, ensure_ascii=False),
         },
@@ -1687,15 +1781,22 @@ def grade_student_3wd_pipeline(
             student_facts, q_img_path, rubrics_data_for_extraction
         )
 
+    canonical_context = build_canonical_grading_context(student_facts, rubrics_json)
+
     print("  [Stage 2] independent semantic grading probes...")
     model_scores = []
     strict_cots = []
 
     def _single_logic_probe(idx):
-        res_text = stage2_logic_grading(student_facts, rubrics_json)
+        res_text = stage2_logic_grading(
+            student_facts,
+            rubrics_json,
+            canonical_context=canonical_context,
+        )
         if res_text:
             parsed_json = extract_and_parse_json(res_text)
             if parsed_json and 'total_score' in parsed_json:
+                parsed_json = apply_canonical_score_floor(parsed_json, canonical_context)
                 return (idx, parsed_json['total_score'], parsed_json)
         return (idx, None, None)
 
@@ -1955,7 +2056,13 @@ def grade_student_3wd_pipeline(
             f"P={perception_risk:.2f}, U={uncertainty_index:.2%}, F={fatal_points_ratio:.2%}, H={high_blank_high_score}, L={lenient_review_signal}"
         )
 
-        agent_res_text = boundary_arbitration_agent(student_facts, strict_cots, rubrics_json, risk_profile)
+        agent_res_text = boundary_arbitration_agent(
+            student_facts,
+            strict_cots,
+            rubrics_json,
+            risk_profile,
+            canonical_context=canonical_context,
+        )
         if agent_res_text:
             parsed_agent = extract_and_parse_json(agent_res_text)
             if parsed_agent:
@@ -2041,6 +2148,7 @@ def grade_student_3wd_pipeline(
         "human_review_hint": reason_log if route == "NEG" else "",
         "extraction_backend": extraction_backend,
         "extraction_evidence": extraction_evidence,
+        "canonical_context": canonical_context,
         "answer_metadata": {
             key: (answer_metadata or {}).get(key)
             for key in ("answer_id", "question_id", "subject", "isimagine")

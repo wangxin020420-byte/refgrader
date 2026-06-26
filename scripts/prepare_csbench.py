@@ -261,13 +261,148 @@ def classify_rubric_item(item: dict[str, Any]) -> tuple[str, str]:
     return "text", "transcription"
 
 
+MACHINE_CHECKABLE_TYPES = {
+    "base_number",
+    "bit_vector",
+    "direct_numeric",
+    "derived_numeric",
+    "formula",
+    "sequence",
+    "relation",
+    "diagram_relation",
+    "table_entry",
+    "judgement",
+}
+
+
+def _rubric_text(item: dict[str, Any]) -> str:
+    return " ".join(
+        str(item.get(key, ""))
+        for key in (
+            "description",
+            "standard_answer_text",
+            "answer_type",
+            "evidence_source",
+        )
+    )
+
+
+def _has_binary_or_base_number(text: str) -> bool:
+    return bool(
+        re.search(r"\b[01]{4,}\s*[Bb]?\b", text)
+        or re.search(r"\b[0-9A-Fa-f]{2,}\s*[Hh]\b", text)
+        or re.search(r"\b0x[0-9A-Fa-f]+\b", text)
+    )
+
+
+def _has_numeric_answer(text: str) -> bool:
+    return bool(re.search(r"-?\d+(?:,\d{3})*(?:\.\d+)?", text))
+
+
+def _has_formula_shape(text: str) -> bool:
+    return bool(
+        re.search(r"[A-Za-z\u4e00-\u9fff][A-Za-z0-9_\u4e00-\u9fff]*\s*=", text)
+        or re.search(r"\b(?:log|sin|cos|tan|max|min|sum)\s*\(", text, re.I)
+        or re.search(r"[\+\-\*/\^]=?|[<>]=?", text)
+    )
+
+
+def _infer_role(description: str, standard_text: str, answer_type: str) -> str:
+    text = f"{description} {standard_text}".lower()
+    if any(marker in text for marker in ("formula", "equation", "method", "derive", "calculate")):
+        return "method" if answer_type == "formula" else "intermediate"
+    if any(marker in text for marker in ("parameter", "field", "tag", "index", "offset", "opcode", "address")):
+        return "parameter"
+    if any(marker in description for marker in ("公式", "方法", "推导", "过程", "计算过程")):
+        return "method"
+    if any(marker in description for marker in ("字段", "参数", "地址", "标志位", "操作码", "组号", "块内")):
+        return "parameter"
+    if any(marker in description for marker in ("中间", "步骤", "阶段", "第一次", "第二次")):
+        return "intermediate"
+    if answer_type == "formula":
+        return "method"
+    if answer_type == "direct_numeric":
+        return "parameter"
+    return "final"
+
+
+def classify_rubric_metadata(item: dict[str, Any]) -> dict[str, Any]:
+    """Infer CSBench metadata with the same semantics used by 3WD calibration."""
+    description = str(item.get("description", ""))
+    standard_text = str(item.get("standard_answer_text", ""))
+    item_text = _rubric_text(item)
+    lower = item_text.lower()
+    legacy_type, legacy_evidence = classify_rubric_item(item)
+
+    answer_type = "concept_keyword"
+    evidence_source = "transcription"
+    canonicalization = "semantic_text"
+
+    if legacy_type in {"table", "table_entry"}:
+        answer_type = "table_entry"
+        evidence_source = legacy_evidence
+        canonicalization = "table"
+    elif legacy_type in {"diagram_relation", "relation"}:
+        answer_type = "diagram_relation"
+        evidence_source = legacy_evidence
+        canonicalization = "graph_relation"
+    elif _has_binary_or_base_number(item_text):
+        compact_bits = re.sub(r"\s+", "", item_text)
+        if (
+            len(re.findall(r"[01]", compact_bits)) >= 4
+            and not re.search(r"\b[0-9A-Fa-f]{2,}\s*[Hh]\b", item_text)
+        ):
+            answer_type = "bit_vector"
+            canonicalization = "bit_vector"
+        else:
+            answer_type = "base_number"
+            canonicalization = "base_number"
+    elif re.search(
+        r"(?:->|=>|→|>|<|,)\s*[A-Za-z0-9\u4e00-\u9fff]+"
+        r"(?:\s*(?:->|=>|→|>|<|,)\s*[A-Za-z0-9\u4e00-\u9fff]+)+",
+        item_text,
+    ):
+        answer_type = "sequence"
+        canonicalization = "sequence"
+    elif _has_formula_shape(standard_text) or any(
+        marker in description for marker in ("公式", "表达式", "推导", "计算过程", "方法")
+    ):
+        answer_type = "formula"
+        evidence_source = "formula"
+        canonicalization = "formula"
+    elif _has_numeric_answer(item_text):
+        answer_type = "direct_numeric" if any(
+            marker in description for marker in ("指出", "给出", "读出", "字段", "参数", "地址")
+        ) else "derived_numeric"
+        canonicalization = "numeric"
+    elif any(marker in description for marker in ("判断", "是否", "能否", "命中", "正确", "错误")):
+        answer_type = "judgement"
+    elif any(marker in lower for marker in ("yes", "no", "true", "false", "hit", "miss")):
+        answer_type = "judgement"
+
+    role = _infer_role(description, standard_text, answer_type)
+    hard_enabled = answer_type in MACHINE_CHECKABLE_TYPES
+    confidence = 1.0 if hard_enabled else 0.65
+    if answer_type == "concept_keyword":
+        confidence = 0.5
+
+    return {
+        "answer_type": answer_type,
+        "role": role,
+        "canonicalization": canonicalization,
+        "evidence_source": evidence_source,
+        "metadata_hard_enabled": hard_enabled,
+        "metadata_confidence": confidence,
+    }
+
+
 def convert_rubric(
     question: dict[str, Any],
     dataset_root: Path,
 ) -> list[dict[str, Any]]:
     converted = []
     for index, item in enumerate(question.get("grading_rubric") or [], start=1):
-        answer_type, evidence_source = classify_rubric_item(item)
+        metadata = classify_rubric_metadata(item)
         standard_image = absolute_dataset_path(
             dataset_root, item.get("standard_answer_image")
         )
@@ -276,10 +411,10 @@ def convert_rubric(
                 "id": f"step_{item.get('step_id', index)}",
                 "item": str(item.get("description", "")),
                 "points": float(item.get("score", 0)),
-                "answer_type": answer_type,
-                "role": "final",
-                "canonicalization": answer_type,
-                "evidence_source": evidence_source,
+                "answer_type": metadata["answer_type"],
+                "role": metadata["role"],
+                "canonicalization": metadata["canonicalization"],
+                "evidence_source": metadata["evidence_source"],
                 "standard_answer_text": str(
                     item.get("standard_answer_text", "")
                 ),
@@ -287,8 +422,8 @@ def convert_rubric(
                 "source_text": str(item.get("description", "")),
                 "parent_official_item": str(item.get("description", "")),
                 "metadata_source": "csbench",
-                "metadata_hard_enabled": True,
-                "metadata_confidence": 1.0,
+                "metadata_hard_enabled": metadata["metadata_hard_enabled"],
+                "metadata_confidence": metadata["metadata_confidence"],
             }
         )
     return converted

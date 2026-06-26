@@ -18,7 +18,15 @@ from calibration_utils import (  # noqa: E402
 )
 
 
-SCORES_MAP = {"Q1": 5, "Q2": 20, "Q3": 10, "Q4": 20, "Q5": 15, "Q6": 20, "Q7": 10}
+LEGACY_SCORES_MAP = {
+    "Q1": 5,
+    "Q2": 20,
+    "Q3": 10,
+    "Q4": 20,
+    "Q5": 15,
+    "Q6": 20,
+    "Q7": 10,
+}
 
 
 def load_json(path):
@@ -32,22 +40,57 @@ def write_json(path, data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
+def load_question_scores(database_path):
+    if not database_path:
+        return {}
+    if not os.path.exists(database_path):
+        return {}
+    questions = load_json(database_path)
+    if not isinstance(questions, list):
+        return {}
+    return {
+        str(question.get("question_id")): safe_float(
+            question.get("total_score", question.get("max_score", 0.0)), 0.0
+        )
+        for question in questions
+        if question.get("question_id")
+    }
+
+
 def teacher_score(db, student_id, qid):
-    return db.get(str(student_id).split("_")[0], {}).get(qid)
+    student_id = str(student_id)
+    exact_record = db.get(student_id, {})
+    if isinstance(exact_record, dict) and qid in exact_record:
+        return exact_record.get(qid)
+    legacy_record = db.get(student_id.split("_")[0], {})
+    if isinstance(legacy_record, dict):
+        return legacy_record.get(qid)
+    return None
 
 
 def question_id_from_path(path):
-    return os.path.basename(path).split("_")[0]
+    name = os.path.basename(path)
+    for suffix in (
+        "_grading_checkpoint.json",
+        "_graded_results.json",
+        "_rejected.json",
+        "_failed.json",
+    ):
+        if name.endswith(suffix):
+            return name[: -len(suffix)]
+    if name.endswith(".json"):
+        name = name[:-5]
+    return name
 
 
-def load_records(files, teacher_db):
+def load_records(files, teacher_db, question_scores):
     records = []
     for path in files:
         qid = question_id_from_path(path)
-        max_score = SCORES_MAP.get(qid, 20)
+        max_score = question_scores.get(qid, LEGACY_SCORES_MAP.get(qid, 20))
         for row in load_json(path):
             teacher = teacher_score(teacher_db, row.get("student_id", ""), qid)
-            avg = row.get("model_avg_score")
+            avg = row.get("selected_baseline_score", row.get("model_avg_score"))
             final = row.get("final_calibrated_score")
             if teacher is None or teacher < 0 or avg is None or final is None:
                 continue
@@ -62,6 +105,7 @@ def load_records(files, teacher_db):
                 "student_id": row.get("student_id", ""),
                 "teacher": safe_float(teacher, 0.0),
                 "avg": safe_float(avg, 0.0),
+                "model_avg": safe_float(row.get("model_avg_score", avg), safe_float(avg, 0.0)),
                 "final": safe_float(final, safe_float(avg, 0.0)),
                 "raw_candidate": safe_float(raw_candidate, safe_float(final, safe_float(avg, 0.0))),
                 "max_score": max_score,
@@ -73,6 +117,12 @@ def load_records(files, teacher_db):
                 ),
                 "perception_failure_rate": safe_float(
                     row.get("perception_failure_rate", risk.get("perception_failure_rate", 0.0)), 0.0
+                ),
+                "structure_missing_rate": safe_float(
+                    row.get("structure_missing_rate", risk.get("structure_missing_rate", 0.0)), 0.0
+                ),
+                "extraction_risk": safe_float(
+                    row.get("extraction_risk", risk.get("extraction_risk", 0.0)), 0.0
                 ),
                 "extraction_quality": row.get("extraction_quality", ""),
                 "fatal_points_ratio": safe_float(
@@ -170,6 +220,8 @@ def evaluate_params(records, loss_params, weights, bnd_max):
             low_quality_rate=record["low_quality_rate"],
             perception_failure_rate=record["perception_failure_rate"],
             extraction_quality=record["extraction_quality"],
+            structure_missing_rate=record["structure_missing_rate"],
+            extraction_risk=record["extraction_risk"],
             fatal_points_ratio=record["fatal_points_ratio"],
             high_blank_high_score=record["high_blank_high_score"],
             post_calibration=record["post_calibration"],
@@ -218,13 +270,15 @@ def main():
     parser = argparse.ArgumentParser(description="Calibrate A3WA loss parameters and risk weights.")
     parser.add_argument("--files", nargs="+", required=True)
     parser.add_argument("--teacher-db", default="database/teacher_scores.json")
+    parser.add_argument("--database-path", default="database/exam_database.json")
     parser.add_argument("--output", default="results_rrd_vlm/a3wa_calibration_config.json")
     parser.add_argument("--bnd-max", type=float, default=0.60)
     parser.add_argument("--top-k", type=int, default=8)
     args = parser.parse_args()
 
     teacher_db = load_json(args.teacher_db)
-    records = load_records(args.files, teacher_db)
+    question_scores = load_question_scores(args.database_path)
+    records = load_records(args.files, teacher_db, question_scores)
     if not records:
         raise SystemExit("No valid records found for calibration.")
 
@@ -239,6 +293,8 @@ def main():
     config = {
         "version": 1,
         "source": "scripts/calibrate_a3wa.py",
+        "database_path": args.database_path,
+        "teacher_db": args.teacher_db,
         "selection_objective": "cost_sensitive_validation_calibration",
         "loss_params": best["loss_params"],
         "risk_weights": best["risk_weights"],

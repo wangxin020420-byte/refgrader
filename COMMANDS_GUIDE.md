@@ -158,7 +158,7 @@ python scripts/run_csbench.py grade CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --force
 
 作用：只批改 CO_1 到 CO_7 的全部 test 答案，但在当前终端前台运行。适合短测试或排查错误。
 
-### 3.5 查看状态、日志和评估
+### 3.5 查看状态、日志、进度监控和评估
 
 ```bash
 python scripts/run_csbench.py status
@@ -171,6 +171,12 @@ python scripts/run_csbench.py tail
 ```
 
 作用：实时查看后台批改日志。按 `Ctrl+C` 只会退出日志查看，不会停止后台批改任务。
+
+```bash
+python scripts/run_csbench.py monitor CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7
+```
+
+作用：实时查看 CO_1 到 CO_7 联合实验的结构化进度，包括当前运行状态、各题完成数量、失败数量和耗时。按 `Ctrl+C` 只会退出监控界面，不会停止后台任务。题目集合需要与启动 `run` 或 `grade` 时一致。
 
 ```bash
 python scripts/run_csbench.py evaluate CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --export

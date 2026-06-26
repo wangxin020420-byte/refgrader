@@ -440,6 +440,8 @@ def build_run_command(args: argparse.Namespace, *, background: bool) -> list[str
         command.extend(["--limit", str(args.limit)])
     if args.device != DEFAULT_OCR_DEVICE:
         command.extend(["--device", args.device])
+    if getattr(args, "a3wa_config", None):
+        command.extend(["--a3wa-config", args.a3wa_config])
     if background:
         command.append("--background")
     if args.force:
@@ -552,6 +554,10 @@ def optimize(args: argparse.Namespace) -> int:
         pipeline_args.append("--force-rerun")
 
     env = {"REFGRADER_OCR_DEVICE": args.device}
+    if getattr(args, "a3wa_config", None):
+        env["A3WA_CALIBRATION_CONFIG"] = str(
+            Path(args.a3wa_config).expanduser().resolve()
+        )
     if args.background:
         if os.name == "nt":
             raise RuntimeError("--background is only supported on Linux.")
@@ -635,6 +641,10 @@ def grade(args: argparse.Namespace) -> int:
         pipeline_args.append("--force-rerun")
 
     env = {"REFGRADER_OCR_DEVICE": args.device}
+    if getattr(args, "a3wa_config", None):
+        env["A3WA_CALIBRATION_CONFIG"] = str(
+            Path(args.a3wa_config).expanduser().resolve()
+        )
     if args.background:
         if os.name == "nt":
             raise RuntimeError("--background is only supported on Linux.")
@@ -754,6 +764,7 @@ def run_experiment(args: argparse.Namespace) -> int:
             push_artifacts=args.push_artifacts,
             include_raw_ocr=args.include_raw_ocr,
             include_facts=args.include_facts,
+            a3wa_config=args.a3wa_config,
         )
     )
 
@@ -1303,6 +1314,10 @@ def build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument("--limit", type=int)
     run_parser.add_argument("--device", default=DEFAULT_OCR_DEVICE)
     run_parser.add_argument(
+        "--a3wa-config",
+        help="A3WA calibration config used during the grading stage.",
+    )
+    run_parser.add_argument(
         "--background",
         action="store_true",
         help=(
@@ -1389,6 +1404,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     grade_parser.add_argument("--limit", type=int)
     grade_parser.add_argument("--device", default=DEFAULT_OCR_DEVICE)
+    grade_parser.add_argument(
+        "--a3wa-config",
+        help="A3WA calibration config used during grading.",
+    )
     grade_parser.add_argument("--background", action="store_true")
     grade_parser.add_argument("--force", action="store_true")
     grade_parser.add_argument("--dry-run", action="store_true")

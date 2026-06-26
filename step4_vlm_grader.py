@@ -484,7 +484,7 @@ TOPOLOGY_OR_RELATION_MARKERS = (
     "路径",
 )
 
-CSBENCH_EXTRACTION_SCHEMA_VERSION = 2
+CSBENCH_EXTRACTION_SCHEMA_VERSION = 3
 
 
 def _rubric_item_text(item):
@@ -564,6 +564,37 @@ VISUAL_PLACEHOLDER_PATTERNS = (
 def detect_visual_placeholder(text):
     compact = re.sub(r"\s+", "", str(text or ""))
     return any(re.search(pattern, compact) for pattern in VISUAL_PLACEHOLDER_PATTERNS)
+
+
+def _needs_visual_fallback(transcription, answer_metadata, visual_placeholder_detected):
+    return (
+        bool((answer_metadata or {}).get("isimagine"))
+        or bool((answer_metadata or {}).get("visual_placeholder_detected"))
+        or bool(visual_placeholder_detected)
+        or not str(transcription or "").strip()
+    )
+
+
+def _value_needs_visual_fallback(value):
+    text = str(value or "").strip()
+    return (
+        not text
+        or text in {"未书写", "需要查看图像", "图中未明确显示", "表格结构不清晰"}
+        or is_blank_extraction(text)
+        or is_perception_failure(text)
+    )
+
+
+def _merge_visual_fallback_facts(base_facts, fallback_facts, checklist_ids):
+    merged = dict(base_facts or {})
+    recovered = []
+    for item_id in checklist_ids:
+        current = merged.get(item_id, "")
+        fallback = (fallback_facts or {}).get(item_id, "")
+        if fallback and _value_needs_visual_fallback(current):
+            merged[item_id] = fallback
+            recovered.append(item_id)
+    return merged, recovered
 
 
 def map_transcription_to_facts(
@@ -992,22 +1023,28 @@ def stage1_extract_with_backend(
 
     table_items = _table_checklist(blind_checklist, rubrics_json)
     diagram_items = _diagram_checklist(blind_checklist, rubrics_json)
-    if extraction_backend == "csbench_hybrid" and not (
-        bool(answer_metadata.get("isimagine")) or visual_placeholder_detected
-    ):
+    needs_visual_fallback = _needs_visual_fallback(
+        transcription, answer_metadata, visual_placeholder_detected
+    )
+    if extraction_backend == "csbench_hybrid" and not needs_visual_fallback:
         table_items = []
         diagram_items = []
     ocr_payload = {}
+    ocr_error = None
     if extraction_backend == "paddle_glm5" or table_items or diagram_items:
         if not ocr_json_path:
-            raise ValueError(f"{extraction_backend} requires ocr_json_path")
-        ocr_payload = load_ocr_json(ocr_json_path)
-        if not ocr_payload:
-            raise FileNotFoundError(
-                f"OCR evidence not found or invalid: {ocr_json_path}"
-            )
-        if ocr_payload.get("image", {}).get("sha256") != image_hash:
-            raise ValueError(f"OCR cache image hash mismatch: {ocr_json_path}")
+            ocr_error = f"{extraction_backend} requires ocr_json_path"
+        else:
+            ocr_payload = load_ocr_json(ocr_json_path)
+            if not ocr_payload:
+                ocr_error = f"OCR evidence not found or invalid: {ocr_json_path}"
+            elif ocr_payload.get("image", {}).get("sha256") != image_hash:
+                ocr_error = f"OCR cache image hash mismatch: {ocr_json_path}"
+        if ocr_error and extraction_backend == "paddle_glm5":
+            raise ValueError(ocr_error)
+        if ocr_error:
+            print(f"         [csbench_hybrid OCR fallback] {ocr_error}")
+            ocr_payload = {}
 
     if extraction_backend == "csbench_hybrid":
         if not transcription.strip():
@@ -1029,13 +1066,16 @@ def stage1_extract_with_backend(
 
     table_facts = {}
     table_view = {}
-    if table_items:
+    visual_fallback_reason = []
+    if table_items and ocr_payload:
         table_facts, table_view = map_paddle_ocr_table_to_facts(
             question_text,
             table_items,
             ocr_payload,
         )
         facts.update(table_facts)
+    elif table_items:
+        visual_fallback_reason.append("table_ocr_unavailable")
 
     diagram_facts, observed_execution_path = parse_diagram_relations_with_glm4v(
         question_text,
@@ -1054,6 +1094,25 @@ def stage1_extract_with_backend(
             for item_id, value in diagram_facts.items()
         }
     facts.update(diagram_facts)
+    visual_fallback_facts = {}
+    visual_fallback_recovered = []
+    checklist_ids = _checklist_ids(blind_checklist)
+    if extraction_backend == "csbench_hybrid" and (
+        needs_visual_fallback
+        or visual_fallback_reason
+    ):
+        try:
+            fallback_raw = stage1_blind_extraction(
+                question_text, student_img_path, blind_checklist, q_img_path
+            )
+            parsed_fallback = extract_and_parse_json(fallback_raw)
+            if isinstance(parsed_fallback, dict):
+                visual_fallback_facts = parsed_fallback
+                facts, visual_fallback_recovered = _merge_visual_fallback_facts(
+                    facts, visual_fallback_facts, checklist_ids
+                )
+        except Exception as exc:
+            visual_fallback_reason.append(f"vlm_fallback_failed:{exc}")
     evidence = {
         "schema_version": CSBENCH_EXTRACTION_SCHEMA_VERSION,
         "created_at": datetime.now().isoformat(),
@@ -1074,6 +1133,8 @@ def stage1_extract_with_backend(
             else None
         ),
         "visual_placeholder_detected": visual_placeholder_detected,
+        "visual_fallback_needed": needs_visual_fallback,
+        "ocr_error": ocr_error,
         "answer_metadata": {
             key: answer_metadata.get(key)
             for key in ("answer_id", "question_id", "subject", "isimagine")
@@ -1088,6 +1149,10 @@ def stage1_extract_with_backend(
         "observed_execution_path": observed_execution_path,
         "diagram_facts": diagram_facts,
         "diagram_checklist": diagram_items,
+        "vlm_fallback_used": bool(visual_fallback_facts),
+        "vlm_fallback_recovered": visual_fallback_recovered,
+        "vlm_fallback_reason": visual_fallback_reason,
+        "vlm_fallback_facts": visual_fallback_facts,
         "facts": facts,
     }
     if extraction_cache_path:

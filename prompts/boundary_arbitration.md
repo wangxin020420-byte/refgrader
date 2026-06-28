@@ -54,6 +54,14 @@ unsupported high-score credit relative to the three prior grading records.
 12. When known parameters are correct but core formula/result/conclusion credit
     is unsupported, use reason_type "direct_only", "unsupported_final", or
     "wrong_core_result" in over_credit_items.
+13. Use `score_layer` when deciding whether an adjustment is justified. Core
+    missed/over-credit can drive a raise/lower decision; support evidence can
+    adjust method credit; auxiliary detail should not by itself justify a score
+    decrease unless the prior score awarded that exact auxiliary credit.
+14. If deterministic evidence is not comparable with the rubric metadata, mark
+    the evidence as not comparable in the reason. Do not report over-credit
+    unless there is explicit contradiction, unsupported final credit, bare
+    answer risk, or severe extraction absence.
 
 # Allowed reason_type values
 
@@ -93,6 +101,8 @@ Return pure JSON only:
       "id": "rubric item id",
       "points": 0,
       "evidence": "student evidence",
+      "score_layer": "core | support | auxiliary",
+      "evidence_status": "explicit | derived_from_canonical_context | weak_generic | not_comparable | absent",
       "reason_type": "lenient_process_credit | propagated_error | format_minor | valid_alternative | calculation_trace | process_credit | near_correct_final",
       "reason": "why these points were missed under lenient instructor-style grading"
     }
@@ -102,6 +112,8 @@ Return pure JSON only:
       "id": "rubric item id",
       "points": 0,
       "evidence": "student evidence",
+      "score_layer": "core | support | auxiliary",
+      "evidence_status": "explicit | weak_generic | not_comparable | absent | contradiction",
       "reason_type": "direct_only | unsupported_final | wrong_core_result | unsupported_match | bare_answer | contradiction | severe_extraction_absence",
       "reason": "why these points were unsupported"
     }

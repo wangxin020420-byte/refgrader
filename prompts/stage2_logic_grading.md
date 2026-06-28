@@ -62,9 +62,13 @@ PARTIAL_MATCH, not SEMANTIC_FATAL.
    wrong conclusion, incompatible unit/dimension, or unrelated formula. Do not
    use SEMANTIC_FATAL merely because the student skipped arithmetic details.
 11. MATCH, FORMAT_MINOR, and PARTIAL_MATCH must cite concrete extracted evidence.
-   If no concrete evidence exists, use BLANK or INSUFFICIENT_INFO.
+    If no concrete evidence exists, use BLANK or INSUFFICIENT_INFO.
 12. Generic extraction values such as "yes", "exists", "written", "correct",
     "has annotation", or "has calculation process" are not enough by themselves.
+13. Respect rubric `score_layer` when explaining the judgment:
+    `core` items decide the main answer/result, `support` items justify method
+    or intermediate reasoning, and `auxiliary` items affect only small detail
+    credit. Do not turn an auxiliary issue into a core semantic failure.
 
 # Dependency Rules
 
@@ -102,6 +106,8 @@ Return pure JSON only:
       "score_given": 0,
       "error_category": "MATCH | BLANK | SEMANTIC_FATAL | FORMAT_MINOR | INSUFFICIENT_INFO | PARTIAL_MATCH",
       "evidence_text": "exact extracted fact used for the judgment",
+      "evidence_status": "explicit | derived_from_canonical_context | weak_generic | not_comparable | absent",
+      "score_layer": "core | support | auxiliary",
       "expected_condition": "what the rubric requires",
       "dependency_status": "satisfied | failed | not_applicable | insufficient",
       "reason": "brief reason"
@@ -123,6 +129,10 @@ Return pure JSON only:
   minimum 1 point when applicable.
 - INSUFFICIENT_INFO: extraction is too generic or incomplete to judge; score
   must be 0.
+- not_comparable evidence_status means the extracted fact cannot be checked by
+  the deterministic numeric/structural normalizer. Do not treat it as a
+  confirmed contradiction unless the semantic evidence clearly contradicts the
+  rubric.
 - PARTIAL_MATCH: concrete partial satisfaction, weak but valid process evidence,
   or correct method with propagated upstream error. Score is strictly between 0
   and full item points.

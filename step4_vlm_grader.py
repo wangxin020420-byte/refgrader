@@ -585,16 +585,36 @@ def _value_needs_visual_fallback(value):
     )
 
 
+def _is_concrete_visual_fact(value):
+    text = str(value or "").strip()
+    if not text:
+        return False
+    if text in {
+        "未书写",
+        "需要查看图像",
+        "图中未明确显示",
+        "表格结构不清晰",
+        "图中有标签但未形成可确认的连接关系",
+    }:
+        return False
+    return not is_blank_extraction(text) and not is_perception_failure(text)
+
+
 def _merge_visual_fallback_facts(base_facts, fallback_facts, checklist_ids):
     merged = dict(base_facts or {})
     recovered = []
+    conflicts = []
     for item_id in checklist_ids:
         current = merged.get(item_id, "")
         fallback = (fallback_facts or {}).get(item_id, "")
-        if fallback and _value_needs_visual_fallback(current):
+        if not _is_concrete_visual_fact(fallback):
+            continue
+        if _value_needs_visual_fallback(current):
             merged[item_id] = fallback
             recovered.append(item_id)
-    return merged, recovered
+        elif str(current).strip() != str(fallback).strip():
+            conflicts.append(item_id)
+    return merged, recovered, conflicts
 
 
 def map_transcription_to_facts(
@@ -1067,13 +1087,20 @@ def stage1_extract_with_backend(
     table_facts = {}
     table_view = {}
     visual_fallback_reason = []
+    visual_fallback_conflicts = []
+    checklist_ids = _checklist_ids(blind_checklist)
     if table_items and ocr_payload:
         table_facts, table_view = map_paddle_ocr_table_to_facts(
             question_text,
             table_items,
             ocr_payload,
         )
-        facts.update(table_facts)
+        facts, recovered, conflicts = _merge_visual_fallback_facts(
+            facts, table_facts, checklist_ids
+        )
+        if recovered:
+            visual_fallback_reason.append("table_ocr_recovered")
+        visual_fallback_conflicts.extend(conflicts)
     elif table_items:
         visual_fallback_reason.append("table_ocr_unavailable")
 
@@ -1093,10 +1120,14 @@ def stage1_extract_with_backend(
             )
             for item_id, value in diagram_facts.items()
         }
-    facts.update(diagram_facts)
+    facts, recovered, conflicts = _merge_visual_fallback_facts(
+        facts, diagram_facts, checklist_ids
+    )
+    if recovered:
+        visual_fallback_reason.append("diagram_vlm_recovered")
+    visual_fallback_conflicts.extend(conflicts)
     visual_fallback_facts = {}
     visual_fallback_recovered = []
-    checklist_ids = _checklist_ids(blind_checklist)
     if extraction_backend == "csbench_hybrid" and (
         needs_visual_fallback
         or visual_fallback_reason
@@ -1108,9 +1139,10 @@ def stage1_extract_with_backend(
             parsed_fallback = extract_and_parse_json(fallback_raw)
             if isinstance(parsed_fallback, dict):
                 visual_fallback_facts = parsed_fallback
-                facts, visual_fallback_recovered = _merge_visual_fallback_facts(
+                facts, visual_fallback_recovered, conflicts = _merge_visual_fallback_facts(
                     facts, visual_fallback_facts, checklist_ids
                 )
+                visual_fallback_conflicts.extend(conflicts)
         except Exception as exc:
             visual_fallback_reason.append(f"vlm_fallback_failed:{exc}")
     evidence = {
@@ -1151,6 +1183,7 @@ def stage1_extract_with_backend(
         "diagram_checklist": diagram_items,
         "vlm_fallback_used": bool(visual_fallback_facts),
         "vlm_fallback_recovered": visual_fallback_recovered,
+        "visual_fallback_conflicts": sorted(set(visual_fallback_conflicts)),
         "vlm_fallback_reason": visual_fallback_reason,
         "vlm_fallback_facts": visual_fallback_facts,
         "facts": facts,

@@ -21,8 +21,8 @@ GENERIC_PROCESS_VALUES = {"已书写", "有书写", "有提取标注", "有计�
 
 NUMERIC_TYPES = {"direct_numeric", "derived_numeric", "numeric", "base_number"}
 METHOD_TYPES = {"formula", "method"}
-VISUAL_TYPES = {"sequence", "relation", "table_entry", "diagram_ocr"}
-STRUCTURED_TYPES = {"base_number", "bit_vector", "sequence", "set", "relation", "table_entry", "diagram_ocr"}
+VISUAL_TYPES = {"sequence", "relation", "diagram_relation", "table_entry", "diagram_ocr"}
+STRUCTURED_TYPES = {"base_number", "bit_vector", "sequence", "set", "relation", "diagram_relation", "table_entry", "diagram_ocr"}
 TRUSTED_METADATA_THRESHOLD = 0.80
 A3WA_RISK_WEIGHTS = {
     "extract": 0.40,
@@ -43,6 +43,8 @@ SUPERSCRIPT_MAP = str.maketrans({
     "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4",
     "⁵": "5", "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9",
     "⁻": "-",
+    "₀": "0", "₁": "1", "₂": "2", "₃": "3", "₄": "4",
+    "₅": "5", "₆": "6", "₇": "7", "₈": "8", "₉": "9",
 })
 
 
@@ -118,7 +120,7 @@ def infer_canonicalization(item, meta=None):
         return "sequence"
     if answer_type == "set":
         return "set"
-    if answer_type == "relation":
+    if answer_type in ("relation", "diagram_relation"):
         return "graph_relation"
     if answer_type == "table_entry":
         return "table"
@@ -137,7 +139,7 @@ def infer_evidence_source(item, meta=None):
         return str(item.get("evidence_source"))
     meta = meta or classify_rubric_item(item)
     answer_type = str(meta.get("answer_type", "unknown"))
-    if answer_type in ("relation", "diagram_ocr"):
+    if answer_type in ("relation", "diagram_relation", "diagram_ocr"):
         return "diagram"
     if answer_type == "table_entry":
         return "table"
@@ -146,8 +148,61 @@ def infer_evidence_source(item, meta=None):
     return "text"
 
 
+def infer_score_layer(item, meta=None):
+    """Classify rubric credit into core/support/auxiliary layers for BND arbitration."""
+    if not isinstance(item, dict):
+        return "support"
+    explicit = str(item.get("score_layer", "")).strip().lower()
+    if explicit in {"core", "support", "auxiliary"}:
+        return explicit
+
+    meta = meta or classify_rubric_item(item)
+    answer_type = str(meta.get("answer_type", "unknown"))
+    role = str(meta.get("role", "unknown"))
+    text = _normalized_text(
+        " ".join(
+            str(item.get(key, ""))
+            for key in ("item", "source_text", "parent_official_item", "standard_answer_text")
+        )
+    ).lower()
+
+    auxiliary_markers = (
+        "单位", "格式", "符号", "名称", "标注", "说明", "写出单位",
+        "unit", "format", "notation", "label",
+    )
+    if role == "final" or answer_type in {
+        "judgement",
+        "relation",
+        "diagram_relation",
+        "bit_vector",
+        "base_number",
+    }:
+        return "core"
+    if role in {"method", "intermediate", "parameter"} or answer_type in {
+        "formula",
+        "derived_numeric",
+        "sequence",
+        "table_entry",
+    }:
+        return "support"
+    if any(marker in text for marker in auxiliary_markers):
+        return "auxiliary"
+    return "support"
+
+
 def _normalized_text(text):
-    return str(text or "").replace("−", "-").replace("×", "x").replace("÷", "/")
+    return (
+        str(text or "")
+        .replace("−", "-")
+        .replace("–", "-")
+        .replace("—", "-")
+        .replace("×", "x")
+        .replace("＊", "*")
+        .replace("·", "*")
+        .replace("÷", "/")
+        .replace("／", "/")
+        .replace("µ", "μ")
+    )
 
 
 def _canonical_unit(unit):
@@ -156,7 +211,8 @@ def _canonical_unit(unit):
     lower = raw.lower()
     aliases = {
         "秒": "s", "sec": "s", "second": "s", "seconds": "s",
-        "毫秒": "ms", "微秒": "us", "μs": "us", "us": "us", "纳秒": "ns",
+        "毫秒": "ms", "微秒": "us", "μs": "us", "us": "us",
+        "microsecond": "us", "microseconds": "us", "纳秒": "ns",
         "hz": "hz", "khz": "khz", "mhz": "mhz", "ghz": "ghz",
         "位": "bit", "bit": "bit", "bits": "bit", "b": "bit",
         "字节": "byte", "byte": "byte", "bytes": "byte",
@@ -229,9 +285,29 @@ def extract_numeric_candidates(text, target_unit=None):
     candidates = []
     unit_pat = _unit_pattern()
 
-    # Scientific notation variants: 4x10^9, 4x10⁹, 10⁵.
+    # Scientific notation variants: 4x10^9, 4×10⁹, 10⁵, 5/3×10⁻⁵.
     sci_text = raw.translate(SUPERSCRIPT_MAP)
-    for match in re.finditer(rf"(-?\d+(?:\.\d+)?)\s*x\s*10\s*\^?\s*(-?\d+)\s*{unit_pat}?", sci_text, re.I):
+    for match in re.finditer(
+        rf"(-?\d+(?:\.\d+)?)\s*/\s*(-?\d+(?:\.\d+)?)\s*[x\*]?\s*10\s*\^?\s*(-?\d+)\s*{unit_pat}?",
+        sci_text,
+        re.I,
+    ):
+        numerator = safe_float(match.group(1), None)
+        denominator = safe_float(match.group(2), None)
+        exp = safe_float(match.group(3), None)
+        if (
+            numerator is not None
+            and denominator not in (None, 0)
+            and exp is not None
+            and abs(exp) <= 32
+        ):
+            value = numerator / denominator * (10 ** int(exp))
+            unit = match.group(4) if len(match.groups()) >= 4 else ""
+            converted = _convert_unit(value, unit, target_unit) if unit and target_unit else value
+            if converted is not None:
+                candidates.append(converted)
+
+    for match in re.finditer(rf"(-?\d+(?:\.\d+)?)\s*[x\*]\s*10\s*\^?\s*(-?\d+)\s*{unit_pat}?", sci_text, re.I):
         base = safe_float(match.group(1), None)
         exp = safe_float(match.group(2), None)
         if base is not None and exp is not None and abs(exp) <= 32:
@@ -251,6 +327,16 @@ def extract_numeric_candidates(text, target_unit=None):
             if converted is not None:
                 candidates.append(converted)
 
+    for match in re.finditer(rf"(-?\d+(?:\.\d+)?)\s*[eE]\s*([+-]?\d+)\s*{unit_pat}?", sci_text, re.I):
+        base = safe_float(match.group(1), None)
+        exp = safe_float(match.group(2), None)
+        if base is not None and exp is not None and abs(exp) <= 32:
+            value = base * (10 ** int(exp))
+            unit = match.group(3) if len(match.groups()) >= 3 else ""
+            converted = _convert_unit(value, unit, target_unit) if unit and target_unit else value
+            if converted is not None:
+                candidates.append(converted)
+
     # Power notation commonly used in CS answers, e.g. 2^9.
     for match in re.finditer(r"(-?\d+(?:\.\d+)?)\s*\^\s*(-?\d+)", sci_text):
         base = safe_float(match.group(1), None)
@@ -258,8 +344,23 @@ def extract_numeric_candidates(text, target_unit=None):
         if base is not None and exp is not None and abs(exp) <= 16:
             candidates.append(base ** int(exp))
 
+    plain_text = re.sub(
+        rf"-?\d+(?:\.\d+)?\s*/\s*-?\d+(?:\.\d+)?\s*[x\*]?\s*10\s*\^?\s*-?\d+\s*{unit_pat}?",
+        " ",
+        sci_text,
+        flags=re.I,
+    )
+    plain_text = re.sub(
+        rf"-?\d+(?:\.\d+)?\s*[x\*]\s*10\s*\^?\s*-?\d+\s*{unit_pat}?",
+        " ",
+        plain_text,
+        flags=re.I,
+    )
+    plain_text = re.sub(rf"\b10\s*\^?\s*-?\d+\s*{unit_pat}?", " ", plain_text, flags=re.I)
+    plain_text = re.sub(rf"-?\d+(?:\.\d+)?\s*[eE]\s*[+-]?\d+\s*{unit_pat}?", " ", plain_text, flags=re.I)
+
     # Plain numbers, with Chinese large-number suffixes handled locally.
-    for match in re.finditer(rf"(-?\d+(?:,\d{{3}})*(?:\.\d+)?|-?\d+(?:\.\d+)?)(万|亿)?\s*{unit_pat}?", raw, re.I):
+    for match in re.finditer(rf"(-?\d+(?:,\d{{3}})*(?:\.\d+)?|-?\d+(?:\.\d+)?)(万|亿)?\s*{unit_pat}?", plain_text, re.I):
         value = _convert_number_token(match.group(1), match.group(2) or "")
         if value is not None:
             unit_group_index = 3
@@ -278,13 +379,29 @@ def extract_numeric_candidates(text, target_unit=None):
 def infer_expected_number(rubric_item):
     if isinstance(rubric_item, dict) and rubric_item.get("expected") is not None:
         return safe_float(rubric_item.get("expected"), None)
-    text = rubric_item.get("item", "") if isinstance(rubric_item, dict) else str(rubric_item)
-    raw = _normalized_text(text)
-    matches = list(re.finditer(r"(-?\d+(?:,\d{3})*(?:\.\d+)?|-?\d+(?:\.\d+)?)(万|亿)?", raw))
-    if not matches:
-        return None
-    last = matches[-1]
-    return _convert_number_token(last.group(1), last.group(2) or "")
+    if isinstance(rubric_item, dict):
+        text_candidates = [
+            rubric_item.get("standard_answer_text", ""),
+            rubric_item.get("item", ""),
+            rubric_item.get("source_text", ""),
+            rubric_item.get("parent_official_item", ""),
+        ]
+    else:
+        text_candidates = [str(rubric_item)]
+
+    for text in text_candidates:
+        raw = _normalized_text(text)
+        if not raw.strip():
+            continue
+        if re.search(r"(?:[x\*]\s*10|10\s*\^|[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]|\d\s*[eE]\s*[+-]?\d)", str(text)):
+            candidates = extract_numeric_candidates(raw, target_unit=infer_unit(raw))
+            if candidates:
+                return candidates[0]
+        matches = list(re.finditer(r"(-?\d+(?:,\d{3})*(?:\.\d+)?|-?\d+(?:\.\d+)?)(万|亿)?", raw))
+        if matches:
+            last = matches[-1]
+            return _convert_number_token(last.group(1), last.group(2) or "")
+    return None
 
 
 def prepare_rubrics_for_calibration(rubrics_data):
@@ -305,7 +422,7 @@ def prepare_rubrics_for_calibration(rubrics_data):
             for key in (
                 "answer_type", "role", "expected", "unit", "formula",
                 "expected_formula", "depends_on", "canonicalization",
-                "evidence_source", "dependency_group",
+                "evidence_source", "dependency_group", "score_layer",
             )
         )
         meta = classify_rubric_item(item)
@@ -313,6 +430,7 @@ def prepare_rubrics_for_calibration(rubrics_data):
         item.setdefault("role", meta["role"])
         item.setdefault("canonicalization", infer_canonicalization(item, meta))
         item.setdefault("evidence_source", infer_evidence_source(item, meta))
+        item.setdefault("score_layer", infer_score_layer(item, meta))
         item.setdefault("source_text", item.get("item", ""))
         item.setdefault("parent_official_item", item.get("parent_id", ""))
 
@@ -391,7 +509,7 @@ def classify_rubric_item(item):
         role = "method"
     elif answer_type in ("base_number", "bit_vector", "sequence"):
         role = "final"
-    elif answer_type == "relation":
+    elif answer_type in ("relation", "diagram_relation"):
         role = "intermediate"
     elif any(word in text for word in ("最终", "总", "最多", "结果", "结论", "容量", "时间")):
         role = "final"
@@ -755,7 +873,7 @@ def _numeric_value_matches(fact_value, expected, tolerance=0.10, target_unit=Non
         return None
     candidates = extract_numeric_candidates(fact_value, target_unit=target_unit)
     if not candidates:
-        return False
+        return None
     denom = max(abs(expected), 1e-9)
     return any(abs(candidate - expected) / denom <= tolerance for candidate in candidates)
 
@@ -938,6 +1056,12 @@ def build_post_grading_calibration(
     rule_hits = []
     metadata_items = 0
     explicit_chain_items = 0
+    layer_points = Counter()
+    layer_supported_points = Counter()
+    layer_strong_points = Counter()
+    layer_partial_points = Counter()
+    layer_unsupported_points = Counter()
+    layer_confirmed_unsupported_points = Counter()
 
     for item in rubrics_data:
         item_id = str(item.get("id", ""))
@@ -945,9 +1069,19 @@ def build_post_grading_calibration(
         meta = classify_rubric_item(item)
         answer_type = meta["answer_type"]
         role = meta["role"]
+        score_layer = infer_score_layer(item, meta)
         fact_value = facts_dict.get(item_id, "")
         details = details_by_item.get(item_id, [])
         majority_category = _majority_category(details)
+        layer_points[score_layer] += points
+        if majority_category in ("MATCH", "FORMAT_MINOR", "PARTIAL_MATCH"):
+            layer_supported_points[score_layer] += points
+        if majority_category in ("MATCH", "FORMAT_MINOR"):
+            layer_strong_points[score_layer] += points
+        if majority_category == "PARTIAL_MATCH":
+            layer_partial_points[score_layer] += points
+        if majority_category in ("SEMANTIC_FATAL", "BLANK", "INSUFFICIENT_INFO"):
+            layer_unsupported_points[score_layer] += points
         has_structured_metadata = (
             safe_float(item.get("metadata_confidence", 0.0), 0.0) >= TRUSTED_METADATA_THRESHOLD
         )
@@ -987,6 +1121,7 @@ def build_post_grading_calibration(
             "points": points,
             "role": role,
             "answer_type": answer_type,
+            "score_layer": score_layer,
             "majority_category": majority_category,
         })
         if majority_category in ("PARTIAL_MATCH", "FORMAT_MINOR"):
@@ -997,11 +1132,15 @@ def build_post_grading_calibration(
 
         if answer_type in NUMERIC_TYPES and hard_metadata_enabled:
             expected = infer_expected_number(item)
-            numeric_match = _numeric_value_matches(fact_value, expected, target_unit=item.get("unit"))
+            target_unit = item.get("unit") or infer_unit(
+                item.get("standard_answer_text") or item.get("item", "")
+            )
+            numeric_match = _numeric_value_matches(fact_value, expected, target_unit=target_unit)
             if numeric_match is True and role in ("method", "intermediate", "final"):
                 verified_method_final_points += points
             if majority_category == "MATCH" and numeric_match is False and role in ("method", "intermediate", "final"):
                 unsupported_match_points += points
+                layer_confirmed_unsupported_points[score_layer] += points
 
         elif answer_type in METHOD_TYPES and hard_metadata_enabled:
             formula_supported = _formula_is_supported(fact_value, item)
@@ -1009,6 +1148,7 @@ def build_post_grading_calibration(
                 verified_method_final_points += points
             if majority_category == "MATCH" and not formula_supported:
                 unsupported_match_points += points
+                layer_confirmed_unsupported_points[score_layer] += points
 
     result_any_strong = result_strong_points > 0
     for summary in item_judgement_summaries:
@@ -1024,6 +1164,38 @@ def build_post_grading_calibration(
         fatal_points += summary["points"]
 
     unsupported_ratio = unsupported_match_points / max_score
+    core_points = layer_points["core"]
+    support_points = layer_points["support"]
+    auxiliary_points = layer_points["auxiliary"]
+    core_support_signal = (
+        (layer_strong_points["core"] + 0.5 * layer_partial_points["core"])
+        / max(core_points, 1e-9)
+        if core_points > 0 else 0.0
+    )
+    support_signal = (
+        (layer_strong_points["support"] + 0.5 * layer_partial_points["support"])
+        / max(support_points, 1e-9)
+        if support_points > 0 else 0.0
+    )
+    auxiliary_signal = (
+        (layer_strong_points["auxiliary"] + 0.5 * layer_partial_points["auxiliary"])
+        / max(auxiliary_points, 1e-9)
+        if auxiliary_points > 0 else 0.0
+    )
+    core_unsupported_ratio = layer_unsupported_points["core"] / max(core_points, 1e-9) if core_points > 0 else 0.0
+    support_unsupported_ratio = layer_unsupported_points["support"] / max(support_points, 1e-9) if support_points > 0 else 0.0
+    auxiliary_unsupported_ratio = (
+        layer_unsupported_points["auxiliary"] / max(auxiliary_points, 1e-9)
+        if auxiliary_points > 0 else 0.0
+    )
+    core_contradiction_ratio = (
+        layer_confirmed_unsupported_points["core"] / max(core_points, 1e-9)
+        if core_points > 0 else 0.0
+    )
+    support_contradiction_ratio = (
+        layer_confirmed_unsupported_points["support"] / max(support_points, 1e-9)
+        if support_points > 0 else 0.0
+    )
     method_final_ratio = verified_method_final_points / max(method_final_points, 1e-9)
     direct_points_ratio = direct_points / max_score
     direct_awarded_ratio = direct_awarded_points / max(direct_points, 1e-9)
@@ -1050,11 +1222,25 @@ def build_post_grading_calibration(
         and direct_awarded_ratio >= 0.50
         and method_final_ratio <= 0.15
         and avg_model_score >= max_score * 0.25
+        and core_support_signal < 0.65
     )
+    confirmed_core_over_score = (
+        core_contradiction_ratio >= 0.25
+        or (core_unsupported_ratio >= 0.50 and core_support_signal < 0.50)
+        or core_anchor_failed
+    )
+    evidence_supported_answer = (
+        core_support_signal >= 0.70
+        and result_strong_signal >= 0.65
+        and method_evidence_signal >= 0.60
+    )
+    effective_unsupported_ratio = unsupported_ratio
+    if evidence_supported_answer and core_contradiction_ratio < 0.15:
+        effective_unsupported_ratio = min(effective_unsupported_ratio, support_contradiction_ratio)
     unsupported_high_score_risk = clamp01(
         avg_ratio
         * max(
-            unsupported_ratio,
+            effective_unsupported_ratio,
             bare_answer_risk if avg_ratio >= 0.70 else 0.0,
             fatal_ratio if avg_ratio >= 0.80 else 0.0,
             1.0 if core_anchor_failed else 0.0,
@@ -1095,6 +1281,8 @@ def build_post_grading_calibration(
 
     visual_blank_review = bool(visual_items) and blank_rate >= 0.40
     if unsupported_ratio >= 0.15:
+        rule_hits.append("unsupported_match_review")
+    if effective_unsupported_ratio >= 0.15 and not evidence_supported_answer:
         rule_hits.append("unsupported_match_guard")
     if core_anchor_failed:
         rule_hits.append("core_anchor_guard")
@@ -1117,9 +1305,9 @@ def build_post_grading_calibration(
 
     lower_bound = 0.0
     upper_bound = max_score
-    if unsupported_ratio >= 0.15:
+    if effective_unsupported_ratio >= 0.15 and not evidence_supported_answer:
         upper_bound = min(upper_bound, avg_model_score)
-    if unsupported_ratio >= 0.25:
+    if effective_unsupported_ratio >= 0.25 and not evidence_supported_answer:
         upper_bound = min(upper_bound, max(avg_model_score * 0.85, max_score * 0.25))
     if core_anchor_failed:
         parameter_cap = direct_points * 0.30
@@ -1128,6 +1316,8 @@ def build_post_grading_calibration(
 
     boundary_domain = (
         unsupported_ratio >= 0.15
+        or effective_unsupported_ratio >= 0.15
+        or confirmed_core_over_score
         or core_anchor_failed
         or lenient_undercredit_signal >= 0.08
         or unsupported_high_score_risk >= 0.25
@@ -1160,6 +1350,7 @@ def build_post_grading_calibration(
     return {
         "unsupported_match_points": round(unsupported_match_points, 4),
         "unsupported_match_points_ratio": round(unsupported_ratio, 4),
+        "effective_unsupported_match_points_ratio": round(effective_unsupported_ratio, 4),
         "method_final_points": round(method_final_points, 4),
         "verified_method_final_points": round(verified_method_final_points, 4),
         "method_final_verified_ratio": round(method_final_ratio, 4),
@@ -1172,6 +1363,24 @@ def build_post_grading_calibration(
         "bare_answer_risk": round(bare_answer_risk, 4),
         "lenient_undercredit_signal": round(lenient_undercredit_signal, 4),
         "unsupported_high_score_risk": round(unsupported_high_score_risk, 4),
+        "core_support_signal": round(core_support_signal, 4),
+        "support_signal": round(support_signal, 4),
+        "auxiliary_signal": round(auxiliary_signal, 4),
+        "core_unsupported_ratio": round(core_unsupported_ratio, 4),
+        "support_unsupported_ratio": round(support_unsupported_ratio, 4),
+        "auxiliary_unsupported_ratio": round(auxiliary_unsupported_ratio, 4),
+        "core_contradiction_ratio": round(core_contradiction_ratio, 4),
+        "support_contradiction_ratio": round(support_contradiction_ratio, 4),
+        "confirmed_core_over_score": confirmed_core_over_score,
+        "evidence_supported_answer": evidence_supported_answer,
+        "layer_points": {key: round(layer_points[key], 4) for key in ("core", "support", "auxiliary")},
+        "layer_supported_points": {
+            key: round(layer_supported_points[key], 4) for key in ("core", "support", "auxiliary")
+        },
+        "layer_confirmed_unsupported_points": {
+            key: round(layer_confirmed_unsupported_points[key], 4)
+            for key in ("core", "support", "auxiliary")
+        },
         "metadata_coverage": round(metadata_coverage, 4),
         "explicit_chain_coverage": round(explicit_chain_coverage, 4),
         "task_type": task_profile["task_type"],
@@ -1781,7 +1990,12 @@ def build_boundary_direction_signals(
         spread_ratio = clamp01(safe_float(a3wa_decision.get("score_spread", 0.0), 0.0) / max_score)
     partial_ratio = clamp01(risk_value("partial_match_points_ratio", 0.0))
     format_ratio = clamp01(risk_value("format_minor_points_ratio", 0.0))
-    unsupported_ratio = clamp01(post_calibration.get("unsupported_match_points_ratio", 0.0))
+    raw_unsupported_ratio = clamp01(post_calibration.get("unsupported_match_points_ratio", 0.0))
+    unsupported_ratio = clamp01(
+        post_calibration.get("effective_unsupported_match_points_ratio", raw_unsupported_ratio)
+    )
+    core_support_signal = clamp01(post_calibration.get("core_support_signal", 0.0))
+    core_contradiction_ratio = clamp01(post_calibration.get("core_contradiction_ratio", 0.0))
     lenient_undercredit = clamp01(post_calibration.get("lenient_undercredit_signal", risk_value("lenient_undercredit_signal", 0.0)))
     unsupported_high_score = clamp01(post_calibration.get("unsupported_high_score_risk", risk_value("unsupported_high_score_risk", 0.0)))
     result_correctness = clamp01(post_calibration.get("result_correctness_signal", risk_value("result_correctness_signal", 0.0)))
@@ -1840,7 +2054,7 @@ def build_boundary_direction_signals(
         over_reasons.append("high_blank_high_score")
     if fatal_ratio >= 0.70 and avg_ratio >= 0.75 and unsupported_high_score >= 0.20:
         over_reasons.append("fatal_points_high")
-    if unsupported_ratio >= 0.15:
+    if unsupported_ratio >= 0.15 and (core_support_signal < 0.70 or core_contradiction_ratio >= 0.15):
         over_reasons.append("unsupported_match")
     if bool(post_calibration.get("core_anchor_failed", False)):
         over_reasons.append("core_anchor_failed")
@@ -1858,7 +2072,7 @@ def build_boundary_direction_signals(
         strong_over_reasons.append("high_blank_high_score")
     if fatal_ratio >= 0.80 and unsupported_high_score >= 0.30:
         strong_over_reasons.append("fatal_points_very_high")
-    if unsupported_ratio >= 0.25:
+    if unsupported_ratio >= 0.25 and (core_support_signal < 0.70 or core_contradiction_ratio >= 0.15):
         strong_over_reasons.append("unsupported_match_high")
     if bool(post_calibration.get("core_anchor_failed", False)):
         strong_over_reasons.append("core_anchor_failed")
@@ -1905,7 +2119,10 @@ def build_boundary_direction_signals(
         "spread_ratio": round(spread_ratio, 6),
         "partial_match_points_ratio": round(partial_ratio, 6),
         "format_minor_points_ratio": round(format_ratio, 6),
-        "unsupported_match_points_ratio": round(unsupported_ratio, 6),
+        "unsupported_match_points_ratio": round(raw_unsupported_ratio, 6),
+        "effective_unsupported_match_points_ratio": round(unsupported_ratio, 6),
+        "core_support_signal": round(core_support_signal, 6),
+        "core_contradiction_ratio": round(core_contradiction_ratio, 6),
         "lenient_undercredit_signal": round(lenient_undercredit, 6),
         "unsupported_high_score_risk": round(unsupported_high_score, 6),
         "result_correctness_signal": round(result_correctness, 6),
@@ -2040,7 +2257,7 @@ def summarize_boundary_agent_evidence(agent_evidence, max_score):
             "over_reason_types": [],
         }
 
-    def collect(items, allowed_types):
+    def collect(items, allowed_types, lower=False):
         total = 0.0
         allowed_total = 0.0
         count = 0
@@ -2055,11 +2272,23 @@ def summarize_boundary_agent_evidence(agent_evidence, max_score):
                 continue
             evidence = str(item.get("evidence", "")).strip()
             reason_type = str(item.get("reason_type", "")).strip().lower()
+            score_layer = str(item.get("score_layer", "")).strip().lower()
+            evidence_status = str(item.get("evidence_status", "")).strip().lower()
             count += 1
             total += points
             if reason_type:
                 reason_types.append(reason_type)
-            if evidence and reason_type in allowed_types:
+            if not evidence or reason_type not in allowed_types:
+                continue
+            if evidence_status == "not_comparable" and lower:
+                continue
+            if score_layer == "auxiliary" and lower and reason_type not in {"contradiction", "severe_extraction_absence"}:
+                continue
+            if score_layer == "auxiliary":
+                points *= 0.5
+            if score_layer == "support" and lower:
+                points *= 0.75
+            if points > 0:
                 allowed_total += points
         return total, allowed_total, count, sorted(set(reason_types))
 
@@ -2070,6 +2299,7 @@ def summarize_boundary_agent_evidence(agent_evidence, max_score):
     over_points, allowed_over, over_count, over_types = collect(
         agent_evidence.get("over_credit_items"),
         BOUNDARY_LOWER_REASON_TYPES,
+        lower=True,
     )
     return {
         "has_agent_evidence": True,
@@ -2154,6 +2384,19 @@ def apply_boundary_action_policy(
     raise_evidence_score = clamp01(signals.get("raise_evidence_score", 0.0))
     lower_evidence_score = clamp01(signals.get("lower_evidence_score", 0.0))
     raise_has_agent_evidence = agent_summary["allowed_missed_points"] > 0
+    lower_has_agent_evidence = agent_summary["allowed_over_points"] > 0
+    agent_raise_ratio = clamp01(agent_summary["allowed_missed_points"] / max_score)
+    agent_over_ratio = clamp01(agent_summary["allowed_over_points"] / max_score)
+    core_support_signal = clamp01(post_calibration.get("core_support_signal", result_strong))
+    core_unsupported_ratio = clamp01(post_calibration.get("core_unsupported_ratio", 0.0))
+    core_contradiction_ratio = clamp01(
+        post_calibration.get("core_contradiction_ratio", core_unsupported_ratio)
+    )
+    confirmed_core_over_score = bool(post_calibration.get("confirmed_core_over_score", False)) or (
+        core_contradiction_ratio >= 0.25
+        and core_support_signal < 0.65
+    )
+    lower_direction_permission = lower_has_agent_evidence or confirmed_core_over_score or direct_only_high_score
     minor_margin = max(0.03 * max_score, 0.3)
     small_margin = max(0.07 * max_score, 0.7)
     large_margin = max(0.15 * max_score, 1.5)
@@ -2260,9 +2503,18 @@ def apply_boundary_action_policy(
     elif high_band_non_agent_raise_guard or very_high_band_raise_guard:
         non_agent_raise_allowed = False
     raise_direction_permission = raise_has_agent_evidence or non_agent_raise_allowed
+    agent_supported_raise = (
+        raise_has_agent_evidence
+        and agent_raise_ratio >= 0.03
+        and lower_evidence_score < 0.45
+        and unsupported_high_score < 0.25
+        and bare_answer_risk < 0.45
+        and not direct_only_high_score
+    )
     under_direction_ready = (
         lenient_raise_ready
         or result_anchored_raise
+        or agent_supported_raise
         or (
             signals.get("under_score_risk", False)
             and raise_evidence_score >= 0.55
@@ -2277,6 +2529,7 @@ def apply_boundary_action_policy(
     )
     over_direction_ready = (
         lower_evidence_score >= 0.45
+        or (lower_has_agent_evidence and agent_over_ratio >= 0.03)
         or unsupported_high_score >= 0.10
         or bare_answer_risk >= 0.30
         or direct_only_high_score
@@ -2285,6 +2538,7 @@ def apply_boundary_action_policy(
     )
     strong_over_direction = (
         lower_evidence_score >= 0.65
+        or (lower_has_agent_evidence and agent_over_ratio >= 0.10)
         or unsupported_high_score >= 0.25
         or direct_only_high_score
         or signals.get("weak_result_high_score_review", False)
@@ -2294,7 +2548,8 @@ def apply_boundary_action_policy(
     short_answer_no_evidence_lower_guard = (
         max_score <= 10.0
         and final_answer_weight_high
-        and agent_summary["allowed_over_points"] <= 0
+        and not lower_has_agent_evidence
+        and not confirmed_core_over_score
         and unsupported_high_score < 0.25
         and bare_answer_risk < 0.35
     )
@@ -2304,32 +2559,41 @@ def apply_boundary_action_policy(
         and result_strong >= 0.70
         and method_evidence >= 0.75
         and result_correctness >= 0.70
+        and core_support_signal >= 0.70
         and bare_answer_risk < 0.20
         and avg_ratio <= 0.85
         and not direct_only_high_score
+        and not lower_has_agent_evidence
+        and not confirmed_core_over_score
     )
 
     if abs(delta) <= minor_margin:
         strong_positive_evidence = (
             result_strong >= 0.65
             and method_evidence >= 0.70
+            and core_support_signal >= 0.65
             and lower_evidence_score < 0.45
             and unsupported_high_score < 0.20
             and bare_answer_risk < 0.25
             and not direct_only_high_score
+            and not lower_has_agent_evidence
+            and not confirmed_core_over_score
             and not signals.get("weak_result_high_score_review", False)
         )
         if (
             over_direction_ready
+            and lower_direction_permission
             and avg_ratio >= 0.55
             and not strong_positive_evidence
             and not short_answer_no_evidence_lower_guard
             and not short_answer_positive_evidence_lower_guard
-            and (strong_over_direction or (agent_summary["allowed_over_points"] > 0 and not under_direction_ready))
+            and (strong_over_direction or (lower_has_agent_evidence and not under_direction_ready))
         ):
             lower_margin = small_margin
             if strong_over_direction:
                 lower_margin = large_margin
+            if lower_has_agent_evidence:
+                lower_margin = min(lower_margin, agent_summary["allowed_over_points"])
             history_target = score_history_median if score_history_median < baseline else baseline - lower_margin
             final_score = max(0.0, min(baseline - min(lower_margin, max(0.05 * max_score, 0.5)), history_target))
             accepted = final_score < baseline
@@ -2355,14 +2619,17 @@ def apply_boundary_action_policy(
             action = "keep_minor_change"
             gate_reason = "minor_candidate_delta"
     elif delta < 0:
-        has_over_item = agent_summary["allowed_over_points"] > 0 or over_direction_ready
+        has_over_item = lower_direction_permission
         strong_positive_evidence = (
             result_strong >= 0.65
             and method_evidence >= 0.70
+            and core_support_signal >= 0.65
             and lower_evidence_score < 0.45
             and unsupported_high_score < 0.20
             and bare_answer_risk < 0.25
             and not direct_only_high_score
+            and not lower_has_agent_evidence
+            and not confirmed_core_over_score
             and not signals.get("weak_result_high_score_review", False)
         )
         strong_lower = (
@@ -2382,6 +2649,7 @@ def apply_boundary_action_policy(
             and (strong_over_direction or not under_direction_ready)
             and (
                 unsupported_high_score >= 0.10
+                or agent_over_ratio >= 0.03
                 or direct_only_high_score
                 or signals.get("weak_result_high_score_review", False)
                 or high_score_safety
@@ -2473,14 +2741,26 @@ def calibrated_bounds(avg_model_score, max_score, risk_profile, post_calibration
         high_blank_high_score
         or fatal_points_ratio >= 0.30
         or perception_risk >= 0.33
-        or safe_float(post_calibration.get("unsupported_match_points_ratio", 0.0), 0.0) >= 0.15
+        or safe_float(
+            post_calibration.get(
+                "effective_unsupported_match_points_ratio",
+                post_calibration.get("unsupported_match_points_ratio", 0.0),
+            ),
+            0.0,
+        ) >= 0.15
         or bool(post_calibration.get("core_anchor_failed", False))
     )
     strong_over_score_signal = (
         high_blank_high_score
         or fatal_points_ratio >= 0.50
         or perception_risk >= 0.66
-        or safe_float(post_calibration.get("unsupported_match_points_ratio", 0.0), 0.0) >= 0.25
+        or safe_float(
+            post_calibration.get(
+                "effective_unsupported_match_points_ratio",
+                post_calibration.get("unsupported_match_points_ratio", 0.0),
+            ),
+            0.0,
+        ) >= 0.25
         or bool(post_calibration.get("core_anchor_failed", False))
     )
 

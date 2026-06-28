@@ -519,3 +519,125 @@ git -C C:\Users\wx\Desktop\refgrader-artifacts pull origin main
 
 作用：将服务器已发布的实验产物拉取到本地，供 VS Code 和 Codex 分析。
 
+
+## 13. 本地评估从 refgrader-artifacts 拉取的 CO_1 到 CO_7 结果
+
+`refgrader-artifacts` 的发布结果按题号分目录保存，例如：
+
+```text
+refgrader-artifacts/csbench/CO_1/grading_runs/<run_id>/grading/grading_checkpoint.json
+```
+
+`evaluate.py` 需要一个扁平结果目录，文件名必须是：
+
+```text
+CO_1_grading_checkpoint.json
+CO_2_grading_checkpoint.json
+...
+```
+
+因此本地评估前先把 artifacts 中的 checkpoint 汇总到 `refgrader-main/results_runs/...`。
+
+### 13.1 拉取服务器 artifacts
+
+```powershell
+git -C C:\Users\wx\Desktop\refgrader-artifacts pull origin main
+```
+
+### 13.2 汇总 CO_1 到 CO_7 的 checkpoint
+
+把 `$run` 改成实际 artifacts 目录名。本次新数据集 A3WA 重校准后的 run id 示例是 `20260628_081803`。
+
+```powershell
+cd C:\Users\wx\Desktop\refgrader-main
+
+$run = "20260628_081803"
+$questions = "CO_1","CO_2","CO_3","CO_4","CO_5","CO_6","CO_7"
+$srcRoot = "..\refgrader-artifacts\csbench"
+$out = "results_runs\csbench_co1_co2_co3_co4_co5_co6_co7_full"
+
+New-Item -ItemType Directory -Force $out | Out-Null
+
+foreach ($q in $questions) {
+  Copy-Item "$srcRoot\$q\grading_runs\$run\grading\grading_checkpoint.json" "$out\${q}_grading_checkpoint.json" -Force
+  Copy-Item "$srcRoot\$q\grading_runs\$run\grading\graded_results.json" "$out\${q}_graded_results.json" -Force
+  if (Test-Path "$srcRoot\$q\grading_runs\$run\grading\rejected.json") {
+    Copy-Item "$srcRoot\$q\grading_runs\$run\grading\rejected.json" "$out\${q}_rejected.json" -Force
+  }
+  if (Test-Path "$srcRoot\$q\grading_runs\$run\grading\failed.json") {
+    Copy-Item "$srcRoot\$q\grading_runs\$run\grading\failed.json" "$out\${q}_failed.json" -Force
+  }
+}
+```
+
+### 13.3 本地重新评估并导出 CSV
+
+```powershell
+New-Item -ItemType Directory -Force outputs | Out-Null
+
+python evaluate.py `
+  --questions CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 `
+  --results-dir results_runs\csbench_co1_co2_co3_co4_co5_co6_co7_full `
+  --result-source checkpoint `
+  --teacher-db data\csbench\teacher_scores.json `
+  --database-path data\csbench\exam_database.json `
+  --compare `
+  --compare-score-keys single avg selected 3wd `
+  --compare-output outputs\csbench_co1_co2_co3_co4_co5_co6_co7_compare_local.csv
+```
+
+作用：在本地重新计算 CO_1 到 CO_7 的 single、avg、selected 和 3WD 指标，并导出逐答案对比 CSV。
+
+只评估单题，例如 CO_7：
+
+```powershell
+python evaluate.py `
+  --questions CO_7 `
+  --results-dir results_runs\csbench_co1_co2_co3_co4_co5_co6_co7_full `
+  --result-source checkpoint `
+  --teacher-db data\csbench\teacher_scores.json `
+  --database-path data\csbench\exam_database.json `
+  --compare `
+  --compare-score-keys single avg selected 3wd `
+  --detail
+```
+
+### 13.4 推荐短命令：直接评估 artifacts 结果
+
+如果结果已经从服务器推送到 `refgrader-artifacts`，本地先拉取一次：
+
+```powershell
+git -C C:\Users\wx\Desktop\refgrader-artifacts pull origin main
+```
+
+然后在 `refgrader-main` 目录执行一条命令即可评估 CO_1 到 CO_7，并导出逐答案 CSV：
+
+```powershell
+python scripts/evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --run-id 20260628_081803 --export
+```
+
+如果不写 `--run-id`，脚本会自动使用 `CO_1` 下最新的 grading run：
+
+```powershell
+python scripts/evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --export
+```
+
+只看最终三支决策分数：
+
+```powershell
+python scripts/evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --score-key 3wd
+```
+
+对比 single、avg、selected、3WD 四种分数：
+
+```powershell
+python scripts/evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --compare
+```
+
+查看单题明细，例如 CO_7：
+
+```powershell
+python scripts/evaluate_artifacts.py CO_7 --run-id 20260628_081803 --detail --compare
+```
+
+脚本会自动把 `refgrader-artifacts/csbench/<题号>/grading_runs/<run_id>/grading/` 下的结果复制到 `results_runs/artifacts_<题号集合>_<run_id>/`，再调用原来的 `evaluate.py`。原来的 `python scripts/run_csbench.py evaluate ...` 仍然用于服务器端刚批改完后的评估；本地评估已经拉取的 artifacts 时，优先使用上面的短命令。

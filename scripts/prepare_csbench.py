@@ -326,6 +326,32 @@ def _infer_role(description: str, standard_text: str, answer_type: str) -> str:
     return "final"
 
 
+def _infer_score_layer(description: str, standard_text: str, answer_type: str, role: str) -> str:
+    text = f"{description} {standard_text}".lower()
+    auxiliary_markers = (
+        "unit", "format", "notation", "label",
+        "单位", "格式", "符号", "名称", "标注", "说明", "写出单位",
+    )
+    if role == "final" or answer_type in {
+        "judgement",
+        "diagram_relation",
+        "relation",
+        "bit_vector",
+        "base_number",
+    }:
+        return "core"
+    if role in {"method", "intermediate", "parameter"} or answer_type in {
+        "formula",
+        "derived_numeric",
+        "sequence",
+        "table_entry",
+    }:
+        return "support"
+    if any(marker in text for marker in auxiliary_markers):
+        return "auxiliary"
+    return "support"
+
+
 def classify_rubric_metadata(item: dict[str, Any]) -> dict[str, Any]:
     """Infer CSBench metadata with the same semantics used by 3WD calibration."""
     description = str(item.get("description", ""))
@@ -381,6 +407,7 @@ def classify_rubric_metadata(item: dict[str, Any]) -> dict[str, Any]:
         answer_type = "judgement"
 
     role = _infer_role(description, standard_text, answer_type)
+    score_layer = _infer_score_layer(description, standard_text, answer_type, role)
     hard_enabled = answer_type in MACHINE_CHECKABLE_TYPES
     confidence = 1.0 if hard_enabled else 0.65
     if answer_type == "concept_keyword":
@@ -389,6 +416,7 @@ def classify_rubric_metadata(item: dict[str, Any]) -> dict[str, Any]:
     return {
         "answer_type": answer_type,
         "role": role,
+        "score_layer": score_layer,
         "canonicalization": canonicalization,
         "evidence_source": evidence_source,
         "metadata_hard_enabled": hard_enabled,
@@ -413,6 +441,7 @@ def convert_rubric(
                 "points": float(item.get("score", 0)),
                 "answer_type": metadata["answer_type"],
                 "role": metadata["role"],
+                "score_layer": metadata["score_layer"],
                 "canonicalization": metadata["canonicalization"],
                 "evidence_source": metadata["evidence_source"],
                 "standard_answer_text": str(

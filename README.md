@@ -462,6 +462,54 @@ exam image preprocessing -> VLM fact extraction -> three LLM scores -> model ave
 -> A3WA risk/confidence route -> POS/BND/NEG -> evidence-gated BND score correction
 ```
 
+## 2026-07-09 Validation-Calibrated 3WD Update
+
+Current 3WD runtime now supports a validation-learned additive score
+calibration layer:
+
+```text
+selected baseline
+-> A3WA route POS/BND/NEG
+-> BND evidence-gated action policy
+-> validation route/score-band correction
+-> final_calibrated_score
+```
+
+The calibration config is produced by `scripts/calibrate_a3wa.py` from
+validation checkpoints. It still selects `loss_params` and `risk_weights`, and
+now also writes `score_calibration`, an interpretable residual table grouped by:
+
+```text
+question_id + route + score_band
+question_id + route
+question_id
+route
+global
+```
+
+Runtime application is guarded in `calibration_utils.apply_route_score_calibration`:
+
+- positive corrections are blocked when core over-credit or core contradiction
+  evidence is explicit;
+- negative corrections require core contradiction, confirmed core over-score, or
+  allowed agent over-evidence;
+- NEG samples are not automatically score-calibrated.
+
+The BND lower gate is stricter than earlier versions. Auxiliary evidence,
+`not_comparable`, unsupported high-score risk, and bare-answer risk cannot drive
+lowering by themselves. This targets the recent failure mode where already
+under-scored answers were lowered again.
+
+Stage-1 fact mapping also has a degradation path. If GLM-5.1 structured fact
+mapping fails because of throttling or unparsable output, the pipeline keeps the
+raw human transcription or OCR text as conservative facts and records
+`fact_mapping_degraded=true` in `extraction_evidence`, instead of failing the
+whole answer immediately.
+
+Evaluation now reports `SER(>2)` by default and exported comparison CSV files
+include full `student_id`, absolute errors for single/avg/selected/final, and
+`score_calibration_*` audit fields.
+
 Latest server run:
 
 ```text

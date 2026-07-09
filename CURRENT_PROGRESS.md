@@ -1,6 +1,52 @@
 # Current Progress
 
-Last updated: 2026-06-25
+Last updated: 2026-07-09
+
+## 2026-07-09 Validation-Calibrated 3WD And Safer Visual/Fallback Path
+
+Current implementation status:
+
+```text
+1. scripts/calibrate_a3wa.py still searches A3WA loss parameters and risk
+   weights, and now also writes score_calibration.
+
+2. score_calibration is a validation residual table grouped by:
+   question+route+score_band -> question+route -> question -> route -> global.
+   It is intentionally interpretable and additive rather than a black-box model.
+
+3. step4_vlm_grader.py loads the same A3WA config through
+   A3WA_CALIBRATION_CONFIG / --a3wa-config. After POS/BND/NEG routing and BND
+   action policy, non-NEG samples pass through apply_route_score_calibration().
+
+4. calibration_utils.py now has stricter BND lower permission:
+   lower needs confirmed core over-score, core contradiction, allowed agent
+   over-evidence, or direct-only high-score with weak core support. Auxiliary
+   evidence and not_comparable cannot drive lower by themselves.
+
+5. Stage-1 fact mapping is degraded instead of hard failing when GLM-5.1 fact
+   mapping is unavailable. The pipeline preserves raw transcription/OCR text as
+   conservative facts and records fact_mapping_degraded in extraction_evidence.
+
+6. evaluate.py now prints SER(>2) by default and exports score_calibration
+   audit fields in comparison CSVs.
+```
+
+Recommended full recalibration workflow:
+
+```bash
+python scripts/run_csbench.py grade CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --split validation --force --no-artifacts
+
+python scripts/calibrate_a3wa.py \
+  --files results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_full/CO_*_grading_checkpoint.json \
+  --teacher-db data/csbench/teacher_scores.json \
+  --database-path data/csbench/exam_database.json \
+  --output results_runs/csbench_a3wa_route_score_calibrated.json
+
+python scripts/run_csbench.py grade CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 \
+  --split test --force --a3wa-config results_runs/csbench_a3wa_route_score_calibrated.json --no-artifacts
+
+python scripts/run_csbench.py evaluate CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --export --push-artifacts
+```
 
 ## 2026-06-25 CSBench Unified Run Command And CO_1-CO_7 Batch Plan
 

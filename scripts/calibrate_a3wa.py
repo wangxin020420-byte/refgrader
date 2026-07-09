@@ -1,4 +1,5 @@
 import argparse
+import glob
 import json
 import math
 import os
@@ -14,6 +15,7 @@ from calibration_utils import (  # noqa: E402
     build_a3wa_decision,
     compute_a3wa_thresholds,
     normalized_risk_weights,
+    route_score_band,
     safe_float,
 )
 
@@ -38,6 +40,17 @@ def write_json(path, data):
     os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
+
+def expand_input_files(patterns):
+    files = []
+    for pattern in patterns:
+        matches = sorted(glob.glob(pattern))
+        if matches:
+            files.extend(matches)
+        else:
+            files.append(pattern)
+    return files
 
 
 def load_question_scores(database_path):
@@ -204,7 +217,7 @@ def apply_action_policy(record, route, decision):
     return round(gate["final_score"], 2)
 
 
-def evaluate_params(records, loss_params, weights, bnd_max):
+def evaluate_params(records, loss_params, weights, bnd_max, return_trial=False):
     trial = []
     route_counts = Counter()
     route_errors = {"POS": [], "BND": [], "NEG": []}
@@ -252,7 +265,7 @@ def evaluate_params(records, loss_params, weights, bnd_max):
     if route_counts["POS"] > 0 and route_counts["BND"] > 0:
         objective += 0.5 * max(0.0, pos_mae - bnd_mae)
     objective += 1.0 * max(0.0, -bnd_gain)
-    return {
+    result = {
         "objective": objective,
         "metrics": final_metric,
         "baseline_metrics": avg_metric,
@@ -264,6 +277,81 @@ def evaluate_params(records, loss_params, weights, bnd_max):
         "loss_params": loss_params,
         "risk_weights": weights,
     }
+    if return_trial:
+        result["trial_records"] = trial
+    return result
+
+
+def _residual_entry(items, shrinkage_k, max_correction):
+    residuals = [item["teacher"] - item["trial_score"] for item in items]
+    n = len(residuals)
+    raw_mean = mean(residuals)
+    shrink = n / (n + max(shrinkage_k, 0.0)) if n > 0 else 0.0
+    correction = max(-max_correction, min(max_correction, raw_mean * shrink))
+    return {
+        "n": n,
+        "mean_residual": round(raw_mean, 6),
+        "correction": round(correction, 6),
+    }
+
+
+def build_score_calibration(
+    trial_records,
+    *,
+    min_cell_count=5,
+    shrinkage_k=8.0,
+    max_correction_ratio=0.12,
+    max_correction_points=2.0,
+):
+    """Build an interpretable validation residual correction table.
+
+    Corrections are additive and grouped from specific to general:
+    question+route+score-band -> question+route -> question -> route -> global.
+    Runtime guards in calibration_utils decide whether a correction is safe to
+    apply for the current sample.
+    """
+    grouped = {
+        "question_route_band": {},
+        "question_route": {},
+        "question": {},
+        "route": {},
+        "global": {"*": []},
+    }
+    for item in trial_records:
+        max_score = max(safe_float(item.get("max_score"), 0.0), 1.0)
+        cap = min(max_correction_points, max_correction_ratio * max_score)
+        if cap <= 0:
+            continue
+        qid = str(item.get("qid", ""))
+        route = str(item.get("trial_route", "UNKNOWN"))
+        band = route_score_band(item.get("trial_score", item.get("avg", 0.0)), max_score)
+        grouped["question_route_band"].setdefault(f"{qid}|{route}|{band}", []).append(item)
+        grouped["question_route"].setdefault(f"{qid}|{route}", []).append(item)
+        grouped["question"].setdefault(qid, []).append(item)
+        grouped["route"].setdefault(route, []).append(item)
+        grouped["global"]["*"].append(item)
+
+    table = {}
+    for group_name, cells in grouped.items():
+        table[group_name] = {}
+        for key, items in cells.items():
+            if group_name != "global" and len(items) < min_cell_count:
+                continue
+            max_score = max(mean([safe_float(item.get("max_score"), 1.0) for item in items]), 1.0)
+            max_correction = min(max_correction_points, max_correction_ratio * max_score)
+            table[group_name][key] = _residual_entry(items, shrinkage_k, max_correction)
+
+    return {
+        "version": 1,
+        "enabled": True,
+        "method": "validation_residual_additive",
+        "score_band": "low:<35%, mid:<70%, high:>=70%",
+        "min_cell_count": int(min_cell_count),
+        "shrinkage_k": float(shrinkage_k),
+        "max_correction_ratio": float(max_correction_ratio),
+        "max_correction_points": float(max_correction_points),
+        "table": table,
+    }
 
 
 def main():
@@ -274,11 +362,18 @@ def main():
     parser.add_argument("--output", default="results_rrd_vlm/a3wa_calibration_config.json")
     parser.add_argument("--bnd-max", type=float, default=0.60)
     parser.add_argument("--top-k", type=int, default=8)
+    parser.add_argument("--score-calibration", action="store_true", default=True)
+    parser.add_argument("--no-score-calibration", dest="score_calibration", action="store_false")
+    parser.add_argument("--min-cell-count", type=int, default=5)
+    parser.add_argument("--shrinkage-k", type=float, default=8.0)
+    parser.add_argument("--max-correction-ratio", type=float, default=0.12)
+    parser.add_argument("--max-correction-points", type=float, default=2.0)
     args = parser.parse_args()
 
     teacher_db = load_json(args.teacher_db)
     question_scores = load_question_scores(args.database_path)
-    records = load_records(args.files, teacher_db, question_scores)
+    input_files = expand_input_files(args.files)
+    records = load_records(input_files, teacher_db, question_scores)
     if not records:
         raise SystemExit("No valid records found for calibration.")
 
@@ -288,6 +383,13 @@ def main():
             results.append(evaluate_params(records, loss_params, weights, args.bnd_max))
     results.sort(key=lambda item: item["objective"])
     best = results[0]
+    best_with_trial = evaluate_params(
+        records,
+        best["loss_params"],
+        best["risk_weights"],
+        args.bnd_max,
+        return_trial=True,
+    )
     alpha, beta = compute_a3wa_thresholds(**best["loss_params"])
 
     config = {
@@ -295,6 +397,7 @@ def main():
         "source": "scripts/calibrate_a3wa.py",
         "database_path": args.database_path,
         "teacher_db": args.teacher_db,
+        "files": input_files,
         "selection_objective": "cost_sensitive_validation_calibration",
         "loss_params": best["loss_params"],
         "risk_weights": best["risk_weights"],
@@ -316,6 +419,14 @@ def main():
             "bnd_gain": round(best["bnd_gain"], 6),
         },
     }
+    if args.score_calibration:
+        config["score_calibration"] = build_score_calibration(
+            best_with_trial["trial_records"],
+            min_cell_count=args.min_cell_count,
+            shrinkage_k=args.shrinkage_k,
+            max_correction_ratio=args.max_correction_ratio,
+            max_correction_points=args.max_correction_points,
+        )
     write_json(args.output, config)
 
     print(f"Wrote {args.output}")

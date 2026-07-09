@@ -2396,7 +2396,22 @@ def apply_boundary_action_policy(
         core_contradiction_ratio >= 0.25
         and core_support_signal < 0.65
     )
-    lower_direction_permission = lower_has_agent_evidence or confirmed_core_over_score or direct_only_high_score
+    lower_direction_permission = (
+        confirmed_core_over_score
+        or (
+            lower_has_agent_evidence
+            and (
+                agent_over_ratio >= 0.03
+                or core_contradiction_ratio >= 0.15
+                or core_support_signal < 0.55
+            )
+        )
+        or (
+            direct_only_high_score
+            and core_support_signal < 0.55
+            and core_contradiction_ratio >= 0.10
+        )
+    )
     minor_margin = max(0.03 * max_score, 0.3)
     small_margin = max(0.07 * max_score, 0.7)
     large_margin = max(0.15 * max_score, 1.5)
@@ -2725,6 +2740,162 @@ def apply_boundary_action_policy(
         "direction_signals": signals,
         "agent_evidence_summary": agent_summary,
     }
+
+
+def route_score_band(score, max_score):
+    """Return a stable low/mid/high score band for validation calibration."""
+    max_score = max(safe_float(max_score, 0.0), 1.0)
+    ratio = clamp01(safe_float(score, 0.0) / max_score)
+    if ratio < 0.35:
+        return "low"
+    if ratio < 0.70:
+        return "mid"
+    return "high"
+
+
+def _score_calibration_table(config):
+    if not isinstance(config, dict):
+        return {}
+    score_config = config.get("score_calibration", config)
+    if not isinstance(score_config, dict) or not score_config.get("enabled", False):
+        return {}
+    table = score_config.get("table", {})
+    return table if isinstance(table, dict) else {}
+
+
+def _score_calibration_value(config, key, default=None):
+    score_config = config.get("score_calibration", config) if isinstance(config, dict) else {}
+    if not isinstance(score_config, dict):
+        return default
+    return score_config.get(key, default)
+
+
+def apply_route_score_calibration(
+    score,
+    max_score,
+    question_id,
+    route,
+    post_calibration=None,
+    config=None,
+):
+    """Apply validation-learned route/score-band correction with evidence guards.
+
+    The calibration table is produced on validation data. Runtime application is
+    intentionally additive and conservative: positive corrections are blocked
+    when core contradiction is explicit, while negative corrections require
+    stronger over-credit evidence to avoid worsening systematic under-scoring.
+    """
+    score = safe_float(score, 0.0)
+    max_score = max(safe_float(max_score, 0.0), 1.0)
+    question_id = str(question_id or "")
+    route = str(route or "UNKNOWN")
+    post_calibration = post_calibration or {}
+    config = config or {}
+    table = _score_calibration_table(config)
+    band = route_score_band(score, max_score)
+    result = {
+        "enabled": bool(table),
+        "applied": False,
+        "reason": "no_score_calibration",
+        "score_before": round(score, 4),
+        "score_after": round(max(0.0, min(max_score, score)), 4),
+        "correction": 0.0,
+        "lookup_key": "",
+        "score_band": band,
+    }
+    if not table:
+        return result
+
+    lookup_candidates = [
+        ("question_route_band", f"{question_id}|{route}|{band}"),
+        ("question_route", f"{question_id}|{route}"),
+        ("question", question_id),
+        ("route", route),
+        ("global", "*"),
+    ]
+    selected_entry = None
+    selected_key = ""
+    for group, key in lookup_candidates:
+        entry = table.get(group, {}).get(key) if isinstance(table.get(group), dict) else None
+        if isinstance(entry, dict):
+            selected_entry = entry
+            selected_key = f"{group}:{key}"
+            break
+    if not selected_entry:
+        result["reason"] = "no_matching_calibration_cell"
+        return result
+
+    raw_correction = safe_float(selected_entry.get("correction", 0.0), 0.0)
+    max_points = safe_float(_score_calibration_value(config, "max_correction_points", 2.0), 2.0)
+    max_ratio = safe_float(_score_calibration_value(config, "max_correction_ratio", 0.12), 0.12)
+    cap = max(0.0, min(max_points, max_ratio * max_score))
+    correction = max(-cap, min(cap, raw_correction))
+
+    core_support = clamp01(post_calibration.get("core_support_signal", 0.0))
+    support_signal = clamp01(post_calibration.get("support_signal", 0.0))
+    core_contradiction = clamp01(post_calibration.get("core_contradiction_ratio", 0.0))
+    unsupported_high = clamp01(post_calibration.get("unsupported_high_score_risk", 0.0))
+    bare_answer_risk = clamp01(post_calibration.get("bare_answer_risk", 0.0))
+    confirmed_core_over = bool(post_calibration.get("confirmed_core_over_score", False))
+    evidence_supported = bool(post_calibration.get("evidence_supported_answer", False))
+    direct_only_high = bool(post_calibration.get("direct_only_high_score_risk", False))
+
+    if abs(correction) < 1e-9:
+        result.update({
+            "reason": "zero_correction",
+            "lookup_key": selected_key,
+        })
+        return result
+
+    if correction > 0:
+        if confirmed_core_over or core_contradiction >= 0.25 or unsupported_high >= 0.35 or direct_only_high:
+            result.update({
+                "reason": "raise_blocked_by_core_overcredit_evidence",
+                "lookup_key": selected_key,
+                "correction": round(correction, 4),
+            })
+            return result
+        if bare_answer_risk >= 0.45 and core_support < 0.55 and support_signal < 0.55:
+            result.update({
+                "reason": "raise_blocked_by_weak_evidence",
+                "lookup_key": selected_key,
+                "correction": round(correction, 4),
+            })
+            return result
+    else:
+        lower_allowed = (
+            confirmed_core_over
+            or core_contradiction >= 0.20
+            or unsupported_high >= 0.20
+            or direct_only_high
+            or (core_support < 0.45 and not evidence_supported and bare_answer_risk >= 0.25)
+        )
+        if not lower_allowed:
+            result.update({
+                "reason": "lower_blocked_without_core_overcredit_evidence",
+                "lookup_key": selected_key,
+                "correction": round(correction, 4),
+            })
+            return result
+        if core_support >= 0.70 and unsupported_high < 0.25 and core_contradiction < 0.20:
+            result.update({
+                "reason": "lower_blocked_by_core_support",
+                "lookup_key": selected_key,
+                "correction": round(correction, 4),
+            })
+            return result
+
+    adjusted = round(max(0.0, min(max_score, score + correction)), 4)
+    result.update({
+        "applied": adjusted != round(max(0.0, min(max_score, score)), 4),
+        "reason": "validation_route_score_band_correction",
+        "score_after": adjusted,
+        "correction": round(adjusted - score, 4),
+        "lookup_key": selected_key,
+        "cell_n": selected_entry.get("n"),
+        "cell_mean_residual": selected_entry.get("mean_residual"),
+    })
+    return result
 
 
 def calibrated_bounds(avg_model_score, max_score, risk_profile, post_calibration):

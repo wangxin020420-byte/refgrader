@@ -182,7 +182,55 @@ python scripts/run_csbench.py monitor CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7
 python scripts/run_csbench.py evaluate CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --export
 ```
 
-作用：批改结束后评估 CO_1 到 CO_7 的结果，并导出逐答案对比 CSV。失败样本会保存在 failed 文件中，正式分析时可按实验设计排除。
+作用：批改结束后评估 CO_1 到 CO_7 的结果，并导出逐答案对比 CSV。评估表现在默认包含 `SER(>2)`，即误差超过 2 分的严重错误率；失败样本会保存在 failed 文件中，正式分析时可按实验设计排除。
+
+### 3.6 validation 重校准 A3WA/3WD → test 正式批改
+
+适用场景：需要让三支决策逻辑基于新数据集重新校准，而不是继续使用旧数据集或旧 checkpoint 上得到的参数。该流程会先跑 validation，基于教师分数学习 A3WA 参数和 route/score-band 分数校准表，然后固定配置跑 test。
+
+后台模式：
+
+```bash
+cd /home/E125221219/projects/refgrader
+mkdir -p logs results_runs
+
+nohup bash -lc '
+set -e
+source /home/E125221219/anaconda3/etc/profile.d/conda.sh
+conda activate ref-grader
+
+Q="CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7"
+RUN_TAG=$(date +%Y%m%d_%H%M%S)
+RUN_DIR="results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_full"
+CFG="results_runs/csbench_a3wa_3wd_route_score_calibrated_${RUN_TAG}.json"
+
+python scripts/run_csbench.py grade $Q --split validation --force --no-artifacts
+
+python scripts/calibrate_a3wa.py \
+  --files "$RUN_DIR"/CO_*_grading_checkpoint.json \
+  --teacher-db data/csbench/teacher_scores.json \
+  --database-path data/csbench/exam_database.json \
+  --output "$CFG" \
+  --min-cell-count 5 \
+  --shrinkage-k 8 \
+  --max-correction-points 2.0 \
+  --max-correction-ratio 0.12
+
+cp -a "$RUN_DIR" "results_runs/validation_route_score_calibrated_${RUN_TAG}"
+
+python scripts/run_csbench.py grade $Q --split test --force --a3wa-config "$CFG" --no-artifacts
+
+python scripts/run_csbench.py evaluate $Q --export --push-artifacts
+' > logs/csbench_route_score_calibrated_$(date +%Y%m%d_%H%M%S).log 2>&1 &
+```
+
+作用：
+
+- validation 批改只用于学习校准参数，不作为最终结果。
+- `scripts/calibrate_a3wa.py` 现在会同时输出 `loss_params`、`risk_weights` 和 `score_calibration`。`score_calibration` 是基于 validation 残差学习出的题目/route/分数段加性校准表。
+- test 批改通过 `--a3wa-config "$CFG"` 固定使用该配置。运行时不会读取 test 教师分数。
+- BND 降分逻辑已收紧：没有核心矛盾、允许的 agent over-evidence 或 direct-only 且核心支持不足时，不再自动 lower。
+- fact mapping 失败时会保留原始转写或 OCR 文本作为降级事实，减少 `OCR fact mapping failed` 直接导致整条样本失败。
 
 ## 4. 评分准则优化
 
@@ -610,34 +658,59 @@ python evaluate.py `
 git -C C:\Users\wx\Desktop\refgrader-artifacts pull origin main
 ```
 
-然后在 `refgrader-main` 目录执行一条命令即可评估 CO_1 到 CO_7，并导出逐答案 CSV：
+然后在 `refgrader-main` 目录执行一条命令即可评估 CO_1 到 CO_7，并导出逐答案 CSV。这里显式使用 `.\venv\Scripts\python.exe`，避免误用 PaddleOCR 专用的 `.venv-ocr` 环境：
 
 ```powershell
-python scripts/evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --run-id 20260628_081803 --export
+cd C:\Users\wx\Desktop\refgrader-main
+.\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --run-id 20260630_134044 --score-key single avg selected 3wd --export
 ```
 
 如果不写 `--run-id`，脚本会自动使用 `CO_1` 下最新的 grading run：
 
 ```powershell
-python scripts/evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --export
+cd C:\Users\wx\Desktop\refgrader-main
+.\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --score-key single avg selected 3wd --export
 ```
 
 只看最终三支决策分数：
 
 ```powershell
-python scripts/evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --score-key 3wd
+cd C:\Users\wx\Desktop\refgrader-main
+.\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --score-key 3wd
+```
+
+自由搭配任意几种分数形式。传入多个 `--score-key` 时会自动进入对比模式：
+
+```powershell
+cd C:\Users\wx\Desktop\refgrader-main
+.\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --score-key single avg 3wd
+```
+
+例如只对比 selected 和最终 3WD：
+
+```powershell
+cd C:\Users\wx\Desktop\refgrader-main
+.\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --score-key selected 3wd
 ```
 
 对比 single、avg、selected、3WD 四种分数：
 
 ```powershell
-python scripts/evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --compare
+cd C:\Users\wx\Desktop\refgrader-main
+.\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --compare
 ```
 
 查看单题明细，例如 CO_7：
 
 ```powershell
-python scripts/evaluate_artifacts.py CO_7 --run-id 20260628_081803 --detail --compare
+cd C:\Users\wx\Desktop\refgrader-main
+.\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_7 --run-id 20260630_134044 --detail --compare
+```
+
+如果当前 PowerShell 提示符显示 `(.venv-ocr)`，说明你之前在这个终端里执行过 `.venv-ocr\Scripts\Activate.ps1`。该状态会一直保留到执行 `deactivate` 或关闭终端为止。`.venv-ocr` 只用于 PaddleOCR，不用于评估；评估请使用上面的 `.\venv\Scripts\python.exe` 命令，或者先执行：
+
+```powershell
+deactivate
 ```
 
 脚本会自动把 `refgrader-artifacts/csbench/<题号>/grading_runs/<run_id>/grading/` 下的结果复制到 `results_runs/artifacts_<题号集合>_<run_id>/`，再调用原来的 `evaluate.py`。原来的 `python scripts/run_csbench.py evaluate ...` 仍然用于服务器端刚批改完后的评估；本地评估已经拉取的 artifacts 时，优先使用上面的短命令。

@@ -91,12 +91,15 @@ def build_evaluate_command(args: argparse.Namespace, questions: list[str], resul
     if args.detail:
         cmd.append("--detail")
 
-    if args.compare or args.export:
-        cmd.extend(["--compare", "--compare-score-keys", *args.compare_score_keys])
+    requested_score_keys = args.compare_score_keys or args.score_key
+    auto_compare = len(requested_score_keys) > 1
+
+    if args.compare or args.export or auto_compare:
+        cmd.extend(["--compare", "--compare-score-keys", *requested_score_keys])
         if args.compare_output:
             cmd.extend(["--compare-output", str(args.compare_output)])
-    elif args.score_key:
-        cmd.extend(["--score-key", args.score_key])
+    elif requested_score_keys:
+        cmd.extend(["--score-key", requested_score_keys[0]])
 
     return cmd
 
@@ -135,16 +138,23 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--score-key",
-        default="3wd",
-        help="Score key for non-compare evaluation: single, avg, selected, or 3wd.",
+        nargs="+",
+        default=["3wd"],
+        help=(
+            "Score form(s): single, avg, selected, 3wd. "
+            "One value runs single-form evaluation; multiple values automatically run compare."
+        ),
     )
     parser.add_argument("--detail", action="store_true", help="Show per-answer details.")
     parser.add_argument("--compare", action="store_true", help="Compare multiple score forms.")
     parser.add_argument(
         "--compare-score-keys",
         nargs="+",
-        default=["single", "avg", "selected", "3wd"],
-        help="Score forms for --compare.",
+        default=None,
+        help=(
+            "Score forms for --compare. If omitted, uses --score-key; "
+            "if neither is customized, --compare/--export compares single avg selected 3wd."
+        ),
     )
     parser.add_argument(
         "--export",
@@ -165,6 +175,9 @@ def main() -> int:
     questions = [normalize_question(question) for question in args.questions]
     args.artifacts_repo = args.artifacts_repo.resolve()
     args.prepared_dir = args.prepared_dir.resolve()
+
+    if (args.compare or args.export) and args.compare_score_keys is None and args.score_key == ["3wd"]:
+        args.compare_score_keys = ["single", "avg", "selected", "3wd"]
 
     run_id = args.run_id or latest_run_id(args.artifacts_repo, questions[0])
     slug = "_".join(question_slug(question) for question in questions)

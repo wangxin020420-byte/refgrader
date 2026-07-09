@@ -352,6 +352,7 @@ def compute_question_metrics(q_id, total_score, ts_db, score_key="final_calibrat
         "q_id": q_id, "n": n, "total": total_score,
         "MAE": mae, "RMSE": rmse, "QWK": qwk,
         "Pearson": pearson_r, "Pearson_p": pearson_p, "TAR2": tar2,
+        "SER2": float(len(serious) / n) if n else 0.0,
         "teacher_mean": float(np.mean(t_arr)),
         "model_mean": float(np.mean(m_arr)),
         "bias": float(np.mean(m_arr - t_arr)),
@@ -405,9 +406,10 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
             )
             a3wa_decision = r.get("a3wa_decision") or {}
             risk_components = a3wa_decision.get("risk_components") or {}
+            score_calibration = r.get("score_calibration") or {}
             rows.append({
                 "question": q_id,
-                "student_id": sid.split("_")[0],
+                "student_id": sid,
                 "teacher": teacher,
                 "single_first_score": single,
                 "model_avg_score": avg,
@@ -417,6 +419,8 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
                 "avg_diff": round(avg - teacher, 2),
                 "selected_diff": round(selected - teacher, 2),
                 "final_diff": round(final - teacher, 2),
+                "single_abs_error": round(single_abs, 2),
+                "avg_abs_error": round(avg_abs, 2),
                 "selected_abs_error": round(selected_abs, 2),
                 "final_abs_error": round(final_abs, 2),
                 "avg_gain_vs_single": round(single_abs - avg_abs, 2),
@@ -453,6 +457,10 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
                 "primary_risk": primary_risks.get("risk", risk_features.get("primary_risk", "")),
                 "primary_mu": primary_risks.get("mu", risk_features.get("primary_mu", "")),
                 "boundary_action": gate.get("action", ""),
+                "score_calibration_applied": score_calibration.get("applied", ""),
+                "score_calibration_correction": score_calibration.get("correction", ""),
+                "score_calibration_reason": score_calibration.get("reason", ""),
+                "score_calibration_lookup": score_calibration.get("lookup_key", ""),
             })
 
     if not rows:
@@ -465,13 +473,15 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
         "question", "student_id", "teacher",
         "single_first_score", "model_avg_score", "selected_baseline_score", "final_calibrated_score",
         "single_diff", "avg_diff", "selected_diff", "final_diff",
-        "selected_abs_error", "final_abs_error",
+        "single_abs_error", "avg_abs_error", "selected_abs_error", "final_abs_error",
         "avg_gain_vs_single", "selected_gain_vs_avg", "final_gain_vs_selected",
         "final_gain_vs_avg", "final_gain_vs_single",
         "route", "baseline_serious_error", "risk_captured_by_route", "safe_pos",
         "task_type", "complex_derivation_task", "upper_consensus_eligible",
         "baseline_policy", "baseline_score_source", "std_dev", "blank_rate",
         "U_E", "U_S", "U_R", "primary_risk", "primary_mu", "boundary_action",
+        "score_calibration_applied", "score_calibration_correction",
+        "score_calibration_reason", "score_calibration_lookup",
     ]
     with open(output_path, "w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -679,7 +689,7 @@ def print_boundary_gain_audit(questions, ts_db):
             gate = r.get("boundary_gate") or {}
             detail_rows.append([
                 q_id,
-                sid.split("_")[0],
+                sid,
                 route,
                 f"{teacher:.1f}",
                 f"{avg:.1f}",
@@ -709,12 +719,12 @@ def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_scor
     print(f"  {q_id}  |  max score {total_score}  |  N = {metrics['n']}  |  {label}")
     print()
 
-    metric_w = [10, 10, 10, 10, 12]
+    metric_w = [10, 10, 10, 10, 12, 12]
     print_closed_table(
-        headers=["MAE", "RMSE", "QWK", "Pearson r", "TAR(2)"],
+        headers=["MAE", "RMSE", "QWK", "Pearson r", "TAR(2)", "SER(>2)"],
         rows=[[f"{metrics['MAE']:.4f}", f"{metrics['RMSE']:.4f}",
                 f"{metrics['QWK']:.4f}", f"{metrics['Pearson']:.4f}",
-                f"{metrics['TAR2']:.1%}"]],
+                f"{metrics['TAR2']:.1%}", f"{metrics['SER2']:.1%}"]],
         col_widths=metric_w,
     )
 
@@ -825,14 +835,14 @@ def main():
         print(f"  Summary | {label}")
         print()
 
-        sum_w = [6, 4, 8, 8, 8, 10, 8, 8, 6, 6]
+        sum_w = [6, 4, 8, 8, 8, 10, 8, 8, 8, 6, 6]
         print_closed_table(
-            headers=["Q", "N", "MAE", "RMSE", "QWK", "Pearson r", "TAR(2)", "Bias", "Over", "Under"],
+            headers=["Q", "N", "MAE", "RMSE", "QWK", "Pearson r", "TAR(2)", "SER(>2)", "Bias", "Over", "Under"],
             rows=[
                 [m["q_id"], str(m["n"]),
                  f"{m['MAE']:.3f}", f"{m['RMSE']:.3f}",
                  f"{m['QWK']:.4f}", f"{m['Pearson']:.4f}",
-                 f"{m['TAR2']:.1%}", f"{m['bias']:+.2f}",
+                 f"{m['TAR2']:.1%}", f"{m['SER2']:.1%}", f"{m['bias']:+.2f}",
                  str(m["high_over"]), str(m["high_under"])]
                 for m in all_metrics
             ],
@@ -869,13 +879,14 @@ def main():
             ["GLOBAL", str(len(all_t)),
              f"{g_mae:.3f}", f"{g_rmse:.3f}",
              "--", f"{g_pr:.4f}",
-             f"{g_tar2:.1%}", f"{np.mean(all_m_a - all_t_a):+.2f}", "", ""],
+             f"{g_tar2:.1%}", f"{1.0 - g_tar2:.1%}",
+             f"{np.mean(all_m_a - all_t_a):+.2f}", "", ""],
         )
 
     # ---- Compare summary (--compare) ----
     if args.compare:
-        cmp_w = [10, 6, 4, 8, 8, 8, 10, 8, 8, 6, 6]
-        cmp_headers = ["score type", "Q", "N", "MAE", "RMSE", "QWK", "Pearson r", "TAR(2)", "Bias", "Over", "Under"]
+        cmp_w = [10, 6, 4, 8, 8, 8, 10, 8, 8, 8, 6, 6]
+        cmp_headers = ["score type", "Q", "N", "MAE", "RMSE", "QWK", "Pearson r", "TAR(2)", "SER(>2)", "Bias", "Over", "Under"]
         cmp_rows = []
         cmp_global = {key: ([], []) for key in compare_score_keys}
 
@@ -890,7 +901,7 @@ def main():
                     CMP_LABEL[key], mt["q_id"], str(mt["n"]),
                     f"{mt['MAE']:.3f}", f"{mt['RMSE']:.3f}",
                     f"{mt['QWK']:.4f}", f"{mt['Pearson']:.4f}",
-                    f"{mt['TAR2']:.1%}", f"{mt['bias']:+.2f}",
+                    f"{mt['TAR2']:.1%}", f"{mt['SER2']:.1%}", f"{mt['bias']:+.2f}",
                     str(mt["high_over"]), str(mt["high_under"]),
                 ])
             # Collect global data.
@@ -931,7 +942,8 @@ def main():
                         [CMP_LABEL[key], "GLOBAL", str(len(gt)),
                          f"{g_mae:.3f}", f"{g_rmse:.3f}",
                          "--", f"{g_pr:.4f}",
-                         f"{g_tar2:.1%}", f"{np.mean(gm_a - gt_a):+.2f}", "", ""],
+                         f"{g_tar2:.1%}", f"{1.0 - g_tar2:.1%}",
+                         f"{np.mean(gm_a - gt_a):+.2f}", "", ""],
                     )
 
     if args.compare and "final_calibrated_score" in compare_score_keys:

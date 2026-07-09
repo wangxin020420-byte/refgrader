@@ -16,6 +16,7 @@ from ocr.backend import sha256_file
 from canonicalizers import build_canonical_grading_context
 from calibration_utils import (
     a3wa_dynamic_bounds,
+    apply_route_score_calibration,
     apply_boundary_action_policy,
     build_a3wa_decision,
     build_post_grading_calibration,
@@ -713,6 +714,19 @@ For each value:
     return {item_id: mapped.get(item_id, "未书写") for item_id in checklist_ids}
 
 
+def fallback_raw_text_to_facts(blind_checklist, raw_text, reason):
+    """Conservative fallback when structured fact mapping is unavailable."""
+    checklist_ids = _checklist_ids(blind_checklist)
+    raw_text = str(raw_text or "").strip()
+    if not raw_text:
+        return {item_id: "未书写" for item_id in checklist_ids}
+    fallback_value = (
+        f"结构化事实映射失败，保留原始可见答案供后续语义评分；"
+        f"失败原因：{str(reason)[:160]}；原始文本：{raw_text[:1800]}"
+    )
+    return {item_id: fallback_value for item_id in checklist_ids}
+
+
 def _token_box_bounds(box):
     if not isinstance(box, list) or not box:
         return None
@@ -1051,6 +1065,7 @@ def stage1_extract_with_backend(
         diagram_items = []
     ocr_payload = {}
     ocr_error = None
+    fact_mapping_degraded_reason = None
     if extraction_backend == "paddle_glm5" or table_items or diagram_items:
         if not ocr_json_path:
             ocr_error = f"{extraction_backend} requires ocr_json_path"
@@ -1073,16 +1088,39 @@ def stage1_extract_with_backend(
                 for item_id in _checklist_ids(blind_checklist)
             }
         else:
-            facts = map_transcription_to_facts(
-                question_text,
-                blind_checklist,
-                transcription,
-                visual_placeholder_detected=visual_placeholder_detected,
-            )
+            try:
+                facts = map_transcription_to_facts(
+                    question_text,
+                    blind_checklist,
+                    transcription,
+                    visual_placeholder_detected=visual_placeholder_detected,
+                )
+            except Exception as exc:
+                fact_mapping_degraded_reason = f"transcription_mapping_failed:{exc}"
+                print(f"         [fact mapping degraded] {fact_mapping_degraded_reason}")
+                facts = fallback_raw_text_to_facts(
+                    blind_checklist,
+                    transcription,
+                    fact_mapping_degraded_reason,
+                )
     else:
-        facts = map_paddle_ocr_to_facts(
-            question_text, blind_checklist, ocr_payload
-        )
+        try:
+            facts = map_paddle_ocr_to_facts(
+                question_text, blind_checklist, ocr_payload
+            )
+        except Exception as exc:
+            fact_mapping_degraded_reason = f"ocr_mapping_failed:{exc}"
+            print(f"         [fact mapping degraded] {fact_mapping_degraded_reason}")
+            raw_ocr_text = "\n".join(
+                str(token.get("text", ""))
+                for token in ocr_payload.get("tokens", [])
+                if str(token.get("text", "")).strip()
+            )
+            facts = fallback_raw_text_to_facts(
+                blind_checklist,
+                raw_ocr_text,
+                fact_mapping_degraded_reason,
+            )
 
     table_facts = {}
     table_view = {}
@@ -1090,17 +1128,20 @@ def stage1_extract_with_backend(
     visual_fallback_conflicts = []
     checklist_ids = _checklist_ids(blind_checklist)
     if table_items and ocr_payload:
-        table_facts, table_view = map_paddle_ocr_table_to_facts(
-            question_text,
-            table_items,
-            ocr_payload,
-        )
-        facts, recovered, conflicts = _merge_visual_fallback_facts(
-            facts, table_facts, checklist_ids
-        )
-        if recovered:
-            visual_fallback_reason.append("table_ocr_recovered")
-        visual_fallback_conflicts.extend(conflicts)
+        try:
+            table_facts, table_view = map_paddle_ocr_table_to_facts(
+                question_text,
+                table_items,
+                ocr_payload,
+            )
+            facts, recovered, conflicts = _merge_visual_fallback_facts(
+                facts, table_facts, checklist_ids
+            )
+            if recovered:
+                visual_fallback_reason.append("table_ocr_recovered")
+            visual_fallback_conflicts.extend(conflicts)
+        except Exception as exc:
+            visual_fallback_reason.append(f"table_ocr_failed:{exc}")
     elif table_items:
         visual_fallback_reason.append("table_ocr_unavailable")
 
@@ -1167,6 +1208,8 @@ def stage1_extract_with_backend(
         "visual_placeholder_detected": visual_placeholder_detected,
         "visual_fallback_needed": needs_visual_fallback,
         "ocr_error": ocr_error,
+        "fact_mapping_degraded": bool(fact_mapping_degraded_reason),
+        "fact_mapping_degraded_reason": fact_mapping_degraded_reason,
         "answer_metadata": {
             key: answer_metadata.get(key)
             for key in ("answer_id", "question_id", "subject", "isimagine")
@@ -2210,6 +2253,38 @@ def grade_student_3wd_pipeline(
         final_score = selected_baseline_score
         print(f"      [route -> POS] accept selected_baseline_score={selected_baseline_score}")
 
+    question_id_for_calibration = ""
+    if isinstance(answer_metadata, dict):
+        question_id_for_calibration = str(answer_metadata.get("question_id", "") or "")
+    score_calibration = {
+        "enabled": bool(a3wa_config.get("score_calibration")),
+        "applied": False,
+        "reason": "not_run_for_neg_route" if route == "NEG" else "not_configured",
+        "score_before": round(final_score, 4),
+        "score_after": round(final_score, 4),
+        "correction": 0.0,
+    }
+    if route != "NEG" and a3wa_config.get("score_calibration"):
+        score_calibration = apply_route_score_calibration(
+            score=final_score,
+            max_score=MAX_SCORE,
+            question_id=question_id_for_calibration,
+            route=route,
+            post_calibration=post_calibration,
+            config=a3wa_config,
+        )
+        final_score = round(_clamp(score_calibration["score_after"], 0, MAX_SCORE), 2)
+        risk_features["score_calibration_applied"] = score_calibration["applied"]
+        risk_features["score_calibration_correction"] = score_calibration["correction"]
+        risk_features["score_calibration_reason"] = score_calibration["reason"]
+        if score_calibration["applied"]:
+            print(
+                "      [validation校准] "
+                f"{score_calibration['lookup_key']} | "
+                f"{score_calibration['score_before']} -> {final_score} "
+                f"({score_calibration['correction']:+.2f})"
+            )
+
     # 结果封装。
     ordered_result = {
         "student_id": student_id,
@@ -2241,6 +2316,7 @@ def grade_student_3wd_pipeline(
         "post_calibration": post_calibration,
         "a3wa_decision": a3wa_decision,
         "boundary_gate": boundary_gate,
+        "score_calibration": score_calibration,
         "arbitration_decision": arbitration_decision,
         "reason_log": reason_log,
         "human_review_hint": reason_log if route == "NEG" else "",

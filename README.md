@@ -82,6 +82,14 @@ python scripts/run_csbench.py tail
 python scripts/run_csbench.py evaluate CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --export
 ```
 
+For a complete `--split test` run, `grade` now performs the evaluation/export
+and copies a complete portable run to the sibling `refgrader-artifacts`
+repository automatically. The copy remains as local Git changes for review;
+commit and push are still manual unless `--push-artifacts` is explicitly used.
+Validation/calibration splits, limited debug runs, and incomplete checkpoints
+are never auto-published as formal test artifacts. When `--a3wa-config` is
+provided, the exact config and SHA-256 are archived with the run.
+
 Notes:
 
 ```text

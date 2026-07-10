@@ -1,6 +1,33 @@
 # Current Progress
 
-Last updated: 2026-07-09
+Last updated: 2026-07-10
+
+## 2026-07-10 Safe Automatic Test Finalization
+
+`scripts/run_csbench.py grade --split test` now finalizes a complete formal run
+without a separate command: it validates the checkpoint against the immutable
+test split, evaluates `single / avg / selected / 3WD`, exports the comparison
+CSV, and copies one complete run into the sibling `refgrader-artifacts` Git
+repository. It does not commit or push unless `--push-artifacts` is explicitly
+provided.
+
+Publication is blocked for validation/calibration splits, limited debug runs,
+missing or duplicate test IDs, split contamination, checkpoint/result
+mismatches, or unresolved failed samples. When `--a3wa-config` is supplied, the
+exact configuration is copied to `calibration/a3wa_config.json` and its SHA-256
+is recorded in `run_manifest.json`.
+
+For resumed mixed batches, questions whose complete test checkpoints existed
+before the command are marked `preexisting_completed_checkpoint`; the newly
+supplied A3WA config is archived only for questions actually graded by that
+command. This prevents an old CO_1 checkpoint from being mislabeled when a new
+config is used only for CO_2.
+
+The default portable artifact run contains the initial and optimized rubrics,
+optimization manifest/checkpoint, grading checkpoint and routed result files,
+evaluation CSV, progress, runtime log, A3WA configuration, and run manifest.
+Raw OCR and per-answer fact caches remain opt-in via `--include-raw-ocr` and
+`--include-facts`.
 
 ## 2026-07-09 Validation-Calibrated 3WD And Safer Visual/Fallback Path
 

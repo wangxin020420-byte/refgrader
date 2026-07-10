@@ -294,9 +294,157 @@ def build_publish_command(
         command.append("--include-facts")
     if include_raw_ocr:
         command.append("--include-raw-ocr")
+    if getattr(args, "a3wa_config", None):
+        command.extend(["--a3wa-config", args.a3wa_config])
+    for question_id in getattr(args, "a3wa_config_questions", None) or []:
+        command.extend(["--a3wa-config-question", question_id])
     if push:
         command.append("--push")
     return command
+
+
+def build_evaluate_command(
+    args: argparse.Namespace,
+    questions: list[str],
+    *,
+    a3wa_config_questions: list[str] | None = None,
+) -> list[str]:
+    command = [
+        sys.executable,
+        str(PROJECT_ROOT / "scripts" / "run_csbench.py"),
+        "--prepared-dir",
+        args.prepared_dir,
+        "evaluate",
+        *questions,
+        "--export",
+        "--artifacts-repo",
+        args.artifacts_repo,
+    ]
+    if getattr(args, "a3wa_config", None):
+        command.extend(["--a3wa-config", args.a3wa_config])
+    for question_id in a3wa_config_questions or []:
+        command.extend(["--a3wa-config-question", question_id])
+    if args.include_raw_ocr:
+        command.append("--include-raw-ocr")
+    if args.include_facts:
+        command.append("--include-facts")
+    if args.push_artifacts:
+        command.append("--push-artifacts")
+    return command
+
+
+def load_json_records(path: Path) -> list[dict[str, Any]]:
+    if not path.is_file():
+        return []
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, list):
+        raise ValueError(f"Expected a JSON list: {path}")
+    return [item for item in payload if isinstance(item, dict)]
+
+
+def completed_questions_for_split(
+    contexts: list[CSBenchContext],
+    results_dir: Path,
+    *,
+    split_name: str,
+) -> set[str]:
+    completed = set()
+    for ctx in contexts:
+        split = json.loads(ctx.split_file.read_text(encoding="utf-8"))
+        expected_ids = {str(value) for value in split.get(split_name, [])}
+        checkpoint = load_json_records(
+            results_dir / f"{ctx.question_id}_grading_checkpoint.json"
+        )
+        checkpoint_ids = [
+            str(item.get("student_id", "")) for item in checkpoint
+        ]
+        checkpoint_set = {value for value in checkpoint_ids if value}
+        if (
+            checkpoint_set == expected_ids
+            and len(checkpoint_ids) == len(checkpoint_set)
+        ):
+            completed.add(ctx.question_id)
+    return completed
+
+
+def validate_complete_results(
+    contexts: list[CSBenchContext],
+    results_dir: Path,
+    *,
+    split_name: str,
+) -> None:
+    errors = []
+    for ctx in contexts:
+        split = json.loads(ctx.split_file.read_text(encoding="utf-8"))
+        expected_ids = {str(value) for value in split.get(split_name, [])}
+        prefix = results_dir / ctx.question_id
+        checkpoint_path = Path(f"{prefix}_grading_checkpoint.json")
+        graded_path = Path(f"{prefix}_graded_results.json")
+        rejected_path = Path(f"{prefix}_rejected.json")
+        failed_path = Path(f"{prefix}_failed.json")
+
+        checkpoint = load_json_records(checkpoint_path)
+        graded = load_json_records(graded_path)
+        rejected = load_json_records(rejected_path)
+        failed = load_json_records(failed_path)
+
+        checkpoint_ids = [str(item.get("student_id", "")) for item in checkpoint]
+        checkpoint_set = {value for value in checkpoint_ids if value}
+        graded_set = {
+            str(item.get("student_id")) for item in graded if item.get("student_id")
+        }
+        rejected_set = {
+            str(item.get("student_id")) for item in rejected if item.get("student_id")
+        }
+        failed_set = {
+            str(item.get("student_id")) for item in failed if item.get("student_id")
+        }
+
+        issues = []
+        duplicate_count = len(checkpoint_ids) - len(checkpoint_set)
+        if duplicate_count:
+            issues.append(f"checkpoint duplicates={duplicate_count}")
+        missing = expected_ids - checkpoint_set
+        outside = checkpoint_set - expected_ids
+        if missing:
+            issues.append(f"missing {split_name} answers={len(missing)}")
+        if outside:
+            issues.append(f"answers outside {split_name}={len(outside)}")
+        overlap = graded_set & rejected_set
+        if overlap:
+            issues.append(f"graded/rejected overlap={len(overlap)}")
+        result_union = graded_set | rejected_set
+        if result_union != checkpoint_set:
+            issues.append(
+                "checkpoint/result mismatch="
+                f"{len(result_union ^ checkpoint_set)}"
+            )
+        unresolved_failed = failed_set - checkpoint_set
+        if unresolved_failed:
+            issues.append(f"unresolved failed answers={len(unresolved_failed)}")
+        if any(not item.get("student_id") for item in failed):
+            issues.append("failed records contain missing student IDs")
+
+        if issues:
+            errors.append(f"{ctx.question_id}: " + "; ".join(issues))
+        elif failed_path.is_file() and failed:
+            failed_path.unlink()
+            print(
+                f"Removed stale failed records for {ctx.question_id}; "
+                "all IDs are present in the completed checkpoint."
+            )
+
+        print(
+            f"Validated {ctx.question_id} {split_name}: "
+            f"checkpoint={len(checkpoint_set)}/{len(expected_ids)}, "
+            f"graded={len(graded_set)}, rejected={len(rejected_set)}"
+        )
+
+    if errors:
+        raise RuntimeError(
+            "Refusing to evaluate or publish incomplete results:\n"
+            + "\n".join(errors)
+        )
 
 
 def git_output(repository: Path, *args: str) -> str:
@@ -622,6 +770,24 @@ def grade(args: argparse.Namespace) -> int:
     results_dir = (
         PROJECT_ROOT / "results_runs" / f"csbench_{slug}_full"
     ).resolve()
+    preexisting_complete = (
+        completed_questions_for_split(
+            contexts,
+            results_dir,
+            split_name="test",
+        )
+        if args.split == "test"
+        else set()
+    )
+    a3wa_config_questions = (
+        [
+            ctx.question_id
+            for ctx in contexts
+            if ctx.question_id not in preexisting_complete
+        ]
+        if getattr(args, "a3wa_config", None)
+        else []
+    )
     pipeline_args = [
         "--mode",
         "FULL",
@@ -649,15 +815,16 @@ def grade(args: argparse.Namespace) -> int:
         if os.name == "nt":
             raise RuntimeError("--background is only supported on Linux.")
         ensure_background_slot_available()
-        if not args.no_artifacts:
+        if (
+            not args.no_artifacts
+            and args.split == "test"
+            and args.limit is None
+        ):
             env["REFGRADER_POST_SUCCESS_CMD"] = shlex.join(
-                build_publish_command(
+                build_evaluate_command(
                     args,
                     args.questions,
-                    stage="full",
-                    include_facts=args.include_facts,
-                    include_raw_ocr=args.include_raw_ocr,
-                    push=args.push_artifacts,
+                    a3wa_config_questions=a3wa_config_questions,
                 )
             )
         command = [
@@ -678,23 +845,44 @@ def grade(args: argparse.Namespace) -> int:
     return_code = execute(command, env_overrides=env, dry_run=args.dry_run)
     if return_code != 0 or args.dry_run or args.no_artifacts:
         return return_code
-    if args.background:
+    if args.split != "test":
+        state = "started" if args.background else "finished"
         print(
-            "Background grading started. Full grading artifacts will be "
-            "published automatically after the job finishes successfully."
+            f"{args.split} grading {state}. Calibration splits remain local "
+            "and are not published as formal test artifacts."
         )
         return return_code
-    print("Grading finished; publishing full artifacts automatically.")
-    return publish(
+    if args.limit is not None:
+        print(
+            "Limited test grading finished. Partial runs remain local and are "
+            "not evaluated or published automatically."
+        )
+        return return_code
+    if args.background:
+        print(
+            "Background test grading started. Complete results will be "
+            "validated, evaluated, exported, and copied to artifacts after "
+            "the job finishes successfully."
+        )
+        return return_code
+    print(
+        "Test grading finished; validating completeness, evaluating all score "
+        "types, and copying a complete run to artifacts."
+    )
+    return evaluate(
         argparse.Namespace(
             prepared_dir=args.prepared_dir,
             questions=args.questions,
             artifacts_repo=args.artifacts_repo,
-            stage="full",
-            run_id=None,
+            export=True,
+            detail=False,
+            dry_run=False,
+            no_artifacts=False,
+            push_artifacts=args.push_artifacts,
             include_facts=args.include_facts,
             include_raw_ocr=args.include_raw_ocr,
-            push=args.push_artifacts,
+            a3wa_config=args.a3wa_config,
+            a3wa_config_questions=a3wa_config_questions,
         )
     )
 
@@ -786,6 +974,12 @@ def evaluate(args: argparse.Namespace) -> int:
         raise FileNotFoundError(
             "Grading checkpoints not found: " + ", ".join(missing)
         )
+    if not args.dry_run:
+        validate_complete_results(
+            contexts,
+            results_dir,
+            split_name="test",
+        )
 
     command = [
         sys.executable,
@@ -835,6 +1029,10 @@ def evaluate(args: argparse.Namespace) -> int:
             run_id=None,
             include_facts=args.include_facts,
             include_raw_ocr=args.include_raw_ocr,
+            a3wa_config=getattr(args, "a3wa_config", None),
+            a3wa_config_questions=getattr(
+                args, "a3wa_config_questions", None
+            ),
             push=args.push_artifacts,
         )
     )
@@ -991,6 +1189,17 @@ def publish(args: argparse.Namespace) -> int:
         or datetime.now().strftime("%Y%m%d_%H%M%S")
     )
     code_commit = git_output(PROJECT_ROOT, "rev-parse", "HEAD")
+    a3wa_config = None
+    a3wa_config_arg = getattr(args, "a3wa_config", None)
+    a3wa_config_questions = set(
+        getattr(args, "a3wa_config_questions", None) or []
+    )
+    if a3wa_config_arg:
+        a3wa_config = Path(a3wa_config_arg).expanduser().resolve()
+        if not a3wa_config.is_file():
+            raise FileNotFoundError(
+                f"A3WA calibration config not found: {a3wa_config}"
+            )
 
     prepared_manifest = {}
     prepared_manifest_path = contexts[0].root / "manifest.json"
@@ -1071,6 +1280,16 @@ def publish(args: argparse.Namespace) -> int:
             destination / "rubrics" / "optimization_manifest.json",
             replacements,
         )
+        config_applies = bool(a3wa_config) and (
+            not a3wa_config_questions
+            or ctx.question_id in a3wa_config_questions
+        )
+        if config_applies:
+            copy_portable_json(
+                a3wa_config,
+                destination / "calibration" / "a3wa_config.json",
+                replacements,
+            )
         copy_if_exists(
             optimize_dir / f"{ctx.question_id}_variance_checkpoint.json",
             destination
@@ -1182,6 +1401,25 @@ def publish(args: argparse.Namespace) -> int:
             "question_batch": [item.question_id for item in contexts],
             "code_commit": code_commit,
             "dataset_commit": dataset_commit,
+            "a3wa_calibration": (
+                {
+                    "path": "calibration/a3wa_config.json",
+                    "sha256": sha256_file(a3wa_config),
+                    "source_name": a3wa_config.name,
+                    "status": "applied_to_new_grading",
+                }
+                if config_applies
+                else (
+                    {
+                        "path": None,
+                        "sha256": None,
+                        "source_name": None,
+                        "status": "preexisting_completed_checkpoint",
+                    }
+                    if a3wa_config
+                    else None
+                )
+            ),
             "extraction_backend": "csbench_hybrid",
             "answer_split": "test" if include_full else None,
             "ocr_device": os.getenv(
@@ -1447,6 +1685,20 @@ def build_parser() -> argparse.ArgumentParser:
     evaluate_parser.add_argument("--detail", action="store_true")
     evaluate_parser.add_argument("--dry-run", action="store_true")
     evaluate_parser.add_argument(
+        "--a3wa-config",
+        help=(
+            "A3WA calibration config to archive with the evaluated run. "
+            "Automatic post-grade evaluation sets this from grade."
+        ),
+    )
+    evaluate_parser.add_argument(
+        "--a3wa-config-question",
+        dest="a3wa_config_questions",
+        action="append",
+        type=normalize_question_id,
+        help=argparse.SUPPRESS,
+    )
+    evaluate_parser.add_argument(
         "--artifacts-repo",
         default=str((PROJECT_ROOT.parent / "refgrader-artifacts").resolve()),
     )
@@ -1504,6 +1756,17 @@ def build_parser() -> argparse.ArgumentParser:
         "--stage", choices=["auto", "rubric", "full"], default="auto"
     )
     publish_parser.add_argument("--run-id")
+    publish_parser.add_argument(
+        "--a3wa-config",
+        help="A3WA calibration config to copy into the artifact run.",
+    )
+    publish_parser.add_argument(
+        "--a3wa-config-question",
+        dest="a3wa_config_questions",
+        action="append",
+        type=normalize_question_id,
+        help=argparse.SUPPRESS,
+    )
     publish_parser.add_argument("--include-facts", action="store_true")
     publish_parser.add_argument("--include-raw-ocr", action="store_true")
     publish_parser.add_argument("--push", action="store_true")

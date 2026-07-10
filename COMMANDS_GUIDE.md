@@ -68,6 +68,61 @@ conda activate ref-grader
 cd /home/E125221219/projects/refgrader
 ```
 
+## 2.1 正式 test 完成后的自动评估与 artifacts 复制
+
+`grade --split test` 在完整批改成功后会自动执行以下操作，不需要再单独调用
+`evaluate` 或 `publish`：
+
+```text
+校验 checkpoint 与 test split 完全一致
+-> 评估 single / avg / selected / 3WD
+-> 导出 outputs/csbench_<题目集合>_compare.csv
+-> 复制完整实验产物到同级 refgrader-artifacts
+```
+
+默认只复制到本地 artifacts 仓库，不执行 Git commit 或 push。因此 VS Code 的
+`refgrader-artifacts` 源代码管理会显示待检查的新增文件，由用户手动提交和推送。
+只有显式添加 `--push-artifacts` 才会自动提交和推送。
+
+自动复制内容与既有 artifacts 目录结构一致：
+
+```text
+csbench/<题号>/grading_runs/<run_id>/
+  calibration/a3wa_config.json       # 使用 --a3wa-config 时保存
+  rubrics/initial_rubric.json
+  rubrics/optimized_rubric.json
+  rubrics/optimization_manifest.json
+  rubric_optimization/variance_checkpoint.json
+  rubric_optimization/progress.json
+  grading/grading_checkpoint.json
+  grading/graded_results.json
+  grading/rejected.json               # 存在 NEG 时保存
+  grading/progress.json
+  evaluation/compare.csv
+  logs/experiment.log
+  run_manifest.json
+```
+
+断点续跑时，如果某道题在正式命令启动前已经拥有完整 test checkpoint，该题会被跳过，
+也不会被错误标记为使用本次新传入的 A3WA config。`run_manifest.json` 会将其记录为
+`preexisting_completed_checkpoint`；新 config 只复制到本次实际新批改的题目目录。
+
+安全规则：validation/calibration、`--limit` 调试运行、checkpoint 不完整、存在未解决
+failed、split 污染或重复 ID 时均不会自动发布为正式 test artifacts。`--include-facts`
+和 `--include-raw-ocr` 仍为可选项，默认不复制大体积逐答案缓存。
+
+示例：正式批改后自动评估并复制，但由用户手动 Git 推送：
+
+```bash
+python scripts/run_csbench.py grade CO_2 --split test --a3wa-config results_runs/a3wa_config.json
+```
+
+仅在明确不需要自动评估和复制时才使用：
+
+```bash
+python scripts/run_csbench.py grade CO_2 --split test --a3wa-config results_runs/a3wa_config.json --no-artifacts
+```
+
 ## 3. CO_1 到 CO_7 四种常用执行方式
 
 下面四种命令都以 CO_1 到 CO_7 为例。每种流程都同时给出后台模式和前台模式。

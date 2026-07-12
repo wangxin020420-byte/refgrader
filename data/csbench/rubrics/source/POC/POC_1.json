@@ -1,0 +1,15 @@
+{
+  "question_id": "POC_1",
+  "subject": "POC_26",
+  "subject_name": "编译原理",
+  "max_score": 5.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "写出文法G1描述的语言（注：三种表述任写一种均可满分）",
+      "standard_answer_text": "{anw|w∈b,c*∧w=n} 或 前面有 n 个 a，后面紧跟着 n 个由 b 或 c 组成的字符（n>=0） 或 {anβ1⋯βn|βi∈b,c}",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

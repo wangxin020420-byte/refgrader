@@ -1,0 +1,24 @@
+[
+  {
+    "id": "step_1",
+    "item": "写出程序的正确输出结果（注：前4和后4个数字中，每互换一对得2分，5和22互换位置扣1分）",
+    "points": 10.0,
+    "answer_type": "derived_numeric",
+    "role": "final",
+    "score_layer": "core",
+    "canonicalization": "numeric",
+    "evidence_source": "transcription",
+    "standard_answer_text": "19 28 20 24 5 22 24 15 23 16",
+    "standard_answer_image": null,
+    "source_text": "写出程序的正确输出结果（注：前4和后4个数字中，每互换一对得2分，5和22互换位置扣1分）",
+    "parent_official_item": "写出程序的正确输出结果（注：前4和后4个数字中，每互换一对得2分，5和22互换位置扣1分）",
+    "metadata_source": "csbench",
+    "metadata_hard_enabled": true,
+    "metadata_confidence": 1.0,
+    "parent_id": "step_1",
+    "semantic_contract_version": 1,
+    "parent_points": 10.0,
+    "split_policy": "allow_semantic_split",
+    "weighting_policy": "equal_atomic"
+  }
+]

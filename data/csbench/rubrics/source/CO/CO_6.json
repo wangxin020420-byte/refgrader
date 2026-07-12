@@ -1,0 +1,45 @@
+{
+  "question_id": "CO_6",
+  "subject": "CO",
+  "subject_name": "计算机组成原理",
+  "max_score": 20.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "计算4个互斥组所需的位数",
+      "standard_answer_text": "四组互斥信号分别需要4位、4位、5位、3位，一共 4+4+5+3 = 16位。",
+      "score": 4.0
+    },
+    {
+      "step_id": 2,
+      "description": "计算非互斥信号位数及控制字段总长",
+      "standard_answer_text": "非互斥信号 180-(12+8+16+4)=140条，控制字段总数：140 + 16 = 156位。",
+      "score": 4.0
+    },
+    {
+      "step_id": 3,
+      "description": "计算BCF和BAF位数",
+      "standard_answer_text": "BCF 最多8种条件转移需 3位；BAF 可寻址512条需 9位。",
+      "score": 4.0
+    },
+    {
+      "step_id": 4,
+      "description": "计算微指令总长度",
+      "standard_answer_text": "总长度 = 156 + 3 + 9 = 168位。",
+      "score": 2.0
+    },
+    {
+      "step_id": 5,
+      "description": "计算控制存储器总容量（位）",
+      "standard_answer_text": "512条微指令 × 168位 = 86016位。",
+      "score": 3.0
+    },
+    {
+      "step_id": 6,
+      "description": "计算控制存储器总容量（字节）",
+      "standard_answer_text": "86016 ÷ 8 = 10752字节。",
+      "score": 3.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

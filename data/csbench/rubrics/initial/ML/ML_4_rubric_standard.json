@@ -1,0 +1,24 @@
+[
+  {
+    "id": "step_1",
+    "item": "作出该电路的原始状态图和原始状态表",
+    "points": 6.0,
+    "answer_type": "diagram_relation",
+    "role": "final",
+    "score_layer": "core",
+    "canonicalization": "graph_relation",
+    "evidence_source": "text_and_diagram",
+    "standard_answer_text": "状态表如下：\n现态 | 次态/输出(X=0) | 次态/输出(X=1)\nS0 | S1/0 | S0/0\nS1 | S1/0 | S2/0\nS2 | S3/0 | S0/0\nS3 | S1/0 | S4/0\nS4 | S5/1 | S0/0\nS5 | S1/0 | S4/0\n原始状态图详见标准答案图片。",
+    "standard_answer_image": "data/csbench/reference_images/standard_answers/ML_4.png",
+    "source_text": "作出该电路的原始状态图和原始状态表",
+    "parent_official_item": "作出该电路的原始状态图和原始状态表",
+    "metadata_source": "csbench",
+    "metadata_hard_enabled": true,
+    "metadata_confidence": 1.0,
+    "parent_id": "step_1",
+    "semantic_contract_version": 1,
+    "parent_points": 6.0,
+    "split_policy": "allow_semantic_split",
+    "weighting_policy": "equal_atomic"
+  }
+]

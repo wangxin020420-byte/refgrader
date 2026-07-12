@@ -1,0 +1,24 @@
+[
+  {
+    "id": "step_1",
+    "item": "写出程序的正确输出结果（注：若 3 和 4 5 4 分两行填写，即多加了换行，扣 0.5 分）",
+    "points": 5.0,
+    "answer_type": "table_entry",
+    "role": "final",
+    "score_layer": "core",
+    "canonicalization": "table",
+    "evidence_source": "text_and_ocr",
+    "standard_answer_text": "3 4 5 4",
+    "standard_answer_image": null,
+    "source_text": "写出程序的正确输出结果（注：若 3 和 4 5 4 分两行填写，即多加了换行，扣 0.5 分）",
+    "parent_official_item": "写出程序的正确输出结果（注：若 3 和 4 5 4 分两行填写，即多加了换行，扣 0.5 分）",
+    "metadata_source": "csbench",
+    "metadata_hard_enabled": true,
+    "metadata_confidence": 1.0,
+    "parent_id": "step_1",
+    "semantic_contract_version": 1,
+    "parent_points": 5.0,
+    "split_policy": "allow_semantic_split",
+    "weighting_policy": "equal_atomic"
+  }
+]

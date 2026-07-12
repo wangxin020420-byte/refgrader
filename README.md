@@ -9,8 +9,7 @@ point for CO_1 to CO_7 batch experiments.
 Main idea:
 
 ```text
-CSBench_new source dataset
--> prepare_csbench compatible view under data/csbench
+versioned embedded snapshot under data/csbench
 -> rubric optimization from data/csbench/rubrics/initial
 -> formal grading with data/csbench/rubrics/optimized
 -> optional evaluation/export
@@ -20,11 +19,9 @@ CSBench_new source dataset
 Important directories:
 
 ```text
-/home/E125221219/CSBench_new
-  Source CSBench dataset repository. Keep it separate from RefGrader.
-
 data/csbench
-  Generated RefGrader-compatible view. This is recreated by prepare_csbench.py.
+  Versioned, portable RefGrader grading snapshot. It contains 43 questions,
+  3,326 answers, student images, reference images, scores, and fixed splits.
 
 data/csbench/rubrics/initial
   Initial rubrics converted from the source dataset.
@@ -39,26 +36,33 @@ results_runs
   Portable experiment artifacts for syncing server results back to local.
 ```
 
+Normal grading no longer requires a sibling `CSBench_new` checkout. The
+separate dataset repository can continue annotation work without changing a
+formal RefGrader experiment. Only an explicit `--dataset-root` import updates
+the embedded snapshot. Images under the snapshot are managed with Git LFS;
+runtime optimized rubrics, manifests, OCR caches, and experiment results stay
+untracked.
+
 Four common CO_1 to CO_7 commands:
-
-```bash
-python scripts/run_csbench.py run CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --dataset-root /home/E125221219/CSBench_new --force --background
-```
-
-Use this when the source dataset changed or after pulling CSBench. It runs:
-
-```text
-background prepare compatible view -> optimize rubrics -> formal grading
-```
 
 ```bash
 python scripts/run_csbench.py run CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --force --background
 ```
 
-Use this when `data/csbench` is already current. It runs:
+Use this for normal experiments with the versioned embedded snapshot. It runs:
 
 ```text
 background optimize rubrics -> formal grading
+```
+
+```bash
+python scripts/run_csbench.py run CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --dataset-root /home/E125221219/CSBench_new --force --background
+```
+
+Use this only for an intentional external dataset import. It runs:
+
+```text
+background prepare -> finalize embedded snapshot -> optimize rubrics -> formal grading
 ```
 
 ```bash

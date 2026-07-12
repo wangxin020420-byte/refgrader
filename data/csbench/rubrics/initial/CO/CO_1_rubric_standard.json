@@ -1,0 +1,25 @@
+[
+  {
+    "id": "step_1",
+    "item": "正确计算并得出操作数内容",
+    "points": 5.0,
+    "answer_type": "base_number",
+    "role": "final",
+    "score_layer": "core",
+    "canonicalization": "base_number",
+    "evidence_source": "transcription",
+    "standard_answer_text": "37H",
+    "standard_answer_image": null,
+    "source_text": "正确计算并得出操作数内容",
+    "parent_official_item": "正确计算并得出操作数内容",
+    "metadata_source": "csbench",
+    "metadata_hard_enabled": true,
+    "metadata_confidence": 1.0,
+    "parent_id": "step_1",
+    "semantic_contract_version": 1,
+    "parent_points": 5.0,
+    "split_policy": "preserve_atomic",
+    "weighting_policy": "preserve_parent",
+    "full_credit_anchor": "37H"
+  }
+]

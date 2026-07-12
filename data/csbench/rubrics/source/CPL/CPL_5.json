@@ -1,0 +1,39 @@
+{
+  "question_id": "CPL_5",
+  "subject": "CPL",
+  "subject_name": "C语言/程序设计",
+  "max_score": 10.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "指出并改正第1处错误",
+      "standard_answer_text": "第4行，将0改为1；即改为 float result = 1;",
+      "score": 2.0
+    },
+    {
+      "step_id": 2,
+      "description": "指出并改正第2处错误（注：与第3处错误合一起参考答案为 if (argc!=2 && (pf=fopen(argv[1], \"r\"))==NULL) 或者 if (argc!=2 || ((pf=fopen(argv[1],\"r\"))==NULL))）",
+      "standard_answer_text": "第17行，将w改为r或r+;",
+      "score": 2.0
+    },
+    {
+      "step_id": 3,
+      "description": "指出并改正第3处错误",
+      "standard_answer_text": "第17行，确保fopen 返回值先赋值给pf再判断是否为NULL。",
+      "score": 2.0
+    },
+    {
+      "step_id": 4,
+      "description": "指出并改正第4处错误",
+      "standard_answer_text": "第22行，将N改为N-1；即改为 for(int i=N-1; i>=0; i--)",
+      "score": 2.0
+    },
+    {
+      "step_id": 5,
+      "description": "指出并改正第5处错误",
+      "standard_answer_text": "第24行，去掉&，即改为 printf(\"%.2f\", polynomial(x, c));",
+      "score": 2.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

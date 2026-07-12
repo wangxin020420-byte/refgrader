@@ -1,0 +1,39 @@
+{
+  "question_id": "CPL_6",
+  "subject": "CPL",
+  "subject_name": "C语言/程序设计",
+  "max_score": 10.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "填写空白处(1)（注：多写()或;等不扣分。>=写成>、<=写成<扣0.5分）",
+      "standard_answer_text": "ch>='a'&&ch<='z'",
+      "score": 2.0
+    },
+    {
+      "step_id": 2,
+      "description": "填写空白处(2)（注：同上）",
+      "standard_answer_text": "(ch>='a'&&ch<='z') || (ch>='A'&&ch<='Z')",
+      "score": 2.0
+    },
+    {
+      "step_id": 3,
+      "description": "填写空白处(3)（注：同上）",
+      "standard_answer_text": "a[i]!=0 或 a[i]",
+      "score": 2.0
+    },
+    {
+      "step_id": 4,
+      "description": "填写空白处(4)（注：同上）",
+      "standard_answer_text": "words[Upper(ch)-'A']--",
+      "score": 2.0
+    },
+    {
+      "step_id": 5,
+      "description": "填写空白处(5)（注：同上）",
+      "standard_answer_text": "EqualArray(words, 26)",
+      "score": 2.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

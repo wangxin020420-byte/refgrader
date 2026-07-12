@@ -1,0 +1,27 @@
+{
+  "question_id": "CO_11",
+  "subject": "CO",
+  "subject_name": "计算机组成原理",
+  "max_score": 15.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "计算R型指令最多条数",
+      "standard_answer_text": "R型指令Opcode字段占5位，因此R型指令最多有2^5=32条。",
+      "score": 5.0
+    },
+    {
+      "step_id": 2,
+      "description": "在保证I型最多且J型存在的条件下计算I型指令最多条数",
+      "standard_answer_text": "I型Opcode字段中，00000已被R型占用，最多还剩31个操作码编码；由于J型也必须存在，且要保证I型最多，只能留一个I型操作码作为J型指令的扩展编码，因此I型最多有30条。",
+      "score": 5.0
+    },
+    {
+      "step_id": 3,
+      "description": "计算J型指令最多条数",
+      "standard_answer_text": "留给J型扩展的1个I型操作码后，J型可由后续2位字段扩展得到2^2=4条，因此J型最多有4条。",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

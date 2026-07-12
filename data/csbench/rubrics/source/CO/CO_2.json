@@ -1,0 +1,51 @@
+{
+  "question_id": "CO_2",
+  "subject": "CO",
+  "subject_name": "计算机组成原理",
+  "max_score": 20.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "写出正确的中断处理优先级排列顺序",
+      "standard_answer_text": "A → D → C → E → B",
+      "score": 2.0
+    },
+    {
+      "step_id": 2,
+      "description": "写出A级中断屏蔽字",
+      "standard_answer_text": "A：11111",
+      "score": 2.0
+    },
+    {
+      "step_id": 3,
+      "description": "写出B级中断屏蔽字",
+      "standard_answer_text": "B：01000",
+      "score": 2.0
+    },
+    {
+      "step_id": 4,
+      "description": "写出C级中断屏蔽字",
+      "standard_answer_text": "C：01101",
+      "score": 2.0
+    },
+    {
+      "step_id": 5,
+      "description": "写出D级中断屏蔽字",
+      "standard_answer_text": "D：01111",
+      "score": 2.0
+    },
+    {
+      "step_id": 6,
+      "description": "写出E级中断屏蔽字",
+      "standard_answer_text": "E：01001",
+      "score": 2.0
+    },
+    {
+      "step_id": 7,
+      "description": "画出正确的CPU执行程序和处理中断顺序图",
+      "standard_answer_image": "images/standard_answers/CO_02_standard.png",
+      "score": 8.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

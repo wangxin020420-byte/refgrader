@@ -1,0 +1,27 @@
+{
+  "question_id": "CO_13",
+  "subject": "CO",
+  "subject_name": "计算机组成原理",
+  "max_score": 20.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "简述CPU响应中断的基本过程",
+      "standard_answer_text": "中断源发出中断请求后，在该请求未被屏蔽且CPU允许中断时，CPU在一条指令执行结束时响应；进入中断周期后先关中断、保存断点、识别中断源，并将中断服务子程序入口地址送PC，转入中断服务程序；若允许更高级中断嵌套，可在服务程序开始后开中断；服务结束后恢复断点，再开中断并返回原程序。",
+      "score": 5.0
+    },
+    {
+      "step_id": 2,
+      "description": "设计满足C、B、D、A处理顺序的屏蔽字",
+      "standard_answer_text": "屏蔽字MDMCMBMA如下：A=0001，B=1011，C=1111，D=1001。",
+      "score": 8.0
+    },
+    {
+      "step_id": 3,
+      "description": "画出CPU执行用户程序和处理中断的轨迹图",
+      "standard_answer_image": "images/standard_answers/CO_13_standard.png",
+      "score": 7.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

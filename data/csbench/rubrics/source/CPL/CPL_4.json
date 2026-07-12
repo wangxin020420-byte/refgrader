@@ -1,0 +1,15 @@
+{
+  "question_id": "CPL_4",
+  "subject": "CPL",
+  "subject_name": "C语言/程序设计",
+  "max_score": 10.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "写出程序的正确输出结果（注：前4和后4个数字中，每互换一对得2分，5和22互换位置扣1分）",
+      "standard_answer_text": "19 28 20 24 5 22 24 15 23 16",
+      "score": 10.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

@@ -1,0 +1,15 @@
+{
+  "question_id": "CO_1",
+  "subject": "CO",
+  "subject_name": "计算机组成原理",
+  "max_score": 5.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "正确计算并得出操作数内容",
+      "standard_answer_text": "37H",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

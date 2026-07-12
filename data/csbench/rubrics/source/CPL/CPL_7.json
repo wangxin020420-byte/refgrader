@@ -1,0 +1,30 @@
+{
+  "question_id": "CPL_7",
+  "subject": "CPL",
+  "subject_name": "C语言/程序设计",
+  "max_score": 15.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "读入和输出矩阵的每个元素时，正确写出循环（注：若学生仅使用一个二维数组在同数组实现元素交换，有错误情况下按读入数据循环、置换两项总分5分处理；没有判断fp指针是否为空或输出时没换行均不扣分；语法错误整体酌情扣0.5-2分）",
+      "standard_answer_image": "images/standard_answers/CPL_07_standard.png",
+      "standard_answer_text": "正确写出读写循环",
+      "score": 5.0
+    },
+    {
+      "step_id": 2,
+      "description": "正确写出打开文件、向文件写数据、关闭文件",
+      "standard_answer_image": "images/standard_answers/CPL_07_standard.png",
+      "standard_answer_text": "正确实现文件操作",
+      "score": 5.0
+    },
+    {
+      "step_id": 3,
+      "description": "元素转置正确，以及程序的其他结构",
+      "standard_answer_image": "images/standard_answers/CPL_07_standard.png",
+      "standard_answer_text": "正确实现转置逻辑及整体结构",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

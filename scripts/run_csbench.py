@@ -913,6 +913,30 @@ def run_experiment(args: argparse.Namespace) -> int:
         prepare_code = execute(prepare_command, dry_run=args.dry_run)
         if prepare_code != 0:
             return prepare_code
+        embed_command = [
+            sys.executable,
+            str(PROJECT_ROOT / "scripts" / "embed_csbench_snapshot.py"),
+            "--prepared-dir",
+            args.prepared_dir,
+            "--source-root",
+            args.dataset_root,
+        ]
+        print("Finalizing the embedded, portable CSBench snapshot.")
+        embed_code = execute(embed_command, dry_run=args.dry_run)
+        if embed_code != 0:
+            return embed_code
+        audit_command = [
+            sys.executable,
+            str(PROJECT_ROOT / "scripts" / "audit_csbench_snapshot.py"),
+            "--prepared-dir",
+            args.prepared_dir,
+            "--source-root",
+            args.dataset_root,
+        ]
+        print("Auditing the imported source and embedded snapshot.")
+        audit_code = execute(audit_command, dry_run=args.dry_run)
+        if audit_code != 0:
+            return audit_code
 
     print("Step 1/2: optimizing rubrics.")
     optimize_code = optimize(

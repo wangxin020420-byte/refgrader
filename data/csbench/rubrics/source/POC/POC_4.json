@@ -1,0 +1,15 @@
+{
+  "question_id": "POC_4",
+  "subject": "POC_24",
+  "subject_name": "编译原理",
+  "max_score": 5.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "构造符合要求的2型文法（注：其他符合要求的文法同样给分）",
+      "standard_answer_text": "S -> ME | 2 | 4 | 6 | 8\nE -> 0 | 2 | 4 | 6 | 8\nM -> MN | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9\nN -> 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

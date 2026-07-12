@@ -1,0 +1,15 @@
+{
+  "question_id": "ISC_4",
+  "subject": "ISC",
+  "subject_name": "计算机导论",
+  "max_score": 5.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "简述协议概念及HTTP协议的基本构成",
+      "standard_answer_text": "概念：为在计算机网络中进行数据交换而建立的规则、标准或约定 [cite: 487]。HTTP基本构成：请求行（方法、URL、版本）、请求头（客户端信息）、空行、请求体（发送的数据内容） [cite: 489, 490, 491, 492]。",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

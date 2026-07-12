@@ -1,0 +1,21 @@
+{
+  "question_id": "ISC_8",
+  "subject": "ISC",
+  "subject_name": "计算机导论",
+  "max_score": 4.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "写出X和Y的原码、反码和补码",
+      "standard_answer_text": "X=-15：原码 10001111，反码 11110000，补码 11110001；Y=+10：原码 00001010，反码 00001010，补码 00001010 [cite: 520, 521, 522, 523]",
+      "score": 2.0
+    },
+    {
+      "step_id": 2,
+      "description": "使用补码计算X-Y，并写出结果",
+      "standard_answer_text": "X-Y的结果（补码）：11100111 [cite: 526]",
+      "score": 2.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

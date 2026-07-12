@@ -1,0 +1,27 @@
+{
+  "question_id": "POC_3",
+  "subject": "POC_26",
+  "subject_name": "编译原理",
+  "max_score": 5.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "找出该符号串的短语",
+      "standard_answer_text": "ε, ac, aacb",
+      "score": 2.0
+    },
+    {
+      "step_id": 2,
+      "description": "找出该符号串的直接短语",
+      "standard_answer_text": "ε",
+      "score": 2.0
+    },
+    {
+      "step_id": 3,
+      "description": "找出该符号串的句柄",
+      "standard_answer_text": "ε",
+      "score": 1.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

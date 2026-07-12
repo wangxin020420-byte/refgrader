@@ -138,7 +138,7 @@ python scripts/run_csbench.py evaluate CO_3 --export
 - calibration 只用于评分准则优化，test 只用于最终实验。
 - `FULL` 默认要求 optimized 准则存在，不会静默回退 initial。
 - 如只做提取冒烟测试，可显式增加 `--allow-initial-rubric`。
-- `data/csbench/`、`ocr_cache/`、`results_runs/` 均不提交 Git。
+- `data/csbench/` 是版本化的内嵌批改快照；其中运行期 `rubrics/optimized` 和 `rubrics/manifests` 不提交。`ocr_cache/`、`results_runs/` 仍不提交 Git。
 
 ## 7. 评分准则语义契约
 
@@ -152,3 +152,22 @@ python scripts/run_csbench.py evaluate CO_3 --export
 - 优化结果除总分校验外，还必须通过父项分值守恒、父项可追溯和原子满分答案不变性校验。
 
 CO_4 当前官方初始分值为 `2 + 2 + 2 + 2 + 2 + 5 + 5 = 20`。前五项分别考查地址字段参数，后两项分别考查两个地址的 Cache 命中结论及理由。
+
+## 8. 内嵌数据快照
+
+正式批改默认使用仓库内的 `data/csbench`，不再依赖同级目录中的 `CSBench_new`：
+
+- `exam_database.json`：题目文本、参考图和准则路径；
+- `answer_metadata.jsonl`、`teacher_scores.json`：学生原文与教师分；
+- `student_images/`：3,326张正式样本图片；
+- `reference_images/`：题目图和标准答案图；
+- `rubrics/source`、`rubrics/initial`：权威准则镜像与初始可执行准则；
+- `splits/`：固定 calibration、validation、test 划分。
+
+图片通过 Git LFS 管理。普通实验使用不带 `--dataset-root` 的命令。只有明确决定导入外部数据集新版本时，才运行 prepare；`run_csbench.py run --dataset-root ...` 会在 prepare 后自动调用 `embed_csbench_snapshot.py`，补齐参考图并消除绝对路径。导入后使用下列命令严格审计：
+
+```bash
+python scripts/audit_csbench_snapshot.py --source-root /path/to/CSBench_new
+```
+
+审计覆盖重复JSON键、题目总分、答案ID、教师分、图像引用、split覆盖以及外部源与内嵌快照的一致性。

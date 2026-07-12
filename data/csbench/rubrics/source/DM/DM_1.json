@@ -1,0 +1,34 @@
+{
+  "question_id": "DM_1",
+  "subject": "DM",
+  "subject_name": "离散数学",
+  "max_score": 8.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "画出偏序集的哈斯图",
+      "standard_answer_text": "此偏序集的哈斯图如右上图。",
+      "standard_answer_image": "images/standard_answers/DM_01_standard.png",
+      "score": 2.0
+    },
+    {
+      "step_id": 2,
+      "description": "求出A的极大元和极小元",
+      "standard_answer_text": "A的极大元是24和54，极小元是1。",
+      "score": 2.0
+    },
+    {
+      "step_id": 3,
+      "description": "求出A的最大元和最小元",
+      "standard_answer_text": "A的没有最大元，最小元是1。",
+      "score": 2.0
+    },
+    {
+      "step_id": 4,
+      "description": "求子集B的最小上界和最大下界",
+      "standard_answer_text": "集合A的子集B={4, 6, 9}的最小上界没有，最大下界是1。",
+      "score": 2.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

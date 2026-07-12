@@ -1,0 +1,15 @@
+{
+  "question_id": "ISC_1",
+  "subject": "ISC",
+  "subject_name": "计算机导论",
+  "max_score": 5.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "简述革命性影响、主要挑战及新技术方向",
+      "standard_answer_text": "革命性影响：推动计算机性能指数级增长，使得计算机更小型化、高效化，降低成本 [cite: 467]。主要挑战：物理限制（量子效应和热效应）、功耗和散热问题、经济性问题 [cite: 469, 470]。新技术方向：量子计算、异构计算（CPU、GPU、TPU结合）、垂直集成电路（3D封装）、新型半导体材料（石墨烯、氮化镓等） [cite: 472]。",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

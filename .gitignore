@@ -21,7 +21,10 @@ desktop.ini
 # Logs and runtime files
 logs/
 results_runs/
-data/csbench/
+
+# Embedded, versioned CSBench grading snapshot. Runtime products stay ignored.
+data/csbench/rubrics/optimized/
+data/csbench/rubrics/manifests/
 
 # External CSBench source dataset (keep it outside this repository)
 /CSBench_new/

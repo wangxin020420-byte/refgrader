@@ -135,7 +135,7 @@ python scripts/run_csbench.py grade CO_2 --split test --a3wa-config results_runs
 
 ### 3.1 重新生成兼容视图 → 重新优化评分准则 → 正式批改
 
-适用场景：数据集刚更新过、刚修改过 `CSBench_new/question/question_CO.json`、刚拉取过数据集，或者不确定 `data/csbench` 是否最新。推荐用于这次 CO_1 到 CO_7 全量重跑。
+适用场景：明确决定把外部 `CSBench_new` 的新版本重新导入内嵌快照。普通实验不要使用该命令；当前 `data/csbench` 已随 `refgrader-main` 版本化，不再依赖外部数据集。导入时会在 prepare 后自动补齐参考图并改写为可移植路径。
 
 后台模式：
 

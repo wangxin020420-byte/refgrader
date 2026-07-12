@@ -1,0 +1,21 @@
+{
+  "question_id": "CO_3",
+  "subject": "CO",
+  "subject_name": "计算机组成原理",
+  "max_score": 10.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "正确计算 x - 2y 的补码及判断溢出",
+      "standard_answer_text": "补码运算：x-2y = 36H - A8H = 8EH = -114，有借位CF=1；十进制运算：x-2y = 54 - (-88) = 142，超出8位带符号数表示范围，发生溢出。",
+      "score": 5.0
+    },
+    {
+      "step_id": 2,
+      "description": "正确计算 (x ÷ 4) + 2z 的补码及判断溢出",
+      "standard_answer_text": "补码运算：(x÷4)+2z = 0DH + AAH = B7H = -73；十进制运算：(x÷4)+2z = 13 + (-86) = -73，在表示范围内，未发生溢出。",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

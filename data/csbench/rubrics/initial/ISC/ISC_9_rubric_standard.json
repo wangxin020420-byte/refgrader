@@ -1,0 +1,24 @@
+[
+  {
+    "id": "step_1",
+    "item": "写出计算过程及最终存储空间结果（注：根据计算过程酌情给分）",
+    "points": 10.0,
+    "answer_type": "bit_vector",
+    "role": "method",
+    "score_layer": "core",
+    "canonicalization": "bit_vector",
+    "evidence_source": "transcription",
+    "standard_answer_text": "单像素大小：1.5字节；单图像大小：2048×2048×1.5字节≈6.00MB；1000张图像：6.00MB×1000≈5.86GB（最终结果5.86GB） [cite: 543, 544, 545, 546, 547]",
+    "standard_answer_image": null,
+    "source_text": "写出计算过程及最终存储空间结果（注：根据计算过程酌情给分）",
+    "parent_official_item": "写出计算过程及最终存储空间结果（注：根据计算过程酌情给分）",
+    "metadata_source": "csbench",
+    "metadata_hard_enabled": true,
+    "metadata_confidence": 1.0,
+    "parent_id": "step_1",
+    "semantic_contract_version": 1,
+    "parent_points": 10.0,
+    "split_policy": "allow_semantic_split",
+    "weighting_policy": "equal_atomic"
+  }
+]

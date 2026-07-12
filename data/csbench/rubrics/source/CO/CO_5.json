@@ -1,0 +1,27 @@
+{
+  "question_id": "CO_5",
+  "subject": "CO",
+  "subject_name": "计算机组成原理",
+  "max_score": 15.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "计算出主操作码及一地址总名额",
+      "standard_answer_text": "主操作码总数 2^4=16，剩给一/零地址操作码数16-12=4，一地址总名额 = 4×2^6 = 256。",
+      "score": 5.0
+    },
+    {
+      "step_id": 2,
+      "description": "得出第一问的最终结果",
+      "standard_answer_text": "至少让出 1 条一地址位置提供扩展，一地址指令最多为 255 条。",
+      "score": 5.0
+    },
+    {
+      "step_id": 3,
+      "description": "得出第二问的最终结果",
+      "standard_answer_text": "已使用 254 条一地址，剩下 256-254=2 条位置可让出，零地址指令最多为 2×2^6 = 128 条。",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

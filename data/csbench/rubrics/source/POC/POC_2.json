@@ -1,0 +1,27 @@
+{
+  "question_id": "POC_2",
+  "subject": "POC_24",
+  "subject_name": "编译原理",
+  "max_score": 5.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "找出该符号串的所有短语",
+      "standard_answer_text": "短语有 (A((SaA)(b)))、((SaA)(b))、(SaA)、(b)",
+      "score": 2.0
+    },
+    {
+      "step_id": 2,
+      "description": "找出该符号串的直接短语",
+      "standard_answer_text": "直接短语为 (SaA)、(b)",
+      "score": 2.0
+    },
+    {
+      "step_id": 3,
+      "description": "找出该符号串的句柄",
+      "standard_answer_text": "句柄为 (SaA)",
+      "score": 1.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

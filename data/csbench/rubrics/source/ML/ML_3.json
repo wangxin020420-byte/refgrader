@@ -1,0 +1,15 @@
+{
+  "question_id": "ML_3",
+  "subject": "ML",
+  "subject_name": "数字逻辑",
+  "max_score": 6.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "写出各触发器的激励函数以及电路的输出函数表达式",
+      "standard_answer_text": "J1 = K1 = x\nJ2 = K2 = y1·x\nz = y1·y2·x",
+      "score": 6.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

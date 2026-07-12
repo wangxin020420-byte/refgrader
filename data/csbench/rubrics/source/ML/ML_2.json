@@ -1,0 +1,15 @@
+{
+  "question_id": "ML_2",
+  "subject": "ML",
+  "subject_name": "数字逻辑",
+  "max_score": 4.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "写出 F 的最简与或表达式",
+      "standard_answer_text": "F = AB + AC + AD + BCD",
+      "score": 4.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

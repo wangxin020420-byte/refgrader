@@ -1,0 +1,35 @@
+{
+  "question_id": "CO_9",
+  "subject": "CO",
+  "subject_name": "计算机组成原理",
+  "max_score": 15.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "计算ROM芯片数量",
+      "standard_answer_text": "低8KW采用ROM，每片ROM为4K×16，需要8K/4K=2片ROM芯片。",
+      "score": 3.0
+    },
+    {
+      "step_id": 2,
+      "description": "计算RAM芯片数量",
+      "standard_answer_text": "主存共64KW，除低8KW外其余56KW采用RAM；每片RAM为8K×16，需要56K/8K=7片RAM芯片。",
+      "score": 3.0
+    },
+    {
+      "step_id": 3,
+      "description": "给出ROM区片选信号或对应译码输出",
+      "standard_answer_text": "ROM1对应高位地址0000（低4KW），ROM2对应高位地址0001（次低4KW）。可写为使用地址高位和译码器输出形成的低有效片选信号，或等价地写为译码输出Y0、Y1分别选通ROM1、ROM2。",
+      "score": 3.0,
+      "standard_answer_image": "images/standard_answers/CO_9_standard.png"
+    },
+    {
+      "step_id": 4,
+      "description": "给出RAM区片选信号或对应译码输出",
+      "standard_answer_text": "RAM1-RAM7分别对应高位地址001、010、011、100、101、110、111（8KW为一段）。可写为3-8译码器输出Y1-Y7分别经低有效片选连接RAM1-RAM7，或写出由地址高位形成的等价逻辑表达式。",
+      "score": 6.0,
+      "standard_answer_image": "images/standard_answers/CO_9_standard.png"
+    }
+  ],
+  "metadata_source": "csbench"
+}

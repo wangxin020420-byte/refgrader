@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_10",
+  "subject": "CO",
+  "subject_name": "计算机组成原理",
+  "max_score": 15.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "正确划分Cache地址字段",
+      "standard_answer_text": "Cache数据区容量4KW，块大小4W，因此共有1024块；4路组相联，每组4块，所以共有256组。Cache地址字段为：组号8位、组内块号2位、块内字偏移2位。",
+      "score": 3.0
+    },
+    {
+      "step_id": 2,
+      "description": "正确划分主存地址字段并得到tag位数",
+      "standard_answer_text": "主存64KW=2^16W，主存字地址16位；块内字偏移2位，组号8位，所以主存地址中的标记tag为16-8-2=6位。",
+      "score": 3.0
+    },
+    {
+      "step_id": 3,
+      "description": "计算Cache标记区总容量",
+      "standard_answer_text": "Cache每块需要tag标记6位和有效位1位，共7位；共有1024块，因此标记区容量为1024×(6+1)/8=896字节。",
+      "score": 4.0
+    },
+    {
+      "step_id": 4,
+      "description": "判断相等比较电路数量并说明依据",
+      "standard_answer_text": "Cache采用4路组相联，每组有4块；访问某一组时需要把主存地址tag与该组4个Cache块的tag并行比较，且不同组之间比较电路可共享。因此总共需要4套相等比较电路。",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

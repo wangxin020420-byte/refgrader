@@ -1,0 +1,22 @@
+{
+  "question_id": "POC_6",
+  "subject": "POC_25",
+  "subject_name": "编译原理",
+  "max_score": 10.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "判断属性文法 G5 的类型并说明理由",
+      "standard_answer_text": "G5 是 S 属性文法。理由: S.x 和 A.x 均为综合属性；各产生式的语义动作只用产生式右部符号的属性或常数计算左部非终结符的属性，不含继承属性。",
+      "score": 5.0
+    },
+    {
+      "step_id": 2,
+      "description": "给出 acacbb 的标注语法树，并正确标注各结点属性值",
+      "standard_answer_text": "acacbb 的标注语法树可表示为:\nS.x=2 -> a A.x=1 b\nA.x=1 -> A1.x=0 S.x=1\nA1.x=0 -> S.x=0 -> c\nS.x=1 -> a A.x=0 b\nA.x=0 -> S.x=0 -> c\n\n等价的括号表示:\nS[2](a, A[1](A[0](S[0](c)), S[1](a, A[0](S[0](c)), b)), b)\n\n其中最内层 S -> c 得 S.x=0，A -> S 得 A.x=0；中间 S -> a A b 得 S.x=1；左侧 A -> S 得 A.x=0；外层 A -> A1 S 得 A.x=1；根结点 S -> a A b 得 S.x=2。",
+      "standard_answer_image": "images/standard_answers/POC_6_step2_standard.png",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

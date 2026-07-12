@@ -1,0 +1,46 @@
+{
+  "question_id": "CO_12",
+  "subject": "CO",
+  "subject_name": "计算机组成原理",
+  "max_score": 25.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "标明图中四个寄存器名称",
+      "standard_answer_text": "a为数据寄存器DR，b为指令寄存器IR，c为地址寄存器AR，d为程序计数器PC。",
+      "score": 4.0
+    },
+    {
+      "step_id": 2,
+      "description": "写出取指令到控制器的数据通路",
+      "standard_answer_text": "主存M -> 数据寄存器DR -> 指令寄存器IR -> 操作控制器。",
+      "score": 4.0
+    },
+    {
+      "step_id": 3,
+      "description": "写出运算器和主存之间存/取访问的数据通路",
+      "standard_answer_text": "存储器读：M -> DR -> ALU -> AC；存储器写：AC -> DR -> M。",
+      "score": 4.0
+    },
+    {
+      "step_id": 4,
+      "description": "写出ADD AX, OD执行过程相关数据通路",
+      "standard_answer_text": "AC -> ALU，DR -> ALU，'+' -> ALU，ALU -> AC。",
+      "score": 4.0
+    },
+    {
+      "step_id": 5,
+      "description": "计算控制存储器容量",
+      "standard_answer_text": "微指令字长24位，下址字段8位，因此可寻址2^8=256条微指令，控制存储器容量为256×24位。",
+      "score": 4.0
+    },
+    {
+      "step_id": 6,
+      "description": "设计微指令格式并给出各字段位数",
+      "standard_answer_text": "操作字段分为4组：第1组3位（5个微命令）、第2组4位（8个微命令）、第3组4位（14个微命令）、第4组2位（3个微命令）；判断测试字段3位；下地址字段8位。",
+      "standard_answer_image": "images/standard_answers/CO_12_standard.png",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

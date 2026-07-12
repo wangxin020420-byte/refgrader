@@ -1,0 +1,37 @@
+{
+  "question_id": "POC_5",
+  "subject": "POC_25",
+  "subject_name": "编译原理",
+  "max_score": 5.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "写出拓广文法并构造初始 LR(1) 项目集 I0",
+      "standard_answer_text": "拓广文法: S' -> S\nI0:\nS' -> · S, {#}\nS -> · A a A, {#}\nS -> · b B a, {#}\nA -> ·, {a}",
+      "standard_answer_image": "images/standard_answers/POC_5_standard.png",
+      "score": 1.0
+    },
+    {
+      "step_id": 2,
+      "description": "由 I0 和 I1 构造主要后继项目集",
+      "standard_answer_text": "I1 = GOTO(I0, b):\nS -> b · B a, {#}\nB -> · a, {a}\n\nI2 = GOTO(I0, S):\nS' -> S ·, {#}\n\nI3 = GOTO(I0, A):\nS -> A · a A, {#}\n\nI4 = GOTO(I1, B):\nS -> b B · a, {#}\n\nI5 = GOTO(I1, a):\nB -> a ·, {a}",
+      "standard_answer_image": "images/standard_answers/POC_5_standard.png",
+      "score": 1.5
+    },
+    {
+      "step_id": 3,
+      "description": "继续构造剩余项目集，尤其注意 A -> ε 的展望符",
+      "standard_answer_text": "I6 = GOTO(I3, a):\nS -> A a · A, {#}\nA -> ·, {#}\n\nI7 = GOTO(I4, a):\nS -> b B a ·, {#}\n\nI8 = GOTO(I6, A):\nS -> A a A ·, {#}",
+      "standard_answer_image": "images/standard_answers/POC_5_standard.png",
+      "score": 1.5
+    },
+    {
+      "step_id": 4,
+      "description": "完整标出 LR(1) 项目集规范族的状态转移关系",
+      "standard_answer_text": "状态转移关系:\nI0 --b--> I1\nI0 --S--> I2\nI0 --A--> I3\nI1 --B--> I4\nI1 --a--> I5\nI3 --a--> I6\nI4 --a--> I7\nI6 --A--> I8",
+      "standard_answer_image": "images/standard_answers/POC_5_standard.png",
+      "score": 1.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

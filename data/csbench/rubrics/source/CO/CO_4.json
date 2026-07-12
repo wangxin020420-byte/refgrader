@@ -1,0 +1,51 @@
+{
+  "question_id": "CO_4",
+  "subject": "CO",
+  "subject_name": "计算机组成原理",
+  "max_score": 20.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "明确指出物理地址总位数",
+      "standard_answer_text": "主存容量 8MB = 2^23 B，物理地址为 23 位。",
+      "score": 2.0
+    },
+    {
+      "step_id": 2,
+      "description": "明确指出块内偏移位数",
+      "standard_answer_text": "块大小 2KB = 2^11 B，块内偏移为 11 位。",
+      "score": 2.0
+    },
+    {
+      "step_id": 3,
+      "description": "明确指出Cache组号位数",
+      "standard_answer_text": "Cache总块数32块，2路组相联，16组 = 2^4，Cache组号需要 4 位。",
+      "score": 2.0
+    },
+    {
+      "step_id": 4,
+      "description": "得出正确的主存地址格式",
+      "standard_answer_text": "字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位。",
+      "score": 2.0
+    },
+    {
+      "step_id": 5,
+      "description": "得出正确的Cache地址格式",
+      "standard_answer_text": "Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位。",
+      "score": 2.0
+    },
+    {
+      "step_id": 6,
+      "description": "正确判断2D07FFH是否命中并说明理由",
+      "standard_answer_text": "地址 2D07FFH 访问字块标记位 0101 1010B，Cache该位置存放块编号为块2，而主存地址中Cache组号字段为0000，若命中则存放的块编号应为块0或块1，因此未命中。",
+      "score": 5.0
+    },
+    {
+      "step_id": 7,
+      "description": "正确判断7F0057H是否命中并说明理由",
+      "standard_answer_text": "地址 7F0057H 访问字块标记位 1111 1110B，主存地址中Cache组号字段为0000，应检查组0中的块0和块1；块1的标记为11111110B，与地址tag匹配，因此命中，命中Cache块1。",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

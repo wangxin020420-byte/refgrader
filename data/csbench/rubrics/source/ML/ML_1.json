@@ -1,0 +1,16 @@
+{
+  "question_id": "ML_1",
+  "subject": "ML",
+  "subject_name": "数字逻辑",
+  "max_score": 4.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "正确填写真值表的输出结果（F列）",
+      "standard_answer_text": "F列输出从上到下依次为：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "standard_answer_image": "images/standard_answers/ML_01_standard.png",
+      "score": 4.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

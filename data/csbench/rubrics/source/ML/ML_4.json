@@ -1,0 +1,16 @@
+{
+  "question_id": "ML_4",
+  "subject": "ML",
+  "subject_name": "数字逻辑",
+  "max_score": 6.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "作出该电路的原始状态图和原始状态表",
+      "standard_answer_text": "状态表如下：\n现态 | 次态/输出(X=0) | 次态/输出(X=1)\nS0 | S1/0 | S0/0\nS1 | S1/0 | S2/0\nS2 | S3/0 | S0/0\nS3 | S1/0 | S4/0\nS4 | S5/1 | S0/0\nS5 | S1/0 | S4/0\n原始状态图详见标准答案图片。",
+      "standard_answer_image": "images/standard_answers/ML_04_standard.png",
+      "score": 6.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

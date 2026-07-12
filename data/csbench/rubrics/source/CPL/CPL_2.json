@@ -1,0 +1,15 @@
+{
+  "question_id": "CPL_2",
+  "subject": "CPL",
+  "subject_name": "C语言/程序设计",
+  "max_score": 5.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "写出程序的正确输出结果",
+      "standard_answer_text": "17",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

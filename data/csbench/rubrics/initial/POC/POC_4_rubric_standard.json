@@ -1,0 +1,24 @@
+[
+  {
+    "id": "step_1",
+    "item": "构造符合要求的2型文法（注：其他符合要求的文法同样给分）",
+    "points": 5.0,
+    "answer_type": "formula",
+    "role": "method",
+    "score_layer": "support",
+    "canonicalization": "formula",
+    "evidence_source": "formula",
+    "standard_answer_text": "S -> ME | 2 | 4 | 6 | 8\nE -> 0 | 2 | 4 | 6 | 8\nM -> MN | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9\nN -> 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9",
+    "standard_answer_image": null,
+    "source_text": "构造符合要求的2型文法（注：其他符合要求的文法同样给分）",
+    "parent_official_item": "构造符合要求的2型文法（注：其他符合要求的文法同样给分）",
+    "metadata_source": "csbench",
+    "metadata_hard_enabled": true,
+    "metadata_confidence": 1.0,
+    "parent_id": "step_1",
+    "semantic_contract_version": 1,
+    "parent_points": 5.0,
+    "split_policy": "allow_semantic_split",
+    "weighting_policy": "equal_atomic"
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "question_id": "DM_2",
+  "subject": "DM",
+  "subject_name": "离散数学",
+  "max_score": 10.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "证明关系 R 满足自反性",
+      "standard_answer_text": "（1）∀<a, b>∈A×A, a+b=a+b ⇔ <a, b>R<a, b>, 因此 R 是自反的；",
+      "score": 3.0
+    },
+    {
+      "step_id": 2,
+      "description": "证明关系 R 满足对称性",
+      "standard_answer_text": "（2）∀<a, b>, <c, d>∈A×A, <a, b>R<c, d> ⇔ a+b=c+d ⇒ c+d=a+b ⇒ <c, d>R<a, b>, 因此 R 是对称的；",
+      "score": 3.0
+    },
+    {
+      "step_id": 3,
+      "description": "证明关系 R 满足传递性",
+      "standard_answer_text": "（3）∀<a, b>, <c, d>, <e, f>∈A×A, <a, b>R<c, d> ∧ <c, d>R<e, f> ⇔ a+b=c+d ∧ c+d=e+f ⇒ a+b=e+f ⇒ <a, b>R<e, f>, 因此 R 是传递的。",
+      "score": 4.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

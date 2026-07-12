@@ -1,0 +1,39 @@
+{
+  "question_id": "CPL_3",
+  "subject": "CPL",
+  "subject_name": "C语言/程序设计",
+  "max_score": 10.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "写出第 1 行的正确输出结果（注：行和列的值写反扣 1 分）",
+      "standard_answer_text": "1, row:40, col:30",
+      "score": 2.0
+    },
+    {
+      "step_id": 2,
+      "description": "写出第 2 行的正确输出结果（注：行和列的值写反扣 1 分）",
+      "standard_answer_text": "2, row:30, col:40",
+      "score": 2.0
+    },
+    {
+      "step_id": 3,
+      "description": "写出第 3 行的正确输出结果（注：行和列的值写反扣 1 分）",
+      "standard_answer_text": "3, row:25, col:35",
+      "score": 2.0
+    },
+    {
+      "step_id": 4,
+      "description": "写出第 4 行的正确输出结果（注：行和列的值写反扣 1 分）",
+      "standard_answer_text": "4, row:30, col:24",
+      "score": 2.0
+    },
+    {
+      "step_id": 5,
+      "description": "写出第 5 行的正确输出结果（注：行和列的值写反扣 1 分）",
+      "standard_answer_text": "5, row:21, col:17",
+      "score": 2.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

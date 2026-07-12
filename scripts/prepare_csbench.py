@@ -13,9 +13,16 @@ import json
 import os
 import re
 import shutil
+import sys
 from collections import Counter
 from pathlib import Path
 from typing import Any
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from rubric_semantics import prepare_rubric_semantic_contract
 
 
 DEFAULT_ANSWER_FILES = (
@@ -455,7 +462,7 @@ def convert_rubric(
                 "metadata_confidence": metadata["metadata_confidence"],
             }
         )
-    return converted
+    return prepare_rubric_semantic_contract(converted)
 
 
 def make_reference_text(rubric: list[dict[str, Any]]) -> str:

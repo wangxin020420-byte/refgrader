@@ -941,7 +941,7 @@ python evaluate.py
 
 3. 评分标准生成与优化
 
-   `step3_rrd_generator.py` 将官方评分标准转成 JSON 细则。`main_pipeline.py` 的 `VARIANCE_OPT` 模式会抽取少量样本，使用同一份盲提取事实多次打分，依据分数方差和粗粒度高分条目触发细则拆分。
+   `step3_rrd_generator.py` 将官方评分标准转成 JSON 细则。`main_pipeline.py` 的 `VARIANCE_OPT` 模式会抽取少量样本，使用同一份盲提取事实多次打分，依据分数方差或允许细化的复合高分条目触发语义检查。原子结果项不会再因为分值较高而被强制拆分。
 
    CSBench 使用三层准则目录：`rubrics/source` 保存原始准则副本，
    `rubrics/initial` 保存标准化初始准则，`rubrics/optimized` 保存

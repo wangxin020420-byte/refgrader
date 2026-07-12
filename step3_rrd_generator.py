@@ -6,6 +6,10 @@ import re
 import time
 from openai import OpenAI
 from calibration_utils import prepare_rubrics_for_calibration
+from rubric_semantics import (
+    prepare_rubric_semantic_contract,
+    validate_refined_rubric,
+)
 
 # 🔴 记得替换为你的真实 Key
 CODING_PLAN_API_KEY = "132a47a6484e4a9dbfaa51fea40bbae0.LqWjKhw6WcH2sdFs"
@@ -382,6 +386,7 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
     """
     [修正版] 基于高方差样本优化规则。
     """
+    original_rubric_list = prepare_rubric_semantic_contract(original_rubric_list)
     print(f"🔧 [规则修正] 正在基于 {len(hard_samples_info)} 份高方差样本优化规则...")
     
     samples_desc = ""
@@ -397,50 +402,6 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
         【条目判定历史】: {json.dumps(sample.get('item_category_history', {}), ensure_ascii=False)}
         ---------------------
         """
-
-    prompt = f"""
-    你是一位资深的计算机科学(CS)教育与阅卷专家。在自动批改系统试运行中，我们发现当前的评分标准存在“颗粒度过粗”或“评分摇摆（方差大）”的问题。
-
-    🚨 【通用客观题/理工科踩点给分元规则】（必须绝对遵守）：
-    这是一门硬核理工科考试，阅卷必须遵循“见数给分、见词给分”的绝对客观原则！在拆解或合并修改标准时，必须严格遵守以下三条铁律：
-    1. 中间结果具象化（Data/Result-Driven）：推导过程或步骤分，必须具象化为具体的客观事实（如：求出了具体的中间数值、指出了特定的对象或编号、或列出了特定公式/连线）。
-    2. 严禁任何主观形容词（Absolute Ban on Subjectivity）：标准中【严禁】出现“理由充分”、“逻辑清晰”、“步骤完整”等词汇！请将其直接替换为对应的“核心数值/关键词”或“最终结论”。
-    3. 规则原子性与正交性（Atomicity & Orthogonality）：每个拆分出的细则必须是“原子的”（只考察单一独立的客观事实），且相互之间不能包含或重叠。
-    
-    【题目内容】: {question_text}
-    【总分】: {total_score}
-    
-    【当前评分标准 (JSON)】:
-    {json.dumps(original_rubric_list, ensure_ascii=False, indent=2)}
-    
-    【遇到的问题】:
-    以下样本暴露了系统缺陷：存在分值过高(>=4分)的笼统条款，或存在使用了主观形容词的条款，导致系统缺乏可执行的客观判定依据。
-    {samples_desc}
-    
-    【你的任务】:
-    请重构并输出优化后的最终版评分标准（纯 JSON 数组格式）。
-    
-    🚨【最高重构红线】（违反将导致系统崩溃）：
-    1. 【保留细则】：对于原本颗粒度已经足够精细（分值 <= 3 分）且符合客观元规则的条款，必须原样保留，严禁篡改。
-    2. 🚨【基于客观节点拆解大项】🚨：对于任何分值 >= 4 分的笼统大项，必须将其彻底删除，并严格根据【理工科踩点给分元规则】，将其物理拆解为多个只考察具体数值/特定对象/公式/事实的独立 JSON 对象。
-    3. 【分数严格守恒】：拆解后新增的所有独立对象的 `points` 分数之和，必须绝对等于被删除大项的原始分值！各细则的权重应根据其技术重要性合理分配，严禁机械平分。
-    4. 【绝对 JSON 安全】：严禁在 JSON 的 `item` 字符串中使用真实的换行符（回车）！每个细则的描述必须是单行且明确的陈述句。
-    5. 【扁平结构】：输出必须是一个一维 JSON 数组，严禁生成任何嵌套的对象或多维数组。
-    
-    请直接输出优化后的 JSON 数组，不要包含任何 Markdown 标记或多余的解释说明。
-    """
-
-    # 👉 修复3：加入重试装甲和 timeout 防止反思超时崩溃
-    prompt += """
-
-    EXTRA_CONSTRAINTS_FOR_GENERALIZATION:
-    1. Use item-level variance before total-score variance. Only rewrite items whose item_variance is high, or whose official parent item is too coarse.
-    2. First classify each issue as one of: rubric_ambiguity, rubric_granularity, extraction_failure, equivalent_representation_gap, scoring_model_error.
-    3. Only rubric_ambiguity and rubric_granularity may change the rubric body or split points.
-    4. If the issue is extraction_failure, equivalent_representation_gap, or scoring_model_error, keep the scoring meaning and only add metadata such as answer_type, canonicalization, evidence_source, dependency_group, source_text, parent_official_item.
-    5. Do not use teacher-score history or question-specific hacks. The output must remain valid for other CS courses and exams.
-    6. Preserve source traceability: every item should keep source_text and parent_official_item when possible.
-    """
 
     prompt = f"""
 你是计算机相关课程的评分准则优化专家。现在要基于高方差样本，对当前 JSON rubric 做一次通用化修正。
@@ -462,6 +423,11 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
 2. 不要把 OCR/视觉提取失败、学生错误、模型偶然误判，当成 rubric 内容去硬改。
 3. 不得使用教师分数历史、学生编号、具体题号等信息做针对性规则；生成结果必须能迁移到其他计算机课程题目。
 4. 所有评分项 points 之和必须严格等于 {total_score}。
+5. 每个原评分项都有稳定的 parent_id、parent_points 和 split_policy。不得删除父项语义，也不得把分值转移到其他父项。
+6. split_policy=preserve_atomic 的原子结果项禁止拆分计分。可补充 canonicalization、full_credit_anchor 或 diagnostic_evidence，但正确最终答案必须继续获得该父项满分。
+7. split_policy=allow_semantic_split 只表示允许在确有多个独立必要条件时拆分，不代表必须拆分；拆分子项的 parent_id 必须等于原父项 id，子项分值之和必须等于 parent_points。
+8. 中间过程若不是官方满分的必要条件，应放入 diagnostic_evidence，不得新增为扣分前提。
+9. 官方未给出子项权重时，不得按“技术重要性”主观分配分值。只能拆成等权、正交、均为满分必要条件的原子证据；若无法形成这样的原子集合，则保持父项不拆，仅补充 diagnostic_evidence。
 
 【问题类型判定】
 在修改前，先在内部判断每个暴露问题属于哪一类：
@@ -496,6 +462,11 @@ text, formula, table, diagram
 - evidence_source：text / formula / table / diagram。
 - source_text：来自官方评分准则或参考答案的依据。
 - parent_official_item：对应的官方粗粒度条目。
+- parent_id：必须引用当前 rubric 中某个原始父项 id。
+- parent_points：保留该父项原始分值。
+- split_policy：保留父项原值，不得自行修改。
+- weighting_policy：保留父项原值；equal_atomic 要求所有计分子项等权。
+- diagnostic_evidence：可选的零分诊断证据数组，不计入 points 总和。
 
 【输出要求】
 只输出 JSON 数组，不输出 Markdown，不输出解释文字。
@@ -516,14 +487,19 @@ text, formula, table, diagram
             if not new_rubric:
                 raise ValueError("未返回有效JSON")
                 
-            # 校验：确保顶层结构数量一致，且总分不变
-            current_total = sum(item.get('points', 0) for item in new_rubric)
-            if abs(current_total - total_score) > 0.1:
-                print(f"   ⚠️ 修正失败：总分变异 ({current_total} != {total_score})，抛出异常重试...")
-                raise ValueError("总分不守恒")
+            new_rubric = normalize_generated_rubric(new_rubric)
+            valid, validation_errors = validate_refined_rubric(
+                original_rubric_list,
+                new_rubric,
+                total_score,
+            )
+            if not valid:
+                reason = "; ".join(validation_errors)
+                print(f"   ⚠️ 修正失败：语义契约校验未通过：{reason}")
+                raise ValueError(reason)
 
             print("   ✅ 规则修正成功！")
-            return normalize_generated_rubric(new_rubric)
+            return prepare_rubric_semantic_contract(new_rubric)
 
         except Exception as e:
             print(f"   ⏳ [修正异常] (尝试 {attempt+1}/{max_retries}): {e}")

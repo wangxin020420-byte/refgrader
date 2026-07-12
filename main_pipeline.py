@@ -11,6 +11,10 @@ import time
 import numpy as np
 from datetime import datetime
 from step3_rrd_generator import generate_rrd_rubrics, refine_rubric_based_on_variance
+from rubric_semantics import (
+    RUBRIC_SEMANTIC_CONTRACT_VERSION,
+    prepare_rubric_semantic_contract,
+)
 from step4_vlm_grader import (
     grade_student_3wd_pipeline,
     generate_blind_checklist,
@@ -752,6 +756,7 @@ def run_variance_optimization_process(
         logging.info("Initial rubric generated; sleep 2 seconds before sampling.")
         time.sleep(2)
 
+    draft_rubric = prepare_rubric_semantic_contract(draft_rubric)
     initial_total = rubric_total(draft_rubric)
     if abs(initial_total - float(q_score)) > 1e-6:
         raise ValueError(
@@ -958,17 +963,24 @@ def run_variance_optimization_process(
     logging.info(f"\n📊 采样完成。平均方差: {avg_variance:.4f}")
     logging.info(f"Item-level variance: avg={avg_item_variance:.4f}, max={max_item_variance:.4f}")
 
-    has_coarse_item = any(item.get('points', 0) >= 4 for item in draft_rubric)
+    has_refinement_candidate = any(
+        float(item.get("points", 0) or 0) >= 4
+        and item.get("split_policy") == "allow_semantic_split"
+        for item in draft_rubric
+    )
     final_rubric = draft_rubric
     refinement_applied = False
 
-    if avg_variance > 0.1 or avg_item_variance > 0.05 or has_coarse_item:
+    if avg_variance > 0.1 or avg_item_variance > 0.05 or has_refinement_candidate:
         if avg_variance > 0.1:
             logging.warning("⚠️ 方差超标！开始基于高方差样本修正标准...")
         elif avg_item_variance > 0.05:
             logging.warning("⚠️ Item-level 方差超标，开始定位不稳定评分项...")
         else:
-            logging.warning("⚠️ 触发粗粒度警报！发现单一条款分值过高(>=4分)，强制启动向下拆解...")
+            logging.warning(
+                "⚠️ 触发语义粗粒度检查：存在允许细化的复合高分条款；"
+                "原子结果项保持完整。"
+            )
 
         for sample in hard_samples_info:
             scores = sample.get('scores', [])
@@ -1017,6 +1029,7 @@ def run_variance_optimization_process(
         json.dump(final_rubric, handle, indent=4, ensure_ascii=False)
     manifest = {
         "schema_version": 1,
+        "rubric_semantic_contract_version": RUBRIC_SEMANTIC_CONTRACT_VERSION,
         "question_id": q_id,
         "rubric_group": rubric_group_for(q_id, q_data),
         "source_rubric": q_data.get("source_rubric_path"),

@@ -139,3 +139,16 @@ python scripts/run_csbench.py evaluate CO_3 --export
 - `FULL` 默认要求 optimized 准则存在，不会静默回退 initial。
 - 如只做提取冒烟测试，可显式增加 `--allow-initial-rubric`。
 - `data/csbench/`、`ocr_cache/`、`results_runs/` 均不提交 Git。
+
+## 7. 评分准则语义契约
+
+评分准则优化遵循“官方父项不变、证据结构细化”的约束：
+
+- 每个初始评分项具有稳定的 `parent_id`、`parent_points` 和 `split_policy`。
+- `preserve_atomic` 表示最终答案锚定的原子结果项，只能补充等价归一化或诊断证据，不能拆分计分。
+- `allow_semantic_split` 表示官方条款确实包含多个独立必要条件时允许细化；所有子项必须保留同一 `parent_id`，且分值之和严格等于 `parent_points`。
+- 不再因为单项分值大于等于 4 分而强制拆分。OCR 失败、学生错误和评分模型偶然误判也不能改变评分语义。
+- 官方未给出子项权重时，只允许使用等权、正交、均为满分必要条件的证据原子；无法满足时保持父项计分不变，仅增加诊断证据。
+- 优化结果除总分校验外，还必须通过父项分值守恒、父项可追溯和原子满分答案不变性校验。
+
+CO_4 当前官方初始分值为 `2 + 2 + 2 + 2 + 2 + 5 + 5 = 20`。前五项分别考查地址字段参数，后两项分别考查两个地址的 Cache 命中结论及理由。

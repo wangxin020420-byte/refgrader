@@ -90,9 +90,14 @@ For a complete `--split test` run, `grade` now performs the evaluation/export
 and copies a complete portable run to the sibling `refgrader-artifacts`
 repository automatically. The copy remains as local Git changes for review;
 commit and push are still manual unless `--push-artifacts` is explicitly used.
-Validation/calibration splits, limited debug runs, and incomplete checkpoints
-are never auto-published as formal test artifacts. When `--a3wa-config` is
-provided, the exact config and SHA-256 are archived with the run.
+Complete validation/calibration splits are published to their own
+`validation_runs`/`calibration_runs` directories and are never mixed with
+formal `grading_runs`. Limited debug runs and incomplete checkpoints are not
+published. A complete validation grade is published immediately;
+`run_csbench.py calibrate` then archives a second immutable validation run with
+the derived A3WA config, allowing another device to restore and
+continue the test stage. When `--a3wa-config` is provided for test, the exact
+config and SHA-256 are archived with the formal run.
 
 Notes:
 

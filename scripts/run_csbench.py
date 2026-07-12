@@ -541,6 +541,36 @@ def copy_json_directory(
     return copied
 
 
+def optimization_evidence_paths(
+    ctx: CSBenchContext, fallback_dir: Path
+) -> tuple[Path | None, Path | None]:
+    """Locate optimization evidence recorded by the rubric manifest.
+
+    New manifests identify the exact variance checkpoint and its hash. This
+    prevents a single-question publication from accidentally attaching an old
+    checkpoint after the rubric was optimized as part of a larger batch.
+    Legacy manifests fall back to the historical derived directory.
+    """
+    manifest = json.loads(
+        ctx.optimization_manifest.read_text(encoding="utf-8")
+    )
+    recorded = manifest.get("variance_checkpoint")
+    recorded_hash = manifest.get("variance_checkpoint_sha256")
+    if recorded and recorded_hash:
+        checkpoint = Path(str(recorded)).expanduser()
+        if checkpoint.is_file() and sha256_file(checkpoint) == recorded_hash:
+            progress = checkpoint.parent / "progress.json"
+            return checkpoint, progress if progress.is_file() else None
+        return None, None
+
+    checkpoint = fallback_dir / f"{ctx.question_id}_variance_checkpoint.json"
+    progress = fallback_dir / "progress.json"
+    return (
+        checkpoint if checkpoint.is_file() else None,
+        progress if progress.is_file() else None,
+    )
+
+
 def ensure_background_slot_available() -> None:
     if os.name == "nt":
         return
@@ -564,6 +594,30 @@ def ensure_background_slot_available() -> None:
         f"A background RefGrader experiment is already running with PID {pid}. "
         "Use `python scripts/run_csbench.py status` or stop it first."
     )
+
+
+def grading_results_dir(
+    contexts: list["CSBenchContext"], answer_split: str
+) -> Path:
+    """Return a split-safe working directory for one grading batch.
+
+    Test keeps the historical ``_full`` suffix for compatibility with the
+    evaluator and existing artifacts. Non-test splits include their name so a
+    validation run can never be overwritten by a later test run for the same
+    question batch.
+    """
+    slug = batch_slug(contexts)
+    suffix = "full" if answer_split == "test" else answer_split
+    return (
+        PROJECT_ROOT / "results_runs" / f"csbench_{slug}_{suffix}"
+    ).resolve()
+
+
+RESULT_ARTIFACT_STAGES = {
+    "validation": ("validation", "validation_runs"),
+    "calibration": ("calibration", "calibration_runs"),
+    "full": ("test", "grading_runs"),
+}
 
 
 def build_run_command(args: argparse.Namespace, *, background: bool) -> list[str]:
@@ -766,10 +820,7 @@ def grade(args: argparse.Namespace) -> int:
     contexts = build_contexts(args.prepared_dir, args.questions)
     for ctx in contexts:
         ctx.validate_optimized()
-    slug = batch_slug(contexts)
-    results_dir = (
-        PROJECT_ROOT / "results_runs" / f"csbench_{slug}_full"
-    ).resolve()
+    results_dir = grading_results_dir(contexts, args.split)
     preexisting_complete = (
         completed_questions_for_split(
             contexts,
@@ -815,18 +866,26 @@ def grade(args: argparse.Namespace) -> int:
         if os.name == "nt":
             raise RuntimeError("--background is only supported on Linux.")
         ensure_background_slot_available()
-        if (
-            not args.no_artifacts
-            and args.split == "test"
-            and args.limit is None
-        ):
-            env["REFGRADER_POST_SUCCESS_CMD"] = shlex.join(
-                build_evaluate_command(
-                    args,
-                    args.questions,
-                    a3wa_config_questions=a3wa_config_questions,
+        if not args.no_artifacts and args.limit is None:
+            if args.split == "test":
+                env["REFGRADER_POST_SUCCESS_CMD"] = shlex.join(
+                    build_evaluate_command(
+                        args,
+                        args.questions,
+                        a3wa_config_questions=a3wa_config_questions,
+                    )
                 )
-            )
+            elif args.split in ("validation", "calibration"):
+                env["REFGRADER_POST_SUCCESS_CMD"] = shlex.join(
+                    build_publish_command(
+                        args,
+                        args.questions,
+                        stage=args.split,
+                        include_facts=args.include_facts,
+                        include_raw_ocr=args.include_raw_ocr,
+                        push=args.push_artifacts,
+                    )
+                )
         command = [
             str(PROJECT_ROOT / "run_experiment.sh"),
             "run",
@@ -847,11 +906,50 @@ def grade(args: argparse.Namespace) -> int:
         return return_code
     if args.split != "test":
         state = "started" if args.background else "finished"
-        print(
-            f"{args.split} grading {state}. Calibration splits remain local "
-            "and are not published as formal test artifacts."
+        if args.split not in ("validation", "calibration"):
+            print(
+                f"{args.split} grading {state}. This split remains local "
+                "because it is not a publishable calibration stage."
+            )
+            return return_code
+        if args.limit is not None:
+            print(
+                f"Limited {args.split} grading {state}. Partial runs remain "
+                "local and are not published."
+            )
+            return return_code
+        if args.background:
+            print(
+                f"Background {args.split} grading started. Complete split "
+                "results will be validated and copied to artifacts after "
+                "the job finishes successfully."
+            )
+            return return_code
+        validate_complete_results(
+            contexts,
+            results_dir,
+            split_name=args.split,
         )
-        return return_code
+        print(
+            f"{args.split} grading finished; publishing a split-specific "
+            "artifact run."
+        )
+        return publish(
+            argparse.Namespace(
+                prepared_dir=args.prepared_dir,
+                questions=args.questions,
+                artifacts_repo=args.artifacts_repo,
+                stage=args.split,
+                run_id=None,
+                include_raw_ocr=args.include_raw_ocr,
+                include_facts=args.include_facts,
+                push=args.push_artifacts,
+                a3wa_config=args.a3wa_config,
+                a3wa_config_questions=(
+                    args.questions if args.a3wa_config else []
+                ),
+            )
+        )
     if args.limit is not None:
         print(
             "Limited test grading finished. Partial runs remain local and are "
@@ -981,12 +1079,91 @@ def run_experiment(args: argparse.Namespace) -> int:
     )
 
 
+def calibrate(args: argparse.Namespace) -> int:
+    """Calibrate A3WA from a complete validation split and publish it."""
+    contexts = build_contexts(args.prepared_dir, args.questions)
+    for ctx in contexts:
+        ctx.validate_optimized()
+    validation_dir = grading_results_dir(contexts, "validation")
+    validate_complete_results(
+        contexts,
+        validation_dir,
+        split_name="validation",
+    )
+
+    output = (
+        Path(args.output).expanduser().resolve()
+        if args.output
+        else (
+            PROJECT_ROOT
+            / "results_runs"
+            / f"csbench_{batch_slug(contexts)}_a3wa_calibration.json"
+        ).resolve()
+    )
+    output.parent.mkdir(parents=True, exist_ok=True)
+    files = [
+        validation_dir / f"{ctx.question_id}_grading_checkpoint.json"
+        for ctx in contexts
+    ]
+    command = [
+        sys.executable,
+        str(PROJECT_ROOT / "scripts" / "calibrate_a3wa.py"),
+        "--files",
+        *(str(path) for path in files),
+        "--teacher-db",
+        str(contexts[0].teacher_db),
+        "--database-path",
+        str(contexts[0].database),
+        "--output",
+        str(output),
+        "--bnd-max",
+        str(args.bnd_max),
+        "--top-k",
+        str(args.top_k),
+        "--min-cell-count",
+        str(args.min_cell_count),
+        "--shrinkage-k",
+        str(args.shrinkage_k),
+        "--max-correction-ratio",
+        str(args.max_correction_ratio),
+        "--max-correction-points",
+        str(args.max_correction_points),
+    ]
+    if args.no_score_calibration:
+        command.append("--no-score-calibration")
+
+    return_code = execute(command, dry_run=args.dry_run)
+    if return_code != 0 or args.dry_run:
+        return return_code
+    if not output.is_file():
+        raise FileNotFoundError(f"A3WA calibration config not generated: {output}")
+
+    print(f"A3WA calibration config: {output}")
+    if args.no_artifacts:
+        return 0
+    print(
+        "Publishing complete validation checkpoints and the derived A3WA "
+        "configuration."
+    )
+    return publish(
+        argparse.Namespace(
+            prepared_dir=args.prepared_dir,
+            questions=args.questions,
+            artifacts_repo=args.artifacts_repo,
+            stage="validation",
+            run_id=args.run_id,
+            include_raw_ocr=args.include_raw_ocr,
+            include_facts=args.include_facts,
+            push=args.push_artifacts,
+            a3wa_config=str(output),
+            a3wa_config_questions=args.questions,
+        )
+    )
+
+
 def evaluate(args: argparse.Namespace) -> int:
     contexts = build_contexts(args.prepared_dir, args.questions)
-    slug = batch_slug(contexts)
-    results_dir = (
-        PROJECT_ROOT / "results_runs" / f"csbench_{slug}_full"
-    ).resolve()
+    results_dir = grading_results_dir(contexts, "test")
     missing = [
         str(results_dir / f"{ctx.question_id}_grading_checkpoint.json")
         for ctx in contexts
@@ -1026,16 +1203,14 @@ def evaluate(args: argparse.Namespace) -> int:
         "3wd",
     ]
     if args.export:
+        evaluation_dir = results_dir / "evaluation"
+        summary_output = evaluation_dir / "summary.json"
         command.extend(
             [
                 "--compare-output",
-                str(
-                    (
-                        PROJECT_ROOT
-                        / "outputs"
-                        / f"csbench_{slug}_compare.csv"
-                    ).resolve()
-                ),
+                str(evaluation_dir / "compare.csv"),
+                "--summary-output",
+                str(summary_output),
             ]
         )
     if args.detail:
@@ -1071,13 +1246,7 @@ def manage_background(args: argparse.Namespace) -> int:
 
 def monitor(args: argparse.Namespace) -> int:
     contexts = build_contexts(args.prepared_dir, args.questions)
-    slug = batch_slug(contexts)
-    progress = (
-        PROJECT_ROOT
-        / "results_runs"
-        / f"csbench_{slug}_full"
-        / "progress.json"
-    ).resolve()
+    progress = grading_results_dir(contexts, args.split) / "progress.json"
     command = [
         sys.executable,
         str(PROJECT_ROOT / "monitor.py"),
@@ -1094,9 +1263,7 @@ def show_outputs(args: argparse.Namespace) -> int:
     optimize_dir = (
         PROJECT_ROOT / "results_runs" / f"csbench_{slug}_rubric_opt"
     ).resolve()
-    grade_dir = (
-        PROJECT_ROOT / "results_runs" / f"csbench_{slug}_full"
-    ).resolve()
+    grade_dir = grading_results_dir(contexts, args.split)
     metadata = {}
     with contexts[0].answer_metadata.open(encoding="utf-8") as handle:
         for line in handle:
@@ -1108,10 +1275,10 @@ def show_outputs(args: argparse.Namespace) -> int:
     print(f"Combined grading run: {grade_dir}")
     for ctx in contexts:
         split = json.loads(ctx.split_file.read_text(encoding="utf-8"))
-        test_ids = [str(value) for value in split.get("test", [])]
+        split_ids = [str(value) for value in split.get(args.split, [])]
         visual_flags = [
             answer_id
-            for answer_id in test_ids
+            for answer_id in split_ids
             if metadata.get(answer_id, {}).get("isimagine")
             or metadata.get(answer_id, {}).get(
                 "visual_placeholder_detected"
@@ -1162,7 +1329,7 @@ def show_outputs(args: argparse.Namespace) -> int:
             f"{PROJECT_ROOT / 'ocr_cache' / 'csbench' / ctx.question_id / '<answer_id>.json'}"
         )
         print(
-            f"Test answers: {len(test_ids)}; visual flags: "
+            f"{args.split} answers: {len(split_ids)}; visual flags: "
             f"{len(visual_flags)}; expected OCR triggers: {visual_ocr_count}"
         )
         if visual_flags and not visual_enabled:
@@ -1174,8 +1341,9 @@ def show_outputs(args: argparse.Namespace) -> int:
     print()
     print(
         "Evaluation CSV: "
-        f"{(PROJECT_ROOT / 'outputs' / f'csbench_{slug}_compare.csv').resolve()}"
+        f"{grade_dir / 'evaluation' / 'compare.csv'}"
     )
+    print(f"Evaluation summary: {grade_dir / 'evaluation' / 'summary.json'}")
     print("Runtime log: logs/experiment_<run_id>.log")
     return 0
 
@@ -1204,9 +1372,28 @@ def publish(args: argparse.Namespace) -> int:
     optimize_dir = (
         PROJECT_ROOT / "results_runs" / f"csbench_{slug}_rubric_opt"
     ).resolve()
+    requested_stage = args.stage
+    if requested_stage == "auto":
+        test_dir = grading_results_dir(contexts, "test")
+        has_test = all(
+            (test_dir / f"{ctx.question_id}_grading_checkpoint.json").is_file()
+            for ctx in contexts
+        )
+        requested_stage = "full" if has_test else "rubric"
+
+    result_stage = RESULT_ARTIFACT_STAGES.get(requested_stage)
+    answer_split = result_stage[0] if result_stage else None
     grade_dir = (
-        PROJECT_ROOT / "results_runs" / f"csbench_{slug}_full"
-    ).resolve()
+        grading_results_dir(contexts, answer_split)
+        if answer_split
+        else grading_results_dir(contexts, "test")
+    )
+    if answer_split:
+        validate_complete_results(
+            contexts,
+            grade_dir,
+            split_name=answer_split,
+        )
     run_id = (
         args.run_id
         or os.getenv("REFGRADER_ARTIFACT_RUN_ID")
@@ -1262,18 +1449,15 @@ def publish(args: argparse.Namespace) -> int:
         ctx.validate_optimized()
         checkpoint = grade_dir / f"{ctx.question_id}_grading_checkpoint.json"
         has_full_results = checkpoint.is_file()
-        if args.stage == "full" and not has_full_results:
+        if requested_stage in RESULT_ARTIFACT_STAGES and not has_full_results:
             raise FileNotFoundError(
-                f"Full grading checkpoint not found: {checkpoint}"
+                f"{answer_split} grading checkpoint not found: {checkpoint}"
             )
-        include_full = args.stage == "full" or (
-            args.stage == "auto" and has_full_results
-        )
-
-        published_stage = "full" if include_full else "rubric"
+        include_results = requested_stage in RESULT_ARTIFACT_STAGES
+        published_stage = requested_stage if include_results else "rubric"
         stage_dir = (
-            "grading_runs"
-            if published_stage == "full"
+            RESULT_ARTIFACT_STAGES[published_stage][1]
+            if include_results
             else "rubric_optimizations"
         )
         destination = (
@@ -1289,15 +1473,14 @@ def publish(args: argparse.Namespace) -> int:
                 "Use a different --run-id."
             )
 
-        copy_portable_json(
+        (destination / "rubrics").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(
             ctx.initial_rubric,
             destination / "rubrics" / "initial_rubric.json",
-            replacements,
         )
-        copy_portable_json(
+        shutil.copy2(
             ctx.optimized_rubric,
             destination / "rubrics" / "optimized_rubric.json",
-            replacements,
         )
         copy_portable_json(
             ctx.optimization_manifest,
@@ -1314,18 +1497,23 @@ def publish(args: argparse.Namespace) -> int:
                 destination / "calibration" / "a3wa_config.json",
                 replacements,
             )
-        copy_if_exists(
-            optimize_dir / f"{ctx.question_id}_variance_checkpoint.json",
-            destination
-            / "rubric_optimization"
-            / "variance_checkpoint.json",
-            replacements,
+        variance_checkpoint, optimization_progress = optimization_evidence_paths(
+            ctx, optimize_dir
         )
-        copy_if_exists(
-            optimize_dir / "progress.json",
-            destination / "rubric_optimization" / "progress.json",
-            replacements,
-        )
+        if variance_checkpoint:
+            copy_if_exists(
+                variance_checkpoint,
+                destination
+                / "rubric_optimization"
+                / "variance_checkpoint.json",
+                replacements,
+            )
+        if optimization_progress:
+            copy_if_exists(
+                optimization_progress,
+                destination / "rubric_optimization" / "progress.json",
+                replacements,
+            )
         variance_facts_count = 0
         if args.include_facts:
             variance_facts_count = copy_json_directory(
@@ -1341,7 +1529,7 @@ def publish(args: argparse.Namespace) -> int:
         result_counts = {}
         facts_count = 0
         raw_ocr_count = 0
-        if include_full:
+        if include_results:
             result_files = {
                 "checkpoint": (
                     f"{ctx.question_id}_grading_checkpoint.json",
@@ -1397,14 +1585,25 @@ def publish(args: argparse.Namespace) -> int:
                     destination / "raw_ocr",
                     replacements,
                 )
-            compare_csv = (
-                PROJECT_ROOT / "outputs" / f"csbench_{slug}_compare.csv"
-            )
-            copy_if_exists(
-                compare_csv,
-                destination / "evaluation" / "compare.csv",
-                replacements,
-            )
+            if answer_split == "test":
+                compare_csv = grade_dir / "evaluation" / "compare.csv"
+                copy_if_exists(
+                    compare_csv,
+                    destination / "evaluation" / "compare.csv",
+                    replacements,
+                )
+                summary_json = grade_dir / "evaluation" / "summary.json"
+                copy_if_exists(
+                    summary_json,
+                    destination / "evaluation" / "summary.json",
+                    replacements,
+                )
+
+        copy_portable_json(
+            ctx.split_file,
+            destination / "dataset" / "question_split.json",
+            replacements,
+        )
 
         if latest_log:
             copy_if_exists(
@@ -1413,8 +1612,13 @@ def publish(args: argparse.Namespace) -> int:
                 replacements,
             )
 
+        artifact_hashes = {
+            path.relative_to(destination).as_posix(): sha256_file(path)
+            for path in sorted(destination.rglob("*"))
+            if path.is_file()
+        }
         manifest = {
-            "schema_version": 1,
+            "schema_version": 2,
             "run_id": run_id,
             "question_id": ctx.question_id,
             "published_stage": published_stage,
@@ -1430,7 +1634,11 @@ def publish(args: argparse.Namespace) -> int:
                     "path": "calibration/a3wa_config.json",
                     "sha256": sha256_file(a3wa_config),
                     "source_name": a3wa_config.name,
-                    "status": "applied_to_new_grading",
+                    "status": (
+                        "derived_from_validation"
+                        if answer_split == "validation"
+                        else "applied_to_new_grading"
+                    ),
                 }
                 if config_applies
                 else (
@@ -1445,7 +1653,7 @@ def publish(args: argparse.Namespace) -> int:
                 )
             ),
             "extraction_backend": "csbench_hybrid",
-            "answer_split": "test" if include_full else None,
+            "answer_split": answer_split if include_results else None,
             "ocr_device": os.getenv(
                 "REFGRADER_OCR_DEVICE", DEFAULT_OCR_DEVICE
             ),
@@ -1460,6 +1668,7 @@ def publish(args: argparse.Namespace) -> int:
             "variance_fact_files": variance_facts_count,
             "fact_files": facts_count,
             "raw_ocr_files": raw_ocr_count,
+            "file_sha256": artifact_hashes,
         }
         (destination / "run_manifest.json").write_text(
             json.dumps(manifest, ensure_ascii=False, indent=2),
@@ -1475,9 +1684,12 @@ def publish(args: argparse.Namespace) -> int:
             index = loaded
     for destination, ctx in zip(published_paths, contexts):
         entry_stage_dir = destination.parent.name
-        entry_stage = (
-            "full" if entry_stage_dir == "grading_runs" else "rubric"
-        )
+        entry_stage = {
+            "grading_runs": "full",
+            "validation_runs": "validation",
+            "calibration_runs": "calibration",
+            "rubric_optimizations": "rubric",
+        }.get(entry_stage_dir, published_stage)
         index.append(
             {
                 "question_id": ctx.question_id,
@@ -1699,6 +1911,42 @@ def build_parser() -> argparse.ArgumentParser:
     )
     grade_parser.set_defaults(handler=grade)
 
+    calibrate_parser = subparsers.add_parser(
+        "calibrate",
+        help=(
+            "Calibrate A3WA from complete validation checkpoints and publish "
+            "a reproducible validation artifact run."
+        ),
+    )
+    calibrate_parser.add_argument(
+        "questions", nargs="+", type=normalize_question_id
+    )
+    calibrate_parser.add_argument("--output")
+    calibrate_parser.add_argument("--bnd-max", type=float, default=0.60)
+    calibrate_parser.add_argument("--top-k", type=int, default=8)
+    calibrate_parser.add_argument("--min-cell-count", type=int, default=5)
+    calibrate_parser.add_argument("--shrinkage-k", type=float, default=8.0)
+    calibrate_parser.add_argument(
+        "--max-correction-ratio", type=float, default=0.12
+    )
+    calibrate_parser.add_argument(
+        "--max-correction-points", type=float, default=2.0
+    )
+    calibrate_parser.add_argument(
+        "--no-score-calibration", action="store_true"
+    )
+    calibrate_parser.add_argument("--dry-run", action="store_true")
+    calibrate_parser.add_argument(
+        "--artifacts-repo",
+        default=str((PROJECT_ROOT.parent / "refgrader-artifacts").resolve()),
+    )
+    calibrate_parser.add_argument("--run-id")
+    calibrate_parser.add_argument("--no-artifacts", action="store_true")
+    calibrate_parser.add_argument("--push-artifacts", action="store_true")
+    calibrate_parser.add_argument("--include-raw-ocr", action="store_true")
+    calibrate_parser.add_argument("--include-facts", action="store_true")
+    calibrate_parser.set_defaults(handler=calibrate)
+
     evaluate_parser = subparsers.add_parser(
         "evaluate", help="Evaluate one or more question checkpoints."
     )
@@ -1754,6 +2002,11 @@ def build_parser() -> argparse.ArgumentParser:
     monitor_parser.add_argument(
         "questions", nargs="+", type=normalize_question_id
     )
+    monitor_parser.add_argument(
+        "--split",
+        choices=["all", "calibration", "validation", "test"],
+        default="test",
+    )
     monitor_parser.add_argument("--dry-run", action="store_true")
     monitor_parser.set_defaults(handler=monitor)
 
@@ -1762,6 +2015,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     outputs_parser.add_argument(
         "questions", nargs="+", type=normalize_question_id
+    )
+    outputs_parser.add_argument(
+        "--split",
+        choices=["all", "calibration", "validation", "test"],
+        default="test",
     )
     outputs_parser.set_defaults(handler=show_outputs)
 
@@ -1777,7 +2035,9 @@ def build_parser() -> argparse.ArgumentParser:
         default=str((PROJECT_ROOT.parent / "refgrader-artifacts").resolve()),
     )
     publish_parser.add_argument(
-        "--stage", choices=["auto", "rubric", "full"], default="auto"
+        "--stage",
+        choices=["auto", "rubric", "validation", "calibration", "full"],
+        default="auto",
     )
     publish_parser.add_argument("--run-id")
     publish_parser.add_argument(

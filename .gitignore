@@ -18,11 +18,15 @@ Thumbs.db
 desktop.ini
 .DS_Store
 
-# Logs and runtime files
+# Local runtime working state. Complete, validated runs are synchronized via
+# ../refgrader-artifacts; tracking these here would create two competing copies.
 logs/
 results_runs/
+outputs/csbench_*_compare.csv
+outputs/csbench_*_summary.json
 
-# Embedded, versioned CSBench grading snapshot. Runtime products stay ignored.
+# Generated rubric products are published/restored through refgrader-artifacts.
+# Authoritative source/initial rubrics under data/csbench remain versioned here.
 data/csbench/rubrics/optimized/
 data/csbench/rubrics/manifests/
 

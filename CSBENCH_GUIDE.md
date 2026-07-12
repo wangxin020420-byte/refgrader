@@ -164,6 +164,13 @@ CO_4 当前官方初始分值为 `2 + 2 + 2 + 2 + 2 + 5 + 5 = 20`。前五项分
 - `rubrics/source`、`rubrics/initial`：权威准则镜像与初始可执行准则；
 - `splits/`：固定 calibration、validation、test 划分。
 
+运行时结果按 split 隔离：test 为兼容旧评估命令继续使用
+`results_runs/csbench_<题目集合>_full`，validation 和 calibration 分别使用
+`..._validation`、`..._calibration`。完整中间结果发布到 artifacts 的
+`validation_runs`/`calibration_runs`，可通过
+`scripts/restore_csbench_artifacts.py` 在另一设备恢复；因此不再需要手工复制或修改
+checkpoint 与 rubric manifest。
+
 图片通过 Git LFS 管理。普通实验使用不带 `--dataset-root` 的命令。只有明确决定导入外部数据集新版本时，才运行 prepare；`run_csbench.py run --dataset-root ...` 会在 prepare 后自动调用 `embed_csbench_snapshot.py`，补齐参考图并消除绝对路径。导入后使用下列命令严格审计：
 
 ```bash

@@ -76,7 +76,8 @@ cd /home/E125221219/projects/refgrader
 ```text
 校验 checkpoint 与 test split 完全一致
 -> 评估 single / avg / selected / 3WD
--> 导出 outputs/csbench_<题目集合>_compare.csv
+-> 导出 results_runs/csbench_<题目集合>_full/evaluation/compare.csv
+   和 evaluation/summary.json
 -> 复制完整实验产物到同级 refgrader-artifacts
 ```
 
@@ -99,6 +100,8 @@ csbench/<题号>/grading_runs/<run_id>/
   grading/rejected.json               # 存在 NEG 时保存
   grading/progress.json
   evaluation/compare.csv
+  evaluation/summary.json            # 各指标的机器可读 JSON
+  dataset/question_split.json         # 本次使用的固定 split
   logs/experiment.log
   run_manifest.json
 ```
@@ -107,9 +110,10 @@ csbench/<题号>/grading_runs/<run_id>/
 也不会被错误标记为使用本次新传入的 A3WA config。`run_manifest.json` 会将其记录为
 `preexisting_completed_checkpoint`；新 config 只复制到本次实际新批改的题目目录。
 
-安全规则：validation/calibration、`--limit` 调试运行、checkpoint 不完整、存在未解决
-failed、split 污染或重复 ID 时均不会自动发布为正式 test artifacts。`--include-facts`
-和 `--include-raw-ocr` 仍为可选项，默认不复制大体积逐答案缓存。
+validation/calibration 使用独立的 `validation_runs`/`calibration_runs`，不会冒充正式
+test artifacts。`--limit` 调试运行、checkpoint 不完整、存在未解决 failed、split 污染
+或重复 ID 时不会发布。`--include-facts` 和 `--include-raw-ocr` 仍为可选项，默认不复制
+大体积逐答案缓存。
 
 示例：正式批改后自动评估并复制，但由用户手动 Git 推送：
 
@@ -255,35 +259,40 @@ source /home/E125221219/anaconda3/etc/profile.d/conda.sh
 conda activate ref-grader
 
 Q="CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7"
-RUN_TAG=$(date +%Y%m%d_%H%M%S)
-RUN_DIR="results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_full"
-CFG="results_runs/csbench_a3wa_3wd_route_score_calibrated_${RUN_TAG}.json"
+CFG="results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_a3wa_calibration.json"
 
-python scripts/run_csbench.py grade $Q --split validation --force --no-artifacts
+python scripts/run_csbench.py grade $Q --split validation --force
 
-python scripts/calibrate_a3wa.py \
-  --files "$RUN_DIR"/CO_*_grading_checkpoint.json \
-  --teacher-db data/csbench/teacher_scores.json \
-  --database-path data/csbench/exam_database.json \
-  --output "$CFG" \
-  --min-cell-count 5 \
-  --shrinkage-k 8 \
-  --max-correction-points 2.0 \
-  --max-correction-ratio 0.12
+python scripts/run_csbench.py calibrate $Q --output "$CFG"
 
-cp -a "$RUN_DIR" "results_runs/validation_route_score_calibrated_${RUN_TAG}"
-
-python scripts/run_csbench.py grade $Q --split test --force --a3wa-config "$CFG" --no-artifacts
-
-python scripts/run_csbench.py evaluate $Q --export --push-artifacts
+python scripts/run_csbench.py grade CO_1 --split test --force --a3wa-config "$CFG"
 ' > logs/csbench_route_score_calibrated_$(date +%Y%m%d_%H%M%S).log 2>&1 &
 ```
 
 作用：
 
-- validation 批改只用于学习校准参数，不作为最终结果。
+- validation 工作目录为 `results_runs/csbench_<题目集合>_validation`，与 test 目录隔离。
+- validation 完整结束后立即发布一份不含 A3WA config 的原始中间产物，因此
+  `refgrader-artifacts` 会马上显示 `validation_runs/<run_id>/` 更改；不完整结果不发布。
+- `calibrate` 会精确校验 validation ID，并将 checkpoint、rubric、split 和 A3WA config
+  再发布到新的 `validation_runs/<run_id>/`。前一份记录原始 validation 完成时点，后一份
+  记录由它派生的校准配置，两者不可变且不计入 test 指标。
 - `scripts/calibrate_a3wa.py` 现在会同时输出 `loss_params`、`risk_weights` 和 `score_calibration`。`score_calibration` 是基于 validation 残差学习出的题目/route/分数段加性校准表。
 - test 批改通过 `--a3wa-config "$CFG"` 固定使用该配置。运行时不会读取 test 教师分数。
+- test 完成后自动导出逐样本 `compare.csv` 和指标汇总 `summary.json`，再复制到
+  `grading_runs/<run_id>/`，不会自动 Git push。
+
+如果要在 validation/calibrate 完成后切换到另一台设备，先提交 artifacts：
+
+```bash
+cd ../refgrader-artifacts
+git add csbench
+git commit -m "Publish CO_1-CO_7 validation and A3WA calibration"
+git push origin main
+```
+
+另一设备同时拉取 `refgrader-main` 和 `refgrader-artifacts`，再使用第 12.1 节的
+`restore_csbench_artifacts.py`，不能只拉取代码仓库后直接运行 test。
 - BND 降分逻辑已收紧：没有核心矛盾、允许的 agent over-evidence 或 direct-only 且核心支持不足时，不再自动 lower。
 - fact mapping 失败时会保留原始转写或 OCR 文本作为降级事实，减少 `OCR fact mapping failed` 直接导致整条样本失败。
 
@@ -561,12 +570,15 @@ python scripts/run_csbench.py evaluate DM_2 --export
 从本次版本开始，发布到 `refgrader-artifacts` 的结果按阶段分目录：
 
 - 评分准则优化结果：`csbench/<题目ID>/rubric_optimizations/<run_id>/`
+- validation及A3WA校准：`csbench/<题目ID>/validation_runs/<run_id>/`
+- calibration split结果：`csbench/<题目ID>/calibration_runs/<run_id>/`
 - 正式批改结果：`csbench/<题目ID>/grading_runs/<run_id>/`
 
 例如：
 
 ```text
 refgrader-artifacts/csbench/CO_2/rubric_optimizations/20260624_153000/
+refgrader-artifacts/csbench/CO_2/validation_runs/20260713_010000/
 refgrader-artifacts/csbench/CO_2/grading_runs/20260624_170000/
 ```
 
@@ -577,7 +589,9 @@ refgrader-artifacts/csbench/CO_2/grading_runs/20260624_170000/
 正常情况下不需要单独执行 `publish`：
 
 - `optimize` 成功后自动发布准则阶段。
-- `grade --background` 成功结束后自动发布完整评分产物阶段。
+- 完整 validation/calibration 成功后发布到各自的 split 目录。
+- `calibrate` 将 validation 与生成的 A3WA config 一起发布。
+- 完整 test 成功后自动评估并发布正式评分产物。
 - `evaluate` 成功后自动发布完整实验阶段。
 
 `publish` 只用于迁移以前已经生成、但尚未进入产物仓库的历史结果。
@@ -594,6 +608,14 @@ python scripts/run_csbench.py publish CO_2 --stage rubric --push
 
 ```bash
 python scripts/run_csbench.py publish CO_2 --stage full --push
+```
+
+补充发布 validation 与 A3WA 配置：
+
+```bash
+python scripts/run_csbench.py publish CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 \
+  --stage validation \
+  --a3wa-config results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_a3wa_calibration.json
 ```
 
 作用：除准则优化产物外，同时发布 grading checkpoint、graded/rejected/failed、评估CSV和日志。默认不发布 Stage1 facts 和原始 OCR 缓存。
@@ -621,6 +643,35 @@ git -C C:\Users\wx\Desktop\refgrader-artifacts pull origin main
 ```
 
 作用：将服务器已发布的实验产物拉取到本地，供 VS Code 和 Codex 分析。
+
+### 12.1 在另一台设备恢复 validation 并继续实验
+
+拉取两个仓库后执行：
+
+```powershell
+cd D:\Users\王鑫020420\Desktop\refgrader-main
+
+python scripts\restore_csbench_artifacts.py `
+  CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 `
+  --stage validation `
+  --config-output results_runs\csbench_co1_co2_co3_co4_co5_co6_co7_a3wa_calibration.json `
+  --force
+```
+
+Linux/实验室服务器对应命令：
+
+```bash
+cd /home/E125221219/projects/refgrader
+python scripts/restore_csbench_artifacts.py \
+  CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 \
+  --stage validation \
+  --config-output results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_a3wa_calibration.json \
+  --force
+```
+
+该命令恢复 optimized rubric、optimization manifest、七题 validation checkpoint、
+graded/rejected/failed、progress 和 A3WA config，并校验本机初始 rubric 与固定 split。
+恢复成功后可以直接使用该 config 在另一设备运行 test。
 
 
 ## 13. 本地评估从 refgrader-artifacts 拉取的 CO_1 到 CO_7 结果

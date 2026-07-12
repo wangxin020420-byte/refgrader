@@ -490,6 +490,132 @@ def export_single_avg_3wd_csv(questions, ts_db, output_path):
     return len(rows)
 
 
+def build_comparison_summary(questions, score_keys, ts_db, score_map):
+    """Return machine-readable per-question and global comparison metrics."""
+    per_question = []
+    three_way_audit = []
+    global_values = {key: ([], []) for key in score_keys}
+    for q_id in questions:
+        total = score_map.get(q_id, 20)
+        for key in score_keys:
+            computed = compute_question_metrics(
+                q_id, total, ts_db, score_key=key
+            )
+            if computed is None:
+                continue
+            metrics, _ = computed
+            per_question.append({
+                "score_key": key,
+                "score_type": CMP_LABEL.get(key, SCORE_KEY_LABEL.get(key, key)),
+                **{
+                    name: (
+                        value.item()
+                        if isinstance(value, np.generic)
+                        else value
+                    )
+                    for name, value in metrics.items()
+                },
+            })
+
+        try:
+            with open(result_path_for(q_id), "r", encoding="utf-8") as handle:
+                records = json.load(handle)
+        except FileNotFoundError:
+            continue
+        audit_rows = []
+        for record in records:
+            teacher = get_teacher(ts_db, record.get("student_id", ""), q_id)
+            if teacher is None or teacher < 0:
+                continue
+            for key in score_keys:
+                score = get_score_value(record, key)
+                if score is not None:
+                    global_values[key][0].append(float(teacher))
+                    global_values[key][1].append(round(float(score), 2))
+            selected = get_score_value(record, "selected_baseline_score")
+            final = get_score_value(record, "final_calibrated_score")
+            if selected is not None and final is not None:
+                selected_error = abs(float(selected) - float(teacher))
+                final_error = abs(float(final) - float(teacher))
+                audit_rows.append({
+                    "route": record.get("3wd_route", ""),
+                    "selected_error": selected_error,
+                    "final_error": final_error,
+                    "gain": selected_error - final_error,
+                })
+
+        if audit_rows:
+            serious = [
+                row for row in audit_rows
+                if row["selected_error"] > SERIOUS_ERROR_THRESHOLD
+            ]
+            risk_captured = [
+                row for row in serious if row["route"] in REVIEW_ROUTES
+            ]
+            pos = [row for row in audit_rows if row["route"] == "POS"]
+            bnd = [row for row in audit_rows if row["route"] == "BND"]
+            three_way_audit.append({
+                "q_id": q_id,
+                "n": len(audit_rows),
+                "route_counts": dict(Counter(row["route"] for row in audit_rows)),
+                "pos_coverage": len(pos) / len(audit_rows),
+                "safe_pos_rate": (
+                    sum(
+                        row["final_error"] <= SERIOUS_ERROR_THRESHOLD
+                        for row in pos
+                    ) / len(pos)
+                    if pos else None
+                ),
+                "baseline_serious_errors": len(serious),
+                "risk_recall": (
+                    len(risk_captured) / len(serious) if serious else None
+                ),
+                "bnd_n": len(bnd),
+                "bnd_mean_gain": (
+                    float(np.mean([row["gain"] for row in bnd]))
+                    if bnd else None
+                ),
+                "bnd_improved": sum(row["gain"] > 1e-9 for row in bnd),
+                "bnd_unchanged": sum(abs(row["gain"]) <= 1e-9 for row in bnd),
+                "bnd_worsened": sum(row["gain"] < -1e-9 for row in bnd),
+            })
+
+    global_metrics = []
+    for key in score_keys:
+        teacher, predicted = global_values[key]
+        if len(teacher) < 3:
+            continue
+        teacher_array = np.array(teacher)
+        predicted_array = np.array(predicted)
+        pearson, _ = stats.pearsonr(teacher_array, predicted_array)
+        errors = predicted_array - teacher_array
+        global_metrics.append({
+            "score_key": key,
+            "score_type": CMP_LABEL.get(key, SCORE_KEY_LABEL.get(key, key)),
+            "q_id": "GLOBAL",
+            "n": len(teacher),
+            "MAE": float(mean_absolute_error(teacher_array, predicted_array)),
+            "RMSE": float(np.sqrt(mean_squared_error(teacher_array, predicted_array))),
+            "QWK": None,
+            "Pearson": float(pearson),
+            "TAR2": float(np.mean(np.abs(errors) <= 2)),
+            "SER2": float(np.mean(np.abs(errors) > 2)),
+            "bias": float(np.mean(errors)),
+        })
+    return {
+        "schema_version": 1,
+        "questions": list(questions),
+        "result_source": RESULT_SOURCE,
+        "score_types": [
+            CMP_LABEL.get(key, SCORE_KEY_LABEL.get(key, key))
+            for key in score_keys
+        ],
+        "per_question": per_question,
+        "global": global_metrics,
+        "three_way_audit": three_way_audit,
+    }
+
+
 def _format_rate(numerator, denominator):
     if denominator <= 0:
         return "--"
@@ -791,6 +917,8 @@ def main():
                         ))
     parser.add_argument("--compare-output", default=None,
                         help="Optional CSV path for per-student single/avg/selected/3WD comparison")
+    parser.add_argument("--summary-output", default=None,
+                        help="Optional JSON path for machine-readable evaluation metrics")
     parser.add_argument("--result-source", choices=["graded", "checkpoint"], default="graded",
                         help="graded reads *_graded_results.json; checkpoint reads full *_grading_checkpoint.json")
     parser.add_argument("--results-dir", default=RESULTS_DIR,
@@ -953,6 +1081,20 @@ def main():
     if args.compare_output:
         exported = export_single_avg_3wd_csv(args.questions, ts_db, args.compare_output)
         print(f"  Exported {exported} single/avg/selected/3WD comparison rows to {args.compare_output}")
+
+    if args.summary_output:
+        summary = build_comparison_summary(
+            args.questions,
+            compare_score_keys if args.compare else [score_key],
+            ts_db,
+            score_map,
+        )
+        output_dir = os.path.dirname(args.summary_output)
+        if output_dir:
+            os.makedirs(output_dir, exist_ok=True)
+        with open(args.summary_output, "w", encoding="utf-8") as handle:
+            json.dump(summary, handle, ensure_ascii=False, indent=2)
+        print(f"  Exported evaluation summary to {args.summary_output}")
 
     print()
 

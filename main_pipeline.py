@@ -1052,6 +1052,17 @@ def run_variance_optimization_process(
         "source_sha256": sha256_path(q_data.get("source_rubric_path")),
         "initial_sha256": sha256_path(initial_rubric_path),
         "optimized_sha256": sha256_path(rubric_save_path),
+        "optimization_results_dir": os.path.abspath(OUTPUT_DIR),
+        "variance_checkpoint": (
+            os.path.abspath(checkpoint_path)
+            if os.path.exists(checkpoint_path)
+            else None
+        ),
+        "variance_checkpoint_sha256": (
+            sha256_path(checkpoint_path)
+            if os.path.exists(checkpoint_path)
+            else None
+        ),
         "created_at": datetime.now().isoformat(timespec="seconds"),
     }
     with open(manifest_path, "w", encoding="utf-8") as handle:

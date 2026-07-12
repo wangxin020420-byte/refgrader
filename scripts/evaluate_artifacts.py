@@ -98,6 +98,8 @@ def build_evaluate_command(args: argparse.Namespace, questions: list[str], resul
         cmd.extend(["--compare", "--compare-score-keys", *requested_score_keys])
         if args.compare_output:
             cmd.extend(["--compare-output", str(args.compare_output)])
+        if args.summary_output:
+            cmd.extend(["--summary-output", str(args.summary_output)])
     elif requested_score_keys:
         cmd.extend(["--score-key", requested_score_keys[0]])
 
@@ -166,6 +168,11 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         help="CSV path. Default with --export: outputs/csbench_<questions>_<run_id>_compare.csv",
     )
+    parser.add_argument(
+        "--summary-output",
+        type=Path,
+        help="JSON path for machine-readable evaluation metrics.",
+    )
     parser.add_argument("--dry-run", action="store_true", help="Print the evaluate.py command without running it.")
     return parser.parse_args()
 
@@ -188,6 +195,10 @@ def main() -> int:
         output_dir = PROJECT_ROOT / "outputs"
         output_dir.mkdir(parents=True, exist_ok=True)
         args.compare_output = output_dir / f"csbench_{slug}_{run_id}_compare.csv"
+    if args.export and not args.summary_output:
+        output_dir = PROJECT_ROOT / "outputs"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        args.summary_output = output_dir / f"csbench_{slug}_{run_id}_summary.json"
 
     stage_artifact_results(
         artifacts_repo=args.artifacts_repo,

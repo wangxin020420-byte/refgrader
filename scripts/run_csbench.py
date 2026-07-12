@@ -755,7 +755,12 @@ def optimize(args: argparse.Namespace) -> int:
     if args.force:
         pipeline_args.append("--force-rerun")
 
-    env = {"REFGRADER_OCR_DEVICE": args.device}
+    env = {
+        "REFGRADER_OCR_DEVICE": args.device,
+        # Never let an old shell-level config leak into a new pipeline stage.
+        # A non-empty path is set only by an explicit command argument.
+        "A3WA_CALIBRATION_CONFIG": "",
+    }
     if getattr(args, "a3wa_config", None):
         env["A3WA_CALIBRATION_CONFIG"] = str(
             Path(args.a3wa_config).expanduser().resolve()
@@ -857,7 +862,12 @@ def grade(args: argparse.Namespace) -> int:
     if args.force:
         pipeline_args.append("--force-rerun")
 
-    env = {"REFGRADER_OCR_DEVICE": args.device}
+    env = {
+        "REFGRADER_OCR_DEVICE": args.device,
+        # Validation must be uncalibrated, and test must use only the config
+        # explicitly supplied to this command.
+        "A3WA_CALIBRATION_CONFIG": "",
+    }
     if getattr(args, "a3wa_config", None):
         env["A3WA_CALIBRATION_CONFIG"] = str(
             Path(args.a3wa_config).expanduser().resolve()
@@ -1151,7 +1161,10 @@ def calibrate(args: argparse.Namespace) -> int:
             questions=args.questions,
             artifacts_repo=args.artifacts_repo,
             stage="validation",
-            run_id=args.run_id,
+            run_id=(
+                args.run_id
+                or datetime.now().strftime("%Y%m%d_%H%M%S_calibrated")
+            ),
             include_raw_ocr=args.include_raw_ocr,
             include_facts=args.include_facts,
             push=args.push_artifacts,

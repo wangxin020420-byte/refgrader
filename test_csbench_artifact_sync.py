@@ -10,6 +10,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from scripts.run_csbench import (
+    RUBRIC_SEMANTIC_CONTRACT_VERSION,
     calibrate,
     grading_results_dir,
     optimization_evidence_paths,
@@ -139,6 +140,8 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             optimized.write_text('[{"id":"s1","points":5}]', encoding="utf-8")
             manifest.write_text(
                 json.dumps({
+                    "rubric_semantic_contract_version": RUBRIC_SEMANTIC_CONTRACT_VERSION,
+                    "semantic_policy_validated": True,
                     "initial_sha256": sha256_file(initial),
                     "optimized_sha256": sha256_file(optimized),
                 }),

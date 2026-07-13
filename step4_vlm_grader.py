@@ -14,6 +14,11 @@ import numpy as np
 from ocr.backend import load_json as load_ocr_json
 from ocr.backend import sha256_file
 from canonicalizers import build_canonical_grading_context
+from rubric_semantics import (
+    apply_hierarchical_scoring_policy,
+    has_deterministic_hierarchical_full_credit,
+    project_rubric_for_risk,
+)
 from calibration_utils import (
     a3wa_dynamic_bounds,
     apply_route_score_calibration,
@@ -354,6 +359,32 @@ Return strict JSON where keys are item ids and values are "ok" or "suspicious":
 # ==================== 核心业务逻辑 ====================
 
 def generate_blind_checklist(rubrics_json_str):
+    rubric_items = extract_and_parse_json(rubrics_json_str)
+    rubric_items = rubric_items if isinstance(rubric_items, list) else []
+
+    def complete_checklist(candidate):
+        candidate = candidate if isinstance(candidate, list) else []
+        by_id = {
+            str(item.get("id", "")): item
+            for item in candidate
+            if isinstance(item, dict) and item.get("id")
+        }
+        completed = []
+        for item in rubric_items:
+            item_id = str(item.get("id", ""))
+            if not item_id:
+                continue
+            existing = by_id.get(item_id, {})
+            instruction = str(existing.get("instruction", "")).strip()
+            if not instruction:
+                label = str(item.get("item", "") or item_id).strip()
+                instruction = (
+                    f"仅提取学生针对“{label}”实际写出的具体数值、公式或结论；"
+                    "未写则标记为未书写。"
+                )
+            completed.append({"id": item_id, "instruction": instruction})
+        return completed
+
     prompt = render_prompt_template(
         "blind_checklist.md",
         {"RUBRICS_JSON": rubrics_json_str},
@@ -369,13 +400,15 @@ def generate_blind_checklist(rubrics_json_str):
             raw = call_text_model([{"role": "user", "content": prompt}], temperature=0.3, timeout=240)
             parsed = extract_and_parse_json(raw)
             if parsed and isinstance(parsed, list):
-                return json.dumps(parsed, ensure_ascii=False)
+                completed = complete_checklist(parsed)
+                if completed:
+                    return json.dumps(completed, ensure_ascii=False)
         except Exception as e:
             time.sleep(3)
-    return json.dumps([
-        {"id": str(i + 1), "instruction": f"Extract the student's concrete answer content for rubric item {i + 1}."}
-        for i in range(15)
-    ], ensure_ascii=False)
+    completed = complete_checklist([])
+    if completed:
+        return json.dumps(completed, ensure_ascii=False)
+    return json.dumps([], ensure_ascii=False)
 
 def stage1_blind_extraction(question_text, student_img_path, blind_checklist, q_img_path=None):
     blind_prompt = render_prompt_template(
@@ -1417,6 +1450,10 @@ def stage2_logic_grading(student_facts_str, rubrics_json_str, temperature=0.35, 
 9. 对链式推导题，若学生起点值错误但后续用正确公式一致推导，可将后续过程项判为 PARTIAL_MATCH；若最终结论完全相反或核心方法错误，判 SEMANTIC_FATAL。
 10. 若最终结果正确且能反推必要的上游参数或中间量已被正确使用，可对未单独展开的上游项谨慎判 MATCH，并在 reason 中说明“由下游正确结果回溯确认”。
 11. 若参数识别正确但核心公式、方法和最终结果均错误，不应给大量空洞参数分。
+12. scoring_policy=final_sufficient_partial_credit 的同一 parent_id 条目属于层次评分：
+    - full_credit_trigger=true 的最终答案项必须独立判断；正确时父项最终由系统恢复满分。
+    - 最终答案项不正确时，只能对其余客观过程项逐项给分。
+    - 不得把错误最终答案本身计入过程兜底分，也不得突破 fallback_cap。
 
 error_category 只能取以下值之一：
 - MATCH：语义匹配，给该项满分。
@@ -1938,6 +1975,11 @@ def grade_student_3wd_pipeline(
             parsed_json = extract_and_parse_json(res_text)
             if parsed_json and 'total_score' in parsed_json:
                 parsed_json = apply_canonical_score_floor(parsed_json, canonical_context)
+                parsed_json = apply_hierarchical_scoring_policy(
+                    parsed_json,
+                    json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json,
+                    canonical_context,
+                )
                 return (idx, parsed_json['total_score'], parsed_json)
         return (idx, None, None)
 
@@ -1974,7 +2016,13 @@ def grade_student_3wd_pipeline(
     except:
         facts_dict = {}
 
-    extraction_counts = compute_extraction_quality_counts(facts_dict, rubrics_data)
+    risk_rubrics_data = project_rubric_for_risk(rubrics_data, strict_cots)
+    hierarchical_full_credit_locked = has_deterministic_hierarchical_full_credit(
+        rubrics_data,
+        strict_cots,
+    )
+    risk_total_items = len(risk_rubrics_data) if risk_rubrics_data else TOTAL_ITEMS
+    extraction_counts = compute_extraction_quality_counts(facts_dict, risk_rubrics_data)
     extraction_risk_features = compute_extraction_risk_features(extraction_counts)
     blank_count = extraction_counts["blank_count"]
     perception_fail_count = extraction_counts["perception_fail_count"]
@@ -2009,13 +2057,13 @@ def grade_student_3wd_pipeline(
     risk_profile = build_risk_profile(
         question_text=question_text,
         facts_dict=facts_dict,
-        rubrics_data=rubrics_data,
+        rubrics_data=risk_rubrics_data,
         strict_cots=strict_cots,
         model_scores=model_scores,
         avg_model_score=avg_model_score,
         std_dev=std_dev,
         max_score=MAX_SCORE,
-        total_items=TOTAL_ITEMS,
+        total_items=risk_total_items,
         blank_rate=blank_rate,
         low_quality_rate=low_quality_rate,
         perception_failure_rate=perception_failure_rate,
@@ -2026,7 +2074,7 @@ def grade_student_3wd_pipeline(
     )
     post_calibration = build_post_grading_calibration(
         facts_dict=facts_dict,
-        rubrics_data=rubrics_data,
+        rubrics_data=risk_rubrics_data,
         strict_cots=strict_cots,
         avg_model_score=avg_model_score,
         max_score=MAX_SCORE,
@@ -2043,6 +2091,11 @@ def grade_student_3wd_pipeline(
         "U_R": primary_risks.get("U_R", None),
         "primary_risk": primary_risks.get("risk", None),
         "primary_mu": primary_risks.get("mu", None),
+        "hierarchical_risk_projection_applied": len(risk_rubrics_data) != len(rubrics_data),
+        "hierarchical_full_credit_locked": hierarchical_full_credit_locked,
+        "risk_rubric_item_ids": [
+            str(item.get("id", "")) for item in risk_rubrics_data
+        ],
         "unsupported_match_points_ratio": post_calibration["unsupported_match_points_ratio"],
         "method_final_verified_ratio": post_calibration["method_final_verified_ratio"],
         "direct_points_ratio": post_calibration["direct_points_ratio"],
@@ -2253,18 +2306,39 @@ def grade_student_3wd_pipeline(
         final_score = selected_baseline_score
         print(f"      [route -> POS] accept selected_baseline_score={selected_baseline_score}")
 
+    # A deterministic canonical full-credit rule is a scoring constraint, not
+    # a fitted correction. Keep the 3WD route for audit/review, but do not let a
+    # boundary agent or validation residual contradict the rubric contract.
+    if hierarchical_full_credit_locked:
+        final_score = round(MAX_SCORE, 2)
+        risk_features["hierarchical_full_credit_locked"] = True
+        if route == "BND":
+            arbitration_decision = f"{arbitration_decision}|canonical_full_credit_lock"
+        print(
+            "      [hierarchical score lock] deterministic canonical final "
+            f"covers the full rubric; score={final_score}"
+        )
+
     question_id_for_calibration = ""
     if isinstance(answer_metadata, dict):
         question_id_for_calibration = str(answer_metadata.get("question_id", "") or "")
     score_calibration = {
         "enabled": bool(a3wa_config.get("score_calibration")),
         "applied": False,
-        "reason": "not_run_for_neg_route" if route == "NEG" else "not_configured",
+        "reason": (
+            "hierarchical_canonical_full_credit"
+            if hierarchical_full_credit_locked
+            else ("not_run_for_neg_route" if route == "NEG" else "not_configured")
+        ),
         "score_before": round(final_score, 4),
         "score_after": round(final_score, 4),
         "correction": 0.0,
     }
-    if route != "NEG" and a3wa_config.get("score_calibration"):
+    if (
+        route != "NEG"
+        and not hierarchical_full_credit_locked
+        and a3wa_config.get("score_calibration")
+    ):
         score_calibration = apply_route_score_calibration(
             score=final_score,
             max_score=MAX_SCORE,

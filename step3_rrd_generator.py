@@ -424,10 +424,16 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
 3. 不得使用教师分数历史、学生编号、具体题号等信息做针对性规则；生成结果必须能迁移到其他计算机课程题目。
 4. 所有评分项 points 之和必须严格等于 {total_score}。
 5. 每个原评分项都有稳定的 parent_id、parent_points 和 split_policy。不得删除父项语义，也不得把分值转移到其他父项。
-6. split_policy=preserve_atomic 的原子结果项禁止拆分计分。可补充 canonicalization、full_credit_anchor 或 diagnostic_evidence，但正确最终答案必须继续获得该父项满分。
-7. split_policy=allow_semantic_split 只表示允许在确有多个独立必要条件时拆分，不代表必须拆分；拆分子项的 parent_id 必须等于原父项 id，子项分值之和必须等于 parent_points。
-8. 中间过程若不是官方满分的必要条件，应放入 diagnostic_evidence，不得新增为扣分前提。
-9. 官方未给出子项权重时，不得按“技术重要性”主观分配分值。只能拆成等权、正交、均为满分必要条件的原子证据；若无法形成这样的原子集合，则保持父项不拆，仅补充 diagnostic_evidence。
+6. scoring_policy=strict_atomic 的原子结果项禁止拆分计分。可补充 canonicalization 或 diagnostic_evidence，但不得改变正确答案和得分语义。
+7. scoring_policy=additive_split 的父项只在确有多个独立必要条件时拆分；拆分子项的 parent_id 必须等于原父项 id，子项分值之和必须等于 parent_points。
+8. scoring_policy=final_sufficient_partial_credit 表示“正确最终答案是父项满分的充分条件，同时错误最终答案仍可依据过程证据获得部分分”。此类父项必须：
+   - 拆成至少一个客观过程项和一个最终答案项；
+   - 恰好一个最终答案项设置 full_credit_trigger=true，其 standard_answer_text 必须等于 full_credit_anchor；
+   - 所有非触发过程项 points 之和严格等于 fallback_cap；
+   - 触发项 points 等于 parent_points-fallback_cap；
+   - 所有子项 points 之和仍等于 parent_points，且正确最终答案不要求过程项同时出现。
+9. 中间过程若既不是满分必要条件、也不属于明确的部分分兜底政策，应放入 diagnostic_evidence，不得新增为扣分前提。
+10. 官方未给出子项权重时，不得按“技术重要性”主观分配分值。additive_split 只能使用等权正交原子项；hierarchical 父项必须使用已声明的 fallback_cap，过程项在 cap 内优先等权拆分，不得由样本临时调权。
 
 【问题类型判定】
 在修改前，先在内部判断每个暴露问题属于哪一类：
@@ -466,6 +472,10 @@ text, formula, table, diagram
 - parent_points：保留该父项原始分值。
 - split_policy：保留父项原值，不得自行修改。
 - weighting_policy：保留父项原值；equal_atomic 要求所有计分子项等权。
+- scoring_policy：保留父项原值，只能是 strict_atomic / additive_split / final_sufficient_partial_credit。
+- full_credit_trigger：hierarchical 父项中恰好一个最终答案子项为 true，其他项为 false。
+- full_credit_anchor：hierarchical 父项的充分满分答案，必须保留父项原值。
+- fallback_cap：hierarchical 父项中过程兜底分的上限，必须保留父项原值。
 - diagnostic_evidence：可选的零分诊断证据数组，不计入 points 总和。
 
 【输出要求】

@@ -5,10 +5,70 @@
   "max_score": 5.0,
   "grading_rubric": [
     {
-      "step_id": 1,
-      "description": "正确计算并得出操作数内容",
+      "step_id": "1_address",
+      "description": "正确解析机器码中的地址字段",
+      "standard_answer_text": "110111₂（等价于37H）",
+      "score": 2.0,
+      "answer_type": "base_number",
+      "role": "intermediate",
+      "score_layer": "support",
+      "canonicalization": {
+        "type": "base_number",
+        "implicit_bases": [2, 16]
+      },
+      "evidence_source": "text",
+      "parent_id": "step_1",
+      "parent_points": 5.0,
+      "scoring_policy": "final_sufficient_partial_credit",
+      "weighting_policy": "preserve_parent",
+      "full_credit_policy": "final_answer_sufficient",
+      "full_credit_anchor": "37H",
+      "full_credit_trigger": false,
+      "fallback_cap": 3.5
+    },
+    {
+      "step_id": "1_effective_address",
+      "description": "正确识别间接寻址并得到有效地址",
+      "standard_answer_text": "34H",
+      "score": 1.5,
+      "answer_type": "base_number",
+      "role": "intermediate",
+      "score_layer": "support",
+      "canonicalization": {
+        "type": "base_number",
+        "implicit_bases": [16]
+      },
+      "evidence_source": "text",
+      "parent_id": "step_1",
+      "parent_points": 5.0,
+      "scoring_policy": "final_sufficient_partial_credit",
+      "weighting_policy": "preserve_parent",
+      "full_credit_policy": "final_answer_sufficient",
+      "full_credit_anchor": "37H",
+      "full_credit_trigger": false,
+      "fallback_cap": 3.5
+    },
+    {
+      "step_id": "1_final",
+      "description": "正确得出最终操作数内容",
       "standard_answer_text": "37H",
-      "score": 5.0
+      "score": 1.5,
+      "answer_type": "base_number",
+      "role": "final",
+      "score_layer": "core",
+      "canonicalization": {
+        "type": "base_number",
+        "implicit_bases": [16]
+      },
+      "evidence_source": "text",
+      "parent_id": "step_1",
+      "parent_points": 5.0,
+      "scoring_policy": "final_sufficient_partial_credit",
+      "weighting_policy": "preserve_parent",
+      "full_credit_policy": "final_answer_sufficient",
+      "full_credit_anchor": "37H",
+      "full_credit_trigger": true,
+      "fallback_cap": 3.5
     }
   ],
   "metadata_source": "csbench"

@@ -441,27 +441,41 @@ def convert_rubric(
         standard_image = absolute_dataset_path(
             dataset_root, item.get("standard_answer_image")
         )
-        converted.append(
-            {
-                "id": f"step_{item.get('step_id', index)}",
-                "item": str(item.get("description", "")),
-                "points": float(item.get("score", 0)),
-                "answer_type": metadata["answer_type"],
-                "role": metadata["role"],
-                "score_layer": metadata["score_layer"],
-                "canonicalization": metadata["canonicalization"],
-                "evidence_source": metadata["evidence_source"],
-                "standard_answer_text": str(
-                    item.get("standard_answer_text", "")
-                ),
-                "standard_answer_image": standard_image,
-                "source_text": str(item.get("description", "")),
-                "parent_official_item": str(item.get("description", "")),
-                "metadata_source": "csbench",
-                "metadata_hard_enabled": metadata["metadata_hard_enabled"],
-                "metadata_confidence": metadata["metadata_confidence"],
-            }
-        )
+        converted_item = {
+            "id": f"step_{item.get('step_id', index)}",
+            "item": str(item.get("description", "")),
+            "points": float(item.get("score", 0)),
+            "answer_type": item.get("answer_type", metadata["answer_type"]),
+            "role": item.get("role", metadata["role"]),
+            "score_layer": item.get("score_layer", metadata["score_layer"]),
+            "canonicalization": item.get(
+                "canonicalization", metadata["canonicalization"]
+            ),
+            "evidence_source": item.get(
+                "evidence_source", metadata["evidence_source"]
+            ),
+            "standard_answer_text": str(item.get("standard_answer_text", "")),
+            "standard_answer_image": standard_image,
+            "source_text": str(item.get("description", "")),
+            "parent_official_item": str(item.get("description", "")),
+            "metadata_source": "csbench",
+            "metadata_hard_enabled": metadata["metadata_hard_enabled"],
+            "metadata_confidence": metadata["metadata_confidence"],
+        }
+        for key in (
+            "parent_id",
+            "parent_points",
+            "scoring_policy",
+            "split_policy",
+            "weighting_policy",
+            "full_credit_policy",
+            "full_credit_anchor",
+            "full_credit_trigger",
+            "fallback_cap",
+        ):
+            if key in item:
+                converted_item[key] = item[key]
+        converted.append(converted_item)
     return prepare_rubric_semantic_contract(converted)
 
 

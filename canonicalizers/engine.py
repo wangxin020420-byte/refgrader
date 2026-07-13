@@ -282,6 +282,97 @@ def _normalize_table(value: Any) -> dict[str, Any]:
     }
 
 
+def _normalize_base_number(value: Any, item: dict[str, Any]) -> dict[str, Any]:
+    text = _as_text(value).strip()
+    if _is_blankish(text):
+        return {"type": "base_number", "status": "blank", "raw": text}
+
+    compact = re.sub(r"\s+", "", text).upper()
+    probes = (
+        (r"(?<![0-9A-F])(?:0X)?([0-9A-F]+)H(?![0-9A-Z])", 16, "hex"),
+        (r"([01]+)₂", 2, "binary"),
+        (r"(?<![0-9A-Z])([01]+)(?:_?2|B)(?![0-9A-Z])", 2, "binary"),
+        (r"([0-9]+)₁₀", 10, "decimal"),
+        (r"(?<![0-9A-Z])([0-9]+)(?:_?10|D)(?![0-9A-Z])", 10, "decimal"),
+    )
+    explicit_values = []
+    explicit_tokens = []
+    explicit_bases = []
+    for pattern, base, label in probes:
+        for match in re.finditer(pattern, compact):
+            try:
+                numeric_value = int(match.group(1), base)
+            except ValueError:
+                continue
+            if numeric_value not in explicit_values:
+                explicit_values.append(numeric_value)
+            explicit_tokens.append(match.group(0))
+            if label not in explicit_bases:
+                explicit_bases.append(label)
+
+    if explicit_values:
+        if len(explicit_values) > 1:
+            return {
+                "type": "base_number",
+                "status": "ambiguous",
+                "raw": text,
+                "values": explicit_values,
+                "bases": explicit_bases,
+                "tokens": explicit_tokens,
+            }
+        numeric_value = explicit_values[0]
+        return {
+            "type": "base_number",
+            "status": "ok",
+            "raw": text,
+            "value": numeric_value,
+            "values": [numeric_value],
+            "base": explicit_bases[0],
+            "bases": explicit_bases,
+            "token": explicit_tokens[0],
+            "tokens": explicit_tokens,
+        }
+
+    canonicalization = item.get("canonicalization")
+    implicit_bases = []
+    if isinstance(canonicalization, dict):
+        raw_bases = canonicalization.get("implicit_bases") or []
+        if isinstance(raw_bases, (int, str)):
+            raw_bases = [raw_bases]
+        for raw_base in raw_bases:
+            try:
+                base = int(raw_base)
+            except (TypeError, ValueError):
+                continue
+            if base in {2, 8, 10, 16} and base not in implicit_bases:
+                implicit_bases.append(base)
+    bare = re.fullmatch(r"[0-9A-F]+", compact)
+    if bare and implicit_bases:
+        values = []
+        for base in implicit_bases:
+            try:
+                candidate = int(bare.group(0), base)
+            except ValueError:
+                continue
+            if candidate not in values:
+                values.append(candidate)
+        if values:
+            return {
+                "type": "base_number",
+                "status": "ok",
+                "raw": text,
+                "value": values[0],
+                "values": values,
+                "base": "implicit",
+                "implicit_bases": implicit_bases,
+                "token": bare.group(0),
+            }
+
+    # A bare number without an explicit rubric policy is intentionally not
+    # assigned a base. It remains a semantic grading decision.
+    return {"type": "base_number", "status": "unknown", "raw": text}
+
+
 def _normalize_by_type(value: Any, item: dict[str, Any], answer_type: str, *, standard_bits: str | None = None) -> dict[str, Any]:
     standard_text = _as_text(item.get("standard_answer_text", ""))
     student_text = _as_text(value)
@@ -295,6 +386,8 @@ def _normalize_by_type(value: Any, item: dict[str, Any], answer_type: str, *, st
             universe=universe,
             item_label=item_label,
         )
+    if answer_type == "base_number":
+        return _normalize_base_number(value, item)
     if answer_type == "sequence":
         return _normalize_sequence(value)
     if answer_type == "relation":
@@ -313,6 +406,14 @@ def _compare_normalized(student_norm: dict[str, Any], standard_norm: dict[str, A
             "match": None,
             "reason": f"student_status={st}, standard_status={rt}",
         }
+    if st == "ambiguous" or rt == "ambiguous":
+        return {
+            "status": "ambiguous",
+            "match": None,
+            "student_values": student_norm.get("values", []),
+            "standard_values": standard_norm.get("values", []),
+            "reason": f"student_status={st}, standard_status={rt}",
+        }
 
     answer_type = standard_norm.get("type") or student_norm.get("type")
     if answer_type == "bit_vector":
@@ -322,6 +423,22 @@ def _compare_normalized(student_norm: dict[str, Any], standard_norm: dict[str, A
             "match": match,
             "student_bits": student_norm.get("bits"),
             "standard_bits": standard_norm.get("bits"),
+        }
+    if answer_type == "base_number":
+        student_values = set(student_norm.get("values") or [student_norm.get("value")])
+        standard_values = set(standard_norm.get("values") or [standard_norm.get("value")])
+        student_values.discard(None)
+        standard_values.discard(None)
+        match = bool(student_values & standard_values)
+        return {
+            "status": "match" if match else "mismatch",
+            "match": match,
+            "student_value": student_norm.get("value"),
+            "standard_value": standard_norm.get("value"),
+            "student_values": sorted(student_values),
+            "standard_values": sorted(standard_values),
+            "student_base": student_norm.get("base"),
+            "standard_base": standard_norm.get("base"),
         }
     if answer_type == "sequence":
         student_items = student_norm.get("items")

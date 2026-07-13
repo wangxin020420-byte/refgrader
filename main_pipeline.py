@@ -13,9 +13,13 @@ from datetime import datetime
 from step3_rrd_generator import generate_rrd_rubrics, refine_rubric_based_on_variance
 from rubric_semantics import (
     RUBRIC_SEMANTIC_CONTRACT_VERSION,
+    apply_hierarchical_scoring_policy,
     prepare_rubric_semantic_contract,
+    validate_refined_rubric,
 )
+from canonicalizers import build_canonical_grading_context
 from step4_vlm_grader import (
+    apply_canonical_score_floor,
     grade_student_3wd_pipeline,
     generate_blind_checklist,
     stage1_extract_with_backend,
@@ -510,6 +514,19 @@ def validate_optimized_rubric_provenance(q_data, rubric_path):
         )
     with open(manifest_path, "r", encoding="utf-8") as handle:
         manifest = json.load(handle)
+    if (
+        manifest.get("rubric_semantic_contract_version")
+        != RUBRIC_SEMANTIC_CONTRACT_VERSION
+    ):
+        raise ValueError(
+            f"Optimized rubric for {q_data['question_id']} uses an obsolete "
+            "semantic contract. Re-run VARIANCE_OPT."
+        )
+    if manifest.get("semantic_policy_validated") is not True:
+        raise ValueError(
+            f"Optimized rubric for {q_data['question_id']} has no successful "
+            "semantic-policy validation. Re-run VARIANCE_OPT."
+        )
     initial_path = initial_rubric_path_for(q_data)
     expected_initial_hash = sha256_path(initial_path)
     if manifest.get("initial_sha256") != expected_initial_hash:
@@ -887,6 +904,10 @@ def run_variance_optimization_process(
             time.sleep(2)
 
             strict_cots = []
+            canonical_context = build_canonical_grading_context(
+                current_facts,
+                draft_rubric,
+            )
             for i in range(3):
                 logging.info(f"   [第 {i+1}/3 次判决] 呼叫逻辑裁判...")
                 res_text = stage2_logic_grading(current_facts, json.dumps(draft_rubric, ensure_ascii=False))
@@ -894,6 +915,15 @@ def run_variance_optimization_process(
                 if res_text:
                     parsed = extract_and_parse_json(res_text)
                     if parsed and 'total_score' in parsed:
+                        parsed = apply_canonical_score_floor(
+                            parsed,
+                            canonical_context,
+                        )
+                        parsed = apply_hierarchical_scoring_policy(
+                            parsed,
+                            draft_rubric,
+                            canonical_context,
+                        )
                         scores.append(parsed['total_score'])
                         strict_cots.append(parsed)
                         logging.info(f"      ✅ [裁判亮分] 总得分: {parsed['total_score']}")
@@ -1010,20 +1040,47 @@ def run_variance_optimization_process(
         )
 
         if refined_rubric:
-            refined_total = rubric_total(refined_rubric)
-            if abs(refined_total - float(q_score)) > 1e-6:
+            refined_valid, refined_errors = validate_refined_rubric(
+                draft_rubric,
+                refined_rubric,
+                q_score,
+            )
+            if not refined_valid:
                 logging.error(
-                    f"Refined rubric rejected: total {refined_total} does not "
-                    f"match question total_score {q_score}."
+                    "Refined rubric rejected by semantic contract: "
+                    + "; ".join(refined_errors)
                 )
             else:
-                final_rubric = refined_rubric
-                refinement_applied = True
-                logging.info("🎉 修正后的最终标准已通过总分校验。")
+                final_rubric = prepare_rubric_semantic_contract(refined_rubric)
+                refinement_applied = final_rubric != draft_rubric
+                logging.info("🎉 修正后的最终标准已通过总分与语义契约校验。")
         else:
             logging.error("❌ 修正请求失败或 JSON 解析错误，保留原草稿。")
     else:
         logging.info("✅ 标准足够稳定且粒度精细，无需进一步修正。")
+
+    semantic_policy_validated, semantic_validation_errors = validate_refined_rubric(
+        draft_rubric,
+        final_rubric,
+        q_score,
+    )
+    if not semantic_policy_validated:
+        logging.error(
+            "Final optimized rubric failed semantic validation; reverting to "
+            "the immutable draft: " + "; ".join(semantic_validation_errors)
+        )
+        final_rubric = prepare_rubric_semantic_contract(draft_rubric)
+        refinement_applied = False
+        semantic_policy_validated, semantic_validation_errors = validate_refined_rubric(
+            draft_rubric,
+            final_rubric,
+            q_score,
+        )
+    if not semantic_policy_validated:
+        raise RuntimeError(
+            f"Refusing to save an invalid optimized rubric for {q_id}: "
+            + "; ".join(semantic_validation_errors)
+        )
 
     with open(rubric_save_path, "w", encoding="utf-8") as handle:
         json.dump(final_rubric, handle, indent=4, ensure_ascii=False)
@@ -1049,6 +1106,15 @@ def run_variance_optimization_process(
         "average_item_variance": avg_item_variance,
         "maximum_item_variance": max_item_variance,
         "refinement_applied": refinement_applied,
+        "semantic_policy_validated": semantic_policy_validated,
+        "semantic_validation_errors": semantic_validation_errors,
+        "scoring_policies": sorted(
+            {
+                str(item.get("scoring_policy", ""))
+                for item in final_rubric
+                if item.get("scoring_policy")
+            }
+        ),
         "source_sha256": sha256_path(q_data.get("source_rubric_path")),
         "initial_sha256": sha256_path(initial_rubric_path),
         "optimized_sha256": sha256_path(rubric_save_path),

@@ -42,8 +42,11 @@ PARTIAL_MATCH, not SEMANTIC_FATAL.
 3. When `comparison.status=partial_or_mismatch`, use the normalized fields
    (`student_bits`, `standard_bits`, `student_items`, `standard_items`,
    `edge_overlap_ratio`) to decide PARTIAL_MATCH vs SEMANTIC_FATAL.
-4. Do not infer a complete derivation from a correct final answer. A bare final
-   answer can receive answer credit, but not full method/process credit.
+4. Do not infer a complete derivation from a correct final answer unless the
+   rubric parent explicitly uses
+   `scoring_policy=final_sufficient_partial_credit`. For that policy, the final
+   answer is a sufficient condition for the parent score; the deterministic
+   scorer will restore full parent credit without making process a prerequisite.
 5. For calculation problems, a correct final answer has high weight. If the
    answer is correct and the student shows minimum valid process evidence,
    award generous process credit according to the rubric.
@@ -53,9 +56,10 @@ PARTIAL_MATCH, not SEMANTIC_FATAL.
 7. A numeric item is MATCH when the value is correct within the rubric tolerance
    or within 10% relative error when no explicit tolerance is given. Compatible
    unit conversion is allowed.
-8. If the final answer is correct but process evidence is weak, award answer
-   credit and limited method credit. Do not give full method credit for a bare
-   answer.
+8. If the final answer is correct but process evidence is weak, follow the
+   declared scoring policy. Under `final_sufficient_partial_credit`, judge the
+   `full_credit_trigger` item independently and do not withhold parent credit
+   for missing support. Under additive scoring, do not invent method credit.
 9. If the final answer is wrong but the method is coherent, award process credit
    as PARTIAL_MATCH where supported by concrete facts.
 10. Use SEMANTIC_FATAL only for a real conceptual contradiction, wrong method,
@@ -69,6 +73,12 @@ PARTIAL_MATCH, not SEMANTIC_FATAL.
     `core` items decide the main answer/result, `support` items justify method
     or intermediate reasoning, and `auxiliary` items affect only small detail
     credit. Do not turn an auxiliary issue into a core semantic failure.
+14. For `scoring_policy=final_sufficient_partial_credit`, score every child
+    item separately. Exactly one child has `full_credit_trigger=true`:
+    - if it is correct, mark it MATCH; the system grants the complete parent
+      score after parsing;
+    - if it is wrong or blank, give it zero and award only concrete support
+      children, never exceeding the declared `fallback_cap`.
 
 # Dependency Rules
 
@@ -79,7 +89,8 @@ PARTIAL_MATCH, not SEMANTIC_FATAL.
 - Final-result items can be scored independently.
 - A correct final answer plus minimum process evidence can justify high overall
   credit under the instructor-aligned lenient policy.
-- A correct final answer with no process evidence should not receive full score.
+- A correct final answer with no process evidence receives full parent credit
+  only when the parent explicitly declares `full_credit_policy=final_answer_sufficient`.
 
 # Strict Equivalence Guards
 

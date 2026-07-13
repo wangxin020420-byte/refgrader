@@ -27,6 +27,11 @@ from typing import Any
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from rubric_semantics import RUBRIC_SEMANTIC_CONTRACT_VERSION
+
 DEFAULT_OCR_DEVICE = "cpu" if os.name == "nt" else "gpu:0"
 
 
@@ -220,6 +225,19 @@ class CSBenchContext:
         manifest = json.loads(
             self.optimization_manifest.read_text(encoding="utf-8")
         )
+        if (
+            manifest.get("rubric_semantic_contract_version")
+            != RUBRIC_SEMANTIC_CONTRACT_VERSION
+        ):
+            raise ValueError(
+                "The optimized rubric uses an obsolete semantic contract. "
+                "Re-run optimize with --force."
+            )
+        if manifest.get("semantic_policy_validated") is not True:
+            raise ValueError(
+                "The optimized rubric has no successful semantic-policy "
+                "validation. Re-run optimize with --force."
+            )
         if manifest.get("initial_sha256") != sha256_file(self.initial_rubric):
             raise ValueError(
                 "The optimized rubric was generated from a different initial "

@@ -1,6 +1,49 @@
 # Current Progress
 
-Last updated: 2026-07-10
+Last updated: 2026-07-13
+
+## 2026-07-13 CO_1 Hierarchical Rubric And Semantic Gate
+
+The CO_1 regression was traced to a semantic mismatch: a single atomic 5-point
+final-answer item removed the partial process credit present in teacher labels.
+The implemented contract now supports three explicit policies:
+
+```text
+strict_atomic
+additive_split
+final_sufficient_partial_credit
+```
+
+CO_1 uses one 5-point hierarchical parent with `2.0` points for address-field
+evidence, `1.5` for effective-address evidence, and `1.5` for the final operand.
+A canonical `37H` final answer grants the complete parent score; otherwise only
+supported process evidence contributes, capped at `3.5`. The base-number
+canonicalizer handles explicit hexadecimal/binary equivalence and only accepts
+bare numbers under an explicit rubric `implicit_bases` policy.
+
+The 3WD risk view follows the same semantics. Once a strict majority of grading
+probes activates final-answer full credit, optional process children are removed
+from the extraction-risk denominator and the final trigger carries the complete
+parent weight. Missing optional work therefore cannot create a false BND/NEG
+route, while non-triggered answers retain the complete process-risk structure.
+
+When every positive-point item belongs to such a hierarchical parent and at
+least two successful probes have a canonicalizer-backed strict majority for
+full credit, the score is a deterministic rubric constraint. Boundary agents
+and validation residuals cannot lower it, while the 3WD route and review fields
+remain available for risk auditing.
+
+Rubric semantic contract version 2 adds a save-time and load-time gate. Invalid
+refinements are rolled back to the immutable initial rubric, and obsolete or
+unvalidated optimization manifests cannot enter formal grading. Targeted unit
+tests and the embedded CSBench snapshot audit pass. A new API experiment is
+still required to measure final MAE/QWK changes; offline structural replay is
+supporting evidence, not a replacement for the held-out test.
+
+Variance-optimization probes now apply the same canonical and hierarchical
+scoring rules as formal grading before variance and hard-sample selection are
+computed, so rubric refinement and test grading no longer use different score
+semantics.
 
 ## 2026-07-10 Safe Automatic Test Finalization
 

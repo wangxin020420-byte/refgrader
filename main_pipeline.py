@@ -874,7 +874,9 @@ def run_variance_optimization_process(
                 ensure_paddle_ocr_cache(
                     img_path,
                     raw_ocr_dir,
-                    force=force_rerun,
+                    # Force grading/rubric outputs, but reuse deterministic OCR
+                    # whenever the cached image hash is still current.
+                    force=False,
                 )
             metadata = answer_metadata_for(student_id)
             current_facts, extraction_evidence = stage1_extract_with_backend(
@@ -1331,7 +1333,7 @@ def process_single_question(
             completed = ensure_paddle_ocr_cache(
                 images_folder,
                 raw_ocr_dir,
-                force=force_rerun,
+                force=False,
             )
             if completed.stdout.strip():
                 logging.info(completed.stdout.strip())
@@ -1340,7 +1342,7 @@ def process_single_question(
                 completed = ensure_paddle_ocr_cache(
                     os.path.join(images_folder, img_file),
                     raw_ocr_dir,
-                    force=force_rerun,
+                    force=False,
                 )
                 if completed.stdout.strip():
                     logging.info(completed.stdout.strip())
@@ -1825,6 +1827,7 @@ if __name__ == "__main__":
         logging.error(f"❌ 发生错误: {e}")
         import traceback
         traceback.print_exc()
+        raise
 
 
 RUN_COMMANDS = r"""

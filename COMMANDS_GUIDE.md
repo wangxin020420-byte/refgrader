@@ -134,6 +134,8 @@ python scripts/run_csbench.py grade CO_2 --split test --a3wa-config results_runs
 说明：
 
 - `--force` 表示覆盖已有优化准则或旧 checkpoint。
+- `--force` 不会无条件重算原始 PaddleOCR；图片 SHA-256 与现有 OCR JSON 一致时复用缓存，只重跑准则、事实映射和评分。需要重新识别原图时，应单独删除对应 OCR JSON 或显式运行 `paddle_ocr_worker.py --force`。
+- 主流水线发生 OCR、模型或文件异常时返回非零状态，后续 artifact 发布和下一实验阶段不会继续执行。
 - 后台模式适合服务器长时间正式实验；命令启动后终端会很快返回，可以关闭 VS Code 窗口和本地电脑。
 - 前台模式适合调试；终端会持续显示运行过程，关闭窗口会中断任务。
 

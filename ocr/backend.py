@@ -96,13 +96,30 @@ def ensure_paddle_ocr_cache(
     if force:
         command.append("--force")
 
-    return subprocess.run(
-        command,
-        cwd=str(PROJECT_ROOT),
-        check=True,
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-        timeout=timeout,
-    )
+    try:
+        return subprocess.run(
+            command,
+            cwd=str(PROJECT_ROOT),
+            check=True,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=timeout,
+        )
+    except subprocess.CalledProcessError as exc:
+        stdout = (exc.stdout or "").strip()
+        stderr = (exc.stderr or "").strip()
+        diagnostics = "\n".join(
+            part
+            for part in (
+                f"stdout:\n{stdout}" if stdout else "",
+                f"stderr:\n{stderr}" if stderr else "",
+            )
+            if part
+        )
+        raise RuntimeError(
+            f"PaddleOCR worker failed for {input_path} with exit code "
+            f"{exc.returncode}."
+            + (f"\n{diagnostics}" if diagnostics else "")
+        ) from exc

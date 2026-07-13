@@ -2,6 +2,18 @@
 
 Last updated: 2026-07-13
 
+## 2026-07-13 Force-Rerun OCR Isolation And Failure Propagation
+
+Rubric/grading `--force` now reuses raw PaddleOCR JSON when its recorded image
+SHA-256 still matches. It continues to invalidate rubric, mapped-fact, and
+grading outputs, but no longer turns every experiment rerun into an unnecessary
+OCR model rerun. The dedicated OCR-only path retains explicit force behavior.
+
+PaddleOCR subprocess failures now include captured stdout/stderr, and the main
+pipeline re-raises fatal exceptions after recording error progress. The command
+wrapper therefore receives a nonzero exit code and cannot publish stale rubric
+artifacts or continue into validation after a failed optimization stage.
+
 ## 2026-07-13 CO_1 Hierarchical Rubric And Semantic Gate
 
 The CO_1 regression was traced to a semantic mismatch: a single atomic 5-point

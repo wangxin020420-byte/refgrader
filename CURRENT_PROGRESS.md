@@ -1,6 +1,31 @@
 # Current Progress
 
-Last updated: 2026-07-13
+Last updated: 2026-07-14
+
+## 2026-07-14 Evidence-Calibrated A3WA And Sequential Review
+
+The earlier runtime mixed A3WA thresholds with route-rewriting heuristics and
+enabled validation residual correction by default. That made a positive final
+MAE result difficult to attribute to 3WD. The current implementation uses:
+
+1. `U_E`, `U_S`, and `U_R` as the only membership inputs.
+2. A validation-fitted monotonic logistic membership in the safe-auto-grading
+   fuzzy set; increasing any risk cannot increase membership.
+3. A3WA alpha/beta derived only from asymmetric losses. Review signals are
+   diagnostics and no longer rewrite the mathematical route.
+4. A split-conformal score interval as an uncertainty audit, not a score bonus.
+5. A sequential BND action that accepts changes only from structured,
+   item-capped, direction-consistent evidence; otherwise it defers to a human.
+6. Residual correction disabled by default. `three_way_core_score` isolates the
+   3WD contribution from optional `final_calibrated_score` residual correction.
+7. Leave-one-question-out diagnostics, paired bootstrap normalized-MAE delta,
+   route-budget checks, and a deployment gate.
+8. Evaluation coverage, review rate, selective MAE, unsafe acceptance, and AURC.
+
+Offline smoke replay on legacy checkpoints correctly produced zero BND gain
+because those records do not contain the new structured evidence. The generated
+config was marked experimental rather than inventing a positive gain. A fresh
+validation/test run is required to measure the new mechanism.
 
 ## 2026-07-13 Force-Rerun OCR Isolation And Failure Propagation
 

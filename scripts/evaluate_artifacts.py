@@ -143,7 +143,7 @@ def parse_args() -> argparse.Namespace:
         nargs="+",
         default=["3wd"],
         help=(
-            "Score form(s): single, avg, selected, 3wd. "
+            "Score form(s): single, avg, selected, 3wd-core, 3wd. "
             "One value runs single-form evaluation; multiple values automatically run compare."
         ),
     )
@@ -155,7 +155,8 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help=(
             "Score forms for --compare. If omitted, uses --score-key; "
-            "if neither is customized, --compare/--export compares single avg selected 3wd."
+            "if neither is customized, --compare/--export compares "
+            "single avg selected 3wd-core 3wd."
         ),
     )
     parser.add_argument(
@@ -184,7 +185,7 @@ def main() -> int:
     args.prepared_dir = args.prepared_dir.resolve()
 
     if (args.compare or args.export) and args.compare_score_keys is None and args.score_key == ["3wd"]:
-        args.compare_score_keys = ["single", "avg", "selected", "3wd"]
+        args.compare_score_keys = ["single", "avg", "selected", "3wd-core", "3wd"]
 
     run_id = args.run_id or latest_run_id(args.artifacts_repo, questions[0])
     slug = "_".join(question_slug(question) for question in questions)

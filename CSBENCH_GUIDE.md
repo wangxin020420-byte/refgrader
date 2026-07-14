@@ -166,6 +166,18 @@ python scripts/run_csbench.py optimize CO_1 --force
 
 CO_4 当前官方初始分值为 `2 + 2 + 2 + 2 + 2 + 5 + 5 = 20`。前五项分别考查地址字段参数，后两项分别考查两个地址的 Cache 命中结论及理由。
 
+## 7.1 当前三支决策校准契约
+
+validation 教师分只用于拟合“可安全自动批改”的单调隶属度、conformal
+不确定性区间和 A3WA 损失参数，不进入 test 推理，也不直接形成默认加分表。
+POS 自动接受，NEG 拒判并进入人工复核，BND 先执行一次结构化二次审查：只有
+明确条目 ID、可核验证据、合法 reason type、足够置信度且方向一致时才允许在条目
+分值和全题 20% 双重上限内改分，否则转人工复核。
+
+论文评估必须至少报告两组结果：`avg -> three_way_core_score` 衡量三支决策本身，
+`three_way_core_score -> final_calibrated_score` 衡量可选残差层。默认残差层关闭，避免
+把 validation 的整体偏差校正错误归因于 3WD。
+
 ## 8. 内嵌数据快照
 
 正式批改默认使用仓库内的 `data/csbench`，不再依赖同级目录中的 `CSBench_new`：

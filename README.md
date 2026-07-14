@@ -1,5 +1,42 @@
 # RefGrader Latest Status
 
+## 2026-07-14 Evidence-Calibrated Sequential 3WD
+
+The current paper-facing path separates the three-way decision mechanism from
+optional score residual correction:
+
+```text
+three probe scores + extraction/rubric evidence
+-> U_E (evidence uncertainty), U_S (score instability), U_R (rubric adaptation)
+-> validation-fitted monotonic membership mu(x) in the safe-auto-grading set
+-> A3WA loss-derived alpha/beta -> POS / BND / NEG
+-> structured item-evidence action for BND -> 3WD-Core
+-> optional residual correction (disabled by default) -> 3WD
+```
+
+The A3WA thresholds remain consequences of asymmetric losses; validation does
+not directly tune thresholds against test labels. It fits a non-increasing
+membership model, a split-conformal score interval for uncertainty auditing,
+and selects loss ratios under BND/NEG/unsafe-POS constraints. Leave-one-question-
+out validation and a deployment gate report whether the configuration is
+non-inferior and whether BND actions actually improve validation error.
+
+`three_way_core_score` is the score attributable to routing and structured BND
+action. `final_calibrated_score` differs only when calibration was explicitly
+run with `--score-calibration`; residual correction is off by default and small
+or sign-unstable cells are forced to zero. This makes `avg -> 3WD-Core` the main
+3WD ablation and `3WD-Core -> 3WD` the residual-correction ablation.
+
+Evaluation now reports overall MAE/RMSE/QWK/Pearson/TAR/SER plus human-AI
+selective metrics: automatic coverage, review rate, selective MAE, unsafe
+acceptance rate, and normalized area under the risk-coverage curve (AURC).
+The paired contribution audit reports `avg -> 3WD-Core` and
+`3WD-Core -> 3WD` separately, including mean absolute-error gain,
+improved/unchanged/worsened counts, score delta, and a Wilcoxon paired test.
+
+Research basis for interval auditing: *Analyzing Uncertainty of LLM-as-a-Judge:
+Interval Evaluations with Conformal Prediction*, EMNLP 2025.
+
 ## 2026-06-25 Unified CSBench Execution Flow
 
 RefGrader now supports a single CSBench command that can prepare data, optimize

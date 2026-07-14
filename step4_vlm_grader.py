@@ -20,9 +20,8 @@ from rubric_semantics import (
     project_rubric_for_risk,
 )
 from calibration_utils import (
-    a3wa_dynamic_bounds,
     apply_route_score_calibration,
-    apply_boundary_action_policy,
+    apply_structured_boundary_action_policy,
     build_a3wa_decision,
     build_post_grading_calibration,
     compute_extraction_quality_counts,
@@ -1659,6 +1658,9 @@ def load_a3wa_runtime_config():
         if isinstance(loaded, dict):
             _A3WA_RUNTIME_CONFIG = loaded
             print(f"      [A3WA config] loaded {A3WA_CALIBRATION_CONFIG_PATH}")
+            gate = loaded.get("deployment_gate", {})
+            if isinstance(gate, dict) and gate and not gate.get("passed", False):
+                print("      [A3WA config] experimental: validation deployment gate did not pass")
     except Exception as exc:
         print(f"      [A3WA config] failed to load {A3WA_CALIBRATION_CONFIG_PATH}: {exc}")
         _A3WA_RUNTIME_CONFIG = {}
@@ -2044,6 +2046,7 @@ def grade_student_3wd_pipeline(
     final_score = avg_model_score
     reason_log = ""
     arbitration_flag = False
+    sequential_outcome = "not_routed"
 
     print(f"\n  [探测指标] 均分={avg_model_score}, 标准差={std_dev:.4f}, 留白率={blank_rate:.0%}, 感知失败率={perception_failure_rate:.0%}, 低质量提取率={low_quality_rate:.0%}, 提取质量={extraction_quality}")
     print(f"      [extraction-risk] R_ext={extraction_risk:.2f}, structure_missing={structure_missing_rate:.0%}, suspicious={suspicious_extraction_rate:.0%}")
@@ -2186,6 +2189,8 @@ def grade_student_3wd_pipeline(
         post_calibration=post_calibration,
         weights=a3wa_config.get("risk_weights"),
         loss_params=a3wa_config.get("loss_params"),
+        membership_model=a3wa_config.get("membership_model"),
+        score_uncertainty=a3wa_config.get("score_uncertainty"),
     )
     risk_profile["risk_features"].update({
         "a3wa_risk": a3wa_decision["risk"],
@@ -2236,6 +2241,7 @@ def grade_student_3wd_pipeline(
     if reject_domain:
         route = "NEG"
         arbitration_flag = True
+        sequential_outcome = "defer_human"
         if a3wa_decision["hard_neg_reasons"]:
             reason_log = "A3WA hard_neg: " + ",".join(a3wa_decision["hard_neg_reasons"])
         else:
@@ -2262,16 +2268,17 @@ def grade_student_3wd_pipeline(
             if parsed_agent:
                 raw_agent_score = _agent_candidate_score(parsed_agent, selected_baseline_score, MAX_SCORE)
                 arbitration_decision = parsed_agent.get("decision", "keep")
-                boundary_gate = apply_boundary_action_policy(
+                boundary_gate = apply_structured_boundary_action_policy(
                     avg_model_score=selected_baseline_score,
                     candidate_score=raw_agent_score,
                     max_score=MAX_SCORE,
-                    a3wa_decision=a3wa_decision,
-                    risk_profile=risk_profile,
                     post_calibration=post_calibration,
                     agent_evidence=parsed_agent,
+                    config=a3wa_config.get("boundary_policy"),
                 )
                 final_score = round(_clamp(boundary_gate["final_score"], 0, MAX_SCORE), 2)
+                sequential_outcome = boundary_gate["sequential_outcome"]
+                arbitration_flag = boundary_gate["requires_human_review"]
                 arbitration_decision = f"{arbitration_decision}|{boundary_gate['action']}"
                 risk_features["boundary_gate_action"] = boundary_gate["action"]
                 risk_features["boundary_gate_accepted"] = boundary_gate["accepted"]
@@ -2282,28 +2289,19 @@ def grade_student_3wd_pipeline(
                 )
             else:
                 arbitration_decision = "keep"
-                lower_bound, upper_bound, _ = a3wa_dynamic_bounds(
-                    avg_model_score=selected_baseline_score,
-                    max_score=MAX_SCORE,
-                    a3wa_decision=a3wa_decision,
-                    risk_profile=risk_profile,
-                    post_calibration=post_calibration,
-                )
-                final_score = round(_clamp(selected_baseline_score, lower_bound, upper_bound), 2)
+                sequential_outcome = "defer_human"
+                arbitration_flag = True
+                final_score = selected_baseline_score
         else:
             arbitration_decision = "keep"
-            lower_bound, upper_bound, _ = a3wa_dynamic_bounds(
-                avg_model_score=selected_baseline_score,
-                max_score=MAX_SCORE,
-                a3wa_decision=a3wa_decision,
-                risk_profile=risk_profile,
-                post_calibration=post_calibration,
-            )
-            final_score = round(_clamp(selected_baseline_score, lower_bound, upper_bound), 2)
+            sequential_outcome = "defer_human"
+            arbitration_flag = True
+            final_score = selected_baseline_score
 
     else:
         route = "POS"
         final_score = selected_baseline_score
+        sequential_outcome = "auto_accepted"
         print(f"      [route -> POS] accept selected_baseline_score={selected_baseline_score}")
 
     # A deterministic canonical full-credit rule is a scoring constraint, not
@@ -2311,6 +2309,8 @@ def grade_student_3wd_pipeline(
     # boundary agent or validation residual contradict the rubric contract.
     if hierarchical_full_credit_locked:
         final_score = round(MAX_SCORE, 2)
+        sequential_outcome = "auto_accepted_canonical_lock"
+        arbitration_flag = False
         risk_features["hierarchical_full_credit_locked"] = True
         if route == "BND":
             arbitration_decision = f"{arbitration_decision}|canonical_full_credit_lock"
@@ -2322,8 +2322,14 @@ def grade_student_3wd_pipeline(
     question_id_for_calibration = ""
     if isinstance(answer_metadata, dict):
         question_id_for_calibration = str(answer_metadata.get("question_id", "") or "")
+    three_way_core_score = round(final_score, 2)
+    score_calibration_config = a3wa_config.get("score_calibration", {})
+    score_calibration_enabled = bool(
+        isinstance(score_calibration_config, dict)
+        and score_calibration_config.get("enabled", False)
+    )
     score_calibration = {
-        "enabled": bool(a3wa_config.get("score_calibration")),
+        "enabled": score_calibration_enabled,
         "applied": False,
         "reason": (
             "hierarchical_canonical_full_credit"
@@ -2337,7 +2343,7 @@ def grade_student_3wd_pipeline(
     if (
         route != "NEG"
         and not hierarchical_full_credit_locked
-        and a3wa_config.get("score_calibration")
+        and score_calibration_enabled
     ):
         score_calibration = apply_route_score_calibration(
             score=final_score,
@@ -2379,6 +2385,8 @@ def grade_student_3wd_pipeline(
         "extraction_quality": extraction_quality,
         "real_diff": real_diff,
         "3wd_route": route,
+        "3wd_sequential_outcome": sequential_outcome,
+        "three_way_core_score": three_way_core_score,
         "final_calibrated_score": final_score,
         "requires_human_arbitration": arbitration_flag,
         "perception_risk": round(perception_risk, 4),

@@ -1146,6 +1146,8 @@ def calibrate(args: argparse.Namespace) -> int:
         str(output),
         "--bnd-max",
         str(args.bnd_max),
+        "--neg-max",
+        str(getattr(args, "neg_max", 0.35)),
         "--top-k",
         str(args.top_k),
         "--min-cell-count",
@@ -1156,7 +1158,25 @@ def calibrate(args: argparse.Namespace) -> int:
         str(args.max_correction_ratio),
         "--max-correction-points",
         str(args.max_correction_points),
+        "--conformal-coverage",
+        str(getattr(args, "conformal_coverage", 0.90)),
+        "--conformal-scale-floor",
+        str(getattr(args, "conformal_scale_floor", 0.05)),
+        "--safe-error-ratio",
+        str(getattr(args, "safe_error_ratio", 0.10)),
+        "--safe-error-points",
+        str(getattr(args, "safe_error_points", 0.50)),
+        "--bnd-review-cost",
+        str(getattr(args, "bnd_review_cost", 0.02)),
+        "--neg-human-cost",
+        str(getattr(args, "neg_human_cost", 0.10)),
+        "--unsafe-pos-cost",
+        str(getattr(args, "unsafe_pos_cost", 1.00)),
+        "--max-unsafe-pos-rate",
+        str(getattr(args, "max_unsafe_pos_rate", 0.10)),
     ]
+    if getattr(args, "score_calibration", False):
+        command.append("--score-calibration")
     if args.no_score_calibration:
         command.append("--no-score-calibration")
 
@@ -1231,6 +1251,7 @@ def evaluate(args: argparse.Namespace) -> int:
         "single",
         "avg",
         "selected",
+        "3wd-core",
         "3wd",
     ]
     if args.export:
@@ -1954,8 +1975,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     calibrate_parser.add_argument("--output")
     calibrate_parser.add_argument("--bnd-max", type=float, default=0.60)
+    calibrate_parser.add_argument("--neg-max", type=float, default=0.35)
     calibrate_parser.add_argument("--top-k", type=int, default=8)
-    calibrate_parser.add_argument("--min-cell-count", type=int, default=5)
+    calibrate_parser.add_argument("--min-cell-count", type=int, default=20)
     calibrate_parser.add_argument("--shrinkage-k", type=float, default=8.0)
     calibrate_parser.add_argument(
         "--max-correction-ratio", type=float, default=0.12
@@ -1964,8 +1986,19 @@ def build_parser() -> argparse.ArgumentParser:
         "--max-correction-points", type=float, default=2.0
     )
     calibrate_parser.add_argument(
+        "--score-calibration", action="store_true"
+    )
+    calibrate_parser.add_argument(
         "--no-score-calibration", action="store_true"
     )
+    calibrate_parser.add_argument("--conformal-coverage", type=float, default=0.90)
+    calibrate_parser.add_argument("--conformal-scale-floor", type=float, default=0.05)
+    calibrate_parser.add_argument("--safe-error-ratio", type=float, default=0.10)
+    calibrate_parser.add_argument("--safe-error-points", type=float, default=0.50)
+    calibrate_parser.add_argument("--bnd-review-cost", type=float, default=0.02)
+    calibrate_parser.add_argument("--neg-human-cost", type=float, default=0.10)
+    calibrate_parser.add_argument("--unsafe-pos-cost", type=float, default=1.00)
+    calibrate_parser.add_argument("--max-unsafe-pos-rate", type=float, default=0.10)
     calibrate_parser.add_argument("--dry-run", action="store_true")
     calibrate_parser.add_argument(
         "--artifacts-repo",

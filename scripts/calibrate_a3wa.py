@@ -3,6 +3,7 @@ import glob
 import json
 import math
 import os
+import random
 import sys
 from collections import Counter
 
@@ -11,8 +12,9 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 from calibration_utils import (  # noqa: E402
-    apply_boundary_action_policy,
+    apply_structured_boundary_action_policy,
     build_a3wa_decision,
+    conformal_score_interval,
     compute_a3wa_thresholds,
     normalized_risk_weights,
     route_score_band,
@@ -108,6 +110,12 @@ def load_records(files, teacher_db, question_scores):
             if teacher is None or teacher < 0 or avg is None or final is None:
                 continue
             risk = row.get("risk_features", {}) or {}
+            post_calibration = row.get("post_calibration", {}) or {}
+            primary_risks = (
+                post_calibration.get("primary_risks")
+                or post_calibration.get("three_way_primary_risks")
+                or {}
+            )
             a3 = row.get("a3wa_decision", {}) or {}
             gate = row.get("boundary_gate", {}) or {}
             raw_candidate = gate.get("raw_candidate_score")
@@ -142,7 +150,11 @@ def load_records(files, teacher_db, question_scores):
                     risk.get("fatal_points_ratio", row.get("fatal_points_ratio", 0.0)), 0.0
                 ),
                 "high_blank_high_score": bool(risk.get("high_blank_high_score", row.get("high_blank_high_score", False))),
-                "post_calibration": row.get("post_calibration", {}) or {},
+                "post_calibration": post_calibration,
+                "U_E": safe_float(primary_risks.get("U_E", 0.0), 0.0),
+                "U_S": safe_float(primary_risks.get("U_S", 0.0), 0.0),
+                "U_R": safe_float(primary_risks.get("U_R", 0.0), 0.0),
+                "agent_evidence": gate.get("agent_evidence_summary") or {},
                 "old_route": row.get("3wd_route", ""),
                 "old_mu": safe_float(a3.get("mu", risk.get("a3wa_mu", 0.0)), 0.0),
             })
@@ -166,63 +178,173 @@ def metrics(records, score_key):
     }
 
 
-def candidate_weights():
-    return [
-        {"extract": 0.35, "score": 0.30, "semantic": 0.20, "blank": 0.15, "overcredit": 0.00},
-        {"extract": 0.30, "score": 0.25, "semantic": 0.20, "blank": 0.10, "overcredit": 0.15},
-        {"extract": 0.25, "score": 0.25, "semantic": 0.25, "blank": 0.10, "overcredit": 0.15},
-        {"extract": 0.25, "score": 0.20, "semantic": 0.25, "blank": 0.10, "overcredit": 0.20},
-        {"extract": 0.20, "score": 0.25, "semantic": 0.25, "blank": 0.10, "overcredit": 0.20},
-        {"extract": 0.40, "score": 0.20, "semantic": 0.15, "blank": 0.15, "overcredit": 0.10},
+def finite_sample_quantile(values, coverage):
+    values = sorted(safe_float(value, 0.0) for value in values)
+    if not values:
+        return 0.0
+    rank = int(math.ceil((len(values) + 1) * coverage)) - 1
+    return values[max(0, min(rank, len(values) - 1))]
+
+
+def fit_score_uncertainty(
+    records,
+    coverage=0.90,
+    scale_floor=0.05,
+    safe_tolerance_ratio=0.10,
+):
+    nonconformity = []
+    for record in records:
+        max_score = max(record["max_score"], 1.0)
+        scores = record.get("model_scores") or []
+        spread_ratio = (
+            (max(scores) - min(scores)) / max_score if len(scores) >= 2 else 0.0
+        )
+        local_scale = max(spread_ratio, scale_floor)
+        residual_ratio = abs(record["avg"] - record["teacher"]) / max_score
+        nonconformity.append(residual_ratio / local_scale)
+    quantile = finite_sample_quantile(nonconformity, coverage)
+    covered = 0
+    widths = []
+    for record in records:
+        max_score = max(record["max_score"], 1.0)
+        scores = record.get("model_scores") or []
+        spread_ratio = (
+            (max(scores) - min(scores)) / max_score if len(scores) >= 2 else 0.0
+        )
+        half_width_ratio = quantile * max(spread_ratio, scale_floor)
+        widths.append(2.0 * half_width_ratio)
+        if abs(record["avg"] - record["teacher"]) / max_score <= half_width_ratio:
+            covered += 1
+    return {
+        "version": 1,
+        "enabled": True,
+        "method": "locally_scaled_split_conformal",
+        "coverage": round(coverage, 6),
+        "calibration_n": len(records),
+        "scale_floor": round(scale_floor, 6),
+        "safe_tolerance_ratio": round(safe_tolerance_ratio, 6),
+        "nonconformity_quantile": round(quantile, 6),
+        "empirical_coverage": round(covered / max(len(records), 1), 6),
+        "mean_interval_width_ratio": round(mean(widths), 6),
+        "assumption": "exchangeable_validation_and_test_records",
+    }
+
+
+def membership_features(record):
+    return [record["U_E"], record["U_S"], record["U_R"]]
+
+
+def safe_auto_grade_label(record, safe_error_ratio, safe_error_points):
+    tolerance = max(safe_error_points, safe_error_ratio * max(record["max_score"], 1.0))
+    return 1.0 if abs(record["avg"] - record["teacher"]) <= tolerance else 0.0
+
+
+def fit_monotonic_membership(
+    records,
+    safe_error_ratio=0.10,
+    safe_error_points=0.50,
+    l2=0.05,
+    iterations=3000,
+    learning_rate=0.05,
+):
+    features = [membership_features(record) for record in records]
+    labels = [
+        safe_auto_grade_label(record, safe_error_ratio, safe_error_points)
+        for record in records
     ]
+    positive_rate = min(0.999, max(0.001, mean(labels)))
+    intercept = math.log(positive_rate / (1.0 - positive_rate))
+    coefficients = [1.0, 1.0, 1.0]
+    n = max(len(records), 1)
+    for _ in range(iterations):
+        grad_intercept = 0.0
+        grad_coefficients = [0.0, 0.0, 0.0]
+        for x, label in zip(features, labels):
+            linear = intercept - sum(c * value for c, value in zip(coefficients, x))
+            probability = 1.0 / (1.0 + math.exp(-max(-40.0, min(40.0, linear))))
+            error = probability - label
+            grad_intercept += error
+            for idx, value in enumerate(x):
+                grad_coefficients[idx] += -error * value
+        intercept -= learning_rate * grad_intercept / n
+        for idx in range(3):
+            gradient = grad_coefficients[idx] / n + l2 * coefficients[idx]
+            coefficients[idx] = max(0.0, min(20.0, coefficients[idx] - learning_rate * gradient))
+
+    probabilities = []
+    for x in features:
+        linear = intercept - sum(c * value for c, value in zip(coefficients, x))
+        probabilities.append(1.0 / (1.0 + math.exp(-max(-40.0, min(40.0, linear)))))
+    brier = mean([(probability - label) ** 2 for probability, label in zip(probabilities, labels)])
+    return {
+        "version": 1,
+        "type": "monotonic_logistic",
+        "target": "safe_auto_grading",
+        "safe_error_ratio": round(safe_error_ratio, 6),
+        "safe_error_points": round(safe_error_points, 6),
+        "intercept": round(intercept, 8),
+        "coefficients": {
+            "U_E": round(coefficients[0], 8),
+            "U_S": round(coefficients[1], 8),
+            "U_R": round(coefficients[2], 8),
+        },
+        "constraints": "non_negative_risk_coefficients",
+        "regularization_l2": round(l2, 6),
+        "training_n": len(records),
+        "positive_rate": round(positive_rate, 6),
+        "brier_score": round(brier, 6),
+    }
 
 
 def candidate_loss_params():
     for m in [0.20, 0.30, 0.40, 0.50]:
-        for lambda1 in [3.0, 4.0, 5.0]:
-            for lambda2 in [1.0, 2.0]:
-                for mu1 in [2.0, 3.0]:
-                    for mu2 in [5.0, 7.0]:
-                        yield {
-                            "lambda1": lambda1,
-                            "lambda2": lambda2,
-                            "mu1": mu1,
-                            "mu2": mu2,
-                            "m": m,
-                        }
+        for positive_loss_ratio in [0.25, 0.50, 1.0, 2.0, 4.0]:
+            for negative_loss_ratio in [0.25, 0.50, 1.0, 2.0, 4.0]:
+                yield {
+                    "lambda1": positive_loss_ratio,
+                    "lambda2": 1.0,
+                    "mu1": 1.0,
+                    "mu2": negative_loss_ratio,
+                    "m": m,
+                }
 
 
-def apply_action_policy(record, route, decision):
+def apply_action_policy(record, route, boundary_policy=None):
     avg = record["avg"]
     max_score = max(record["max_score"], 1.0)
     if route != "BND":
         return avg
-    risk_profile = {
-        "fatal_points_ratio": record["fatal_points_ratio"],
-        "high_blank_high_score": record["high_blank_high_score"],
-        "risk_features": {
-            "blank_rate": record["blank_rate"],
-            "low_quality_rate": record["low_quality_rate"],
-            "perception_failure_rate": record["perception_failure_rate"],
-        },
-    }
-    gate = apply_boundary_action_policy(
+    gate = apply_structured_boundary_action_policy(
         avg_model_score=avg,
         candidate_score=record["raw_candidate"],
         max_score=max_score,
-        a3wa_decision=decision,
-        risk_profile=risk_profile,
         post_calibration=record["post_calibration"],
+        agent_evidence=record.get("agent_evidence"),
+        config=boundary_policy,
     )
     return round(gate["final_score"], 2)
 
 
-def evaluate_params(records, loss_params, weights, bnd_max, return_trial=False):
+def evaluate_params(
+    records,
+    loss_params,
+    membership_model,
+    score_uncertainty,
+    bnd_max,
+    neg_max,
+    bnd_cost,
+    neg_cost,
+    unsafe_pos_cost,
+    safe_error_ratio,
+    safe_error_points,
+    max_unsafe_pos_rate,
+    boundary_policy=None,
+    return_trial=False,
+):
     trial = []
     route_counts = Counter()
     route_errors = {"POS": [], "BND": [], "NEG": []}
     bnd_gains = []
-    weights = normalized_risk_weights(weights)
     for record in records:
         decision = build_a3wa_decision(
             model_scores=record["model_scores"],
@@ -238,11 +360,13 @@ def evaluate_params(records, loss_params, weights, bnd_max, return_trial=False):
             fatal_points_ratio=record["fatal_points_ratio"],
             high_blank_high_score=record["high_blank_high_score"],
             post_calibration=record["post_calibration"],
-            weights=weights,
+            weights=None,
             loss_params=loss_params,
+            membership_model=membership_model,
+            score_uncertainty=score_uncertainty,
         )
         route = decision["route"]
-        score = apply_action_policy(record, route, decision)
+        score = apply_action_policy(record, route, boundary_policy)
         row = dict(record)
         row["trial_score"] = score
         row["trial_route"] = route
@@ -255,42 +379,84 @@ def evaluate_params(records, loss_params, weights, bnd_max, return_trial=False):
     avg_metric = metrics(trial, "avg")
     final_metric = metrics(trial, "trial_score")
     bnd_ratio = route_counts["BND"] / max(len(trial), 1)
+    neg_ratio = route_counts["NEG"] / max(len(trial), 1)
     pos_mae = mean(route_errors["POS"])
     bnd_mae = mean(route_errors["BND"])
     bnd_gain = mean(bnd_gains)
-    objective = final_metric["mae"]
-    objective += 2.0 * max(0.0, final_metric["mae"] - avg_metric["mae"])
-    objective += 1.0 * max(0.0, avg_metric["tar2"] - final_metric["tar2"])
-    objective += 0.5 * max(0.0, bnd_ratio - bnd_max)
-    if route_counts["POS"] > 0 and route_counts["BND"] > 0:
-        objective += 0.5 * max(0.0, pos_mae - bnd_mae)
-    objective += 1.0 * max(0.0, -bnd_gain)
+    unsafe_pos = 0
+    normalized_score_loss = 0.0
+    for row in trial:
+        max_score = max(row["max_score"], 1.0)
+        tolerance = max(safe_error_points, safe_error_ratio * max_score)
+        if row["trial_route"] == "POS" and abs(row["avg"] - row["teacher"]) > tolerance:
+            unsafe_pos += 1
+        if row["trial_route"] != "NEG":
+            normalized_score_loss += abs(row["trial_score"] - row["teacher"]) / max_score
+    n = max(len(trial), 1)
+    unsafe_pos_rate = unsafe_pos / max(route_counts["POS"], 1)
+    expected_system_cost = (
+        normalized_score_loss / n
+        + bnd_cost * bnd_ratio
+        + neg_cost * neg_ratio
+        + unsafe_pos_cost * unsafe_pos / n
+    )
+    constraint_violations = (
+        int(bnd_ratio > bnd_max)
+        + int(neg_ratio > neg_max)
+        + int(unsafe_pos_rate > max_unsafe_pos_rate)
+    )
+    constraint_excess = (
+        max(0.0, bnd_ratio - bnd_max)
+        + max(0.0, neg_ratio - neg_max)
+        + max(0.0, unsafe_pos_rate - max_unsafe_pos_rate)
+    )
     result = {
-        "objective": objective,
+        "objective": expected_system_cost,
+        "expected_system_cost": expected_system_cost,
+        "constraint_violations": constraint_violations,
+        "constraint_excess": constraint_excess,
         "metrics": final_metric,
         "baseline_metrics": avg_metric,
         "route_counts": dict(route_counts),
         "bnd_ratio": bnd_ratio,
+        "neg_ratio": neg_ratio,
+        "unsafe_pos_count": unsafe_pos,
+        "unsafe_pos_rate": unsafe_pos_rate,
         "pos_mae": pos_mae,
         "bnd_mae": bnd_mae,
         "bnd_gain": bnd_gain,
         "loss_params": loss_params,
-        "risk_weights": weights,
+        "membership_model": membership_model,
+        "score_uncertainty": score_uncertainty,
     }
     if return_trial:
         result["trial_records"] = trial
     return result
 
 
-def _residual_entry(items, shrinkage_k, max_correction):
+def _residual_entry(items, shrinkage_k, max_correction, min_stable_count=20):
     residuals = [item["teacher"] - item["trial_score"] for item in items]
     n = len(residuals)
     raw_mean = mean(residuals)
+    variance = (
+        sum((value - raw_mean) ** 2 for value in residuals) / (n - 1)
+        if n >= 2 else 0.0
+    )
+    standard_error = math.sqrt(variance / n) if n > 0 else 0.0
+    ci_low = raw_mean - 1.96 * standard_error
+    ci_high = raw_mean + 1.96 * standard_error
+    sign_stable = n >= min_stable_count and (ci_low > 0.0 or ci_high < 0.0)
     shrink = n / (n + max(shrinkage_k, 0.0)) if n > 0 else 0.0
-    correction = max(-max_correction, min(max_correction, raw_mean * shrink))
+    correction = (
+        max(-max_correction, min(max_correction, raw_mean * shrink))
+        if sign_stable else 0.0
+    )
     return {
         "n": n,
         "mean_residual": round(raw_mean, 6),
+        "standard_error": round(standard_error, 6),
+        "ci95": [round(ci_low, 6), round(ci_high, 6)],
+        "sign_stable": sign_stable,
         "correction": round(correction, 6),
     }
 
@@ -298,7 +464,7 @@ def _residual_entry(items, shrinkage_k, max_correction):
 def build_score_calibration(
     trial_records,
     *,
-    min_cell_count=5,
+    min_cell_count=20,
     shrinkage_k=8.0,
     max_correction_ratio=0.12,
     max_correction_points=2.0,
@@ -339,10 +505,15 @@ def build_score_calibration(
                 continue
             max_score = max(mean([safe_float(item.get("max_score"), 1.0) for item in items]), 1.0)
             max_correction = min(max_correction_points, max_correction_ratio * max_score)
-            table[group_name][key] = _residual_entry(items, shrinkage_k, max_correction)
+            table[group_name][key] = _residual_entry(
+                items,
+                shrinkage_k,
+                max_correction,
+                min_stable_count=min_cell_count,
+            )
 
     return {
-        "version": 1,
+        "version": 2,
         "enabled": True,
         "method": "validation_residual_additive",
         "score_band": "low:<35%, mid:<70%, high:>=70%",
@@ -354,6 +525,120 @@ def build_score_calibration(
     }
 
 
+def select_best_candidate(results):
+    return min(
+        results,
+        key=lambda item: (
+            item["constraint_violations"],
+            item["constraint_excess"],
+            item["expected_system_cost"],
+            item["metrics"]["mae"],
+        ),
+    )
+
+
+def paired_bootstrap_normalized_mae_delta(records, iterations=2000, seed=20260714):
+    deltas = [
+        (
+            abs(record["trial_score"] - record["teacher"])
+            - abs(record["avg"] - record["teacher"])
+        ) / max(record["max_score"], 1.0)
+        for record in records
+    ]
+    if not deltas:
+        return {"mean": 0.0, "ci95": [0.0, 0.0], "iterations": 0}
+    rng = random.Random(seed)
+    samples = []
+    for _ in range(iterations):
+        samples.append(mean([deltas[rng.randrange(len(deltas))] for _ in deltas]))
+    samples.sort()
+    low = samples[int(0.025 * (len(samples) - 1))]
+    high = samples[int(0.975 * (len(samples) - 1))]
+    return {
+        "mean": round(mean(deltas), 6),
+        "ci95": [round(low, 6), round(high, 6)],
+        "iterations": iterations,
+        "seed": seed,
+    }
+
+
+def leave_one_question_out_validation(records, calibration_args):
+    qids = sorted(set(record["qid"] for record in records))
+    if len(qids) < 2:
+        return {
+            "available": False,
+            "reason": "at_least_two_questions_required",
+            "folds": [],
+        }
+    all_trial = []
+    folds = []
+    for held_out in qids:
+        train = [record for record in records if record["qid"] != held_out]
+        test = [record for record in records if record["qid"] == held_out]
+        uncertainty = fit_score_uncertainty(
+            train,
+            coverage=calibration_args["conformal_coverage"],
+            scale_floor=calibration_args["conformal_scale_floor"],
+            safe_tolerance_ratio=calibration_args["safe_error_ratio"],
+        )
+        membership = fit_monotonic_membership(
+            train,
+            safe_error_ratio=calibration_args["safe_error_ratio"],
+            safe_error_points=calibration_args["safe_error_points"],
+        )
+        shared = {
+            "membership_model": membership,
+            "score_uncertainty": uncertainty,
+            "bnd_max": calibration_args["bnd_max"],
+            "neg_max": calibration_args["neg_max"],
+            "bnd_cost": calibration_args["bnd_cost"],
+            "neg_cost": calibration_args["neg_cost"],
+            "unsafe_pos_cost": calibration_args["unsafe_pos_cost"],
+            "safe_error_ratio": calibration_args["safe_error_ratio"],
+            "safe_error_points": calibration_args["safe_error_points"],
+            "max_unsafe_pos_rate": calibration_args["max_unsafe_pos_rate"],
+            "boundary_policy": calibration_args["boundary_policy"],
+        }
+        train_results = [
+            evaluate_params(train, loss_params=params, **shared)
+            for params in candidate_loss_params()
+        ]
+        fold_best = select_best_candidate(train_results)
+        held_out_result = evaluate_params(
+            test,
+            loss_params=fold_best["loss_params"],
+            return_trial=True,
+            **shared,
+        )
+        all_trial.extend(held_out_result["trial_records"])
+        folds.append({
+            "held_out_question": held_out,
+            "train_n": len(train),
+            "test_n": len(test),
+            "loss_params": fold_best["loss_params"],
+            "baseline_mae": round(held_out_result["baseline_metrics"]["mae"], 6),
+            "candidate_mae": round(held_out_result["metrics"]["mae"], 6),
+            "route_counts": held_out_result["route_counts"],
+            "bnd_gain": round(held_out_result["bnd_gain"], 6),
+        })
+    bootstrap = paired_bootstrap_normalized_mae_delta(all_trial)
+    improved_questions = sum(
+        1 for fold in folds if fold["candidate_mae"] < fold["baseline_mae"]
+    )
+    noninferiority_margin = 0.01
+    return {
+        "available": True,
+        "method": "leave_one_question_out",
+        "n": len(all_trial),
+        "folds": folds,
+        "improved_questions": improved_questions,
+        "normalized_mae_delta": bootstrap,
+        "noninferiority_margin": noninferiority_margin,
+        "noninferior": bootstrap["ci95"][1] <= noninferiority_margin,
+        "superior": bootstrap["ci95"][1] < 0.0,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="Calibrate A3WA loss parameters and risk weights.")
     parser.add_argument("--files", nargs="+", required=True)
@@ -361,14 +646,48 @@ def main():
     parser.add_argument("--database-path", default="database/exam_database.json")
     parser.add_argument("--output", default="results_rrd_vlm/a3wa_calibration_config.json")
     parser.add_argument("--bnd-max", type=float, default=0.60)
+    parser.add_argument("--neg-max", type=float, default=0.35)
     parser.add_argument("--top-k", type=int, default=8)
-    parser.add_argument("--score-calibration", action="store_true", default=True)
+    parser.add_argument("--score-calibration", action="store_true", default=False)
     parser.add_argument("--no-score-calibration", dest="score_calibration", action="store_false")
-    parser.add_argument("--min-cell-count", type=int, default=5)
+    parser.add_argument("--min-cell-count", type=int, default=20)
     parser.add_argument("--shrinkage-k", type=float, default=8.0)
     parser.add_argument("--max-correction-ratio", type=float, default=0.12)
     parser.add_argument("--max-correction-points", type=float, default=2.0)
+    parser.add_argument("--conformal-coverage", type=float, default=0.90)
+    parser.add_argument("--conformal-scale-floor", type=float, default=0.05)
+    parser.add_argument("--safe-error-ratio", type=float, default=0.10)
+    parser.add_argument("--safe-error-points", type=float, default=0.50)
+    parser.add_argument("--bnd-review-cost", type=float, default=0.02)
+    parser.add_argument("--neg-human-cost", type=float, default=0.10)
+    parser.add_argument("--unsafe-pos-cost", type=float, default=1.00)
+    parser.add_argument("--max-unsafe-pos-rate", type=float, default=0.10)
     args = parser.parse_args()
+
+    probability_args = {
+        "bnd_max": args.bnd_max,
+        "neg_max": args.neg_max,
+        "conformal_coverage": args.conformal_coverage,
+        "conformal_scale_floor": args.conformal_scale_floor,
+        "safe_error_ratio": args.safe_error_ratio,
+        "max_correction_ratio": args.max_correction_ratio,
+        "max_unsafe_pos_rate": args.max_unsafe_pos_rate,
+    }
+    for name, value in probability_args.items():
+        if not 0.0 <= value <= 1.0:
+            parser.error(f"--{name.replace('_', '-')} must be in [0, 1]")
+    for name, value in {
+        "safe_error_points": args.safe_error_points,
+        "bnd_review_cost": args.bnd_review_cost,
+        "neg_human_cost": args.neg_human_cost,
+        "unsafe_pos_cost": args.unsafe_pos_cost,
+        "max_correction_points": args.max_correction_points,
+        "shrinkage_k": args.shrinkage_k,
+    }.items():
+        if value < 0.0:
+            parser.error(f"--{name.replace('_', '-')} must be non-negative")
+    if args.min_cell_count < 1:
+        parser.error("--min-cell-count must be at least 1")
 
     teacher_db = load_json(args.teacher_db)
     question_scores = load_question_scores(args.database_path)
@@ -377,30 +696,110 @@ def main():
     if not records:
         raise SystemExit("No valid records found for calibration.")
 
-    results = []
-    for loss_params in candidate_loss_params():
-        for weights in candidate_weights():
-            results.append(evaluate_params(records, loss_params, weights, args.bnd_max))
-    results.sort(key=lambda item: item["objective"])
+    score_uncertainty = fit_score_uncertainty(
+        records,
+        coverage=args.conformal_coverage,
+        scale_floor=args.conformal_scale_floor,
+        safe_tolerance_ratio=args.safe_error_ratio,
+    )
+    membership_model = fit_monotonic_membership(
+        records,
+        safe_error_ratio=args.safe_error_ratio,
+        safe_error_points=args.safe_error_points,
+    )
+    boundary_policy = {
+        "version": 1,
+        "method": "structured_item_evidence",
+        "min_evidence_confidence": 0.60,
+        "auto_keep_confidence": 0.80,
+        "max_adjustment_ratio": 0.20,
+    }
+    evaluation_args = {
+        "membership_model": membership_model,
+        "score_uncertainty": score_uncertainty,
+        "bnd_max": args.bnd_max,
+        "neg_max": args.neg_max,
+        "bnd_cost": args.bnd_review_cost,
+        "neg_cost": args.neg_human_cost,
+        "unsafe_pos_cost": args.unsafe_pos_cost,
+        "safe_error_ratio": args.safe_error_ratio,
+        "safe_error_points": args.safe_error_points,
+        "max_unsafe_pos_rate": args.max_unsafe_pos_rate,
+        "boundary_policy": boundary_policy,
+    }
+    results = [
+        evaluate_params(records, loss_params=loss_params, **evaluation_args)
+        for loss_params in candidate_loss_params()
+    ]
+    results.sort(
+        key=lambda item: (
+            item["constraint_violations"],
+            item["constraint_excess"],
+            item["expected_system_cost"],
+            item["metrics"]["mae"],
+        )
+    )
     best = results[0]
     best_with_trial = evaluate_params(
         records,
-        best["loss_params"],
-        best["risk_weights"],
-        args.bnd_max,
+        loss_params=best["loss_params"],
         return_trial=True,
+        **evaluation_args,
     )
+    cross_validation = leave_one_question_out_validation(
+        records,
+        {
+            "conformal_coverage": args.conformal_coverage,
+            "conformal_scale_floor": args.conformal_scale_floor,
+            "safe_error_ratio": args.safe_error_ratio,
+            "safe_error_points": args.safe_error_points,
+            "max_unsafe_pos_rate": args.max_unsafe_pos_rate,
+            "bnd_max": args.bnd_max,
+            "neg_max": args.neg_max,
+            "bnd_cost": args.bnd_review_cost,
+            "neg_cost": args.neg_human_cost,
+            "unsafe_pos_cost": args.unsafe_pos_cost,
+            "boundary_policy": boundary_policy,
+        },
+    )
+    deployment_gate = {
+        "passed": bool(
+            cross_validation.get("available", False)
+            and cross_validation.get("noninferior", False)
+            and best["constraint_violations"] == 0
+            and best["bnd_gain"] > 0.0
+        ),
+        "requirements": {
+            "loqo_normalized_mae_noninferior": bool(cross_validation.get("noninferior", False)),
+            "route_budget_constraints_met": best["constraint_violations"] == 0,
+            "validation_bnd_gain_positive": best["bnd_gain"] > 0.0,
+        },
+        "note": "A failed gate marks the config experimental; it does not tune on test data.",
+    }
     alpha, beta = compute_a3wa_thresholds(**best["loss_params"])
 
     config = {
-        "version": 1,
+        "version": 2,
         "source": "scripts/calibrate_a3wa.py",
         "database_path": args.database_path,
         "teacher_db": args.teacher_db,
         "files": input_files,
-        "selection_objective": "cost_sensitive_validation_calibration",
+        "selection_objective": "constrained_expected_system_cost",
         "loss_params": best["loss_params"],
-        "risk_weights": best["risk_weights"],
+        "risk_weights": normalized_risk_weights(),
+        "membership_model": membership_model,
+        "score_uncertainty": score_uncertainty,
+        "boundary_policy": boundary_policy,
+        "operational_costs": {
+            "normalized_bnd_review": args.bnd_review_cost,
+            "normalized_neg_human_review": args.neg_human_cost,
+            "unsafe_pos": args.unsafe_pos_cost,
+            "bnd_max": args.bnd_max,
+            "neg_max": args.neg_max,
+            "max_unsafe_pos_rate": args.max_unsafe_pos_rate,
+        },
+        "cross_validation": cross_validation,
+        "deployment_gate": deployment_gate,
         "thresholds": {
             "alpha": round(alpha, 6),
             "beta": round(beta, 6),
@@ -408,16 +807,28 @@ def main():
         "validation_summary": {
             "n": len(records),
             "objective": round(best["objective"], 6),
+            "expected_system_cost": round(best["expected_system_cost"], 6),
+            "constraint_violations": best["constraint_violations"],
+            "constraint_excess": round(best["constraint_excess"], 6),
             "metrics": {k: round(v, 6) if isinstance(v, float) else v for k, v in best["metrics"].items()},
             "baseline_metrics": {
                 k: round(v, 6) if isinstance(v, float) else v for k, v in best["baseline_metrics"].items()
             },
             "route_counts": best["route_counts"],
             "bnd_ratio": round(best["bnd_ratio"], 6),
+            "neg_ratio": round(best["neg_ratio"], 6),
+            "unsafe_pos_count": best["unsafe_pos_count"],
+            "unsafe_pos_rate": round(best["unsafe_pos_rate"], 6),
             "pos_mae": round(best["pos_mae"], 6),
             "bnd_mae": round(best["bnd_mae"], 6),
             "bnd_gain": round(best["bnd_gain"], 6),
         },
+    }
+    config["score_calibration"] = {
+        "version": 2,
+        "enabled": False,
+        "method": "disabled_core_ablation",
+        "table": {},
     }
     if args.score_calibration:
         config["score_calibration"] = build_score_calibration(
@@ -435,7 +846,8 @@ def main():
             f"#{idx} obj={item['objective']:.4f} "
             f"MAE={item['metrics']['mae']:.4f} base={item['baseline_metrics']['mae']:.4f} "
             f"TAR2={item['metrics']['tar2']:.1%} routes={item['route_counts']} "
-            f"bnd_gain={item['bnd_gain']:+.4f} loss={item['loss_params']} weights={item['risk_weights']}"
+            f"bnd_gain={item['bnd_gain']:+.4f} unsafe_pos={item['unsafe_pos_count']} "
+            f"loss={item['loss_params']}"
         )
 
 

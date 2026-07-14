@@ -12,6 +12,7 @@ from unittest.mock import patch
 from scripts.run_csbench import (
     RUBRIC_SEMANTIC_CONTRACT_VERSION,
     calibrate,
+    evaluate,
     grading_results_dir,
     optimization_evidence_paths,
     publish,
@@ -21,6 +22,36 @@ from scripts.run_csbench import (
 
 
 class CSBenchArtifactSyncTests(unittest.TestCase):
+    def test_formal_evaluation_includes_core_and_residual_scores(self):
+        context = SimpleNamespace(
+            question_id="CO_1",
+            teacher_db=Path("teacher_scores.json"),
+            database=Path("exam_database.json"),
+        )
+        args = SimpleNamespace(
+            prepared_dir="data/csbench",
+            questions=["CO_1"],
+            dry_run=True,
+            export=True,
+            detail=False,
+            no_artifacts=True,
+        )
+        with (
+            patch("scripts.run_csbench.build_contexts", return_value=[context]),
+            patch(
+                "scripts.run_csbench.grading_results_dir",
+                return_value=Path("results_runs/csbench_co1_full"),
+            ),
+            patch("scripts.run_csbench.execute", return_value=0) as execute_mock,
+        ):
+            self.assertEqual(evaluate(args), 0)
+        command = execute_mock.call_args.args[0]
+        compare_index = command.index("--compare-score-keys")
+        self.assertEqual(
+            command[compare_index + 1:compare_index + 6],
+            ["single", "avg", "selected", "3wd-core", "3wd"],
+        )
+
     def test_grading_directories_are_split_safe(self):
         contexts = [SimpleNamespace(question_id="CO_1")]
         with patch("scripts.run_csbench.PROJECT_ROOT", Path("/tmp/refgrader")):

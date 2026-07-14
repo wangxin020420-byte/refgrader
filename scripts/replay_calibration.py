@@ -10,8 +10,7 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 from calibration_utils import (  # noqa: E402
-    apply_boundary_action_policy,
-    a3wa_dynamic_bounds,
+    apply_structured_boundary_action_policy,
     build_a3wa_decision,
     build_post_grading_calibration,
     compute_extraction_quality_counts,
@@ -109,7 +108,15 @@ def load_json(path):
 
 def infer_question_id(path):
     name = os.path.basename(path)
-    return name.split("_")[0]
+    for suffix in (
+        "_grading_checkpoint.json",
+        "_graded_results.json",
+        "_rejected.json",
+        "_failed.json",
+    ):
+        if name.endswith(suffix):
+            return name[: -len(suffix)]
+    return os.path.splitext(name)[0]
 
 
 def load_rubric(results_dir, qid):
@@ -303,6 +310,8 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
         post_calibration=post,
         weights=a3wa_config.get("risk_weights"),
         loss_params=a3wa_config.get("loss_params"),
+        membership_model=a3wa_config.get("membership_model"),
+        score_uncertainty=a3wa_config.get("score_uncertainty"),
     )
 
     bnd_without_gate = False
@@ -318,26 +327,18 @@ def replay_record(record, rubrics_data, max_score, a3wa_config=None):
                     saved_gate.get("raw_candidate_score", selected_baseline_score),
                     selected_baseline_score,
                 )
-                gate = apply_boundary_action_policy(
+                gate = apply_structured_boundary_action_policy(
                     avg_model_score=selected_baseline_score,
                     candidate_score=candidate_score,
                     max_score=max_score,
-                    a3wa_decision=a3wa,
-                    risk_profile=risk_profile,
                     post_calibration=post,
                     agent_evidence=agent_evidence_from_saved_gate(saved_gate),
+                    config=a3wa_config.get("boundary_policy"),
                 )
                 replay_score = round(clamp(gate["final_score"], 0.0, max_score), 2)
             else:
                 bnd_without_gate = True
-                lower_bound, upper_bound, _ = a3wa_dynamic_bounds(
-                    avg_model_score=selected_baseline_score,
-                    max_score=max_score,
-                    a3wa_decision=a3wa,
-                    risk_profile=risk_profile,
-                    post_calibration=post,
-                )
-                replay_score = round(clamp(selected_baseline_score, lower_bound, upper_bound), 2)
+                replay_score = selected_baseline_score
         else:
             replay_score = selected_baseline_score
 

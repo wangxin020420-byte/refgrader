@@ -71,6 +71,92 @@ def normalized_risk_weights(weights=None):
     return {key: value / total for key, value in cleaned.items()}
 
 
+def normalized_primary_risk_weights(weights=None):
+    """Map legacy routing weights onto the three paper-facing risks."""
+    legacy = normalized_risk_weights(weights)
+    primary = {
+        "U_E": legacy["extract"] + legacy["blank"],
+        "U_S": legacy["score"],
+        "U_R": legacy["semantic"] + legacy["overcredit"],
+    }
+    total = sum(primary.values())
+    if total <= 1e-12:
+        return {"U_E": 1.0 / 3.0, "U_S": 1.0 / 3.0, "U_R": 1.0 / 3.0}
+    return {key: value / total for key, value in primary.items()}
+
+
+def sigmoid(value):
+    value = max(-40.0, min(40.0, safe_float(value, 0.0)))
+    return 1.0 / (1.0 + math.exp(-value))
+
+
+def conformal_score_interval(
+    center_score,
+    max_score,
+    score_spread_norm,
+    config=None,
+):
+    """Build a locally scaled split-conformal score interval.
+
+    The quantile is fitted only on validation residuals. The interval is an
+    uncertainty signal, not a score correction.
+    """
+    center_score = safe_float(center_score, 0.0)
+    max_score = max(safe_float(max_score, 0.0), 1.0)
+    score_spread_norm = clamp01(score_spread_norm)
+    config = config if isinstance(config, dict) else {}
+    enabled = bool(config.get("enabled", False))
+    scale_floor = max(safe_float(config.get("scale_floor", 0.05), 0.05), 1e-6)
+    quantile = max(safe_float(config.get("nonconformity_quantile", 0.0), 0.0), 0.0)
+    tolerance_ratio = max(safe_float(config.get("safe_tolerance_ratio", 0.10), 0.10), 1e-6)
+    local_scale = max(score_spread_norm, scale_floor)
+    half_width_ratio = quantile * local_scale if enabled else 0.0
+    half_width = half_width_ratio * max_score
+    lower = max(0.0, center_score - half_width)
+    upper = min(max_score, center_score + half_width)
+    stability_risk = clamp01(half_width_ratio / tolerance_ratio) if enabled else None
+    return {
+        "enabled": enabled,
+        "coverage": safe_float(config.get("coverage", 0.90), 0.90),
+        "lower": round(lower, 6),
+        "upper": round(upper, 6),
+        "half_width": round(half_width, 6),
+        "half_width_ratio": round(half_width_ratio, 6),
+        "local_scale": round(local_scale, 6),
+        "stability_risk": None if stability_risk is None else round(stability_risk, 6),
+    }
+
+
+def calibrated_a3wa_membership(u_e, u_s, u_r, weights=None, model=None):
+    """Return monotonic membership in the safe-auto-grading fuzzy set."""
+    risks = {
+        "U_E": clamp01(u_e),
+        "U_S": clamp01(u_s),
+        "U_R": clamp01(u_r),
+    }
+    if isinstance(model, dict) and model.get("type") == "monotonic_logistic":
+        coefficients = model.get("coefficients", {})
+        intercept = safe_float(model.get("intercept", 0.0), 0.0)
+        linear = intercept
+        for key, risk in risks.items():
+            coefficient = max(safe_float(coefficients.get(key, 0.0), 0.0), 0.0)
+            linear -= coefficient * risk
+        mu = sigmoid(linear)
+        return {
+            "mu": round(mu, 6),
+            "risk": round(1.0 - mu, 6),
+            "source": "validation_monotonic_logistic",
+        }
+
+    primary_weights = normalized_primary_risk_weights(weights)
+    risk = sum(primary_weights[key] * risks[key] for key in risks)
+    return {
+        "mu": round(1.0 - clamp01(risk), 6),
+        "risk": round(clamp01(risk), 6),
+        "source": "weighted_primary_risks",
+    }
+
+
 def parse_json_maybe(value, default=None):
     if default is None:
         default = {}
@@ -964,11 +1050,16 @@ def compute_three_way_primary_risks(
         if q_i <= 0.0:
             a_i = 0.0
         elif not details:
-            a_i = 0.5
+            a_i = 0.5 * q_i
         elif majority_category in ("MATCH", "PARTIAL_MATCH", "FORMAT_MINOR", "SEMANTIC_FATAL", "BLANK"):
-            a_i = 1.0 if q_i >= 1.0 else 0.5
+            majority_count = sum(
+                1 for detail in details
+                if str(detail.get("error_category", "")) == majority_category
+            )
+            category_consistency = majority_count / max(len(details), 1)
+            a_i = q_i * category_consistency
         else:
-            a_i = 0.5
+            a_i = 0.5 * q_i
 
         evidence_quality_sum += points * q_i
         adaptation_sum += points * a_i
@@ -1401,6 +1492,9 @@ def build_post_grading_calibration(
         "suspicious_extraction_rate": extraction_risk["suspicious_extraction_rate"],
         "extraction_risk": extraction_risk["extraction_risk"],
         "extraction_quality": extraction_risk["extraction_quality"],
+        "rubric_item_points": {
+            key: round(value, 4) for key, value in points_map.items()
+        },
         "primary_risks": primary_risks,
         "three_way_primary_risks": primary_risks,
         "visual_blank_review": visual_blank_review,
@@ -1669,8 +1763,16 @@ def build_a3wa_decision(
     post_calibration=None,
     weights=None,
     loss_params=None,
+    membership_model=None,
+    score_uncertainty=None,
 ):
-    """Build A3WA-inspired route decision from generic risk components."""
+    """Build an evidence-calibrated A3WA route decision.
+
+    U_E, U_S and U_R describe evidence, score-stability and rubric-mapping
+    uncertainty. A validation-fitted monotonic model may map them to membership
+    in the safe-auto-grading fuzzy set. Without that model, a weighted linear
+    mapping is used for backward compatibility.
+    """
     model_scores = [safe_float(s, 0.0) for s in (model_scores or [])]
     max_score = max(safe_float(max_score, 0.0), 1.0)
     avg_model_score = safe_float(avg_model_score, 0.0)
@@ -1682,6 +1784,12 @@ def build_a3wa_decision(
     score_spread = max(model_scores) - min(model_scores) if model_scores else 0.0
     normalized_std = clamp01(std_dev / max_score)
     score_spread_norm = clamp01(score_spread / max_score)
+    score_interval = conformal_score_interval(
+        center_score=avg_model_score,
+        max_score=max_score,
+        score_spread_norm=score_spread_norm,
+        config=score_uncertainty,
+    )
 
     if extraction_risk is None:
         u_extract = clamp01(
@@ -1742,20 +1850,19 @@ def build_a3wa_decision(
         u_e = clamp01(primary_risks.get("U_E", u_extract))
         u_s = clamp01(primary_risks.get("U_S", u_score))
         u_r = clamp01(primary_risks.get("U_R", max(u_semantic, u_overcredit)))
-        risk = clamp01(primary_risks.get("risk", (u_e + u_s + u_r) / 3.0))
     else:
         u_e = u_extract
         u_s = u_score
         u_r = max(u_semantic, u_overcredit)
-        extract_weight = safe_float(weights.get("extract", 0.35), 0.35) + safe_float(weights.get("blank", 0.0), 0.0)
-        risk = (
-            extract_weight * u_extract
-            + safe_float(weights.get("score", 0.30), 0.30) * u_score
-            + safe_float(weights.get("semantic", 0.20), 0.20) * u_semantic
-            + safe_float(weights.get("overcredit", 0.0), 0.0) * u_overcredit
-        )
-    risk = clamp01(risk)
-    confidence = 1.0 - risk
+    membership = calibrated_a3wa_membership(
+        u_e=u_e,
+        u_s=u_s,
+        u_r=u_r,
+        weights=weights,
+        model=membership_model,
+    )
+    risk = membership["risk"]
+    confidence = membership["mu"]
 
     alpha, beta = compute_a3wa_thresholds(
         lambda1=params.get("lambda1", 5.0),
@@ -1766,106 +1873,56 @@ def build_a3wa_decision(
     )
 
     hard_neg_reasons = []
-    if score_spread >= max(2.0, max_score * 0.35) and avg_model_score > max_score * 0.25:
-        hard_neg_reasons.append("large_score_spread")
-    if (
-        u_semantic >= 0.75
-        and lenient_undercredit < 0.10
-        and result_strong < 0.50
-        and method_evidence < 0.50
-        and not low_score_nonblank_review
-    ):
-        hard_neg_reasons.append("semantic_risk_too_high")
-    if (
-        high_blank_high_score
-        and u_extract >= 0.50
+    no_usable_evidence = (
+        extraction_quality == "failed"
+        and u_e >= 0.95
         and result_strong < 0.30
         and method_evidence < 0.30
-        and avg_ratio >= 0.70
-    ):
-        hard_neg_reasons.append("high_blank_high_score")
-    if (
-        post_calibration.get("reject_domain", False)
-        and not extraction_retry_review
-        and result_strong < 0.30
-        and method_evidence < 0.30
-    ):
-        hard_neg_reasons.extend(post_calibration.get("rule_hits", ["post_calibration_reject"]))
+    )
+    if no_usable_evidence:
+        hard_neg_reasons.append("no_usable_evidence")
 
     if hard_neg_reasons:
         route = "NEG"
         reason = "hard_neg:" + ",".join(hard_neg_reasons)
     elif confidence >= alpha:
-        if lenient_undercredit >= 0.08 and avg_ratio <= 0.85:
-            route = "BND"
-            reason = "high_confidence_lenient_undercredit_review"
-        elif stable_undercredit:
-            route = "BND"
-            reason = "high_confidence_stable_undercredit_review"
-        elif extraction_retry_review or extraction_quality == "failed":
-            route = "BND"
-            reason = "high_confidence_extraction_retry_review"
-        elif low_score_nonblank_review:
-            route = "BND"
-            reason = "high_confidence_low_score_nonblank_review"
-        elif weak_result_high_score:
-            route = "BND"
-            reason = "high_confidence_weak_result_high_score_review"
-        elif direct_only_high_score:
-            route = "BND"
-            reason = "high_confidence_direct_only_high_score_review"
-        elif high_score_safety:
-            route = "BND"
-            reason = "high_confidence_high_score_safety_review"
-        elif unsupported_high_score >= 0.25:
-            route = "BND"
-            reason = "high_confidence_unsupported_high_score_review"
-        else:
-            route = "POS"
-            reason = "confidence_ge_alpha"
+        route = "POS"
+        reason = "membership_ge_alpha"
     elif confidence <= beta:
-        if extraction_retry_review or extraction_quality == "failed":
-            route = "BND"
-            reason = "low_confidence_extraction_retry_review"
-        elif low_score_nonblank_review:
-            route = "BND"
-            reason = "low_confidence_low_score_nonblank_review"
-        else:
-            route = "NEG"
-            reason = "confidence_le_beta"
+        route = "NEG"
+        reason = "membership_le_beta"
     else:
         route = "BND"
-        reason = "beta_lt_confidence_lt_alpha"
+        reason = "beta_lt_membership_lt_alpha"
 
-    pos_safety_reasons = []
-    if route == "POS":
-        if u_extract >= 0.18:
-            pos_safety_reasons.append("extract_risk")
-        if structure_missing_review or safe_float(structure_missing_rate, 0.0) >= 0.15:
-            pos_safety_reasons.append("structure_missing")
-        if score_spread_norm >= 0.10:
-            pos_safety_reasons.append("score_spread")
-        if unsupported_high_score >= 0.08:
-            pos_safety_reasons.append("unsupported_high_score")
-        if lenient_undercredit >= 0.06 and avg_ratio <= 0.85:
-            pos_safety_reasons.append("possible_undercredit")
-        if avg_ratio <= 0.55 and (result_correctness >= 0.50 or method_evidence >= 0.45):
-            pos_safety_reasons.append("low_score_with_evidence")
-        if avg_ratio >= 0.70 and (result_strong < 0.60 or method_evidence < 0.50 or bare_answer_risk >= 0.25):
-            pos_safety_reasons.append("high_score_weak_evidence")
-        if weak_result_high_score or direct_only_high_score or high_score_safety:
-            pos_safety_reasons.append("post_calibration_review")
-        if pos_safety_reasons:
-            route = "BND"
-            reason = "pos_safety_gate:" + ",".join(pos_safety_reasons)
+    review_signals = []
+    if extraction_retry_review:
+        review_signals.append("extraction_retry_review")
+    if low_score_nonblank_review:
+        review_signals.append("low_score_nonblank_review")
+    if structure_missing_review:
+        review_signals.append("structure_missing_review")
+    if unsupported_high_score >= 0.25:
+        review_signals.append("unsupported_high_score_review")
+    if lenient_undercredit >= 0.08:
+        review_signals.append("possible_undercredit")
+    if (
+        score_interval["enabled"]
+        and score_interval["stability_risk"] is not None
+        and score_interval["stability_risk"] >= 1.0
+    ):
+        review_signals.append("conformal_interval_exceeds_safe_tolerance")
 
     return {
         "route": route,
         "reason": reason,
         "hard_neg_reasons": hard_neg_reasons,
+        "review_signals": review_signals,
         "risk": round(risk, 6),
         "confidence": round(confidence, 6),
         "mu": round(confidence, 6),
+        "membership_source": membership["source"],
+        "score_interval": score_interval,
         "alpha": round(alpha, 6),
         "beta": round(beta, 6),
         "m": round(safe_float(params.get("m", 0.5), 0.5), 6),
@@ -2241,9 +2298,10 @@ BOUNDARY_LOWER_REASON_TYPES = {
 }
 
 
-def summarize_boundary_agent_evidence(agent_evidence, max_score):
+def summarize_boundary_agent_evidence(agent_evidence, max_score, item_points=None):
     """Summarize structured BND missed/over credit items without trusting free-form totals."""
     max_score = max(safe_float(max_score, 0.0), 1.0)
+    item_points = item_points if isinstance(item_points, dict) else {}
     if not isinstance(agent_evidence, dict):
         return {
             "has_agent_evidence": False,
@@ -2255,6 +2313,21 @@ def summarize_boundary_agent_evidence(agent_evidence, max_score):
             "over_count": 0,
             "missed_reason_types": [],
             "over_reason_types": [],
+            "confidence": 0.0,
+        }
+
+    if "allowed_missed_points" in agent_evidence and "allowed_over_points" in agent_evidence:
+        return {
+            "has_agent_evidence": bool(agent_evidence.get("has_agent_evidence", True)),
+            "missed_points": round(max(0.0, safe_float(agent_evidence.get("missed_points", 0.0), 0.0)), 4),
+            "over_points": round(max(0.0, safe_float(agent_evidence.get("over_points", 0.0), 0.0)), 4),
+            "allowed_missed_points": round(max(0.0, safe_float(agent_evidence.get("allowed_missed_points", 0.0), 0.0)), 4),
+            "allowed_over_points": round(max(0.0, safe_float(agent_evidence.get("allowed_over_points", 0.0), 0.0)), 4),
+            "missed_count": int(safe_float(agent_evidence.get("missed_count", 0), 0)),
+            "over_count": int(safe_float(agent_evidence.get("over_count", 0), 0)),
+            "missed_reason_types": list(agent_evidence.get("missed_reason_types", [])),
+            "over_reason_types": list(agent_evidence.get("over_reason_types", [])),
+            "confidence": round(clamp01(agent_evidence.get("confidence", 0.0)), 4),
         }
 
     def collect(items, allowed_types, lower=False):
@@ -2262,6 +2335,7 @@ def summarize_boundary_agent_evidence(agent_evidence, max_score):
         allowed_total = 0.0
         count = 0
         reason_types = []
+        credited_by_item = {}
         if not isinstance(items, list):
             return total, allowed_total, count, reason_types
         for item in items:
@@ -2274,13 +2348,19 @@ def summarize_boundary_agent_evidence(agent_evidence, max_score):
             reason_type = str(item.get("reason_type", "")).strip().lower()
             score_layer = str(item.get("score_layer", "")).strip().lower()
             evidence_status = str(item.get("evidence_status", "")).strip().lower()
+            item_id = str(item.get("id", "")).strip()
             count += 1
             total += points
             if reason_type:
                 reason_types.append(reason_type)
             if not evidence or reason_type not in allowed_types:
                 continue
-            if evidence_status == "not_comparable" and lower:
+            allowed_statuses = {"explicit", "derived_from_canonical_context"}
+            if lower:
+                allowed_statuses = {"explicit", "contradiction"}
+                if reason_type in {"bare_answer", "severe_extraction_absence"}:
+                    allowed_statuses.add("absent")
+            if evidence_status not in allowed_statuses:
                 continue
             if score_layer == "auxiliary" and lower and reason_type not in {"contradiction", "severe_extraction_absence"}:
                 continue
@@ -2288,6 +2368,12 @@ def summarize_boundary_agent_evidence(agent_evidence, max_score):
                 points *= 0.5
             if score_layer == "support" and lower:
                 points *= 0.75
+            if item_id and item_id in item_points:
+                points = min(points, max(0.0, safe_float(item_points[item_id], 0.0)))
+            if item_id:
+                remaining = max(0.0, safe_float(item_points.get(item_id, max_score), max_score) - credited_by_item.get(item_id, 0.0))
+                points = min(points, remaining)
+                credited_by_item[item_id] = credited_by_item.get(item_id, 0.0) + points
             if points > 0:
                 allowed_total += points
         return total, allowed_total, count, sorted(set(reason_types))
@@ -2311,6 +2397,7 @@ def summarize_boundary_agent_evidence(agent_evidence, max_score):
         "over_count": over_count,
         "missed_reason_types": missed_types,
         "over_reason_types": over_types,
+        "confidence": round(clamp01(agent_evidence.get("confidence", 0.0)), 4),
     }
 
 
@@ -2739,6 +2826,94 @@ def apply_boundary_action_policy(
         "upper_bound": round(min(max_score, baseline + large_margin), 4),
         "direction_signals": signals,
         "agent_evidence_summary": agent_summary,
+    }
+
+
+def apply_structured_boundary_action_policy(
+    avg_model_score,
+    candidate_score,
+    max_score,
+    post_calibration=None,
+    agent_evidence=None,
+    config=None,
+):
+    """Apply a BND action only when structured item evidence supports it.
+
+    This is the second action in sequential 3WD. The arbitrator proposes a
+    score, while validated item-level evidence determines whether and how much
+    of that proposal can be accepted.
+    """
+    baseline = max(0.0, min(safe_float(max_score, 1.0), safe_float(avg_model_score, 0.0)))
+    max_score = max(safe_float(max_score, 0.0), 1.0)
+    candidate = max(0.0, min(max_score, safe_float(candidate_score, baseline)))
+    post_calibration = post_calibration if isinstance(post_calibration, dict) else {}
+    config = config if isinstance(config, dict) else {}
+    item_points = post_calibration.get("rubric_item_points", {})
+    summary = summarize_boundary_agent_evidence(
+        agent_evidence,
+        max_score,
+        item_points=item_points,
+    )
+    confidence = summary["confidence"]
+    min_confidence = clamp01(config.get("min_evidence_confidence", 0.60))
+    auto_keep_confidence = clamp01(config.get("auto_keep_confidence", 0.80))
+    max_adjustment_ratio = max(
+        0.0,
+        safe_float(config.get("max_adjustment_ratio", 0.20), 0.20),
+    )
+    max_adjustment = max_adjustment_ratio * max_score
+    minimum_change = max(0.02 * max_score, 0.10)
+
+    missed = summary["allowed_missed_points"]
+    over = summary["allowed_over_points"]
+    evidence_delta = missed - over
+    proposed_delta = candidate - baseline
+    accepted_delta = 0.0
+    action = "keep_baseline"
+    reason = "no_structured_directional_evidence"
+
+    direction_agrees = (
+        evidence_delta * proposed_delta > 0
+        or (abs(proposed_delta) <= minimum_change and abs(evidence_delta) > minimum_change)
+    )
+    if confidence < min_confidence:
+        reason = "structured_evidence_confidence_below_threshold"
+    elif abs(evidence_delta) <= minimum_change:
+        reason = "structured_evidence_supports_no_material_change"
+    elif not direction_agrees:
+        reason = "candidate_direction_conflicts_with_structured_evidence"
+    else:
+        proposed_magnitude = abs(proposed_delta)
+        if proposed_magnitude <= minimum_change:
+            proposed_magnitude = abs(evidence_delta)
+        magnitude = min(proposed_magnitude, abs(evidence_delta), max_adjustment)
+        if magnitude > minimum_change:
+            accepted_delta = magnitude if evidence_delta > 0 else -magnitude
+            action = "accept_structured_raise" if accepted_delta > 0 else "accept_structured_lower"
+            reason = "validated_item_evidence"
+
+    final_score = max(0.0, min(max_score, baseline + accepted_delta))
+    accepted = abs(final_score - baseline) > 1e-9
+    if accepted:
+        sequential_outcome = "auto_adjusted"
+    elif confidence >= auto_keep_confidence and missed <= minimum_change and over <= minimum_change:
+        sequential_outcome = "auto_kept_after_review"
+    else:
+        sequential_outcome = "defer_human"
+
+    return {
+        "policy_version": "structured_sequential_v1",
+        "final_score": round(final_score, 4),
+        "baseline_score": round(baseline, 4),
+        "raw_candidate_score": round(candidate, 4),
+        "bounded_candidate_score": round(final_score, 4),
+        "delta_from_baseline": round(final_score - baseline, 4),
+        "accepted": accepted,
+        "action": action,
+        "gate_reason": reason,
+        "sequential_outcome": sequential_outcome,
+        "requires_human_review": sequential_outcome == "defer_human",
+        "agent_evidence_summary": summary,
     }
 
 

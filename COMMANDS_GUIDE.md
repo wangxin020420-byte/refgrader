@@ -247,7 +247,7 @@ python scripts/run_csbench.py evaluate CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --expo
 
 ### 3.6 validation 重校准 A3WA/3WD → test 正式批改
 
-适用场景：需要让三支决策逻辑基于新数据集重新校准，而不是继续使用旧数据集或旧 checkpoint 上得到的参数。该流程会先跑 validation，基于教师分数学习 A3WA 参数和 route/score-band 分数校准表，然后固定配置跑 test。
+适用场景：需要让三支决策逻辑基于新数据集重新校准，而不是继续使用旧数据集或旧 checkpoint 上得到的参数。该流程会先跑 validation，基于教师分数学习单调安全隶属度、conformal 不确定性区间并选择 A3WA 非对称损失参数，然后固定配置跑 test。默认不启用残差改分。
 
 后台模式：
 
@@ -279,7 +279,9 @@ python scripts/run_csbench.py grade CO_1 --split test --force --a3wa-config "$CF
 - `calibrate` 会精确校验 validation ID，并将 checkpoint、rubric、split 和 A3WA config
   再发布到新的 `validation_runs/<run_id>/`。前一份记录原始 validation 完成时点，后一份
   记录由它派生的校准配置，两者不可变且不计入 test 指标。
-- `scripts/calibrate_a3wa.py` 现在会同时输出 `loss_params`、`risk_weights` 和 `score_calibration`。`score_calibration` 是基于 validation 残差学习出的题目/route/分数段加性校准表。
+- `scripts/calibrate_a3wa.py` 输出 `membership_model`、`score_uncertainty`、`loss_params`、`boundary_policy`、跨题 LOQO 诊断和 `deployment_gate`。
+- `score_calibration.enabled` 默认是 `false`。若要在同一次 test 中同时评估纯三支决策和残差层，给 `calibrate` 增加 `--score-calibration`；每个 test checkpoint 会同时保存 `three_way_core_score` 和 `final_calibrated_score`，不需要重复批改。
+- `deployment_gate.passed=false` 表示该配置未同时满足跨题非劣、路由预算和 validation BND 正收益；配置仍可用于研究性实验，但不能宣称已经通过部署验证。
 - test 批改通过 `--a3wa-config "$CFG"` 固定使用该配置。运行时不会读取 test 教师分数。
 - test 完成后自动导出逐样本 `compare.csv` 和指标汇总 `summary.json`，再复制到
   `grading_runs/<run_id>/`，不会自动 Git push。
@@ -295,8 +297,64 @@ git push origin main
 
 另一设备同时拉取 `refgrader-main` 和 `refgrader-artifacts`，再使用第 12.1 节的
 `restore_csbench_artifacts.py`，不能只拉取代码仓库后直接运行 test。
+
+核心机制与残差消融的短评估命令：
+
+```powershell
+.\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --score-key avg 3wd-core 3wd --export
+```
+
+其中 `3wd-core` 是纯三支路由与结构化 BND action 的结果；`3wd` 是可选残差层之后的最终结果。默认校准下二者应相同。
+- 正式自动评估默认比较 `single`、`avg`、`selected`、`3wd-core` 和 `3wd`，并额外输出两段配对消融：`avg -> 3wd-core` 与 `3wd-core -> 3wd`。
+- 配对消融表包含两端 MAE、平均绝对误差增益、改善/不变/恶化数量、平均分数改变量和 Wilcoxon 配对检验 p 值；`summary.json` 的 `score_ablation` 保存同一口径的机器可读结果。
 - BND 降分逻辑已收紧：没有核心矛盾、允许的 agent over-evidence 或 direct-only 且核心支持不足时，不再自动 lower。
 - fact mapping 失败时会保留原始转写或 OCR 文本作为降级事实，减少 `OCR fact mapping failed` 直接导致整条样本失败。
+
+Windows 本地完整流程如下。该示例使用 CO_1 到 CO_7 做 validation 和校准，只正式批改 CO_3、CO_4；以后只修改 `$TestQuestions` 即可选择 CO_3 到 CO_7 中任意题目。命令在当前 PowerShell 前台连续执行，当前提示符即使显示 `.venv-ocr` 也没有影响，因为每一步都显式调用主环境 `venv`：
+
+```powershell
+$ErrorActionPreference = "Stop"
+$env:PYTHONIOENCODING = "utf-8"
+$env:PYTHONUTF8 = "1"
+
+if (-not (Test-Path ".\scripts\run_csbench.py")) {
+    throw "请先在 refgrader-main 项目根目录执行"
+}
+
+$Python = (Resolve-Path ".\venv\Scripts\python.exe").Path
+$ValidationQuestions = @("CO_1", "CO_2", "CO_3", "CO_4", "CO_5", "CO_6", "CO_7")
+$TestQuestions = @("CO_3", "CO_4")
+$Config = "results_runs\csbench_all7_a3wa_core_residual.json"
+
+& $Python scripts\audit_csbench_snapshot.py --prepared-dir data\csbench
+if ($LASTEXITCODE -ne 0) { throw "数据快照检查失败" }
+
+& $Python -m unittest test_a3wa_theory.py test_evaluate_ablation.py test_csbench_artifact_sync.py -q
+if ($LASTEXITCODE -ne 0) { throw "代码测试失败" }
+
+& $Python scripts\run_csbench.py optimize @ValidationQuestions --force
+if ($LASTEXITCODE -ne 0) { throw "评分准则优化失败" }
+
+& $Python scripts\run_csbench.py grade @ValidationQuestions --split validation --force
+if ($LASTEXITCODE -ne 0) { throw "validation 批改失败" }
+
+& $Python scripts\run_csbench.py calibrate @ValidationQuestions --output $Config --score-calibration
+if ($LASTEXITCODE -ne 0 -or -not (Test-Path $Config)) { throw "A3WA 校准失败" }
+
+$Calibration = Get-Content $Config -Raw -Encoding UTF8 | ConvertFrom-Json
+if (-not $Calibration.score_calibration.enabled) {
+    throw "残差层没有启用，停止 test"
+}
+
+& $Python scripts\run_csbench.py grade @TestQuestions --split test --force --a3wa-config $Config
+if ($LASTEXITCODE -ne 0) { throw "test 正式批改或自动评估失败" }
+
+Write-Host "全部完成。正式评估已自动比较 avg、3wd-core 和 3wd。"
+git -C "..\refgrader-artifacts" status --short
+```
+
+最后一条 `grade` 只进行一次 test 模型调用。完成后会自动运行新版评估、生成 `evaluation/compare.csv` 与 `evaluation/summary.json`，并复制 validation、配置、准则和正式结果到同级 `refgrader-artifacts`；不会自动提交或推送。
+历史 checkpoint 如果没有 `three_way_core_score`，评估器不会用最终 `3wd` 冒充 core；要得到有效的两段消融，必须使用本版本代码重新执行 test。
 
 ## 4. 评分准则优化
 
@@ -742,11 +800,11 @@ python evaluate.py `
   --teacher-db data\csbench\teacher_scores.json `
   --database-path data\csbench\exam_database.json `
   --compare `
-  --compare-score-keys single avg selected 3wd `
+  --compare-score-keys single avg selected 3wd-core 3wd `
   --compare-output outputs\csbench_co1_co2_co3_co4_co5_co6_co7_compare_local.csv
 ```
 
-作用：在本地重新计算 CO_1 到 CO_7 的 single、avg、selected 和 3WD 指标，并导出逐答案对比 CSV。
+作用：在本地重新计算 CO_1 到 CO_7 的 single、avg、selected、3WD-Core 和最终 3WD 指标，并导出逐答案对比 CSV。
 
 只评估单题，例如 CO_7：
 
@@ -758,7 +816,7 @@ python evaluate.py `
   --teacher-db data\csbench\teacher_scores.json `
   --database-path data\csbench\exam_database.json `
   --compare `
-  --compare-score-keys single avg selected 3wd `
+  --compare-score-keys single avg selected 3wd-core 3wd `
   --detail
 ```
 
@@ -774,14 +832,14 @@ git -C C:\Users\wx\Desktop\refgrader-artifacts pull origin main
 
 ```powershell
 cd C:\Users\wx\Desktop\refgrader-main
-.\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --run-id 20260630_134044 --score-key single avg selected 3wd --export
+.\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --run-id 20260630_134044 --score-key single avg selected 3wd-core 3wd --export
 ```
 
 如果不写 `--run-id`，脚本会自动使用 `CO_1` 下最新的 grading run：
 
 ```powershell
 cd C:\Users\wx\Desktop\refgrader-main
-.\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --score-key single avg selected 3wd --export
+.\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --score-key single avg selected 3wd-core 3wd --export
 ```
 
 只看最终三支决策分数：
@@ -805,7 +863,7 @@ cd C:\Users\wx\Desktop\refgrader-main
 .\venv\Scripts\python.exe scripts\evaluate_artifacts.py CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --score-key selected 3wd
 ```
 
-对比 single、avg、selected、3WD 四种分数：
+对比 single、avg、selected、3WD-Core、最终 3WD 五种分数：
 
 ```powershell
 cd C:\Users\wx\Desktop\refgrader-main

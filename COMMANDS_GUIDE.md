@@ -324,6 +324,7 @@ if (-not (Test-Path ".\scripts\run_csbench.py")) {
 $Python = (Resolve-Path ".\venv\Scripts\python.exe").Path
 $ValidationQuestions = @("CO_1", "CO_2", "CO_3", "CO_4", "CO_5", "CO_6", "CO_7")
 $TestQuestions = @("CO_3", "CO_4")
+$RubricRun = "20260714_022104"
 $Config = "results_runs\csbench_all7_a3wa_core_residual.json"
 
 & $Python scripts\audit_csbench_snapshot.py --prepared-dir data\csbench
@@ -332,8 +333,12 @@ if ($LASTEXITCODE -ne 0) { throw "数据快照检查失败" }
 & $Python -m unittest test_a3wa_theory.py test_evaluate_ablation.py test_csbench_artifact_sync.py -q
 if ($LASTEXITCODE -ne 0) { throw "代码测试失败" }
 
-& $Python scripts\run_csbench.py optimize @ValidationQuestions --force
-if ($LASTEXITCODE -ne 0) { throw "评分准则优化失败" }
+# 本轮没有修改评分准则；恢复已经核验的七题共同 rubric 批次。
+& $Python scripts\restore_csbench_artifacts.py @ValidationQuestions --stage rubric --run-id $RubricRun --force
+if ($LASTEXITCODE -ne 0) { throw "恢复既有评分准则失败" }
+
+& $Python scripts\run_csbench.py grade @ValidationQuestions --split validation --dry-run --no-artifacts
+if ($LASTEXITCODE -ne 0) { throw "评分准则或 manifest 校验失败" }
 
 & $Python scripts\run_csbench.py grade @ValidationQuestions --split validation --force
 if ($LASTEXITCODE -ne 0) { throw "validation 批改失败" }
@@ -355,6 +360,7 @@ git -C "..\refgrader-artifacts" status --short
 
 最后一条 `grade` 只进行一次 test 模型调用。完成后会自动运行新版评估、生成 `evaluation/compare.csv` 与 `evaluation/summary.json`，并复制 validation、配置、准则和正式结果到同级 `refgrader-artifacts`；不会自动提交或推送。
 历史 checkpoint 如果没有 `three_way_core_score`，评估器不会用最终 `3wd` 冒充 core；要得到有效的两段消融，必须使用本版本代码重新执行 test。
+本轮 A3WA/评估修改没有改变 rubric 生成算法或评分语义契约，因此不执行 `optimize`。只有初始评分准则、准则优化算法或语义契约发生变化，或者 artifacts 中没有可恢复的有效 rubric 时，才需要重新优化评分准则。
 
 ## 4. 评分准则优化
 

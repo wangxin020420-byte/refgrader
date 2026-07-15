@@ -15,6 +15,17 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+# Configure PaddleX before importing Paddle/PaddleOCR. The worker is also
+# invoked directly, so it cannot rely only on the parent pipeline environment.
+if __package__:
+    from .runtime_env import configure_paddlex_process
+else:
+    from runtime_env import configure_paddlex_process
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PADDLEX_CACHE_HOME = configure_paddlex_process(PROJECT_ROOT)
+
 import numpy as np
 import paddle
 import paddleocr
@@ -307,7 +318,8 @@ def main() -> int:
 
     print(
         f"Initialize PaddleOCR | device={args.device} | lang={args.lang} | "
-        f"pending={len(pending)}/{len(images)}"
+        f"pending={len(pending)}/{len(images)} | "
+        f"model_cache={PADDLEX_CACHE_HOME}"
     )
     pipeline = build_pipeline(args)
 

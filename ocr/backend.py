@@ -13,6 +13,8 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from .runtime_env import build_paddlex_environment
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_WORKER = PROJECT_ROOT / "ocr" / "paddle_ocr_worker.py"
@@ -96,6 +98,8 @@ def ensure_paddle_ocr_cache(
     if force:
         command.append("--force")
 
+    worker_environment, _ = build_paddlex_environment(PROJECT_ROOT)
+
     try:
         return subprocess.run(
             command,
@@ -105,6 +109,7 @@ def ensure_paddle_ocr_cache(
             text=True,
             encoding="utf-8",
             errors="replace",
+            env=worker_environment,
             timeout=timeout,
         )
     except subprocess.CalledProcessError as exc:

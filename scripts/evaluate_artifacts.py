@@ -9,6 +9,7 @@ evaluate.py, then runs the existing evaluator.
 from __future__ import annotations
 
 import argparse
+import json
 import shutil
 import subprocess
 import sys
@@ -54,10 +55,12 @@ def stage_artifact_results(
     questions: list[str],
     run_id: str,
     results_dir: Path,
-) -> None:
+) -> dict[str, dict]:
     results_dir.mkdir(parents=True, exist_ok=True)
+    completion = {}
     for question in questions:
-        grading_dir = artifacts_repo / "csbench" / question / "grading_runs" / run_id / "grading"
+        run_dir = artifacts_repo / "csbench" / question / "grading_runs" / run_id
+        grading_dir = run_dir / "grading"
         checkpoint = grading_dir / "grading_checkpoint.json"
         if not checkpoint.exists():
             raise FileNotFoundError(f"required checkpoint not found: {checkpoint}")
@@ -68,6 +71,20 @@ def stage_artifact_results(
                 continue
             target = results_dir / f"{question}_{suffix}.json"
             shutil.copy2(source, target)
+        report_path = grading_dir / "completion_report.json"
+        manifest_path = run_dir / "run_manifest.json"
+        if report_path.is_file():
+            report = json.loads(report_path.read_text(encoding="utf-8-sig"))
+            question_report = report.get("questions", {}).get(question, {})
+        elif manifest_path.is_file():
+            manifest = json.loads(
+                manifest_path.read_text(encoding="utf-8-sig")
+            )
+            question_report = manifest.get("completion") or {}
+        else:
+            question_report = {}
+        completion[question] = question_report
+    return completion
 
 
 def build_evaluate_command(args: argparse.Namespace, questions: list[str], results_dir: Path) -> list[str]:
@@ -201,7 +218,7 @@ def main() -> int:
         output_dir.mkdir(parents=True, exist_ok=True)
         args.summary_output = output_dir / f"csbench_{slug}_{run_id}_summary.json"
 
-    stage_artifact_results(
+    completion = stage_artifact_results(
         artifacts_repo=args.artifacts_repo,
         questions=questions,
         run_id=run_id,
@@ -210,6 +227,22 @@ def main() -> int:
     cmd = build_evaluate_command(args, questions, results_dir)
 
     print(f"Staged artifacts run {run_id} to: {results_dir}", flush=True)
+    for question, report in completion.items():
+        status = report.get("status", "unknown")
+        checkpoint = report.get("checkpoint_count", "?")
+        expected = report.get("expected_count", "?")
+        failed = report.get("failed_count", "?")
+        print(
+            f"Coverage {question}: status={status}, "
+            f"checkpoint={checkpoint}/{expected}, failed={failed}",
+            flush=True,
+        )
+        if status == "partial":
+            print(
+                "WARNING: metrics below describe successful checkpoint IDs "
+                "only; report coverage with the evaluation.",
+                flush=True,
+            )
     print("Running:", " ".join(str(part) for part in cmd), flush=True)
     if args.dry_run:
         return 0

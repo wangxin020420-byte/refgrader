@@ -171,18 +171,23 @@ git pull --ff-only
 
 ```text
 results_runs/csbench_co3_co4_full/
-├── CO_3_grading_checkpoint.json
-├── CO_3_graded_results.json
-├── CO_3_rejected.json
-├── CO_3_failed.json
-├── CO_4_*.json
-├── progress.json
-└── evaluation/
+├── active_run.json
+└── runs/
+    └── 20260716_210000/
+        ├── run_state.json
+        ├── completion_report.json
+        ├── CO_3_grading_checkpoint.json
+        ├── CO_3_graded_results.json
+        ├── CO_3_rejected.json
+        ├── CO_3_failed.json
+        ├── CO_4_*.json
+        ├── progress.json
+        └── evaluation/
 ```
 
 这些文件在 `refgrader-main` 中被 Git 忽略。因此批改正在运行时，VS Code 源代码管理没有出现更改是正常现象，不代表结果没有保存。
 
-断点续跑依赖这些本机文件。使用相同题目集合、相同 split 和相同配置重新执行，并且不加 `--force`，程序会继续使用同一个确定性目录，跳过 checkpoint 中已有的成功 ID。`--force` 会清理旧结果并从头运行，不能用于普通续跑。
+断点续跑依赖这些本机文件。使用相同题目集合、相同 split 和相同配置重新执行，并且不加 `--force`，程序会读取 `active_run.json`，继续同一 `run_id` 并跳过 checkpoint 中已有的成功 ID。`--force` 会创建新的时间戳运行目录，不再删除或覆盖历史实验；普通续跑不要使用 `--force`。需要精确选择历史运行时使用 `--run-id <ID>`。
 
 ## 6. 什么会自动复制
 
@@ -191,28 +196,30 @@ results_runs/csbench_co3_co4_full/
 | 操作 | 自动评估 | 自动复制到 artifacts | 自动 Git 提交/推送 |
 | --- | --- | --- | --- |
 | 完整 rubric 优化成功 | 不适用 | 是，进入 `rubric_optimizations` | 否 |
-| 完整 validation/calibration 成功 | calibration 按对应命令执行 | 是，进入独立阶段目录 | 否 |
-| 完整 test 成功 | 是 | 是，进入 `grading_runs` | 否 |
+| validation/calibration 批改结束 | calibration 仅接受完整 validation | 是，进入独立阶段目录并标记完整性 | 否 |
+| test 批改结束 | 是，按成功 checkpoint 评估 | 是，进入 `grading_runs` 并标记完整性 | 否 |
 | `--limit` 调试运行 | 否 | 否 | 否 |
 | 使用 `--no-artifacts` | 视命令而定 | 否 | 否 |
-| checkpoint 缺失、存在未解决 failed 或 split 不一致 | 否 | 否 | 否 |
+| 有失败/缺失但结构一致 | 是，标记 `partial` 和覆盖率 | 是，保留 failed/missing ID | 否 |
+| 重复 ID、跨 split 或结果文件互相矛盾 | 否 | 否 | 否 |
 
 完整 test 的自动收尾顺序是：
 
 ```text
-检查 checkpoint 与固定 test split 完全一致
--> 评估 single / avg / selected / 3wd-core / 3wd
+检查 checkpoint、graded/rejected 与固定 test split 的结构一致性
+-> 生成 completion_report.json（complete/partial、覆盖率、失败 ID）
+-> 对成功 checkpoint 评估 single / avg / selected / 3wd-core / 3wd
 -> 导出 compare.csv 和 summary.json
--> 复制完整运行到同级 refgrader-artifacts
+-> 复制运行到同级 refgrader-artifacts
 ```
 
 默认只复制文件，不执行 `git add`、`commit` 或 `push`。这样用户可以先检查结果再决定是否共享。只有显式使用 `--push-artifacts` 才会自动提交和推送；日常建议保持手动推送。
 
-### 当前不完整结果限制
+### 部分结果与后续续跑
 
-截至 2026-07-16，不完整 test 会被完整性门禁阻止评估和自动复制。例如 `CO_3=77/79` 且有两个 unresolved failed 时，结果仍在原设备的 `results_runs/csbench_co3_co4_full`，但 `refgrader-artifacts` 不会出现更改。
+不完整 test 不再被丢在单机：只要批次正常收尾且结果结构一致，系统会评估已有成功样本，写入 `completion_report.json`，并以 `run_status=partial` 复制到 artifacts。报告同时保存成功数、预期数、覆盖率、missing ID 和 failed ID，不能把 partial 指标冒充全量指标。
 
-这不是数据丢失，而是当前发布策略只接受完整运行。允许“不完整结果自动归档、记录覆盖率和失败 ID、续跑后更新同一 artifact run”的设计仍是待实现项；在代码完成前，不应把它描述成已有功能。临时需要共享时，应明确归档为 `partial`，评估必须同时报告成功样本数、预期样本数、覆盖率和失败 ID。
+后续不加 `--force` 续跑时，成功重试的 ID 会从 `failed.json` 删除；收尾阶段使用原 `run_id` 原子更新同一个 artifacts 目录和 index 记录。validation 也可按 partial 归档，但 `calibrate` 仍强制要求完整 validation，防止缺失模式造成校准偏差。
 
 ## 7. 实验结束后的 Git 操作
 
@@ -237,13 +244,13 @@ git status --short
 
 在目标设备拉取 `refgrader-main` 和 `refgrader-artifacts` 后，使用 `scripts/evaluate_artifacts.py`。具体单项/多项分数组合和 `run_id` 选择见 `COMMANDS_GUIDE.md`。
 
-### 继续一个完整发布过的阶段
+### 继续一个已发布阶段
 
 使用 `scripts/restore_csbench_artifacts.py` 恢复 rubric、validation、calibration 或 grading 文件，再用相同题目批次和配置续跑。恢复命令见 `COMMANDS_GUIDE.md`。
 
-### 继续尚未发布的不完整阶段
+### 继续 partial 阶段
 
-当前不能只靠 Git 在另一台设备无损续跑，因为 checkpoint 仍只在原设备的 `results_runs`。必须先把部分结果和失败记录显式归档并传到目标设备。未来的稳定 artifact run ID 方案实现后，部分运行才能自动跨设备续跑。
+部分运行已包含 checkpoint、failed、completion report 和稳定 `run_id`。在目标设备拉取 artifacts 后，用 `scripts/restore_csbench_artifacts.py --run-id <ID>` 恢复；脚本会写入对应的版本化本地目录并设为 active。随后用相同题目、split 和 A3WA 配置执行不带 `--force` 的 grade 命令，即可继续同一实验。
 
 ## 9. 文档职责
 
@@ -284,7 +291,7 @@ git status --short
 ## 11. 已知操作风险
 
 - 智谱模型高峰期可能返回 429，失败样本会进入 `*_failed.json`。
-- 当前不完整结果不会自动复制，关闭原设备前必须确认是否已经进入 artifacts。
+- partial 指标只覆盖成功样本，论文比较必须同时报告覆盖率和失败样本处理方式。
 - 同一题目批次换用不同 rubric、数据快照或 A3WA config 时，不应直接复用旧 checkpoint。
 - 多设备同时向 `refgrader-artifacts` 写入前应先拉取并确认工作区干净。
 - 不要在两个设备上同时续跑同一个尚未归档的结果目录。

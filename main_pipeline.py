@@ -383,8 +383,37 @@ def load_json_list(path):
 
 def save_json_list(path, data):
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
+    temporary = f"{path}.tmp-{os.getpid()}"
+    with open(temporary, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
+    os.replace(temporary, path)
+
+
+def upsert_failed_record(records, record):
+    student_id = str(record.get("student_id", ""))
+    if not student_id:
+        return records + [record]
+    return [
+        item
+        for item in records
+        if str(item.get("student_id", "")) != student_id
+    ] + [record]
+
+
+def remove_failed_record(records, student_id):
+    student_id = str(student_id)
+    return [
+        item
+        for item in records
+        if str(item.get("student_id", "")) != student_id
+    ]
+
+
+def save_failed_records(path, records):
+    if records:
+        save_json_list(path, records)
+    elif os.path.exists(path):
+        os.remove(path)
 
 
 def cleanup_question_outputs(q_id):
@@ -1391,13 +1420,26 @@ def process_single_question(
             if os.path.exists(rejected_path):
                 os.remove(rejected_path)
             logging.info(f"💾 最终结果已保存: {save_path} ({len(normal_results)} 人)")
+        stale_failures = load_json_list(failed_path)
+        stale_failures = [
+            item
+            for item in stale_failures
+            if str(item.get("student_id", "")) not in completed_ids
+        ]
+        save_failed_records(failed_path, stale_failures)
         validate_question_outputs(q_id, expected_count=len(all_target_files))
         if progress_tracker:
             progress_tracker.mark_question_done(q_id)
         return
 
     results_list = []
-    failed_results = load_json_list(failed_path) if not force_rerun else []
+    failed_results = []
+    for failed_record in (
+        load_json_list(failed_path) if not force_rerun else []
+    ):
+        failed_results = upsert_failed_record(
+            failed_results, failed_record
+        )
     total_count = 0
 
     # 预生成脱敏清单（同题共用，只调一次 API）
@@ -1513,13 +1555,17 @@ def process_single_question(
                     e,
                     attempts=2,
                 )
-                failed_results.append(failed_record)
-                save_json_list(failed_path, failed_results)
+                failed_results = upsert_failed_record(
+                    failed_results, failed_record
+                )
+                save_failed_records(failed_path, failed_results)
                 continue
 
             if result and result.get("error_type") and not result.get("3wd_route"):
-                failed_results.append(result)
-                save_json_list(failed_path, failed_results)
+                failed_results = upsert_failed_record(
+                    failed_results, result
+                )
+                save_failed_records(failed_path, failed_results)
                 logging.error(
                     f"[failed sample recorded] {result.get('student_id')} | "
                     f"{result.get('error_type')}: {result.get('reason')}"
@@ -1527,6 +1573,10 @@ def process_single_question(
                 continue
 
             if result:
+                failed_results = remove_failed_record(
+                    failed_results, result.get("student_id", "")
+                )
+                save_failed_records(failed_path, failed_results)
                 results_list.append(result)
                 total_count += 1
                 route = result.get('3wd_route', '')
@@ -1534,8 +1584,7 @@ def process_single_question(
                 logging.info(f"📢 [总进度] {total_count}/{len(image_files)} 份试卷已归档{tag}。")
                 # 断点续传：增量保存 checkpoint
                 all_so_far = existing + results_list
-                with open(checkpoint_path, "w", encoding="utf-8") as f:
-                    json.dump(all_so_far, f, indent=4, ensure_ascii=False)
+                save_json_list(checkpoint_path, all_so_far)
 
     # ========================================================
     # 合并 + 排序：断点续传结果 + 本次新结果

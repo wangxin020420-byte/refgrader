@@ -1,6 +1,34 @@
 # Current Progress
 
-Last updated: 2026-07-14
+Last updated: 2026-07-16
+
+## 2026-07-16 Versioned Grading Runs And Partial Artifact Resume
+
+The grading lifecycle now uses one stable run identity from local execution to
+cross-device artifact restore:
+
+1. New grading runs are written under
+   `results_runs/csbench_<batch>_<split>/runs/<run_id>/`; `active_run.json`
+   selects the default resume target.
+2. `grade --force` creates a new timestamped run instead of deleting the prior
+   checkpoint. The same command without `--force` resumes the active run.
+3. `run_state.json` binds a run to its question set, split, rubric hashes,
+   split hashes, and A3WA config hash. A mismatched resume is rejected.
+4. Result validation distinguishes structural corruption from incomplete
+   coverage. Structurally valid partial test runs are evaluated and archived
+   with `completion_report.json`, coverage, missing IDs, and failed IDs.
+5. Complete validation remains mandatory for A3WA calibration. Partial
+   validation may be archived for recovery but cannot fit thresholds or
+   residual correction.
+6. Re-publishing the same run atomically updates the same artifact directory;
+   the CSBench index is upserted rather than duplicated.
+7. Restoring an artifact run recreates the versioned local directory and marks
+   it active, enabling cross-device continuation with the same run ID.
+8. Failed records are deduplicated by student ID and removed automatically
+   when a later retry succeeds. JSON checkpoint writes are atomic.
+
+Regression coverage was added for fresh/run-resume separation, partial result
+inspection, same-ID artifact updates, and versioned artifact restoration.
 
 ## 2026-07-14 Evidence-Calibrated A3WA And Sequential Review
 

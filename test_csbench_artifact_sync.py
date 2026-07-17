@@ -14,8 +14,10 @@ from scripts.run_csbench import (
     calibrate,
     evaluate,
     grading_results_dir,
+    inspect_results,
     optimization_evidence_paths,
     publish,
+    select_grading_run,
     sha256_file,
     validate_complete_results,
 )
@@ -67,6 +69,55 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                 grading_results_dir(contexts, "calibration").name,
                 "csbench_co1_calibration",
             )
+
+    def test_force_creates_versioned_run_and_default_resumes_active(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            split = root / "split.json"
+            rubric = root / "rubric.json"
+            split.write_text('{"test":["A"]}', encoding="utf-8")
+            rubric.write_text('[{"id":"s1","points":1}]', encoding="utf-8")
+            context = SimpleNamespace(
+                question_id="CO_1",
+                split_file=split,
+                optimized_rubric=rubric,
+            )
+            with patch("scripts.run_csbench.PROJECT_ROOT", root):
+                first, first_id = select_grading_run(
+                    [context], "test", force_new=True, create=True
+                )
+                resumed, resumed_id = select_grading_run(
+                    [context], "test", create=True
+                )
+                second, second_id = select_grading_run(
+                    [context], "test", force_new=True, create=True
+                )
+            self.assertEqual((first, first_id), (resumed, resumed_id))
+            self.assertNotEqual(first_id, second_id)
+            self.assertNotEqual(first, second)
+
+    def test_partial_results_are_reported_without_structural_failure(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            split_file = root / "CO_1.json"
+            split_file.write_text(
+                json.dumps({"test": ["A", "B"]}), encoding="utf-8"
+            )
+            context = SimpleNamespace(
+                question_id="CO_1", split_file=split_file
+            )
+            record = [{"student_id": "A"}]
+            (root / "CO_1_grading_checkpoint.json").write_text(
+                json.dumps(record), encoding="utf-8"
+            )
+            (root / "CO_1_graded_results.json").write_text(
+                json.dumps(record), encoding="utf-8"
+            )
+            report = inspect_results([context], root, split_name="test")
+            self.assertEqual(report["status"], "partial")
+            self.assertEqual(report["checkpoint_total"], 1)
+            self.assertEqual(report["expected_total"], 2)
+            self.assertEqual(report["structural_errors"], [])
 
     def test_validation_requires_exact_ids(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -204,6 +255,7 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             )
             with patch("scripts.run_csbench.PROJECT_ROOT", root):
                 self.assertEqual(publish(args), 0)
+                self.assertEqual(publish(args), 0)
             destination = artifacts / "csbench" / "CO_1" / "validation_runs" / "run1"
             self.assertTrue((destination / "grading" / "grading_checkpoint.json").is_file())
             run_manifest = json.loads(
@@ -211,6 +263,10 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             )
             self.assertEqual(run_manifest["answer_split"], "validation")
             self.assertEqual(run_manifest["published_stage"], "validation")
+            index = json.loads(
+                (artifacts / "csbench" / "index.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(len(index), 1)
 
             optimized.unlink()
             manifest.unlink()
@@ -237,7 +293,12 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             self.assertTrue(optimized.is_file())
             self.assertTrue(manifest.is_file())
             self.assertTrue(
-                (validation / "CO_1_grading_checkpoint.json").is_file()
+                (
+                    validation
+                    / "runs"
+                    / "run1"
+                    / "CO_1_grading_checkpoint.json"
+                ).is_file()
             )
 
 

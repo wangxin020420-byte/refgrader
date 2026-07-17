@@ -18,18 +18,24 @@ if __package__:
         PROJECT_ROOT,
         build_contexts,
         grading_results_dir,
+        inspect_results,
         normalize_question_id,
+        register_restored_run,
         sha256_file,
-        validate_complete_results,
+        validate_result_structure,
+        write_completion_report,
     )
 else:
     from run_csbench import (
         PROJECT_ROOT,
         build_contexts,
         grading_results_dir,
+        inspect_results,
         normalize_question_id,
+        register_restored_run,
         sha256_file,
-        validate_complete_results,
+        validate_result_structure,
+        write_completion_report,
     )
 
 
@@ -167,11 +173,11 @@ def main() -> int:
     run_id = common_run_id(
         artifacts_repo, questions, stage_dir, args.run_id
     )
-    results_dir = (
-        grading_results_dir(contexts, answer_split)
-        if answer_split
-        else None
-    )
+    results_dir = None
+    if answer_split:
+        results_dir = (
+            grading_results_dir(contexts, answer_split) / "runs" / run_id
+        )
     restored_optimization_dir = (
         PROJECT_ROOT
         / "results_runs"
@@ -307,10 +313,22 @@ def main() -> int:
     for ctx in contexts:
         ctx.validate_optimized()
     if results_dir and answer_split:
-        validate_complete_results(
+        report = inspect_results(
+            contexts, results_dir, split_name=answer_split
+        )
+        validate_result_structure(report)
+        write_completion_report(results_dir, report)
+        register_restored_run(
             contexts,
+            answer_split,
+            run_id,
             results_dir,
-            split_name=answer_split,
+            a3wa_config=(
+                str(restored_config)
+                if restored_config and answer_split == "test"
+                else None
+            ),
+            completion=report,
         )
     print(f"Restored {args.stage} run {run_id} for: {', '.join(questions)}")
     if results_dir:

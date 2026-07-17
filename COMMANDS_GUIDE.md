@@ -2,6 +2,53 @@
 
 CSBench 实验统一使用 `scripts/run_csbench.py`。更换题目时只需要修改题号，例如把 `CO_2` 改成 `CO_3`。
 
+## 0. 日常最短命令
+
+本节是日常实验的默认入口。评分准则、七题 validation 和 A3WA 配置已经生成后，
+只测试新的题目不需要重跑前面的阶段，也不需要重新拼接后台脚本。
+
+Windows PowerShell 先定位最近一次七题 A3WA 配置：
+
+```powershell
+$Config = Get-ChildItem ".\results_runs\csbench_all7_a3wa_core_residual_*.json" -File |
+    Sort-Object LastWriteTime -Descending |
+    Select-Object -First 1
+
+if (-not $Config) { throw "没有找到七题 A3WA 配置" }
+```
+
+只正式批改任意题目，例如 CO_5、CO_6：
+
+```powershell
+.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_5 CO_6 --split test --force --a3wa-config $Config.FullName
+```
+
+以后只需要替换 `CO_5 CO_6`。该命令在前台运行，本地电脑必须保持开机、联网且不能休眠。
+完整结束后自动评估并复制到同级 `refgrader-artifacts`，但不会自动 Git 提交或推送。
+`--force` 会自动创建 `runs/<时间戳>/`，不会覆盖以前相同题目组合的结果。
+
+如果任务中断，使用同一个题目集合和配置断点续跑，**不要使用 `--force`**：
+
+```powershell
+.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_5 CO_6 --split test --a3wa-config $Config.FullName
+```
+
+程序会从批次目录的 `active_run.json` 找到刚才的 `run_id`。如需续跑指定历史实验：
+
+```powershell
+.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_5 CO_6 --split test --run-id 20260716_210000 --a3wa-config $Config.FullName
+```
+
+Linux/服务器已经有固定配置时，同样只需要一条核心命令：
+
+```bash
+python scripts/run_csbench.py grade CO_5 CO_6 --split test --force --a3wa-config results_runs/<a3wa配置文件>.json
+```
+
+只有以下情况才进入后文的完整流程：数据快照发生变化、评分语义或 rubric 发生变化、
+三支决策校准逻辑发生变化，或者需要重新生成 A3WA 配置。Windows 隐藏后台、日志重定向和
+PID 管理只是长时间运行的可选包装，不是批改必须步骤。
+
 ## 1. 可用题目 ID
 
 运行统一命令时，只需把示例中的 `CO_3` 替换为下表中的题目 ID。题目 ID 不区分输入大小写，脚本会自动转换为大写。
@@ -70,15 +117,16 @@ cd /home/E125221219/projects/refgrader
 
 ## 2.1 正式 test 完成后的自动评估与 artifacts 复制
 
-`grade --split test` 在完整批改成功后会自动执行以下操作，不需要再单独调用
+`grade --split test` 在批次正常收尾后会自动执行以下操作，不需要再单独调用
 `evaluate` 或 `publish`：
 
 ```text
-校验 checkpoint 与 test split 完全一致
--> 评估 single / avg / selected / 3WD
--> 导出 results_runs/csbench_<题目集合>_full/evaluation/compare.csv
+校验 checkpoint 与 test split 的结构一致性
+-> 写入 complete/partial、覆盖率、missing/failed ID
+-> 对成功 checkpoint 评估 single / avg / selected / 3wd-core / 3wd
+-> 导出 results_runs/csbench_<题目集合>_full/runs/<run_id>/evaluation/compare.csv
    和 evaluation/summary.json
--> 复制完整实验产物到同级 refgrader-artifacts
+-> 使用同一个 run_id 复制实验产物到同级 refgrader-artifacts
 ```
 
 默认只复制到本地 artifacts 仓库，不执行 Git commit 或 push。因此 VS Code 的
@@ -98,6 +146,8 @@ csbench/<题号>/grading_runs/<run_id>/
   grading/grading_checkpoint.json
   grading/graded_results.json
   grading/rejected.json               # 存在 NEG 时保存
+  grading/failed.json                 # 存在失败样本时保存
+  grading/completion_report.json      # complete/partial、覆盖率和失败ID
   grading/progress.json
   evaluation/compare.csv
   evaluation/summary.json            # 各指标的机器可读 JSON
@@ -111,9 +161,10 @@ csbench/<题号>/grading_runs/<run_id>/
 `preexisting_completed_checkpoint`；新 config 只复制到本次实际新批改的题目目录。
 
 validation/calibration 使用独立的 `validation_runs`/`calibration_runs`，不会冒充正式
-test artifacts。`--limit` 调试运行、checkpoint 不完整、存在未解决 failed、split 污染
-或重复 ID 时不会发布。`--include-facts` 和 `--include-raw-ocr` 仍为可选项，默认不复制
-大体积逐答案缓存。
+test artifacts。缺失或 failed 样本允许以 `partial` 发布，续跑完成后更新同一 run_id；
+但 calibration 只接受完整 validation。`--limit` 调试运行仍不自动发布，split 污染、
+重复 ID 或 checkpoint/graded/rejected 冲突会直接阻止评估和发布。`--include-facts` 和
+`--include-raw-ocr` 仍为可选项，默认不复制大体积逐答案缓存。
 
 示例：正式批改后自动评估并复制，但由用户手动 Git 推送：
 
@@ -133,7 +184,7 @@ python scripts/run_csbench.py grade CO_2 --split test --a3wa-config results_runs
 
 说明：
 
-- `--force` 表示覆盖已有优化准则或旧 checkpoint。
+- rubric 优化中的 `--force` 表示重新生成准则；grade 中的 `--force` 表示创建新的时间戳实验，不再覆盖旧 checkpoint。
 - `--force` 不会无条件重算原始 PaddleOCR；图片 SHA-256 与现有 OCR JSON 一致时复用缓存，只重跑准则、事实映射和评分。需要重新识别原图时，应单独删除对应 OCR JSON 或显式运行 `paddle_ocr_worker.py --force`。
 - PaddleX 模型文件在每台设备上只使用一个权威缓存。Windows 默认是项目所在盘根目录的 `paddlex_cache`（例如 `D:\paddlex_cache`），Linux 默认是 `~/.cache/refgrader/paddlex`；可用 `PADDLE_PDX_CACHE_HOME` 显式覆盖。主流程和直接调用 OCR worker 使用同一规则。
 - `ocr_cache/csbench` 是逐图片的可审计 OCR 证据缓存，不是 PaddleX 模型缓存。它包含图片 SHA-256、识别文本和置信度，不应在清理重复模型文件时删除。
@@ -275,9 +326,9 @@ python scripts/run_csbench.py grade CO_1 --split test --force --a3wa-config "$CF
 
 作用：
 
-- validation 工作目录为 `results_runs/csbench_<题目集合>_validation`，与 test 目录隔离。
+- validation 批次根目录为 `results_runs/csbench_<题目集合>_validation`，实际结果位于其 `runs/<run_id>/`，与 test 目录隔离。
 - validation 完整结束后立即发布一份不含 A3WA config 的原始中间产物，因此
-  `refgrader-artifacts` 会马上显示 `validation_runs/<run_id>/` 更改；不完整结果不发布。
+  `refgrader-artifacts` 会显示 `validation_runs/<run_id>/` 更改；不完整结果标记为 partial，但不能用于 calibrate。
 - `calibrate` 会精确校验 validation ID，并将 checkpoint、rubric、split 和 A3WA config
   再发布到新的 `validation_runs/<run_id>/`。前一份记录原始 validation 完成时点，后一份
   记录由它派生的校准配置，两者不可变且不计入 test 指标。
@@ -442,7 +493,7 @@ python scripts/run_csbench.py grade CO_2 CO_3 CO_4 --background --force
 - 优化准则始终逐题独立，例如 `CO_2_rubric_standard.json`、`CO_3_rubric_standard.json`。
 - manifest 始终逐题独立，例如 `CO_2_optimization.json`、`CO_3_optimization.json`。
 - 多题批改共享一个运行目录和 `progress.json`，但 checkpoint、graded、rejected、failed 均按题号独立命名。
-- 例如联合批改 `CO_2 CO_3` 时，结果目录是 `results_runs/csbench_co2_co3_full/`，其中同时包含 `CO_2_*.json` 和 `CO_3_*.json`，不会把两道题的学生结果写入同一个 JSON。
+- 例如联合批改 `CO_2 CO_3` 时，批次根目录是 `results_runs/csbench_co2_co3_full/`，每次实验位于 `runs/<run_id>/`；同一运行中同时包含 `CO_2_*.json` 和 `CO_3_*.json`，不会把两道题的学生结果写入同一个 JSON。
 
 只测试前 5 份 test 答案：
 
@@ -580,11 +631,11 @@ data/csbench/rubrics/manifests/CO/CO_3_optimization.json
 results_runs/csbench_co3_rubric_opt/CO_3_variance_checkpoint.json
 results_runs/csbench_co3_rubric_opt/progress.json
 
-results_runs/csbench_co3_full/CO_3_grading_checkpoint.json
-results_runs/csbench_co3_full/CO_3_graded_results.json
-results_runs/csbench_co3_full/CO_3_rejected.json
-results_runs/csbench_co3_full/CO_3_failed.json
-results_runs/csbench_co3_full/progress.json
+results_runs/csbench_co3_full/runs/<run_id>/CO_3_grading_checkpoint.json
+results_runs/csbench_co3_full/runs/<run_id>/CO_3_graded_results.json
+results_runs/csbench_co3_full/runs/<run_id>/CO_3_rejected.json
+results_runs/csbench_co3_full/runs/<run_id>/CO_3_failed.json
+results_runs/csbench_co3_full/runs/<run_id>/progress.json
 
 ocr_cache/csbench/variance_facts/CO_3/<answer_id>.json
 ocr_cache/csbench/facts/CO_3/<answer_id>.json

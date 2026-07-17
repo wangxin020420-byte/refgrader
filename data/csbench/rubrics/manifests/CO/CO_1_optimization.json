@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "rubric_semantic_contract_version": 2,
+  "question_id": "CO_1",
+  "rubric_group": "CO",
+  "source_rubric": "${CSBENCH_ROOT}/rubrics/source/CO/CO_1.json",
+  "initial_rubric": "D:\\users\\王鑫020420\\Desktop\\refgrader-main\\data\\csbench\\rubrics\\initial\\CO\\CO_1_rubric_standard.json",
+  "optimized_rubric": "D:\\users\\王鑫020420\\Desktop\\refgrader-main\\data\\csbench\\rubrics\\optimized\\CO\\CO_1_rubric_standard.json",
+  "calibration_answer_ids": [
+    "ANS_CO_109",
+    "ANS_CO_11",
+    "ANS_CO_119",
+    "ANS_CO_120",
+    "ANS_CO_14"
+  ],
+  "requested_sample_size": 5,
+  "completed_sample_size": 5,
+  "extraction_backend": "csbench_hybrid",
+  "question_total_score": 5.0,
+  "initial_total_score": 5.0,
+  "optimized_total_score": 5.0,
+  "average_score_variance": 0.0,
+  "average_item_variance": 0.0,
+  "maximum_item_variance": 0.0,
+  "refinement_applied": false,
+  "semantic_policy_validated": true,
+  "semantic_validation_errors": [],
+  "scoring_policies": [
+    "final_sufficient_partial_credit"
+  ],
+  "source_sha256": "ea3faeecadbeb0dead0cf92b6da4362d0b6f23dc842cdabc75da84d3960efbe6",
+  "initial_sha256": "d71c92c8326562fe62b02b5290e1beba096eb7cd937aaedcbbaebf68f0b779a9",
+  "optimized_sha256": "d3c5c9fadb2861d5d944acd88af8f0a84b33ddfe3032121855b6d8e95e612fb3",
+  "optimization_results_dir": "D:\\users\\王鑫020420\\Desktop\\refgrader-main\\results_runs\\restored_rubric_optimization_20260714_022104",
+  "variance_checkpoint": "D:\\users\\王鑫020420\\Desktop\\refgrader-main\\results_runs\\restored_rubric_optimization_20260714_022104\\CO_1_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "655ddcec04b18c58a75939a663a637e4e39cb303215c9b6f825e30a27287cc43",
+  "created_at": "2026-07-13T22:53:52"
+}

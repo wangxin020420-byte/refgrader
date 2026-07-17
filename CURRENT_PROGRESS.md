@@ -1,6 +1,55 @@
 # Current Progress
 
-Last updated: 2026-07-16
+Last updated: 2026-07-17
+
+## 2026-07-17 Tracked Active Experiment Configuration
+
+The current formal configuration is now versioned in `refgrader-main` instead
+of being discoverable only through local ignored directories or historical
+artifacts. `data/csbench/rubrics/optimized`, `rubrics/manifests`,
+`rubrics/active_rubric_set.json`, and
+`calibration/active_a3wa_config.json` are Git-visible. Optimization manifests
+use portable root placeholders rather than device-specific absolute paths.
+
+`optimize` atomically refreshes the active rubric set; `calibrate` copies the
+derived configuration to the tracked active A3WA path and binds it to dataset,
+split, and optimized-rubric hashes. Formal grading validates those hashes and
+test grading automatically selects a valid active A3WA config. Any changed
+rubric makes the previous A3WA metadata stale until validation/calibration is
+repeated. `restore_csbench_artifacts.py` also refreshes this active state, while
+`refgrader-artifacts` remains the immutable, run-ID-based historical archive.
+
+Tests cover portable manifests/configs, active hash validation, stale A3WA
+invalidation, and artifact restoration. Optimize/calibrate remain single-writer
+operations across devices; Git commit/push stays manual.
+
+## 2026-07-17 Automatic Rubric Optimization Boundary
+
+The CO_1 to CO_7 audit found that several compound high-value items can cause
+all-or-nothing grading, but manually decomposing and locking those items in the
+source rubric would hide the contribution of the rubric optimization module.
+The manually authored CO_2 to CO_6 decompositions were therefore removed.
+
+The source and immutable initial rubrics again contain the official coarse
+criteria. Fine-grained criteria must be proposed during rubric optimization
+from the question, official answer, and isolated rubric-calibration samples.
+Generated candidates must conserve each parent score, use only independently
+verifiable official evidence, avoid hidden requirements, and remain coarse when
+the task is genuinely result-only. CO_1 to CO_7 now serve as behavioral audit
+cases rather than hard-coded decomposition templates.
+
+The current acceptance check covers score conservation, equal weighting, and
+semantic traceability. A paired teacher-score non-inferiority gate for choosing
+between the coarse and fine candidates is not implemented yet; it remains a
+follow-up item and must use only rubric-calibration data, never validation or
+test labels.
+
+The general instructor-aligned semantics remain: equivalent representations
+and pure formatting differences do not lose points, concise valid methods and
+propagated-error process evidence retain their declared credit, exact numeric
+answers do not receive a generic 10% tolerance, and a bare final answer cannot
+be used to infer unwritten process unless the parent explicitly declares a
+final-answer-sufficient policy.
 
 ## 2026-07-16 Versioned Grading Runs And Partial Artifact Resume
 

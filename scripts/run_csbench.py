@@ -33,6 +33,9 @@ if str(PROJECT_ROOT) not in sys.path:
 from rubric_semantics import RUBRIC_SEMANTIC_CONTRACT_VERSION
 
 DEFAULT_OCR_DEVICE = "cpu" if os.name == "nt" else "gpu:0"
+ACTIVE_RUBRIC_SET_SCHEMA_VERSION = 1
+ACTIVE_RUBRIC_SET_NAME = "active_rubric_set.json"
+ACTIVE_A3WA_CONFIG_NAME = "active_a3wa_config.json"
 
 
 def sha256_file(path: Path) -> str:
@@ -570,9 +573,15 @@ def portable_value(value: Any, replacements: list[tuple[str, str]]) -> Any:
         normalized = value.replace("\\", "/")
         for source, replacement in replacements:
             source_normalized = source.replace("\\", "/").rstrip("/")
-            if normalized == source_normalized:
+            compared = normalized.casefold() if os.name == "nt" else normalized
+            source_compared = (
+                source_normalized.casefold()
+                if os.name == "nt"
+                else source_normalized
+            )
+            if compared == source_compared:
                 return replacement
-            if normalized.startswith(source_normalized + "/"):
+            if compared.startswith(source_compared + "/"):
                 return replacement + normalized[len(source_normalized) :]
         return value
     return value
@@ -704,7 +713,9 @@ def optimization_evidence_paths(
     recorded = manifest.get("variance_checkpoint")
     recorded_hash = manifest.get("variance_checkpoint_sha256")
     if recorded and recorded_hash:
-        checkpoint = Path(str(recorded)).expanduser()
+        checkpoint = resolve_portable_path(
+            str(recorded), prepared_root=getattr(ctx, "root", PROJECT_ROOT)
+        )
         if checkpoint.is_file() and sha256_file(checkpoint) == recorded_hash:
             progress = checkpoint.parent / "progress.json"
             return checkpoint, progress if progress.is_file() else None
@@ -716,6 +727,288 @@ def optimization_evidence_paths(
         checkpoint if checkpoint.is_file() else None,
         progress if progress.is_file() else None,
     )
+
+
+def resolve_portable_path(value: str, *, prepared_root: Path) -> Path:
+    """Resolve a project-portable path stored in tracked configuration."""
+    normalized = str(value).replace("\\", "/")
+    replacements = {
+        "${REFGRADER_ROOT}": PROJECT_ROOT,
+        "${PREPARED_CSBENCH_ROOT}": prepared_root,
+    }
+    for marker, root in replacements.items():
+        if normalized == marker:
+            return root.resolve()
+        if normalized.startswith(marker + "/"):
+            return (root / normalized[len(marker) + 1 :]).resolve()
+    path = Path(value).expanduser()
+    return path.resolve() if path.is_absolute() else (PROJECT_ROOT / path).resolve()
+
+
+def active_rubric_set_path(ctx: CSBenchContext) -> Path:
+    return ctx.root / "rubrics" / ACTIVE_RUBRIC_SET_NAME
+
+
+def active_a3wa_config_path(ctx: CSBenchContext) -> Path:
+    return ctx.root / "calibration" / ACTIVE_A3WA_CONFIG_NAME
+
+
+def normalize_optimization_manifest(ctx: CSBenchContext) -> None:
+    """Remove device-specific absolute paths from a generated manifest."""
+    if not ctx.optimization_manifest.is_file():
+        raise FileNotFoundError(
+            f"Optimization manifest not found: {ctx.optimization_manifest}"
+        )
+    payload = json.loads(
+        ctx.optimization_manifest.read_text(encoding="utf-8-sig")
+    )
+    payload = portable_value(
+        payload,
+        [
+            (str(ctx.root), "${PREPARED_CSBENCH_ROOT}"),
+            (str(PROJECT_ROOT), "${REFGRADER_ROOT}"),
+        ],
+    )
+    payload["path_format"] = "refgrader_placeholders_v1"
+    _write_json_atomic(ctx.optimization_manifest, payload)
+
+
+def _dataset_snapshot_hashes(ctx: CSBenchContext) -> dict[str, str]:
+    files = [ctx.database, ctx.teacher_db, ctx.answer_metadata]
+    for name in ("manifest.json", "embedded_manifest.json"):
+        candidate = ctx.root / name
+        if candidate.is_file():
+            files.append(candidate)
+    return {
+        path.relative_to(ctx.root).as_posix(): sha256_file(path)
+        for path in files
+    }
+
+
+def _active_rubric_entry(ctx: CSBenchContext) -> dict[str, Any]:
+    manifest = json.loads(
+        ctx.optimization_manifest.read_text(encoding="utf-8-sig")
+    )
+    return {
+        "question_id": ctx.question_id,
+        "rubric_group": ctx.group,
+        "semantic_contract_version": RUBRIC_SEMANTIC_CONTRACT_VERSION,
+        "initial_rubric": (
+            ctx.initial_rubric.relative_to(ctx.root).as_posix()
+        ),
+        "optimized_rubric": (
+            ctx.optimized_rubric.relative_to(ctx.root).as_posix()
+        ),
+        "optimization_manifest": (
+            ctx.optimization_manifest.relative_to(ctx.root).as_posix()
+        ),
+        "initial_sha256": sha256_file(ctx.initial_rubric),
+        "optimized_sha256": sha256_file(ctx.optimized_rubric),
+        "optimization_manifest_sha256": sha256_file(
+            ctx.optimization_manifest
+        ),
+        "split_sha256": sha256_file(ctx.split_file),
+        "optimization_created_at": manifest.get("created_at"),
+        "calibration_answer_ids": manifest.get("calibration_answer_ids", []),
+    }
+
+
+def _all_valid_rubric_contexts(seed: CSBenchContext) -> list[CSBenchContext]:
+    exam = json.loads(seed.database.read_text(encoding="utf-8-sig"))
+    valid = []
+    for item in exam:
+        question_id = normalize_question_id(item.get("question_id", ""))
+        if not question_id:
+            continue
+        ctx = CSBenchContext(str(seed.root), question_id)
+        if not (
+            ctx.optimized_rubric.is_file()
+            and ctx.optimization_manifest.is_file()
+        ):
+            continue
+        try:
+            normalize_optimization_manifest(ctx)
+            ctx.validate_optimized()
+        except (FileNotFoundError, ValueError):
+            continue
+        valid.append(ctx)
+    return valid
+
+
+def _active_a3wa_metadata(
+    contexts: list[CSBenchContext],
+    config_path: Path,
+    *,
+    source_validation_run_id: str | None,
+) -> dict[str, Any]:
+    payload = json.loads(config_path.read_text(encoding="utf-8-sig"))
+    return {
+        "status": "active",
+        "path": (
+            config_path.relative_to(contexts[0].root).as_posix()
+        ),
+        "sha256": sha256_file(config_path),
+        "questions": [ctx.question_id for ctx in contexts],
+        "optimized_rubric_sha256": {
+            ctx.question_id: sha256_file(ctx.optimized_rubric)
+            for ctx in contexts
+        },
+        "validation_split_sha256": {
+            ctx.question_id: sha256_file(ctx.split_file) for ctx in contexts
+        },
+        "source_validation_run_id": source_validation_run_id,
+        "score_calibration_enabled": bool(
+            (payload.get("score_calibration") or {}).get("enabled", False)
+        ),
+    }
+
+
+def refresh_active_configuration(
+    contexts: list[CSBenchContext],
+    *,
+    a3wa_config: Path | None = None,
+    source_validation_run_id: str | None = None,
+) -> Path:
+    """Write the tracked current rubric/A3WA configuration atomically."""
+    if not contexts:
+        raise ValueError("At least one question is required to activate rubrics.")
+    for ctx in contexts:
+        normalize_optimization_manifest(ctx)
+        ctx.validate_optimized()
+
+    seed = contexts[0]
+    bundle_path = active_rubric_set_path(seed)
+    existing = {}
+    if bundle_path.is_file():
+        existing = json.loads(bundle_path.read_text(encoding="utf-8-sig"))
+
+    valid_contexts = _all_valid_rubric_contexts(seed)
+    entries = {
+        ctx.question_id: _active_rubric_entry(ctx) for ctx in valid_contexts
+    }
+    active_config = active_a3wa_config_path(seed)
+    a3wa_metadata = existing.get("active_a3wa")
+
+    if a3wa_config is not None:
+        source = Path(a3wa_config).expanduser().resolve()
+        if not source.is_file():
+            raise FileNotFoundError(f"A3WA calibration config not found: {source}")
+        payload = json.loads(source.read_text(encoding="utf-8-sig"))
+        payload = portable_value(
+            payload,
+            [
+                (str(seed.root), "${PREPARED_CSBENCH_ROOT}"),
+                (str(PROJECT_ROOT), "${REFGRADER_ROOT}"),
+            ],
+        )
+        _write_json_atomic(active_config, payload)
+        a3wa_metadata = _active_a3wa_metadata(
+            contexts,
+            active_config,
+            source_validation_run_id=source_validation_run_id,
+        )
+    elif isinstance(a3wa_metadata, dict):
+        expected_rubrics = a3wa_metadata.get("optimized_rubric_sha256", {})
+        reasons = []
+        if not active_config.is_file():
+            reasons.append("active A3WA file is missing")
+        elif a3wa_metadata.get("sha256") != sha256_file(active_config):
+            reasons.append("active A3WA file hash changed")
+        for question_id, expected_hash in expected_rubrics.items():
+            entry = entries.get(question_id)
+            if not entry or entry.get("optimized_sha256") != expected_hash:
+                reasons.append(f"{question_id} optimized rubric changed")
+        if reasons:
+            a3wa_metadata = dict(a3wa_metadata)
+            a3wa_metadata["status"] = "stale"
+            a3wa_metadata["stale_reasons"] = sorted(set(reasons))
+
+    bundle = {
+        "schema_version": ACTIVE_RUBRIC_SET_SCHEMA_VERSION,
+        "semantic_contract_version": RUBRIC_SEMANTIC_CONTRACT_VERSION,
+        "prepared_root": portable_value(
+            str(seed.root), [(str(PROJECT_ROOT), "${REFGRADER_ROOT}")]
+        ),
+        "dataset_sha256": _dataset_snapshot_hashes(seed),
+        "questions": entries,
+        "active_a3wa": a3wa_metadata,
+    }
+    existing_comparable = dict(existing)
+    existing_comparable.pop("updated_at", None)
+    if existing_comparable == bundle:
+        return bundle_path
+    bundle["updated_at"] = datetime.now().isoformat(timespec="seconds")
+    _write_json_atomic(bundle_path, bundle)
+    return bundle_path
+
+
+def validate_active_configuration(
+    contexts: list[CSBenchContext],
+) -> dict[str, Any]:
+    if not contexts:
+        raise ValueError("At least one question is required.")
+    bundle_path = active_rubric_set_path(contexts[0])
+    if not bundle_path.is_file():
+        raise FileNotFoundError(
+            f"Active rubric set not found: {bundle_path}. Run optimize or "
+            "restore/activate a verified rubric run first."
+        )
+    bundle = json.loads(bundle_path.read_text(encoding="utf-8-sig"))
+    if bundle.get("schema_version") != ACTIVE_RUBRIC_SET_SCHEMA_VERSION:
+        raise ValueError("Unsupported active rubric set schema version.")
+    if bundle.get("semantic_contract_version") != RUBRIC_SEMANTIC_CONTRACT_VERSION:
+        raise ValueError("Active rubric set uses an obsolete semantic contract.")
+    if bundle.get("dataset_sha256") != _dataset_snapshot_hashes(contexts[0]):
+        raise ValueError(
+            "Active rubric set was generated from a different CSBench snapshot. "
+            "Re-run optimize or restore the matching configuration."
+        )
+    entries = bundle.get("questions") or {}
+    for ctx in contexts:
+        ctx.validate_optimized()
+        entry = entries.get(ctx.question_id)
+        if not entry:
+            raise ValueError(
+                f"{ctx.question_id} is not registered in the active rubric set."
+            )
+        checks = {
+            "initial_sha256": sha256_file(ctx.initial_rubric),
+            "optimized_sha256": sha256_file(ctx.optimized_rubric),
+            "optimization_manifest_sha256": sha256_file(
+                ctx.optimization_manifest
+            ),
+            "split_sha256": sha256_file(ctx.split_file),
+        }
+        for key, actual in checks.items():
+            if entry.get(key) != actual:
+                raise ValueError(
+                    f"Active rubric set hash mismatch for {ctx.question_id}: {key}."
+                )
+    return bundle
+
+
+def resolve_active_a3wa_config(
+    contexts: list[CSBenchContext],
+) -> Path | None:
+    bundle = validate_active_configuration(contexts)
+    metadata = bundle.get("active_a3wa")
+    if not isinstance(metadata, dict) or metadata.get("status") != "active":
+        return None
+    requested = {ctx.question_id for ctx in contexts}
+    covered = set(metadata.get("questions") or [])
+    if not requested.issubset(covered):
+        return None
+    path = active_a3wa_config_path(contexts[0])
+    if not path.is_file() or metadata.get("sha256") != sha256_file(path):
+        raise ValueError("Tracked active A3WA config does not match its manifest.")
+    expected = metadata.get("optimized_rubric_sha256") or {}
+    for ctx in contexts:
+        if expected.get(ctx.question_id) != sha256_file(ctx.optimized_rubric):
+            raise ValueError(
+                f"Active A3WA config is stale for {ctx.question_id}. Re-run "
+                "validation and calibrate."
+            )
+    return path
 
 
 def ensure_background_slot_available() -> None:
@@ -1021,6 +1314,8 @@ def build_run_command(args: argparse.Namespace, *, background: bool) -> list[str
         command.extend(["--device", args.device])
     if getattr(args, "a3wa_config", None):
         command.extend(["--a3wa-config", args.a3wa_config])
+    if getattr(args, "no_active_a3wa", False):
+        command.append("--no-active-a3wa")
     if background:
         command.append("--background")
     if args.force:
@@ -1158,6 +1453,17 @@ def optimize(args: argparse.Namespace) -> int:
                     push=args.push_artifacts,
                 )
             )
+        else:
+            env["REFGRADER_POST_SUCCESS_CMD"] = shlex.join(
+                [
+                    sys.executable,
+                    str(PROJECT_ROOT / "scripts" / "run_csbench.py"),
+                    "--prepared-dir",
+                    args.prepared_dir,
+                    "activate",
+                    *args.questions,
+                ]
+            )
         command = [
             str(PROJECT_ROOT / "run_experiment.sh"),
             "run",
@@ -1177,13 +1483,23 @@ def optimize(args: argparse.Namespace) -> int:
     return_code = execute(
         command, env_overrides=env, dry_run=args.dry_run
     )
-    if return_code != 0 or args.dry_run or args.no_artifacts:
+    if return_code != 0 or args.dry_run:
         return return_code
     if args.background:
-        print(
-            "Background optimization started. Rubric artifacts will be "
-            "published automatically after the job finishes successfully."
-        )
+        if args.no_artifacts:
+            print(
+                "Background optimization started. The tracked active rubric "
+                "set will be refreshed after the job finishes successfully."
+            )
+        else:
+            print(
+                "Background optimization started. Rubric artifacts will be "
+                "published automatically after the job finishes successfully."
+            )
+        return return_code
+    bundle = refresh_active_configuration(contexts)
+    print(f"Active rubric set updated: {bundle}")
+    if args.no_artifacts:
         return return_code
     print("Optimization finished; publishing rubric artifacts automatically.")
     return publish(
@@ -1204,6 +1520,28 @@ def grade(args: argparse.Namespace) -> int:
     contexts = build_contexts(args.prepared_dir, args.questions)
     for ctx in contexts:
         ctx.validate_optimized()
+    validate_active_configuration(contexts)
+    explicit_a3wa = getattr(args, "a3wa_config", None)
+    disable_active_a3wa = bool(getattr(args, "no_active_a3wa", False))
+    if explicit_a3wa and disable_active_a3wa:
+        raise ValueError("Use either --a3wa-config or --no-active-a3wa, not both.")
+    if args.split != "test" and explicit_a3wa:
+        raise ValueError(
+            "Validation/calibration grading must be uncalibrated; "
+            "--a3wa-config is allowed only for test."
+        )
+    if args.split == "test" and not explicit_a3wa and not disable_active_a3wa:
+        active_config = resolve_active_a3wa_config(contexts)
+        if active_config:
+            args.a3wa_config = str(active_config)
+            print(f"Using tracked active A3WA config: {active_config}")
+        else:
+            raise ValueError(
+                "No valid active A3WA config covers this test batch. Run "
+                "validation and calibrate first, restore a matching calibrated "
+                "run, or pass --no-active-a3wa explicitly for an uncalibrated "
+                "ablation."
+            )
     results_dir, local_run_id = select_grading_run(
         contexts,
         args.split,
@@ -1495,6 +1833,7 @@ def run_experiment(args: argparse.Namespace) -> int:
             include_raw_ocr=args.include_raw_ocr,
             include_facts=args.include_facts,
             a3wa_config=args.a3wa_config,
+            no_active_a3wa=getattr(args, "no_active_a3wa", False),
             run_id=getattr(args, "run_id", None),
         )
     )
@@ -1505,6 +1844,7 @@ def calibrate(args: argparse.Namespace) -> int:
     contexts = build_contexts(args.prepared_dir, args.questions)
     for ctx in contexts:
         ctx.validate_optimized()
+    validate_active_configuration(contexts)
     validation_dir, validation_run_id = select_grading_run(
         contexts,
         "validation",
@@ -1584,7 +1924,15 @@ def calibrate(args: argparse.Namespace) -> int:
     if not output.is_file():
         raise FileNotFoundError(f"A3WA calibration config not generated: {output}")
 
+    bundle = refresh_active_configuration(
+        contexts,
+        a3wa_config=output,
+        source_validation_run_id=validation_run_id,
+    )
+    active_config = active_a3wa_config_path(contexts[0])
     print(f"A3WA calibration config: {output}")
+    print(f"Tracked active A3WA config: {active_config}")
+    print(f"Active rubric set updated: {bundle}")
     if args.no_artifacts:
         return 0
     print(
@@ -1604,10 +1952,29 @@ def calibrate(args: argparse.Namespace) -> int:
             include_raw_ocr=args.include_raw_ocr,
             include_facts=args.include_facts,
             push=args.push_artifacts,
-            a3wa_config=str(output),
+            a3wa_config=str(active_config),
             a3wa_config_questions=args.questions,
         )
     )
+
+
+def activate(args: argparse.Namespace) -> int:
+    """Register existing verified rubrics/config as the tracked active set."""
+    contexts = build_contexts(args.prepared_dir, args.questions)
+    config = (
+        Path(args.a3wa_config).expanduser().resolve()
+        if getattr(args, "a3wa_config", None)
+        else None
+    )
+    bundle = refresh_active_configuration(
+        contexts,
+        a3wa_config=config,
+        source_validation_run_id=getattr(args, "source_validation_run_id", None),
+    )
+    print(f"Active rubric set: {bundle}")
+    if config:
+        print(f"Active A3WA config: {active_a3wa_config_path(contexts[0])}")
+    return 0
 
 
 def evaluate(args: argparse.Namespace) -> int:
@@ -1895,6 +2262,12 @@ def publish(args: argparse.Namespace) -> int:
             for ctx in contexts
         )
         requested_stage = "full" if has_test else "rubric"
+
+    for ctx in contexts:
+        normalize_optimization_manifest(ctx)
+        ctx.validate_optimized()
+    if requested_stage == "rubric":
+        refresh_active_configuration(contexts)
 
     result_stage = RESULT_ARTIFACT_STAGES.get(requested_stage)
     answer_split = result_stage[0] if result_stage else None
@@ -2375,6 +2748,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="A3WA calibration config used during the grading stage.",
     )
     run_parser.add_argument(
+        "--no-active-a3wa",
+        action="store_true",
+        help="Do not automatically use the tracked active A3WA config for test.",
+    )
+    run_parser.add_argument(
         "--background",
         action="store_true",
         help=(
@@ -2452,6 +2830,23 @@ def build_parser() -> argparse.ArgumentParser:
     )
     optimize_parser.set_defaults(handler=optimize)
 
+    activate_parser = subparsers.add_parser(
+        "activate",
+        help="Register verified rubrics and an optional A3WA config as active.",
+    )
+    activate_parser.add_argument(
+        "questions", nargs="+", type=normalize_question_id
+    )
+    activate_parser.add_argument(
+        "--a3wa-config",
+        help="Verified A3WA config to copy into the tracked active location.",
+    )
+    activate_parser.add_argument(
+        "--source-validation-run-id",
+        help="Validation run ID recorded as the calibration source.",
+    )
+    activate_parser.set_defaults(handler=activate)
+
     grade_parser = subparsers.add_parser(
         "grade", help="Grade one or more questions."
     )
@@ -2467,7 +2862,15 @@ def build_parser() -> argparse.ArgumentParser:
     grade_parser.add_argument("--device", default=DEFAULT_OCR_DEVICE)
     grade_parser.add_argument(
         "--a3wa-config",
-        help="A3WA calibration config used during grading.",
+        help=(
+            "Explicit A3WA config used for test. When omitted, a valid tracked "
+            "active config is selected automatically."
+        ),
+    )
+    grade_parser.add_argument(
+        "--no-active-a3wa",
+        action="store_true",
+        help="Do not automatically use the tracked active A3WA config for test.",
     )
     grade_parser.add_argument("--background", action="store_true")
     grade_parser.add_argument("--force", action="store_true")

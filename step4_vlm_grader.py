@@ -1443,11 +1443,11 @@ def stage2_logic_grading(student_facts_str, rubrics_json_str, temperature=0.35, 
 3. 若【规范化等价比较】中某项 comparison.match=true，应优先判为 MATCH，除非学生客观事实明显说明该项不是学生答案。
 4. 若 comparison.status=partial_or_mismatch，应结合 edge_overlap_ratio、student_items、student_bits、standard_bits 等结构化结果给 PARTIAL_MATCH 或 SEMANTIC_FATAL。
 5. bit_vector 题允许二进制、十六进制、标签集合、紧凑字母串等价表达；sequence 题允许箭头、逗号、空格、大于号等分隔符差异。
-6. 数值题优先比较核心数值；没有显式容差时，相对误差 <= 10% 可判 MATCH。单位可换算后比较。
-7. 格式、单位、空格、箭头、大小写等非实质差异不应重罚；核心值或核心结论正确时可判 FORMAT_MINOR。
+6. 数值题在单位或表示形式归一化后精确比较；只有评分项显式声明容差时才按容差判定，不得自行使用通用百分比容差。参考答案本身为近似值时允许通常的舍入误差。
+7. 空格、箭头、大小写和等价单位等纯形式差异不扣分，可判 FORMAT_MINOR 并给该原子项满分；若缺失造成真实语义歧义则判 PARTIAL_MATCH。
 8. 多要素评分项应允许 PARTIAL_MATCH，按已完成要素比例给分，避免全有全无。
 9. 对链式推导题，若学生起点值错误但后续用正确公式一致推导，可将后续过程项判为 PARTIAL_MATCH；若最终结论完全相反或核心方法错误，判 SEMANTIC_FATAL。
-10. 若最终结果正确且能反推必要的上游参数或中间量已被正确使用，可对未单独展开的上游项谨慎判 MATCH，并在 reason 中说明“由下游正确结果回溯确认”。
+10. 只有下游表达式确定性地包含某个上游参数时，才可回溯确认该参数项；不得从裸最终答案反推方法或过程项，也不得给未书写的 additive_split 子项补分。
 11. 若参数识别正确但核心公式、方法和最终结果均错误，不应给大量空洞参数分。
 12. scoring_policy=final_sufficient_partial_credit 的同一 parent_id 条目属于层次评分：
     - full_credit_trigger=true 的最终答案项必须独立判断；正确时父项最终由系统恢复满分。
@@ -1458,7 +1458,7 @@ error_category 只能取以下值之一：
 - MATCH：语义匹配，给该项满分。
 - BLANK：未书写或字迹模糊，给 0 分。
 - SEMANTIC_FATAL：核心知识、结论、数值或方法错误，给 0 分。
-- FORMAT_MINOR：非实质格式问题，核心值或结论正确，通常给该项 70% 分数。
+- FORMAT_MINOR：纯形式问题且核心语义完全正确，给该原子项满分；存在实质性缺失时改用 PARTIAL_MATCH。
 - INSUFFICIENT_INFO：提取信息不足，无法判断，给 0 分。
 - PARTIAL_MATCH：部分匹配，按完成比例给部分分。
 
@@ -1681,7 +1681,18 @@ def _category_points_ratio(strict_cots, rubrics_data, max_score):
             if category not in per_cot:
                 continue
             item_id = str(detail.get("id", ""))
-            per_cot[category] += points_map.get(item_id, fallback_points)
+            rubric_points = points_map.get(item_id, fallback_points)
+            if category == "FORMAT_MINOR":
+                try:
+                    awarded = float(detail.get("score_given", 0) or 0)
+                except (TypeError, ValueError):
+                    awarded = 0.0
+                # FORMAT_MINOR is a risk signal only when formatting actually
+                # reduced credit. Equivalent notation awarded in full must not
+                # create a false under-credit route.
+                per_cot[category] += max(0.0, rubric_points - awarded)
+            else:
+                per_cot[category] += rubric_points
         for category, points in per_cot.items():
             category_points[category].append(points)
 

@@ -25,10 +25,8 @@ results_runs/
 outputs/csbench_*_compare.csv
 outputs/csbench_*_summary.json
 
-# Generated rubric products are published/restored through refgrader-artifacts.
-# Authoritative source/initial rubrics under data/csbench remain versioned here.
-data/csbench/rubrics/optimized/
-data/csbench/rubrics/manifests/
+# Current approved rubric products and active A3WA configuration are versioned
+# under data/csbench. Historical run evidence remains in refgrader-artifacts.
 
 # External CSBench source dataset (keep it outside this repository)
 /CSBench_new/

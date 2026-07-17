@@ -4,23 +4,12 @@ CSBench 实验统一使用 `scripts/run_csbench.py`。更换题目时只需要�
 
 ## 0. 日常最短命令
 
-本节是日常实验的默认入口。评分准则、七题 validation 和 A3WA 配置已经生成后，
-只测试新的题目不需要重跑前面的阶段，也不需要重新拼接后台脚本。
-
-Windows PowerShell 先定位最近一次七题 A3WA 配置：
-
-```powershell
-$Config = Get-ChildItem ".\results_runs\csbench_all7_a3wa_core_residual_*.json" -File |
-    Sort-Object LastWriteTime -Descending |
-    Select-Object -First 1
-
-if (-not $Config) { throw "没有找到七题 A3WA 配置" }
-```
+本节是日常实验的默认入口。评分准则、七题 validation 和 A3WA 配置已经生成并提交后，当前批准的配置位于 `data/csbench`。任何设备拉取 `refgrader-main` 后都使用同一份哈希校验配置，不再从本机 `results_runs` 猜测“最近一个”配置。
 
 只正式批改任意题目，例如 CO_5、CO_6：
 
 ```powershell
-.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_5 CO_6 --split test --force --a3wa-config $Config.FullName
+.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_5 CO_6 --split test --force
 ```
 
 以后只需要替换 `CO_5 CO_6`。该命令在前台运行，本地电脑必须保持开机、联网且不能休眠。
@@ -30,20 +19,24 @@ if (-not $Config) { throw "没有找到七题 A3WA 配置" }
 如果任务中断，使用同一个题目集合和配置断点续跑，**不要使用 `--force`**：
 
 ```powershell
-.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_5 CO_6 --split test --a3wa-config $Config.FullName
+.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_5 CO_6 --split test
 ```
 
 程序会从批次目录的 `active_run.json` 找到刚才的 `run_id`。如需续跑指定历史实验：
 
 ```powershell
-.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_5 CO_6 --split test --run-id 20260716_210000 --a3wa-config $Config.FullName
+.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_5 CO_6 --split test --run-id 20260716_210000
 ```
 
 Linux/服务器已经有固定配置时，同样只需要一条核心命令：
 
 ```bash
-python scripts/run_csbench.py grade CO_5 CO_6 --split test --force --a3wa-config results_runs/<a3wa配置文件>.json
+python scripts/run_csbench.py grade CO_5 CO_6 --split test --force
 ```
+
+这些 test 命令会自动读取 `data/csbench/calibration/active_a3wa_config.json`，并用 `data/csbench/rubrics/active_rubric_set.json` 验证其题目覆盖、rubric 哈希和数据快照。配置缺失、过期或不覆盖待测题目时会直接停止，避免静默使用默认参数。只有进行历史对照实验时才显式传 `--a3wa-config <文件>`；明确执行无校准配置消融时传 `--no-active-a3wa`。
+
+`optimize` 成功后会更新 Git 可见的 `rubrics/optimized`、`rubrics/manifests` 和 `active_rubric_set.json`；`calibrate` 成功后还会更新 `calibration/active_a3wa_config.json`。这两个阶段结束后应提交 `refgrader-main`，历史运行证据仍单独提交到 `refgrader-artifacts`。
 
 只有以下情况才进入后文的完整流程：数据快照发生变化、评分语义或 rubric 发生变化、
 三支决策校准逻辑发生变化，或者需要重新生成 A3WA 配置。Windows 隐藏后台、日志重定向和

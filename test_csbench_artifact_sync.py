@@ -10,20 +10,140 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from scripts.run_csbench import (
+    CSBenchContext,
     RUBRIC_SEMANTIC_CONTRACT_VERSION,
+    active_a3wa_config_path,
+    active_rubric_set_path,
     calibrate,
     evaluate,
+    grade,
     grading_results_dir,
     inspect_results,
     optimization_evidence_paths,
     publish,
+    refresh_active_configuration,
+    resolve_active_a3wa_config,
     select_grading_run,
     sha256_file,
     validate_complete_results,
+    validate_active_configuration,
 )
 
 
 class CSBenchArtifactSyncTests(unittest.TestCase):
+    def test_test_grading_requires_active_a3wa_unless_explicitly_disabled(self):
+        context = SimpleNamespace(validate_optimized=lambda: None)
+        args = SimpleNamespace(
+            prepared_dir="data/csbench",
+            questions=["CO_1"],
+            split="test",
+            a3wa_config=None,
+            no_active_a3wa=False,
+        )
+        with (
+            patch("scripts.run_csbench.build_contexts", return_value=[context]),
+            patch("scripts.run_csbench.validate_active_configuration"),
+            patch("scripts.run_csbench.resolve_active_a3wa_config", return_value=None),
+        ):
+            with self.assertRaisesRegex(ValueError, "No valid active A3WA config"):
+                grade(args)
+
+    def test_active_configuration_is_portable_and_invalidates_stale_a3wa(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "refgrader"
+            prepared = root / "data" / "csbench"
+            prepared.mkdir(parents=True)
+            (prepared / "exam_database.json").write_text(
+                json.dumps([{
+                    "question_id": "CO_1",
+                    "rubric_group": "CO",
+                    "total_score": 5,
+                }]),
+                encoding="utf-8",
+            )
+            (prepared / "teacher_scores.json").write_text("{}", encoding="utf-8")
+            (prepared / "answer_metadata.jsonl").write_text("", encoding="utf-8")
+            split = prepared / "splits" / "by_question" / "CO_1.json"
+            split.parent.mkdir(parents=True)
+            split.write_text(
+                json.dumps({"validation": ["A"], "test": ["T"]}),
+                encoding="utf-8",
+            )
+            initial = (
+                prepared / "rubrics" / "initial" / "CO"
+                / "CO_1_rubric_standard.json"
+            )
+            optimized = (
+                prepared / "rubrics" / "optimized" / "CO"
+                / "CO_1_rubric_standard.json"
+            )
+            manifest = (
+                prepared / "rubrics" / "manifests" / "CO"
+                / "CO_1_optimization.json"
+            )
+            for path in (initial, optimized, manifest):
+                path.parent.mkdir(parents=True, exist_ok=True)
+            initial.write_text('[{"id":"s1","points":5}]', encoding="utf-8")
+            optimized.write_text('[{"id":"s1","points":5}]', encoding="utf-8")
+            manifest.write_text(
+                json.dumps({
+                    "rubric_semantic_contract_version": (
+                        RUBRIC_SEMANTIC_CONTRACT_VERSION
+                    ),
+                    "semantic_policy_validated": True,
+                    "initial_rubric": str(initial),
+                    "optimized_rubric": str(optimized),
+                    "initial_sha256": sha256_file(initial),
+                    "optimized_sha256": sha256_file(optimized),
+                }),
+                encoding="utf-8",
+            )
+            config = root / "results_runs" / "a3wa.json"
+            config.parent.mkdir(parents=True)
+            config.write_text(
+                json.dumps({
+                    "database_path": str(prepared / "exam_database.json"),
+                    "score_calibration": {"enabled": True},
+                }),
+                encoding="utf-8",
+            )
+
+            with patch("scripts.run_csbench.PROJECT_ROOT", root):
+                context = CSBenchContext(str(prepared), "CO_1")
+                refresh_active_configuration(
+                    [context],
+                    a3wa_config=config,
+                    source_validation_run_id="validation-1",
+                )
+                validate_active_configuration([context])
+                self.assertEqual(
+                    resolve_active_a3wa_config([context]),
+                    active_a3wa_config_path(context),
+                )
+
+                portable_manifest = manifest.read_text(encoding="utf-8")
+                self.assertIn("${PREPARED_CSBENCH_ROOT}", portable_manifest)
+                active_config = active_a3wa_config_path(context)
+                self.assertIn(
+                    "${PREPARED_CSBENCH_ROOT}",
+                    active_config.read_text(encoding="utf-8"),
+                )
+
+                optimized.write_text(
+                    '[{"id":"s1-new","points":5}]', encoding="utf-8"
+                )
+                manifest_payload = json.loads(manifest.read_text(encoding="utf-8"))
+                manifest_payload["optimized_sha256"] = sha256_file(optimized)
+                manifest.write_text(
+                    json.dumps(manifest_payload), encoding="utf-8"
+                )
+                refresh_active_configuration([context])
+                bundle = json.loads(
+                    active_rubric_set_path(context).read_text(encoding="utf-8")
+                )
+                self.assertEqual(bundle["active_a3wa"]["status"], "stale")
+                self.assertIsNone(resolve_active_a3wa_config([context]))
+
     def test_formal_evaluation_includes_core_and_residual_scores(self):
         context = SimpleNamespace(
             question_id="CO_1",
@@ -245,6 +365,9 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                 push_artifacts=False,
             )
             with patch("scripts.run_csbench.PROJECT_ROOT", root):
+                refresh_active_configuration(
+                    [CSBenchContext(str(prepared), "CO_1")]
+                )
                 self.assertEqual(calibrate(calibration_args), 0)
 
             args = SimpleNamespace(
@@ -292,6 +415,9 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                 self.assertEqual(restore_module.main(), 0)
             self.assertTrue(optimized.is_file())
             self.assertTrue(manifest.is_file())
+            self.assertTrue(
+                (prepared / "rubrics" / "active_rubric_set.json").is_file()
+            )
             self.assertTrue(
                 (
                     validation

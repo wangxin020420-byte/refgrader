@@ -17,13 +17,10 @@ instructor.
 # Instructor-Aligned Scoring Policy
 
 For calculation, derivation, numerical conversion, mapping, and algorithmic
-problems, use this priority:
-
-1. Final answer / key conclusion correctness.
-2. Key formula, variable relation, unit conversion, mapping idea, or computation
-   trace.
-3. Full intermediate expansion, substitution details, and step-by-step
-   arithmetic.
+problems, score the declared atomic criteria independently. Final answers,
+key formulas or relations, and meaningful intermediate results receive only
+their own declared points. Full arithmetic expansion is not an extra hidden
+requirement.
 
 The student does not need to reproduce the standard solution step by step.
 When the final answer is correct and there is at least one relevant formula,
@@ -47,21 +44,25 @@ PARTIAL_MATCH, not SEMANTIC_FATAL.
    `scoring_policy=final_sufficient_partial_credit`. For that policy, the final
    answer is a sufficient condition for the parent score; the deterministic
    scorer will restore full parent credit without making process a prerequisite.
-5. For calculation problems, a correct final answer has high weight. If the
-   answer is correct and the student shows minimum valid process evidence,
-   award generous process credit according to the rubric.
+5. For calculation problems, award every explicitly supported result and
+   process atom. A correct final answer receives its result credit; it supports
+   additional process credit only when the extracted facts contain the
+   corresponding formula, relation, conversion, mapping, or computation trace.
 6. A formula/method item can be MATCH when the fact contains an equivalent
    formula, substitution relation, algorithmic step, mapping relation, or
    computation trace. It does not need every arithmetic expansion.
-7. A numeric item is MATCH when the value is correct within the rubric tolerance
-   or within 10% relative error when no explicit tolerance is given. Compatible
-   unit conversion is allowed.
+7. A numeric item is MATCH when the value is exact after compatible unit or
+   representation conversion, or when it is within an explicitly declared
+   tolerance. If no tolerance is declared, do not invent a generic percentage
+   tolerance; ordinary rounding of an approximate reference value is allowed.
 8. If the final answer is correct but process evidence is weak, follow the
    declared scoring policy. Under `final_sufficient_partial_credit`, judge the
    `full_credit_trigger` item independently and do not withhold parent credit
    for missing support. Under additive scoring, do not invent method credit.
-9. If the final answer is wrong but the method is coherent, award process credit
-   as PARTIAL_MATCH where supported by concrete facts.
+9. If an upstream value is wrong but a later formula, mapping, or algorithmic
+   relation is correctly applied to that value, preserve the corresponding
+   process atom as MATCH or PARTIAL_MATCH. Do not award the independent final
+   numeric/conclusion atom unless that final condition is satisfied.
 10. Use SEMANTIC_FATAL only for a real conceptual contradiction, wrong method,
    wrong conclusion, incompatible unit/dimension, or unrelated formula. Do not
    use SEMANTIC_FATAL merely because the student skipped arithmetic details.
@@ -83,12 +84,13 @@ PARTIAL_MATCH, not SEMANTIC_FATAL.
 # Dependency Rules
 
 - Parameter-only items may be awarded when the value is explicitly present or
-  necessarily used in an extracted correct downstream computation.
+  deterministically entailed by an extracted downstream expression. Never infer
+  a method/process atom from a bare correct final answer.
 - Formula/method credit requires explicit formula, relation, mapping,
   algorithmic step, or computation trace, but not necessarily full expansion.
 - Final-result items can be scored independently.
-- A correct final answer plus minimum process evidence can justify high overall
-  credit under the instructor-aligned lenient policy.
+- A correct final answer plus concrete process evidence can earn the sum of the
+  corresponding declared atoms; it does not waive absent additive atoms.
 - A correct final answer with no process evidence receives full parent credit
   only when the parent explicitly declares `full_credit_policy=final_answer_sufficient`.
 
@@ -135,9 +137,10 @@ Return pure JSON only:
   blank/illegible.
 - SEMANTIC_FATAL: core conceptual, method, conclusion, numeric, or unit
   contradiction; score must be 0.
-- FORMAT_MINOR: non-substantive format/unit/name/detail issue when the core
-  value, conclusion, or relation is correct. Give 70% of the item points, with
-  minimum 1 point when applicable.
+- FORMAT_MINOR: a genuinely non-substantive notation, spacing, case, arrow, or
+  equivalent-unit issue when the required value, conclusion, or relation is
+  correct. Give full item points; use PARTIAL_MATCH instead when the omission
+  creates real semantic ambiguity or loses part of a multi-part condition.
 - INSUFFICIENT_INFO: extraction is too generic or incomplete to judge; score
   must be 0.
 - not_comparable evidence_status means the extracted fact cannot be checked by

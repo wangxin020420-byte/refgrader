@@ -14,9 +14,69 @@ from rubric_semantics import (
     project_rubric_for_risk,
     validate_refined_rubric,
 )
+from step4_vlm_grader import _category_points_ratio
 
 
 class RubricSemanticContractTests(unittest.TestCase):
+    def test_co_inputs_keep_official_granularity_without_locked_splits(self):
+        root = Path(__file__).resolve().parent
+        expected_counts = {
+            "CO_1": 3,
+            "CO_2": 7,
+            "CO_3": 2,
+            "CO_4": 7,
+            "CO_5": 3,
+            "CO_6": 6,
+            "CO_7": 2,
+        }
+        for question_id, expected_count in expected_counts.items():
+            source = json.loads((root / (
+                f"data/csbench/rubrics/source/CO/{question_id}.json"
+            )).read_text(encoding="utf-8"))["grading_rubric"]
+            initial = json.loads((root / (
+                "data/csbench/rubrics/initial/CO/"
+                f"{question_id}_rubric_standard.json"
+            )).read_text(encoding="utf-8"))
+            with self.subTest(question_id=question_id):
+                self.assertEqual(len(source), expected_count)
+                self.assertEqual(len(initial), expected_count)
+                self.assertAlmostEqual(
+                    sum(float(item["score"]) for item in source),
+                    sum(float(item["points"]) for item in initial),
+                )
+                self.assertFalse(any(
+                    "decomposition_locked" in item
+                    or "minimum_scoring_children" in item
+                    for item in source + initial
+                ))
+
+    def test_full_credit_format_equivalence_has_no_undercredit_risk(self):
+        rubric = [{"id": "step_1", "points": 2.0}]
+        full = [{
+            "details": [{
+                "id": "step_1",
+                "score_given": 2.0,
+                "error_category": "FORMAT_MINOR",
+            }]
+        }]
+        discounted = [{
+            "details": [{
+                "id": "step_1",
+                "score_given": 1.4,
+                "error_category": "FORMAT_MINOR",
+            }]
+        }]
+        self.assertEqual(
+            _category_points_ratio(full, rubric, 2.0)["format_minor_points_ratio"],
+            0.0,
+        )
+        self.assertAlmostEqual(
+            _category_points_ratio(
+                discounted, rubric, 2.0
+            )["format_minor_points_ratio"],
+            0.3,
+        )
+
     def test_explicit_strict_atomic_result_cannot_be_split(self):
         original = prepare_rubric_semantic_contract([
             {

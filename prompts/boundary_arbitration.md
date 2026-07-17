@@ -33,10 +33,10 @@ unsupported high-score credit relative to the three prior grading records.
 4. Prefer keep when evidence is insufficient.
 5. For calculation, derivation, numerical conversion, mapping, and algorithmic
    problems, do not require the full standard-solution derivation.
-6. If the final answer is correct or near-correct and the student shows any
-   relevant formula, variable relation, unit conversion, mapping idea, or
-   computation trace, identify missed lenient process credit when prior grading
-   was too strict.
+6. If the final answer is correct or near-correct and the student shows a
+   concrete formula, variable relation, unit conversion, mapping idea, or
+   computation trace that satisfies a declared rubric atom, identify only that
+   atom as missed credit. Do not infer absent process atoms from the final answer.
 7. Do not lower a high score merely because intermediate arithmetic expansion
    is incomplete.
 8. Lower only when the high score is unsupported: wrong answer, bare answer

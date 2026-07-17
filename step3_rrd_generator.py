@@ -425,7 +425,7 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
 4. 所有评分项 points 之和必须严格等于 {total_score}。
 5. 每个原评分项都有稳定的 parent_id、parent_points 和 split_policy。不得删除父项语义，也不得把分值转移到其他父项。
 6. scoring_policy=strict_atomic 的原子结果项禁止拆分计分。可补充 canonicalization 或 diagnostic_evidence，但不得改变正确答案和得分语义。
-7. scoring_policy=additive_split 的父项只在确有多个独立必要条件时拆分；拆分子项的 parent_id 必须等于原父项 id，子项分值之和必须等于 parent_points。
+7. scoring_policy=additive_split 的父项只在题目与官方答案确有多个可独立核验、均有教学意义的必要条件时拆分；拆分子项的 parent_id 必须等于原父项 id，子项分值之和必须等于 parent_points。不得只因父项分值较高而强制拆分，也不得只贴上 additive_split 标签后原样返回。
 8. scoring_policy=final_sufficient_partial_credit 表示“正确最终答案是父项满分的充分条件，同时错误最终答案仍可依据过程证据获得部分分”。此类父项必须：
    - 拆成至少一个客观过程项和一个最终答案项；
    - 恰好一个最终答案项设置 full_credit_trigger=true，其 standard_answer_text 必须等于 full_credit_anchor；
@@ -434,6 +434,8 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
    - 所有子项 points 之和仍等于 parent_points，且正确最终答案不要求过程项同时出现。
 9. 中间过程若既不是满分必要条件、也不属于明确的部分分兜底政策，应放入 diagnostic_evidence，不得新增为扣分前提。
 10. 官方未给出子项权重时，不得按“技术重要性”主观分配分值。additive_split 只能使用等权正交原子项；hierarchical 父项必须使用已声明的 fallback_cap，过程项在 cap 内优先等权拆分，不得由样本临时调权。
+11. 宽松给分必须建立在客观证据上：等价表示和纯格式差异不扣分；上游算错但后续公式或映射关系正确时，可保留对应过程子项；裸最终答案只获得最终结论子项，不得反推出未书写的过程。只有 final_sufficient_partial_credit 才允许正确最终答案触发父项满分。
+12. 原子拆分只保留有教学意义的关键检查点，不要求学生复现标准答案的每一步算术展开。正确方法、有效转换、关键中间量和最终结论应分开表达，避免因遗漏非必要展开而过严扣分。
 
 【问题类型判定】
 在修改前，先在内部判断每个暴露问题属于哪一类：

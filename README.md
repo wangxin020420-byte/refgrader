@@ -1,6 +1,6 @@
 # RefGrader
 
-> 跨设备项目入口。最后更新：2026-07-16。
+> 跨设备项目入口。最后更新：2026-07-17。
 
 RefGrader 是面向主观题自动评分的实验系统。当前研究主线是把混合视觉证据、细粒度评分准则、三次独立语义评分、三支决策（3WD/A3WA）、边界仲裁和可选残差校正组合为可审计的评分流水线。
 
@@ -52,11 +52,11 @@ RefGrader-CSBench.code-workspace
 
 | 仓库 | 定位 | 日常是否必需 | Git 中保存的主要内容 |
 | --- | --- | --- | --- |
-| `refgrader-main` | 代码与正式实验输入 | 必需 | Python 代码、提示词、测试、文档、内嵌数据快照、初始 rubric |
+| `refgrader-main` | 代码与当前生效实验配置 | 必需 | 代码、内嵌数据快照、initial/optimized rubric、manifest、active A3WA |
 | `CSBench_new` | 上游数据标注与协作仓库 | 仅更新数据时需要 | 原始题目、答案、图片和其他标注工作 |
 | `refgrader-artifacts` | 跨设备实验结果仓库 | 正式实验必需 | rubric 优化记录、validation/calibration/test 结果、评估 CSV、日志和运行清单 |
 
-### 2.1 `refgrader-main` 是代码与输入真源
+### 2.1 `refgrader-main` 是代码、输入和当前配置真源
 
 以下内容会进入 Git：
 
@@ -68,6 +68,10 @@ data/csbench/answer_metadata.jsonl
 data/csbench/student_images/          # Git LFS
 data/csbench/reference_images/        # Git LFS
 data/csbench/rubrics/initial/
+data/csbench/rubrics/optimized/       # 当前批准的优化准则
+data/csbench/rubrics/manifests/       # 当前优化来源与哈希
+data/csbench/rubrics/active_rubric_set.json
+data/csbench/calibration/active_a3wa_config.json
 data/csbench/splits/
 ```
 
@@ -78,11 +82,9 @@ venv/、.venv-ocr/                     # 每台设备独立安装
 logs/                                 # 本机运行日志
 results_runs/                         # checkpoint 和工作结果
 ocr_cache/                            # 逐图片 OCR/事实缓存
-data/csbench/rubrics/optimized/       # 运行生成
-data/csbench/rubrics/manifests/       # 运行生成
 ```
 
-这样设计的原因是运行目录更新频繁、体积较大，直接放在代码仓库会制造冲突；需要跨设备保存的可移植结果统一复制到 `refgrader-artifacts`。
+optimized rubric、manifest 和 active A3WA 体积小且决定正式批改行为，因此必须随代码同步；checkpoint、日志和 OCR 缓存更新频繁且体积较大，仍只在本机运行目录保存，并把可移植历史结果复制到 `refgrader-artifacts`。
 
 ### 2.2 `CSBench_new` 是上游数据仓库
 
@@ -90,7 +92,7 @@ data/csbench/rubrics/manifests/       # 运行生成
 
 数据结构、导入和审计规则见 [CSBENCH_GUIDE.md](CSBENCH_GUIDE.md)。
 
-### 2.3 `refgrader-artifacts` 是结果真源
+### 2.3 `refgrader-artifacts` 是历史实验真源
 
 该仓库用于把一台设备产生的实验结果传递到服务器或其他本地电脑。典型结构为：
 
@@ -111,6 +113,8 @@ csbench/<question_id>/
 ```
 
 `run_manifest.json` 记录代码提交、数据提交、题目批次、split、模型/配置来源、文件哈希和结果数量，用于确认不同设备拿到的是同一轮实验。
+
+两类真源不能混用：`refgrader-main/data/csbench` 表示下一次正式批改默认采用的**当前配置**；`refgrader-artifacts` 表示按 run ID 固化、不可覆盖解释的**历史证据**。重新优化或校准会修改前者，同时继续向后者新增历史快照。
 
 ## 3. 多设备约定
 
@@ -162,6 +166,15 @@ git pull --ff-only
 & ".\venv\Scripts\python.exe" scripts\audit_csbench_snapshot.py --prepared-dir data\csbench
 & ".\venv\Scripts\python.exe" -m unittest test_canonicalizers.py test_rubric_semantics.py test_a3wa_theory.py test_csbench_artifact_sync.py -q
 ```
+
+拉取后还应确认当前配置存在且无本地差异：
+
+```powershell
+Test-Path data\csbench\rubrics\active_rubric_set.json
+git status --short
+```
+
+正式 `grade` 会重新核对数据快照、split、initial/optimized rubric、optimization manifest 和 active A3WA 的 SHA-256。任一文件与 active 清单不一致都会拒绝使用旧配置。test 未显式传入 `--a3wa-config` 时会自动采用覆盖当前题目的 `active_a3wa_config.json`；如果当前配置缺失、过期或不覆盖待测题目，test 会直接停止，只有显式传入 `--no-active-a3wa` 才允许执行无校准配置的消融实验。validation 始终不使用 A3WA 配置。
 
 服务器对应使用当前 Conda 环境中的 `python`。完整的 Windows、Linux、后台、监控、停止、恢复和评估命令统一维护在 [COMMANDS_GUIDE.md](COMMANDS_GUIDE.md)。
 
@@ -223,11 +236,11 @@ results_runs/csbench_co3_co4_full/
 
 ## 7. 实验结束后的 Git 操作
 
-1. 检查 `refgrader-artifacts` 是否出现预期目录和 `run_manifest.json`。
-2. 确认 checkpoint 数量、failed 数量、评估样本数和题目 split。
-3. 在 `refgrader-artifacts` 手动暂存、提交并推送。
-4. 另一台设备先拉取 artifacts，再进行本地评估或恢复实验。
-5. 只有代码、文档或内嵌数据发生变化时，才提交 `refgrader-main`。
+1. rubric 优化或 A3WA 校准后，先检查 `refgrader-main` 中 active 配置的 Git 更改。
+2. 检查 `refgrader-artifacts` 是否出现预期目录和 `run_manifest.json`。
+3. 确认 checkpoint 数量、failed 数量、评估样本数和题目 split。
+4. 分别检查、提交并推送两个仓库；不要把两个仓库混成一次提交。
+5. 另一台设备先拉取 `refgrader-main` 获取当前配置；需要评估历史结果时再拉取 artifacts。
 
 常用检查：
 
@@ -236,7 +249,7 @@ git -C "..\refgrader-artifacts" status --short
 git status --short
 ```
 
-不要把 `results_runs` 强行加入 `refgrader-main` Git；否则同一结果会同时存在于代码仓库和 artifacts 仓库，形成两个来源。
+不要把 `results_runs` 强行加入 `refgrader-main` Git；当前配置只保留准则、manifest、active 清单和 active A3WA，逐样本结果仍只归档到 artifacts。
 
 ## 8. 跨设备恢复规则
 
@@ -287,6 +300,8 @@ git status --short
 | `scripts/restore_csbench_artifacts.py` | 从 artifacts 恢复中间阶段 |
 | `ocr/backend.py` | 主环境到独立 PaddleOCR 环境的调用边界 |
 | `data/csbench/manifest.json` | 内嵌数据快照来源和统计信息 |
+| `data/csbench/rubrics/active_rubric_set.json` | 当前数据、准则、split 与 A3WA 哈希清单 |
+| `data/csbench/calibration/active_a3wa_config.json` | test 默认使用的当前 A3WA/可选残差配置 |
 
 ## 11. 已知操作风险
 
@@ -294,6 +309,7 @@ git status --short
 - partial 指标只覆盖成功样本，论文比较必须同时报告覆盖率和失败样本处理方式。
 - 同一题目批次换用不同 rubric、数据快照或 A3WA config 时，不应直接复用旧 checkpoint。
 - 多设备同时向 `refgrader-artifacts` 写入前应先拉取并确认工作区干净。
+- 多设备不得同时执行 rubric optimize 或 calibrate；这两个阶段会修改 `refgrader-main` 的当前配置。
 - 不要在两个设备上同时续跑同一个尚未归档的结果目录。
 - `CSBench_new` 的协作修改不会自动进入正式实验；必须显式导入并提交 `data/csbench`。
 
@@ -310,4 +326,5 @@ git status --short
 [ ] 单元测试通过
 [ ] artifacts 工作区在新实验开始前干净
 [ ] 已确认本轮题目、split、rubric 批次和 A3WA config
+[ ] active_rubric_set.json 校验通过，refgrader-main 无未拉取的配置提交
 ```

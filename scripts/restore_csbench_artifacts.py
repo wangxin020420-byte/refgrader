@@ -20,6 +20,8 @@ if __package__:
         grading_results_dir,
         inspect_results,
         normalize_question_id,
+        normalize_optimization_manifest,
+        refresh_active_configuration,
         register_restored_run,
         sha256_file,
         validate_result_structure,
@@ -32,6 +34,8 @@ else:
         grading_results_dir,
         inspect_results,
         normalize_question_id,
+        normalize_optimization_manifest,
+        refresh_active_configuration,
         register_restored_run,
         sha256_file,
         validate_result_structure,
@@ -144,6 +148,7 @@ def restore_manifest(
         json.dumps(manifest, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
+    normalize_optimization_manifest(ctx)
 
 
 def main() -> int:
@@ -312,6 +317,15 @@ def main() -> int:
 
     for ctx in contexts:
         ctx.validate_optimized()
+    active_bundle = refresh_active_configuration(
+        contexts,
+        a3wa_config=restored_config,
+        source_validation_run_id=(
+            run_id
+            if restored_config and args.stage in {"validation", "calibration"}
+            else None
+        ),
+    )
     if results_dir and answer_split:
         report = inspect_results(
             contexts, results_dir, split_name=answer_split
@@ -335,6 +349,7 @@ def main() -> int:
         print(f"Results directory: {results_dir}")
     if restored_config:
         print(f"A3WA config: {restored_config}")
+    print(f"Active configuration: {active_bundle}")
     return 0
 
 

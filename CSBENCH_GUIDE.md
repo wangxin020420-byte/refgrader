@@ -55,8 +55,11 @@ data/csbench/
 ├── rubrics/
 │   ├── source/       # CSBench 原始准则副本
 │   ├── initial/      # RefGrader 标准化初始准则
-│   ├── optimized/    # VARIANCE_OPT 输出
-│   └── manifests/    # 优化来源、样本和哈希记录
+│   ├── optimized/    # 当前批准的 VARIANCE_OPT 输出（进入 Git）
+│   ├── manifests/    # 当前优化来源、样本和哈希（进入 Git）
+│   └── active_rubric_set.json # 当前配置总清单
+├── calibration/
+│   └── active_a3wa_config.json # test 默认配置
 ├── splits/
 │   └── by_question/  # 每题 calibration/validation/test
 └── student_images/
@@ -138,7 +141,7 @@ python scripts/run_csbench.py evaluate CO_3 --export
 - calibration 只用于评分准则优化，test 只用于最终实验。
 - `FULL` 默认要求 optimized 准则存在，不会静默回退 initial。
 - 如只做提取冒烟测试，可显式增加 `--allow-initial-rubric`。
-- `data/csbench/` 是版本化的内嵌批改快照；其中运行期 `rubrics/optimized` 和 `rubrics/manifests` 不提交。`ocr_cache/`、`results_runs/` 仍不提交 Git。
+- `data/csbench/` 是版本化的内嵌批改快照；当前 `rubrics/optimized`、`rubrics/manifests`、`active_rubric_set.json` 和 `calibration/active_a3wa_config.json` 必须提交，用于保证不同设备正式批改配置一致。`ocr_cache/`、`results_runs/` 和日志仍不提交 Git。
 
 ## 7. 评分准则语义契约
 
@@ -164,9 +167,19 @@ CO_1 使用层次评分父项 `step_1`：地址字段 `2.0` 分、有效地址 `
 python scripts/run_csbench.py optimize CO_1 --force
 ```
 
+优化落盘后，统一入口会把 manifest 中的设备绝对路径转换为 `${REFGRADER_ROOT}` / `${PREPARED_CSBENCH_ROOT}` 占位符，并原子更新 `active_rubric_set.json`。正式 `grade` 会校验数据快照、split、initial/optimized rubric 和 manifest 的 SHA-256；文件存在但哈希不一致同样会拒绝运行。任意 active rubric 改变都会令旧 active A3WA 标记为 stale，必须重新完成 validation 和 `calibrate` 才能重新激活；test 不会静默回退默认参数，无校准消融必须显式传 `--no-active-a3wa`。
+
 CO_4 当前官方初始分值为 `2 + 2 + 2 + 2 + 2 + 5 + 5 = 20`。前五项分别考查地址字段参数，后两项分别考查两个地址的 Cache 命中结论及理由。
 
-## 7.1 当前三支决策校准契约
+### 7.1 自动细粒度优化边界
+
+`data/csbench/rubrics/source` 和 `data/csbench/rubrics/initial` 保存官方粗粒度输入，不预先写入人工设计的细粒度答案。优化阶段依据题目、官方答案和 rubric calibration 样本判断父项属于原子结果、多结果并列、过程与结论复合或图示/序列复合，再生成可审计的细粒度候选。候选必须保持父项分值和题目总分守恒，只能使用官方答案能够支持的独立证据，不得增加隐藏作答要求或跨父项移动分值。
+
+CO_1 至 CO_7 用于审计自动优化行为，而不是在输入文件中硬编码拆分结果。重点检查包括：CO_1 的显式最终答案充分规则应保留；CO_2 的图示关系、CO_3/CO_4 的推导证据以及 CO_5/CO_6 的复合计算可作为拆分候选；CO_7 这类仅要求结果的题目不能因分值较高而强制拆分。当前实现使用 rubric calibration 样本的多次评分方差定位模糊项，并通过父项分值守恒、等权约束和语义可追溯性校验决定候选能否保存；它尚未实现基于教师分的粗粒度/细粒度候选非劣性门控，该门控属于后续优化项，不能使用 validation 或 test 数据拟合。
+
+教师宽松给分在语义契约中具体表示：等价进制、等价单位、大小写、空格和箭头等纯形式差异不扣分；上游数值错误但下游公式或映射正确时保留对应过程分；不要求复现标准答案的全部算术展开。宽松不等于给精确数值设置通用 10% 容差，也不等于从裸最终答案反推未书写的过程。只有显式的 `final_sufficient_partial_credit` 父项允许最终答案触发父项满分。
+
+## 7.2 当前三支决策校准契约
 
 validation 教师分只用于拟合“可安全自动批改”的单调隶属度、conformal
 不确定性区间和 A3WA 损失参数，不进入 test 推理，也不直接形成默认加分表。

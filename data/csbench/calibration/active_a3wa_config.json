@@ -4,7 +4,7 @@
   "database_path": "${PREPARED_CSBENCH_ROOT}/exam_database.json",
   "teacher_db": "${PREPARED_CSBENCH_ROOT}/teacher_scores.json",
   "files": [
-    "${REFGRADER_ROOT}/results_runs/csbench_co4_validation/runs/20260718_012319/CO_4_grading_checkpoint.json"
+    "${REFGRADER_ROOT}/results_runs/csbench_co4_validation/runs/20260718_111838/CO_4_grading_checkpoint.json"
   ],
   "selection_objective": "constrained_expected_system_cost",
   "loss_params": {
@@ -12,7 +12,7 @@
     "lambda2": 1.0,
     "mu1": 1.0,
     "mu2": 0.25,
-    "m": 0.4
+    "m": 0.3
   },
   "risk_weights": {
     "extract": 0.4,
@@ -27,17 +27,17 @@
     "target": "safe_auto_grading",
     "safe_error_ratio": 0.1,
     "safe_error_points": 0.5,
-    "intercept": 1.58086336,
+    "intercept": 1.3198203,
     "coefficients": {
-      "U_E": 0.1352424,
-      "U_S": 0.71011084,
-      "U_R": 0.48097072
+      "U_E": 0.0,
+      "U_S": 0.59291569,
+      "U_R": 0.0
     },
     "constraints": "non_negative_risk_coefficients",
     "regularization_l2": 0.05,
     "training_n": 9,
     "positive_rate": 0.777778,
-    "brier_score": 0.156406
+    "brier_score": 0.166589
   },
   "score_uncertainty": {
     "version": 1,
@@ -47,9 +47,9 @@
     "calibration_n": 9,
     "scale_floor": 0.05,
     "safe_tolerance_ratio": 0.1,
-    "nonconformity_quantile": 2.3,
+    "nonconformity_quantile": 6.3,
     "empirical_coverage": 1.0,
-    "mean_interval_width_ratio": 0.485556,
+    "mean_interval_width_ratio": 0.63,
     "assumption": "exchangeable_validation_and_test_records"
   },
   "boundary_policy": {
@@ -77,49 +77,49 @@
     "requirements": {
       "loqo_normalized_mae_noninferior": false,
       "route_budget_constraints_met": true,
-      "validation_bnd_gain_positive": true
+      "validation_bnd_gain_positive": false
     },
     "note": "A failed gate marks the config experimental; it does not tune on test data."
   },
   "thresholds": {
-    "alpha": 0.8,
-    "beta": 0.08
+    "alpha": 0.766667,
+    "beta": 0.06
   },
   "validation_summary": {
     "n": 9,
-    "objective": 0.061944,
-    "expected_system_cost": 0.061944,
+    "objective": 0.097778,
+    "expected_system_cost": 0.097778,
     "constraint_violations": 0,
     "constraint_excess": 0.0,
     "metrics": {
       "n": 9,
-      "mae": 1.061111,
-      "rmse": 1.449617,
-      "tar2": 0.666667,
-      "bias": 0.094444,
-      "over2": 1,
-      "under2": 2
+      "mae": 1.822222,
+      "rmse": 2.940521,
+      "tar2": 0.777778,
+      "bias": 1.2,
+      "over2": 2,
+      "under2": 0
     },
     "baseline_metrics": {
       "n": 9,
-      "mae": 1.422222,
-      "rmse": 2.357023,
+      "mae": 1.822222,
+      "rmse": 2.940521,
       "tar2": 0.777778,
-      "bias": 0.622222,
-      "over2": 1,
-      "under2": 1
+      "bias": 1.2,
+      "over2": 2,
+      "under2": 0
     },
     "route_counts": {
-      "POS": 5,
-      "BND": 4
+      "POS": 6,
+      "BND": 3
     },
-    "bnd_ratio": 0.444444,
+    "bnd_ratio": 0.333333,
     "neg_ratio": 0.0,
     "unsafe_pos_count": 0,
     "unsafe_pos_rate": 0.0,
-    "pos_mae": 0.34,
-    "bnd_mae": 1.9625,
-    "bnd_gain": 0.8125
+    "pos_mae": 0.633333,
+    "bnd_mae": 4.2,
+    "bnd_gain": 0.0
   },
   "score_calibration": {
     "version": 2,
@@ -138,11 +138,11 @@
       "global": {
         "*": {
           "n": 9,
-          "mean_residual": -0.094444,
-          "standard_error": 0.511428,
+          "mean_residual": -1.2,
+          "standard_error": 0.949122,
           "ci95": [
-            -1.096843,
-            0.907955
+            -3.06028,
+            0.66028
           ],
           "sign_stable": false,
           "correction": 0.0

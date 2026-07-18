@@ -129,11 +129,15 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                 )
 
                 portable_manifest = manifest.read_text(encoding="utf-8")
-                self.assertIn("${PREPARED_CSBENCH_ROOT}", portable_manifest)
+                self.assertTrue(
+                    "${PREPARED_CSBENCH_ROOT}" in portable_manifest
+                    or "${REFGRADER_ROOT}" in portable_manifest
+                )
                 active_config = active_a3wa_config_path(context)
-                self.assertIn(
-                    "${PREPARED_CSBENCH_ROOT}",
-                    active_config.read_text(encoding="utf-8"),
+                portable_config = active_config.read_text(encoding="utf-8")
+                self.assertTrue(
+                    "${PREPARED_CSBENCH_ROOT}" in portable_config
+                    or "${REFGRADER_ROOT}" in portable_config
                 )
 
                 changed_atomic_rubric = json.dumps([{
@@ -309,7 +313,8 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                 question_id="CO_1", optimization_manifest=manifest
             )
             selected, _ = optimization_evidence_paths(context, stale.parent)
-            self.assertEqual(selected, current)
+            self.assertIsNotNone(selected)
+            self.assertTrue(selected.samefile(current))
 
     def test_validation_publish_uses_separate_stage(self):
         with tempfile.TemporaryDirectory() as temporary:

@@ -7,33 +7,58 @@ from copy import deepcopy
 from typing import Any
 
 
-RUBRIC_SEMANTIC_CONTRACT_VERSION = 3
+RUBRIC_SEMANTIC_CONTRACT_VERSION = 4
 
 # High-value composite parents are too coarse to grade reliably as one opaque
 # item. Two children are enough to expose partial credit without over-fragmenting
 # the official rubric. Truly atomic outcomes remain exempt.
 HIGH_VALUE_SPLIT_THRESHOLD = 4.0
 MIN_HIGH_VALUE_SCORING_CHILDREN = 2
+MIN_COMPLEX_PROCESS_CHILDREN = 3
 
 SCORING_POLICY_STRICT_ATOMIC = "strict_atomic"
 SCORING_POLICY_ADDITIVE = "additive_split"
 SCORING_POLICY_HIERARCHICAL = "final_sufficient_partial_credit"
+SCORING_POLICY_ROLE_WEIGHTED = "role_weighted_additive"
 SUPPORTED_SCORING_POLICIES = {
     SCORING_POLICY_STRICT_ATOMIC,
     SCORING_POLICY_ADDITIVE,
     SCORING_POLICY_HIERARCHICAL,
+    SCORING_POLICY_ROLE_WEIGHTED,
+}
+
+TASK_SEMANTICS_STRICT_ATOMIC = "strict_atomic"
+TASK_SEMANTICS_RESULT_SUFFICIENT = "result_sufficient"
+TASK_SEMANTICS_ORTHOGONAL = "orthogonal_additive"
+TASK_SEMANTICS_COMPONENT = "component_additive"
+TASK_SEMANTICS_PROCESS_DOMINANT = "process_dominant"
+SUPPORTED_TASK_SEMANTICS = {
+    TASK_SEMANTICS_STRICT_ATOMIC,
+    TASK_SEMANTICS_RESULT_SUFFICIENT,
+    TASK_SEMANTICS_ORTHOGONAL,
+    TASK_SEMANTICS_COMPONENT,
+    TASK_SEMANTICS_PROCESS_DOMINANT,
+}
+
+SCORING_ROLE_SUPPORT = "support_process"
+SCORING_ROLE_CORE = "core_process"
+SCORING_ROLE_FINAL = "final"
+SCORING_ROLE_COMPONENT = "component"
+SUPPORTED_SCORING_ROLES = {
+    SCORING_ROLE_SUPPORT,
+    SCORING_ROLE_CORE,
+    SCORING_ROLE_FINAL,
+    SCORING_ROLE_COMPONENT,
 }
 
 
 ATOMIC_OUTCOME_PATTERNS = (
     r"最终结果",
-    r"正确计算出",
     r"得出.*结果",
     r"写出.*(?:排列顺序|屏蔽字)",
     r"明确指出.*位数",
     r"得出正确的.*格式",
     r"操作数内容",
-    r"运行时间",
     r"总长度",
     r"总容量[（(]?(?:位|字节)",
 )
@@ -49,6 +74,44 @@ COMPOUND_REQUIREMENT_PATTERNS = (
     r"画出",
 )
 
+ORTHOGONAL_REQUIREMENT_PATTERNS = (
+    r"及判断",
+    r"并判断",
+    r"分别",
+    r"各级",
+    r"计算.+及.+",
+    r"计算.+和.+",
+)
+
+COMPONENT_REQUIREMENT_PATTERNS = (
+    r"顺序图",
+    r"轨迹图",
+    r"画出",
+    r"数据通路",
+    r"表格",
+    r"(?:多个|各|[0-9一二三四五六七八九十]+个).*(?:组|部分|阶段).*位数",
+)
+
+PROCESS_REQUIREMENT_PATTERNS = (
+    r"并说明",
+    r"说明理由",
+    r"证明",
+    r"推导",
+    r"映射",
+    r"比较",
+    r"计算",
+)
+
+COMPLEX_PROCESS_PATTERNS = (
+    r"并说明",
+    r"说明理由",
+    r"证明",
+    r"推导",
+    r"映射",
+    r"比较",
+    r"命中",
+)
+
 
 def _item_text(item: dict[str, Any]) -> str:
     return " ".join(
@@ -59,6 +122,46 @@ def _item_text(item: dict[str, Any]) -> str:
             "parent_official_item",
         )
     )
+
+
+def infer_parent_task_semantics(item: dict[str, Any]) -> str:
+    """Classify what evidence an official parent item actually rewards.
+
+    Explicit metadata always wins.  The lexical fallback is intentionally
+    conservative: only prompts that request reasoning are classified as
+    process dominant, while independently checkable outputs remain additive.
+    """
+    explicit = str(item.get("task_semantics", "")).strip().lower()
+    if explicit in SUPPORTED_TASK_SEMANTICS:
+        return explicit
+
+    policy = str(item.get("scoring_policy", "")).strip().lower()
+    if policy == SCORING_POLICY_HIERARCHICAL:
+        return TASK_SEMANTICS_RESULT_SUFFICIENT
+    if policy == SCORING_POLICY_STRICT_ATOMIC:
+        return TASK_SEMANTICS_STRICT_ATOMIC
+    if policy == SCORING_POLICY_ROLE_WEIGHTED:
+        return TASK_SEMANTICS_PROCESS_DOMINANT
+
+    text = _item_text(item)
+    if any(re.search(pattern, text) for pattern in COMPONENT_REQUIREMENT_PATTERNS):
+        return TASK_SEMANTICS_COMPONENT
+    if any(re.search(pattern, text) for pattern in ORTHOGONAL_REQUIREMENT_PATTERNS):
+        return TASK_SEMANTICS_ORTHOGONAL
+    if any(re.search(pattern, text) for pattern in PROCESS_REQUIREMENT_PATTERNS):
+        return TASK_SEMANTICS_PROCESS_DOMINANT
+    if is_atomic_outcome_item(item):
+        return TASK_SEMANTICS_STRICT_ATOMIC
+    return TASK_SEMANTICS_ORTHOGONAL
+
+
+def infer_process_complexity(item: dict[str, Any]) -> str:
+    explicit = str(item.get("process_complexity", "")).strip().lower()
+    if explicit in {"short", "complex"}:
+        return explicit
+    text = _item_text(item)
+    hits = sum(bool(re.search(pattern, text)) for pattern in COMPLEX_PROCESS_PATTERNS)
+    return "complex" if hits >= 2 or "并说明" in text else "short"
 
 
 def is_atomic_outcome_item(item: dict[str, Any]) -> bool:
@@ -88,13 +191,21 @@ def prepare_rubric_semantic_contract(
         item["semantic_contract_version"] = RUBRIC_SEMANTIC_CONTRACT_VERSION
         item.setdefault("parent_points", float(item.get("points", 0) or 0))
         parent_points = float(item.get("parent_points", 0) or 0)
+        task_semantics = infer_parent_task_semantics(item)
+        item["task_semantics"] = task_semantics
         scoring_policy = str(item.get("scoring_policy", "")).strip().lower()
         if scoring_policy not in SUPPORTED_SCORING_POLICIES:
-            scoring_policy = (
-                SCORING_POLICY_STRICT_ATOMIC
-                if is_atomic_outcome_item(item)
-                else SCORING_POLICY_ADDITIVE
-            )
+            scoring_policy = {
+                TASK_SEMANTICS_STRICT_ATOMIC: SCORING_POLICY_STRICT_ATOMIC,
+                TASK_SEMANTICS_RESULT_SUFFICIENT: SCORING_POLICY_HIERARCHICAL,
+                TASK_SEMANTICS_PROCESS_DOMINANT: (
+                    SCORING_POLICY_ROLE_WEIGHTED
+                    if parent_points >= HIGH_VALUE_SPLIT_THRESHOLD
+                    else SCORING_POLICY_STRICT_ATOMIC
+                ),
+                TASK_SEMANTICS_ORTHOGONAL: SCORING_POLICY_ADDITIVE,
+                TASK_SEMANTICS_COMPONENT: SCORING_POLICY_ADDITIVE,
+            }[task_semantics]
         item["scoring_policy"] = scoring_policy
 
         if scoring_policy == SCORING_POLICY_STRICT_ATOMIC:
@@ -106,20 +217,32 @@ def prepare_rubric_semantic_contract(
                 item["decomposition_exemption"] = "strict_atomic_single_outcome"
         else:
             item["split_policy"] = "allow_semantic_split"
-            item.setdefault(
-                "weighting_policy",
-                "preserve_parent"
-                if scoring_policy == SCORING_POLICY_HIERARCHICAL
-                else "equal_atomic",
-            )
+            default_weighting = {
+                SCORING_POLICY_HIERARCHICAL: "preserve_parent",
+                SCORING_POLICY_ADDITIVE: "equal_atomic",
+                SCORING_POLICY_ROLE_WEIGHTED: "role_constrained",
+            }[scoring_policy]
+            item["weighting_policy"] = default_weighting
             item.pop("decomposition_exemption", None)
             item["decomposition_required"] = bool(
-                scoring_policy == SCORING_POLICY_HIERARCHICAL
+                scoring_policy in {
+                    SCORING_POLICY_HIERARCHICAL,
+                    SCORING_POLICY_ROLE_WEIGHTED,
+                }
                 or parent_points >= HIGH_VALUE_SPLIT_THRESHOLD
             )
             if item["decomposition_required"]:
+                minimum = MIN_HIGH_VALUE_SCORING_CHILDREN
+                if scoring_policy == SCORING_POLICY_ROLE_WEIGHTED:
+                    complexity = infer_process_complexity(item)
+                    item["process_complexity"] = complexity
+                    minimum = (
+                        MIN_COMPLEX_PROCESS_CHILDREN
+                        if complexity == "complex"
+                        else MIN_HIGH_VALUE_SCORING_CHILDREN
+                    )
                 item["minimum_scoring_children"] = max(
-                    MIN_HIGH_VALUE_SCORING_CHILDREN,
+                    minimum,
                     int(item.get("minimum_scoring_children", 0) or 0),
                 )
             else:
@@ -143,6 +266,20 @@ def prepare_rubric_semantic_contract(
                 ),
             )
             item["full_credit_trigger"] = bool(item.get("full_credit_trigger", False))
+        if scoring_policy == SCORING_POLICY_ROLE_WEIGHTED:
+            complexity = infer_process_complexity(item)
+            item["process_complexity"] = complexity
+            item["dependency_mode"] = str(
+                item.get("dependency_mode", "independent")
+            ).strip().lower()
+            if complexity == "complex":
+                item["minimum_process_ratio"] = 0.80
+                item["minimum_core_process_ratio"] = 0.50
+                item["maximum_final_ratio"] = 0.20
+            else:
+                item["minimum_process_ratio"] = 0.65
+                item["minimum_core_process_ratio"] = 0.0
+                item["maximum_final_ratio"] = 0.35
         contracted.append(item)
     return contracted
 
@@ -162,7 +299,10 @@ def high_value_split_targets(
         parent_points = float(first.get("parent_points", 0) or 0)
         if (
             parent_points < HIGH_VALUE_SPLIT_THRESHOLD
-            or first.get("scoring_policy") != SCORING_POLICY_ADDITIVE
+            or first.get("scoring_policy") not in {
+                SCORING_POLICY_ADDITIVE,
+                SCORING_POLICY_ROLE_WEIGHTED,
+            }
         ):
             continue
         minimum_children = int(
@@ -202,6 +342,10 @@ def rubric_scoring_signature(rubric: list[dict[str, Any]]) -> tuple:
                 round(float(item.get("points", 0) or 0), 8),
                 str(item.get("standard_answer_text") or "").strip(),
                 str(item.get("scoring_policy") or ""),
+                str(item.get("task_semantics") or ""),
+                str(item.get("scoring_role") or ""),
+                str(item.get("weighting_policy") or ""),
+                str(item.get("dependency_mode") or ""),
                 bool(item.get("full_credit_trigger", False)),
             )
         )
@@ -250,6 +394,14 @@ def validate_refined_rubric(
             "split_policy": first.get("split_policy", "allow_semantic_split"),
             "weighting_policy": first.get("weighting_policy", "equal_atomic"),
             "scoring_policy": first.get("scoring_policy", SCORING_POLICY_ADDITIVE),
+            "task_semantics": first.get("task_semantics", ""),
+            "process_complexity": first.get("process_complexity", ""),
+            "dependency_mode": first.get("dependency_mode", "independent"),
+            "minimum_process_ratio": float(first.get("minimum_process_ratio", 0) or 0),
+            "minimum_core_process_ratio": float(
+                first.get("minimum_core_process_ratio", 0) or 0
+            ),
+            "maximum_final_ratio": float(first.get("maximum_final_ratio", 1) or 1),
             "full_credit_anchor": first.get("full_credit_anchor", ""),
             "fallback_cap": float(first.get("fallback_cap", 0) or 0),
             "decomposition_required": bool(
@@ -293,6 +445,15 @@ def validate_refined_rubric(
         item["split_policy"] = spec["split_policy"]
         item["weighting_policy"] = spec["weighting_policy"]
         item["scoring_policy"] = spec["scoring_policy"]
+        item["task_semantics"] = spec["task_semantics"]
+        if spec["scoring_policy"] == SCORING_POLICY_ROLE_WEIGHTED:
+            item["process_complexity"] = spec["process_complexity"]
+            item["dependency_mode"] = spec["dependency_mode"]
+            item["minimum_process_ratio"] = spec["minimum_process_ratio"]
+            item["minimum_core_process_ratio"] = spec[
+                "minimum_core_process_ratio"
+            ]
+            item["maximum_final_ratio"] = spec["maximum_final_ratio"]
         if spec["full_credit_anchor"]:
             item["full_credit_anchor"] = spec["full_credit_anchor"]
         if spec["scoring_policy"] == SCORING_POLICY_HIERARCHICAL:
@@ -335,6 +496,81 @@ def validate_refined_rubric(
                         errors.append(
                             f"additive child {child_id} has no standard answer"
                         )
+        if spec["scoring_policy"] == SCORING_POLICY_ROLE_WEIGHTED:
+            minimum_children = int(spec.get("minimum_scoring_children", 0) or 0)
+            if len(scoring_children) < minimum_children:
+                errors.append(
+                    f"role-weighted parent {parent_id} must contain at least "
+                    f"{minimum_children} scoring items, got {len(scoring_children)}"
+                )
+            roles: dict[str, list[dict[str, Any]]] = {}
+            for child in scoring_children:
+                child_id = str(child.get("id", "") or "<missing>")
+                role = str(child.get("scoring_role", "")).strip().lower()
+                if role not in SUPPORTED_SCORING_ROLES:
+                    errors.append(
+                        f"role-weighted child {child_id} has invalid scoring_role {role!r}"
+                    )
+                    continue
+                roles.setdefault(role, []).append(child)
+                if not str(child.get("item", "") or "").strip():
+                    errors.append(
+                        f"role-weighted child {child_id} has no objective scoring item"
+                    )
+                if not str(child.get("standard_answer_text", "") or "").strip():
+                    errors.append(
+                        f"role-weighted child {child_id} has no standard answer"
+                    )
+
+            if len(roles.get(SCORING_ROLE_FINAL, [])) != 1:
+                errors.append(
+                    f"role-weighted parent {parent_id} must have exactly one final child"
+                )
+            if not roles.get(SCORING_ROLE_CORE):
+                errors.append(
+                    f"role-weighted parent {parent_id} must have a core-process child"
+                )
+            if (
+                spec.get("process_complexity") == "complex"
+                and not roles.get(SCORING_ROLE_SUPPORT)
+            ):
+                errors.append(
+                    f"complex role-weighted parent {parent_id} must have a support-process child"
+                )
+
+            final_points = sum(
+                float(item.get("points", 0) or 0)
+                for item in roles.get(SCORING_ROLE_FINAL, [])
+            )
+            process_points = sum(
+                float(item.get("points", 0) or 0)
+                for role in (SCORING_ROLE_SUPPORT, SCORING_ROLE_CORE)
+                for item in roles.get(role, [])
+            )
+            core_points = sum(
+                float(item.get("points", 0) or 0)
+                for item in roles.get(SCORING_ROLE_CORE, [])
+            )
+            denominator = max(original_points, tolerance)
+            if final_points / denominator > spec["maximum_final_ratio"] + tolerance:
+                errors.append(
+                    f"role-weighted parent {parent_id} gives too much weight to the final answer"
+                )
+            if process_points / denominator + tolerance < spec["minimum_process_ratio"]:
+                errors.append(
+                    f"role-weighted parent {parent_id} gives insufficient process weight"
+                )
+            if (
+                core_points / denominator + tolerance
+                < spec["minimum_core_process_ratio"]
+            ):
+                errors.append(
+                    f"role-weighted parent {parent_id} gives insufficient core-process weight"
+                )
+            if spec["dependency_mode"] not in {"independent", "evidence_required"}:
+                errors.append(
+                    f"role-weighted parent {parent_id} has invalid dependency_mode"
+                )
         if (
             spec["weighting_policy"] == "equal_atomic"
             and len(scoring_children) > 1
@@ -546,6 +782,113 @@ def apply_hierarchical_scoring_policy(
         6,
     )
     grading_result["hierarchical_scoring"] = applied
+    return grading_result
+
+
+def apply_role_weighted_scoring_policy(
+    grading_result: dict[str, Any],
+    rubric: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Enforce role weights and optional evidence dependencies deterministically.
+
+    The semantic grader may award partial credit inside each child, but it may
+    not exceed the validated child weight.  A final conclusion remains an
+    independently scorable, low-weight item unless the official question
+    explicitly declares ``dependency_mode=evidence_required``.
+    """
+    if not isinstance(grading_result, dict) or not isinstance(rubric, list):
+        return grading_result
+    details = grading_result.get("details")
+    if not isinstance(details, list):
+        return grading_result
+
+    prepared = prepare_rubric_semantic_contract(rubric)
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for item in prepared:
+        if item.get("scoring_policy") != SCORING_POLICY_ROLE_WEIGHTED:
+            continue
+        parent_id = str(item.get("parent_id") or item.get("id", ""))
+        groups.setdefault(parent_id, []).append(item)
+    if not groups:
+        return grading_result
+
+    details_by_id = {
+        str(detail.get("id", "")): detail
+        for detail in details
+        if isinstance(detail, dict)
+    }
+    applied = []
+    role_weighted_ids: set[str] = set()
+
+    for parent_id, items in groups.items():
+        parent_total = 0.0
+        child_scores: dict[str, float] = {}
+        for item in items:
+            item_id = str(item.get("id", ""))
+            role_weighted_ids.add(item_id)
+            detail = details_by_id.get(item_id)
+            if detail is None:
+                detail = {"id": item_id, "score_given": 0.0}
+                details.append(detail)
+                details_by_id[item_id] = detail
+            try:
+                raw_score = float(detail.get("score_given", 0) or 0)
+            except (TypeError, ValueError):
+                raw_score = 0.0
+            item_points = float(item.get("points", 0) or 0)
+            score = min(max(raw_score, 0.0), item_points)
+            detail["score_given"] = score
+            detail["scoring_role"] = item.get("scoring_role")
+            child_scores[item_id] = score
+
+        dependency_mode = str(
+            items[0].get("dependency_mode", "independent")
+        ).strip().lower()
+        dependency_applied = False
+        if dependency_mode == "evidence_required":
+            core_evidence = any(
+                child_scores.get(str(item.get("id", "")), 0.0) > 0
+                for item in items
+                if item.get("scoring_role") == SCORING_ROLE_CORE
+            )
+            if not core_evidence:
+                for item in items:
+                    if item.get("scoring_role") != SCORING_ROLE_FINAL:
+                        continue
+                    item_id = str(item.get("id", ""))
+                    child_scores[item_id] = 0.0
+                    detail = details_by_id[item_id]
+                    detail["score_given"] = 0.0
+                    detail["dependency_status"] = "blocked_without_core_evidence"
+                dependency_applied = True
+
+        parent_total = sum(child_scores.values())
+        applied.append(
+            {
+                "parent_id": parent_id,
+                "effective_score": round(parent_total, 6),
+                "parent_points": float(items[0].get("parent_points", 0) or 0),
+                "process_complexity": items[0].get("process_complexity"),
+                "dependency_mode": dependency_mode,
+                "dependency_applied": dependency_applied,
+            }
+        )
+
+    non_role_total = 0.0
+    for detail in details:
+        if not isinstance(detail, dict):
+            continue
+        if str(detail.get("id", "")) in role_weighted_ids:
+            continue
+        try:
+            non_role_total += float(detail.get("score_given", 0) or 0)
+        except (TypeError, ValueError):
+            pass
+    grading_result["total_score"] = round(
+        non_role_total + sum(item["effective_score"] for item in applied),
+        6,
+    )
+    grading_result["role_weighted_scoring"] = applied
     return grading_result
 
 

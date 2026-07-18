@@ -28,6 +28,7 @@ SUPPORTED_ANSWER_TYPES = {
     "numeric",
     "base_number",
     "bit_vector",
+    "structured_fields",
     "sequence",
     "set",
     "relation",
@@ -55,6 +56,38 @@ ANSWER_TYPE_ALIASES = {
 SUPPORTED_EVIDENCE_SOURCES = {"text", "formula", "table", "diagram"}
 
 
+def infer_structured_field_schema(item):
+    """Infer a conservative labeled-field schema from an address/record answer."""
+    text = str(item.get("standard_answer_text", "") or "")
+    item_text = str(item.get("item", "") or "")
+    if not any(token in item_text for token in ("格式", "字段", "表项", "记录")):
+        return None
+    fields = []
+    for index, segment in enumerate(re.split(r"[|｜;；\n]+", text)):
+        match = re.search(
+            r"([A-Za-z\u4e00-\u9fff][A-Za-z0-9_\u4e00-\u9fff]*?)\s*([0-9]+)\s*位",
+            segment.strip(),
+        )
+        if not match:
+            continue
+        label = match.group(1).strip()
+        fields.append(
+            {
+                "name": f"field_{index + 1}",
+                "aliases": [label],
+                "required": True,
+            }
+        )
+    if len(fields) < 2:
+        return None
+    return {
+        "type": "structured_fields",
+        "ordered": True,
+        "allow_positional": False,
+        "fields": fields,
+    }
+
+
 def normalize_answer_type(raw_type, item_text="", canonicalization=""):
     raw = str(raw_type or "").strip()
     lowered = raw.lower()
@@ -79,7 +112,7 @@ def normalize_evidence_source(raw_source, answer_type):
         return source
     if answer_type in {"relation", "diagram_ocr"}:
         return "diagram"
-    if answer_type == "table_entry":
+    if answer_type in {"table_entry", "structured_fields"}:
         return "table"
     if answer_type in {"formula", "method"}:
         return "formula"
@@ -110,6 +143,10 @@ def normalize_generated_rubric(rubric):
             item_text=item.get("item", ""),
             canonicalization=item.get("canonicalization", ""),
         )
+        structured_schema = infer_structured_field_schema(item)
+        if structured_schema:
+            answer_type = "structured_fields"
+            item["canonicalization"] = structured_schema
         item["answer_type"] = answer_type
         item["evidence_source"] = normalize_evidence_source(item.get("evidence_source"), answer_type)
         if item.get("canonicalization") is None:
@@ -217,7 +254,7 @@ def generate_rrd_rubrics(question_text, ref_answer, official_rubric, total_score
 6. item 字段必须是单行文本，不要包含换行。
 
 answer_type 只能从下列集合中选择，不得创造新类型：
-direct_numeric, derived_numeric, numeric, base_number, bit_vector,
+direct_numeric, derived_numeric, numeric, base_number, bit_vector, structured_fields,
 sequence, set, relation, table_entry, diagram_ocr,
 formula, method, judgement, concept_keyword
 
@@ -230,7 +267,7 @@ text, formula, table, diagram
 - points：该项分值。
 - answer_type：从允许集合中选择。
 - role：parameter / intermediate / method / final / unknown。
-- canonicalization：建议的等价归一化方式，例如 numeric、base_number、bit_vector、sequence、set、formula、semantic_text。
+- canonicalization：建议的等价归一化方式。多字段地址、表项或记录必须使用 structured_fields，并给出 fields(name/aliases/required)、ordered；bit_vector 只用于真正的掩码或位集合。
 - evidence_source：text / formula / table / diagram。
 - source_text：来自官方评分准则或参考答案的原始依据。
 - parent_official_item：对应官方粗粒度条款。
@@ -432,7 +469,7 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
 4. 所有评分项 points 之和必须严格等于 {total_score}。
 5. 每个原评分项都有稳定的 parent_id、parent_points 和 split_policy。不得删除父项语义，也不得把分值转移到其他父项。
 6. scoring_policy=strict_atomic 的原子结果项禁止拆分计分。可补充 canonicalization 或 diagnostic_evidence，但不得改变正确答案和得分语义。
-7. 分值大于等于 {HIGH_VALUE_SPLIT_THRESHOLD:g} 且 scoring_policy=additive_split 的父项必须拆成至少 {MIN_HIGH_VALUE_SCORING_CHILDREN} 个可独立核验的计分子项；优先只拆成“结论/结果”和“关键理由/过程”两个等权项，只有官方答案明确列出更多独立必要条件时才增加子项。拆分子项的 parent_id 必须等于原父项 id，子项分值之和必须等于 parent_points。不得只贴 additive_split 标签后原样返回。
+7. task_semantics=orthogonal_additive/component_additive 且分值不低于 {HIGH_VALUE_SPLIT_THRESHOLD:g} 的父项，拆成至少 {MIN_HIGH_VALUE_SCORING_CHILDREN} 个可独立核验的正交结果或组成部分，并使用等权；不得把相互依赖的“过程+结论”误当作等权正交项。
 8. scoring_policy=final_sufficient_partial_credit 表示“正确最终答案是父项满分的充分条件，同时错误最终答案仍可依据过程证据获得部分分”。此类父项必须：
    - 拆成至少一个客观过程项和一个最终答案项；
    - 恰好一个最终答案项设置 full_credit_trigger=true，其 standard_answer_text 必须等于 full_credit_anchor；
@@ -440,9 +477,11 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
    - 触发项 points 等于 parent_points-fallback_cap；
    - 所有子项 points 之和仍等于 parent_points，且正确最终答案不要求过程项同时出现。
 9. 中间过程若既不是满分必要条件、也不属于明确的部分分兜底政策，应放入 diagnostic_evidence，不得新增为扣分前提。
-10. 官方未给出子项权重时，不得按“技术重要性”主观分配分值。additive_split 只能使用等权正交原子项；hierarchical 父项必须使用已声明的 fallback_cap，过程项在 cap 内优先等权拆分，不得由样本临时调权。
+10. scoring_policy=role_weighted_additive 表示过程主导题。复杂推导必须拆成 support_process、core_process、final 至少三项：过程合计不少于父项80%，core_process不少于50%，final不超过20%；短推导至少拆成 core_process、final 两项：过程不少于65%，final不超过35%。例如5分复杂推导可用1.5+2.5+1.0，但应按父项总分同比例计算，不得写死题号。官方明确权重优先于这些默认约束。
 11. 宽松给分必须建立在客观证据上：等价表示和纯格式差异不扣分；上游算错但后续公式或映射关系正确时，可保留对应过程子项；裸最终答案只获得最终结论子项，不得反推出未书写的过程。只有 final_sufficient_partial_credit 才允许正确最终答案触发父项满分。
-12. 原子拆分只保留有教学意义的关键检查点，不要求学生复现标准答案的每一步算术展开。正确方法、有效转换、关键中间量和最终结论应分开表达，避免因遗漏非必要展开而过严扣分。
+12. 原子拆分只保留有教学意义的关键检查点，不要求学生复现标准答案的每一步算术展开。允许等价推导路径和上游错误后的正确后续方法获得相应过程分。裸结论只获得低权重 final 子项，不得反推过程。仅当题干明确要求证明或说明理由时，才可设置 dependency_mode=evidence_required；其他情况必须为 independent。
+13. task_semantics 必须从 strict_atomic / result_sufficient / orthogonal_additive / component_additive / process_dominant 中选择。不要把“推导复杂度”与“最终结果是否足以满分”混为一谈；只有官方语义明确结果充分时才能使用 result_sufficient。
+14. 多字段地址格式、表项和带标签记录使用 answer_type=structured_fields，并给 canonicalization.fields 声明字段名、别名和 required，必要时 ordered=true。bit_vector 仅用于真正的位掩码或位集合。
 
 【问题类型判定】
 在修改前，先在内部判断每个暴露问题属于哪一类：
@@ -458,7 +497,7 @@ extraction_failure 和 scoring_model_error 不允许改变评分语义，只能�
 
 【允许的 answer_type】
 只能从以下集合选择，不得创造新类型：
-direct_numeric, derived_numeric, numeric, base_number, bit_vector,
+direct_numeric, derived_numeric, numeric, base_number, bit_vector, structured_fields,
 sequence, set, relation, table_entry, diagram_ocr,
 formula, method, judgement, concept_keyword
 
@@ -473,7 +512,7 @@ text, formula, table, diagram
 - points：该项分值。
 - answer_type：从允许集合中选择。
 - role：parameter / intermediate / method / final / unknown。
-- canonicalization：等价归一化说明，例如 numeric、base_number、bit_vector、sequence、set、formula、semantic_text。
+- canonicalization：等价归一化说明；structured_fields 必须是包含 type、ordered、fields 的对象。
 - evidence_source：text / formula / table / diagram。
 - source_text：来自官方评分准则或参考答案的依据。
 - parent_official_item：对应的官方粗粒度条目。
@@ -481,7 +520,11 @@ text, formula, table, diagram
 - parent_points：保留该父项原始分值。
 - split_policy：保留父项原值，不得自行修改。
 - weighting_policy：保留父项原值；equal_atomic 要求所有计分子项等权。
-- scoring_policy：保留父项原值，只能是 strict_atomic / additive_split / final_sufficient_partial_credit。
+- task_semantics：保留父项原值，只能是 strict_atomic / result_sufficient / orthogonal_additive / component_additive / process_dominant。
+- scoring_policy：保留父项原值，只能是 strict_atomic / additive_split / final_sufficient_partial_credit / role_weighted_additive。
+- scoring_role：role_weighted_additive 子项必须为 support_process / core_process / final；其他拆分项可为 component。
+- process_complexity / minimum_process_ratio / minimum_core_process_ratio / maximum_final_ratio：保留过程主导父项约束。
+- dependency_mode：保留父项原值，只能是 independent / evidence_required。
 - full_credit_trigger：hierarchical 父项中恰好一个最终答案子项为 true，其他项为 false。
 - full_credit_anchor：hierarchical 父项的充分满分答案，必须保留父项原值。
 - fallback_cap：hierarchical 父项中过程兜底分的上限，必须保留父项原值。

@@ -38,7 +38,9 @@ PARTIAL_MATCH, not SEMANTIC_FATAL.
    value belongs to another item.
 3. When `comparison.status=partial_or_mismatch`, use the normalized fields
    (`student_bits`, `standard_bits`, `student_items`, `standard_items`,
-   `edge_overlap_ratio`) to decide PARTIAL_MATCH vs SEMANTIC_FATAL.
+   `edge_overlap_ratio`, `field_match_ratio`, `missing_fields`, and
+   `mismatched_fields`) to decide PARTIAL_MATCH vs SEMANTIC_FATAL. A matching
+   field does not make an incomplete or structurally wrong record a full match.
 4. Do not infer a complete derivation from a correct final answer unless the
    rubric parent explicitly uses
    `scoring_policy=final_sufficient_partial_credit`. For that policy, the final
@@ -80,6 +82,13 @@ PARTIAL_MATCH, not SEMANTIC_FATAL.
       score after parsing;
     - if it is wrong or blank, give it zero and award only concrete support
       children, never exceeding the declared `fallback_cap`.
+15. For `scoring_policy=role_weighted_additive`, judge each declared role
+    independently: `support_process` covers valid setup/conversion,
+    `core_process` covers the decisive inference, and `final` covers only the
+    conclusion. Never infer missing process evidence from the final conclusion.
+    Propagated upstream errors may retain method credit when the later relation
+    is correctly applied. The deterministic scorer enforces child caps and any
+    explicit `dependency_mode` after parsing.
 
 # Dependency Rules
 
@@ -89,6 +98,10 @@ PARTIAL_MATCH, not SEMANTIC_FATAL.
 - Formula/method credit requires explicit formula, relation, mapping,
   algorithmic step, or computation trace, but not necessarily full expansion.
 - Final-result items can be scored independently.
+- Under role-weighted scoring, a bare conclusion receives at most its declared
+  low-weight `final` points. It receives zero only when the official rubric
+  explicitly declares `dependency_mode=evidence_required` and core evidence is
+  absent.
 - A correct final answer plus concrete process evidence can earn the sum of the
   corresponding declared atoms; it does not waive absent additive atoms.
 - A correct final answer with no process evidence receives full parent credit

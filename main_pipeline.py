@@ -15,6 +15,7 @@ from rubric_semantics import (
     HIGH_VALUE_SPLIT_THRESHOLD,
     RUBRIC_SEMANTIC_CONTRACT_VERSION,
     apply_hierarchical_scoring_policy,
+    apply_role_weighted_scoring_policy,
     high_value_split_targets,
     prepare_rubric_semantic_contract,
     rubric_scoring_signature,
@@ -958,6 +959,10 @@ def run_variance_optimization_process(
                             parsed,
                             draft_rubric,
                             canonical_context,
+                        )
+                        parsed = apply_role_weighted_scoring_policy(
+                            parsed,
+                            draft_rubric,
                         )
                         scores.append(parsed['total_score'])
                         strict_cots.append(parsed)

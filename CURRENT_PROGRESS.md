@@ -116,6 +116,19 @@ pipeline re-raises fatal exceptions after recording error progress. The command
 wrapper therefore receives a nonzero exit code and cannot publish stale rubric
 artifacts or continue into validation after a failed optimization stage.
 
+## 2026-07-18 Rubric Semantic Contract V4
+
+Version 4 replaces the old atomic-versus-equal-split rule with five parent
+semantics: strict atomic, result sufficient, orthogonal additive, component
+additive, and process dominant. High-value complex derivations reserve at least
+80% for written process (at least 50% for the core inference) and at most 20%
+for the final conclusion; short derivations use a 65%/35% boundary. These are
+structural constraints, not question-specific point assignments. Labeled
+multi-field records now use `structured_fields`, so a matching offset or group
+number cannot deterministically validate an otherwise incorrect address layout.
+The semantic contract version bump invalidates old optimized manifests and
+requires a fresh all-question optimization before validation and test grading.
+
 ## 2026-07-13 CO_1 Hierarchical Rubric And Semantic Gate
 
 The CO_1 regression was traced to a semantic mismatch: a single atomic 5-point

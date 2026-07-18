@@ -16,6 +16,7 @@ from ocr.backend import sha256_file
 from canonicalizers import build_canonical_grading_context
 from rubric_semantics import (
     apply_hierarchical_scoring_policy,
+    apply_role_weighted_scoring_policy,
     has_deterministic_hierarchical_full_credit,
     project_rubric_for_risk,
 )
@@ -1441,8 +1442,8 @@ def stage2_logic_grading(student_facts_str, rubrics_json_str, temperature=0.35, 
 1. 只能依据学生客观事实判分。若事实标注为“未书写”“字迹模糊”或没有具体内容，不能脑补给分。
 2. 若事实只写“有”“是”“正确”“有计算过程”等非具体内容，判为 INSUFFICIENT_INFO，给 0 分。
 3. 若【规范化等价比较】中某项 comparison.match=true，应优先判为 MATCH，除非学生客观事实明显说明该项不是学生答案。
-4. 若 comparison.status=partial_or_mismatch，应结合 edge_overlap_ratio、student_items、student_bits、standard_bits 等结构化结果给 PARTIAL_MATCH 或 SEMANTIC_FATAL。
-5. bit_vector 题允许二进制、十六进制、标签集合、紧凑字母串等价表达；sequence 题允许箭头、逗号、空格、大于号等分隔符差异。
+4. 若 comparison.status=partial_or_mismatch，应结合 edge_overlap_ratio、field_match_ratio、missing_fields、mismatched_fields 等结构化结果给 PARTIAL_MATCH 或 SEMANTIC_FATAL；局部字段相同不得判整个结构 MATCH。
+5. bit_vector 题允许二进制、十六进制、标签集合、紧凑字母串等价表达；structured_fields 必须逐字段核验；sequence 题允许箭头、逗号、空格、大于号等分隔符差异。
 6. 数值题在单位或表示形式归一化后精确比较；只有评分项显式声明容差时才按容差判定，不得自行使用通用百分比容差。参考答案本身为近似值时允许通常的舍入误差。
 7. 空格、箭头、大小写和等价单位等纯形式差异不扣分，可判 FORMAT_MINOR 并给该原子项满分；若缺失造成真实语义歧义则判 PARTIAL_MATCH。
 8. 多要素评分项应允许 PARTIAL_MATCH，按已完成要素比例给分，避免全有全无。
@@ -1453,6 +1454,7 @@ def stage2_logic_grading(student_facts_str, rubrics_json_str, temperature=0.35, 
     - full_credit_trigger=true 的最终答案项必须独立判断；正确时父项最终由系统恢复满分。
     - 最终答案项不正确时，只能对其余客观过程项逐项给分。
     - 不得把错误最终答案本身计入过程兜底分，也不得突破 fallback_cap。
+13. scoring_policy=role_weighted_additive 的同一 parent_id 条目按 scoring_role 独立给分：support_process 是有效转换或准备，core_process 是决定结论的关键推导，final 是低权重结论。不得从 final 反推未书写的过程；允许上游数值错误但后续关系正确的传播错误过程分。系统会强制执行各子项分值上限和显式 dependency_mode。
 
 error_category 只能取以下值之一：
 - MATCH：语义匹配，给该项满分。
@@ -1992,6 +1994,10 @@ def grade_student_3wd_pipeline(
                     parsed_json,
                     json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json,
                     canonical_context,
+                )
+                parsed_json = apply_role_weighted_scoring_policy(
+                    parsed_json,
+                    json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json,
                 )
                 return (idx, parsed_json['total_score'], parsed_json)
         return (idx, None, None)

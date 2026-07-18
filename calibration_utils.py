@@ -21,8 +21,8 @@ GENERIC_PROCESS_VALUES = {"已书写", "有书写", "有提取标注", "有计�
 
 NUMERIC_TYPES = {"direct_numeric", "derived_numeric", "numeric", "base_number"}
 METHOD_TYPES = {"formula", "method"}
-VISUAL_TYPES = {"sequence", "relation", "diagram_relation", "table_entry", "diagram_ocr"}
-STRUCTURED_TYPES = {"base_number", "bit_vector", "sequence", "set", "relation", "diagram_relation", "table_entry", "diagram_ocr"}
+VISUAL_TYPES = {"sequence", "relation", "diagram_relation", "table_entry", "structured_fields", "diagram_ocr"}
+STRUCTURED_TYPES = {"base_number", "bit_vector", "sequence", "set", "relation", "diagram_relation", "table_entry", "structured_fields", "diagram_ocr"}
 TRUSTED_METADATA_THRESHOLD = 0.80
 A3WA_RISK_WEIGHTS = {
     "extract": 0.40,
@@ -640,12 +640,15 @@ def infer_rubric_task_profile(rubrics_data, max_score=None):
     numeric_formula_points = 0.0
     visual_or_sequence_points = 0.0
     concept_judgement_points = 0.0
+    result_sufficiency_points = 0.0
     explicit_metadata_points = 0.0
 
     for item, points in zip(rubrics_data, points_values):
         meta = classify_rubric_item(item)
         answer_type = str(meta.get("answer_type", "unknown"))
         role = str(meta.get("role", "unknown"))
+        scoring_role = str(item.get("scoring_role", "")).strip().lower()
+        task_semantics = str(item.get("task_semantics", "")).strip().lower()
         type_counts[answer_type] += 1
         type_points[answer_type] += points
 
@@ -653,9 +656,10 @@ def infer_rubric_task_profile(rubrics_data, max_score=None):
             explicit_metadata_points += points
 
         is_parameter = role == "parameter" or answer_type == "direct_numeric"
-        is_result = role == "final"
+        is_result = role == "final" or scoring_role == "final"
         is_process = (
-            role in ("method", "intermediate", "final")
+            role in ("method", "intermediate")
+            or scoring_role in ("support_process", "core_process")
             or answer_type in METHOD_TYPES
             or answer_type in ("derived_numeric", "sequence", "table_entry")
         )
@@ -675,6 +679,11 @@ def infer_rubric_task_profile(rubrics_data, max_score=None):
             visual_or_sequence_points += points
         if is_concept_judgement:
             concept_judgement_points += points
+        if (
+            task_semantics == "result_sufficient"
+            or item.get("scoring_policy") == "final_sufficient_partial_credit"
+        ):
+            result_sufficiency_points += points
 
     process_ratio = clamp01(process_points / total_points)
     result_ratio = clamp01(result_points / total_points)
@@ -683,6 +692,7 @@ def infer_rubric_task_profile(rubrics_data, max_score=None):
     visual_sequence_ratio = clamp01(visual_or_sequence_points / total_points)
     concept_judgement_ratio = clamp01(concept_judgement_points / total_points)
     metadata_ratio = clamp01(explicit_metadata_points / total_points)
+    result_sufficiency_ratio = clamp01(result_sufficiency_points / total_points)
     fragmented_rubric = item_count >= 10 and max_item_points_ratio <= 0.15 and small_item_ratio >= 0.70
     concentrated_result_weight = max_item_points_ratio >= 0.25 or result_ratio >= 0.45
 
@@ -699,8 +709,8 @@ def infer_rubric_task_profile(rubrics_data, max_score=None):
             and concept_judgement_ratio < 0.60
         )
     )
-    final_answer_weight_high = result_ratio >= 0.20 or (
-        numeric_formula_ratio >= 0.45 and process_ratio >= 0.40
+    final_answer_weight_high = (
+        result_sufficiency_ratio >= 0.50 or result_ratio >= 0.45
     )
     concept_dominant = concept_judgement_ratio >= 0.60 and numeric_formula_ratio < 0.35
     complex_derivation_task = (
@@ -737,6 +747,7 @@ def infer_rubric_task_profile(rubrics_data, max_score=None):
         "concept_dominant": bool(concept_dominant),
         "process_points_ratio": round(process_ratio, 6),
         "result_points_ratio": round(result_ratio, 6),
+        "result_sufficiency_ratio": round(result_sufficiency_ratio, 6),
         "parameter_points_ratio": round(parameter_ratio, 6),
         "numeric_formula_points_ratio": round(numeric_formula_ratio, 6),
         "visual_sequence_points_ratio": round(visual_sequence_ratio, 6),

@@ -49,6 +49,8 @@ def _rubric_type(item: dict[str, Any]) -> str:
         _as_text(item.get(key, ""))
         for key in ("answer_type", "canonicalization", "evidence_source", "item")
     ).lower()
+    if "structured_fields" in text or "structured fields" in text:
+        return "structured_fields"
     if "bit_vector" in text or "bit vector" in text:
         return "bit_vector"
     if "sequence" in text or "顺序" in text or "序列" in text:
@@ -282,6 +284,104 @@ def _normalize_table(value: Any) -> dict[str, Any]:
     }
 
 
+def _structured_schema(item: dict[str, Any]) -> dict[str, Any]:
+    canonicalization = item.get("canonicalization")
+    if not isinstance(canonicalization, dict):
+        return {}
+    fields = canonicalization.get("fields")
+    if not isinstance(fields, list) or not fields:
+        return {}
+    return {
+        "ordered": bool(canonicalization.get("ordered", False)),
+        "allow_positional": bool(canonicalization.get("allow_positional", False)),
+        "fields": [field for field in fields if isinstance(field, dict)],
+    }
+
+
+def _normalize_structured_value(value: Any) -> str:
+    text = _as_text(value).strip().upper()
+    text = re.sub(r"\s+", "", text)
+    text = re.sub(r"(?:位|BITS?|BIT)$", "", text, flags=re.I)
+    return text.strip("。.;；,，:：")
+
+
+def _normalize_structured_fields(
+    value: Any,
+    item: dict[str, Any],
+) -> dict[str, Any]:
+    schema = _structured_schema(item)
+    text = _as_text(value).strip()
+    if _is_blankish(text):
+        return {"type": "structured_fields", "status": "blank", "raw": text}
+    if not schema:
+        return {
+            "type": "structured_fields",
+            "status": "unknown",
+            "raw": text,
+            "reason": "missing_structured_field_schema",
+        }
+
+    parsed = _parse_json_maybe(value)
+    source_dict = parsed if isinstance(parsed, dict) else {}
+    extracted: dict[str, str] = {}
+    positions: dict[str, int] = {}
+    raw_segments = [
+        segment.strip()
+        for segment in re.split(r"[|｜;；\n]+", text)
+        if segment.strip()
+    ]
+
+    for field in schema["fields"]:
+        name = _as_text(field.get("name", "")).strip()
+        if not name:
+            continue
+        aliases = [name] + [
+            _as_text(alias).strip()
+            for alias in field.get("aliases", [])
+            if _as_text(alias).strip()
+        ]
+        for key, raw in source_dict.items():
+            if _as_text(key).strip().lower() in {alias.lower() for alias in aliases}:
+                extracted[name] = _normalize_structured_value(raw)
+                positions[name] = len(positions)
+                break
+        if name in extracted:
+            continue
+        for index, segment in enumerate(raw_segments):
+            for alias in sorted(aliases, key=len, reverse=True):
+                match = re.search(
+                    rf"{re.escape(alias)}\s*(?:[:：=为是]\s*)?(.+)$",
+                    segment,
+                    re.I,
+                )
+                if match:
+                    extracted[name] = _normalize_structured_value(match.group(1))
+                    positions[name] = index
+                    break
+            if name in extracted:
+                break
+
+    if schema["allow_positional"] and raw_segments:
+        missing = [
+            field for field in schema["fields"]
+            if _as_text(field.get("name", "")).strip() not in extracted
+        ]
+        if len(missing) == len(schema["fields"]) and len(raw_segments) == len(missing):
+            for index, (field, segment) in enumerate(zip(missing, raw_segments)):
+                name = _as_text(field.get("name", "")).strip()
+                extracted[name] = _normalize_structured_value(segment)
+                positions[name] = index
+
+    return {
+        "type": "structured_fields",
+        "status": "ok" if extracted else "unknown",
+        "raw": text,
+        "fields": extracted,
+        "positions": positions,
+        "schema": schema,
+    }
+
+
 def _normalize_base_number(value: Any, item: dict[str, Any]) -> dict[str, Any]:
     text = _as_text(value).strip()
     if _is_blankish(text):
@@ -386,6 +486,8 @@ def _normalize_by_type(value: Any, item: dict[str, Any], answer_type: str, *, st
             universe=universe,
             item_label=item_label,
         )
+    if answer_type == "structured_fields":
+        return _normalize_structured_fields(value, item)
     if answer_type == "base_number":
         return _normalize_base_number(value, item)
     if answer_type == "sequence":
@@ -423,6 +525,58 @@ def _compare_normalized(student_norm: dict[str, Any], standard_norm: dict[str, A
             "match": match,
             "student_bits": student_norm.get("bits"),
             "standard_bits": standard_norm.get("bits"),
+        }
+    if answer_type == "structured_fields":
+        schema = standard_norm.get("schema") or student_norm.get("schema") or {}
+        fields = schema.get("fields", [])
+        student_fields = student_norm.get("fields", {})
+        standard_fields = standard_norm.get("fields", {})
+        required_names = [
+            _as_text(field.get("name", "")).strip()
+            for field in fields
+            if field.get("required", True) and _as_text(field.get("name", "")).strip()
+        ]
+        matched = [
+            name for name in required_names
+            if name in student_fields
+            and name in standard_fields
+            and student_fields[name] == standard_fields[name]
+        ]
+        missing = [name for name in required_names if name not in student_fields]
+        mismatched = [
+            name for name in required_names
+            if name in student_fields
+            and name in standard_fields
+            and student_fields[name] != standard_fields[name]
+        ]
+        order_match = True
+        if schema.get("ordered"):
+            observed = [
+                name for name, _ in sorted(
+                    student_norm.get("positions", {}).items(),
+                    key=lambda pair: pair[1],
+                )
+                if name in required_names
+            ]
+            expected_order = [name for name in required_names if name in student_fields]
+            order_match = observed == expected_order
+        match = (
+            bool(required_names)
+            and len(matched) == len(required_names)
+            and not missing
+            and not mismatched
+            and order_match
+        )
+        return {
+            "status": "match" if match else "partial_or_mismatch",
+            "match": match,
+            "field_match_ratio": round(len(matched) / max(len(required_names), 1), 4),
+            "matched_fields": matched,
+            "missing_fields": missing,
+            "mismatched_fields": mismatched,
+            "order_match": order_match,
+            "student_fields": student_fields,
+            "standard_fields": standard_fields,
         }
     if answer_type == "base_number":
         student_values = set(student_norm.get("values") or [student_norm.get("value")])

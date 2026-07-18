@@ -151,9 +151,11 @@ python scripts/run_csbench.py evaluate CO_3 --export
 - `scoring_policy=strict_atomic` 表示不可拆分的单一结果项，只能补充等价归一化或诊断证据。
 - `scoring_policy=additive_split` 表示多个独立且均为满分必要条件的加法项；无官方权重时只允许等权正交拆分。
 - `scoring_policy=final_sufficient_partial_credit` 表示“正确最终答案足以取得父项满分，最终答案错误或缺失时仍可依据明确过程证据获得部分分”。同一父项必须恰好包含一个 `full_credit_trigger`，过程分不得超过 `fallback_cap`。
-- 分值小于 4 分的普通项不因分值本身强制拆分；分值大于等于 4 分的项必须先完成语义分类。`additive_split` 复合项至少拆成 2 个可独立核验的计分子项，默认优先使用“结论/结果 + 关键理由/过程”的最小拆分，避免过度碎片化。
+- `scoring_policy=role_weighted_additive` 表示过程主导题。复杂推导至少拆为 `support_process/core_process/final`，过程不少于 80%、核心过程不少于 50%、结论不超过 20%；短推导至少拆为 `core_process/final`，过程不少于 65%、结论不超过 35%。官方明确权重优先。
+- 分值小于 4 分的普通项不因分值本身强制拆分；分值大于等于 4 分的项必须先按 `task_semantics` 分类为 `strict_atomic/result_sufficient/orthogonal_additive/component_additive/process_dominant`。正交/组成部分采用等权原子，过程与结论不得机械等权。
 - 高分 `strict_atomic` 单一结果项不机械拆分，必须记录 `decomposition_exemption=strict_atomic_single_outcome`，从而区分“合理保持原子”与“遗漏拆分”。OCR 失败、学生错误和评分模型偶然误判不能改变该分类。
-- 官方未给出子项权重时，只允许使用等权、正交、均有客观标准答案的证据原子；子项必须填写非空 `item` 和 `standard_answer_text`，分值之和必须等于父项分值。
+- 官方未给出子项权重时，正交或组成部分只允许等权；过程主导题使用上述角色比例约束。裸结论默认只获得低权重 `final` 分，不能反推过程；只有题干明确要求证明/理由时才允许 `dependency_mode=evidence_required`。
+- 多字段地址、表项和带标签记录使用 `structured_fields` 逐字段比较；`bit_vector` 仅用于真正的位掩码或位集合。缺字段、错字段或字段次序错误只能得到部分匹配，不能触发确定性满分。
 - 优化模型输出后会执行结构验收；未完成最小拆分时，验收错误会反馈给模型并最多重试 3 次。最终仍不合格时本轮优化失败，并保留当前有效 optimized rubric，不会先写入粗粒度草稿或用失败候选覆盖它。
 - 优化结果除总分校验外，还必须通过父项分值守恒、父项可追溯、最小子项数、等权约束、唯一满分触发项、过程分上限和满分答案不变性校验。正式 `grade` 会再次运行同一结构校验，不能只依赖 manifest 中的成功标志。
 
@@ -163,7 +165,7 @@ CO_1 使用层次评分父项 `step_1`：地址字段 `2.0` 分、有效地址 `
 
 当多数语义探针确认层次父项由最终答案触发满分时，3WD 风险计算会把该最终项投影为父项全部分值，并从风险分母中移除非必需过程项。这样“答案正确但未展开过程”不会产生虚假的高留白风险；未触发满分时仍保留全部过程项，缺失证据继续影响 `U_E`、BND/NEG 路由和人工复核。
 
-语义契约当前版本为 `3`。旧 optimization manifest、实际结构未通过版本 3 校验，或未记录 `semantic_policy_validated=true` 的 optimized rubric 不允许进入正式批改，必须执行：
+语义契约当前版本为 `4`。旧 optimization manifest、实际结构未通过版本 4 校验，或未记录 `semantic_policy_validated=true` 的 optimized rubric 不允许进入正式批改，必须执行：
 
 ```bash
 python scripts/run_csbench.py optimize CO_1 --force
@@ -171,13 +173,13 @@ python scripts/run_csbench.py optimize CO_1 --force
 
 优化落盘后，统一入口会把 manifest 中的设备绝对路径转换为 `${REFGRADER_ROOT}` / `${PREPARED_CSBENCH_ROOT}` 占位符，并原子更新 `active_rubric_set.json`。正式 `grade` 会校验数据快照、split、initial/optimized rubric 和 manifest 的 SHA-256；文件存在但哈希不一致同样会拒绝运行。任意 active rubric 改变都会令旧 active A3WA 标记为 stale，必须重新完成 validation 和 `calibrate` 才能重新激活；test 不会静默回退默认参数，无校准消融必须显式传 `--no-active-a3wa`。
 
-CO_4 当前官方初始分值为 `2 + 2 + 2 + 2 + 2 + 5 + 5 = 20`。前五项分别考查地址字段参数，后两项分别考查两个地址的 Cache 命中结论及理由。优化后前五项保持不变，两个 5 分复合父项各至少形成 2 个等权子项，因此预期最小结构为 9 个计分项，而不是仍保留两个不透明的 5 分条款。
+CO_4 当前官方初始分值为 `2 + 2 + 2 + 2 + 2 + 5 + 5 = 20`。前五项分别考查地址字段参数，后两项分别考查两个地址的 Cache 命中推导及结论。优化后前五项保持父项分值不变，两个 5 分过程主导父项各至少形成三个角色子项，典型比例为 `1.5 + 2.5 + 1.0`，但实际条目必须由官方答案支持并通过比例门禁，而非按题号硬编码。
 
 ### 7.1 自动细粒度优化边界
 
 `data/csbench/rubrics/source` 和 `data/csbench/rubrics/initial` 保存官方粗粒度输入，不预先写入人工设计的细粒度答案。优化阶段依据题目、官方答案和 rubric calibration 样本判断父项属于原子结果、多结果并列、过程与结论复合或图示/序列复合，再生成可审计的细粒度候选。候选必须保持父项分值和题目总分守恒，只能使用官方答案能够支持的独立证据，不得增加隐藏作答要求或跨父项移动分值。
 
-CO_1 至 CO_7 用于审计自动优化行为，而不是在输入文件中硬编码拆分结果。重点检查包括：CO_1 的显式最终答案充分规则应保留；CO_2 的图示关系、CO_3/CO_4 的推导证据以及 CO_5/CO_6 的复合计算在父项达到 4 分时必须完成最小语义拆分；CO_7 这类仅要求单一结果的题目通过 `strict_atomic` 豁免保持原子。当前实现使用 rubric calibration 样本的多次评分方差定位模糊项，并通过父项分值守恒、最小子项数、等权约束和语义可追溯性校验决定候选能否保存；它尚未实现基于教师分的粗粒度/细粒度候选非劣性门控，该门控属于后续优化项，不能使用 validation 或 test 数据拟合。
+CO_1 至 CO_7 用于审计自动优化行为，而不是在输入文件中硬编码拆分结果。重点检查包括：CO_1 的显式结果充分规则应保留；CO_2 的图示组成、CO_3/CO_5 的正交结果、CO_4 的复杂推导、CO_6 的组成计算和 CO_7 的短推导应按各自任务语义生成不同结构。当前实现使用 rubric calibration 样本的多次评分方差定位模糊项，并通过父项分值守恒、角色比例、最小子项数、等权约束和语义可追溯性校验决定候选能否保存；它尚未实现基于教师分的候选非劣性门控，该门控属于后续优化项，不能使用 validation 或 test 数据拟合。
 
 教师宽松给分在语义契约中具体表示：等价进制、等价单位、大小写、空格和箭头等纯形式差异不扣分；上游数值错误但下游公式或映射正确时保留对应过程分；不要求复现标准答案的全部算术展开。宽松不等于给精确数值设置通用 10% 容差，也不等于从裸最终答案反推未书写的过程。只有显式的 `final_sufficient_partial_credit` 父项允许最终答案触发父项满分。
 

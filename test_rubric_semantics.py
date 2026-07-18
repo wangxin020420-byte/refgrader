@@ -5,11 +5,13 @@ from pathlib import Path
 from calibration_utils import (
     compute_extraction_quality_counts,
     compute_extraction_risk_features,
+    infer_rubric_task_profile,
 )
 from canonicalizers import build_canonical_grading_context
 from rubric_semantics import (
     HIGH_VALUE_SPLIT_THRESHOLD,
     apply_hierarchical_scoring_policy,
+    apply_role_weighted_scoring_policy,
     high_value_split_targets,
     has_deterministic_hierarchical_full_credit,
     prepare_rubric_semantic_contract,
@@ -421,6 +423,11 @@ class RubricSemanticContractTests(unittest.TestCase):
                             item["decomposition_exemption"],
                             "strict_atomic_single_outcome",
                         )
+                    elif item["scoring_policy"] == "role_weighted_additive":
+                        self.assertTrue(item["decomposition_required"])
+                        self.assertEqual(item["weighting_policy"], "role_constrained")
+                        self.assertLessEqual(item["maximum_final_ratio"], 0.35)
+                        self.assertGreaterEqual(item["minimum_process_ratio"], 0.65)
 
     def test_compound_item_may_split_with_parent_score_conservation(self):
         original = prepare_rubric_semantic_contract([
@@ -450,7 +457,7 @@ class RubricSemanticContractTests(unittest.TestCase):
         valid, errors = validate_refined_rubric(original, refined, 5)
         self.assertTrue(valid, errors)
 
-    def test_high_value_additive_item_cannot_remain_unsplit(self):
+    def test_high_value_process_item_cannot_remain_unsplit(self):
         original = prepare_rubric_semantic_contract([{
             "id": "step_1",
             "item": "判断命中并说明理由",
@@ -459,10 +466,8 @@ class RubricSemanticContractTests(unittest.TestCase):
         }])
         valid, errors = validate_refined_rubric(original, original, 5)
         self.assertFalse(valid)
-        self.assertTrue(any(
-            "must contain at least 2 scoring items" in error
-            for error in errors
-        ))
+        self.assertEqual(original[0]["scoring_policy"], "role_weighted_additive")
+        self.assertTrue(any("role-weighted parent" in error for error in errors))
         self.assertEqual(
             high_value_split_targets(original)[0]["parent_id"],
             "step_1",
@@ -523,7 +528,7 @@ class RubricSemanticContractTests(unittest.TestCase):
         self.assertEqual(len(high_value_split_targets(at_threshold)), 1)
         self.assertEqual(high_value_split_targets(below_threshold), [])
 
-    def test_compound_item_rejects_subjective_unequal_weights(self):
+    def test_process_item_rejects_untyped_unequal_children(self):
         original = prepare_rubric_semantic_contract([
             {"id": "step_1", "item": "判断命中并说明理由", "points": 5}
         ])
@@ -533,7 +538,7 @@ class RubricSemanticContractTests(unittest.TestCase):
         ]
         valid, errors = validate_refined_rubric(original, refined, 5)
         self.assertFalse(valid)
-        self.assertTrue(any("equal atomic weights" in error for error in errors))
+        self.assertTrue(any("invalid scoring_role" in error for error in errors))
 
     def test_atomic_item_cannot_add_a_process_requirement(self):
         original = prepare_rubric_semantic_contract([
@@ -542,6 +547,7 @@ class RubricSemanticContractTests(unittest.TestCase):
                 "item": "正确计算出M1的运行时间",
                 "points": 5,
                 "standard_answer_text": "50 μs",
+                "scoring_policy": "strict_atomic",
             }
         ])
         refined = [
@@ -556,6 +562,152 @@ class RubricSemanticContractTests(unittest.TestCase):
         valid, errors = validate_refined_rubric(original, refined, 5)
         self.assertFalse(valid)
         self.assertTrue(any("changed its scoring meaning" in error for error in errors))
+
+    def test_complex_process_parent_accepts_role_constrained_weights(self):
+        original = prepare_rubric_semantic_contract([{
+            "id": "step_1",
+            "item": "完成地址映射，比较标记并说明是否命中",
+            "points": 5,
+            "standard_answer_text": "映射到组0，标记不一致，因此未命中",
+            "task_semantics": "process_dominant",
+            "process_complexity": "complex",
+        }])
+        refined = [
+            {
+                "id": "step_1_support", "parent_id": "step_1",
+                "item": "正确映射到组0", "points": 1.5,
+                "standard_answer_text": "组0", "scoring_role": "support_process",
+            },
+            {
+                "id": "step_1_core", "parent_id": "step_1",
+                "item": "正确比较标记", "points": 2.5,
+                "standard_answer_text": "标记不一致", "scoring_role": "core_process",
+            },
+            {
+                "id": "step_1_final", "parent_id": "step_1",
+                "item": "得出未命中结论", "points": 1.0,
+                "standard_answer_text": "未命中", "scoring_role": "final",
+            },
+        ]
+        valid, errors = validate_refined_rubric(original, refined, 5)
+        self.assertTrue(valid, errors)
+
+    def test_complex_process_parent_rejects_half_weight_bare_conclusion(self):
+        original = prepare_rubric_semantic_contract([{
+            "id": "step_1",
+            "item": "完成地址映射，比较标记并说明是否命中",
+            "points": 5,
+            "standard_answer_text": "映射到组0，标记不一致，因此未命中",
+            "task_semantics": "process_dominant",
+            "process_complexity": "complex",
+        }])
+        refined = [
+            {
+                "id": "step_1_core", "parent_id": "step_1",
+                "item": "正确比较标记", "points": 2.5,
+                "standard_answer_text": "标记不一致", "scoring_role": "core_process",
+            },
+            {
+                "id": "step_1_final", "parent_id": "step_1",
+                "item": "得出未命中结论", "points": 2.5,
+                "standard_answer_text": "未命中", "scoring_role": "final",
+            },
+        ]
+        valid, errors = validate_refined_rubric(original, refined, 5)
+        self.assertFalse(valid)
+        self.assertTrue(any("too much weight" in error for error in errors))
+        self.assertTrue(any("support-process" in error for error in errors))
+
+    def test_role_weighted_final_is_independent_by_default(self):
+        rubric = prepare_rubric_semantic_contract([
+            {
+                "id": "support", "parent_id": "p", "parent_points": 5,
+                "item": "映射", "points": 1.5, "standard_answer_text": "组0",
+                "task_semantics": "process_dominant", "process_complexity": "complex",
+                "scoring_policy": "role_weighted_additive",
+                "scoring_role": "support_process",
+            },
+            {
+                "id": "core", "parent_id": "p", "parent_points": 5,
+                "item": "比较", "points": 2.5, "standard_answer_text": "不一致",
+                "task_semantics": "process_dominant", "process_complexity": "complex",
+                "scoring_policy": "role_weighted_additive",
+                "scoring_role": "core_process",
+            },
+            {
+                "id": "final", "parent_id": "p", "parent_points": 5,
+                "item": "结论", "points": 1, "standard_answer_text": "未命中",
+                "task_semantics": "process_dominant", "process_complexity": "complex",
+                "scoring_policy": "role_weighted_additive",
+                "scoring_role": "final",
+            },
+        ])
+        result = {
+            "total_score": 3,
+            "details": [
+                {"id": "support", "score_given": 0},
+                {"id": "core", "score_given": 0},
+                {"id": "final", "score_given": 3},
+            ],
+        }
+        updated = apply_role_weighted_scoring_policy(result, rubric)
+        self.assertEqual(updated["total_score"], 1.0)
+        self.assertEqual(updated["details"][2]["score_given"], 1.0)
+
+    def test_explicit_evidence_dependency_blocks_bare_conclusion(self):
+        rubric = prepare_rubric_semantic_contract([
+            {
+                "id": "core", "parent_id": "p", "parent_points": 5,
+                "item": "证明", "points": 4, "standard_answer_text": "关键证明",
+                "task_semantics": "process_dominant", "process_complexity": "short",
+                "scoring_policy": "role_weighted_additive",
+                "scoring_role": "core_process", "dependency_mode": "evidence_required",
+            },
+            {
+                "id": "final", "parent_id": "p", "parent_points": 5,
+                "item": "结论", "points": 1, "standard_answer_text": "成立",
+                "task_semantics": "process_dominant", "process_complexity": "short",
+                "scoring_policy": "role_weighted_additive",
+                "scoring_role": "final", "dependency_mode": "evidence_required",
+            },
+        ])
+        result = {
+            "total_score": 1,
+            "details": [
+                {"id": "core", "score_given": 0},
+                {"id": "final", "score_given": 1},
+            ],
+        }
+        updated = apply_role_weighted_scoring_policy(result, rubric)
+        self.assertEqual(updated["total_score"], 0.0)
+        self.assertEqual(updated["details"][1]["dependency_status"], "blocked_without_core_evidence")
+
+    def test_process_complexity_does_not_imply_result_sufficiency(self):
+        rubric = [
+            {
+                "id": "core", "points": 4, "answer_type": "formula",
+                "role": "intermediate", "scoring_role": "core_process",
+                "task_semantics": "process_dominant",
+            },
+            {
+                "id": "final", "points": 1, "answer_type": "judgement",
+                "role": "final", "scoring_role": "final",
+                "task_semantics": "process_dominant",
+            },
+        ]
+        profile = infer_rubric_task_profile(rubric, 5)
+        self.assertFalse(profile["final_answer_weight_high"])
+        self.assertEqual(profile["result_sufficiency_ratio"], 0.0)
+
+    def test_explicit_result_sufficiency_remains_high_weight(self):
+        rubric = [{
+            "id": "final", "points": 5, "answer_type": "base_number",
+            "role": "final", "task_semantics": "result_sufficient",
+            "scoring_policy": "final_sufficient_partial_credit",
+        }]
+        profile = infer_rubric_task_profile(rubric, 5)
+        self.assertTrue(profile["final_answer_weight_high"])
+        self.assertEqual(profile["result_sufficiency_ratio"], 1.0)
 
     def test_points_cannot_move_between_parents(self):
         original = prepare_rubric_semantic_contract([

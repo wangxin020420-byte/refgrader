@@ -83,8 +83,15 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             )
             for path in (initial, optimized, manifest):
                 path.parent.mkdir(parents=True, exist_ok=True)
-            initial.write_text('[{"id":"s1","points":5}]', encoding="utf-8")
-            optimized.write_text('[{"id":"s1","points":5}]', encoding="utf-8")
+            atomic_rubric = json.dumps([{
+                "id": "s1",
+                "item": "write the unique final answer",
+                "points": 5,
+                "standard_answer_text": "37H",
+                "scoring_policy": "strict_atomic",
+            }])
+            initial.write_text(atomic_rubric, encoding="utf-8")
+            optimized.write_text(atomic_rubric, encoding="utf-8")
             manifest.write_text(
                 json.dumps({
                     "rubric_semantic_contract_version": (
@@ -129,9 +136,16 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                     active_config.read_text(encoding="utf-8"),
                 )
 
-                optimized.write_text(
-                    '[{"id":"s1-new","points":5}]', encoding="utf-8"
-                )
+                changed_atomic_rubric = json.dumps([{
+                    "id": "s1-new",
+                    "parent_id": "s1",
+                    "parent_points": 5,
+                    "item": "write the unique final answer",
+                    "points": 5,
+                    "standard_answer_text": "37H",
+                    "scoring_policy": "strict_atomic",
+                }])
+                optimized.write_text(changed_atomic_rubric, encoding="utf-8")
                 manifest_payload = json.loads(manifest.read_text(encoding="utf-8"))
                 manifest_payload["optimized_sha256"] = sha256_file(optimized)
                 manifest.write_text(
@@ -338,8 +352,15 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             manifest = prepared / "rubrics" / "manifests" / "CO" / "CO_1_optimization.json"
             for path in (initial, optimized, manifest):
                 path.parent.mkdir(parents=True, exist_ok=True)
-            initial.write_text('[{"id":"s1","points":5}]', encoding="utf-8")
-            optimized.write_text('[{"id":"s1","points":5}]', encoding="utf-8")
+            atomic_rubric = json.dumps([{
+                "id": "s1",
+                "item": "write the unique final answer",
+                "points": 5,
+                "standard_answer_text": "37H",
+                "scoring_policy": "strict_atomic",
+            }])
+            initial.write_text(atomic_rubric, encoding="utf-8")
+            optimized.write_text(atomic_rubric, encoding="utf-8")
             manifest.write_text(
                 json.dumps({
                     "rubric_semantic_contract_version": RUBRIC_SEMANTIC_CONTRACT_VERSION,

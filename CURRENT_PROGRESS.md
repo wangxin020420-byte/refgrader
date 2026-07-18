@@ -147,12 +147,17 @@ full credit, the score is a deterministic rubric constraint. Boundary agents
 and validation residuals cannot lower it, while the 3WD route and review fields
 remain available for risk auditing.
 
-Rubric semantic contract version 2 adds a save-time and load-time gate. Invalid
-refinements are rolled back to the immutable initial rubric, and obsolete or
-unvalidated optimization manifests cannot enter formal grading. Targeted unit
-tests and the embedded CSBench snapshot audit pass. A new API experiment is
-still required to measure final MAE/QWK changes; offline structural replay is
-supporting evidence, not a replacement for the held-out test.
+Rubric semantic contract version 3 adds a minimum-decomposition gate for
+high-value criteria. Composite `additive_split` parents worth at least 4 points
+must contain at least two equal-weight, independently verifiable scoring
+children. High-value `strict_atomic` single-outcome criteria remain intact but
+carry an explicit audited exemption. Failed refinements are retried with the
+validator feedback and never overwrite the currently active optimized rubric.
+The same structural validator runs again before formal grading, so a successful
+manifest cannot hide an unsplit or otherwise invalid rubric. Targeted unit tests
+and the embedded CO_1--CO_7 structural audit pass. A new API experiment is still
+required to measure final MAE/QWK changes; offline validation is supporting
+evidence, not a replacement for the held-out test.
 
 Variance-optimization probes now apply the same canonical and hierarchical
 scoring rules as formal grading before variance and hard-sample selection are

@@ -7,6 +7,9 @@ import time
 from openai import OpenAI
 from calibration_utils import prepare_rubrics_for_calibration
 from rubric_semantics import (
+    HIGH_VALUE_SPLIT_THRESHOLD,
+    MIN_HIGH_VALUE_SCORING_CHILDREN,
+    high_value_split_targets,
     prepare_rubric_semantic_contract,
     validate_refined_rubric,
 )
@@ -403,6 +406,7 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
         ---------------------
         """
 
+    split_targets = high_value_split_targets(original_rubric_list)
     prompt = f"""
 你是计算机相关课程的评分准则优化专家。现在要基于高方差样本，对当前 JSON rubric 做一次通用化修正。
 
@@ -415,6 +419,9 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
 【当前 rubric】
 {json.dumps(original_rubric_list, ensure_ascii=False, indent=2)}
 
+【本轮必须完成的高分复合项拆分】
+{json.dumps(split_targets, ensure_ascii=False, indent=2)}
+
 【高方差样本诊断信息】
 {samples_desc}
 
@@ -425,7 +432,7 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
 4. 所有评分项 points 之和必须严格等于 {total_score}。
 5. 每个原评分项都有稳定的 parent_id、parent_points 和 split_policy。不得删除父项语义，也不得把分值转移到其他父项。
 6. scoring_policy=strict_atomic 的原子结果项禁止拆分计分。可补充 canonicalization 或 diagnostic_evidence，但不得改变正确答案和得分语义。
-7. scoring_policy=additive_split 的父项只在题目与官方答案确有多个可独立核验、均有教学意义的必要条件时拆分；拆分子项的 parent_id 必须等于原父项 id，子项分值之和必须等于 parent_points。不得只因父项分值较高而强制拆分，也不得只贴上 additive_split 标签后原样返回。
+7. 分值大于等于 {HIGH_VALUE_SPLIT_THRESHOLD:g} 且 scoring_policy=additive_split 的父项必须拆成至少 {MIN_HIGH_VALUE_SCORING_CHILDREN} 个可独立核验的计分子项；优先只拆成“结论/结果”和“关键理由/过程”两个等权项，只有官方答案明确列出更多独立必要条件时才增加子项。拆分子项的 parent_id 必须等于原父项 id，子项分值之和必须等于 parent_points。不得只贴 additive_split 标签后原样返回。
 8. scoring_policy=final_sufficient_partial_credit 表示“正确最终答案是父项满分的充分条件，同时错误最终答案仍可依据过程证据获得部分分”。此类父项必须：
    - 拆成至少一个客观过程项和一个最终答案项；
    - 恰好一个最终答案项设置 full_credit_trigger=true，其 standard_answer_text 必须等于 full_credit_anchor；
@@ -478,6 +485,8 @@ text, formula, table, diagram
 - full_credit_trigger：hierarchical 父项中恰好一个最终答案子项为 true，其他项为 false。
 - full_credit_anchor：hierarchical 父项的充分满分答案，必须保留父项原值。
 - fallback_cap：hierarchical 父项中过程兜底分的上限，必须保留父项原值。
+- standard_answer_text：该子项可独立核验的标准答案或必要条件，不得为空。
+- decomposition_required / minimum_scoring_children：保留父项约束；要求拆分时不得减少子项数量。
 - diagnostic_evidence：可选的零分诊断证据数组，不计入 points 总和。
 
 【输出要求】
@@ -485,11 +494,21 @@ text, formula, table, diagram
 """
 
     max_retries = 3
+    validation_feedback = ""
     for attempt in range(max_retries):
         try:
+            attempt_prompt = prompt
+            if validation_feedback:
+                attempt_prompt += f"""
+
+【上一轮输出未通过结构验收，必须逐项修复】
+{validation_feedback}
+
+重新输出完整 JSON 数组，不要解释。
+"""
             response = client.chat.completions.create(
                 model=LOGIC_MODEL_NAME, 
-                messages=[{"role": "user", "content": prompt}],
+                messages=[{"role": "user", "content": attempt_prompt}],
                 temperature=0.1,
                 timeout=240
             )
@@ -508,6 +527,7 @@ text, formula, table, diagram
             if not valid:
                 reason = "; ".join(validation_errors)
                 print(f"   ⚠️ 修正失败：语义契约校验未通过：{reason}")
+                validation_feedback = reason
                 raise ValueError(reason)
 
             print("   ✅ 规则修正成功！")
@@ -518,5 +538,5 @@ text, formula, table, diagram
             if attempt < max_retries - 1:
                 time.sleep(5)
             else:
-                print("   ❌ 规则修正彻底失败，沿用原规则。")
-                return normalize_generated_rubric(original_rubric_list)
+                print("   ❌ 规则修正彻底失败；不覆盖现有有效评分准则。")
+                return None

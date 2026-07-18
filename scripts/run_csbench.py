@@ -30,7 +30,10 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from rubric_semantics import RUBRIC_SEMANTIC_CONTRACT_VERSION
+from rubric_semantics import (
+    RUBRIC_SEMANTIC_CONTRACT_VERSION,
+    validate_refined_rubric,
+)
 
 DEFAULT_OCR_DEVICE = "cpu" if os.name == "nt" else "gpu:0"
 ACTIVE_RUBRIC_SET_SCHEMA_VERSION = 1
@@ -223,6 +226,21 @@ class CSBenchContext:
             raise ValueError(
                 f"Optimized rubric total {total} does not match question total "
                 f"{question_total}."
+            )
+
+        initial_rubric = json.loads(
+            self.initial_rubric.read_text(encoding="utf-8")
+        )
+        semantic_valid, semantic_errors = validate_refined_rubric(
+            initial_rubric,
+            rubric,
+            question_total,
+        )
+        if not semantic_valid:
+            raise ValueError(
+                "The optimized rubric violates the active semantic contract: "
+                + "; ".join(semantic_errors)
+                + ". Re-run optimize with --force."
             )
 
         manifest = json.loads(

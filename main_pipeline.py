@@ -12,9 +12,13 @@ import numpy as np
 from datetime import datetime
 from step3_rrd_generator import generate_rrd_rubrics, refine_rubric_based_on_variance
 from rubric_semantics import (
+    HIGH_VALUE_SPLIT_THRESHOLD,
     RUBRIC_SEMANTIC_CONTRACT_VERSION,
     apply_hierarchical_scoring_policy,
+    high_value_split_targets,
     prepare_rubric_semantic_contract,
+    rubric_scoring_signature,
+    rubric_structure_signature,
     validate_refined_rubric,
 )
 from canonicalizers import build_canonical_grading_context
@@ -809,8 +813,8 @@ def run_variance_optimization_process(
             f"{q_id} initial rubric total {initial_total} does not match "
             f"question total_score {q_score}."
         )
-    with open(rubric_save_path, "w", encoding="utf-8") as handle:
-        json.dump(draft_rubric, handle, indent=4, ensure_ascii=False)
+    # Keep the active optimized rubric untouched until the candidate has passed
+    # every structural and semantic check.
 
     # --- Step 2: 加载已有的方差探测进度 ---
     hard_samples_info = []
@@ -1024,13 +1028,13 @@ def run_variance_optimization_process(
     logging.info(f"\n📊 采样完成。平均方差: {avg_variance:.4f}")
     logging.info(f"Item-level variance: avg={avg_item_variance:.4f}, max={max_item_variance:.4f}")
 
-    has_refinement_candidate = any(
-        float(item.get("points", 0) or 0) >= 4
-        and item.get("split_policy") == "allow_semantic_split"
-        for item in draft_rubric
-    )
+    mandatory_split_targets = high_value_split_targets(draft_rubric)
+    has_refinement_candidate = bool(mandatory_split_targets)
     final_rubric = draft_rubric
     refinement_applied = False
+    structural_refinement_applied = False
+    metadata_enriched = False
+    refinement_attempted = False
 
     if avg_variance > 0.1 or avg_item_variance > 0.05 or has_refinement_candidate:
         if avg_variance > 0.1:
@@ -1065,7 +1069,13 @@ def run_variance_optimization_process(
             bad_samples = sorted_samples[:2]
 
         logging.info(f"🔧 [规则修正] 正在基于 {len(bad_samples)} 份精选样本优化规则...")
+        if mandatory_split_targets:
+            logging.info(
+                "[rubric structure] mandatory high-value split targets: "
+                + json.dumps(mandatory_split_targets, ensure_ascii=False)
+            )
 
+        refinement_attempted = True
         refined_rubric = refine_rubric_based_on_variance(
             draft_rubric, q_text, q_score, bad_samples
         )
@@ -1083,7 +1093,17 @@ def run_variance_optimization_process(
                 )
             else:
                 final_rubric = prepare_rubric_semantic_contract(refined_rubric)
-                refinement_applied = final_rubric != draft_rubric
+                refinement_applied = (
+                    rubric_scoring_signature(final_rubric)
+                    != rubric_scoring_signature(draft_rubric)
+                )
+                structural_refinement_applied = (
+                    rubric_structure_signature(final_rubric)
+                    != rubric_structure_signature(draft_rubric)
+                )
+                metadata_enriched = bool(
+                    final_rubric != draft_rubric and not refinement_applied
+                )
                 logging.info("🎉 修正后的最终标准已通过总分与语义契约校验。")
         else:
             logging.error("❌ 修正请求失败或 JSON 解析错误，保留原草稿。")
@@ -1113,8 +1133,7 @@ def run_variance_optimization_process(
             + "; ".join(semantic_validation_errors)
         )
 
-    with open(rubric_save_path, "w", encoding="utf-8") as handle:
-        json.dump(final_rubric, handle, indent=4, ensure_ascii=False)
+    save_json_list(rubric_save_path, final_rubric)
     manifest = {
         "schema_version": 1,
         "rubric_semantic_contract_version": RUBRIC_SEMANTIC_CONTRACT_VERSION,
@@ -1136,7 +1155,12 @@ def run_variance_optimization_process(
         "average_score_variance": float(avg_variance),
         "average_item_variance": avg_item_variance,
         "maximum_item_variance": max_item_variance,
+        "high_value_split_threshold": HIGH_VALUE_SPLIT_THRESHOLD,
+        "mandatory_split_targets": mandatory_split_targets,
+        "refinement_attempted": refinement_attempted,
         "refinement_applied": refinement_applied,
+        "structural_refinement_applied": structural_refinement_applied,
+        "metadata_enriched": metadata_enriched,
         "semantic_policy_validated": semantic_policy_validated,
         "semantic_validation_errors": semantic_validation_errors,
         "scoring_policies": sorted(

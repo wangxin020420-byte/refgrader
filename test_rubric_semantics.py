@@ -8,7 +8,9 @@ from calibration_utils import (
 )
 from canonicalizers import build_canonical_grading_context
 from rubric_semantics import (
+    HIGH_VALUE_SPLIT_THRESHOLD,
     apply_hierarchical_scoring_policy,
+    high_value_split_targets,
     has_deterministic_hierarchical_full_credit,
     prepare_rubric_semantic_contract,
     project_rubric_for_risk,
@@ -388,7 +390,7 @@ class RubricSemanticContractTests(unittest.TestCase):
             [canonical_full, canonical_full, canonical_full],
         ))
 
-    def test_all_embedded_initial_rubrics_match_question_contracts(self):
+    def test_all_embedded_initial_rubrics_prepare_high_value_contracts(self):
         root = Path(__file__).resolve().parent
         questions = json.loads(
             (root / "data/csbench/exam_database.json").read_text(encoding="utf-8")
@@ -403,12 +405,22 @@ class RubricSemanticContractTests(unittest.TestCase):
                     sum(float(item.get("points", 0)) for item in rubric),
                     total_score,
                 )
-                valid, errors = validate_refined_rubric(
-                    rubric,
-                    rubric,
-                    total_score,
-                )
-                self.assertTrue(valid, errors)
+                prepared = prepare_rubric_semantic_contract(rubric)
+                for item in prepared:
+                    parent_points = float(item.get("parent_points", 0) or 0)
+                    if parent_points < HIGH_VALUE_SPLIT_THRESHOLD:
+                        continue
+                    if item["scoring_policy"] == "additive_split":
+                        self.assertTrue(item["decomposition_required"])
+                        self.assertGreaterEqual(
+                            item["minimum_scoring_children"], 2
+                        )
+                    elif item["scoring_policy"] == "strict_atomic":
+                        self.assertFalse(item["decomposition_required"])
+                        self.assertEqual(
+                            item["decomposition_exemption"],
+                            "strict_atomic_single_outcome",
+                        )
 
     def test_compound_item_may_split_with_parent_score_conservation(self):
         original = prepare_rubric_semantic_contract([
@@ -420,11 +432,96 @@ class RubricSemanticContractTests(unittest.TestCase):
             }
         ])
         refined = [
-            {"id": f"step_1_atom_{index}", "parent_id": "step_1", "points": 1}
-            for index in range(1, 6)
+            {
+                "id": "step_1_result",
+                "parent_id": "step_1",
+                "item": "正确计算补码",
+                "points": 2.5,
+                "standard_answer_text": "8EH",
+            },
+            {
+                "id": "step_1_overflow",
+                "parent_id": "step_1",
+                "item": "正确判断溢出",
+                "points": 2.5,
+                "standard_answer_text": "发生溢出",
+            },
         ]
         valid, errors = validate_refined_rubric(original, refined, 5)
         self.assertTrue(valid, errors)
+
+    def test_high_value_additive_item_cannot_remain_unsplit(self):
+        original = prepare_rubric_semantic_contract([{
+            "id": "step_1",
+            "item": "判断命中并说明理由",
+            "points": 5,
+            "standard_answer_text": "未命中，因为标记不匹配",
+        }])
+        valid, errors = validate_refined_rubric(original, original, 5)
+        self.assertFalse(valid)
+        self.assertTrue(any(
+            "must contain at least 2 scoring items" in error
+            for error in errors
+        ))
+        self.assertEqual(
+            high_value_split_targets(original)[0]["parent_id"],
+            "step_1",
+        )
+
+    def test_high_value_strict_atomic_item_has_auditable_exemption(self):
+        original = prepare_rubric_semantic_contract([{
+            "id": "step_1",
+            "item": "写出唯一最终结果",
+            "points": 5,
+            "standard_answer_text": "37H",
+            "scoring_policy": "strict_atomic",
+        }])
+        valid, errors = validate_refined_rubric(original, original, 5)
+        self.assertTrue(valid, errors)
+        self.assertEqual(
+            original[0]["decomposition_exemption"],
+            "strict_atomic_single_outcome",
+        )
+        self.assertEqual(high_value_split_targets(original), [])
+
+    def test_completed_high_value_split_is_not_targeted_again(self):
+        split = prepare_rubric_semantic_contract([
+            {
+                "id": "step_1_result",
+                "parent_id": "step_1",
+                "parent_points": 5,
+                "item": "给出正确结论",
+                "points": 2.5,
+                "standard_answer_text": "未命中",
+                "scoring_policy": "additive_split",
+            },
+            {
+                "id": "step_1_reason",
+                "parent_id": "step_1",
+                "parent_points": 5,
+                "item": "给出关键理由",
+                "points": 2.5,
+                "standard_answer_text": "标记不匹配",
+                "scoring_policy": "additive_split",
+            },
+        ])
+        self.assertEqual(high_value_split_targets(split), [])
+
+    def test_high_value_threshold_is_inclusive(self):
+        at_threshold = prepare_rubric_semantic_contract([{
+            "id": "step_1",
+            "item": "给出结论并说明理由",
+            "points": HIGH_VALUE_SPLIT_THRESHOLD,
+            "standard_answer_text": "命中，因为标记一致",
+        }])
+        below_threshold = prepare_rubric_semantic_contract([{
+            "id": "step_1",
+            "item": "给出结论并说明理由",
+            "points": HIGH_VALUE_SPLIT_THRESHOLD - 0.1,
+            "standard_answer_text": "命中，因为标记一致",
+        }])
+        self.assertEqual(len(high_value_split_targets(at_threshold)), 1)
+        self.assertEqual(high_value_split_targets(below_threshold), [])
 
     def test_compound_item_rejects_subjective_unequal_weights(self):
         original = prepare_rubric_semantic_contract([

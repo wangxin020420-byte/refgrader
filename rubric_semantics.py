@@ -7,7 +7,13 @@ from copy import deepcopy
 from typing import Any
 
 
-RUBRIC_SEMANTIC_CONTRACT_VERSION = 2
+RUBRIC_SEMANTIC_CONTRACT_VERSION = 3
+
+# High-value composite parents are too coarse to grade reliably as one opaque
+# item. Two children are enough to expose partial credit without over-fragmenting
+# the official rubric. Truly atomic outcomes remain exempt.
+HIGH_VALUE_SPLIT_THRESHOLD = 4.0
+MIN_HIGH_VALUE_SCORING_CHILDREN = 2
 
 SCORING_POLICY_STRICT_ATOMIC = "strict_atomic"
 SCORING_POLICY_ADDITIVE = "additive_split"
@@ -81,6 +87,7 @@ def prepare_rubric_semantic_contract(
         item.setdefault("parent_id", item_id)
         item["semantic_contract_version"] = RUBRIC_SEMANTIC_CONTRACT_VERSION
         item.setdefault("parent_points", float(item.get("points", 0) or 0))
+        parent_points = float(item.get("parent_points", 0) or 0)
         scoring_policy = str(item.get("scoring_policy", "")).strip().lower()
         if scoring_policy not in SUPPORTED_SCORING_POLICIES:
             scoring_policy = (
@@ -93,6 +100,10 @@ def prepare_rubric_semantic_contract(
         if scoring_policy == SCORING_POLICY_STRICT_ATOMIC:
             item["split_policy"] = "preserve_atomic"
             item.setdefault("weighting_policy", "preserve_parent")
+            item["decomposition_required"] = False
+            item.pop("minimum_scoring_children", None)
+            if parent_points >= HIGH_VALUE_SPLIT_THRESHOLD:
+                item["decomposition_exemption"] = "strict_atomic_single_outcome"
         else:
             item["split_policy"] = "allow_semantic_split"
             item.setdefault(
@@ -101,6 +112,18 @@ def prepare_rubric_semantic_contract(
                 if scoring_policy == SCORING_POLICY_HIERARCHICAL
                 else "equal_atomic",
             )
+            item.pop("decomposition_exemption", None)
+            item["decomposition_required"] = bool(
+                scoring_policy == SCORING_POLICY_HIERARCHICAL
+                or parent_points >= HIGH_VALUE_SPLIT_THRESHOLD
+            )
+            if item["decomposition_required"]:
+                item["minimum_scoring_children"] = max(
+                    MIN_HIGH_VALUE_SCORING_CHILDREN,
+                    int(item.get("minimum_scoring_children", 0) or 0),
+                )
+            else:
+                item.pop("minimum_scoring_children", None)
 
         if scoring_policy in {
             SCORING_POLICY_STRICT_ATOMIC,
@@ -122,6 +145,85 @@ def prepare_rubric_semantic_contract(
             item["full_credit_trigger"] = bool(item.get("full_credit_trigger", False))
         contracted.append(item)
     return contracted
+
+
+def high_value_split_targets(
+    rubric: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Return high-value composite parents whose decomposition is incomplete."""
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for item in prepare_rubric_semantic_contract(rubric):
+        parent_id = str(item.get("parent_id") or item.get("id", ""))
+        groups.setdefault(parent_id, []).append(item)
+
+    targets = []
+    for parent_id, items in groups.items():
+        first = items[0]
+        parent_points = float(first.get("parent_points", 0) or 0)
+        if (
+            parent_points < HIGH_VALUE_SPLIT_THRESHOLD
+            or first.get("scoring_policy") != SCORING_POLICY_ADDITIVE
+        ):
+            continue
+        minimum_children = int(
+            first.get(
+                "minimum_scoring_children",
+                MIN_HIGH_VALUE_SCORING_CHILDREN,
+            )
+        )
+        scoring_children = sum(
+            float(item.get("points", 0) or 0) > 0 for item in items
+        )
+        if scoring_children >= minimum_children:
+            continue
+        targets.append(
+            {
+                "parent_id": parent_id,
+                "parent_points": parent_points,
+                "current_scoring_children": scoring_children,
+                "minimum_scoring_children": minimum_children,
+                "weighting_policy": first.get(
+                    "weighting_policy", "equal_atomic"
+                ),
+            }
+        )
+    return targets
+
+
+def rubric_scoring_signature(rubric: list[dict[str, Any]]) -> tuple:
+    """Return scoring-relevant content while ignoring generated audit metadata."""
+    rows = []
+    for item in prepare_rubric_semantic_contract(rubric):
+        rows.append(
+            (
+                str(item.get("parent_id") or ""),
+                str(item.get("id") or ""),
+                str(item.get("item") or "").strip(),
+                round(float(item.get("points", 0) or 0), 8),
+                str(item.get("standard_answer_text") or "").strip(),
+                str(item.get("scoring_policy") or ""),
+                bool(item.get("full_credit_trigger", False)),
+            )
+        )
+    return tuple(sorted(rows))
+
+
+def rubric_structure_signature(rubric: list[dict[str, Any]]) -> tuple:
+    """Return parent-to-positive-child cardinality for structural comparison."""
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for item in prepare_rubric_semantic_contract(rubric):
+        parent_id = str(item.get("parent_id") or item.get("id", ""))
+        groups.setdefault(parent_id, []).append(item)
+    return tuple(
+        sorted(
+            (
+                parent_id,
+                str(items[0].get("scoring_policy") or ""),
+                sum(float(item.get("points", 0) or 0) > 0 for item in items),
+            )
+            for parent_id, items in groups.items()
+        )
+    )
 
 
 def validate_refined_rubric(
@@ -150,6 +252,12 @@ def validate_refined_rubric(
             "scoring_policy": first.get("scoring_policy", SCORING_POLICY_ADDITIVE),
             "full_credit_anchor": first.get("full_credit_anchor", ""),
             "fallback_cap": float(first.get("fallback_cap", 0) or 0),
+            "decomposition_required": bool(
+                first.get("decomposition_required", False)
+            ),
+            "minimum_scoring_children": int(
+                first.get("minimum_scoring_children", 0) or 0
+            ),
             "items": items,
         }
     errors: list[str] = []
@@ -207,6 +315,26 @@ def validate_refined_rubric(
         scoring_children = [
             item for item in children if float(item.get("points", 0) or 0) > tolerance
         ]
+        if spec["scoring_policy"] == SCORING_POLICY_ADDITIVE:
+            minimum_children = int(spec.get("minimum_scoring_children", 0) or 0)
+            if spec.get("decomposition_required") and minimum_children < 2:
+                minimum_children = MIN_HIGH_VALUE_SCORING_CHILDREN
+            if minimum_children and len(scoring_children) < minimum_children:
+                errors.append(
+                    f"additive parent {parent_id} must contain at least "
+                    f"{minimum_children} scoring items, got {len(scoring_children)}"
+                )
+            if len(scoring_children) > 1:
+                for child in scoring_children:
+                    child_id = str(child.get("id", "") or "<missing>")
+                    if not str(child.get("item", "") or "").strip():
+                        errors.append(
+                            f"additive child {child_id} has no objective scoring item"
+                        )
+                    if not str(child.get("standard_answer_text", "") or "").strip():
+                        errors.append(
+                            f"additive child {child_id} has no standard answer"
+                        )
         if (
             spec["weighting_policy"] == "equal_atomic"
             and len(scoring_children) > 1

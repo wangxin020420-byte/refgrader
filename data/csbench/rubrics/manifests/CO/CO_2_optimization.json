@@ -4,8 +4,8 @@
   "question_id": "CO_2",
   "rubric_group": "CO",
   "source_rubric": "${CSBENCH_ROOT}/rubrics/source/CO/CO_2.json",
-  "initial_rubric": "D:\\users\\王鑫020420\\Desktop\\refgrader-main\\data\\csbench\\rubrics\\initial\\CO\\CO_2_rubric_standard.json",
-  "optimized_rubric": "D:\\users\\王鑫020420\\Desktop\\refgrader-main\\data\\csbench\\rubrics\\optimized\\CO\\CO_2_rubric_standard.json",
+  "initial_rubric": "${PREPARED_CSBENCH_ROOT}/rubrics/initial/CO/CO_2_rubric_standard.json",
+  "optimized_rubric": "${PREPARED_CSBENCH_ROOT}/rubrics/optimized/CO/CO_2_rubric_standard.json",
   "calibration_answer_ids": [
     "ANS_CO_532",
     "ANS_CO_535",
@@ -32,8 +32,9 @@
   "source_sha256": "b11aac618d8d490ae1d82907b6e9196b8daefcdea1113eeae7d081a256d4e18d",
   "initial_sha256": "ccf8f30ed66fa51b2c955bb7e22e0ccc0c6b4a14f68ae93768b595d9166c3c36",
   "optimized_sha256": "8069aa738d9139ca423eb40939b653f7fb1ea0d6649aeab638fe9c56093b1cb7",
-  "optimization_results_dir": "D:\\users\\王鑫020420\\Desktop\\refgrader-main\\results_runs\\restored_rubric_optimization_20260714_022104",
-  "variance_checkpoint": "D:\\users\\王鑫020420\\Desktop\\refgrader-main\\results_runs\\restored_rubric_optimization_20260714_022104\\CO_2_variance_checkpoint.json",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/restored_rubric_optimization_20260714_022104",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/restored_rubric_optimization_20260714_022104/CO_2_variance_checkpoint.json",
   "variance_checkpoint_sha256": "946a87c282d0ba17c9af5b8186bb8fcba953e60670a33e37befb272539c5a4b7",
-  "created_at": "2026-07-13T23:50:50"
+  "created_at": "2026-07-13T23:50:50",
+  "path_format": "refgrader_placeholders_v1"
 }

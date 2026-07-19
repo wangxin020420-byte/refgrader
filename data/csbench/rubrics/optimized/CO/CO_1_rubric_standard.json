@@ -22,7 +22,7 @@
         "metadata_hard_enabled": true,
         "metadata_confidence": 1.0,
         "parent_id": "step_1",
-        "semantic_contract_version": 2,
+        "semantic_contract_version": 4,
         "parent_points": 5.0,
         "scoring_policy": "final_sufficient_partial_credit",
         "split_policy": "allow_semantic_split",
@@ -30,7 +30,10 @@
         "full_credit_policy": "final_answer_sufficient",
         "full_credit_anchor": "37H",
         "full_credit_trigger": false,
-        "fallback_cap": 3.5
+        "fallback_cap": 3.5,
+        "task_semantics": "result_sufficient",
+        "decomposition_required": true,
+        "minimum_scoring_children": 2
     },
     {
         "id": "step_1_effective_address",
@@ -54,7 +57,7 @@
         "metadata_hard_enabled": true,
         "metadata_confidence": 1.0,
         "parent_id": "step_1",
-        "semantic_contract_version": 2,
+        "semantic_contract_version": 4,
         "parent_points": 5.0,
         "scoring_policy": "final_sufficient_partial_credit",
         "split_policy": "allow_semantic_split",
@@ -62,7 +65,10 @@
         "full_credit_policy": "final_answer_sufficient",
         "full_credit_anchor": "37H",
         "full_credit_trigger": false,
-        "fallback_cap": 3.5
+        "fallback_cap": 3.5,
+        "task_semantics": "result_sufficient",
+        "decomposition_required": true,
+        "minimum_scoring_children": 2
     },
     {
         "id": "step_1_final",
@@ -86,7 +92,7 @@
         "metadata_hard_enabled": true,
         "metadata_confidence": 1.0,
         "parent_id": "step_1",
-        "semantic_contract_version": 2,
+        "semantic_contract_version": 4,
         "parent_points": 5.0,
         "scoring_policy": "final_sufficient_partial_credit",
         "split_policy": "allow_semantic_split",
@@ -94,6 +100,9 @@
         "full_credit_policy": "final_answer_sufficient",
         "full_credit_anchor": "37H",
         "full_credit_trigger": true,
-        "fallback_cap": 3.5
+        "fallback_cap": 3.5,
+        "task_semantics": "result_sufficient",
+        "decomposition_required": true,
+        "minimum_scoring_children": 2
     }
 ]

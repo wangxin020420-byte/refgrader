@@ -4,15 +4,21 @@
   "database_path": "${PREPARED_CSBENCH_ROOT}/exam_database.json",
   "teacher_db": "${PREPARED_CSBENCH_ROOT}/teacher_scores.json",
   "files": [
-    "${REFGRADER_ROOT}/results_runs/csbench_co4_validation/runs/20260718_111838/CO_4_grading_checkpoint.json"
+    "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_validation/runs/rubric_v4_all7_20260718_231147/CO_1_grading_checkpoint.json",
+    "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_validation/runs/rubric_v4_all7_20260718_231147/CO_2_grading_checkpoint.json",
+    "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_validation/runs/rubric_v4_all7_20260718_231147/CO_3_grading_checkpoint.json",
+    "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_validation/runs/rubric_v4_all7_20260718_231147/CO_4_grading_checkpoint.json",
+    "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_validation/runs/rubric_v4_all7_20260718_231147/CO_5_grading_checkpoint.json",
+    "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_validation/runs/rubric_v4_all7_20260718_231147/CO_6_grading_checkpoint.json",
+    "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_validation/runs/rubric_v4_all7_20260718_231147/CO_7_grading_checkpoint.json"
   ],
   "selection_objective": "constrained_expected_system_cost",
   "loss_params": {
-    "lambda1": 2.0,
+    "lambda1": 0.25,
     "lambda2": 1.0,
     "mu1": 1.0,
     "mu2": 0.25,
-    "m": 0.3
+    "m": 0.4
   },
   "risk_weights": {
     "extract": 0.4,
@@ -27,29 +33,29 @@
     "target": "safe_auto_grading",
     "safe_error_ratio": 0.1,
     "safe_error_points": 0.5,
-    "intercept": 1.3198203,
+    "intercept": 0.13250345,
     "coefficients": {
-      "U_E": 0.0,
-      "U_S": 0.59291569,
-      "U_R": 0.0
+      "U_E": 0.16356882,
+      "U_S": 0.21927975,
+      "U_R": 0.20448656
     },
     "constraints": "non_negative_risk_coefficients",
     "regularization_l2": 0.05,
-    "training_n": 9,
-    "positive_rate": 0.777778,
-    "brier_score": 0.166589
+    "training_n": 65,
+    "positive_rate": 0.507692,
+    "brier_score": 0.246165
   },
   "score_uncertainty": {
     "version": 1,
     "enabled": true,
     "method": "locally_scaled_split_conformal",
     "coverage": 0.9,
-    "calibration_n": 9,
+    "calibration_n": 65,
     "scale_floor": 0.05,
     "safe_tolerance_ratio": 0.1,
-    "nonconformity_quantile": 6.3,
-    "empirical_coverage": 1.0,
-    "mean_interval_width_ratio": 0.63,
+    "nonconformity_quantile": 7.3,
+    "empirical_coverage": 0.923077,
+    "mean_interval_width_ratio": 1.197574,
     "assumption": "exchangeable_validation_and_test_records"
   },
   "boundary_policy": {
@@ -68,58 +74,203 @@
     "max_unsafe_pos_rate": 0.1
   },
   "cross_validation": {
-    "available": false,
-    "reason": "at_least_two_questions_required",
-    "folds": []
+    "available": true,
+    "method": "leave_one_question_out",
+    "n": 65,
+    "folds": [
+      {
+        "held_out_question": "CO_1",
+        "train_n": 52,
+        "test_n": 13,
+        "loss_params": {
+          "lambda1": 0.25,
+          "lambda2": 1.0,
+          "mu1": 1.0,
+          "mu2": 4.0,
+          "m": 0.5
+        },
+        "baseline_mae": 0.476923,
+        "candidate_mae": 0.553846,
+        "route_counts": {
+          "BND": 13
+        },
+        "bnd_gain": -0.076923
+      },
+      {
+        "held_out_question": "CO_2",
+        "train_n": 55,
+        "test_n": 10,
+        "loss_params": {
+          "lambda1": 0.5,
+          "lambda2": 1.0,
+          "mu1": 1.0,
+          "mu2": 0.25,
+          "m": 0.3
+        },
+        "baseline_mae": 4.87,
+        "candidate_mae": 4.87,
+        "route_counts": {
+          "POS": 9,
+          "BND": 1
+        },
+        "bnd_gain": 0.0
+      },
+      {
+        "held_out_question": "CO_3",
+        "train_n": 55,
+        "test_n": 10,
+        "loss_params": {
+          "lambda1": 1.0,
+          "lambda2": 1.0,
+          "mu1": 1.0,
+          "mu2": 0.25,
+          "m": 0.2
+        },
+        "baseline_mae": 2.7,
+        "candidate_mae": 2.812,
+        "route_counts": {
+          "BND": 3,
+          "POS": 7
+        },
+        "bnd_gain": -0.373333
+      },
+      {
+        "held_out_question": "CO_4",
+        "train_n": 56,
+        "test_n": 9,
+        "loss_params": {
+          "lambda1": 1.0,
+          "lambda2": 1.0,
+          "mu1": 1.0,
+          "mu2": 0.25,
+          "m": 0.2
+        },
+        "baseline_mae": 1.466667,
+        "candidate_mae": 1.422222,
+        "route_counts": {
+          "BND": 9
+        },
+        "bnd_gain": 0.044444
+      },
+      {
+        "held_out_question": "CO_5",
+        "train_n": 54,
+        "test_n": 11,
+        "loss_params": {
+          "lambda1": 0.25,
+          "lambda2": 1.0,
+          "mu1": 1.0,
+          "mu2": 0.25,
+          "m": 0.4
+        },
+        "baseline_mae": 3.463636,
+        "candidate_mae": 3.690909,
+        "route_counts": {
+          "BND": 8,
+          "POS": 3
+        },
+        "bnd_gain": -0.3125
+      },
+      {
+        "held_out_question": "CO_6",
+        "train_n": 59,
+        "test_n": 6,
+        "loss_params": {
+          "lambda1": 0.25,
+          "lambda2": 1.0,
+          "mu1": 1.0,
+          "mu2": 0.25,
+          "m": 0.4
+        },
+        "baseline_mae": 1.633333,
+        "candidate_mae": 1.633333,
+        "route_counts": {
+          "BND": 6
+        },
+        "bnd_gain": 0.0
+      },
+      {
+        "held_out_question": "CO_7",
+        "train_n": 59,
+        "test_n": 6,
+        "loss_params": {
+          "lambda1": 0.5,
+          "lambda2": 1.0,
+          "mu1": 1.0,
+          "mu2": 0.25,
+          "m": 0.2
+        },
+        "baseline_mae": 0.533333,
+        "candidate_mae": 0.533333,
+        "route_counts": {
+          "POS": 4,
+          "BND": 2
+        },
+        "bnd_gain": 0.0
+      }
+    ],
+    "improved_questions": 1,
+    "normalized_mae_delta": {
+      "mean": 0.007056,
+      "ci95": [
+        -0.003354,
+        0.017795
+      ],
+      "iterations": 2000,
+      "seed": 20260714
+    },
+    "noninferiority_margin": 0.01,
+    "noninferior": false,
+    "superior": false
   },
   "deployment_gate": {
     "passed": false,
     "requirements": {
       "loqo_normalized_mae_noninferior": false,
-      "route_budget_constraints_met": true,
+      "route_budget_constraints_met": false,
       "validation_bnd_gain_positive": false
     },
     "note": "A failed gate marks the config experimental; it does not tune on test data."
   },
   "thresholds": {
-    "alpha": 0.766667,
-    "beta": 0.06
+    "alpha": 0.52,
+    "beta": 0.08
   },
   "validation_summary": {
-    "n": 9,
-    "objective": 0.097778,
-    "expected_system_cost": 0.097778,
-    "constraint_violations": 0,
-    "constraint_excess": 0.0,
+    "n": 65,
+    "objective": 0.378172,
+    "expected_system_cost": 0.378172,
+    "constraint_violations": 1,
+    "constraint_excess": 0.333333,
     "metrics": {
-      "n": 9,
-      "mae": 1.822222,
-      "rmse": 2.940521,
-      "tar2": 0.777778,
-      "bias": 1.2,
-      "over2": 2,
-      "under2": 0
+      "n": 65,
+      "mae": 2.325692,
+      "rmse": 3.42782,
+      "tar2": 0.569231,
+      "bias": -1.731846,
+      "over2": 3,
+      "under2": 25
     },
     "baseline_metrics": {
-      "n": 9,
-      "mae": 1.822222,
-      "rmse": 2.940521,
-      "tar2": 0.777778,
-      "bias": 1.2,
+      "n": 65,
+      "mae": 2.249231,
+      "rmse": 3.362096,
+      "tar2": 0.6,
+      "bias": -1.784615,
       "over2": 2,
-      "under2": 0
+      "under2": 24
     },
     "route_counts": {
-      "POS": 6,
-      "BND": 3
+      "POS": 30,
+      "BND": 35
     },
-    "bnd_ratio": 0.333333,
+    "bnd_ratio": 0.538462,
     "neg_ratio": 0.0,
-    "unsafe_pos_count": 0,
-    "unsafe_pos_rate": 0.0,
-    "pos_mae": 0.633333,
-    "bnd_mae": 4.2,
-    "bnd_gain": 0.0
+    "unsafe_pos_count": 13,
+    "unsafe_pos_rate": 0.433333,
+    "pos_mae": 1.503333,
+    "bnd_mae": 3.030571,
+    "bnd_gain": -0.142
   },
   "score_calibration": {
     "version": 2,
@@ -134,18 +285,41 @@
       "question_route_band": {},
       "question_route": {},
       "question": {},
-      "route": {},
+      "route": {
+        "POS": {
+          "n": 30,
+          "mean_residual": 1.07,
+          "standard_error": 0.403552,
+          "ci95": [
+            0.279039,
+            1.860961
+          ],
+          "sign_stable": true,
+          "correction": 0.844737
+        },
+        "BND": {
+          "n": 35,
+          "mean_residual": 2.299143,
+          "standard_error": 0.581728,
+          "ci95": [
+            1.158956,
+            3.43933
+          ],
+          "sign_stable": true,
+          "correction": 1.871395
+        }
+      },
       "global": {
         "*": {
-          "n": 9,
-          "mean_residual": -1.2,
-          "standard_error": 0.949122,
+          "n": 65,
+          "mean_residual": 1.731846,
+          "standard_error": 0.369769,
           "ci95": [
-            -3.06028,
-            0.66028
+            1.007099,
+            2.456593
           ],
-          "sign_stable": false,
-          "correction": 0.0
+          "sign_stable": true,
+          "correction": 1.542055
         }
       }
     }

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "rubric_semantic_contract_version": 3,
+  "rubric_semantic_contract_version": 4,
   "question_id": "CO_4",
   "rubric_group": "CO",
   "source_rubric": "data/csbench/rubrics/source/CO/CO_4.json",
@@ -19,24 +19,24 @@
   "question_total_score": 20.0,
   "initial_total_score": 20.0,
   "optimized_total_score": 20.0,
-  "average_score_variance": 1.288888888888889,
-  "average_item_variance": 0.06984126984126983,
-  "maximum_item_variance": 0.6666666666666666,
+  "average_score_variance": 1.5222222222222224,
+  "average_item_variance": 0.1349206349206349,
+  "maximum_item_variance": 1.5555555555555556,
   "high_value_split_threshold": 4.0,
   "mandatory_split_targets": [
     {
       "parent_id": "step_6",
       "parent_points": 5.0,
       "current_scoring_children": 1,
-      "minimum_scoring_children": 2,
-      "weighting_policy": "equal_atomic"
+      "minimum_scoring_children": 3,
+      "weighting_policy": "role_constrained"
     },
     {
       "parent_id": "step_7",
       "parent_points": 5.0,
       "current_scoring_children": 1,
-      "minimum_scoring_children": 2,
-      "weighting_policy": "equal_atomic"
+      "minimum_scoring_children": 3,
+      "weighting_policy": "role_constrained"
     }
   ],
   "refinement_attempted": true,
@@ -46,15 +46,15 @@
   "semantic_policy_validated": true,
   "semantic_validation_errors": [],
   "scoring_policies": [
-    "additive_split",
+    "role_weighted_additive",
     "strict_atomic"
   ],
   "source_sha256": "f78866f5eb76f52e9e0b7cd1f080cadb0bd4caae3a906a63bbd84bec24e6faed",
   "initial_sha256": "72db467b3af4bb93e018f955fab43f87336e2117921c26bc6714bca038a0db1b",
-  "optimized_sha256": "be13acd26f4e51b77a443aa66c53ce6495122f51899f275049c880b263b2d5a2",
-  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_co4_rubric_opt",
-  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_co4_rubric_opt/CO_4_variance_checkpoint.json",
-  "variance_checkpoint_sha256": "87b95a5bcd67aaffe5922ec21de44a01398b48c0d1cef279705e53b864318d5f",
-  "created_at": "2026-07-18T11:18:37",
+  "optimized_sha256": "2f3771f3f90b0aee093a744d5ddad5a2231e9a67c9aaf00b9572682117cea36e",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt/CO_4_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "f6c4bbec0a213a52e52e830d57e27ee5fc53a44d759f6cd6ed9ebce0a6831cff",
+  "created_at": "2026-07-19T02:51:11",
   "path_format": "refgrader_placeholders_v1"
 }

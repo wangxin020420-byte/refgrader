@@ -1,6 +1,7 @@
 import unittest
 
 from calibration_utils import (
+    apply_route_score_calibration,
     apply_structured_boundary_action_policy,
     build_a3wa_decision,
     calibrated_a3wa_membership,
@@ -8,6 +9,7 @@ from calibration_utils import (
 )
 from scripts.calibrate_a3wa import (
     _residual_entry,
+    build_score_calibration,
     fit_monotonic_membership,
     fit_score_uncertainty,
     leave_one_question_out_validation,
@@ -144,6 +146,39 @@ class A3WATheoryTests(unittest.TestCase):
         entry = _residual_entry(records, shrinkage_k=8.0, max_correction=2.0)
         self.assertFalse(entry["sign_stable"])
         self.assertEqual(entry["correction"], 0.0)
+
+    def test_cross_question_residual_is_blocked_on_local_direction_conflict(self):
+        records = [
+            {
+                "qid": "CO_1", "trial_route": "BND", "trial_score": 5.0,
+                "teacher": 7.0, "max_score": 10.0,
+            }
+            for _ in range(20)
+        ]
+        records.extend([
+            {
+                "qid": "CO_4", "trial_route": "BND", "trial_score": 5.0,
+                "teacher": 4.0, "max_score": 10.0,
+            }
+            for _ in range(3)
+        ])
+        score_calibration = build_score_calibration(
+            records,
+            min_cell_count=20,
+            shrinkage_k=8.0,
+            max_correction_ratio=0.12,
+            max_correction_points=2.0,
+        )
+        result = apply_route_score_calibration(
+            score=5.0,
+            max_score=10.0,
+            question_id="CO_4",
+            route="BND",
+            config={"score_calibration": score_calibration},
+        )
+        self.assertFalse(result["applied"])
+        self.assertEqual(result["reason"], "cross_question_direction_conflict")
+        self.assertEqual(result["local_diagnostic_n"], 3)
 
     def test_calibration_produces_cross_question_diagnostics(self):
         records = []

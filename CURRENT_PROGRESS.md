@@ -1,6 +1,25 @@
 # Current Progress
 
-Last updated: 2026-07-17
+Last updated: 2026-07-19
+
+## 2026-07-19 Rubric Candidate Safety Gate And Residual Transfer Guard
+
+Rubric semantic contract version 5 closes the failure exposed by the latest
+CO_4 run. Split children may no longer invent binary or hexadecimal answer
+literals or reverse the parent's final judgement. After deterministic
+validation, each refined candidate is replayed on the isolated rubric-
+calibration facts and compared with the original rubric against teacher scores.
+Insufficient replay coverage, MAE beyond the score-relative non-inferiority
+margin, or a severe paired regression rejects the candidate without replacing
+the active rubric. `optimize` now explicitly uses the embedded CSBench teacher
+database rather than the legacy default database.
+
+Validation residual calibration remains a separate optional layer. It now
+retains question-level diagnostics even when a cell is too small to deploy a
+question-specific correction. A route/global fallback is blocked when at least
+three local validation examples show an opposite material residual direction.
+This prevents cross-question transfer from masking or amplifying a question-
+specific rubric bias.
 
 ## 2026-07-17 Tracked Active Experiment Configuration
 
@@ -38,11 +57,10 @@ verifiable official evidence, avoid hidden requirements, and remain coarse when
 the task is genuinely result-only. CO_1 to CO_7 now serve as behavioral audit
 cases rather than hard-coded decomposition templates.
 
-The current acceptance check covers score conservation, equal weighting, and
-semantic traceability. A paired teacher-score non-inferiority gate for choosing
-between the coarse and fine candidates is not implemented yet; it remains a
-follow-up item and must use only rubric-calibration data, never validation or
-test labels.
+The current acceptance check covers score conservation, equal weighting,
+semantic traceability, immutable answer facts, and paired teacher-score
+non-inferiority on rubric-calibration data. Validation and test labels remain
+outside rubric candidate selection.
 
 The general instructor-aligned semantics remain: equivalent representations
 and pure formatting differences do not lose points, concise valid methods and

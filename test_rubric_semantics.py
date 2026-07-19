@@ -15,6 +15,7 @@ from rubric_semantics import (
     high_value_split_targets,
     has_deterministic_hierarchical_full_credit,
     prepare_rubric_semantic_contract,
+    assess_candidate_replay,
     project_rubric_for_risk,
     validate_refined_rubric,
 )
@@ -722,6 +723,117 @@ class RubricSemanticContractTests(unittest.TestCase):
         self.assertFalse(valid)
         self.assertTrue(any("parent a score changed" in error for error in errors))
         self.assertTrue(any("parent b score changed" in error for error in errors))
+
+    def test_split_child_cannot_invent_binary_answer_literal(self):
+        original = prepare_rubric_semantic_contract([{
+            "id": "step_1",
+            "item": "完成地址映射，比较标记并说明是否命中",
+            "points": 5,
+            "standard_answer_text": "地址2D07FFH的标记为0101 1010B，因此未命中",
+            "task_semantics": "process_dominant",
+            "process_complexity": "complex",
+        }])
+        refined = [
+            {
+                "id": "step_1_support", "parent_id": "step_1",
+                "item": "提取标记", "points": 1.5,
+                "standard_answer_text": "标记为00101101B",
+                "scoring_role": "support_process",
+            },
+            {
+                "id": "step_1_core", "parent_id": "step_1",
+                "item": "比较标记", "points": 2.5,
+                "standard_answer_text": "01011010B与Cache标记不一致",
+                "scoring_role": "core_process",
+            },
+            {
+                "id": "step_1_final", "parent_id": "step_1",
+                "item": "给出结论", "points": 1.0,
+                "standard_answer_text": "未命中",
+                "scoring_role": "final",
+            },
+        ]
+        valid, errors = validate_refined_rubric(original, refined, 5)
+        self.assertFalse(valid)
+        self.assertTrue(any("unsupported answer literals" in error for error in errors))
+
+    def test_split_child_accepts_regrouped_parent_binary_literal(self):
+        original = prepare_rubric_semantic_contract([{
+            "id": "step_1",
+            "item": "完成地址映射，比较标记并说明是否命中",
+            "points": 5,
+            "standard_answer_text": "地址2D07FFH的标记为0101 1010B，因此未命中",
+            "task_semantics": "process_dominant",
+            "process_complexity": "complex",
+        }])
+        refined = [
+            {
+                "id": "step_1_support", "parent_id": "step_1",
+                "item": "提取标记", "points": 1.5,
+                "standard_answer_text": "标记为01011010B",
+                "scoring_role": "support_process",
+            },
+            {
+                "id": "step_1_core", "parent_id": "step_1",
+                "item": "比较标记", "points": 2.5,
+                "standard_answer_text": "0101 1010B与Cache标记不一致",
+                "scoring_role": "core_process",
+            },
+            {
+                "id": "step_1_final", "parent_id": "step_1",
+                "item": "给出结论", "points": 1.0,
+                "standard_answer_text": "未命中",
+                "scoring_role": "final",
+            },
+        ]
+        valid, errors = validate_refined_rubric(original, refined, 5)
+        self.assertTrue(valid, errors)
+
+    def test_split_final_child_cannot_reverse_parent_conclusion(self):
+        original = prepare_rubric_semantic_contract([{
+            "id": "step_1",
+            "item": "完成映射并说明是否命中",
+            "points": 5,
+            "standard_answer_text": "标记不一致，因此未命中",
+            "task_semantics": "process_dominant",
+            "process_complexity": "complex",
+        }])
+        refined = [
+            {
+                "id": "step_1_support", "parent_id": "step_1",
+                "item": "映射", "points": 1.5,
+                "standard_answer_text": "完成映射",
+                "scoring_role": "support_process",
+            },
+            {
+                "id": "step_1_core", "parent_id": "step_1",
+                "item": "比较", "points": 2.5,
+                "standard_answer_text": "标记不一致",
+                "scoring_role": "core_process",
+            },
+            {
+                "id": "step_1_final", "parent_id": "step_1",
+                "item": "结论", "points": 1.0,
+                "standard_answer_text": "命中",
+                "scoring_role": "final",
+            },
+        ]
+        valid, errors = validate_refined_rubric(original, refined, 5)
+        self.assertFalse(valid)
+        self.assertTrue(any("changed parent conclusion" in error for error in errors))
+
+    def test_candidate_replay_requires_teacher_score_noninferiority(self):
+        accepted = assess_candidate_replay([
+            {"baseline_score": 5, "candidate_score": 5.1, "teacher_score": 5},
+            {"baseline_score": 3, "candidate_score": 3.1, "teacher_score": 3},
+        ], 10)
+        rejected = assess_candidate_replay([
+            {"baseline_score": 5, "candidate_score": 8, "teacher_score": 5},
+            {"baseline_score": 3, "candidate_score": 6, "teacher_score": 3},
+        ], 10)
+        self.assertTrue(accepted["accepted"])
+        self.assertFalse(rejected["accepted"])
+        self.assertEqual(rejected["reason"], "severe_sample_regression")
 
 
 if __name__ == "__main__":

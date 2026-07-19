@@ -14,6 +14,7 @@ from step3_rrd_generator import generate_rrd_rubrics, refine_rubric_based_on_var
 from rubric_semantics import (
     HIGH_VALUE_SPLIT_THRESHOLD,
     RUBRIC_SEMANTIC_CONTRACT_VERSION,
+    assess_candidate_replay,
     apply_hierarchical_scoring_policy,
     apply_role_weighted_scoring_policy,
     high_value_split_targets,
@@ -734,6 +735,64 @@ def sample_needs_ocr(extraction_backend, q_data, image_filename):
     )
 
 
+def replay_refined_rubric_candidate(
+    question_id,
+    question_score,
+    candidate_rubric,
+    calibration_samples,
+):
+    """Replay a candidate on isolated rubric-calibration facts before publish."""
+    records = []
+    rubric_json = json.dumps(candidate_rubric, ensure_ascii=False)
+    for sample in calibration_samples:
+        answer_id = os.path.splitext(str(sample.get("file", "")))[0]
+        baseline_scores = [
+            float(value)
+            for value in sample.get("scores", [])
+            if value is not None
+        ]
+        record = {
+            "answer_id": answer_id,
+            "baseline_score": (
+                float(np.mean(baseline_scores)) if baseline_scores else None
+            ),
+            "candidate_score": None,
+            "teacher_score": get_teacher_score_from_your_database(
+                answer_id,
+                question_id,
+            ),
+        }
+        try:
+            facts = sample.get("facts")
+            response = stage2_logic_grading(facts, rubric_json)
+            parsed = extract_and_parse_json(response) if response else None
+            if parsed and "total_score" in parsed:
+                canonical_context = build_canonical_grading_context(
+                    facts,
+                    candidate_rubric,
+                )
+                parsed = apply_canonical_score_floor(parsed, canonical_context)
+                parsed = apply_hierarchical_scoring_policy(
+                    parsed,
+                    candidate_rubric,
+                    canonical_context,
+                )
+                parsed = apply_role_weighted_scoring_policy(
+                    parsed,
+                    candidate_rubric,
+                )
+                record["candidate_score"] = float(parsed["total_score"])
+            else:
+                record["error"] = "candidate_replay_unparsable"
+        except Exception as exc:
+            record["error"] = f"{type(exc).__name__}: {exc}"
+        records.append(record)
+
+    report = assess_candidate_replay(records, question_score)
+    report["records"] = records
+    return report
+
+
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # ============================================================
@@ -1040,6 +1099,13 @@ def run_variance_optimization_process(
     structural_refinement_applied = False
     metadata_enriched = False
     refinement_attempted = False
+    candidate_replay = {
+        "method": "paired_teacher_score_noninferiority",
+        "accepted": False,
+        "reason": "not_attempted",
+        "expected": 0,
+        "paired": 0,
+    }
 
     if avg_variance > 0.1 or avg_item_variance > 0.05 or has_refinement_candidate:
         if avg_variance > 0.1:
@@ -1097,19 +1163,45 @@ def run_variance_optimization_process(
                     + "; ".join(refined_errors)
                 )
             else:
-                final_rubric = prepare_rubric_semantic_contract(refined_rubric)
-                refinement_applied = (
-                    rubric_scoring_signature(final_rubric)
+                candidate_rubric = prepare_rubric_semantic_contract(refined_rubric)
+                logging.info(
+                    "[candidate replay] validating refined rubric against "
+                    f"{len(hard_samples_info)} isolated calibration answers..."
+                )
+                candidate_replay = replay_refined_rubric_candidate(
+                    q_id,
+                    q_score,
+                    candidate_rubric,
+                    hard_samples_info,
+                )
+                logging.info(
+                    "[candidate replay] "
+                    + json.dumps(candidate_replay, ensure_ascii=False)
+                )
+                if not candidate_replay.get("accepted", False):
+                    logging.error(
+                        "Refined rubric rejected by calibration non-inferiority "
+                        f"gate: {candidate_replay.get('reason')}"
+                    )
+                else:
+                    final_rubric = candidate_rubric
+                refinement_applied = candidate_replay.get("accepted", False) and (
+                    rubric_scoring_signature(candidate_rubric)
                     != rubric_scoring_signature(draft_rubric)
                 )
-                structural_refinement_applied = (
-                    rubric_structure_signature(final_rubric)
+                structural_refinement_applied = candidate_replay.get("accepted", False) and (
+                    rubric_structure_signature(candidate_rubric)
                     != rubric_structure_signature(draft_rubric)
                 )
                 metadata_enriched = bool(
-                    final_rubric != draft_rubric and not refinement_applied
+                    candidate_replay.get("accepted", False)
+                    and candidate_rubric != draft_rubric
+                    and not refinement_applied
                 )
-                logging.info("🎉 修正后的最终标准已通过总分与语义契约校验。")
+                if candidate_replay.get("accepted", False):
+                    logging.info(
+                        "🎉 修正后的最终标准已通过语义契约和校准集非劣验收。"
+                    )
         else:
             logging.error("❌ 修正请求失败或 JSON 解析错误，保留原草稿。")
     else:
@@ -1168,6 +1260,7 @@ def run_variance_optimization_process(
         "metadata_enriched": metadata_enriched,
         "semantic_policy_validated": semantic_policy_validated,
         "semantic_validation_errors": semantic_validation_errors,
+        "candidate_replay": candidate_replay,
         "scoring_policies": sorted(
             {
                 str(item.get("scoring_policy", ""))

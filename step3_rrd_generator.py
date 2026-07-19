@@ -482,6 +482,8 @@ def refine_rubric_based_on_variance(original_rubric_list, question_text, total_s
 12. 原子拆分只保留有教学意义的关键检查点，不要求学生复现标准答案的每一步算术展开。允许等价推导路径和上游错误后的正确后续方法获得相应过程分。裸结论只获得低权重 final 子项，不得反推过程。仅当题干明确要求证明或说明理由时，才可设置 dependency_mode=evidence_required；其他情况必须为 independent。
 13. task_semantics 必须从 strict_atomic / result_sufficient / orthogonal_additive / component_additive / process_dominant 中选择。不要把“推导复杂度”与“最终结果是否足以满分”混为一谈；只有官方语义明确结果充分时才能使用 result_sufficient。
 14. 多字段地址格式、表项和带标签记录使用 answer_type=structured_fields，并给 canonicalization.fields 声明字段名、别名和 required，必要时 ordered=true。bit_vector 仅用于真正的位掩码或位集合。
+15. 父项 standard_answer_text 中的二进制、十六进制、地址、标记和最终判断均为不可变事实锚点。拆分只能把父项已经给出的事实分配给子项，不得重新计算、改写或引入父项未出现的数值答案；如怀疑参考答案有误，应保留父项并让确定性校验拒绝候选，不得自行纠正。
+16. 输出会在发布前使用独立 rubric-calibration 样本和教师分做配对非劣回放。拆分的目标是提高可判定性，不是改变样本的宽严尺度；若候选导致平均绝对误差超出预设非劣界限或产生单样本严重退化，系统会自动回退原准则。
 
 【问题类型判定】
 在修改前，先在内部判断每个暴露问题属于哪一类：

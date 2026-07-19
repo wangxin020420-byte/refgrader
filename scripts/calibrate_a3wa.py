@@ -468,6 +468,7 @@ def build_score_calibration(
     shrinkage_k=8.0,
     max_correction_ratio=0.12,
     max_correction_points=2.0,
+    direction_guard_min_count=3,
 ):
     """Build an interpretable validation residual correction table.
 
@@ -498,22 +499,26 @@ def build_score_calibration(
         grouped["global"]["*"].append(item)
 
     table = {}
+    diagnostics = {}
     for group_name, cells in grouped.items():
         table[group_name] = {}
+        diagnostics[group_name] = {}
         for key, items in cells.items():
-            if group_name != "global" and len(items) < min_cell_count:
-                continue
             max_score = max(mean([safe_float(item.get("max_score"), 1.0) for item in items]), 1.0)
             max_correction = min(max_correction_points, max_correction_ratio * max_score)
-            table[group_name][key] = _residual_entry(
+            diagnostic = _residual_entry(
                 items,
                 shrinkage_k,
                 max_correction,
                 min_stable_count=min_cell_count,
             )
+            diagnostics[group_name][key] = diagnostic
+            if group_name != "global" and len(items) < min_cell_count:
+                continue
+            table[group_name][key] = diagnostic
 
     return {
-        "version": 2,
+        "version": 3,
         "enabled": True,
         "method": "validation_residual_additive",
         "score_band": "low:<35%, mid:<70%, high:>=70%",
@@ -521,7 +526,10 @@ def build_score_calibration(
         "shrinkage_k": float(shrinkage_k),
         "max_correction_ratio": float(max_correction_ratio),
         "max_correction_points": float(max_correction_points),
+        "direction_guard_min_count": int(max(1, direction_guard_min_count)),
+        "direction_guard_floor_ratio": 0.02,
         "table": table,
+        "diagnostics": diagnostics,
     }
 
 
@@ -651,6 +659,7 @@ def main():
     parser.add_argument("--score-calibration", action="store_true", default=False)
     parser.add_argument("--no-score-calibration", dest="score_calibration", action="store_false")
     parser.add_argument("--min-cell-count", type=int, default=20)
+    parser.add_argument("--direction-guard-min-count", type=int, default=3)
     parser.add_argument("--shrinkage-k", type=float, default=8.0)
     parser.add_argument("--max-correction-ratio", type=float, default=0.12)
     parser.add_argument("--max-correction-points", type=float, default=2.0)
@@ -688,6 +697,8 @@ def main():
             parser.error(f"--{name.replace('_', '-')} must be non-negative")
     if args.min_cell_count < 1:
         parser.error("--min-cell-count must be at least 1")
+    if args.direction_guard_min_count < 1:
+        parser.error("--direction-guard-min-count must be at least 1")
 
     teacher_db = load_json(args.teacher_db)
     question_scores = load_question_scores(args.database_path)
@@ -825,10 +836,11 @@ def main():
         },
     }
     config["score_calibration"] = {
-        "version": 2,
+        "version": 3,
         "enabled": False,
         "method": "disabled_core_ablation",
         "table": {},
+        "diagnostics": {},
     }
     if args.score_calibration:
         config["score_calibration"] = build_score_calibration(
@@ -837,6 +849,7 @@ def main():
             shrinkage_k=args.shrinkage_k,
             max_correction_ratio=args.max_correction_ratio,
             max_correction_points=args.max_correction_points,
+            direction_guard_min_count=args.direction_guard_min_count,
         )
     write_json(args.output, config)
 

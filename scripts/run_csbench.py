@@ -1437,6 +1437,8 @@ def optimize(args: argparse.Namespace) -> int:
         "--mode",
         "VARIANCE_OPT",
         *main_pipeline_base(contexts),
+        "--teacher-db",
+        str(contexts[0].teacher_db),
         "--sample-size",
         str(args.sample_size),
         "--results-dir",
@@ -1908,6 +1910,8 @@ def calibrate(args: argparse.Namespace) -> int:
         str(args.top_k),
         "--min-cell-count",
         str(args.min_cell_count),
+        "--direction-guard-min-count",
+        str(getattr(args, "direction_guard_min_count", 3)),
         "--shrinkage-k",
         str(args.shrinkage_k),
         "--max-correction-ratio",
@@ -2941,6 +2945,9 @@ def build_parser() -> argparse.ArgumentParser:
     calibrate_parser.add_argument("--neg-max", type=float, default=0.35)
     calibrate_parser.add_argument("--top-k", type=int, default=8)
     calibrate_parser.add_argument("--min-cell-count", type=int, default=20)
+    calibrate_parser.add_argument(
+        "--direction-guard-min-count", type=int, default=3
+    )
     calibrate_parser.add_argument("--shrinkage-k", type=float, default=8.0)
     calibrate_parser.add_argument(
         "--max-correction-ratio", type=float, default=0.12

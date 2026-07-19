@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import re
+import math
+import unicodedata
 from copy import deepcopy
 from typing import Any
 
 
-RUBRIC_SEMANTIC_CONTRACT_VERSION = 4
+RUBRIC_SEMANTIC_CONTRACT_VERSION = 5
 
 # High-value composite parents are too coarse to grade reliably as one opaque
 # item. Two children are enough to expose partial credit without over-fragmenting
@@ -50,6 +52,137 @@ SUPPORTED_SCORING_ROLES = {
     SCORING_ROLE_FINAL,
     SCORING_ROLE_COMPONENT,
 }
+
+
+def _normalized_answer_text(value: Any) -> str:
+    return unicodedata.normalize("NFKC", str(value or "")).upper()
+
+
+def immutable_answer_literals(value: Any) -> set[str]:
+    """Extract strong base-number facts that a refinement must not invent.
+
+    These literals are deliberately narrow. Binary and hexadecimal anchors are
+    common in computer-science rubrics and can be compared deterministically;
+    ordinary decimal values are left to the existing semantic/canonical checks
+    because splitting a derivation may legitimately expose intermediate values.
+    """
+    text = _normalized_answer_text(value)
+    literals: set[str] = set()
+    binary_pattern = re.compile(
+        r"(?<![0-9A-F])(?:[01]{4}(?:[\s_]+[01]{4})+|[01]{4,})\s*B?(?![0-9A-F])"
+    )
+    for match in binary_pattern.finditer(text):
+        bits = re.sub(r"[\s_B]", "", match.group(0))
+        if len(bits) >= 4:
+            literals.add(f"BIN:{bits}")
+
+    hex_pattern = re.compile(
+        r"(?<![0-9A-F])(?:0X[0-9A-F]+|[0-9][0-9A-F]*H)(?![0-9A-F])"
+    )
+    for match in hex_pattern.finditer(text):
+        token = match.group(0)
+        digits = token[2:] if token.startswith("0X") else token[:-1]
+        if digits:
+            literals.add(f"HEX:{int(digits, 16):X}")
+    return literals
+
+
+def answer_conclusion(value: Any) -> str:
+    """Return the final explicit binary judgement in an answer, if present."""
+    text = _normalized_answer_text(value)
+    matches = list(
+        re.finditer(
+            r"未命中|不命中|命中|不成立|成立|不正确|错误|正确",
+            text,
+        )
+    )
+    if not matches:
+        return ""
+    token = matches[-1].group(0)
+    if token in {"未命中", "不命中"}:
+        return "cache_miss"
+    if token == "命中":
+        return "cache_hit"
+    if token == "不成立":
+        return "false"
+    if token == "成立":
+        return "true"
+    if token in {"不正确", "错误"}:
+        return "incorrect"
+    return "correct"
+
+
+def assess_candidate_replay(
+    records: list[dict[str, Any]],
+    max_score: float,
+    *,
+    minimum_coverage: float = 0.80,
+    mae_margin_ratio: float = 0.02,
+    severe_regression_ratio: float = 0.20,
+) -> dict[str, Any]:
+    """Apply a teacher-score non-inferiority gate on rubric-calibration data."""
+    expected = len(records)
+    paired = [
+        record
+        for record in records
+        if record.get("baseline_score") is not None
+        and record.get("candidate_score") is not None
+        and record.get("teacher_score") is not None
+    ]
+    required = min(expected, max(1, math.ceil(expected * minimum_coverage)))
+    max_score = max(float(max_score or 0.0), 1.0)
+    margin = max(0.10, mae_margin_ratio * max_score)
+    severe_margin = max(0.50, severe_regression_ratio * max_score)
+
+    report = {
+        "method": "paired_teacher_score_noninferiority",
+        "expected": expected,
+        "paired": len(paired),
+        "required": required,
+        "coverage": round(len(paired) / expected, 6) if expected else 0.0,
+        "mae_margin": round(margin, 6),
+        "severe_regression_margin": round(severe_margin, 6),
+        "accepted": False,
+        "reason": "insufficient_replay_coverage",
+    }
+    if expected == 0 or len(paired) < required:
+        return report
+
+    baseline_errors = [
+        abs(float(item["baseline_score"]) - float(item["teacher_score"]))
+        for item in paired
+    ]
+    candidate_errors = [
+        abs(float(item["candidate_score"]) - float(item["teacher_score"]))
+        for item in paired
+    ]
+    baseline_mae = sum(baseline_errors) / len(baseline_errors)
+    candidate_mae = sum(candidate_errors) / len(candidate_errors)
+    regressions = [
+        candidate - baseline
+        for baseline, candidate in zip(baseline_errors, candidate_errors)
+    ]
+    severe_regressions = sum(value > severe_margin for value in regressions)
+    accepted = (
+        candidate_mae <= baseline_mae + margin
+        and severe_regressions == 0
+    )
+    report.update({
+        "baseline_mae": round(baseline_mae, 6),
+        "candidate_mae": round(candidate_mae, 6),
+        "mae_delta": round(candidate_mae - baseline_mae, 6),
+        "improved": sum(value < -1e-9 for value in regressions),
+        "unchanged": sum(abs(value) <= 1e-9 for value in regressions),
+        "worsened": sum(value > 1e-9 for value in regressions),
+        "severe_regressions": severe_regressions,
+        "accepted": accepted,
+        "reason": "accepted_noninferior" if accepted else (
+            "severe_sample_regression"
+            if severe_regressions
+            else "candidate_mae_exceeds_margin"
+        ),
+    })
+    return report
 
 
 ATOMIC_OUTCOME_PATTERNS = (
@@ -411,6 +544,19 @@ def validate_refined_rubric(
                 first.get("minimum_scoring_children", 0) or 0
             ),
             "items": items,
+            "immutable_answer_literals": sorted({
+                literal
+                for original_item in items
+                for literal in immutable_answer_literals(
+                    original_item.get("standard_answer_text", "")
+                )
+            }),
+            "answer_conclusion": answer_conclusion(
+                " ".join(
+                    str(original_item.get("standard_answer_text", "") or "")
+                    for original_item in items
+                )
+            ),
         }
     errors: list[str] = []
     seen_ids: set[str] = set()
@@ -476,6 +622,32 @@ def validate_refined_rubric(
         scoring_children = [
             item for item in children if float(item.get("points", 0) or 0) > tolerance
         ]
+        allowed_literals = set(spec.get("immutable_answer_literals", []))
+        for child in scoring_children:
+            child_id = str(child.get("id", "") or "<missing>")
+            introduced_literals = (
+                immutable_answer_literals(child.get("standard_answer_text", ""))
+                - allowed_literals
+            )
+            if introduced_literals:
+                errors.append(
+                    f"child {child_id} introduced unsupported answer literals: "
+                    + ", ".join(sorted(introduced_literals))
+                )
+            if str(child.get("scoring_role", "")).strip().lower() == SCORING_ROLE_FINAL:
+                original_conclusion = str(spec.get("answer_conclusion", "") or "")
+                child_conclusion = answer_conclusion(
+                    child.get("standard_answer_text", "")
+                )
+                if (
+                    original_conclusion
+                    and child_conclusion
+                    and child_conclusion != original_conclusion
+                ):
+                    errors.append(
+                        f"final child {child_id} changed parent conclusion: "
+                        f"{child_conclusion} != {original_conclusion}"
+                    )
         if spec["scoring_policy"] == SCORING_POLICY_ADDITIVE:
             minimum_children = int(spec.get("minimum_scoring_children", 0) or 0)
             if spec.get("decomposition_required") and minimum_children < 2:

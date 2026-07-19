@@ -2956,6 +2956,14 @@ def _score_calibration_value(config, key, default=None):
     return score_config.get(key, default)
 
 
+def _score_calibration_diagnostics(config):
+    score_config = config.get("score_calibration", config) if isinstance(config, dict) else {}
+    if not isinstance(score_config, dict):
+        return {}
+    diagnostics = score_config.get("diagnostics", {})
+    return diagnostics if isinstance(diagnostics, dict) else {}
+
+
 def apply_route_score_calibration(
     score,
     max_score,
@@ -3016,6 +3024,50 @@ def apply_route_score_calibration(
     max_ratio = safe_float(_score_calibration_value(config, "max_correction_ratio", 0.12), 0.12)
     cap = max(0.0, min(max_points, max_ratio * max_score))
     correction = max(-cap, min(cap, raw_correction))
+
+    selected_group = selected_key.split(":", 1)[0] if selected_key else ""
+    if selected_group in {"route", "global"} and abs(correction) >= 1e-9:
+        diagnostics = _score_calibration_diagnostics(config)
+        local_candidates = [
+            ("question_route", f"{question_id}|{route}"),
+            ("question", question_id),
+        ]
+        minimum_count = int(
+            safe_float(
+                _score_calibration_value(config, "direction_guard_min_count", 3),
+                3,
+            )
+        )
+        floor_ratio = safe_float(
+            _score_calibration_value(config, "direction_guard_floor_ratio", 0.02),
+            0.02,
+        )
+        direction_floor = max(0.10, floor_ratio * max_score)
+        for local_group, local_key in local_candidates:
+            group_entries = diagnostics.get(local_group, {})
+            local_entry = (
+                group_entries.get(local_key)
+                if isinstance(group_entries, dict)
+                else None
+            )
+            if not isinstance(local_entry, dict):
+                continue
+            local_n = int(safe_float(local_entry.get("n", 0), 0))
+            local_mean = safe_float(local_entry.get("mean_residual", 0.0), 0.0)
+            if (
+                local_n >= max(1, minimum_count)
+                and abs(local_mean) >= direction_floor
+                and local_mean * correction < 0.0
+            ):
+                result.update({
+                    "reason": "cross_question_direction_conflict",
+                    "lookup_key": selected_key,
+                    "correction": round(correction, 4),
+                    "local_diagnostic_key": f"{local_group}:{local_key}",
+                    "local_diagnostic_n": local_n,
+                    "local_mean_residual": round(local_mean, 4),
+                })
+                return result
 
     core_support = clamp01(post_calibration.get("core_support_signal", 0.0))
     support_signal = clamp01(post_calibration.get("support_signal", 0.0))

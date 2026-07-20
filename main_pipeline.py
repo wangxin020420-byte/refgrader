@@ -283,6 +283,14 @@ def parse_args():
         help="忽略检查点，强制从头重跑",
     )
     parser.add_argument(
+        "--resume-optimization",
+        action="store_true",
+        help=(
+            "VARIANCE_OPT only: restart from the immutable initial rubric "
+            "while reusing the saved calibration checkpoint."
+        ),
+    )
+    parser.add_argument(
         "--progress-file", default=None,
         help="进度 JSON 文件路径 (默认: results_rrd_vlm/progress.json)",
     )
@@ -803,6 +811,7 @@ def run_variance_optimization_process(
     sample_size=3,
     progress_tracker=None,
     force_rerun=False,
+    resume_optimization=False,
     extraction_backend="glm_vlm",
     ocr_cache_dir="ocr_cache",
 ):
@@ -828,10 +837,10 @@ def run_variance_optimization_process(
     # --- Step 1: 加载或生成初始标准 ---
     draft_rubric = None
     rubric_regenerated = False
-    if force_rerun and os.path.exists(rubric_save_path):
+    if (force_rerun or resume_optimization) and os.path.exists(rubric_save_path):
         logging.info(
-            "force-rerun enabled; restart from the immutable initial rubric "
-            "and ignore the existing optimized rubric."
+            "restart from the immutable initial rubric and ignore the existing "
+            "optimized rubric."
         )
     elif os.path.exists(rubric_save_path):
         with open(rubric_save_path, "r", encoding="utf-8") as f:
@@ -881,7 +890,7 @@ def run_variance_optimization_process(
     processed_files = set()
     if force_rerun:
         logging.info("force-rerun enabled; ignore old variance checkpoint for this question.")
-    elif rubric_regenerated:
+    elif rubric_regenerated and not resume_optimization:
         logging.info("Rubric was regenerated; ignore old variance checkpoint for this question.")
     elif os.path.exists(checkpoint_path):
         with open(checkpoint_path, "r", encoding="utf-8") as f:
@@ -1099,6 +1108,10 @@ def run_variance_optimization_process(
     structural_refinement_applied = False
     metadata_enriched = False
     refinement_attempted = False
+    fallback_reason = None
+    semantic_validation_mode = "strict_candidate_contract"
+    decomposition_deferred = False
+    deferred_semantic_errors = []
     candidate_replay = {
         "method": "paired_teacher_score_noninferiority",
         "accepted": False,
@@ -1150,6 +1163,8 @@ def run_variance_optimization_process(
         refined_rubric = refine_rubric_based_on_variance(
             draft_rubric, q_text, q_score, bad_samples
         )
+        if not refined_rubric:
+            fallback_reason = "candidate_generation_failed"
 
         if refined_rubric:
             refined_valid, refined_errors = validate_refined_rubric(
@@ -1158,6 +1173,7 @@ def run_variance_optimization_process(
                 q_score,
             )
             if not refined_valid:
+                fallback_reason = "candidate_semantic_contract_rejected"
                 logging.error(
                     "Refined rubric rejected by semantic contract: "
                     + "; ".join(refined_errors)
@@ -1179,6 +1195,10 @@ def run_variance_optimization_process(
                     + json.dumps(candidate_replay, ensure_ascii=False)
                 )
                 if not candidate_replay.get("accepted", False):
+                    fallback_reason = (
+                        "candidate_noninferiority_rejected:"
+                        + str(candidate_replay.get("reason") or "unknown")
+                    )
                     logging.error(
                         "Refined rubric rejected by calibration non-inferiority "
                         f"gate: {candidate_replay.get('reason')}"
@@ -1213,17 +1233,31 @@ def run_variance_optimization_process(
         q_score,
     )
     if not semantic_policy_validated:
+        deferred_semantic_errors = list(semantic_validation_errors)
         logging.error(
             "Final optimized rubric failed semantic validation; reverting to "
             "the immutable draft: " + "; ".join(semantic_validation_errors)
         )
         final_rubric = prepare_rubric_semantic_contract(draft_rubric)
         refinement_applied = False
+        structural_refinement_applied = False
+        metadata_enriched = False
+        fallback_reason = fallback_reason or "final_candidate_validation_failed"
         semantic_policy_validated, semantic_validation_errors = validate_refined_rubric(
             draft_rubric,
             final_rubric,
             q_score,
+            allow_unchanged_baseline=True,
         )
+        if semantic_policy_validated:
+            semantic_validation_mode = "noninferiority_baseline_fallback"
+            decomposition_deferred = bool(deferred_semantic_errors)
+            logging.warning(
+                "[rubric fallback] preserved the unchanged baseline because "
+                "no refined candidate passed every semantic and calibration "
+                "gate. Required decomposition is deferred and recorded in "
+                "the optimization manifest."
+            )
     if not semantic_policy_validated:
         raise RuntimeError(
             f"Refusing to save an invalid optimized rubric for {q_id}: "
@@ -1259,7 +1293,11 @@ def run_variance_optimization_process(
         "structural_refinement_applied": structural_refinement_applied,
         "metadata_enriched": metadata_enriched,
         "semantic_policy_validated": semantic_policy_validated,
+        "semantic_validation_mode": semantic_validation_mode,
         "semantic_validation_errors": semantic_validation_errors,
+        "fallback_reason": fallback_reason,
+        "decomposition_deferred": decomposition_deferred,
+        "deferred_semantic_errors": deferred_semantic_errors,
         "candidate_replay": candidate_replay,
         "scoring_policies": sorted(
             {
@@ -1872,6 +1910,7 @@ if __name__ == "__main__":
         "mode": args.mode,
         "questions": actual_questions,
         "force_rerun": args.force_rerun if args.force_rerun else FORCE_RERUN,
+        "resume_optimization": args.resume_optimization,
         "img_limit": cli_img_limit,
         "sample_size": args.sample_size,
         "results_dir": OUTPUT_DIR,
@@ -1914,6 +1953,7 @@ if __name__ == "__main__":
                         sample_size=variance_questions[q_id],
                         progress_tracker=tracker,
                         force_rerun=args.force_rerun if args.force_rerun else FORCE_RERUN,
+                        resume_optimization=args.resume_optimization,
                         extraction_backend=args.extraction_backend,
                         ocr_cache_dir=args.ocr_cache_dir,
                     )

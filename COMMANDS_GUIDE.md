@@ -245,6 +245,19 @@ python scripts/run_csbench.py optimize CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --forc
 
 作用：只覆盖重跑 CO_1 到 CO_7 的评分准则优化，不进入正式批改阶段。该模式会在当前终端持续输出优化过程。
 
+如果上一次批量优化在中途失败，使用断点续传模式，不要再次添加
+`--force`：
+
+```bash
+python scripts/run_csbench.py optimize CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 --resume
+```
+
+`--resume` 会校验每道题的 optimized rubric、manifest、语义契约版本和
+SHA-256。已经完整有效的题目直接跳过；未完成或版本过期的题目继续处理，
+并复用同一批次 `results_runs/..._rubric_opt` 中已经保存的 calibration
+checkpoint。`--resume` 与 `--force` 互斥：前者保留进度，后者明确从初始准则
+重新开始全部题目。
+
 ### 3.4 只正式批改
 
 适用场景：评分准则已经优化完成，只想重新批改 test 答案。

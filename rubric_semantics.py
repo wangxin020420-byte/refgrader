@@ -508,8 +508,23 @@ def validate_refined_rubric(
     refined_rubric: list[dict[str, Any]],
     total_score: float,
     tolerance: float = 1e-6,
+    *,
+    allow_unchanged_baseline: bool = False,
 ) -> tuple[bool, list[str]]:
-    """Validate score conservation, traceability, and atomic full-credit anchors."""
+    """Validate score conservation, traceability, and policy structure.
+
+    ``allow_unchanged_baseline`` is reserved for the non-inferiority fallback:
+    an immutable baseline may remain coarse when every refined candidate was
+    rejected, but only when its complete scoring signature and structure are
+    unchanged. A changed candidate therefore cannot bypass this contract.
+    """
+    preserving_unchanged_baseline = bool(
+        allow_unchanged_baseline
+        and rubric_scoring_signature(original_rubric)
+        == rubric_scoring_signature(refined_rubric)
+        and rubric_structure_signature(original_rubric)
+        == rubric_structure_signature(refined_rubric)
+    )
     originals_list = prepare_rubric_semantic_contract(original_rubric)
     original_groups: dict[str, list[dict[str, Any]]] = {}
     for item in originals_list:
@@ -648,6 +663,12 @@ def validate_refined_rubric(
                         f"final child {child_id} changed parent conclusion: "
                         f"{child_conclusion} != {original_conclusion}"
                     )
+        if preserving_unchanged_baseline:
+            # Score conservation, IDs, parent traceability, and immutable
+            # answer literals were checked above. Structural decomposition is
+            # an optimization objective, so an unchanged baseline may defer it
+            # when the calibrated candidate is demonstrably worse.
+            continue
         if spec["scoring_policy"] == SCORING_POLICY_ADDITIVE:
             minimum_children = int(spec.get("minimum_scoring_children", 0) or 0)
             if spec.get("decomposition_required") and minimum_children < 2:

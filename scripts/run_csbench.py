@@ -228,6 +228,17 @@ class CSBenchContext:
                 f"{question_total}."
             )
 
+        manifest = json.loads(
+            self.optimization_manifest.read_text(encoding="utf-8")
+        )
+        allow_unchanged_baseline = bool(
+            manifest.get("semantic_validation_mode")
+            == "noninferiority_baseline_fallback"
+            and manifest.get("decomposition_deferred") is True
+            and manifest.get("fallback_reason")
+            and not (manifest.get("candidate_replay") or {}).get("accepted", False)
+        )
+
         initial_rubric = json.loads(
             self.initial_rubric.read_text(encoding="utf-8")
         )
@@ -235,6 +246,7 @@ class CSBenchContext:
             initial_rubric,
             rubric,
             question_total,
+            allow_unchanged_baseline=allow_unchanged_baseline,
         )
         if not semantic_valid:
             raise ValueError(
@@ -243,9 +255,6 @@ class CSBenchContext:
                 + ". Re-run optimize with --force."
             )
 
-        manifest = json.loads(
-            self.optimization_manifest.read_text(encoding="utf-8")
-        )
         if (
             manifest.get("rubric_semantic_contract_version")
             != RUBRIC_SEMANTIC_CONTRACT_VERSION
@@ -1413,15 +1422,39 @@ exit "$status"
 
 
 def optimize(args: argparse.Namespace) -> int:
-    contexts = build_contexts(args.prepared_dir, args.questions)
-    for ctx in contexts:
+    requested_contexts = build_contexts(args.prepared_dir, args.questions)
+    for ctx in requested_contexts:
         ctx.validate_initial(args.sample_size)
+    slug = batch_slug(requested_contexts)
+    resume = bool(getattr(args, "resume", False))
+
+    contexts = requested_contexts
+    if resume:
+        pending_contexts = []
+        for ctx in requested_contexts:
+            try:
+                ctx.validate_optimized()
+            except (FileNotFoundError, ValueError, json.JSONDecodeError) as exc:
+                pending_contexts.append(ctx)
+                print(f"Resume {ctx.question_id}: pending ({exc})")
+            else:
+                print(
+                    f"Resume {ctx.question_id}: already complete under semantic "
+                    f"contract v{RUBRIC_SEMANTIC_CONTRACT_VERSION}; skipped."
+                )
+        contexts = pending_contexts
+        if not contexts:
+            bundle = refresh_active_configuration(requested_contexts)
+            print("All requested rubric optimizations are already complete.")
+            print(f"Active rubric set updated: {bundle}")
+            return 0
+
     existing = [
         ctx.question_id
         for ctx in contexts
         if ctx.optimized_rubric.exists() or ctx.optimization_manifest.exists()
     ]
-    if existing and not args.force:
+    if existing and not args.force and not resume:
         raise FileExistsError(
             "Optimized rubric already exists for "
             + ", ".join(existing)
@@ -1429,7 +1462,6 @@ def optimize(args: argparse.Namespace) -> int:
             "Use --force to regenerate it."
         )
 
-    slug = batch_slug(contexts)
     results_dir = (
         PROJECT_ROOT / "results_runs" / f"csbench_{slug}_rubric_opt"
     ).resolve()
@@ -1448,6 +1480,8 @@ def optimize(args: argparse.Namespace) -> int:
     ]
     if args.force:
         pipeline_args.append("--force-rerun")
+    elif resume:
+        pipeline_args.append("--resume-optimization")
 
     env = {
         "REFGRADER_OCR_DEVICE": args.device,
@@ -1517,7 +1551,7 @@ def optimize(args: argparse.Namespace) -> int:
                 "published automatically after the job finishes successfully."
             )
         return return_code
-    bundle = refresh_active_configuration(contexts)
+    bundle = refresh_active_configuration(requested_contexts)
     print(f"Active rubric set updated: {bundle}")
     if args.no_artifacts:
         return return_code
@@ -1525,7 +1559,7 @@ def optimize(args: argparse.Namespace) -> int:
     return publish(
         argparse.Namespace(
             prepared_dir=args.prepared_dir,
-            questions=args.questions,
+            questions=[ctx.question_id for ctx in contexts],
             artifacts_repo=args.artifacts_repo,
             stage="rubric",
             run_id=None,
@@ -2829,7 +2863,16 @@ def build_parser() -> argparse.ArgumentParser:
     optimize_parser.add_argument("--sample-size", type=int, default=5)
     optimize_parser.add_argument("--device", default=DEFAULT_OCR_DEVICE)
     optimize_parser.add_argument("--background", action="store_true")
-    optimize_parser.add_argument("--force", action="store_true")
+    optimize_mode = optimize_parser.add_mutually_exclusive_group()
+    optimize_mode.add_argument("--force", action="store_true")
+    optimize_mode.add_argument(
+        "--resume",
+        action="store_true",
+        help=(
+            "Skip rubrics already valid under the current semantic contract "
+            "and resume pending questions from the shared variance checkpoint."
+        ),
+    )
     optimize_parser.add_argument("--dry-run", action="store_true")
     optimize_parser.add_argument(
         "--artifacts-repo",

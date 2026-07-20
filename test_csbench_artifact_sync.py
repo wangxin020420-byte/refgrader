@@ -14,6 +14,7 @@ from scripts.run_csbench import (
     RUBRIC_SEMANTIC_CONTRACT_VERSION,
     active_a3wa_config_path,
     active_rubric_set_path,
+    build_parser,
     calibrate,
     evaluate,
     grade,
@@ -31,6 +32,15 @@ from scripts.run_csbench import (
 
 
 class CSBenchArtifactSyncTests(unittest.TestCase):
+    def test_optimize_resume_is_explicit_and_mutually_exclusive_with_force(self):
+        parser = build_parser()
+        args = parser.parse_args(["optimize", "CO_1", "--resume"])
+        self.assertTrue(args.resume)
+        self.assertFalse(args.force)
+
+        with self.assertRaises(SystemExit):
+            parser.parse_args(["optimize", "CO_1", "--resume", "--force"])
+
     def test_test_grading_requires_active_a3wa_unless_explicitly_disabled(self):
         context = SimpleNamespace(validate_optimized=lambda: None)
         args = SimpleNamespace(

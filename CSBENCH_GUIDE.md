@@ -175,6 +175,15 @@ python scripts/run_csbench.py optimize CO_1 --force
 
 优化落盘后，统一入口会把 manifest 中的设备绝对路径转换为 `${REFGRADER_ROOT}` / `${PREPARED_CSBENCH_ROOT}` 占位符，并原子更新 `active_rubric_set.json`。正式 `grade` 会校验数据快照、split、initial/optimized rubric 和 manifest 的 SHA-256；文件存在但哈希不一致同样会拒绝运行。任意 active rubric 改变都会令旧 active A3WA 标记为 stale，必须重新完成 validation 和 `calibrate` 才能重新激活；test 不会静默回退默认参数，无校准消融必须显式传 `--no-active-a3wa`。
 
+候选准则还必须通过 calibration 教师分非劣门禁。若候选出现严重样本退化，
+系统不会为了满足强制拆分而接受负优化；它会保留评分内容完全未改变的基线，
+并在 optimization manifest 中记录
+`semantic_validation_mode=noninferiority_baseline_fallback`、
+`fallback_reason` 和 `decomposition_deferred=true`。该例外只允许未改变的基线
+延迟拆分，任何修改过分值、答案锚点或结构的候选仍必须完整通过版本 5 契约。
+批量任务中断后使用 `optimize ... --resume`，已通过当前契约和哈希检查的题目会
+跳过，其他题目复用既有 calibration checkpoint 继续执行。
+
 CO_4 当前官方初始分值为 `2 + 2 + 2 + 2 + 2 + 5 + 5 = 20`。前五项分别考查地址字段参数，后两项分别考查两个地址的 Cache 命中推导及结论。优化后前五项保持父项分值不变，两个 5 分过程主导父项各至少形成三个角色子项，典型比例为 `1.5 + 2.5 + 1.0`，但实际条目必须由官方答案支持并通过比例门禁，而非按题号硬编码。
 
 ### 7.1 自动细粒度优化边界

@@ -835,6 +835,42 @@ class RubricSemanticContractTests(unittest.TestCase):
         self.assertFalse(rejected["accepted"])
         self.assertEqual(rejected["reason"], "severe_sample_regression")
 
+    def test_noninferiority_fallback_allows_only_unchanged_coarse_baseline(self):
+        baseline = [{
+            "id": "step_1",
+            "parent_id": "step_1",
+            "parent_points": 5,
+            "item": "compute the result and determine overflow",
+            "points": 5,
+            "standard_answer_text": "8EH; overflow",
+            "scoring_policy": "additive_split",
+            "split_policy": "allow_semantic_split",
+        }]
+
+        strict_valid, strict_errors = validate_refined_rubric(
+            baseline, baseline, 5
+        )
+        fallback_valid, fallback_errors = validate_refined_rubric(
+            baseline,
+            baseline,
+            5,
+            allow_unchanged_baseline=True,
+        )
+
+        changed = [dict(baseline[0], standard_answer_text="B7H; no overflow")]
+        changed_valid, changed_errors = validate_refined_rubric(
+            baseline,
+            changed,
+            5,
+            allow_unchanged_baseline=True,
+        )
+
+        self.assertFalse(strict_valid)
+        self.assertTrue(any("at least 2 scoring items" in e for e in strict_errors))
+        self.assertTrue(fallback_valid, fallback_errors)
+        self.assertFalse(changed_valid)
+        self.assertTrue(changed_errors)
+
 
 if __name__ == "__main__":
     unittest.main()

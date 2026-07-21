@@ -1774,3 +1774,40 @@ Then rerun scoring/evaluation with a separate progress file:
 python main_pipeline.py --mode FULL --questions Q2 Q3 Q4 Q5 --progress-file results_rrd_vlm\progress_q2_q5_clean.json --force-rerun
 python evaluate.py --compare --questions Q2 Q3 Q4 Q5 --compare-score-keys single avg selected 3wd --compare-output outputs/q2_q5_clean_compare.csv
 ```
+
+## 2026-07-21 GLM-4.7 No-Thinking Experiment Contract
+
+Implemented a single reproducible model contract for the next ablation:
+
+```text
+text model: glm-4.7
+text thinking: disabled
+visual model: glm-4.6v
+```
+
+Key changes:
+
+1. Semantic grading, OCR-to-fact mapping, and rubric-refinement text calls now
+   share one model configuration instead of mixing GLM-5.1 with another model.
+2. GLM calls explicitly send `thinking.type=disabled`; the setting is no
+   longer left to the provider default.
+3. Validation and test `run_state.json`, progress metadata, optimization
+   manifests, A3WA configs, and artifact run manifests record the model
+   contract.
+4. Test grading rejects an active or explicit A3WA config when its model,
+   thinking mode, or visual model differs from the requested run.
+5. CLI defaults are GLM-4.7 plus disabled thinking. Optional
+   `--text-provider`, `--thinking-mode`, and `--vlm-provider` flags support
+   controlled ablations without source edits.
+
+Because the existing active A3WA config predates this contract, the first
+GLM-4.7 experiment must rerun all-seven validation, recalibrate A3WA, and then
+run the selected test question. Rubric optimization is not required unless the
+rubric or semantic contract itself changes.
+
+Local snapshot audit also found that the tracked CO_1-CO_7 optimized rubric
+files do not currently match the hashes in their manifests/active bundle. The
+approved artifact copies are internally consistent, so restore the matching
+rubric runs before the first validation: CO_1-CO_2 from `20260719_035814` and
+CO_3-CO_7 from `20260720_125147`. Do not bypass the hash gate or recompute
+manifest hashes around mismatched files.

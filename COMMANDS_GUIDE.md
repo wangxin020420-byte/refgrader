@@ -2,6 +2,11 @@
 
 CSBench 实验统一使用 `scripts/run_csbench.py`。更换题目时只需要修改题号，例如把 `CO_2` 改成 `CO_3`。
 
+> 当前默认模型契约（2026-07-21）：文本评分统一使用 `glm-4.7`，并显式发送
+> `thinking.type=disabled`；视觉提取仍使用 `glm-4.6v`。该契约同时覆盖语义评分、
+> OCR 事实映射和评分准则优化中的文本裁判。每个 validation/test 运行及 A3WA 配置
+> 都记录模型签名，模型或思考模式不一致时脚本会拒绝复用旧结果。
+
 ## 0. 日常最短命令
 
 本节是日常实验的默认入口。评分准则、七题 validation 和 A3WA 配置已经生成并提交后，当前批准的配置位于 `data/csbench`。任何设备拉取 `refgrader-main` 后都使用同一份哈希校验配置，不再从本机 `results_runs` 猜测“最近一个”配置。
@@ -41,6 +46,30 @@ python scripts/run_csbench.py grade CO_5 CO_6 --split test --force
 只有以下情况才进入后文的完整流程：数据快照发生变化、评分语义或 rubric 发生变化、
 三支决策校准逻辑发生变化，或者需要重新生成 A3WA 配置。Windows 隐藏后台、日志重定向和
 PID 管理只是长时间运行的可选包装，不是批改必须步骤。
+
+### 0.1 切换到 GLM-4.7 后的首次实验
+
+旧 validation/A3WA 配置由其他模型生成，不能直接用于新模型。评分准则不变时，按以下
+顺序重新建立模型匹配的校准链，然后再跑 test。当前仓库还需先从 artifacts 恢复哈希
+一致的已批准评分准则（不会重新调用模型优化准则）：
+
+```powershell
+$Q = @("CO_1","CO_2","CO_3","CO_4","CO_5","CO_6","CO_7")
+.\venv\Scripts\python.exe scripts\restore_csbench_artifacts.py CO_1 CO_2 --stage rubric --run-id 20260719_035814 --force
+.\venv\Scripts\python.exe scripts\restore_csbench_artifacts.py CO_3 CO_4 CO_5 CO_6 CO_7 --stage rubric --run-id 20260720_125147 --force
+.\venv\Scripts\python.exe scripts\run_csbench.py grade @Q --split validation --force
+.\venv\Scripts\python.exe scripts\run_csbench.py calibrate @Q --score-calibration
+.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_4 --split test --force
+```
+
+上述命令无需重复写模型参数，因为默认值已经是 `--text-provider glm47
+--thinking-mode disabled --vlm-provider glm4v`。需要做对照实验时才显式覆盖，例如：
+
+```powershell
+.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_4 --split test --force --text-provider glm5 --thinking-mode enabled
+```
+
+不同模型契约必须分别运行 validation 和 calibrate，不能共用 A3WA 配置。
 
 ## 1. 可用题目 ID
 

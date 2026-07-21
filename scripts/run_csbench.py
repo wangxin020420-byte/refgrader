@@ -34,11 +34,49 @@ from rubric_semantics import (
     RUBRIC_SEMANTIC_CONTRACT_VERSION,
     validate_refined_rubric,
 )
+from model_runtime import (
+    DEFAULT_TEXT_MODEL_PROVIDER,
+    DEFAULT_TEXT_THINKING_MODE,
+    DEFAULT_VLM_MODEL_PROVIDER,
+    TEXT_MODEL_PROFILES,
+    VLM_MODEL_PROFILES,
+    model_environment,
+    runtime_model_config,
+)
 
 DEFAULT_OCR_DEVICE = "cpu" if os.name == "nt" else "gpu:0"
 ACTIVE_RUBRIC_SET_SCHEMA_VERSION = 1
 ACTIVE_RUBRIC_SET_NAME = "active_rubric_set.json"
 ACTIVE_A3WA_CONFIG_NAME = "active_a3wa_config.json"
+
+
+def add_model_arguments(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--text-provider",
+        choices=sorted(TEXT_MODEL_PROFILES),
+        default=DEFAULT_TEXT_MODEL_PROVIDER,
+        help="Text grading model profile. Default: glm47 (glm-4.7).",
+    )
+    parser.add_argument(
+        "--thinking-mode",
+        choices=["enabled", "disabled"],
+        default=DEFAULT_TEXT_THINKING_MODE,
+        help="Text-model thinking mode. Default: disabled.",
+    )
+    parser.add_argument(
+        "--vlm-provider",
+        choices=sorted(VLM_MODEL_PROFILES),
+        default=DEFAULT_VLM_MODEL_PROVIDER,
+        help="Visual extraction model profile. Default: glm4v.",
+    )
+
+
+def model_config_from_args(args: argparse.Namespace) -> dict[str, str]:
+    return runtime_model_config(
+        text_provider=getattr(args, "text_provider", None),
+        thinking_mode=getattr(args, "thinking_mode", None),
+        vlm_provider=getattr(args, "vlm_provider", None),
+    )
 
 
 def sha256_file(path: Path) -> str:
@@ -887,6 +925,7 @@ def _active_a3wa_metadata(
         "score_calibration_enabled": bool(
             (payload.get("score_calibration") or {}).get("enabled", False)
         ),
+        "model_config": payload.get("model_config"),
     }
 
 
@@ -1016,6 +1055,8 @@ def validate_active_configuration(
 
 def resolve_active_a3wa_config(
     contexts: list[CSBenchContext],
+    *,
+    model_config: dict[str, str] | None = None,
 ) -> Path | None:
     bundle = validate_active_configuration(contexts)
     metadata = bundle.get("active_a3wa")
@@ -1035,7 +1076,29 @@ def resolve_active_a3wa_config(
                 f"Active A3WA config is stale for {ctx.question_id}. Re-run "
                 "validation and calibrate."
             )
+    expected_model = metadata.get("model_config")
+    requested_model = model_config or runtime_model_config()
+    if expected_model != requested_model:
+        raise ValueError(
+            "Active A3WA config was calibrated with a different text/VLM "
+            "model or thinking mode. Re-run validation and calibrate under "
+            "the requested model configuration."
+        )
     return path
+
+
+def validate_a3wa_model_config(
+    config_path: str | Path,
+    model_config: dict[str, str],
+) -> None:
+    path = Path(config_path).expanduser().resolve()
+    payload = json.loads(path.read_text(encoding="utf-8-sig"))
+    if payload.get("model_config") != model_config:
+        raise ValueError(
+            f"A3WA config model contract does not match this run: {path}. "
+            "Re-run validation and calibrate with the same model and thinking "
+            "mode before test grading."
+        )
 
 
 def ensure_background_slot_available() -> None:
@@ -1106,6 +1169,7 @@ def _run_signature(
     contexts: list["CSBenchContext"],
     answer_split: str,
     a3wa_config: str | None,
+    model_config: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     config_path = (
         Path(a3wa_config).expanduser().resolve() if a3wa_config else None
@@ -1123,6 +1187,7 @@ def _run_signature(
             for ctx in contexts
         },
         "a3wa_config_sha256": sha256_file(config_path) if config_path else None,
+        "model_config": model_config or runtime_model_config(),
     }
 
 
@@ -1172,13 +1237,16 @@ def select_grading_run(
     force_new: bool = False,
     create: bool = False,
     a3wa_config: str | None = None,
+    model_config: dict[str, str] | None = None,
 ) -> tuple[Path, str | None]:
     """Select a versioned run while preserving legacy result compatibility."""
     batch_root = grading_results_dir(contexts, answer_split)
     signature = None
 
     if force_new:
-        signature = _run_signature(contexts, answer_split, a3wa_config)
+        signature = _run_signature(
+            contexts, answer_split, a3wa_config, model_config
+        )
         selected_id = run_id or _new_grading_run_id(batch_root)
         results_dir = batch_root / "runs" / selected_id
         if results_dir.exists():
@@ -1234,14 +1302,17 @@ def select_grading_run(
         results_dir = batch_root / "runs" / selected_id
 
     if create:
-        signature = _run_signature(contexts, answer_split, a3wa_config)
+        signature = _run_signature(
+            contexts, answer_split, a3wa_config, model_config
+        )
         results_dir.mkdir(parents=True, exist_ok=True)
         state = _read_run_state(results_dir)
         if state:
             if state.get("signature") != signature:
                 raise RuntimeError(
                     "The selected grading run was created with a different "
-                    "split, rubric, or A3WA config. Start a new run with --force."
+                    "split, rubric, A3WA config, or model contract. Start a "
+                    "new run with --force."
                 )
         else:
             now = datetime.now().isoformat(timespec="seconds")
@@ -1285,6 +1356,7 @@ def register_restored_run(
     *,
     a3wa_config: str | None = None,
     completion: dict[str, Any] | None = None,
+    model_config: dict[str, str] | None = None,
 ) -> None:
     batch_root = grading_results_dir(contexts, answer_split)
     now = datetime.now().isoformat(timespec="seconds")
@@ -1301,7 +1373,7 @@ def register_restored_run(
             "created_at": existing.get("created_at", now),
             "updated_at": now,
             "signature": _run_signature(
-                contexts, answer_split, a3wa_config
+                contexts, answer_split, a3wa_config, model_config
             ),
             "completion": completion,
             "restored_from_artifacts": True,
@@ -1339,6 +1411,9 @@ def build_run_command(args: argparse.Namespace, *, background: bool) -> list[str
         command.extend(["--limit", str(args.limit)])
     if args.device != DEFAULT_OCR_DEVICE:
         command.extend(["--device", args.device])
+    command.extend(["--text-provider", args.text_provider])
+    command.extend(["--thinking-mode", args.thinking_mode])
+    command.extend(["--vlm-provider", args.vlm_provider])
     if getattr(args, "a3wa_config", None):
         command.extend(["--a3wa-config", args.a3wa_config])
     if getattr(args, "no_active_a3wa", False):
@@ -1422,6 +1497,7 @@ exit "$status"
 
 
 def optimize(args: argparse.Namespace) -> int:
+    model_config = model_config_from_args(args)
     requested_contexts = build_contexts(args.prepared_dir, args.questions)
     for ctx in requested_contexts:
         ctx.validate_initial(args.sample_size)
@@ -1488,6 +1564,7 @@ def optimize(args: argparse.Namespace) -> int:
         # Never let an old shell-level config leak into a new pipeline stage.
         # A non-empty path is set only by an explicit command argument.
         "A3WA_CALIBRATION_CONFIG": "",
+        **model_environment(model_config),
     }
     if getattr(args, "a3wa_config", None):
         env["A3WA_CALIBRATION_CONFIG"] = str(
@@ -1571,6 +1648,7 @@ def optimize(args: argparse.Namespace) -> int:
 
 
 def grade(args: argparse.Namespace) -> int:
+    model_config = model_config_from_args(args)
     contexts = build_contexts(args.prepared_dir, args.questions)
     for ctx in contexts:
         ctx.validate_optimized()
@@ -1584,8 +1662,12 @@ def grade(args: argparse.Namespace) -> int:
             "Validation/calibration grading must be uncalibrated; "
             "--a3wa-config is allowed only for test."
         )
+    if args.split == "test" and explicit_a3wa:
+        validate_a3wa_model_config(explicit_a3wa, model_config)
     if args.split == "test" and not explicit_a3wa and not disable_active_a3wa:
-        active_config = resolve_active_a3wa_config(contexts)
+        active_config = resolve_active_a3wa_config(
+            contexts, model_config=model_config
+        )
         if active_config:
             args.a3wa_config = str(active_config)
             print(f"Using tracked active A3WA config: {active_config}")
@@ -1603,6 +1685,7 @@ def grade(args: argparse.Namespace) -> int:
         force_new=bool(args.force),
         create=not args.dry_run,
         a3wa_config=getattr(args, "a3wa_config", None),
+        model_config=model_config,
     )
     preexisting_complete = (
         completed_questions_for_split(
@@ -1649,6 +1732,7 @@ def grade(args: argparse.Namespace) -> int:
         # Validation must be uncalibrated, and test must use only the config
         # explicitly supplied to this command.
         "A3WA_CALIBRATION_CONFIG": "",
+        **model_environment(model_config),
     }
     if getattr(args, "a3wa_config", None):
         env["A3WA_CALIBRATION_CONFIG"] = str(
@@ -1694,6 +1778,12 @@ def grade(args: argparse.Namespace) -> int:
 
     print("Questions: " + ", ".join(ctx.question_id for ctx in contexts))
     print(f"Answer split: {args.split}")
+    print(
+        "Model contract: "
+        f"{model_config['text_model']} "
+        f"(thinking={model_config['text_thinking']}), "
+        f"VLM={model_config['vlm_model']}"
+    )
     print(f"Run ID: {local_run_id or 'legacy/unversioned'}")
     print(f"Results: {results_dir}")
     if not args.dry_run:
@@ -1862,6 +1952,9 @@ def run_experiment(args: argparse.Namespace) -> int:
             no_artifacts=args.no_artifacts,
             push_artifacts=args.push_artifacts,
             include_facts=args.include_facts,
+            text_provider=args.text_provider,
+            thinking_mode=args.thinking_mode,
+            vlm_provider=args.vlm_provider,
         )
     )
     if optimize_code != 0:
@@ -1889,12 +1982,16 @@ def run_experiment(args: argparse.Namespace) -> int:
             a3wa_config=args.a3wa_config,
             no_active_a3wa=getattr(args, "no_active_a3wa", False),
             run_id=getattr(args, "run_id", None),
+            text_provider=args.text_provider,
+            thinking_mode=args.thinking_mode,
+            vlm_provider=args.vlm_provider,
         )
     )
 
 
 def calibrate(args: argparse.Namespace) -> int:
     """Calibrate A3WA from a complete validation split and publish it."""
+    model_config = model_config_from_args(args)
     contexts = build_contexts(args.prepared_dir, args.questions)
     for ctx in contexts:
         ctx.validate_optimized()
@@ -1904,6 +2001,18 @@ def calibrate(args: argparse.Namespace) -> int:
         "validation",
         run_id=getattr(args, "source_run_id", None),
     )
+    validation_state = _read_run_state(validation_dir)
+    source_model_config = (
+        (validation_state.get("signature") or {}).get("model_config")
+        if validation_state
+        else None
+    )
+    if source_model_config != model_config:
+        raise ValueError(
+            "The selected validation run was produced by a different or "
+            "legacy model contract. Re-run validation with the requested "
+            "text model and thinking mode before calibration."
+        )
     validate_complete_results(
         contexts,
         validation_dir,
@@ -1968,6 +2077,16 @@ def calibrate(args: argparse.Namespace) -> int:
         str(getattr(args, "unsafe_pos_cost", 1.00)),
         "--max-unsafe-pos-rate",
         str(getattr(args, "max_unsafe_pos_rate", 0.10)),
+        "--text-provider",
+        model_config["text_provider"],
+        "--text-model",
+        model_config["text_model"],
+        "--thinking-mode",
+        model_config["text_thinking"],
+        "--vlm-provider",
+        model_config["vlm_provider"],
+        "--vlm-model",
+        model_config["vlm_model"],
     ]
     if getattr(args, "score_calibration", False):
         command.append("--score-calibration")
@@ -2358,6 +2477,14 @@ def publish(args: argparse.Namespace) -> int:
         )
         validate_result_structure(completion_report)
         write_completion_report(grade_dir, completion_report)
+    run_state = _read_run_state(grade_dir) if grade_dir.is_dir() else None
+    published_model_config = (
+        (run_state.get("signature") or {}).get("model_config")
+        if run_state
+        else None
+    )
+    if published_model_config is None and requested_stage == "rubric":
+        published_model_config = runtime_model_config()
     run_id = (
         args.run_id
         or local_run_id
@@ -2635,6 +2762,7 @@ def publish(args: argparse.Namespace) -> int:
                 )
             ),
             "extraction_backend": "csbench_hybrid",
+            "model_config": published_model_config,
             "answer_split": answer_split if include_results else None,
             "ocr_device": os.getenv(
                 "REFGRADER_OCR_DEVICE", DEFAULT_OCR_DEVICE
@@ -2799,6 +2927,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     run_parser.add_argument("--limit", type=int)
     run_parser.add_argument("--device", default=DEFAULT_OCR_DEVICE)
+    add_model_arguments(run_parser)
     run_parser.add_argument(
         "--a3wa-config",
         help="A3WA calibration config used during the grading stage.",
@@ -2862,6 +2991,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     optimize_parser.add_argument("--sample-size", type=int, default=5)
     optimize_parser.add_argument("--device", default=DEFAULT_OCR_DEVICE)
+    add_model_arguments(optimize_parser)
     optimize_parser.add_argument("--background", action="store_true")
     optimize_mode = optimize_parser.add_mutually_exclusive_group()
     optimize_mode.add_argument("--force", action="store_true")
@@ -2925,6 +3055,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     grade_parser.add_argument("--limit", type=int)
     grade_parser.add_argument("--device", default=DEFAULT_OCR_DEVICE)
+    add_model_arguments(grade_parser)
     grade_parser.add_argument(
         "--a3wa-config",
         help=(
@@ -3012,6 +3143,7 @@ def build_parser() -> argparse.ArgumentParser:
     calibrate_parser.add_argument("--neg-human-cost", type=float, default=0.10)
     calibrate_parser.add_argument("--unsafe-pos-cost", type=float, default=1.00)
     calibrate_parser.add_argument("--max-unsafe-pos-rate", type=float, default=0.10)
+    add_model_arguments(calibrate_parser)
     calibrate_parser.add_argument("--dry-run", action="store_true")
     calibrate_parser.add_argument(
         "--artifacts-repo",

@@ -20,6 +20,7 @@ from calibration_utils import (  # noqa: E402
     route_score_band,
     safe_float,
 )
+from model_runtime import runtime_model_config  # noqa: E402
 
 
 LEGACY_SCORES_MAP = {
@@ -648,6 +649,7 @@ def leave_one_question_out_validation(records, calibration_args):
 
 
 def main():
+    default_model_config = runtime_model_config()
     parser = argparse.ArgumentParser(description="Calibrate A3WA loss parameters and risk weights.")
     parser.add_argument("--files", nargs="+", required=True)
     parser.add_argument("--teacher-db", default="database/teacher_scores.json")
@@ -671,6 +673,23 @@ def main():
     parser.add_argument("--neg-human-cost", type=float, default=0.10)
     parser.add_argument("--unsafe-pos-cost", type=float, default=1.00)
     parser.add_argument("--max-unsafe-pos-rate", type=float, default=0.10)
+    parser.add_argument(
+        "--text-provider", default=default_model_config["text_provider"]
+    )
+    parser.add_argument(
+        "--text-model", default=default_model_config["text_model"]
+    )
+    parser.add_argument(
+        "--thinking-mode",
+        choices=["enabled", "disabled"],
+        default=default_model_config["text_thinking"],
+    )
+    parser.add_argument(
+        "--vlm-provider", default=default_model_config["vlm_provider"]
+    )
+    parser.add_argument(
+        "--vlm-model", default=default_model_config["vlm_model"]
+    )
     args = parser.parse_args()
 
     probability_args = {
@@ -792,6 +811,16 @@ def main():
     config = {
         "version": 2,
         "source": "scripts/calibrate_a3wa.py",
+        "model_config": {
+            "text_provider": args.text_provider,
+            "text_model": args.text_model,
+            "text_family": (
+                "deepseek" if args.text_provider.startswith("deepseek") else "glm"
+            ),
+            "text_thinking": args.thinking_mode,
+            "vlm_provider": args.vlm_provider,
+            "vlm_model": args.vlm_model,
+        },
         "database_path": args.database_path,
         "teacher_db": args.teacher_db,
         "files": input_files,

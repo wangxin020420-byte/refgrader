@@ -29,6 +29,7 @@ from scripts.run_csbench import (
     validate_complete_results,
     validate_active_configuration,
 )
+from model_runtime import runtime_model_config
 
 
 class CSBenchArtifactSyncTests(unittest.TestCase):
@@ -121,6 +122,7 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                 json.dumps({
                     "database_path": str(prepared / "exam_database.json"),
                     "score_calibration": {"enabled": True},
+                    "model_config": runtime_model_config(),
                 }),
                 encoding="utf-8",
             )
@@ -390,6 +392,13 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             record = json.dumps([{"student_id": "A", "3wd_route": "POS"}])
             (validation / "CO_1_grading_checkpoint.json").write_text(record, encoding="utf-8")
             (validation / "CO_1_graded_results.json").write_text(record, encoding="utf-8")
+            (validation / "run_state.json").write_text(
+                json.dumps({
+                    "run_id": "legacy",
+                    "signature": {"model_config": runtime_model_config()},
+                }),
+                encoding="utf-8",
+            )
 
             calibration_args = SimpleNamespace(
                 prepared_dir=str(prepared), questions=["CO_1"], output=None,
@@ -422,6 +431,9 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             )
             self.assertEqual(run_manifest["answer_split"], "validation")
             self.assertEqual(run_manifest["published_stage"], "validation")
+            self.assertEqual(
+                run_manifest["model_config"], runtime_model_config()
+            )
             index = json.loads(
                 (artifacts / "csbench" / "index.json").read_text(encoding="utf-8")
             )

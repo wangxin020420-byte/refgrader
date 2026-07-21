@@ -13,6 +13,7 @@ from rubric_semantics import (
     prepare_rubric_semantic_contract,
     validate_refined_rubric,
 )
+from model_runtime import runtime_model_config, thinking_extra_body
 
 # 🔴 记得替换为你的真实 Key
 CODING_PLAN_API_KEY = "132a47a6484e4a9dbfaa51fea40bbae0.LqWjKhw6WcH2sdFs"
@@ -20,7 +21,9 @@ CODING_PLAN_BASE_URL = "https://open.bigmodel.cn/api/coding/paas/v4/"
 client = OpenAI(api_key=CODING_PLAN_API_KEY, base_url=CODING_PLAN_BASE_URL)
 
 VLM_MODEL_NAME = "glm-4.6v"
-LOGIC_MODEL_NAME = "glm-5.1"
+MODEL_RUNTIME_CONFIG = runtime_model_config()
+LOGIC_MODEL_NAME = MODEL_RUNTIME_CONFIG["text_model"]
+TEXT_THINKING_MODE = MODEL_RUNTIME_CONFIG["text_thinking"]
 
 SUPPORTED_ANSWER_TYPES = {
     "direct_numeric",
@@ -555,7 +558,8 @@ text, formula, table, diagram
                 model=LOGIC_MODEL_NAME, 
                 messages=[{"role": "user", "content": attempt_prompt}],
                 temperature=0.1,
-                timeout=240
+                timeout=240,
+                extra_body=thinking_extra_body(TEXT_THINKING_MODE),
             )
             result_text = response.choices[0].message.content.strip()
             new_rubric = extract_and_parse_json(result_text)

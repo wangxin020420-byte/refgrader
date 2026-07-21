@@ -34,15 +34,18 @@ from calibration_utils import (
     prepare_rubrics_for_calibration,
     select_baseline_score,
 )
+from model_runtime import (
+    TEXT_MODEL_PROFILES,
+    VLM_MODEL_PROFILES,
+    runtime_model_config,
+    thinking_extra_body,
+)
 
 # ==================== 配置区 ====================
-# 视觉模型切换：可选 "glm4v" / "glm5v"
-VLM_MODEL_PROVIDER = "glm4v"
-VLM_MODELS = {
-    "glm4v": "glm-4.6v",
-    "glm5v": "glm-5v-turbo",
-}
-VLM_MODEL_NAME = VLM_MODELS.get(VLM_MODEL_PROVIDER, "glm-4.6v")
+MODEL_RUNTIME_CONFIG = runtime_model_config()
+VLM_MODELS = VLM_MODEL_PROFILES
+VLM_MODEL_PROVIDER = MODEL_RUNTIME_CONFIG["vlm_provider"]
+VLM_MODEL_NAME = MODEL_RUNTIME_CONFIG["vlm_model"]
 
 A3WA_CALIBRATION_CONFIG_PATH = os.getenv(
     "A3WA_CALIBRATION_CONFIG",
@@ -51,8 +54,12 @@ A3WA_CALIBRATION_CONFIG_PATH = os.getenv(
 _A3WA_RUNTIME_CONFIG = None
 PROMPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts")
 
-# 文本模型切换：可选 "glm" / "glm5" / "deepseek"
-TEXT_MODEL_PROVIDER = "glm5"
+# The CLI defaults to GLM-4.7 with thinking disabled. Environment variables
+# may override this before the process starts for controlled ablations.
+TEXT_MODEL_PROVIDER = MODEL_RUNTIME_CONFIG["text_provider"]
+TEXT_MODEL_NAME = MODEL_RUNTIME_CONFIG["text_model"]
+TEXT_MODEL_FAMILY = MODEL_RUNTIME_CONFIG["text_family"]
+TEXT_THINKING_MODE = MODEL_RUNTIME_CONFIG["text_thinking"]
 
 # Coding Plan 统一配置（OpenAI 兼容接口）
 CODING_PLAN_API_KEY = "132a47a6484e4a9dbfaa51fea40bbae0.LqWjKhw6WcH2sdFs"
@@ -67,6 +74,7 @@ GLM_MODEL_NAME = "glm-4.5-air"
 GLM5_API_KEY = CODING_PLAN_API_KEY
 GLM5_BASE_URL = CODING_PLAN_BASE_URL
 GLM5_MODEL_NAME = "glm-5.1"
+GLM47_MODEL_NAME = TEXT_MODEL_PROFILES["glm47"]["model"]
 
 # DeepSeek 配置
 DEEPSEEK_API_KEY = "sk-6lCywlyf1xwXyV8G937sOrRF7kGThWMrwFVksuwGZaAWrAzP"
@@ -77,6 +85,7 @@ DEEPSEEK_MODEL_NAME = "deepseek-v4-flash"
 MODEL_CONCURRENCY = {
     "glm":      (3, 3),  # GLM-4.5-air 并发能力较强
     "glm5":     (2, 2),  # GLM-5.1 限流较严，保持较低并发
+    "glm47":    (2, 2),  # GLM-4.7 采用保守并发，降低共享服务限流风险
     "deepseek": (2, 2),  # 第三方代理，保守并发
 }
 MAX_WORKERS_OUTER = MODEL_CONCURRENCY.get(TEXT_MODEL_PROVIDER, (3, 3))[0]
@@ -102,70 +111,39 @@ def render_prompt_template(filename, replacements, fallback):
 # ==================== 统一文本模型调用 ====================
 
 def call_text_model(messages, temperature=0.2, timeout=120):
-    """统一文本模型调用入口，根据 TEXT_MODEL_PROVIDER 自动分发。"""
-    if TEXT_MODEL_PROVIDER == "glm5":
-        for attempt in range(4):
-            try:
-                client = OpenAI(api_key=GLM5_API_KEY, base_url=GLM5_BASE_URL)
-                response = client.chat.completions.create(
-                    model=GLM5_MODEL_NAME,
-                    messages=messages,
-                    temperature=temperature,
-                    timeout=timeout
-                )
-                return response.choices[0].message.content.strip()
-            except Exception as e:
-                wait = 5 * (attempt + 1)
-                print(f"         [GLM-5 retry {attempt+1}/4] {type(e).__name__}: {str(e)[:80]}... wait {wait}s")
-                time.sleep(wait)
-        raise Exception("GLM-5 连续 4 次重试均失败")
-    elif TEXT_MODEL_PROVIDER == "deepseek":
-        # DeepSeek：每次请求使用独立客户端并重试，降低并发限流影响。
-        for attempt in range(4):
-            try:
-                client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url=DEEPSEEK_BASE_URL)
-                response = client.chat.completions.create(
-                    model=DEEPSEEK_MODEL_NAME,
-                    messages=messages,
-                    temperature=temperature,
-                    timeout=timeout
-                )
-                return response.choices[0].message.content.strip()
-            except Exception as e:
-                wait = 5 * (attempt + 1)
-                print(f"         [DeepSeek retry {attempt+1}/4] {type(e).__name__}: {str(e)[:80]}... wait {wait}s")
-                time.sleep(wait)
-        raise Exception("DeepSeek 连续 4 次重试均失败")
+    """Call the configured text model under one reproducible contract."""
+    if TEXT_MODEL_FAMILY == "deepseek":
+        api_key, base_url = DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL
     else:
-        response = glm_client.chat.completions.create(
-            model=GLM_MODEL_NAME,
-            messages=messages,
-            temperature=temperature,
-            timeout=timeout
-        )
-        return response.choices[0].message.content.strip()
-
-
-def call_glm5_text(messages, temperature=0.1, timeout=180):
-    """Call GLM-5.1 explicitly for OCR-to-fact mapping."""
+        api_key, base_url = CODING_PLAN_API_KEY, CODING_PLAN_BASE_URL
     for attempt in range(4):
         try:
-            client = OpenAI(api_key=GLM5_API_KEY, base_url=GLM5_BASE_URL)
-            response = client.chat.completions.create(
-                model=GLM5_MODEL_NAME,
-                messages=messages,
-                temperature=temperature,
-                timeout=timeout,
-            )
+            client = OpenAI(api_key=api_key, base_url=base_url)
+            request = {
+                "model": TEXT_MODEL_NAME,
+                "messages": messages,
+                "temperature": temperature,
+                "timeout": timeout,
+            }
+            if TEXT_MODEL_FAMILY == "glm":
+                request["extra_body"] = thinking_extra_body(
+                    TEXT_THINKING_MODE
+                )
+            response = client.chat.completions.create(**request)
             return response.choices[0].message.content.strip()
         except Exception as exc:
             wait = 5 * (attempt + 1)
             print(
-                f"         [GLM-5.1 mapping retry {attempt + 1}/4] "
+                f"         [{TEXT_MODEL_NAME} retry {attempt + 1}/4] "
                 f"{type(exc).__name__}: {str(exc)[:80]}... wait {wait}s"
             )
             time.sleep(wait)
-    raise RuntimeError("GLM-5.1 OCR fact mapping failed after 4 attempts")
+    raise RuntimeError(f"{TEXT_MODEL_NAME} failed after 4 attempts")
+
+
+def call_glm5_text(messages, temperature=0.1, timeout=180):
+    """Backward-compatible alias using the active experiment text model."""
+    return call_text_model(messages, temperature=temperature, timeout=timeout)
 
 # ==================== 工具函数 ====================
 

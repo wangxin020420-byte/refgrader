@@ -190,6 +190,7 @@ def main() -> int:
     ).resolve()
 
     configs: list[Path] = []
+    artifact_model_configs: list[dict] = []
     for ctx in contexts:
         source = artifacts_repo / "csbench" / ctx.question_id / stage_dir / run_id
         manifest_path = source / "run_manifest.json"
@@ -203,6 +204,10 @@ def main() -> int:
                 f"Split mismatch in {manifest_path}: "
                 f"expected {answer_split}, got {manifest.get('answer_split')}"
             )
+        artifact_model_configs.append(
+            manifest.get("model_config")
+            or {"status": "legacy_unspecified"}
+        )
         for relative, expected_hash in manifest.get("file_sha256", {}).items():
             artifact_file = source / relative
             if not artifact_file.is_file():
@@ -295,6 +300,14 @@ def main() -> int:
         )
         copy_checked(configs[0], restored_config, force=args.force)
 
+    serialized_model_configs = {
+        json.dumps(value, ensure_ascii=False, sort_keys=True)
+        for value in artifact_model_configs
+    }
+    if len(serialized_model_configs) != 1:
+        raise ValueError("Question artifacts contain different model contracts.")
+    restored_model_config = artifact_model_configs[0]
+
     if args.stage == "test":
         evaluation_dir = (
             artifacts_repo
@@ -343,6 +356,7 @@ def main() -> int:
                 else None
             ),
             completion=report,
+            model_config=restored_model_config,
         )
     print(f"Restored {args.stage} run {run_id} for: {', '.join(questions)}")
     if results_dir:

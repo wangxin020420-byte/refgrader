@@ -33,9 +33,8 @@ from step4_vlm_grader import (
     extract_and_parse_json,
     VLM_MODEL_NAME,
     TEXT_MODEL_PROVIDER,
-    GLM_MODEL_NAME,
-    GLM5_MODEL_NAME,
-    DEEPSEEK_MODEL_NAME,
+    TEXT_MODEL_NAME,
+    TEXT_THINKING_MODE,
     MAX_WORKERS_OUTER,
 )
 from ocr.backend import ensure_paddle_ocr_cache, ocr_json_path
@@ -130,6 +129,7 @@ class ProgressTracker:
                 "model_provider": model_info.get("provider", ""),
                 "vlm_model": model_info.get("vlm", ""),
                 "text_model": model_info.get("text", ""),
+                "text_thinking": model_info.get("text_thinking", ""),
                 "max_workers_outer": model_info.get("max_workers_outer", 2),
                 "cli_args": cli_args,
             },
@@ -369,9 +369,10 @@ def parse_args():
 # 辅助函数
 # ============================================================
 def get_text_model_display():
-    provider_map = {"glm": GLM_MODEL_NAME, "glm5": GLM5_MODEL_NAME, "deepseek": DEEPSEEK_MODEL_NAME}
-    actual = provider_map.get(TEXT_MODEL_PROVIDER, "unknown")
-    return f"{TEXT_MODEL_PROVIDER} -> {actual}"
+    return (
+        f"{TEXT_MODEL_PROVIDER} -> {TEXT_MODEL_NAME} "
+        f"(thinking={TEXT_THINKING_MODE})"
+    )
 
 
 def question_output_paths(q_id):
@@ -1280,6 +1281,12 @@ def run_variance_optimization_process(
         "requested_sample_size": sample_size,
         "completed_sample_size": len(hard_samples_info),
         "extraction_backend": extraction_backend,
+        "model_config": {
+            "text_provider": TEXT_MODEL_PROVIDER,
+            "text_model": TEXT_MODEL_NAME,
+            "text_thinking": TEXT_THINKING_MODE,
+            "vlm_model": VLM_MODEL_NAME,
+        },
         "question_total_score": float(q_score),
         "initial_total_score": initial_total,
         "optimized_total_score": rubric_total(final_rubric),
@@ -1862,11 +1869,11 @@ if __name__ == "__main__":
         cli_img_limit = None
 
     # 5. 构建模型信息
-    provider_map = {"glm": GLM_MODEL_NAME, "glm5": GLM5_MODEL_NAME, "deepseek": DEEPSEEK_MODEL_NAME}
     model_info = {
         "provider": TEXT_MODEL_PROVIDER,
         "vlm": VLM_MODEL_NAME,
-        "text": provider_map.get(TEXT_MODEL_PROVIDER, "unknown"),
+        "text": TEXT_MODEL_NAME,
+        "text_thinking": TEXT_THINKING_MODE,
         "max_workers_outer": MAX_WORKERS_OUTER,
         "extraction_backend": args.extraction_backend,
     }

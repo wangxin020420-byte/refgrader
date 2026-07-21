@@ -75,6 +75,21 @@ $Q = @("CO_1","CO_2","CO_3","CO_4","CO_5","CO_6","CO_7")
 
 不同模型契约必须分别运行 validation 和 calibrate，不能共用 A3WA 配置。
 
+### 0.2 GLM-5.2 七题校准并测试 CO_4：夜间一键运行
+
+仓库提供 `scripts/run_glm52_all7_co4_workflow.ps1`，一条命令连续完成数据与
+代码预检、GLM-5.2 API 冒烟、七题评分准则重优化、七题 validation、A3WA/残差
+校准、门禁记录、CO_4 test、自动评估和 artifacts 复制。后台启动命令：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run_glm52_all7_co4_workflow.ps1 -Background
+```
+
+该开发流程默认在门禁未通过时仍完成 CO_4，并在日志中标记为 diagnostic；论文正式
+held-out 实验应增加 `-RequireDeploymentGate`。若评分准则优化阶段中断，处理好已经
+生成的 artifacts 后使用 `-Background -ResumeOptimize` 恢复，不能再次强制重启。
+启动后 PID、主日志和错误日志路径分别保存在 `logs/glm52_all7_co4_latest.*`。
+
 ## 1. 可用题目 ID
 
 运行统一命令时，只需把示例中的 `CO_3` 替换为下表中的题目 ID。题目 ID 不区分输入大小写，脚本会自动转换为大写。

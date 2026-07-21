@@ -3,8 +3,8 @@
   "rubric_semantic_contract_version": 5,
   "question_id": "CO_6",
   "rubric_group": "CO",
-  "source_rubric": "data/csbench/rubrics/source/CO/CO_6.json",
-  "initial_rubric": "data/csbench/rubrics/initial/CO/CO_6_rubric_standard.json",
+  "source_rubric": "${CSBENCH_ROOT}/rubrics/source/CO/CO_6.json",
+  "initial_rubric": "${PREPARED_CSBENCH_ROOT}/rubrics/initial/CO/CO_6_rubric_standard.json",
   "optimized_rubric": "${PREPARED_CSBENCH_ROOT}/rubrics/optimized/CO/CO_6_rubric_standard.json",
   "calibration_answer_ids": [
     "ANS_CO_382",
@@ -117,9 +117,9 @@
   "source_sha256": "004a5a200d44fe907002301a96638ebb671df6708d1884b0e955601812817ba0",
   "initial_sha256": "e6e279a921a11b918747cba70cd5156797ae21280ab8e289e9f24e5fdeda20ae",
   "optimized_sha256": "2fdfea7c0edcc064ea46489bfbfa4bc1e35ddfd7dc3ba1659b72474a74043c7a",
-  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt",
-  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt/CO_6_variance_checkpoint.json",
-  "variance_checkpoint_sha256": "56b3e701d96a02fc93adebc5bf78328aac3f88156637c5a19d743229365a5414",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/restored_rubric_optimization_20260720_125148",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/restored_rubric_optimization_20260720_125148/CO_6_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "8265d5a6b6cbc2f443c64878e14e382e66ac0b3462dc465b860e878bbb3a2368",
   "created_at": "2026-07-20T12:43:11",
   "path_format": "refgrader_placeholders_v1"
 }

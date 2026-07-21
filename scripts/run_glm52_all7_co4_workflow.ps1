@@ -127,18 +127,21 @@ Invoke-PythonStage "Stage 0/6: GLM-5.2 API smoke test" @(
 
 Save-State "optimizing_rubrics"
 $OptimizeMode = if ($ResumeOptimize) { "--resume" } else { "--force" }
-Invoke-PythonStage "Stage 1/6: optimize CO_1-CO_7 rubrics" @(
-    "scripts\run_csbench.py", "optimize",
-    $Questions,
+$OptimizeArguments = @(
+    "scripts\run_csbench.py", "optimize"
+) + $Questions + @(
     $OptimizeMode,
     "--text-provider", "glm5",
     "--thinking-mode", "disabled",
     "--vlm-provider", "glm4v"
 )
+Invoke-PythonStage `
+    "Stage 1/6: optimize CO_1-CO_7 rubrics" `
+    $OptimizeArguments
 
-Invoke-PythonStage "Stage 2/6: validate rubric manifests" @(
-    "scripts\run_csbench.py", "grade",
-    $Questions,
+$ManifestArguments = @(
+    "scripts\run_csbench.py", "grade"
+) + $Questions + @(
     "--split", "validation",
     "--dry-run",
     "--no-artifacts",
@@ -146,11 +149,14 @@ Invoke-PythonStage "Stage 2/6: validate rubric manifests" @(
     "--thinking-mode", "disabled",
     "--vlm-provider", "glm4v"
 )
+Invoke-PythonStage `
+    "Stage 2/6: validate rubric manifests" `
+    $ManifestArguments
 
 Save-State "grading_validation"
-Invoke-PythonStage "Stage 3/6: grade CO_1-CO_7 validation" @(
-    "scripts\run_csbench.py", "grade",
-    $Questions,
+$ValidationArguments = @(
+    "scripts\run_csbench.py", "grade"
+) + $Questions + @(
     "--split", "validation",
     "--force",
     "--run-id", $ValidationRun,
@@ -158,11 +164,14 @@ Invoke-PythonStage "Stage 3/6: grade CO_1-CO_7 validation" @(
     "--thinking-mode", "disabled",
     "--vlm-provider", "glm4v"
 )
+Invoke-PythonStage `
+    "Stage 3/6: grade CO_1-CO_7 validation" `
+    $ValidationArguments
 
 Save-State "calibrating_a3wa"
-Invoke-PythonStage "Stage 4/6: calibrate A3WA and residual layer" @(
-    "scripts\run_csbench.py", "calibrate",
-    $Questions,
+$CalibrationArguments = @(
+    "scripts\run_csbench.py", "calibrate"
+) + $Questions + @(
     "--source-run-id", $ValidationRun,
     "--run-id", $CalibrationRun,
     "--output", $Config,
@@ -171,6 +180,9 @@ Invoke-PythonStage "Stage 4/6: calibrate A3WA and residual layer" @(
     "--thinking-mode", "disabled",
     "--vlm-provider", "glm4v"
 )
+Invoke-PythonStage `
+    "Stage 4/6: calibrate A3WA and residual layer" `
+    $CalibrationArguments
 
 $Calibration = Get-Content $Config -Raw -Encoding UTF8 | ConvertFrom-Json
 $GatePassed = $Calibration.deployment_gate.passed -eq $true
@@ -217,4 +229,3 @@ Write-Host "CO_4 test run: $TestRun"
 Write-Host "State: $StatePath"
 Write-Host "Artifacts changes:"
 git -C $Artifacts status --short
-

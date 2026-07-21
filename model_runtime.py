@@ -84,6 +84,20 @@ def runtime_model_config(
     }
 
 
+def get_model_runtime_config(
+    *,
+    text_provider: str | None = None,
+    thinking_mode: str | None = None,
+    vlm_provider: str | None = None,
+) -> dict[str, str]:
+    """Return the shared runtime contract through a stable public name."""
+    return runtime_model_config(
+        text_provider=text_provider,
+        thinking_mode=thinking_mode,
+        vlm_provider=vlm_provider,
+    )
+
+
 def model_environment(config: dict[str, str]) -> dict[str, str]:
     return {
         TEXT_PROVIDER_ENV: config["text_provider"],

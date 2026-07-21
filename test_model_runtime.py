@@ -8,6 +8,7 @@ from unittest.mock import patch
 from model_runtime import (
     DEFAULT_TEXT_MODEL_PROVIDER,
     DEFAULT_TEXT_THINKING_MODE,
+    get_model_runtime_config,
     runtime_model_config,
     thinking_extra_body,
 )
@@ -23,6 +24,9 @@ class ModelRuntimeTests(unittest.TestCase):
         self.assertEqual(config["text_model"], "glm-4.7")
         self.assertEqual(config["text_thinking"], "disabled")
         self.assertEqual(config["vlm_model"], "glm-4.6v")
+
+    def test_public_runtime_config_alias_matches_primary_helper(self):
+        self.assertEqual(get_model_runtime_config(), runtime_model_config())
 
     def test_environment_override_is_reflected_in_signature(self):
         with patch.dict(

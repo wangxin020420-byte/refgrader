@@ -1,8 +1,10 @@
 # RefGrader
 
-> 跨设备项目入口。最后更新：2026-07-19。
+> 跨设备项目入口。最后更新：2026-07-21。
 
 RefGrader 是面向主观题自动评分的实验系统。当前研究主线是把混合视觉证据、细粒度评分准则、三次独立语义评分、三支决策（3WD/A3WA）、边界仲裁和可选残差校正组合为可审计的评分流水线。
+
+当前默认模型契约是：文本评分、OCR 事实映射和 rubric 文本裁判统一使用 `glm-4.7`，显式设置 `thinking.type=disabled`；视觉提取继续使用 `glm-4.6v`。模型选择集中在 `model_runtime.py`，运行时也可以通过 `--text-provider`、`--thinking-mode` 和 `--vlm-provider` 做受控切换。validation、A3WA/残差校准和 test 必须使用同一模型契约；切换回 `glm-5.1` 时需要重新运行 validation 和 calibrate，不能复用 GLM-4.7 的校准配置。
 
 当前评分准则语义契约为版本 5。分值大于等于 4 分的父项先区分结果充分、正交结果、组成部分、过程主导和严格原子五类：只有正交结果/组成部分使用等权拆分；复杂过程题要求过程至少占 80%、核心过程至少占 50%、最终结论不超过 20%，短过程题要求过程至少占 65%、结论不超过 35%。多字段结构使用逐字段规范化，不能再由一个局部数字触发整体匹配。优化候选还必须保持父答案中的二进制/十六进制事实锚点和最终判断方向，并在独立 rubric-calibration 教师分上通过配对非劣回放，才会替换当前准则。
 
@@ -166,7 +168,8 @@ git pull --ff-only
 
 ```powershell
 & ".\venv\Scripts\python.exe" scripts\audit_csbench_snapshot.py --prepared-dir data\csbench
-& ".\venv\Scripts\python.exe" -m unittest test_canonicalizers.py test_rubric_semantics.py test_a3wa_theory.py test_csbench_artifact_sync.py -q
+& ".\venv\Scripts\python.exe" -m unittest test_model_runtime.py test_canonicalizers.py test_rubric_semantics.py test_a3wa_theory.py test_csbench_artifact_sync.py -q
+& ".\venv\Scripts\python.exe" -c "from model_runtime import runtime_model_config; print(runtime_model_config())"
 ```
 
 拉取后还应确认当前配置存在且无本地差异：
@@ -293,6 +296,7 @@ git status --short
 | 路径 | 作用 |
 | --- | --- |
 | `scripts/run_csbench.py` | CSBench 统一入口、完整性检查、评估和 artifacts 发布 |
+| `model_runtime.py` | 文本/视觉模型选择、思考模式和跨阶段模型契约 |
 | `main_pipeline.py` | rubric 优化与正式批改调度、checkpoint/failed 保存 |
 | `step4_vlm_grader.py` | 三次评分、三支路由、BND 仲裁和最终分数 |
 | `calibration_utils.py` | A3WA 配置、残差校正及校准工具 |

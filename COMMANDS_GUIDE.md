@@ -50,13 +50,14 @@ PID 管理只是长时间运行的可选包装，不是批改必须步骤。
 ### 0.1 切换到 GLM-4.7 后的首次实验
 
 旧 validation/A3WA 配置由其他模型生成，不能直接用于新模型。评分准则不变时，按以下
-顺序重新建立模型匹配的校准链，然后再跑 test。当前仓库还需先从 artifacts 恢复哈希
-一致的已批准评分准则（不会重新调用模型优化准则）：
+顺序重新建立模型匹配的校准链，然后再跑 test。当前七题 v5 准则应从统一的 validation
+归档 `20260720_125148` 恢复；该归档中的旧 validation 分数随后会被 `--force` 新运行替换，
+这里只把它作为哈希一致的准则载体，不会重新调用模型优化准则：
 
 ```powershell
 $Q = @("CO_1","CO_2","CO_3","CO_4","CO_5","CO_6","CO_7")
-.\venv\Scripts\python.exe scripts\restore_csbench_artifacts.py CO_1 CO_2 --stage rubric --run-id 20260719_035814 --force
-.\venv\Scripts\python.exe scripts\restore_csbench_artifacts.py CO_3 CO_4 CO_5 CO_6 CO_7 --stage rubric --run-id 20260720_125147 --force
+.\venv\Scripts\python.exe scripts\restore_csbench_artifacts.py @Q --stage validation --run-id 20260720_125148 --force
+.\venv\Scripts\python.exe scripts\run_csbench.py grade @Q --split validation --dry-run --no-artifacts
 .\venv\Scripts\python.exe scripts\run_csbench.py grade @Q --split validation --force
 .\venv\Scripts\python.exe scripts\run_csbench.py calibrate @Q --score-calibration
 .\venv\Scripts\python.exe scripts\run_csbench.py grade CO_4 --split test --force
@@ -66,7 +67,7 @@ $Q = @("CO_1","CO_2","CO_3","CO_4","CO_5","CO_6","CO_7")
 --thinking-mode disabled --vlm-provider glm4v`。需要做对照实验时才显式覆盖，例如：
 
 ```powershell
-.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_4 --split test --force --text-provider glm5 --thinking-mode enabled
+.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_4 --split test --force --text-provider glm5 --thinking-mode disabled
 ```
 
 不同模型契约必须分别运行 validation 和 calibrate，不能共用 A3WA 配置。
@@ -687,7 +688,7 @@ logs/experiment_<run_id>.log
 - `CO_3_rejected.json` 仅在存在 NEG 答案时生成。
 - `CO_3_failed.json` 仅在存在程序失败答案时生成。
 - CO_3 当前准则不要求图形证据，因此正式 test 预计不会触发 PaddleOCR；`ocr_cache/csbench/CO_3/` 可能不存在或为空。
-- `facts/CO_3/` 仍会保存由 `raw_text` 经 GLM-5.1 映射得到的评分点事实缓存。
+- `facts/CO_3/` 会保存由 `raw_text` 经当前文本模型映射得到的评分点事实缓存；默认契约是 GLM-4.7 且关闭思考模式，切换模型后不得复用不匹配的运行签名。
 
 ## 10. 日常顺序
 

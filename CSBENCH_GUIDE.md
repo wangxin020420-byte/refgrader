@@ -22,10 +22,12 @@ RefGrader 当前项目，不修改原始数据集。
 + cleaned 学生图片
 + 图表区域 PaddleOCR 标签/数字/坐标
 + GLM-4.6V 图形关系
-→ GLM-5.1 rubric 事实映射
+→ 当前文本模型执行 rubric 事实映射（默认 GLM-4.7，无思考模式）
 → 原有 Stage2
 → 原有 3WD
 ```
+
+文本模型、思考模式和视觉模型由 `model_runtime.py` 与统一 CLI 参数共同确定。事实映射、三次语义评分和 rubric 文本裁判共享同一文本模型契约，避免同一实验混用不同模型。切换文本模型后必须重新运行 validation 和 A3WA/残差校准。
 
 普通文字题直接使用 `raw_text`，不会运行 PaddleOCR。含图答案或
 `raw_text` 中出现“如图所示、见图、如下表”等占位语时，才运行

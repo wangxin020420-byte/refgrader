@@ -1807,7 +1807,15 @@ rubric or semantic contract itself changes.
 
 Local snapshot audit also found that the tracked CO_1-CO_7 optimized rubric
 files do not currently match the hashes in their manifests/active bundle. The
-approved artifact copies are internally consistent, so restore the matching
-rubric runs before the first validation: CO_1-CO_2 from `20260719_035814` and
-CO_3-CO_7 from `20260720_125147`. Do not bypass the hash gate or recompute
-manifest hashes around mismatched files.
+rubric-only artifact run for CO_1-CO_2 is contract v4 and must not be restored
+under contract v5. The unified validation artifact run `20260720_125148`
+contains internally consistent v5 rubrics for all seven questions, so use that
+run as the recovery source before the first GLM-4.7 validation. The restored
+legacy validation scores are immediately replaced by a forced GLM-4.7
+validation run. Do not bypass the hash gate or recompute manifest hashes around
+mismatched files.
+
+The public runtime inspection name `get_model_runtime_config()` was also added
+as a compatibility alias for `runtime_model_config()`. Both return the same
+contract; the CLI continues to use the primary helper internally. Unit tests
+cover the alias and explicit switching between GLM-4.7 and GLM-5.1.

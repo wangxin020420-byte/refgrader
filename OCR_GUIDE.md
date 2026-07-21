@@ -99,10 +99,12 @@ JSON 中，便于后续分析低置信度误识别。
 ```text
 原始 OCR JSON 与 SHA-256 缓存
 confirmed_blank / confirmed_nonblank / uncertain 三态空白证据
-GLM-5.1 脱敏事实映射
+当前文本模型执行脱敏事实映射（默认 GLM-4.7，无思考模式）
 仅对 diagram rubric 条目调用 GLM-4.6V
 OCR_ONLY / GRADE_ONLY / FULL
 ```
+
+这里的文本模型不是固定写死的 GLM-5.1，而是跟随本次运行的模型契约。默认使用 `glm47`，可通过 `--text-provider glm5` 切换到 GLM-5.1；切换后需要重新建立对应的 validation 与 A3WA 配置。
 
 Q2 单样本提取：
 

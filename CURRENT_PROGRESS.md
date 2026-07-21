@@ -1819,3 +1819,28 @@ The public runtime inspection name `get_model_runtime_config()` was also added
 as a compatibility alias for `runtime_model_config()`. Both return the same
 contract; the CLI continues to use the primary helper internally. Unit tests
 cover the alias and explicit switching between GLM-4.7 and GLM-5.1.
+
+## 2026-07-21 GLM-5.2 Default Runtime Contract
+
+Future experiments now use one default model contract across rubric optimization,
+OCR fact mapping, three independent semantic probes, validation calibration, and
+test grading:
+
+```text
+text provider key: glm5
+text model: glm-5.2
+text thinking: disabled
+visual provider: glm4v
+visual model: glm-4.6v
+```
+
+The stable provider key remains `glm5` so existing command syntax does not split
+one actual model into multiple run signatures. `glm47` remains available only for
+controlled ablation. Historical manifests and result files keep their original
+GLM-5.1 or GLM-4.7 metadata for reproducibility.
+
+The tracked active A3WA configuration is not rewritten by this source change.
+Because its model signature belongs to an earlier experiment, GLM-5.2 test runs
+must first regenerate validation checkpoints and calibrate a new A3WA/residual
+configuration. The CLI rejects a stale active configuration instead of silently
+mixing model contracts.

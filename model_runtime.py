@@ -12,7 +12,7 @@ from typing import Any
 
 TEXT_MODEL_PROFILES = {
     "glm": {"model": "glm-4.5-air", "family": "glm"},
-    "glm5": {"model": "glm-5.1", "family": "glm"},
+    "glm5": {"model": "glm-5.2", "family": "glm"},
     "glm47": {"model": "glm-4.7", "family": "glm"},
     "deepseek": {"model": "deepseek-v4-flash", "family": "deepseek"},
     "deepseek_v4pro": {"model": "deepseek-v4-pro", "family": "deepseek"},
@@ -23,7 +23,7 @@ VLM_MODEL_PROFILES = {
     "glm5v": "glm-5v-turbo",
 }
 
-DEFAULT_TEXT_MODEL_PROVIDER = "glm47"
+DEFAULT_TEXT_MODEL_PROVIDER = "glm5"
 DEFAULT_TEXT_THINKING_MODE = "disabled"
 DEFAULT_VLM_MODEL_PROVIDER = "glm4v"
 

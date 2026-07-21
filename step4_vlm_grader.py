@@ -54,7 +54,7 @@ A3WA_CALIBRATION_CONFIG_PATH = os.getenv(
 _A3WA_RUNTIME_CONFIG = None
 PROMPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts")
 
-# The CLI defaults to GLM-4.7 with thinking disabled. Environment variables
+# The CLI defaults to GLM-5.2 with thinking disabled. Environment variables
 # may override this before the process starts for controlled ablations.
 TEXT_MODEL_PROVIDER = MODEL_RUNTIME_CONFIG["text_provider"]
 TEXT_MODEL_NAME = MODEL_RUNTIME_CONFIG["text_model"]
@@ -70,10 +70,10 @@ GLM_API_KEY = CODING_PLAN_API_KEY
 GLM_BASE_URL = CODING_PLAN_BASE_URL
 GLM_MODEL_NAME = "glm-4.5-air"
 
-# GLM-5.1
+# GLM-5.2
 GLM5_API_KEY = CODING_PLAN_API_KEY
 GLM5_BASE_URL = CODING_PLAN_BASE_URL
-GLM5_MODEL_NAME = "glm-5.1"
+GLM5_MODEL_NAME = TEXT_MODEL_PROFILES["glm5"]["model"]
 GLM47_MODEL_NAME = TEXT_MODEL_PROFILES["glm47"]["model"]
 
 # DeepSeek 配置
@@ -84,7 +84,7 @@ DEEPSEEK_MODEL_NAME = "deepseek-v4-flash"
 # 并发配置：provider -> (外层学生并发, 内层 Stage2 探测并发)
 MODEL_CONCURRENCY = {
     "glm":      (3, 3),  # GLM-4.5-air 并发能力较强
-    "glm5":     (2, 2),  # GLM-5.1 限流较严，保持较低并发
+    "glm5":     (2, 2),  # GLM-5.2 限流较严，保持较低并发
     "glm47":    (2, 2),  # GLM-4.7 采用保守并发，降低共享服务限流风险
     "deepseek": (2, 2),  # 第三方代理，保守并发
 }
@@ -635,7 +635,7 @@ def map_transcription_to_facts(
     student_transcription,
     visual_placeholder_detected=False,
 ):
-    """Map the human transcription to blind rubric facts with GLM-5.1."""
+    """Map a human transcription to blind facts with the active text model."""
     checklist_ids = _checklist_ids(blind_checklist)
     prompt = f"""
 # Role: student-transcription fact mapper
@@ -669,12 +669,14 @@ Rules:
     )
     mapped = extract_and_parse_json(raw)
     if not isinstance(mapped, dict):
-        raise ValueError("GLM-5.1 transcription mapping did not return JSON")
+        raise ValueError(
+            f"{TEXT_MODEL_NAME} transcription mapping did not return JSON"
+        )
     return {item_id: mapped.get(item_id, "未书写") for item_id in checklist_ids}
 
 
 def map_paddle_ocr_to_facts(question_text, blind_checklist, ocr_payload):
-    """Map raw OCR evidence to blind checklist items with GLM-5.1."""
+    """Map raw OCR evidence to blind facts with the active text model."""
     checklist_ids = _checklist_ids(blind_checklist)
     blank_status = (
         ocr_payload.get("summary", {})
@@ -721,7 +723,9 @@ For each value:
     raw = call_glm5_text([{"role": "user", "content": prompt}], temperature=0.1, timeout=180)
     mapped = extract_and_parse_json(raw)
     if not isinstance(mapped, dict):
-        raise ValueError("GLM-5.1 OCR mapping did not return a JSON object")
+        raise ValueError(
+            f"{TEXT_MODEL_NAME} OCR mapping did not return a JSON object"
+        )
     return {item_id: mapped.get(item_id, "未书写") for item_id in checklist_ids}
 
 
@@ -841,7 +845,7 @@ def _tokens_to_table_view(tokens):
 
 
 def map_paddle_ocr_table_to_facts(question_text, table_checklist, ocr_payload):
-    """Map OCR row/column evidence to table/grid checklist items with GLM-5.1."""
+    """Map OCR table evidence to blind facts with the active text model."""
     checklist_ids = _checklist_ids(table_checklist)
     if not checklist_ids:
         return {}, {}
@@ -893,7 +897,9 @@ Return one strict JSON object whose keys are exactly:
     raw = call_glm5_text([{"role": "user", "content": prompt}], temperature=0.1, timeout=180)
     mapped = extract_and_parse_json(raw)
     if not isinstance(mapped, dict):
-        raise ValueError("GLM-5.1 OCR table mapping did not return a JSON object")
+        raise ValueError(
+            f"{TEXT_MODEL_NAME} OCR table mapping did not return a JSON object"
+        )
     return {item_id: mapped.get(item_id, "未书写") for item_id in checklist_ids}, table_view
 
 

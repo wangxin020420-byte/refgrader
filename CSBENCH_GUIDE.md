@@ -22,7 +22,7 @@ RefGrader 当前项目，不修改原始数据集。
 + cleaned 学生图片
 + 图表区域 PaddleOCR 标签/数字/坐标
 + GLM-4.6V 图形关系
-→ 当前文本模型执行 rubric 事实映射（默认 GLM-4.7，无思考模式）
+→ 当前文本模型执行 rubric 事实映射（默认 GLM-5.2，无思考模式）
 → 原有 Stage2
 → 原有 3WD
 ```

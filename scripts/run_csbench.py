@@ -51,11 +51,17 @@ ACTIVE_A3WA_CONFIG_NAME = "active_a3wa_config.json"
 
 
 def add_model_arguments(parser: argparse.ArgumentParser) -> None:
+    default_text_model = TEXT_MODEL_PROFILES[
+        DEFAULT_TEXT_MODEL_PROVIDER
+    ]["model"]
     parser.add_argument(
         "--text-provider",
         choices=sorted(TEXT_MODEL_PROFILES),
         default=DEFAULT_TEXT_MODEL_PROVIDER,
-        help="Text grading model profile. Default: glm47 (glm-4.7).",
+        help=(
+            "Text grading model profile. Default: "
+            f"{DEFAULT_TEXT_MODEL_PROVIDER} ({default_text_model})."
+        ),
     )
     parser.add_argument(
         "--thinking-mode",

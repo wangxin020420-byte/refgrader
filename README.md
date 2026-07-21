@@ -4,7 +4,7 @@
 
 RefGrader 是面向主观题自动评分的实验系统。当前研究主线是把混合视觉证据、细粒度评分准则、三次独立语义评分、三支决策（3WD/A3WA）、边界仲裁和可选残差校正组合为可审计的评分流水线。
 
-当前默认模型契约是：文本评分、OCR 事实映射和 rubric 文本裁判统一使用 `glm-4.7`，显式设置 `thinking.type=disabled`；视觉提取继续使用 `glm-4.6v`。模型选择集中在 `model_runtime.py`，运行时也可以通过 `--text-provider`、`--thinking-mode` 和 `--vlm-provider` 做受控切换。validation、A3WA/残差校准和 test 必须使用同一模型契约；切换回 `glm-5.1` 时需要重新运行 validation 和 calibrate，不能复用 GLM-4.7 的校准配置。
+当前默认模型契约是：文本评分、OCR 事实映射和 rubric 文本裁判统一使用 `glm-5.2`（配置键 `glm5`），显式设置 `thinking.type=disabled`；视觉提取继续使用 `glm-4.6v`。模型选择集中在 `model_runtime.py`，运行时也可以通过 `--text-provider`、`--thinking-mode` 和 `--vlm-provider` 做受控切换。validation、A3WA/残差校准和 test 必须使用同一模型契约；任何模型或思考模式切换都需要重新运行 validation 和 calibrate，不能复用其他模型契约的校准配置。
 
 当前评分准则语义契约为版本 5。分值大于等于 4 分的父项先区分结果充分、正交结果、组成部分、过程主导和严格原子五类：只有正交结果/组成部分使用等权拆分；复杂过程题要求过程至少占 80%、核心过程至少占 50%、最终结论不超过 20%，短过程题要求过程至少占 65%、结论不超过 35%。多字段结构使用逐字段规范化，不能再由一个局部数字触发整体匹配。优化候选还必须保持父答案中的二进制/十六进制事实锚点和最终判断方向，并在独立 rubric-calibration 教师分上通过配对非劣回放，才会替换当前准则。
 

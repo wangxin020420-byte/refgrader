@@ -16,12 +16,12 @@ from scripts.run_csbench import _run_signature
 
 
 class ModelRuntimeTests(unittest.TestCase):
-    def test_default_contract_is_glm47_without_thinking(self):
+    def test_default_contract_is_glm52_without_thinking(self):
         with patch.dict(os.environ, {}, clear=True):
             config = runtime_model_config()
-        self.assertEqual(DEFAULT_TEXT_MODEL_PROVIDER, "glm47")
+        self.assertEqual(DEFAULT_TEXT_MODEL_PROVIDER, "glm5")
         self.assertEqual(DEFAULT_TEXT_THINKING_MODE, "disabled")
-        self.assertEqual(config["text_model"], "glm-4.7")
+        self.assertEqual(config["text_model"], "glm-5.2")
         self.assertEqual(config["text_thinking"], "disabled")
         self.assertEqual(config["vlm_model"], "glm-4.6v")
 
@@ -32,13 +32,13 @@ class ModelRuntimeTests(unittest.TestCase):
         with patch.dict(
             os.environ,
             {
-                "REFGRADER_TEXT_MODEL_PROVIDER": "glm5",
+                "REFGRADER_TEXT_MODEL_PROVIDER": "glm47",
                 "REFGRADER_TEXT_THINKING": "enabled",
             },
             clear=True,
         ):
             config = runtime_model_config()
-        self.assertEqual(config["text_model"], "glm-5.1")
+        self.assertEqual(config["text_model"], "glm-4.7")
         self.assertEqual(config["text_thinking"], "enabled")
 
     def test_thinking_payload_is_explicit(self):

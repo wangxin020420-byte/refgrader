@@ -2,7 +2,7 @@
 
 CSBench 实验统一使用 `scripts/run_csbench.py`。更换题目时只需要修改题号，例如把 `CO_2` 改成 `CO_3`。
 
-> 当前默认模型契约（2026-07-21）：文本评分统一使用 `glm-4.7`，并显式发送
+> 当前默认模型契约（2026-07-21）：文本评分统一使用 `glm-5.2`（配置键 `glm5`），并显式发送
 > `thinking.type=disabled`；视觉提取仍使用 `glm-4.6v`。该契约同时覆盖语义评分、
 > OCR 事实映射和评分准则优化中的文本裁判。每个 validation/test 运行及 A3WA 配置
 > 都记录模型签名，模型或思考模式不一致时脚本会拒绝复用旧结果。
@@ -47,27 +47,30 @@ python scripts/run_csbench.py grade CO_5 CO_6 --split test --force
 三支决策校准逻辑发生变化，或者需要重新生成 A3WA 配置。Windows 隐藏后台、日志重定向和
 PID 管理只是长时间运行的可选包装，不是批改必须步骤。
 
-### 0.1 切换到 GLM-4.7 后的首次实验
+### 0.1 切换到 GLM-5.2 后的首次实验
 
-旧 validation/A3WA 配置由其他模型生成，不能直接用于新模型。评分准则不变时，按以下
-顺序重新建立模型匹配的校准链，然后再跑 test。当前七题 v5 准则应从统一的 validation
-归档 `20260720_125148` 恢复；该归档中的旧 validation 分数随后会被 `--force` 新运行替换，
-这里只把它作为哈希一致的准则载体，不会重新调用模型优化准则：
+旧 validation/A3WA 配置由其他模型生成，不能直接用于新模型。当前七题 optimized
+rubric 与 manifest 也不能作为 GLM-5.2 的有效活动准则，因此首次完整实验必须按
+“重优化 rubric -> 重跑 validation -> 重校准 A3WA/残差 -> test”的顺序执行：
 
 ```powershell
 $Q = @("CO_1","CO_2","CO_3","CO_4","CO_5","CO_6","CO_7")
-.\venv\Scripts\python.exe scripts\restore_csbench_artifacts.py @Q --stage validation --run-id 20260720_125148 --force
-.\venv\Scripts\python.exe scripts\run_csbench.py grade @Q --split validation --dry-run --no-artifacts
+.\venv\Scripts\python.exe scripts\run_csbench.py optimize @Q --force --text-provider glm5 --thinking-mode disabled
+.\venv\Scripts\python.exe scripts\run_csbench.py grade @Q --split validation --dry-run --no-artifacts --text-provider glm5 --thinking-mode disabled
 .\venv\Scripts\python.exe scripts\run_csbench.py grade @Q --split validation --force
 .\venv\Scripts\python.exe scripts\run_csbench.py calibrate @Q --score-calibration
 .\venv\Scripts\python.exe scripts\run_csbench.py grade CO_4 --split test --force
 ```
 
-上述命令无需重复写模型参数，因为默认值已经是 `--text-provider glm47
+若 optimize 中断，使用同一题目集合执行 `optimize @Q --resume`，不要再次使用
+`--force` 重启已经完成的题目。新的准则和 A3WA 配置通过验证后应提交
+`refgrader-main`；历史运行证据由程序复制到 `refgrader-artifacts` 后单独提交。
+
+上述命令无需重复写模型参数，因为默认值已经是 `--text-provider glm5
 --thinking-mode disabled --vlm-provider glm4v`。需要做对照实验时才显式覆盖，例如：
 
 ```powershell
-.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_4 --split test --force --text-provider glm5 --thinking-mode disabled
+.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_4 --split test --force --text-provider glm47 --thinking-mode disabled
 ```
 
 不同模型契约必须分别运行 validation 和 calibrate，不能共用 A3WA 配置。
@@ -688,7 +691,7 @@ logs/experiment_<run_id>.log
 - `CO_3_rejected.json` 仅在存在 NEG 答案时生成。
 - `CO_3_failed.json` 仅在存在程序失败答案时生成。
 - CO_3 当前准则不要求图形证据，因此正式 test 预计不会触发 PaddleOCR；`ocr_cache/csbench/CO_3/` 可能不存在或为空。
-- `facts/CO_3/` 会保存由 `raw_text` 经当前文本模型映射得到的评分点事实缓存；默认契约是 GLM-4.7 且关闭思考模式，切换模型后不得复用不匹配的运行签名。
+- `facts/CO_3/` 会保存由 `raw_text` 经当前文本模型映射得到的评分点事实缓存；默认契约是 GLM-5.2 且关闭思考模式，切换模型后不得复用不匹配的运行签名。
 
 ## 10. 日常顺序
 

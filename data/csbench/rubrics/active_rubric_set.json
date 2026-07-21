@@ -19,7 +19,7 @@
       "optimization_manifest": "rubrics/manifests/CO/CO_1_optimization.json",
       "initial_sha256": "d71c92c8326562fe62b02b5290e1beba096eb7cd937aaedcbbaebf68f0b779a9",
       "optimized_sha256": "a4030adc15320c0ee83fff5fd26e43e6f03e79126ff1c0c2488134e9acf46192",
-      "optimization_manifest_sha256": "ae86819b6e6617426d52319e784f252f3636fc336d00e34faa905676c315f7bc",
+      "optimization_manifest_sha256": "9587093fd8b9e5f9eb38d14d97983a7cc4bdd5a67e3c572ed94933984d6bb0e5",
       "split_sha256": "aaec8d1496a1553dcda6df133c384994ce0e28f99a868ab1e47655ea70405182",
       "optimization_created_at": "2026-07-19T23:28:24",
       "calibration_answer_ids": [
@@ -39,7 +39,7 @@
       "optimization_manifest": "rubrics/manifests/CO/CO_2_optimization.json",
       "initial_sha256": "ccf8f30ed66fa51b2c955bb7e22e0ccc0c6b4a14f68ae93768b595d9166c3c36",
       "optimized_sha256": "23fa4494a4c8190bdb3229dc9ae119d4afb5acb66f3b42a94d15755a5ab07fe9",
-      "optimization_manifest_sha256": "57a375eaf76a7ecaf8de54a8d5583d9603bdffab1fe854b30f595bd19b955b2c",
+      "optimization_manifest_sha256": "1b489e5b18b1cfdaa5f90295742793313e63722aef46f72bae27db721ef75f13",
       "split_sha256": "359c732dcc065997a756d333a380bceb4fed0d139341843da97a491001e8d28a",
       "optimization_created_at": "2026-07-20T00:29:49",
       "calibration_answer_ids": [
@@ -59,7 +59,7 @@
       "optimization_manifest": "rubrics/manifests/CO/CO_3_optimization.json",
       "initial_sha256": "48d16d2d6cc28e420e459b6c5ecbea59c92321ca020a3a6c83adbdfb3dbdbfce",
       "optimized_sha256": "434b0173bf2d0bf2c5a5b532b536af0b06f810dc9927a243a3258af3bcbecabd",
-      "optimization_manifest_sha256": "0acdfa2f4294bb0122588d5730c382703c313994ea400b5b4233052f35652844",
+      "optimization_manifest_sha256": "a28448191292ef9cb9bd18ab7db0aeb880afb478b78055b3026ddf4229a8dda0",
       "split_sha256": "0af7cbcbc2421101c3240fef4e1fce0c7d64d0ba1308a22e1517d06250ab1371",
       "optimization_created_at": "2026-07-20T12:03:44",
       "calibration_answer_ids": [
@@ -79,7 +79,7 @@
       "optimization_manifest": "rubrics/manifests/CO/CO_4_optimization.json",
       "initial_sha256": "72db467b3af4bb93e018f955fab43f87336e2117921c26bc6714bca038a0db1b",
       "optimized_sha256": "682084c24dad3ab89daa56a9a5d46150d333b8df7715ad813a077e912638b4e0",
-      "optimization_manifest_sha256": "5d05cc8189635c0ce2a7a89507806054440cb9a4332ab9034fd95f01c8cb26e1",
+      "optimization_manifest_sha256": "af46029927c517e66e524b96f7f5b3795d890fe4edfc707962f449071137ead2",
       "split_sha256": "6250369348884c3f7ecde14d491607fd2234d49f334e00443540919ea74caef0",
       "optimization_created_at": "2026-07-20T12:27:14",
       "calibration_answer_ids": [
@@ -99,7 +99,7 @@
       "optimization_manifest": "rubrics/manifests/CO/CO_5_optimization.json",
       "initial_sha256": "d0d8d9aee97f0ccd0188ef2a7b023ed28ae64a5da500201669d40475d395f8ba",
       "optimized_sha256": "3bcf84a6c54f1f65d8dcd8ba800e802d1acc00cc4739bfb1603e000d28e322ac",
-      "optimization_manifest_sha256": "95d97189defb4cf3275dd3ba210eddec296612c272483d5a0e9b029fa0fba953",
+      "optimization_manifest_sha256": "9d1512f4f163ea964e341accc36eadf021cfb1d9cabcbced3ee51287616db850",
       "split_sha256": "5f72da0785ccd6f05a3a17ca177d78aa29166a724db5b201a1408243fdba4619",
       "optimization_created_at": "2026-07-20T12:37:05",
       "calibration_answer_ids": [
@@ -119,7 +119,7 @@
       "optimization_manifest": "rubrics/manifests/CO/CO_6_optimization.json",
       "initial_sha256": "e6e279a921a11b918747cba70cd5156797ae21280ab8e289e9f24e5fdeda20ae",
       "optimized_sha256": "2fdfea7c0edcc064ea46489bfbfa4bc1e35ddfd7dc3ba1659b72474a74043c7a",
-      "optimization_manifest_sha256": "1e6ba9810b45abcb82ed52d675a2904c9609d31ffa09915362c29a2f0043993a",
+      "optimization_manifest_sha256": "d20350b29aefe1981fdedd001b07399a11ddd03bc1f8ed3fb68173524980b7c5",
       "split_sha256": "ee0da96a0f4d69c6f273c3d8e56cc23d697fed0c9409d6388cc630b012bffc7c",
       "optimization_created_at": "2026-07-20T12:43:11",
       "calibration_answer_ids": [
@@ -139,7 +139,7 @@
       "optimization_manifest": "rubrics/manifests/CO/CO_7_optimization.json",
       "initial_sha256": "043d42144b2347180478367a2a4dd781ff314e729b250f48fb316ba102d157c9",
       "optimized_sha256": "077c2e9bc4fc4233515bec6802b162e98ae64de540ec4ad686cb5507bb37eaaf",
-      "optimization_manifest_sha256": "9b4519aec6f1184f9b4b5213dc1991b0d943d95caf7b059d6b913387d3e45276",
+      "optimization_manifest_sha256": "3176775e28990118ac81f1c220b6535d04f48527c5b982d609169e6e0167fda9",
       "split_sha256": "7af635e47fbea8fce92454a3d2159bdc3e38ff206738a8458792363cec653456",
       "optimization_created_at": "2026-07-20T12:51:46",
       "calibration_answer_ids": [
@@ -154,7 +154,7 @@
   "active_a3wa": {
     "status": "active",
     "path": "calibration/active_a3wa_config.json",
-    "sha256": "a113f2dfcb8a5d4e0c9c4832e5bfc11c3f9af9704f0cedb7e490dc12c47552ec",
+    "sha256": "1c332560adf1aef5f3e693941fecb0cb785695eb1abacdf7909f16d814fb963d",
     "questions": [
       "CO_1",
       "CO_2",
@@ -182,8 +182,16 @@
       "CO_6": "ee0da96a0f4d69c6f273c3d8e56cc23d697fed0c9409d6388cc630b012bffc7c",
       "CO_7": "7af635e47fbea8fce92454a3d2159bdc3e38ff206738a8458792363cec653456"
     },
-    "source_validation_run_id": "20260720_125148",
-    "score_calibration_enabled": true
+    "source_validation_run_id": "20260721_111025",
+    "score_calibration_enabled": true,
+    "model_config": {
+      "text_provider": "glm47",
+      "text_model": "glm-4.7",
+      "text_family": "glm",
+      "text_thinking": "disabled",
+      "vlm_provider": "glm4v",
+      "vlm_model": "glm-4.6v"
+    }
   },
-  "updated_at": "2026-07-20T17:23:09"
+  "updated_at": "2026-07-21T12:09:58"
 }

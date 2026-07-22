@@ -1,5 +1,23 @@
 # Current Progress
 
+## 2026-07-22 Unattended, resumable GLM-5.2 workflow
+
+The Windows all-seven calibration plus CO_4 test workflow is now self-healing
+for transient failures. It keeps stable validation/test run IDs, switches
+rubric optimization from the initial `--force` attempt to `--resume`, retries
+only unresolved grading samples, uses bounded exponential backoff, and prevents
+automatic system sleep while active. `grade --require-complete` turns partial
+coverage into a non-zero stage result so the workflow cannot silently advance
+to calibration or evaluation with unresolved answers. A resumed optimization
+also republishes the full requested rubric set, repairing an artifact copy that
+was interrupted after the local rubric transaction completed.
+
+Default retry budgets are 6 API smoke attempts, 4 rubric attempts, and 36
+validation/test attempts, with 60-second initial delay capped at 600 seconds.
+Deterministic snapshot, split, unit-test, manifest, and deployment-gate failures
+still stop immediately; silently bypassing those gates would invalidate a
+formal experiment.
+
 ## 2026-07-22 Formal Experiment Gates And Split Audit
 
 The formal CSBench path now distinguishes an accepted experiment from a

@@ -2,7 +2,17 @@ param(
     [switch]$Background,
     [switch]$ResumeOptimize,
     [switch]$RequireDeploymentGate,
-    [switch]$AllowExperimentalA3wa
+    [switch]$AllowExperimentalA3wa,
+    [ValidateRange(1, 20)]
+    [int]$OptimizeAttempts = 4,
+    [ValidateRange(1, 100)]
+    [int]$GradeAttempts = 36,
+    [ValidateRange(1, 20)]
+    [int]$ApiSmokeAttempts = 6,
+    [ValidateRange(1, 3600)]
+    [int]$InitialRetrySeconds = 60,
+    [ValidateRange(1, 3600)]
+    [int]$MaximumRetrySeconds = 600
 )
 
 $ErrorActionPreference = "Stop"
@@ -14,6 +24,41 @@ $Logs = Join-Path $Root "logs"
 New-Item -ItemType Directory -Force $Logs | Out-Null
 
 if ($Background) {
+    $PythonPath = Join-Path $Root "venv\Scripts\python.exe"
+    $ArtifactsPath = Join-Path (Split-Path -Parent $Root) "refgrader-artifacts"
+    $LatestPidPath = Join-Path $Logs "glm52_all7_co4_latest.pid"
+    if (-not (Test-Path -LiteralPath $PythonPath)) {
+        throw "Main Python environment not found: $PythonPath"
+    }
+    if (-not (Test-Path -LiteralPath (Join-Path $ArtifactsPath ".git"))) {
+        throw "Sibling refgrader-artifacts repository not found: $ArtifactsPath"
+    }
+    if (Test-Path -LiteralPath $LatestPidPath) {
+        $ExistingPidText = (Get-Content $LatestPidPath -Raw).Trim()
+        if ($ExistingPidText -match "^\d+$") {
+            $ExistingProcess = Get-CimInstance Win32_Process `
+                -Filter "ProcessId = $ExistingPidText" `
+                -ErrorAction SilentlyContinue
+            if (
+                $ExistingProcess -and
+                $ExistingProcess.CommandLine -match
+                    "run_glm52_all7_co4_workflow\.ps1"
+            ) {
+                throw "An unattended workflow is already running (PID $ExistingPidText)."
+            }
+        }
+        Remove-Item -LiteralPath $LatestPidPath -Force
+    }
+    if (-not $ResumeOptimize) {
+        $ArtifactChanges = @(git -C $ArtifactsPath status --porcelain)
+        if ($LASTEXITCODE -ne 0) {
+            throw "Unable to inspect refgrader-artifacts."
+        }
+        if ($ArtifactChanges.Count -gt 0) {
+            throw "refgrader-artifacts has uncommitted changes. Commit them first."
+        }
+    }
+
     $Tag = Get-Date -Format "yyyyMMdd_HHmmss"
     $Log = Join-Path $Logs "glm52_all7_co4_$Tag.log"
     $Err = Join-Path $Logs "glm52_all7_co4_$Tag.err"
@@ -33,6 +78,13 @@ if ($Background) {
     if ($AllowExperimentalA3wa) {
         $Arguments += "-AllowExperimentalA3wa"
     }
+    $Arguments += @(
+        "-OptimizeAttempts", $OptimizeAttempts.ToString(),
+        "-GradeAttempts", $GradeAttempts.ToString(),
+        "-ApiSmokeAttempts", $ApiSmokeAttempts.ToString(),
+        "-InitialRetrySeconds", $InitialRetrySeconds.ToString(),
+        "-MaximumRetrySeconds", $MaximumRetrySeconds.ToString()
+    )
     $Process = Start-Process `
         -FilePath $PowerShellExe `
         -ArgumentList $Arguments `
@@ -78,10 +130,68 @@ function Invoke-PythonStage {
     }
 }
 
+function Invoke-RetryablePythonStage {
+    param(
+        [string]$Name,
+        [string[]]$InitialArguments,
+        [string[]]$ResumeArguments,
+        [int]$MaximumAttempts
+    )
+
+    for ($Attempt = 1; $Attempt -le $MaximumAttempts; $Attempt++) {
+        $StageArguments = if ($Attempt -eq 1) {
+            $InitialArguments
+        } else {
+            $ResumeArguments
+        }
+        Write-Host ""
+        Write-Host "===== $Name | attempt $Attempt/$MaximumAttempts ====="
+        Save-State `
+            -Status "running" `
+            -Stage $Name `
+            -Attempt $Attempt `
+            -Message "stage attempt started"
+
+        & $Python @StageArguments
+        $ExitCode = $LASTEXITCODE
+        if ($ExitCode -eq 0) {
+            Write-Host "===== $Name completed ====="
+            return
+        }
+        if ($Attempt -ge $MaximumAttempts) {
+            throw "$Name exhausted $MaximumAttempts attempts; last exit code $ExitCode"
+        }
+
+        $Exponent = [Math]::Min($Attempt - 1, 10)
+        $Delay = [int][Math]::Min(
+            $MaximumRetrySeconds,
+            $InitialRetrySeconds * [Math]::Pow(2, $Exponent)
+        )
+        Save-State `
+            -Status "retry_wait" `
+            -Stage $Name `
+            -Attempt $Attempt `
+            -Message "exit code $ExitCode; retry in $Delay seconds"
+        Write-Warning (
+            "$Name failed with exit code $ExitCode. " +
+            "The same run will resume automatically in $Delay seconds."
+        )
+        Start-Sleep -Seconds $Delay
+    }
+}
+
 function Save-State {
-    param([string]$Status)
+    param(
+        [string]$Status,
+        [string]$Stage = "",
+        [int]$Attempt = 0,
+        [string]$Message = ""
+    )
     @{
         status = $Status
+        stage = $Stage
+        attempt = $Attempt
+        message = $Message
         updated_at = (Get-Date).ToString("s")
         validation_run_id = $ValidationRun
         calibration_run_id = $CalibrationRun
@@ -90,8 +200,43 @@ function Save-State {
         model = "glm-5.2"
         thinking = "disabled"
     } | ConvertTo-Json | Set-Content $StatePath -Encoding UTF8
+    $StatePath | Set-Content `
+        (Join-Path $Logs "glm52_all7_co4_latest_state.txt") -Encoding UTF8
 }
 
+function Enable-KeepAwake {
+    try {
+        Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+public static class RefGraderPowerState {
+    [DllImport("kernel32.dll")]
+    public static extern uint SetThreadExecutionState(uint esFlags);
+}
+"@
+        $Continuous = [uint32]0x80000000
+        $SystemRequired = [uint32]0x00000001
+        [void][RefGraderPowerState]::SetThreadExecutionState(
+            $Continuous -bor $SystemRequired
+        )
+        return $true
+    } catch {
+        Write-Warning "Could not disable automatic sleep: $($_.Exception.Message)"
+        return $false
+    }
+}
+
+function Disable-KeepAwake {
+    param([bool]$WasEnabled)
+    if ($WasEnabled) {
+        $Continuous = [uint32]0x80000000
+        [void][RefGraderPowerState]::SetThreadExecutionState($Continuous)
+    }
+}
+
+$KeepAwakeEnabled = Enable-KeepAwake
+$WorkflowFailed = $false
+try {
 if (-not (Test-Path -LiteralPath $Python)) {
     throw "Main Python environment not found: $Python"
 }
@@ -108,7 +253,7 @@ if (-not $ResumeOptimize) {
     }
 }
 
-Save-State "preflight"
+Save-State -Status "preflight" -Stage "Stage 0/6"
 Invoke-PythonStage "Stage 0/6: snapshot audit" @(
     "scripts\audit_csbench_snapshot.py",
     "--prepared-dir", "data\csbench"
@@ -122,24 +267,39 @@ Invoke-PythonStage "Stage 0/6: offline tests" @(
     "-p", "test_*.py",
     "-q"
 )
-Invoke-PythonStage "Stage 0/6: GLM-5.2 API smoke test" @(
+$ApiSmokeArguments = @(
     "-c",
     "from step4_vlm_grader import call_text_model; print(call_text_model([{'role':'user','content':'Reply with exactly OK.'}], temperature=0, timeout=60))"
 )
+Invoke-RetryablePythonStage `
+    -Name "Stage 0/6: GLM-5.2 API smoke test" `
+    -InitialArguments $ApiSmokeArguments `
+    -ResumeArguments $ApiSmokeArguments `
+    -MaximumAttempts $ApiSmokeAttempts
 
 Save-State "optimizing_rubrics"
-$OptimizeMode = if ($ResumeOptimize) { "--resume" } else { "--force" }
-$OptimizeArguments = @(
+$OptimizeInitialMode = if ($ResumeOptimize) { "--resume" } else { "--force" }
+$OptimizeInitialArguments = @(
     "scripts\run_csbench.py", "optimize"
 ) + $Questions + @(
-    $OptimizeMode,
+    $OptimizeInitialMode,
     "--text-provider", "glm5",
     "--thinking-mode", "disabled",
     "--vlm-provider", "glm4v"
 )
-Invoke-PythonStage `
-    "Stage 1/6: optimize CO_1-CO_7 rubrics" `
-    $OptimizeArguments
+$OptimizeResumeArguments = @(
+    "scripts\run_csbench.py", "optimize"
+) + $Questions + @(
+    "--resume",
+    "--text-provider", "glm5",
+    "--thinking-mode", "disabled",
+    "--vlm-provider", "glm4v"
+)
+Invoke-RetryablePythonStage `
+    -Name "Stage 1/6: optimize CO_1-CO_7 rubrics" `
+    -InitialArguments $OptimizeInitialArguments `
+    -ResumeArguments $OptimizeResumeArguments `
+    -MaximumAttempts $OptimizeAttempts
 
 $ManifestArguments = @(
     "scripts\run_csbench.py", "grade"
@@ -162,13 +322,26 @@ $ValidationArguments = @(
     "--split", "validation",
     "--force",
     "--run-id", $ValidationRun,
+    "--require-complete",
     "--text-provider", "glm5",
     "--thinking-mode", "disabled",
     "--vlm-provider", "glm4v"
 )
-Invoke-PythonStage `
-    "Stage 3/6: grade CO_1-CO_7 validation" `
-    $ValidationArguments
+$ValidationResumeArguments = @(
+    "scripts\run_csbench.py", "grade"
+) + $Questions + @(
+    "--split", "validation",
+    "--run-id", $ValidationRun,
+    "--require-complete",
+    "--text-provider", "glm5",
+    "--thinking-mode", "disabled",
+    "--vlm-provider", "glm4v"
+)
+Invoke-RetryablePythonStage `
+    -Name "Stage 3/6: grade CO_1-CO_7 validation" `
+    -InitialArguments $ValidationArguments `
+    -ResumeArguments $ValidationResumeArguments `
+    -MaximumAttempts $GradeAttempts
 
 Save-State "calibrating_a3wa"
 $CalibrationArguments = @(
@@ -211,6 +384,7 @@ $TestArguments = @(
     "--force",
     "--run-id", $TestRun,
     "--a3wa-config", $Config,
+    "--require-complete",
     "--text-provider", "glm5",
     "--thinking-mode", "disabled",
     "--vlm-provider", "glm4v"
@@ -218,8 +392,25 @@ $TestArguments = @(
 if ($AllowExperimentalA3wa) {
     $TestArguments += "--allow-experimental-a3wa"
 }
+$TestResumeArguments = @(
+    "scripts\run_csbench.py", "grade", "CO_4",
+    "--split", "test",
+    "--run-id", $TestRun,
+    "--a3wa-config", $Config,
+    "--require-complete",
+    "--text-provider", "glm5",
+    "--thinking-mode", "disabled",
+    "--vlm-provider", "glm4v"
+)
+if ($AllowExperimentalA3wa) {
+    $TestResumeArguments += "--allow-experimental-a3wa"
+}
 Save-State "grading_co4_test"
-Invoke-PythonStage "Stage 5/6: grade CO_4 test" $TestArguments
+Invoke-RetryablePythonStage `
+    -Name "Stage 5/6: grade CO_4 test" `
+    -InitialArguments $TestArguments `
+    -ResumeArguments $TestResumeArguments `
+    -MaximumAttempts $GradeAttempts
 
 Save-State "finalizing"
 Invoke-PythonStage "Stage 6/6: show final outputs" @(
@@ -238,3 +429,24 @@ Write-Host "CO_4 test run: $TestRun"
 Write-Host "State: $StatePath"
 Write-Host "Artifacts changes:"
 git -C $Artifacts status --short
+} catch {
+    $WorkflowFailed = $true
+    Save-State `
+        -Status "failed" `
+        -Stage "workflow" `
+        -Message $_.Exception.Message
+    Write-Error $_ -ErrorAction Continue
+} finally {
+    Disable-KeepAwake -WasEnabled $KeepAwakeEnabled
+    $LatestPidPath = Join-Path $Logs "glm52_all7_co4_latest.pid"
+    if (Test-Path -LiteralPath $LatestPidPath) {
+        $RecordedPid = (Get-Content $LatestPidPath -Raw).Trim()
+        if ($RecordedPid -eq $PID.ToString()) {
+            Remove-Item -LiteralPath $LatestPidPath -Force
+        }
+    }
+}
+
+if ($WorkflowFailed) {
+    exit 1
+}

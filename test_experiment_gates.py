@@ -12,10 +12,20 @@ from main_pipeline import (
 from unittest.mock import patch
 from scripts.audit_question_splits import audit
 from scripts.calibrate_a3wa import calibrate_boundary_action_gate
-from scripts.run_csbench import validate_a3wa_deployment_gate
+from scripts.run_csbench import build_parser, validate_a3wa_deployment_gate
 
 
 class ExperimentGateTests(unittest.TestCase):
+    def test_grade_can_require_complete_coverage_for_unattended_retry(self):
+        args = build_parser().parse_args([
+            "grade",
+            "CO_4",
+            "--split",
+            "test",
+            "--require-complete",
+        ])
+        self.assertTrue(args.require_complete)
+
     def test_question_split_audit_covers_portable_snapshot(self):
         report = audit(Path("data/csbench"))
         self.assertEqual(report["status"], "passed", report["errors"])

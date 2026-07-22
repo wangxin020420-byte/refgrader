@@ -85,6 +85,31 @@ $Q = @("CO_1","CO_2","CO_3","CO_4","CO_5","CO_6","CO_7")
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run_glm52_all7_co4_workflow.ps1 -Background
 ```
 
+这是默认的无人值守入口。API 冒烟、准则优化、validation 和 test 发生限流、超时或
+未完成样本时，脚本会自动退避并重试；准则优化的后续尝试自动使用 `--resume`，
+validation/test 则固定本次 run ID 并只补跑失败样本。默认优化最多尝试 4 次，评分阶段
+最多尝试 36 次，等待从 60 秒递增并封顶 600 秒。运行期间脚本会阻止 Windows 自动
+睡眠，全部成功后恢复原电源行为。无需人工追加 `-ResumeOptimize` 或分阶段输入命令。
+后台进程创建前还会同步检查 Python 环境、artifacts 仓库脏状态和重复任务；这类错误会
+直接显示在当前终端，而不是生成一个随即退出的隐藏窗口。
+
+只有整个 PowerShell 进程被手工结束、Windows 重启，或达到最大尝试次数后，才需要
+再次启动。此时使用 `-Background -ResumeOptimize`；已通过 v6 契约的题目会被跳过，
+已有 validation/test 仍保存在原 run 目录中。最新 PID、主日志、错误日志和结构化状态
+分别记录在 `logs/glm52_all7_co4_latest.*` 与
+`logs/glm52_all7_co4_latest_state.txt` 指向的文件中。
+
+如需覆盖默认重试窗口，可显式传参，例如：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass `
+  -File .\scripts\run_glm52_all7_co4_workflow.ps1 `
+  -Background `
+  -OptimizeAttempts 6 `
+  -GradeAttempts 60 `
+  -MaximumRetrySeconds 600
+```
+
 评分准则优化采用“现行准则（incumbent）与新候选（candidate）”非劣选择。
 候选未通过教师分回放门禁时不会覆盖正式准则；若现行准则仍通过当前语义契约、来源和
 哈希校验，程序会保留它并继续优化后续题目，而不是因一题候选退化终止整批任务。
@@ -94,14 +119,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run_glm52_all7_co4
 
 语义契约 v6 会确定性还原候选对原子评分项的改写；只有参考图片、没有机器可读标准答案
 锚点的高分图形项不会交给文本模型强制拆分。若某题仍失败，程序只回滚该题，之前已经
-通过的题目会保留；修复原因后使用同一工作流的 `-ResumeOptimize`，只重试未完成题目。
+通过的题目会保留；同一次无人值守运行会自动改用 `--resume` 重试未完成题目。
 七题全部有效前不会刷新 active rubric set，正式批改无法使用部分完成的组合。
 
 该流程现在默认按正式实验执行：评分准则候选、A3WA deployment gate 或 BND 动作门禁
 未通过时会停止，不再继续 CO_4 test。只有明确进行开发性诊断消融时才增加
 `-AllowExperimentalA3wa`；这类结果必须标记为 experimental，不能作为论文正式结果。
-`-RequireDeploymentGate` 为兼容旧命令保留，但默认行为已经等价于严格门禁。若评分准则优化阶段中断，处理好已经
-生成的 artifacts 后使用 `-Background -ResumeOptimize` 恢复，不能再次强制重启。
+`-RequireDeploymentGate` 为兼容旧命令保留，但默认行为已经等价于严格门禁。只有工作流
+进程本身被终止或耗尽自动重试次数时，才使用 `-Background -ResumeOptimize` 恢复。
 启动后 PID、主日志和错误日志路径分别保存在 `logs/glm52_all7_co4_latest.*`。
 
 运行完整实验前先审计双层划分：

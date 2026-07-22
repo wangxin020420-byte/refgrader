@@ -1557,7 +1557,26 @@ def optimize(args: argparse.Namespace) -> int:
             bundle = refresh_active_configuration(requested_contexts)
             print("All requested rubric optimizations are already complete.")
             print(f"Active rubric set updated: {bundle}")
-            return 0
+            if args.no_artifacts:
+                return 0
+            print(
+                "Publishing the completed rubric set so an unattended resume "
+                "also repairs a previously interrupted artifact copy."
+            )
+            return publish(
+                argparse.Namespace(
+                    prepared_dir=args.prepared_dir,
+                    questions=[
+                        ctx.question_id for ctx in requested_contexts
+                    ],
+                    artifacts_repo=args.artifacts_repo,
+                    stage="rubric",
+                    run_id=None,
+                    include_raw_ocr=False,
+                    include_facts=args.include_facts,
+                    push_artifacts=args.push_artifacts,
+                )
+            )
 
     existing = [
         ctx.question_id
@@ -1672,7 +1691,7 @@ def optimize(args: argparse.Namespace) -> int:
     return publish(
         argparse.Namespace(
             prepared_dir=args.prepared_dir,
-            questions=[ctx.question_id for ctx in contexts],
+            questions=[ctx.question_id for ctx in requested_contexts],
             artifacts_repo=args.artifacts_repo,
             stage="rubric",
             run_id=None,
@@ -1849,6 +1868,12 @@ def grade(args: argparse.Namespace) -> int:
         return return_code
     report = inspect_results(contexts, results_dir, split_name=args.split)
     validate_result_structure(report)
+    if getattr(args, "require_complete", False):
+        validate_complete_results(
+            contexts,
+            results_dir,
+            split_name=args.split,
+        )
     write_completion_report(results_dir, report)
     update_run_state(results_dir, status=report["status"], completion=report)
     if args.no_artifacts:
@@ -1928,7 +1953,9 @@ def grade(args: argparse.Namespace) -> int:
             a3wa_config_questions=a3wa_config_questions,
             run_id=local_run_id,
             results_dir=str(results_dir),
-            require_complete=False,
+            require_complete=bool(
+                getattr(args, "require_complete", False)
+            ),
         )
     )
 
@@ -3171,6 +3198,14 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     grade_parser.add_argument("--dry-run", action="store_true")
+    grade_parser.add_argument(
+        "--require-complete",
+        action="store_true",
+        help=(
+            "Return a failure when any requested answer is unresolved. This "
+            "is intended for unattended workflows that retry the same run."
+        ),
+    )
     grade_parser.add_argument(
         "--artifacts-repo",
         default=str((PROJECT_ROOT.parent / "refgrader-artifacts").resolve()),

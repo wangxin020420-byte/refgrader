@@ -11,6 +11,9 @@ coverage into a non-zero stage result so the workflow cannot silently advance
 to calibration or evaluation with unresolved answers. A resumed optimization
 also republishes the full requested rubric set, repairing an artifact copy that
 was interrupted after the local rubric transaction completed.
+The same entry point exposes `-Status`, which reports process liveness, current
+stage/attempt, per-question grading counts, and recent log/error lines without
+changing the running workflow.
 
 Default retry budgets are 6 API smoke attempts, 4 rubric attempts, and 36
 validation/test attempts, with 60-second initial delay capped at 600 seconds.

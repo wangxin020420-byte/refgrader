@@ -1,5 +1,6 @@
 param(
     [switch]$Background,
+    [switch]$Status,
     [switch]$ResumeOptimize,
     [switch]$RequireDeploymentGate,
     [switch]$AllowExperimentalA3wa,
@@ -12,7 +13,9 @@ param(
     [ValidateRange(1, 3600)]
     [int]$InitialRetrySeconds = 60,
     [ValidateRange(1, 3600)]
-    [int]$MaximumRetrySeconds = 600
+    [int]$MaximumRetrySeconds = 600,
+    [ValidateRange(5, 500)]
+    [int]$LogLines = 40
 )
 
 $ErrorActionPreference = "Stop"
@@ -22,6 +25,98 @@ $env:PYTHONUTF8 = "1"
 $Root = Split-Path -Parent $PSScriptRoot
 $Logs = Join-Path $Root "logs"
 New-Item -ItemType Directory -Force $Logs | Out-Null
+
+if ($Status) {
+    $PidPath = Join-Path $Logs "glm52_all7_co4_latest.pid"
+    $StatePointer = Join-Path $Logs "glm52_all7_co4_latest_state.txt"
+    $LogPointer = Join-Path $Logs "glm52_all7_co4_latest_log.txt"
+    $ErrPointer = Join-Path $Logs "glm52_all7_co4_latest_err.txt"
+
+    Write-Host "===== GLM-5.2 unattended workflow status ====="
+    if (Test-Path -LiteralPath $PidPath) {
+        $WorkflowPid = (Get-Content $PidPath -Raw).Trim()
+        $Process = Get-Process -Id $WorkflowPid -ErrorAction SilentlyContinue
+        if ($Process) {
+            Write-Host "Process: RUNNING (PID=$WorkflowPid)"
+        } else {
+            Write-Host "Process: NOT RUNNING (stale PID=$WorkflowPid)"
+        }
+    } else {
+        Write-Host "Process: NOT RUNNING"
+    }
+
+    $State = $null
+    if (Test-Path -LiteralPath $StatePointer) {
+        $StatePath = (Get-Content $StatePointer -Raw).Trim()
+        if (Test-Path -LiteralPath $StatePath) {
+            $State = Get-Content $StatePath -Raw -Encoding UTF8 |
+                ConvertFrom-Json
+            Write-Host "Status:  $($State.status)"
+            Write-Host "Stage:   $($State.stage)"
+            Write-Host "Attempt: $($State.attempt)"
+            Write-Host "Updated: $($State.updated_at)"
+            if ($State.message) {
+                Write-Host "Message: $($State.message)"
+            }
+            Write-Host "Validation run: $($State.validation_run_id)"
+            Write-Host "CO_4 test run:  $($State.test_run_id)"
+        }
+    }
+
+    if ($State) {
+        $ProgressCandidates = @(
+            Join-Path $Root (
+                "results_runs\csbench_co1_co2_co3_co4_co5_co6_co7_" +
+                "validation\runs\$($State.validation_run_id)\progress.json"
+            ),
+            Join-Path $Root (
+                "results_runs\csbench_co4_full\runs\" +
+                "$($State.test_run_id)\progress.json"
+            )
+        )
+        foreach ($ProgressPath in $ProgressCandidates) {
+            if (-not (Test-Path -LiteralPath $ProgressPath)) {
+                continue
+            }
+            $Progress = Get-Content $ProgressPath -Raw -Encoding UTF8 |
+                ConvertFrom-Json
+            Write-Host ""
+            Write-Host "Progress: $ProgressPath"
+            foreach ($Question in $Progress.questions.PSObject.Properties) {
+                $Item = $Question.Value
+                Write-Host (
+                    "  {0}: completed={1}/{2}, failed={3}, remaining={4}" -f
+                    $Question.Name,
+                    $Item.completed,
+                    $Item.total_students,
+                    $Item.failed,
+                    $Item.remaining
+                )
+            }
+        }
+    }
+
+    if (Test-Path -LiteralPath $LogPointer) {
+        $LogPath = (Get-Content $LogPointer -Raw).Trim()
+        if (Test-Path -LiteralPath $LogPath) {
+            Write-Host ""
+            Write-Host "===== Latest $LogLines log lines ====="
+            Get-Content $LogPath -Encoding UTF8 -Tail $LogLines
+        }
+    }
+    if (Test-Path -LiteralPath $ErrPointer) {
+        $ErrPath = (Get-Content $ErrPointer -Raw).Trim()
+        if (
+            (Test-Path -LiteralPath $ErrPath) -and
+            (Get-Item $ErrPath).Length -gt 0
+        ) {
+            Write-Host ""
+            Write-Host "===== Latest error lines ====="
+            Get-Content $ErrPath -Encoding UTF8 -Tail $LogLines
+        }
+    }
+    exit 0
+}
 
 if ($Background) {
     $PythonPath = Join-Path $Root "venv\Scripts\python.exe"

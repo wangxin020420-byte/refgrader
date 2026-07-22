@@ -93,6 +93,14 @@ validation/test 则固定本次 run ID 并只补跑失败样本。默认优化�
 后台进程创建前还会同步检查 Python 环境、artifacts 仓库脏状态和重复任务；这类错误会
 直接显示在当前终端，而不是生成一个随即退出的隐藏窗口。
 
+随时用一条命令查看进程、当前阶段、自动重试次数、逐题完成数和最新日志：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run_glm52_all7_co4_workflow.ps1 -Status
+```
+
+该命令只读取状态，不会停止、重启或影响后台实验。
+
 只有整个 PowerShell 进程被手工结束、Windows 重启，或达到最大尝试次数后，才需要
 再次启动。此时使用 `-Background -ResumeOptimize`；已通过 v6 契约的题目会被跳过，
 已有 validation/test 仍保存在原 run 目录中。最新 PID、主日志、错误日志和结构化状态

@@ -2683,6 +2683,11 @@ def publish(args: argparse.Namespace) -> int:
                 destination / "rubric_optimization" / "progress.json",
                 replacements,
             )
+        copy_if_exists(
+            optimize_dir / f"{ctx.question_id}_optimization_failure.json",
+            destination / "rubric_optimization" / "candidate_rejection.json",
+            replacements,
+        )
         variance_facts_count = 0
         if args.include_facts:
             variance_facts_count = copy_json_directory(

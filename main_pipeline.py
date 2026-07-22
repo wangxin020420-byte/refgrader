@@ -67,6 +67,19 @@ _GLOBAL_ANSWER_METADATA = None
 _shutdown_requested = False
 
 
+class RubricCandidateRejectedError(RuntimeError):
+    """A refined rubric failed a quality gate without touching the incumbent."""
+
+    def __init__(self, question_id, reason, failure_path=None):
+        self.question_id = str(question_id)
+        self.reason = str(reason or "candidate_not_accepted")
+        self.failure_path = failure_path
+        super().__init__(
+            f"Strict rubric optimization rejected {self.question_id}; the "
+            f"active rubric was not replaced. Reason: {self.reason}."
+        )
+
+
 def _signal_handler(signum, frame):
     global _shutdown_requested
     sig_name = signal.Signals(signum).name
@@ -616,6 +629,53 @@ def validate_optimized_rubric_provenance(q_data, rubric_path):
         )
 
 
+def validate_retained_optimized_rubric(q_data):
+    """Validate an incumbent before retaining it after candidate rejection.
+
+    Candidate rejection is a valid model-selection outcome only when a complete,
+    previously accepted rubric and manifest remain active. Diagnostic baseline
+    fallbacks and stale semantic contracts are never eligible for retention.
+    """
+    q_id = q_data["question_id"]
+    rubric_path = optimized_rubric_output_path(q_data)
+    manifest_path = optimization_manifest_path(q_data)
+    initial_path = initial_rubric_path_for(q_data)
+    if not os.path.exists(rubric_path):
+        raise FileNotFoundError(f"No incumbent optimized rubric for {q_id}: {rubric_path}")
+    if not initial_path or not os.path.exists(initial_path):
+        raise FileNotFoundError(f"No immutable initial rubric for {q_id}")
+
+    validate_optimized_rubric_provenance(q_data, rubric_path)
+    with open(manifest_path, "r", encoding="utf-8") as handle:
+        manifest = json.load(handle)
+    if manifest.get("semantic_validation_mode") == "noninferiority_baseline_fallback":
+        raise ValueError(
+            f"The incumbent rubric for {q_id} is a diagnostic baseline fallback."
+        )
+
+    with open(initial_path, "r", encoding="utf-8") as handle:
+        initial_rubric = json.load(handle)
+    with open(rubric_path, "r", encoding="utf-8") as handle:
+        incumbent_rubric = json.load(handle)
+    semantic_valid, semantic_errors = validate_refined_rubric(
+        initial_rubric,
+        incumbent_rubric,
+        float(q_data["total_score"]),
+        allow_unchanged_baseline=False,
+    )
+    if not semantic_valid:
+        raise ValueError(
+            f"The incumbent rubric for {q_id} violates the active semantic "
+            "contract: " + "; ".join(semantic_errors)
+        )
+    return {
+        "question_id": q_id,
+        "rubric_path": rubric_path,
+        "manifest_path": manifest_path,
+        "optimized_sha256": sha256_path(rubric_path),
+    }
+
+
 def rubric_path_for(q_id, q_data=None):
     rubric_name = f"{q_id}_rubric_standard.json"
     primary_candidates = rubric_candidates(RUBRIC_DIR, q_id, q_data)
@@ -860,10 +920,13 @@ def run_variance_optimization_process(
     rubric_save_path = optimized_rubric_output_path(q_data)
     initial_rubric_path = initial_rubric_path_for(q_data)
     checkpoint_path = os.path.join(OUTPUT_DIR, f"{q_id}_variance_checkpoint.json")
+    failure_path = os.path.join(OUTPUT_DIR, f"{q_id}_optimization_failure.json")
     manifest_path = optimization_manifest_path(q_data)
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     os.makedirs(os.path.dirname(rubric_save_path), exist_ok=True)
     os.makedirs(os.path.dirname(manifest_path), exist_ok=True)
+    if os.path.exists(failure_path):
+        os.remove(failure_path)
 
     logging.info(f"\n{'='*60}\n🔬 [断点续传模式] 处理题目: {q_id}\n{'='*60}")
 
@@ -1271,17 +1334,14 @@ def run_variance_optimization_process(
             "active_rubric_preserved": os.path.exists(rubric_save_path),
             "created_at": datetime.now().isoformat(timespec="seconds"),
         }
-        failure_path = os.path.join(
-            OUTPUT_DIR, f"{q_id}_optimization_failure.json"
-        )
         temporary = f"{failure_path}.tmp-{os.getpid()}"
         with open(temporary, "w", encoding="utf-8") as handle:
             json.dump(failure_report, handle, indent=2, ensure_ascii=False)
         os.replace(temporary, failure_path)
-        raise RuntimeError(
-            f"Strict rubric optimization rejected {q_id}; the active rubric "
-            f"was not replaced. Reason: {failure_report['fallback_reason']}. "
-            "Use --allow-baseline-rubric-fallback only for a diagnostic run."
+        raise RubricCandidateRejectedError(
+            q_id,
+            failure_report["fallback_reason"],
+            failure_path,
         )
 
     semantic_policy_validated, semantic_validation_errors = validate_refined_rubric(
@@ -1296,9 +1356,6 @@ def run_variance_optimization_process(
             "the immutable draft: " + "; ".join(semantic_validation_errors)
         )
         if not allow_baseline_fallback:
-            failure_path = os.path.join(
-                OUTPUT_DIR, f"{q_id}_optimization_failure.json"
-            )
             failure_report = {
                 "question_id": q_id,
                 "status": "rejected_not_activated",
@@ -1311,9 +1368,10 @@ def run_variance_optimization_process(
             with open(temporary, "w", encoding="utf-8") as handle:
                 json.dump(failure_report, handle, indent=2, ensure_ascii=False)
             os.replace(temporary, failure_path)
-            raise RuntimeError(
-                f"Strict rubric optimization rejected {q_id}; the active "
-                "rubric was not replaced: " + "; ".join(semantic_validation_errors)
+            raise RubricCandidateRejectedError(
+                q_id,
+                fallback_reason or "final_candidate_validation_failed",
+                failure_path,
             )
         final_rubric = prepare_rubric_semantic_contract(draft_rubric)
         refinement_applied = False
@@ -2051,16 +2109,32 @@ if __name__ == "__main__":
                             "activation transaction completed."
                         )
                     q_id = q_data["question_id"]
-                    run_variance_optimization_process(
-                        q_data,
-                        sample_size=variance_questions[q_id],
-                        progress_tracker=tracker,
-                        force_rerun=args.force_rerun if args.force_rerun else FORCE_RERUN,
-                        resume_optimization=args.resume_optimization,
-                        extraction_backend=args.extraction_backend,
-                        ocr_cache_dir=args.ocr_cache_dir,
-                        allow_baseline_fallback=args.allow_baseline_rubric_fallback,
-                    )
+                    try:
+                        run_variance_optimization_process(
+                            q_data,
+                            sample_size=variance_questions[q_id],
+                            progress_tracker=tracker,
+                            force_rerun=args.force_rerun if args.force_rerun else FORCE_RERUN,
+                            resume_optimization=args.resume_optimization,
+                            extraction_backend=args.extraction_backend,
+                            ocr_cache_dir=args.ocr_cache_dir,
+                            allow_baseline_fallback=args.allow_baseline_rubric_fallback,
+                        )
+                    except RubricCandidateRejectedError as exc:
+                        try:
+                            retained = validate_retained_optimized_rubric(q_data)
+                        except Exception as incumbent_exc:
+                            raise RuntimeError(
+                                f"Strict rubric optimization rejected {q_id}, "
+                                "and no valid incumbent rubric can be retained: "
+                                f"{incumbent_exc}"
+                            ) from exc
+                        logging.warning(
+                            "[rubric selection] rejected candidate for "
+                            f"{q_id} ({exc.reason}); retained the previously "
+                            "accepted incumbent and continued the batch. "
+                            f"sha256={retained['optimized_sha256']}"
+                        )
                     completed_questions += 1
                 if completed_questions != len(target_questions):
                     raise RuntimeError(

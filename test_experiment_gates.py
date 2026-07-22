@@ -4,7 +4,12 @@ import unittest
 from pathlib import Path
 
 from calibration_utils import apply_structured_boundary_action_policy
-from main_pipeline import restore_activation_files, snapshot_activation_files
+from main_pipeline import (
+    restore_activation_files,
+    snapshot_activation_files,
+    validate_retained_optimized_rubric,
+)
+from unittest.mock import patch
 from scripts.audit_question_splits import audit
 from scripts.calibrate_a3wa import calibrate_boundary_action_gate
 from scripts.run_csbench import validate_a3wa_deployment_gate
@@ -98,6 +103,57 @@ class ExperimentGateTests(unittest.TestCase):
 
             self.assertEqual(existing.read_bytes(), b"before")
             self.assertFalse(created.exists())
+
+    def test_rejected_candidate_can_retain_only_a_valid_incumbent(self):
+        question = {"question_id": "CO_1", "total_score": 5.0}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            initial = root / "initial.json"
+            optimized = root / "optimized.json"
+            manifest = root / "manifest.json"
+            rubric = [{
+                "id": "step_1",
+                "description": "final answer",
+                "standard_answer_text": "37H",
+                "points": 5.0,
+            }]
+            initial.write_text(json.dumps(rubric), encoding="utf-8")
+            optimized.write_text(json.dumps(rubric), encoding="utf-8")
+            manifest.write_text(json.dumps({
+                "semantic_validation_mode": "strict_candidate_contract",
+            }), encoding="utf-8")
+
+            with (
+                patch("main_pipeline.optimized_rubric_output_path", return_value=str(optimized)),
+                patch("main_pipeline.optimization_manifest_path", return_value=str(manifest)),
+                patch("main_pipeline.initial_rubric_path_for", return_value=str(initial)),
+                patch("main_pipeline.validate_optimized_rubric_provenance"),
+                patch("main_pipeline.validate_refined_rubric", return_value=(True, [])),
+            ):
+                retained = validate_retained_optimized_rubric(question)
+            self.assertEqual(retained["question_id"], "CO_1")
+            self.assertTrue(retained["optimized_sha256"])
+
+    def test_diagnostic_fallback_cannot_be_retained(self):
+        question = {"question_id": "CO_1", "total_score": 5.0}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            initial = root / "initial.json"
+            optimized = root / "optimized.json"
+            manifest = root / "manifest.json"
+            initial.write_text("[]", encoding="utf-8")
+            optimized.write_text("[]", encoding="utf-8")
+            manifest.write_text(json.dumps({
+                "semantic_validation_mode": "noninferiority_baseline_fallback",
+            }), encoding="utf-8")
+            with (
+                patch("main_pipeline.optimized_rubric_output_path", return_value=str(optimized)),
+                patch("main_pipeline.optimization_manifest_path", return_value=str(manifest)),
+                patch("main_pipeline.initial_rubric_path_for", return_value=str(initial)),
+                patch("main_pipeline.validate_optimized_rubric_provenance"),
+            ):
+                with self.assertRaisesRegex(ValueError, "diagnostic baseline fallback"):
+                    validate_retained_optimized_rubric(question)
 
 
 if __name__ == "__main__":

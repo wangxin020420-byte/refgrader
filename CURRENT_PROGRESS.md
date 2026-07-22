@@ -5,10 +5,14 @@
 The formal CSBench path now distinguishes an accepted experiment from a
 diagnostic run at the command boundary:
 
-1. Rubric optimization is strict by default. A failed candidate preserves the
-   previous active rubric, writes `*_optimization_failure.json`, and exits
-   non-zero. Baseline fallback requires an explicit diagnostic flag and cannot
-   pass formal `grade` validation.
+1. Rubric optimization is strict by default. A failed candidate never replaces
+   the active rubric and writes `*_optimization_failure.json`. If a previously
+   accepted incumbent still passes the current semantic contract and provenance
+   checks, the optimizer retains it and continues the remaining questions; if
+   no valid incumbent exists, the whole activation transaction fails and rolls
+   back. Baseline fallback requires an explicit diagnostic flag and cannot pass
+   formal `grade` validation. Candidate rejection evidence is copied to
+   artifacts as `rubric_optimization/candidate_rejection.json`.
 2. Test grading and A3WA activation require `deployment_gate.passed=true`.
    `--allow-experimental-a3wa` is the only bypass and is labelled diagnostic.
 3. BND raise/lower actions are validated independently. Directions without at
@@ -25,9 +29,9 @@ diagnostic run at the command boundary:
    environment variables.
 
 Offline verification: `python -m unittest discover -p "test_*.py" -q` passes
-80 tests. No new API grading experiment was started by this change.
+82 tests. No new API grading experiment was started by this change.
 
-Last updated: 2026-07-19
+Last updated: 2026-07-22
 
 ## 2026-07-19 Rubric Candidate Safety Gate And Residual Transfer Guard
 

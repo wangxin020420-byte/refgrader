@@ -85,6 +85,13 @@ $Q = @("CO_1","CO_2","CO_3","CO_4","CO_5","CO_6","CO_7")
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run_glm52_all7_co4_workflow.ps1 -Background
 ```
 
+评分准则优化采用“现行准则（incumbent）与新候选（candidate）”非劣选择。
+候选未通过教师分回放门禁时不会覆盖正式准则；若现行准则仍通过当前语义契约、来源和
+哈希校验，程序会保留它并继续优化后续题目，而不是因一题候选退化终止整批任务。
+只有不存在有效现行准则时才会回滚并停止。拒绝原因保存在
+`*_optimization_failure.json`，发布后对应
+`rubric_optimization/candidate_rejection.json`，因此该分支可审计但不属于宽松放行。
+
 该流程现在默认按正式实验执行：评分准则候选、A3WA deployment gate 或 BND 动作门禁
 未通过时会停止，不再继续 CO_4 test。只有明确进行开发性诊断消融时才增加
 `-AllowExperimentalA3wa`；这类结果必须标记为 experimental，不能作为论文正式结果。

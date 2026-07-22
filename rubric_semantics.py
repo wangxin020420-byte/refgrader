@@ -9,7 +9,7 @@ from copy import deepcopy
 from typing import Any
 
 
-RUBRIC_SEMANTIC_CONTRACT_VERSION = 5
+RUBRIC_SEMANTIC_CONTRACT_VERSION = 6
 
 # High-value composite parents are too coarse to grade reliably as one opaque
 # item. Two children are enough to expose partial credit without over-fragmenting
@@ -311,6 +311,24 @@ def is_atomic_outcome_item(item: dict[str, Any]) -> bool:
     return any(re.search(pattern, text) for pattern in ATOMIC_OUTCOME_PATTERNS)
 
 
+def has_machine_readable_decomposition_anchor(item: dict[str, Any]) -> bool:
+    """Return whether a text optimizer can safely derive scoring children.
+
+    A reference image alone is evidence for grading, but its path is not a
+    machine-readable answer specification for the text-only rubric refiner.
+    Such parents remain auditable coarse items until structured reference facts
+    are supplied by the dataset or a separate visual-reference extraction step.
+    """
+    if str(item.get("standard_answer_text", "") or "").strip():
+        return True
+    canonicalization = item.get("canonicalization")
+    if isinstance(canonicalization, dict):
+        fields = canonicalization.get("fields")
+        if isinstance(fields, list) and fields:
+            return True
+    return False
+
+
 def prepare_rubric_semantic_contract(
     rubric: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
@@ -357,13 +375,23 @@ def prepare_rubric_semantic_contract(
             }[scoring_policy]
             item["weighting_policy"] = default_weighting
             item.pop("decomposition_exemption", None)
-            item["decomposition_required"] = bool(
+            decomposition_requested = bool(
                 scoring_policy in {
                     SCORING_POLICY_HIERARCHICAL,
                     SCORING_POLICY_ROLE_WEIGHTED,
                 }
                 or parent_points >= HIGH_VALUE_SPLIT_THRESHOLD
             )
+            decomposition_anchor = has_machine_readable_decomposition_anchor(item)
+            item["decomposition_required"] = bool(
+                decomposition_requested and decomposition_anchor
+            )
+            if decomposition_requested and not decomposition_anchor:
+                item["decomposition_exemption"] = (
+                    "insufficient_machine_readable_reference_anchor"
+                )
+            else:
+                item.pop("decomposition_exemption", None)
             if item["decomposition_required"]:
                 minimum = MIN_HIGH_VALUE_SCORING_CHILDREN
                 if scoring_policy == SCORING_POLICY_ROLE_WEIGHTED:
@@ -432,6 +460,7 @@ def high_value_split_targets(
         parent_points = float(first.get("parent_points", 0) or 0)
         if (
             parent_points < HIGH_VALUE_SPLIT_THRESHOLD
+            or not first.get("decomposition_required")
             or first.get("scoring_policy") not in {
                 SCORING_POLICY_ADDITIVE,
                 SCORING_POLICY_ROLE_WEIGHTED,
@@ -461,6 +490,100 @@ def high_value_split_targets(
             }
         )
     return targets
+
+
+def project_refined_candidate_to_contract(
+    original_rubric: list[dict[str, Any]],
+    candidate_rubric: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Project an LLM proposal onto immutable parent-level constraints.
+
+    The model may propose changes only inside parents that are both splittable
+    and backed by machine-readable reference facts. Atomic parents and parents
+    exempt from automatic decomposition are copied byte-for-byte at the rubric
+    item level. Equal-atomic children are normalized to conserve the official
+    parent score, preventing aggregate-parent plus child double counting.
+    """
+    original = prepare_rubric_semantic_contract(original_rubric)
+    original_groups: dict[str, list[dict[str, Any]]] = {}
+    parent_order: list[str] = []
+    for item in original:
+        parent_id = str(item.get("parent_id") or item["id"])
+        if parent_id not in original_groups:
+            original_groups[parent_id] = []
+            parent_order.append(parent_id)
+        original_groups[parent_id].append(item)
+
+    candidate_groups: dict[str, list[dict[str, Any]]] = {}
+    for raw_item in candidate_rubric or []:
+        item = deepcopy(raw_item)
+        item_id = str(item.get("id", "") or "")
+        parent_id = str(item.get("parent_id", "") or "")
+        if not parent_id and item_id in original_groups:
+            parent_id = item_id
+        if parent_id in original_groups:
+            candidate_groups.setdefault(parent_id, []).append(item)
+
+    projected: list[dict[str, Any]] = []
+    inherited_keys = (
+        "parent_points",
+        "split_policy",
+        "weighting_policy",
+        "task_semantics",
+        "scoring_policy",
+        "process_complexity",
+        "minimum_process_ratio",
+        "minimum_core_process_ratio",
+        "maximum_final_ratio",
+        "dependency_mode",
+        "full_credit_anchor",
+        "full_credit_policy",
+        "fallback_cap",
+        "decomposition_required",
+        "minimum_scoring_children",
+        "decomposition_exemption",
+    )
+    for parent_id in parent_order:
+        source_items = original_groups[parent_id]
+        spec = source_items[0]
+        immutable_parent = bool(
+            spec.get("split_policy") == "preserve_atomic"
+            or spec.get("decomposition_exemption")
+            == "insufficient_machine_readable_reference_anchor"
+        )
+        proposed = candidate_groups.get(parent_id, [])
+        if immutable_parent or not proposed:
+            projected.extend(deepcopy(source_items))
+            continue
+
+        positive = [
+            item for item in proposed if float(item.get("points", 0) or 0) > 0
+        ]
+        if len(positive) > 1:
+            without_aggregate = [
+                item for item in proposed if str(item.get("id", "")) != parent_id
+            ]
+            if any(float(item.get("points", 0) or 0) > 0 for item in without_aggregate):
+                proposed = without_aggregate
+
+        for item in proposed:
+            item["parent_id"] = parent_id
+            for key in inherited_keys:
+                if key in spec:
+                    item[key] = deepcopy(spec[key])
+                else:
+                    item.pop(key, None)
+
+        scoring_children = [
+            item for item in proposed if float(item.get("points", 0) or 0) > 0
+        ]
+        if spec.get("weighting_policy") == "equal_atomic" and scoring_children:
+            child_points = float(spec.get("parent_points", 0) or 0) / len(scoring_children)
+            for item in scoring_children:
+                item["points"] = child_points
+        projected.extend(proposed)
+
+    return prepare_rubric_semantic_contract(projected)
 
 
 def rubric_scoring_signature(rubric: list[dict[str, Any]]) -> tuple:

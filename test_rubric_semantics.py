@@ -16,6 +16,7 @@ from rubric_semantics import (
     has_deterministic_hierarchical_full_credit,
     prepare_rubric_semantic_contract,
     assess_candidate_replay,
+    project_refined_candidate_to_contract,
     project_rubric_for_risk,
     validate_refined_rubric,
 )
@@ -414,10 +415,17 @@ class RubricSemanticContractTests(unittest.TestCase):
                     if parent_points < HIGH_VALUE_SPLIT_THRESHOLD:
                         continue
                     if item["scoring_policy"] == "additive_split":
-                        self.assertTrue(item["decomposition_required"])
-                        self.assertGreaterEqual(
-                            item["minimum_scoring_children"], 2
-                        )
+                        if not str(item.get("standard_answer_text", "")).strip():
+                            self.assertFalse(item["decomposition_required"])
+                            self.assertEqual(
+                                item["decomposition_exemption"],
+                                "insufficient_machine_readable_reference_anchor",
+                            )
+                        else:
+                            self.assertTrue(item["decomposition_required"])
+                            self.assertGreaterEqual(
+                                item["minimum_scoring_children"], 2
+                            )
                     elif item["scoring_policy"] == "strict_atomic":
                         self.assertFalse(item["decomposition_required"])
                         self.assertEqual(
@@ -489,6 +497,74 @@ class RubricSemanticContractTests(unittest.TestCase):
             "strict_atomic_single_outcome",
         )
         self.assertEqual(high_value_split_targets(original), [])
+
+    def test_image_only_parent_is_not_split_by_text_optimizer(self):
+        original = prepare_rubric_semantic_contract([{
+            "id": "step_1",
+            "item": "画出处理顺序图",
+            "points": 8,
+            "standard_answer_text": "",
+            "standard_answer_image": "reference.png",
+            "evidence_source": "diagram",
+            "split_policy": "allow_semantic_split",
+        }])
+        self.assertFalse(original[0]["decomposition_required"])
+        self.assertEqual(
+            original[0]["decomposition_exemption"],
+            "insufficient_machine_readable_reference_anchor",
+        )
+        self.assertEqual(high_value_split_targets(original), [])
+        valid, errors = validate_refined_rubric(original, original, 8)
+        self.assertTrue(valid, errors)
+
+    def test_candidate_projection_restores_atomic_and_unanchored_parents(self):
+        original = prepare_rubric_semantic_contract([
+            {
+                "id": "step_1",
+                "item": "写出屏蔽字",
+                "points": 2,
+                "standard_answer_text": "A:11111",
+                "split_policy": "preserve_atomic",
+            },
+            {
+                "id": "step_2",
+                "item": "画出处理顺序图",
+                "points": 8,
+                "standard_answer_text": "",
+                "standard_answer_image": "reference.png",
+                "split_policy": "allow_semantic_split",
+            },
+        ])
+        candidate = [
+            {
+                "id": "step_1",
+                "parent_id": "step_1",
+                "item": "写出屏蔽字",
+                "points": 2,
+                "standard_answer_text": "A:00000",
+            },
+            {
+                "id": "step_2_part_1",
+                "parent_id": "step_2",
+                "item": "第一段",
+                "points": 8,
+                "standard_answer_text": "invented-1",
+            },
+            {
+                "id": "step_2_part_2",
+                "parent_id": "step_2",
+                "item": "第二段",
+                "points": 8,
+                "standard_answer_text": "invented-2",
+            },
+        ]
+        projected = project_refined_candidate_to_contract(original, candidate)
+        self.assertEqual(
+            [(item["id"], item["standard_answer_text"], item["points"]) for item in projected],
+            [("step_1", "A:11111", 2), ("step_2", "", 8)],
+        )
+        valid, errors = validate_refined_rubric(original, projected, 10)
+        self.assertTrue(valid, errors)
 
     def test_completed_high_value_split_is_not_targeted_again(self):
         split = prepare_rubric_semantic_contract([

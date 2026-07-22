@@ -1206,6 +1206,7 @@ def run_variance_optimization_process(
     refinement_attempted = False
     fallback_reason = None
     semantic_validation_mode = "strict_candidate_contract"
+    selected_variant = "baseline"
     decomposition_deferred = False
     deferred_semantic_errors = []
     candidate_replay = {
@@ -1315,6 +1316,7 @@ def run_variance_optimization_process(
                     and not refinement_applied
                 )
                 if candidate_replay.get("accepted", False):
+                    selected_variant = "candidate"
                     logging.info(
                         "🎉 修正后的最终标准已通过语义契约和校准集非劣验收。"
                     )
@@ -1325,12 +1327,23 @@ def run_variance_optimization_process(
 
     candidate_accepted = bool(candidate_replay.get("accepted", False))
     if refinement_attempted and not candidate_accepted and not allow_baseline_fallback:
+        baseline_valid, baseline_errors = validate_refined_rubric(
+            draft_rubric,
+            draft_rubric,
+            q_score,
+            allow_unchanged_baseline=False,
+        )
         failure_report = {
             "question_id": q_id,
-            "status": "rejected_not_activated",
+            "status": (
+                "candidate_rejected_baseline_selected"
+                if baseline_valid
+                else "rejected_not_activated"
+            ),
             "fallback_reason": fallback_reason or "candidate_not_accepted",
             "mandatory_split_targets": mandatory_split_targets,
             "candidate_replay": candidate_replay,
+            "baseline_semantic_errors": baseline_errors,
             "active_rubric_preserved": os.path.exists(rubric_save_path),
             "created_at": datetime.now().isoformat(timespec="seconds"),
         }
@@ -1338,11 +1351,20 @@ def run_variance_optimization_process(
         with open(temporary, "w", encoding="utf-8") as handle:
             json.dump(failure_report, handle, indent=2, ensure_ascii=False)
         os.replace(temporary, failure_path)
-        raise RubricCandidateRejectedError(
-            q_id,
-            failure_report["fallback_reason"],
-            failure_path,
-        )
+        if baseline_valid:
+            final_rubric = prepare_rubric_semantic_contract(draft_rubric)
+            semantic_validation_mode = "strict_baseline_selected"
+            selected_variant = "baseline"
+            logging.warning(
+                "[rubric selection] no refined candidate passed every gate; "
+                f"selected the structurally valid official baseline for {q_id}."
+            )
+        else:
+            raise RubricCandidateRejectedError(
+                q_id,
+                failure_report["fallback_reason"],
+                failure_path,
+            )
 
     semantic_policy_validated, semantic_validation_errors = validate_refined_rubric(
         draft_rubric,
@@ -1386,6 +1408,7 @@ def run_variance_optimization_process(
         )
         if semantic_policy_validated:
             semantic_validation_mode = "noninferiority_baseline_fallback"
+            selected_variant = "baseline"
             decomposition_deferred = bool(deferred_semantic_errors)
             logging.warning(
                 "[rubric fallback] preserved the unchanged baseline because "
@@ -1435,6 +1458,7 @@ def run_variance_optimization_process(
         "metadata_enriched": metadata_enriched,
         "semantic_policy_validated": semantic_policy_validated,
         "semantic_validation_mode": semantic_validation_mode,
+        "selected_variant": selected_variant,
         "semantic_validation_errors": semantic_validation_errors,
         "fallback_reason": fallback_reason,
         "decomposition_deferred": decomposition_deferred,
@@ -2083,32 +2107,28 @@ if __name__ == "__main__":
             else:
                 variance_questions = VARIANCE_CONFIG
 
-            # Treat a multi-question optimization as one activation transaction.
-            # Runtime diagnostics/checkpoints remain available after failure, but
-            # active rubric and manifest files are restored to their pre-run bytes.
+            # Each question is an independent activation transaction. Accepted
+            # questions remain available for --resume after a later question
+            # fails, while the tracked active bundle is refreshed only after the
+            # entire requested set completes in scripts/run_csbench.py.
             target_questions = [
                 q_data
                 for q_data in exam_data
                 if q_data["question_id"] in variance_questions
             ]
-            activation_paths = []
+            completed_questions = 0
             for q_data in target_questions:
-                for path in (
+                if _shutdown_requested:
+                    raise RuntimeError(
+                        "Rubric optimization interrupted before every requested "
+                        "question completed. Re-run with --resume."
+                    )
+                q_id = q_data["question_id"]
+                question_snapshot = snapshot_activation_files((
                     optimized_rubric_output_path(q_data),
                     optimization_manifest_path(q_data),
-                ):
-                    activation_paths.append(path)
-            activation_snapshot = snapshot_activation_files(activation_paths)
-
-            try:
-                completed_questions = 0
-                for q_data in target_questions:
-                    if _shutdown_requested:
-                        raise RuntimeError(
-                            "Rubric optimization interrupted before the batch "
-                            "activation transaction completed."
-                        )
-                    q_id = q_data["question_id"]
+                ))
+                try:
                     try:
                         run_variance_optimization_process(
                             q_data,
@@ -2136,18 +2156,19 @@ if __name__ == "__main__":
                             f"sha256={retained['optimized_sha256']}"
                         )
                     completed_questions += 1
-                if completed_questions != len(target_questions):
-                    raise RuntimeError(
-                        "Rubric optimization batch ended before all questions "
-                        "completed."
+                except BaseException:
+                    logging.error(
+                        "[rubric transaction] current question failed; restored "
+                        f"{q_id} to its pre-run state. {completed_questions} "
+                        "earlier question(s) remain completed for --resume."
                     )
-            except BaseException:
-                logging.error(
-                    "[rubric transaction] batch failed; restoring all active "
-                    "rubrics and manifests to their pre-run state."
+                    restore_activation_files(question_snapshot)
+                    raise
+            if completed_questions != len(target_questions):
+                raise RuntimeError(
+                    "Rubric optimization batch ended before all questions "
+                    "completed. Re-run with --resume."
                 )
-                restore_activation_files(activation_snapshot)
-                raise
 
         elif args.mode == "OCR_ONLY":
             logging.info("🔎 当前处于【仅提取模式】(OCR_ONLY)")

@@ -11,6 +11,7 @@ from rubric_semantics import (
     MIN_HIGH_VALUE_SCORING_CHILDREN,
     high_value_split_targets,
     prepare_rubric_semantic_contract,
+    project_refined_candidate_to_contract,
     validate_refined_rubric,
 )
 from model_runtime import runtime_model_config, thinking_extra_body
@@ -583,6 +584,10 @@ text, formula, table, diagram
                 raise ValueError("未返回有效JSON")
                 
             new_rubric = normalize_generated_rubric(new_rubric)
+            new_rubric = project_refined_candidate_to_contract(
+                original_rubric_list,
+                new_rubric,
+            )
             valid, validation_errors = validate_refined_rubric(
                 original_rubric_list,
                 new_rubric,

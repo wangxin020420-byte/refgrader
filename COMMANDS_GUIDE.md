@@ -92,6 +92,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run_glm52_all7_co4
 `*_optimization_failure.json`，发布后对应
 `rubric_optimization/candidate_rejection.json`，因此该分支可审计但不属于宽松放行。
 
+语义契约 v6 会确定性还原候选对原子评分项的改写；只有参考图片、没有机器可读标准答案
+锚点的高分图形项不会交给文本模型强制拆分。若某题仍失败，程序只回滚该题，之前已经
+通过的题目会保留；修复原因后使用同一工作流的 `-ResumeOptimize`，只重试未完成题目。
+七题全部有效前不会刷新 active rubric set，正式批改无法使用部分完成的组合。
+
 该流程现在默认按正式实验执行：评分准则候选、A3WA deployment gate 或 BND 动作门禁
 未通过时会停止，不再继续 CO_4 test。只有明确进行开发性诊断消融时才增加
 `-AllowExperimentalA3wa`；这类结果必须标记为 experimental，不能作为论文正式结果。

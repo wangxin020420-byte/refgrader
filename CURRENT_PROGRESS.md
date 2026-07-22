@@ -9,8 +9,10 @@ diagnostic run at the command boundary:
    the active rubric and writes `*_optimization_failure.json`. If a previously
    accepted incumbent still passes the current semantic contract and provenance
    checks, the optimizer retains it and continues the remaining questions; if
-   no valid incumbent exists, the whole activation transaction fails and rolls
-   back. Baseline fallback requires an explicit diagnostic flag and cannot pass
+   no valid incumbent or valid official baseline exists, the current question
+   rolls back and the completed earlier questions remain available for
+   `--resume`. The tracked active bundle is refreshed only after every requested
+   question succeeds. Baseline fallback requires an explicit diagnostic flag and cannot pass
    formal `grade` validation. Candidate rejection evidence is copied to
    artifacts as `rubric_optimization/candidate_rejection.json`.
 2. Test grading and A3WA activation require `deployment_gate.passed=true`.
@@ -28,8 +30,15 @@ diagnostic run at the command boundary:
    rubric-generation, and grading modules; runtime calls now require device-local
    environment variables.
 
+Rubric semantic contract v6 additionally projects every generated candidate
+onto immutable parent constraints: atomic parents are restored deterministically,
+and image-only parents without machine-readable answer anchors are not split by
+the text optimizer. When no safe candidate improves such a valid official
+baseline, the manifest records `strict_baseline_selected` instead of treating
+the absence of a safe rewrite as an experiment failure.
+
 Offline verification: `python -m unittest discover -p "test_*.py" -q` passes
-82 tests. No new API grading experiment was started by this change.
+84 tests. No new API grading experiment was started by this change.
 
 Last updated: 2026-07-22
 

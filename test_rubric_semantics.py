@@ -911,6 +911,28 @@ class RubricSemanticContractTests(unittest.TestCase):
         self.assertFalse(rejected["accepted"])
         self.assertEqual(rejected["reason"], "severe_sample_regression")
 
+    def test_rejected_paired_replay_can_formally_select_unchanged_baseline(self):
+        from rubric_semantics import (
+            SEMANTIC_MODE_CALIBRATED_BASELINE,
+            candidate_replay_supports_baseline_selection,
+            manifest_allows_unchanged_baseline,
+        )
+
+        report = assess_candidate_replay([
+            {"baseline_score": 5, "candidate_score": 2, "teacher_score": 6},
+            {"baseline_score": 8, "candidate_score": 8, "teacher_score": 9},
+        ], 10)
+        self.assertTrue(candidate_replay_supports_baseline_selection(report))
+        manifest = {
+            "semantic_validation_mode": SEMANTIC_MODE_CALIBRATED_BASELINE,
+            "selected_variant": "baseline",
+            "decomposition_deferred": True,
+            "candidate_replay": report,
+        }
+        self.assertTrue(manifest_allows_unchanged_baseline(manifest))
+        manifest["decomposition_deferred"] = False
+        self.assertFalse(manifest_allows_unchanged_baseline(manifest))
+
     def test_noninferiority_fallback_allows_only_unchanged_coarse_baseline(self):
         baseline = [{
             "id": "step_1",

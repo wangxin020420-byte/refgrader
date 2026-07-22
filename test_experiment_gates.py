@@ -165,6 +165,48 @@ class ExperimentGateTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "diagnostic baseline fallback"):
                     validate_retained_optimized_rubric(question)
 
+    def test_calibrated_noninferior_baseline_can_be_retained(self):
+        question = {"question_id": "CO_3", "total_score": 10.0}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            initial = root / "initial.json"
+            optimized = root / "optimized.json"
+            manifest = root / "manifest.json"
+            rubric = [{
+                "id": "step_1",
+                "item": "derive the result",
+                "points": 10.0,
+                "standard_answer_text": "result with process",
+            }]
+            initial.write_text(json.dumps(rubric), encoding="utf-8")
+            optimized.write_text(json.dumps(rubric), encoding="utf-8")
+            manifest.write_text(json.dumps({
+                "semantic_validation_mode": "calibrated_noninferior_baseline_selected",
+                "selected_variant": "baseline",
+                "decomposition_deferred": True,
+                "candidate_replay": {
+                    "method": "paired_teacher_score_noninferiority",
+                    "expected": 5,
+                    "paired": 5,
+                    "required": 4,
+                    "accepted": False,
+                    "reason": "candidate_mae_exceeds_margin",
+                    "baseline_mae": 1.6,
+                    "candidate_mae": 2.0,
+                    "mae_margin": 0.2,
+                    "severe_regressions": 0,
+                },
+            }), encoding="utf-8")
+
+            with (
+                patch("main_pipeline.optimized_rubric_output_path", return_value=str(optimized)),
+                patch("main_pipeline.optimization_manifest_path", return_value=str(manifest)),
+                patch("main_pipeline.initial_rubric_path_for", return_value=str(initial)),
+                patch("main_pipeline.validate_optimized_rubric_provenance"),
+            ):
+                retained = validate_retained_optimized_rubric(question)
+            self.assertEqual(retained["question_id"], "CO_3")
+
 
 if __name__ == "__main__":
     unittest.main()

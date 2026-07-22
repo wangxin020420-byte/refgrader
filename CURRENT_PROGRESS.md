@@ -58,8 +58,14 @@ the text optimizer. When no safe candidate improves such a valid official
 baseline, the manifest records `strict_baseline_selected` instead of treating
 the absence of a safe rewrite as an experiment failure.
 
+When a structurally valid decomposition candidate fails the paired teacher-score
+non-inferiority gate, the unchanged official baseline is now deployable as
+`calibrated_noninferior_baseline_selected`. The manifest must contain complete
+replay evidence and records deferred decomposition. This prevents deterministic
+retry loops without weakening the candidate MAE or severe-regression gates.
+
 Offline verification: `python -m unittest discover -p "test_*.py" -q` passes
-84 tests. No new API grading experiment was started by this change.
+87 tests. No new API grading experiment was started by this change.
 
 Last updated: 2026-07-22
 

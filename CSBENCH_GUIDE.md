@@ -163,7 +163,7 @@ python scripts/run_csbench.py evaluate CO_3 --export
 - 官方未给出子项权重时，正交或组成部分只允许等权；过程主导题使用上述角色比例约束。裸结论默认只获得低权重 `final` 分，不能反推过程；只有题干明确要求证明/理由时才允许 `dependency_mode=evidence_required`。
 - 多字段地址、表项和带标签记录使用 `structured_fields` 逐字段比较；`bit_vector` 仅用于真正的位掩码或位集合。缺字段、错字段或字段次序错误只能得到部分匹配，不能触发确定性满分。
 - 优化模型输出后会执行结构验收；未完成最小拆分时，验收错误会反馈给模型并最多重试 3 次。最终仍不合格时本轮优化失败，并保留当前有效 optimized rubric，不会先写入粗粒度草稿或用失败候选覆盖它。
-- 正式优化不再把 `noninferiority_baseline_fallback` 当作成功结果。候选生成、语义契约或教师分非劣回放任一失败都会写入运行目录中的 `*_optimization_failure.json`，保留旧 active rubric，并以非零状态结束；只有显式诊断参数才允许生成 fallback。
+- 正式优化不再把 `noninferiority_baseline_fallback` 当作成功结果。候选生成失败或语义契约失败仍会保留旧 active rubric 并以非零状态结束。若候选先通过结构契约、随后被完整的配对教师分非劣回放拒绝，则系统可将未改动的官方基线记录为 `calibrated_noninferior_baseline_selected` 并继续批处理；manifest 会保存回放覆盖率、MAE、严重退化数和延期拆分原因。该模式是经数据门禁选择出的正式结果，不等同于诊断 fallback。
 - 优化结果除总分校验外，还必须通过父项分值守恒、父项可追溯、最小子项数、等权约束、唯一满分触发项、过程分上限和满分答案不变性校验。正式 `grade` 会再次运行同一结构校验，不能只依赖 manifest 中的成功标志。
 - 版本 5 进一步把父项标准答案中的二进制、十六进制和最终判断作为不可变事实锚点。子项允许改变分组、空格和表示格式，但不得引入父项不存在的强事实字面量，也不得反转最终结论。
 - 结构验收后，候选准则还会复用 calibration 的已提取事实重新评分，并与初始准则在同一批教师分上做配对非劣验收。覆盖率不足、平均绝对误差超过总分比例界限或出现单样本严重退化时，候选被拒绝并保留初始准则。该门禁不读取 validation/test 标签。
@@ -174,7 +174,7 @@ CO_1 使用层次评分父项 `step_1`：地址字段 `2.0` 分、有效地址 `
 
 当多数语义探针确认层次父项由最终答案触发满分时，3WD 风险计算会把该最终项投影为父项全部分值，并从风险分母中移除非必需过程项。这样“答案正确但未展开过程”不会产生虚假的高留白风险；未触发满分时仍保留全部过程项，缺失证据继续影响 `U_E`、BND/NEG 路由和人工复核。
 
-语义契约当前版本为 `5`。旧 optimization manifest、实际结构未通过版本 5 校验，或未记录 `semantic_policy_validated=true` 的 optimized rubric 不允许进入正式批改，必须执行：
+语义契约当前版本为 `6`。旧 optimization manifest、实际结构未通过版本 6 校验，或未记录 `semantic_policy_validated=true` 的 optimized rubric 不允许进入正式批改，必须执行：
 
 ```bash
 python scripts/run_csbench.py optimize CO_1 --force
@@ -187,9 +187,9 @@ A3WA 校准会分别统计 BND 的结构化加分和降分动作在 validation �
 候选准则还必须通过 calibration 教师分非劣门禁。若候选出现严重样本退化，
 系统不会为了满足强制拆分而接受负优化；它会保留评分内容完全未改变的基线，
 并在 optimization manifest 中记录
-`semantic_validation_mode=noninferiority_baseline_fallback`、
+`semantic_validation_mode=calibrated_noninferior_baseline_selected`、
 `fallback_reason` 和 `decomposition_deferred=true`。该例外只允许未改变的基线
-延迟拆分，任何修改过分值、答案锚点或结构的候选仍必须完整通过版本 5 契约。
+延迟拆分，任何修改过分值、答案锚点或结构的候选仍必须完整通过版本 6 契约。诊断模式 `noninferiority_baseline_fallback` 仍禁止进入正式批改。
 批量任务中断后使用 `optimize ... --resume`，已通过当前契约和哈希检查的题目会
 跳过，其他题目复用既有 calibration checkpoint 继续执行。
 

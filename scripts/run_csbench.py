@@ -32,6 +32,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from rubric_semantics import (
     RUBRIC_SEMANTIC_CONTRACT_VERSION,
+    manifest_allows_unchanged_baseline,
     validate_refined_rubric,
 )
 from model_runtime import (
@@ -289,7 +290,7 @@ class CSBenchContext:
             initial_rubric,
             rubric,
             question_total,
-            allow_unchanged_baseline=False,
+            allow_unchanged_baseline=manifest_allows_unchanged_baseline(manifest),
         )
         if not semantic_valid:
             raise ValueError(

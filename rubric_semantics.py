@@ -11,6 +11,12 @@ from typing import Any
 
 RUBRIC_SEMANTIC_CONTRACT_VERSION = 6
 
+# A coarse immutable baseline may remain active only when a structurally valid
+# refinement was evaluated on paired teacher scores and failed the deployment
+# non-inferiority gate. This is a model-selection result, not a diagnostic
+# fallback and not a general exemption from semantic validation.
+SEMANTIC_MODE_CALIBRATED_BASELINE = "calibrated_noninferior_baseline_selected"
+
 # High-value composite parents are too coarse to grade reliably as one opaque
 # item. Two children are enough to expose partial credit without over-fragmenting
 # the official rubric. Truly atomic outcomes remain exempt.
@@ -183,6 +189,52 @@ def assess_candidate_replay(
         ),
     })
     return report
+
+
+def candidate_replay_supports_baseline_selection(report: dict[str, Any]) -> bool:
+    """Return whether paired replay formally supports retaining the baseline."""
+    if report.get("method") != "paired_teacher_score_noninferiority":
+        return False
+    if report.get("accepted") is not False:
+        return False
+    if report.get("reason") not in {
+        "severe_sample_regression",
+        "candidate_mae_exceeds_margin",
+    }:
+        return False
+    try:
+        expected = int(report.get("expected", 0) or 0)
+        paired = int(report.get("paired", 0) or 0)
+        required = int(report.get("required", 0) or 0)
+        baseline_mae = float(report["baseline_mae"])
+        candidate_mae = float(report["candidate_mae"])
+        margin = float(report["mae_margin"])
+        severe_regressions = int(report.get("severe_regressions", 0) or 0)
+    except (KeyError, TypeError, ValueError):
+        return False
+    if expected <= 0 or required <= 0 or paired < required:
+        return False
+    if not all(math.isfinite(value) for value in (baseline_mae, candidate_mae, margin)):
+        return False
+    if report["reason"] == "severe_sample_regression":
+        return severe_regressions > 0
+    return (
+        severe_regressions == 0
+        and candidate_mae > baseline_mae + margin - 1e-9
+    )
+
+
+def manifest_allows_unchanged_baseline(manifest: dict[str, Any]) -> bool:
+    """Validate evidence for the deployable calibrated-baseline mode."""
+    return bool(
+        manifest.get("semantic_validation_mode")
+        == SEMANTIC_MODE_CALIBRATED_BASELINE
+        and manifest.get("selected_variant") == "baseline"
+        and manifest.get("decomposition_deferred") is True
+        and candidate_replay_supports_baseline_selection(
+            manifest.get("candidate_replay") or {}
+        )
+    )
 
 
 ATOMIC_OUTCOME_PATTERNS = (

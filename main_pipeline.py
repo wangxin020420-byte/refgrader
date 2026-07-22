@@ -15,10 +15,13 @@ from step3_rrd_generator import generate_rrd_rubrics, refine_rubric_based_on_var
 from rubric_semantics import (
     HIGH_VALUE_SPLIT_THRESHOLD,
     RUBRIC_SEMANTIC_CONTRACT_VERSION,
+    SEMANTIC_MODE_CALIBRATED_BASELINE,
     assess_candidate_replay,
     apply_hierarchical_scoring_policy,
     apply_role_weighted_scoring_policy,
     high_value_split_targets,
+    candidate_replay_supports_baseline_selection,
+    manifest_allows_unchanged_baseline,
     prepare_rubric_semantic_contract,
     rubric_scoring_signature,
     rubric_structure_signature,
@@ -661,7 +664,7 @@ def validate_retained_optimized_rubric(q_data):
         initial_rubric,
         incumbent_rubric,
         float(q_data["total_score"]),
-        allow_unchanged_baseline=False,
+        allow_unchanged_baseline=manifest_allows_unchanged_baseline(manifest),
     )
     if not semantic_valid:
         raise ValueError(
@@ -1327,12 +1330,23 @@ def run_variance_optimization_process(
 
     candidate_accepted = bool(candidate_replay.get("accepted", False))
     if refinement_attempted and not candidate_accepted and not allow_baseline_fallback:
-        baseline_valid, baseline_errors = validate_refined_rubric(
+        strict_baseline_valid, baseline_errors = validate_refined_rubric(
             draft_rubric,
             draft_rubric,
             q_score,
             allow_unchanged_baseline=False,
         )
+        replay_selects_baseline = candidate_replay_supports_baseline_selection(
+            candidate_replay
+        )
+        baseline_valid = strict_baseline_valid
+        if not baseline_valid and replay_selects_baseline:
+            baseline_valid, _ = validate_refined_rubric(
+                draft_rubric,
+                draft_rubric,
+                q_score,
+                allow_unchanged_baseline=True,
+            )
         failure_report = {
             "question_id": q_id,
             "status": (
@@ -1353,11 +1367,17 @@ def run_variance_optimization_process(
         os.replace(temporary, failure_path)
         if baseline_valid:
             final_rubric = prepare_rubric_semantic_contract(draft_rubric)
-            semantic_validation_mode = "strict_baseline_selected"
+            if strict_baseline_valid:
+                semantic_validation_mode = "strict_baseline_selected"
+            else:
+                semantic_validation_mode = SEMANTIC_MODE_CALIBRATED_BASELINE
+                decomposition_deferred = True
+                deferred_semantic_errors = list(baseline_errors)
             selected_variant = "baseline"
             logging.warning(
                 "[rubric selection] no refined candidate passed every gate; "
-                f"selected the structurally valid official baseline for {q_id}."
+                f"selected the official baseline for {q_id}. mode="
+                f"{semantic_validation_mode}"
             )
         else:
             raise RubricCandidateRejectedError(
@@ -1370,6 +1390,9 @@ def run_variance_optimization_process(
         draft_rubric,
         final_rubric,
         q_score,
+        allow_unchanged_baseline=(
+            semantic_validation_mode == SEMANTIC_MODE_CALIBRATED_BASELINE
+        ),
     )
     if not semantic_policy_validated:
         deferred_semantic_errors = list(semantic_validation_errors)

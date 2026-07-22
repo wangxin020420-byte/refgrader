@@ -64,16 +64,15 @@ if ($Status) {
     }
 
     if ($State) {
-        $ProgressCandidates = @(
-            Join-Path $Root (
-                "results_runs\csbench_co1_co2_co3_co4_co5_co6_co7_" +
-                "validation\runs\$($State.validation_run_id)\progress.json"
-            ),
-            Join-Path $Root (
-                "results_runs\csbench_co4_full\runs\" +
-                "$($State.test_run_id)\progress.json"
-            )
+        $ValidationProgress = Join-Path $Root (
+            "results_runs\csbench_co1_co2_co3_co4_co5_co6_co7_" +
+            "validation\runs\$($State.validation_run_id)\progress.json"
         )
+        $TestProgress = Join-Path $Root (
+            "results_runs\csbench_co4_full\runs\" +
+            "$($State.test_run_id)\progress.json"
+        )
+        $ProgressCandidates = @($ValidationProgress, $TestProgress)
         foreach ($ProgressPath in $ProgressCandidates) {
             if (-not (Test-Path -LiteralPath $ProgressPath)) {
                 continue
@@ -282,6 +281,12 @@ function Save-State {
         [int]$Attempt = 0,
         [string]$Message = ""
     )
+    if ($Stage) {
+        $script:CurrentStage = $Stage
+    }
+    if ($Attempt -gt 0) {
+        $script:CurrentAttempt = $Attempt
+    }
     @{
         status = $Status
         stage = $Stage
@@ -331,6 +336,8 @@ function Disable-KeepAwake {
 
 $KeepAwakeEnabled = Enable-KeepAwake
 $WorkflowFailed = $false
+$script:CurrentStage = "preflight"
+$script:CurrentAttempt = 0
 try {
 if (-not (Test-Path -LiteralPath $Python)) {
     throw "Main Python environment not found: $Python"
@@ -528,7 +535,8 @@ git -C $Artifacts status --short
     $WorkflowFailed = $true
     Save-State `
         -Status "failed" `
-        -Stage "workflow" `
+        -Stage $script:CurrentStage `
+        -Attempt $script:CurrentAttempt `
         -Message $_.Exception.Message
     Write-Error $_ -ErrorAction Continue
 } finally {

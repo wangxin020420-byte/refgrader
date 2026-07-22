@@ -6,9 +6,17 @@ import re
 from zhipuai import ZhipuAI
 
 # ==================== 配置区 ====================
-API_KEY = "be992a8955834b3ab91e708576da5089.7mYD9wLWTZh4AFY2"  
-client = ZhipuAI(api_key=API_KEY)
+API_KEY = os.getenv("ZHIPUAI_API_KEY") or os.getenv("ZHIPU_API_KEY")
+client = ZhipuAI(api_key=API_KEY) if API_KEY else None
 VLM_MODEL_NAME = "glm-4.6v"
+
+
+def require_client():
+    if client is None:
+        raise RuntimeError(
+            "Set ZHIPUAI_API_KEY before extracting teacher scores."
+        )
+    return client
 
 INPUT_DIR = "./cropped_with_scores"       # 步骤一裁剪出来的带分数的图片目录
 OUTPUT_JSON = "./database/teacher_scores.json" # 提取结果的保存路径
@@ -56,7 +64,7 @@ def extract_teacher_score_from_image(img_path):
     
     for attempt in range(3):
         try:
-            response = client.chat.completions.create(
+            response = require_client().chat.completions.create(
                 model=VLM_MODEL_NAME, 
                 messages=[{"role": "user", "content": content_list}], 
                 temperature=0.1, 

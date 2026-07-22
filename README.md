@@ -1,12 +1,14 @@
 # RefGrader
 
-> 跨设备项目入口。最后更新：2026-07-21。
+> 跨设备项目入口。最后更新：2026-07-22。
 
 RefGrader 是面向主观题自动评分的实验系统。当前研究主线是把混合视觉证据、细粒度评分准则、三次独立语义评分、三支决策（3WD/A3WA）、边界仲裁和可选残差校正组合为可审计的评分流水线。
 
 当前默认模型契约是：文本评分、OCR 事实映射和 rubric 文本裁判统一使用 `glm-5.2`（配置键 `glm5`），显式设置 `thinking.type=disabled`；视觉提取继续使用 `glm-4.6v`。模型选择集中在 `model_runtime.py`，运行时也可以通过 `--text-provider`、`--thinking-mode` 和 `--vlm-provider` 做受控切换。validation、A3WA/残差校准和 test 必须使用同一模型契约；任何模型或思考模式切换都需要重新运行 validation 和 calibrate，不能复用其他模型契约的校准配置。
 
 当前评分准则语义契约为版本 5。分值大于等于 4 分的父项先区分结果充分、正交结果、组成部分、过程主导和严格原子五类：只有正交结果/组成部分使用等权拆分；复杂过程题要求过程至少占 80%、核心过程至少占 50%、最终结论不超过 20%，短过程题要求过程至少占 65%、结论不超过 35%。多字段结构使用逐字段规范化，不能再由一个局部数字触发整体匹配。优化候选还必须保持父答案中的二进制/十六进制事实锚点和最终判断方向，并在独立 rubric-calibration 教师分上通过配对非劣回放，才会替换当前准则。
+
+正式实验默认启用三层安全门禁：评分准则候选失败时保留旧 active rubric 且整阶段失败；A3WA 配置只有在跨题验证、路由预算和 BND 收益门禁全部通过后才能激活并进入 test；BND 加分与降分动作分别在 validation 上验证，样本不足或平均收益不为正的方向会被自动禁用。`--allow-baseline-rubric-fallback` 和 `--allow-experimental-a3wa` 仅用于明确标记的诊断消融，不能用于论文正式结果。
 
 本文档只回答五个问题：项目目前是什么、三个仓库分别保存什么、多个设备如何保持一致、一次实验会自动复制什么、其他 Markdown 文档应该去哪里查。完整命令见 [COMMANDS_GUIDE.md](COMMANDS_GUIDE.md)，按日期的开发记录见 [CURRENT_PROGRESS.md](CURRENT_PROGRESS.md)。
 
@@ -140,7 +142,7 @@ csbench/<question_id>/
 
 不要同步或复制虚拟环境。每台设备分别建立 `venv` 和 `.venv-ocr`；PaddleX 模型缓存、OCR 缓存也属于设备本地状态，不由 Git 同步。
 
-当前代码仍包含代码内 API 凭据配置，因此克隆后可能无需额外环境变量即可调用模型，但这种做法存在泄露风险。后续应轮换密钥并迁移到设备环境变量或不入库的配置文件；不得在文档、日志或 artifacts 中新增明文密钥。
+API 凭据必须通过设备环境变量或不入库的本地配置提供，不得写入代码、文档、日志或 artifacts。曾经进入 Git 历史的密钥应立即在服务端轮换；`test_air.py` 现在只在手动执行时读取 `ZHIPUAI_API_KEY`，不会再被单元测试发现过程自动调用。
 
 ## 4. 每次开始工作
 
@@ -168,6 +170,7 @@ git pull --ff-only
 
 ```powershell
 & ".\venv\Scripts\python.exe" scripts\audit_csbench_snapshot.py --prepared-dir data\csbench
+& ".\venv\Scripts\python.exe" scripts\audit_question_splits.py --prepared-dir data\csbench
 & ".\venv\Scripts\python.exe" -m unittest test_model_runtime.py test_canonicalizers.py test_rubric_semantics.py test_a3wa_theory.py test_csbench_artifact_sync.py -q
 & ".\venv\Scripts\python.exe" -c "from model_runtime import runtime_model_config; print(runtime_model_config())"
 ```

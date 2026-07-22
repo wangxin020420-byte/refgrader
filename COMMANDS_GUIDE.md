@@ -85,10 +85,32 @@ $Q = @("CO_1","CO_2","CO_3","CO_4","CO_5","CO_6","CO_7")
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run_glm52_all7_co4_workflow.ps1 -Background
 ```
 
-该开发流程默认在门禁未通过时仍完成 CO_4，并在日志中标记为 diagnostic；论文正式
-held-out 实验应增加 `-RequireDeploymentGate`。若评分准则优化阶段中断，处理好已经
+该流程现在默认按正式实验执行：评分准则候选、A3WA deployment gate 或 BND 动作门禁
+未通过时会停止，不再继续 CO_4 test。只有明确进行开发性诊断消融时才增加
+`-AllowExperimentalA3wa`；这类结果必须标记为 experimental，不能作为论文正式结果。
+`-RequireDeploymentGate` 为兼容旧命令保留，但默认行为已经等价于严格门禁。若评分准则优化阶段中断，处理好已经
 生成的 artifacts 后使用 `-Background -ResumeOptimize` 恢复，不能再次强制重启。
 启动后 PID、主日志和错误日志路径分别保存在 `logs/glm52_all7_co4_latest.*`。
+
+运行完整实验前先审计双层划分：
+
+```powershell
+.\venv\Scripts\python.exe scripts\audit_question_splits.py --prepared-dir data\csbench
+```
+
+输出中的外层 `train/validation/test=31/5/7` 是题目级开发与最终泛化划分；每题内部
+`calibration/validation/test` 分别用于准则优化、A3WA/不确定性/BND 动作校准和最终报告。
+二者是正交层级，不能合并，也不能用 test 标签反向选择参数。
+
+诊断专用绕过参数：
+
+```powershell
+# 允许无有效候选时把 unchanged baseline 作为诊断准则（正式 grade 会拒绝它）
+.\venv\Scripts\python.exe scripts\run_csbench.py optimize CO_4 --force --allow-baseline-rubric-fallback
+
+# 允许 failed deployment gate 的配置执行明确的消融实验
+.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_4 --split test --force --a3wa-config <config.json> --allow-experimental-a3wa
+```
 
 ## 1. 可用题目 ID
 

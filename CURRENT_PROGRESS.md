@@ -1,5 +1,32 @@
 # Current Progress
 
+## 2026-07-22 Formal Experiment Gates And Split Audit
+
+The formal CSBench path now distinguishes an accepted experiment from a
+diagnostic run at the command boundary:
+
+1. Rubric optimization is strict by default. A failed candidate preserves the
+   previous active rubric, writes `*_optimization_failure.json`, and exits
+   non-zero. Baseline fallback requires an explicit diagnostic flag and cannot
+   pass formal `grade` validation.
+2. Test grading and A3WA activation require `deployment_gate.passed=true`.
+   `--allow-experimental-a3wa` is the only bypass and is labelled diagnostic.
+3. BND raise/lower actions are validated independently. Directions without at
+   least three validation cases and positive mean error gain are disabled in
+   the calibrated runtime policy. Leave-one-question-out evaluation refits this
+   action gate inside every training fold, so the held-out question cannot
+   influence either action direction.
+4. `scripts/audit_question_splits.py` audits all 43 questions, 3326 answers,
+   the outer 31/5/7 question split, per-question calibration/validation/test
+   disjointness, counts, subjects, score bands, and visual-question coverage.
+5. `test_air.py` no longer performs an API request during unit-test discovery.
+   Hard-coded GLM/DeepSeek credentials were also removed from the teacher-score,
+   rubric-generation, and grading modules; runtime calls now require device-local
+   environment variables.
+
+Offline verification: `python -m unittest discover -p "test_*.py" -q` passes
+80 tests. No new API grading experiment was started by this change.
+
 Last updated: 2026-07-19
 
 ## 2026-07-19 Rubric Candidate Safety Gate And Residual Transfer Guard

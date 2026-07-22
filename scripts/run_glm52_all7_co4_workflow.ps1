@@ -1,7 +1,8 @@
 param(
     [switch]$Background,
     [switch]$ResumeOptimize,
-    [switch]$RequireDeploymentGate
+    [switch]$RequireDeploymentGate,
+    [switch]$AllowExperimentalA3wa
 )
 
 $ErrorActionPreference = "Stop"
@@ -28,6 +29,9 @@ if ($Background) {
     }
     if ($RequireDeploymentGate) {
         $Arguments += "-RequireDeploymentGate"
+    }
+    if ($AllowExperimentalA3wa) {
+        $Arguments += "-AllowExperimentalA3wa"
     }
     $Process = Start-Process `
         -FilePath $PowerShellExe `
@@ -109,15 +113,13 @@ Invoke-PythonStage "Stage 0/6: snapshot audit" @(
     "scripts\audit_csbench_snapshot.py",
     "--prepared-dir", "data\csbench"
 )
+Invoke-PythonStage "Stage 0/6: question and answer split audit" @(
+    "scripts\audit_question_splits.py",
+    "--prepared-dir", "data\csbench"
+)
 Invoke-PythonStage "Stage 0/6: offline tests" @(
-    "-m", "unittest",
-    "test_model_runtime.py",
-    "test_canonicalizers.py",
-    "test_rubric_semantics.py",
-    "test_a3wa_theory.py",
-    "test_evaluate_ablation.py",
-    "test_ocr_backend.py",
-    "test_csbench_artifact_sync.py",
+    "-m", "unittest", "discover",
+    "-p", "test_*.py",
     "-q"
 )
 Invoke-PythonStage "Stage 0/6: GLM-5.2 API smoke test" @(
@@ -180,6 +182,9 @@ $CalibrationArguments = @(
     "--thinking-mode", "disabled",
     "--vlm-provider", "glm4v"
 )
+if ($AllowExperimentalA3wa) {
+    $CalibrationArguments += "--allow-experimental-a3wa"
+}
 Invoke-PythonStage `
     "Stage 4/6: calibrate A3WA and residual layer" `
     $CalibrationArguments
@@ -193,15 +198,14 @@ Write-Host "Residual calibration enabled: $ResidualEnabled"
 if (-not $ResidualEnabled) {
     throw "Residual calibration was not enabled."
 }
-if ($RequireDeploymentGate -and -not $GatePassed) {
+if (-not $GatePassed -and -not $AllowExperimentalA3wa) {
     throw "Deployment gate failed; formal test is blocked."
 }
-if (-not $GatePassed) {
+if (-not $GatePassed -and $AllowExperimentalA3wa) {
     Write-Warning "Gate failed; continuing CO_4 as a development diagnostic only."
 }
 
-Save-State "grading_co4_test"
-Invoke-PythonStage "Stage 5/6: grade CO_4 test" @(
+$TestArguments = @(
     "scripts\run_csbench.py", "grade", "CO_4",
     "--split", "test",
     "--force",
@@ -211,6 +215,11 @@ Invoke-PythonStage "Stage 5/6: grade CO_4 test" @(
     "--thinking-mode", "disabled",
     "--vlm-provider", "glm4v"
 )
+if ($AllowExperimentalA3wa) {
+    $TestArguments += "--allow-experimental-a3wa"
+}
+Save-State "grading_co4_test"
+Invoke-PythonStage "Stage 5/6: grade CO_4 test" $TestArguments
 
 Save-State "finalizing"
 Invoke-PythonStage "Stage 6/6: show final outputs" @(

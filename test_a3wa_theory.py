@@ -237,6 +237,9 @@ class A3WATheoryTests(unittest.TestCase):
         })
         self.assertTrue(cv["available"])
         self.assertEqual(len(cv["folds"]), 2)
+        self.assertTrue(all(
+            "boundary_action_gate" in fold for fold in cv["folds"]
+        ))
 
 
 if __name__ == "__main__":

@@ -16,9 +16,24 @@ from rubric_semantics import (
 from model_runtime import runtime_model_config, thinking_extra_body
 
 # 🔴 记得替换为你的真实 Key
-CODING_PLAN_API_KEY = "132a47a6484e4a9dbfaa51fea40bbae0.LqWjKhw6WcH2sdFs"
+CODING_PLAN_API_KEY = (
+    os.getenv("ZHIPUAI_API_KEY")
+    or os.getenv("ZHIPU_API_KEY")
+)
 CODING_PLAN_BASE_URL = "https://open.bigmodel.cn/api/coding/paas/v4/"
-client = OpenAI(api_key=CODING_PLAN_API_KEY, base_url=CODING_PLAN_BASE_URL)
+client = (
+    OpenAI(api_key=CODING_PLAN_API_KEY, base_url=CODING_PLAN_BASE_URL)
+    if CODING_PLAN_API_KEY
+    else None
+)
+
+
+def require_client():
+    if client is None:
+        raise RuntimeError(
+            "Set ZHIPUAI_API_KEY before generating or refining rubrics."
+        )
+    return client
 
 VLM_MODEL_NAME = "glm-4.6v"
 MODEL_RUNTIME_CONFIG = runtime_model_config()
@@ -186,7 +201,7 @@ def call_glm_vlm(content_list, max_retries=3):
     """封装 GLM-4.6v 调用逻辑，自带超时重试装甲和防JSON崩溃"""
     for attempt in range(max_retries):
         try:
-            response = client.chat.completions.create(
+            response = require_client().chat.completions.create(
                 model=VLM_MODEL_NAME,
                 messages=[{"role": "user", "content": content_list}], # type: ignore
                 temperature=0.1, 
@@ -554,7 +569,7 @@ text, formula, table, diagram
 
 重新输出完整 JSON 数组，不要解释。
 """
-            response = client.chat.completions.create(
+            response = require_client().chat.completions.create(
                 model=LOGIC_MODEL_NAME, 
                 messages=[{"role": "user", "content": attempt_prompt}],
                 temperature=0.1,

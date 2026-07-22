@@ -275,13 +275,12 @@ class CSBenchContext:
         manifest = json.loads(
             self.optimization_manifest.read_text(encoding="utf-8")
         )
-        allow_unchanged_baseline = bool(
-            manifest.get("semantic_validation_mode")
-            == "noninferiority_baseline_fallback"
-            and manifest.get("decomposition_deferred") is True
-            and manifest.get("fallback_reason")
-            and not (manifest.get("candidate_replay") or {}).get("accepted", False)
-        )
+        if manifest.get("semantic_validation_mode") == "noninferiority_baseline_fallback":
+            raise ValueError(
+                "The optimized rubric is only a diagnostic baseline fallback, "
+                "not an accepted optimization candidate. Re-run optimize "
+                "without --allow-baseline-rubric-fallback."
+            )
 
         initial_rubric = json.loads(
             self.initial_rubric.read_text(encoding="utf-8")
@@ -290,7 +289,7 @@ class CSBenchContext:
             initial_rubric,
             rubric,
             question_total,
-            allow_unchanged_baseline=allow_unchanged_baseline,
+            allow_unchanged_baseline=False,
         )
         if not semantic_valid:
             raise ValueError(
@@ -1107,6 +1106,33 @@ def validate_a3wa_model_config(
         )
 
 
+def validate_a3wa_deployment_gate(
+    config_path: str | Path,
+    *,
+    allow_experimental: bool = False,
+) -> dict[str, Any]:
+    """Require a passed validation deployment gate for formal test use."""
+    path = Path(config_path).expanduser().resolve()
+    payload = json.loads(path.read_text(encoding="utf-8-sig"))
+    gate = payload.get("deployment_gate")
+    passed = isinstance(gate, dict) and gate.get("passed") is True
+    if not passed and not allow_experimental:
+        requirements = gate.get("requirements", {}) if isinstance(gate, dict) else {}
+        failed = [name for name, ok in requirements.items() if ok is not True]
+        detail = ", ".join(failed) if failed else "deployment_gate_missing_or_false"
+        raise ValueError(
+            f"A3WA deployment gate did not pass for {path}: {detail}. "
+            "Formal test grading is blocked. Use --allow-experimental-a3wa "
+            "only for a clearly labelled diagnostic ablation."
+        )
+    if not passed:
+        print(
+            "WARNING: using an experimental A3WA config whose deployment "
+            f"gate failed: {path}"
+        )
+    return payload
+
+
 def ensure_background_slot_available() -> None:
     if os.name == "nt":
         return
@@ -1424,6 +1450,8 @@ def build_run_command(args: argparse.Namespace, *, background: bool) -> list[str
         command.extend(["--a3wa-config", args.a3wa_config])
     if getattr(args, "no_active_a3wa", False):
         command.append("--no-active-a3wa")
+    if getattr(args, "allow_experimental_a3wa", False):
+        command.append("--allow-experimental-a3wa")
     if background:
         command.append("--background")
     if args.force:
@@ -1564,6 +1592,8 @@ def optimize(args: argparse.Namespace) -> int:
         pipeline_args.append("--force-rerun")
     elif resume:
         pipeline_args.append("--resume-optimization")
+    if getattr(args, "allow_baseline_rubric_fallback", False):
+        pipeline_args.append("--allow-baseline-rubric-fallback")
 
     env = {
         "REFGRADER_OCR_DEVICE": args.device,
@@ -1684,6 +1714,14 @@ def grade(args: argparse.Namespace) -> int:
                 "run, or pass --no-active-a3wa explicitly for an uncalibrated "
                 "ablation."
             )
+    if args.split == "test" and getattr(args, "a3wa_config", None):
+        validate_a3wa_model_config(args.a3wa_config, model_config)
+        validate_a3wa_deployment_gate(
+            args.a3wa_config,
+            allow_experimental=bool(
+                getattr(args, "allow_experimental_a3wa", False)
+            ),
+        )
     results_dir, local_run_id = select_grading_run(
         contexts,
         args.split,
@@ -1744,6 +1782,8 @@ def grade(args: argparse.Namespace) -> int:
         env["A3WA_CALIBRATION_CONFIG"] = str(
             Path(args.a3wa_config).expanduser().resolve()
         )
+    if getattr(args, "allow_experimental_a3wa", False):
+        env["REFGRADER_ALLOW_EXPERIMENTAL_A3WA"] = "1"
     if args.background:
         if os.name == "nt":
             raise RuntimeError("--background is only supported on Linux.")
@@ -1987,6 +2027,9 @@ def run_experiment(args: argparse.Namespace) -> int:
             include_facts=args.include_facts,
             a3wa_config=args.a3wa_config,
             no_active_a3wa=getattr(args, "no_active_a3wa", False),
+            allow_experimental_a3wa=getattr(
+                args, "allow_experimental_a3wa", False
+            ),
             run_id=getattr(args, "run_id", None),
             text_provider=args.text_provider,
             thinking_mode=args.thinking_mode,
@@ -2083,6 +2126,8 @@ def calibrate(args: argparse.Namespace) -> int:
         str(getattr(args, "unsafe_pos_cost", 1.00)),
         "--max-unsafe-pos-rate",
         str(getattr(args, "max_unsafe_pos_rate", 0.10)),
+        "--boundary-action-min-count",
+        str(getattr(args, "boundary_action_min_count", 3)),
         "--text-provider",
         model_config["text_provider"],
         "--text-model",
@@ -2104,6 +2149,13 @@ def calibrate(args: argparse.Namespace) -> int:
         return return_code
     if not output.is_file():
         raise FileNotFoundError(f"A3WA calibration config not generated: {output}")
+
+    validate_a3wa_deployment_gate(
+        output,
+        allow_experimental=bool(
+            getattr(args, "allow_experimental_a3wa", False)
+        ),
+    )
 
     bundle = refresh_active_configuration(
         contexts,
@@ -2147,6 +2199,13 @@ def activate(args: argparse.Namespace) -> int:
         if getattr(args, "a3wa_config", None)
         else None
     )
+    if config:
+        validate_a3wa_deployment_gate(
+            config,
+            allow_experimental=bool(
+                getattr(args, "allow_experimental_a3wa", False)
+            ),
+        )
     bundle = refresh_active_configuration(
         contexts,
         a3wa_config=config,
@@ -2944,6 +3003,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Do not automatically use the tracked active A3WA config for test.",
     )
     run_parser.add_argument(
+        "--allow-experimental-a3wa",
+        action="store_true",
+        help="Diagnostic only: allow test grading with a failed A3WA gate.",
+    )
+    run_parser.add_argument(
         "--background",
         action="store_true",
         help=(
@@ -3011,6 +3075,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
     optimize_parser.add_argument("--dry-run", action="store_true")
     optimize_parser.add_argument(
+        "--allow-baseline-rubric-fallback",
+        action="store_true",
+        help=(
+            "Diagnostic only: activate the unchanged baseline when a requested "
+            "refinement fails. Formal optimization rejects such candidates."
+        ),
+    )
+    optimize_parser.add_argument(
         "--artifacts-repo",
         default=str((PROJECT_ROOT.parent / "refgrader-artifacts").resolve()),
     )
@@ -3037,6 +3109,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     activate_parser.add_argument(
         "questions", nargs="+", type=normalize_question_id
+    )
+    activate_parser.add_argument(
+        "--allow-experimental-a3wa",
+        action="store_true",
+        help="Diagnostic only: activate a config whose deployment gate failed.",
     )
     activate_parser.add_argument(
         "--a3wa-config",
@@ -3073,6 +3150,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--no-active-a3wa",
         action="store_true",
         help="Do not automatically use the tracked active A3WA config for test.",
+    )
+    grade_parser.add_argument(
+        "--allow-experimental-a3wa",
+        action="store_true",
+        help="Diagnostic only: allow test grading with a failed A3WA gate.",
     )
     grade_parser.add_argument("--background", action="store_true")
     grade_parser.add_argument("--force", action="store_true")
@@ -3149,6 +3231,17 @@ def build_parser() -> argparse.ArgumentParser:
     calibrate_parser.add_argument("--neg-human-cost", type=float, default=0.10)
     calibrate_parser.add_argument("--unsafe-pos-cost", type=float, default=1.00)
     calibrate_parser.add_argument("--max-unsafe-pos-rate", type=float, default=0.10)
+    calibrate_parser.add_argument(
+        "--boundary-action-min-count", type=int, default=3
+    )
+    calibrate_parser.add_argument(
+        "--allow-experimental-a3wa",
+        action="store_true",
+        help=(
+            "Diagnostic only: activate and publish a calibration config whose "
+            "deployment gate failed."
+        ),
+    )
     add_model_arguments(calibrate_parser)
     calibrate_parser.add_argument("--dry-run", action="store_true")
     calibrate_parser.add_argument(

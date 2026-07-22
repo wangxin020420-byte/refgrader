@@ -141,6 +141,10 @@ python scripts/run_csbench.py evaluate CO_3 --export
 - `delete/` 不参与正式数据。
 - 每题的 calibration、validation、test 答案互不重叠。
 - calibration 只用于评分准则优化，test 只用于最终实验。
+- 外层 question-train/validation/test 与每题内部答案划分是两个正交层级：31 个
+  question-train 用于方法开发，5 个 question-validation 用于跨题模型选择，7 个
+  question-test 用于最终跨题泛化报告；每题内部 calibration/validation/test 仍分别
+  服务于准则优化、A3WA/BND/残差校准和答案级最终评估。
 - `FULL` 默认要求 optimized 准则存在，不会静默回退 initial。
 - 如只做提取冒烟测试，可显式增加 `--allow-initial-rubric`。
 - `data/csbench/` 是版本化的内嵌批改快照；当前 `rubrics/optimized`、`rubrics/manifests`、`active_rubric_set.json` 和 `calibration/active_a3wa_config.json` 必须提交，用于保证不同设备正式批改配置一致。`ocr_cache/`、`results_runs/` 和日志仍不提交 Git。
@@ -159,6 +163,7 @@ python scripts/run_csbench.py evaluate CO_3 --export
 - 官方未给出子项权重时，正交或组成部分只允许等权；过程主导题使用上述角色比例约束。裸结论默认只获得低权重 `final` 分，不能反推过程；只有题干明确要求证明/理由时才允许 `dependency_mode=evidence_required`。
 - 多字段地址、表项和带标签记录使用 `structured_fields` 逐字段比较；`bit_vector` 仅用于真正的位掩码或位集合。缺字段、错字段或字段次序错误只能得到部分匹配，不能触发确定性满分。
 - 优化模型输出后会执行结构验收；未完成最小拆分时，验收错误会反馈给模型并最多重试 3 次。最终仍不合格时本轮优化失败，并保留当前有效 optimized rubric，不会先写入粗粒度草稿或用失败候选覆盖它。
+- 正式优化不再把 `noninferiority_baseline_fallback` 当作成功结果。候选生成、语义契约或教师分非劣回放任一失败都会写入运行目录中的 `*_optimization_failure.json`，保留旧 active rubric，并以非零状态结束；只有显式诊断参数才允许生成 fallback。
 - 优化结果除总分校验外，还必须通过父项分值守恒、父项可追溯、最小子项数、等权约束、唯一满分触发项、过程分上限和满分答案不变性校验。正式 `grade` 会再次运行同一结构校验，不能只依赖 manifest 中的成功标志。
 - 版本 5 进一步把父项标准答案中的二进制、十六进制和最终判断作为不可变事实锚点。子项允许改变分组、空格和表示格式，但不得引入父项不存在的强事实字面量，也不得反转最终结论。
 - 结构验收后，候选准则还会复用 calibration 的已提取事实重新评分，并与初始准则在同一批教师分上做配对非劣验收。覆盖率不足、平均绝对误差超过总分比例界限或出现单样本严重退化时，候选被拒绝并保留初始准则。该门禁不读取 validation/test 标签。
@@ -176,6 +181,8 @@ python scripts/run_csbench.py optimize CO_1 --force
 ```
 
 优化落盘后，统一入口会把 manifest 中的设备绝对路径转换为 `${REFGRADER_ROOT}` / `${PREPARED_CSBENCH_ROOT}` 占位符，并原子更新 `active_rubric_set.json`。正式 `grade` 会校验数据快照、split、initial/optimized rubric 和 manifest 的 SHA-256；文件存在但哈希不一致同样会拒绝运行。任意 active rubric 改变都会令旧 active A3WA 标记为 stale，必须重新完成 validation 和 `calibrate` 才能重新激活；test 不会静默回退默认参数，无校准消融必须显式传 `--no-active-a3wa`。
+
+A3WA 校准会分别统计 BND 的结构化加分和降分动作在 validation 上相对 `avg` 的误差收益。每个方向只有在达到最小样本数且平均收益为正时才会写入 `boundary_policy.allow_raise/allow_lower=true`；否则运行时保持基线分。留一题交叉验证会在每个折内只用其余题目重新拟合动作开关，被留出的题目不参与阈值、不确定性或动作方向选择。跨题非劣、路由预算、总体 BND 正收益和已启用动作正收益共同组成 deployment gate。门禁失败的配置会保留为诊断输出，但不会自动激活、发布或进入正式 test。
 
 候选准则还必须通过 calibration 教师分非劣门禁。若候选出现严重样本退化，
 系统不会为了满足强制拆分而接受负优化；它会保留评分内容完全未改变的基线，

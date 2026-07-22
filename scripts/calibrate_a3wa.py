@@ -310,11 +310,17 @@ def candidate_loss_params():
                 }
 
 
-def apply_action_policy(record, route, boundary_policy=None):
+def apply_action_policy(record, route, boundary_policy=None, return_gate=False):
     avg = record["avg"]
     max_score = max(record["max_score"], 1.0)
     if route != "BND":
-        return avg
+        gate = {
+            "final_score": avg,
+            "action": "not_bnd",
+            "accepted": False,
+            "gate_reason": "route_not_boundary",
+        }
+        return gate if return_gate else avg
     gate = apply_structured_boundary_action_policy(
         avg_model_score=avg,
         candidate_score=record["raw_candidate"],
@@ -323,7 +329,55 @@ def apply_action_policy(record, route, boundary_policy=None):
         agent_evidence=record.get("agent_evidence"),
         config=boundary_policy,
     )
-    return round(gate["final_score"], 2)
+    gate = dict(gate)
+    gate["final_score"] = round(gate["final_score"], 2)
+    return gate if return_gate else gate["final_score"]
+
+
+def summarize_boundary_actions(trial_records):
+    """Measure validation gain separately for every BND action."""
+    grouped = {}
+    for row in trial_records:
+        if row.get("trial_route") != "BND":
+            continue
+        action = str(row.get("boundary_action") or "keep_baseline")
+        baseline_error = abs(float(row["avg"]) - float(row["teacher"]))
+        action_error = abs(float(row["trial_score"]) - float(row["teacher"]))
+        gain = baseline_error - action_error
+        grouped.setdefault(action, []).append(gain)
+    summary = {}
+    for action, gains in sorted(grouped.items()):
+        summary[action] = {
+            "n": len(gains),
+            "mean_gain": mean(gains),
+            "improved": sum(value > 1e-9 for value in gains),
+            "unchanged": sum(abs(value) <= 1e-9 for value in gains),
+            "worsened": sum(value < -1e-9 for value in gains),
+        }
+    return summary
+
+
+def calibrate_boundary_action_gate(trial_records, min_count=3):
+    """Enable each directional BND action only after positive validation gain."""
+    stats = summarize_boundary_actions(trial_records)
+    directions = {
+        "raise": "accept_structured_raise",
+        "lower": "accept_structured_lower",
+    }
+    result = {"minimum_count": int(min_count), "actions": stats}
+    for direction, action in directions.items():
+        item = stats.get(action, {})
+        enabled = (
+            int(item.get("n", 0)) >= int(min_count)
+            and float(item.get("mean_gain", 0.0)) > 0.0
+        )
+        result[f"allow_{direction}"] = enabled
+        result[f"{direction}_reason"] = (
+            "positive_validation_gain"
+            if enabled
+            else "insufficient_or_nonpositive_validation_gain"
+        )
+    return result
 
 
 def evaluate_params(
@@ -367,10 +421,15 @@ def evaluate_params(
             score_uncertainty=score_uncertainty,
         )
         route = decision["route"]
-        score = apply_action_policy(record, route, boundary_policy)
+        gate = apply_action_policy(
+            record, route, boundary_policy, return_gate=True
+        )
+        score = gate["final_score"]
         row = dict(record)
         row["trial_score"] = score
         row["trial_route"] = route
+        row["boundary_action"] = gate.get("action")
+        row["boundary_gate_reason"] = gate.get("gate_reason")
         trial.append(row)
         route_counts[route] += 1
         route_errors[route].append(abs(score - record["teacher"]))
@@ -426,6 +485,7 @@ def evaluate_params(
         "pos_mae": pos_mae,
         "bnd_mae": bnd_mae,
         "bnd_gain": bnd_gain,
+        "boundary_action_summary": summarize_boundary_actions(trial),
         "loss_params": loss_params,
         "membership_model": membership_model,
         "score_uncertainty": score_uncertainty,
@@ -595,6 +655,12 @@ def leave_one_question_out_validation(records, calibration_args):
             safe_error_ratio=calibration_args["safe_error_ratio"],
             safe_error_points=calibration_args["safe_error_points"],
         )
+        fold_boundary_policy = dict(calibration_args["boundary_policy"])
+        fold_boundary_policy.update({
+            "allow_raise": True,
+            "allow_lower": True,
+        })
+        fold_boundary_policy.pop("action_validation", None)
         shared = {
             "membership_model": membership,
             "score_uncertainty": uncertainty,
@@ -606,8 +672,31 @@ def leave_one_question_out_validation(records, calibration_args):
             "safe_error_ratio": calibration_args["safe_error_ratio"],
             "safe_error_points": calibration_args["safe_error_points"],
             "max_unsafe_pos_rate": calibration_args["max_unsafe_pos_rate"],
-            "boundary_policy": calibration_args["boundary_policy"],
+            "boundary_policy": fold_boundary_policy,
         }
+        train_results = [
+            evaluate_params(train, loss_params=params, **shared)
+            for params in candidate_loss_params()
+        ]
+        fold_best = select_best_candidate(train_results)
+        fold_train_trial = evaluate_params(
+            train,
+            loss_params=fold_best["loss_params"],
+            return_trial=True,
+            **shared,
+        )
+        fold_action_gate = calibrate_boundary_action_gate(
+            fold_train_trial["trial_records"],
+            min_count=calibration_args.get("boundary_action_min_count", 3),
+        )
+        fold_boundary_policy.update({
+            "version": 2,
+            "allow_raise": fold_action_gate["allow_raise"],
+            "allow_lower": fold_action_gate["allow_lower"],
+            "action_validation": fold_action_gate,
+        })
+        # Re-select the fold thresholds after fitting the action gate only on
+        # the fold's training questions. The held-out question remains unseen.
         train_results = [
             evaluate_params(train, loss_params=params, **shared)
             for params in candidate_loss_params()
@@ -629,6 +718,7 @@ def leave_one_question_out_validation(records, calibration_args):
             "candidate_mae": round(held_out_result["metrics"]["mae"], 6),
             "route_counts": held_out_result["route_counts"],
             "bnd_gain": round(held_out_result["bnd_gain"], 6),
+            "boundary_action_gate": fold_action_gate,
         })
     bootstrap = paired_bootstrap_normalized_mae_delta(all_trial)
     improved_questions = sum(
@@ -673,6 +763,7 @@ def main():
     parser.add_argument("--neg-human-cost", type=float, default=0.10)
     parser.add_argument("--unsafe-pos-cost", type=float, default=1.00)
     parser.add_argument("--max-unsafe-pos-rate", type=float, default=0.10)
+    parser.add_argument("--boundary-action-min-count", type=int, default=3)
     parser.add_argument(
         "--text-provider", default=default_model_config["text_provider"]
     )
@@ -718,6 +809,8 @@ def main():
         parser.error("--min-cell-count must be at least 1")
     if args.direction_guard_min_count < 1:
         parser.error("--direction-guard-min-count must be at least 1")
+    if args.boundary_action_min_count < 1:
+        parser.error("--boundary-action-min-count must be at least 1")
 
     teacher_db = load_json(args.teacher_db)
     question_scores = load_question_scores(args.database_path)
@@ -776,6 +869,37 @@ def main():
         return_trial=True,
         **evaluation_args,
     )
+    action_gate = calibrate_boundary_action_gate(
+        best_with_trial["trial_records"],
+        min_count=args.boundary_action_min_count,
+    )
+    boundary_policy.update({
+        "version": 2,
+        "allow_raise": action_gate["allow_raise"],
+        "allow_lower": action_gate["allow_lower"],
+        "action_validation": action_gate,
+    })
+    # Re-select thresholds after disabling any BND direction that did not
+    # demonstrate positive validation gain.
+    results = [
+        evaluate_params(records, loss_params=loss_params, **evaluation_args)
+        for loss_params in candidate_loss_params()
+    ]
+    results.sort(
+        key=lambda item: (
+            item["constraint_violations"],
+            item["constraint_excess"],
+            item["expected_system_cost"],
+            item["metrics"]["mae"],
+        )
+    )
+    best = results[0]
+    best_with_trial = evaluate_params(
+        records,
+        loss_params=best["loss_params"],
+        return_trial=True,
+        **evaluation_args,
+    )
     cross_validation = leave_one_question_out_validation(
         records,
         {
@@ -790,6 +914,7 @@ def main():
             "neg_cost": args.neg_human_cost,
             "unsafe_pos_cost": args.unsafe_pos_cost,
             "boundary_policy": boundary_policy,
+            "boundary_action_min_count": args.boundary_action_min_count,
         },
     )
     deployment_gate = {
@@ -798,11 +923,33 @@ def main():
             and cross_validation.get("noninferior", False)
             and best["constraint_violations"] == 0
             and best["bnd_gain"] > 0.0
+            and (
+                not boundary_policy["allow_raise"]
+                or best["boundary_action_summary"].get(
+                    "accept_structured_raise", {}
+                ).get("mean_gain", 0.0) > 0.0
+            )
+            and (
+                not boundary_policy["allow_lower"]
+                or best["boundary_action_summary"].get(
+                    "accept_structured_lower", {}
+                ).get("mean_gain", 0.0) > 0.0
+            )
         ),
         "requirements": {
             "loqo_normalized_mae_noninferior": bool(cross_validation.get("noninferior", False)),
             "route_budget_constraints_met": best["constraint_violations"] == 0,
             "validation_bnd_gain_positive": best["bnd_gain"] > 0.0,
+            "enabled_boundary_actions_positive": all(
+                not boundary_policy[f"allow_{direction}"]
+                or best["boundary_action_summary"].get(action, {}).get(
+                    "mean_gain", 0.0
+                ) > 0.0
+                for direction, action in (
+                    ("raise", "accept_structured_raise"),
+                    ("lower", "accept_structured_lower"),
+                )
+            ),
         },
         "note": "A failed gate marks the config experimental; it does not tune on test data.",
     }
@@ -862,6 +1009,7 @@ def main():
             "pos_mae": round(best["pos_mae"], 6),
             "bnd_mae": round(best["bnd_mae"], 6),
             "bnd_gain": round(best["bnd_gain"], 6),
+            "boundary_action_summary": best["boundary_action_summary"],
         },
     }
     config["score_calibration"] = {

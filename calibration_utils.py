@@ -2874,6 +2874,8 @@ def apply_structured_boundary_action_policy(
     )
     max_adjustment = max_adjustment_ratio * max_score
     minimum_change = max(0.02 * max_score, 0.10)
+    allow_raise = bool(config.get("allow_raise", True))
+    allow_lower = bool(config.get("allow_lower", True))
 
     missed = summary["allowed_missed_points"]
     over = summary["allowed_over_points"]
@@ -2902,6 +2904,15 @@ def apply_structured_boundary_action_policy(
             accepted_delta = magnitude if evidence_delta > 0 else -magnitude
             action = "accept_structured_raise" if accepted_delta > 0 else "accept_structured_lower"
             reason = "validated_item_evidence"
+
+    if action == "accept_structured_raise" and not allow_raise:
+        accepted_delta = 0.0
+        action = "keep_baseline"
+        reason = "raise_action_disabled_by_validation_gate"
+    elif action == "accept_structured_lower" and not allow_lower:
+        accepted_delta = 0.0
+        action = "keep_baseline"
+        reason = "lower_action_disabled_by_validation_gate"
 
     final_score = max(0.0, min(max_score, baseline + accepted_delta))
     accepted = abs(final_score - baseline) > 1e-9

@@ -1,0 +1,104 @@
+import json
+import tempfile
+import unittest
+from pathlib import Path
+
+from calibration_utils import apply_structured_boundary_action_policy
+from main_pipeline import restore_activation_files, snapshot_activation_files
+from scripts.audit_question_splits import audit
+from scripts.calibrate_a3wa import calibrate_boundary_action_gate
+from scripts.run_csbench import validate_a3wa_deployment_gate
+
+
+class ExperimentGateTests(unittest.TestCase):
+    def test_question_split_audit_covers_portable_snapshot(self):
+        report = audit(Path("data/csbench"))
+        self.assertEqual(report["status"], "passed", report["errors"])
+        self.assertEqual(report["question_count"], 43)
+        self.assertEqual(
+            report["outer_question_splits"]["train"]["question_count"], 31
+        )
+        self.assertEqual(report["answer_count"], 3326)
+        self.assertEqual(report["answer_metadata_count"], 3326)
+
+    def test_failed_a3wa_gate_is_blocked_unless_explicitly_experimental(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "config.json"
+            path.write_text(json.dumps({
+                "deployment_gate": {
+                    "passed": False,
+                    "requirements": {"validation_bnd_gain_positive": False},
+                }
+            }), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "deployment gate did not pass"):
+                validate_a3wa_deployment_gate(path)
+            payload = validate_a3wa_deployment_gate(
+                path, allow_experimental=True
+            )
+            self.assertFalse(payload["deployment_gate"]["passed"])
+
+    def test_boundary_direction_requires_enough_positive_validation_gain(self):
+        trial = [
+            {
+                "trial_route": "BND",
+                "boundary_action": "accept_structured_raise",
+                "avg": 4.0,
+                "trial_score": 5.0,
+                "teacher": 5.0,
+            }
+            for _ in range(3)
+        ]
+        trial.extend([
+            {
+                "trial_route": "BND",
+                "boundary_action": "accept_structured_lower",
+                "avg": 5.0,
+                "trial_score": 4.0,
+                "teacher": 6.0,
+            }
+            for _ in range(3)
+        ])
+        gate = calibrate_boundary_action_gate(trial, min_count=3)
+        self.assertTrue(gate["allow_raise"])
+        self.assertFalse(gate["allow_lower"])
+
+    def test_disabled_lower_action_keeps_baseline(self):
+        evidence = {
+            "confidence": 0.9,
+            "allowed_missed_points": 0.0,
+            "allowed_over_points": 2.0,
+            "missed_reason_types": [],
+            "over_reason_types": ["contradiction"],
+        }
+        result = apply_structured_boundary_action_policy(
+            avg_model_score=5.0,
+            candidate_score=3.0,
+            max_score=10.0,
+            post_calibration={"rubric_item_points": {"step_1": 2.0}},
+            agent_evidence=evidence,
+            config={"allow_lower": False},
+        )
+        self.assertEqual(result["action"], "keep_baseline")
+        self.assertEqual(result["final_score"], 5.0)
+        self.assertEqual(
+            result["gate_reason"], "lower_action_disabled_by_validation_gate"
+        )
+
+    def test_activation_transaction_restores_existing_and_created_files(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            existing = root / "existing.json"
+            created = root / "created.json"
+            existing.write_bytes(b"before")
+            snapshot = snapshot_activation_files([existing, created])
+
+            existing.write_bytes(b"after")
+            created.write_bytes(b"new")
+            restore_activation_files(snapshot)
+
+            self.assertEqual(existing.read_bytes(), b"before")
+            self.assertFalse(created.exists())
+
+
+if __name__ == "__main__":
+    unittest.main()

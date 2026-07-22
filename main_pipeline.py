@@ -10,6 +10,7 @@ import concurrent.futures
 import time
 import numpy as np
 from datetime import datetime
+from pathlib import Path
 from step3_rrd_generator import generate_rrd_rubrics, refine_rubric_based_on_variance
 from rubric_semantics import (
     HIGH_VALUE_SPLIT_THRESHOLD,
@@ -291,6 +292,15 @@ def parse_args():
         ),
     )
     parser.add_argument(
+        "--allow-baseline-rubric-fallback",
+        action="store_true",
+        help=(
+            "VARIANCE_OPT diagnostic mode only: allow an unchanged baseline "
+            "rubric to be activated when a requested refinement fails. "
+            "Formal optimization is strict by default."
+        ),
+    )
+    parser.add_argument(
         "--progress-file", default=None,
         help="进度 JSON 文件路径 (默认: results_rrd_vlm/progress.json)",
     )
@@ -402,6 +412,27 @@ def save_json_list(path, data):
     with open(temporary, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
     os.replace(temporary, path)
+
+
+def snapshot_activation_files(paths):
+    """Capture exact active-file bytes before a multi-question transaction."""
+    return {
+        str(path): Path(path).read_bytes() if os.path.exists(path) else None
+        for path in paths
+    }
+
+
+def restore_activation_files(snapshot):
+    """Atomically restore active files and remove files created by a failed run."""
+    for path, content in snapshot.items():
+        if content is None:
+            if os.path.exists(path):
+                os.remove(path)
+            continue
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+        temporary = f"{path}.rollback-{os.getpid()}"
+        Path(temporary).write_bytes(content)
+        os.replace(temporary, path)
 
 
 def upsert_failed_record(records, record):
@@ -815,6 +846,7 @@ def run_variance_optimization_process(
     resume_optimization=False,
     extraction_backend="glm_vlm",
     ocr_cache_dir="ocr_cache",
+    allow_baseline_fallback=False,
 ):
     q_id = q_data["question_id"]
     q_score = q_data["total_score"]
@@ -1228,6 +1260,30 @@ def run_variance_optimization_process(
     else:
         logging.info("✅ 标准足够稳定且粒度精细，无需进一步修正。")
 
+    candidate_accepted = bool(candidate_replay.get("accepted", False))
+    if refinement_attempted and not candidate_accepted and not allow_baseline_fallback:
+        failure_report = {
+            "question_id": q_id,
+            "status": "rejected_not_activated",
+            "fallback_reason": fallback_reason or "candidate_not_accepted",
+            "mandatory_split_targets": mandatory_split_targets,
+            "candidate_replay": candidate_replay,
+            "active_rubric_preserved": os.path.exists(rubric_save_path),
+            "created_at": datetime.now().isoformat(timespec="seconds"),
+        }
+        failure_path = os.path.join(
+            OUTPUT_DIR, f"{q_id}_optimization_failure.json"
+        )
+        temporary = f"{failure_path}.tmp-{os.getpid()}"
+        with open(temporary, "w", encoding="utf-8") as handle:
+            json.dump(failure_report, handle, indent=2, ensure_ascii=False)
+        os.replace(temporary, failure_path)
+        raise RuntimeError(
+            f"Strict rubric optimization rejected {q_id}; the active rubric "
+            f"was not replaced. Reason: {failure_report['fallback_reason']}. "
+            "Use --allow-baseline-rubric-fallback only for a diagnostic run."
+        )
+
     semantic_policy_validated, semantic_validation_errors = validate_refined_rubric(
         draft_rubric,
         final_rubric,
@@ -1239,6 +1295,26 @@ def run_variance_optimization_process(
             "Final optimized rubric failed semantic validation; reverting to "
             "the immutable draft: " + "; ".join(semantic_validation_errors)
         )
+        if not allow_baseline_fallback:
+            failure_path = os.path.join(
+                OUTPUT_DIR, f"{q_id}_optimization_failure.json"
+            )
+            failure_report = {
+                "question_id": q_id,
+                "status": "rejected_not_activated",
+                "fallback_reason": fallback_reason or "final_candidate_validation_failed",
+                "semantic_validation_errors": semantic_validation_errors,
+                "active_rubric_preserved": os.path.exists(rubric_save_path),
+                "created_at": datetime.now().isoformat(timespec="seconds"),
+            }
+            temporary = f"{failure_path}.tmp-{os.getpid()}"
+            with open(temporary, "w", encoding="utf-8") as handle:
+                json.dump(failure_report, handle, indent=2, ensure_ascii=False)
+            os.replace(temporary, failure_path)
+            raise RuntimeError(
+                f"Strict rubric optimization rejected {q_id}; the active "
+                "rubric was not replaced: " + "; ".join(semantic_validation_errors)
+            )
         final_rubric = prepare_rubric_semantic_contract(draft_rubric)
         refinement_applied = False
         structural_refinement_applied = False
@@ -1329,8 +1405,7 @@ def run_variance_optimization_process(
         ),
         "created_at": datetime.now().isoformat(timespec="seconds"),
     }
-    with open(manifest_path, "w", encoding="utf-8") as handle:
-        json.dump(manifest, handle, indent=2, ensure_ascii=False)
+    save_json_list(manifest_path, manifest)
     logging.info(f"[rubric manifest] saved: {manifest_path}")
 
     if progress_tracker:
@@ -1950,11 +2025,32 @@ if __name__ == "__main__":
             else:
                 variance_questions = VARIANCE_CONFIG
 
-            for q_data in exam_data:
-                if _shutdown_requested:
-                    break
-                q_id = q_data["question_id"]
-                if q_id in variance_questions:
+            # Treat a multi-question optimization as one activation transaction.
+            # Runtime diagnostics/checkpoints remain available after failure, but
+            # active rubric and manifest files are restored to their pre-run bytes.
+            target_questions = [
+                q_data
+                for q_data in exam_data
+                if q_data["question_id"] in variance_questions
+            ]
+            activation_paths = []
+            for q_data in target_questions:
+                for path in (
+                    optimized_rubric_output_path(q_data),
+                    optimization_manifest_path(q_data),
+                ):
+                    activation_paths.append(path)
+            activation_snapshot = snapshot_activation_files(activation_paths)
+
+            try:
+                completed_questions = 0
+                for q_data in target_questions:
+                    if _shutdown_requested:
+                        raise RuntimeError(
+                            "Rubric optimization interrupted before the batch "
+                            "activation transaction completed."
+                        )
+                    q_id = q_data["question_id"]
                     run_variance_optimization_process(
                         q_data,
                         sample_size=variance_questions[q_id],
@@ -1963,7 +2059,21 @@ if __name__ == "__main__":
                         resume_optimization=args.resume_optimization,
                         extraction_backend=args.extraction_backend,
                         ocr_cache_dir=args.ocr_cache_dir,
+                        allow_baseline_fallback=args.allow_baseline_rubric_fallback,
                     )
+                    completed_questions += 1
+                if completed_questions != len(target_questions):
+                    raise RuntimeError(
+                        "Rubric optimization batch ended before all questions "
+                        "completed."
+                    )
+            except BaseException:
+                logging.error(
+                    "[rubric transaction] batch failed; restoring all active "
+                    "rubrics and manifests to their pre-run state."
+                )
+                restore_activation_files(activation_snapshot)
+                raise
 
         elif args.mode == "OCR_ONLY":
             logging.info("🔎 当前处于【仅提取模式】(OCR_ONLY)")

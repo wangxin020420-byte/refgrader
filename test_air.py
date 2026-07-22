@@ -1,20 +1,30 @@
+"""Manual GLM connectivity check; excluded from automatic unit-test calls."""
+
+import os
+
 from zhipuai import ZhipuAI
 
-# 填入你的真实 API KEY
-API_KEY = "2ffa5de4683b4fcf90228c237d2f3fff.XY1MC10RtYaaoXni"
-client = ZhipuAI(api_key=API_KEY)
 
-print("🚀 正在单独测试 glm-4.5-air 连通性...")
+def main() -> int:
+    api_key = os.getenv("ZHIPUAI_API_KEY") or os.getenv("ZHIPU_API_KEY")
+    if not api_key:
+        raise SystemExit("Set ZHIPUAI_API_KEY before running this manual check.")
+    client = ZhipuAI(api_key=api_key)
+    print("Testing glm-4.5-air connectivity...")
+    try:
+        response = client.chat.completions.create(
+            model="glm-4.5-air",
+            messages=[
+                {"role": "user", "content": "Calculate 1+1. Return only the number."}
+            ],
+            timeout=30,
+        )
+        print("Success:", response.choices[0].message.content)
+        return 0
+    except Exception as exc:
+        print("Failed:", type(exc).__name__, exc)
+        return 1
 
-try:
-    response = client.chat.completions.create(
-        model="glm-4.5-air",  # 确保全是小写
-        messages=[
-            {"role": "user", "content": "你好，请计算 1+1 等于几？直接输出数字。"}
-        ],
-        timeout=30
-    )
-    print("✅ 测试成功！模型回复:", response.choices[0].message.content)
-except Exception as e:
-    print("❌ 测试失败！抛出异常:", type(e).__name__)
-    print("详细报错:", e)
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -62,7 +62,10 @@ TEXT_MODEL_FAMILY = MODEL_RUNTIME_CONFIG["text_family"]
 TEXT_THINKING_MODE = MODEL_RUNTIME_CONFIG["text_thinking"]
 
 # Coding Plan 统一配置（OpenAI 兼容接口）
-CODING_PLAN_API_KEY = "132a47a6484e4a9dbfaa51fea40bbae0.LqWjKhw6WcH2sdFs"
+CODING_PLAN_API_KEY = (
+    os.getenv("ZHIPUAI_API_KEY")
+    or os.getenv("ZHIPU_API_KEY")
+)
 CODING_PLAN_BASE_URL = "https://open.bigmodel.cn/api/coding/paas/v4/"
 
 # GLM-4.5-air
@@ -77,7 +80,7 @@ GLM5_MODEL_NAME = TEXT_MODEL_PROFILES["glm5"]["model"]
 GLM47_MODEL_NAME = TEXT_MODEL_PROFILES["glm47"]["model"]
 
 # DeepSeek 配置
-DEEPSEEK_API_KEY = "sk-6lCywlyf1xwXyV8G937sOrRF7kGThWMrwFVksuwGZaAWrAzP"
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 DEEPSEEK_BASE_URL = "https://gpt-agent.cc/v1"
 DEEPSEEK_MODEL_NAME = "deepseek-v4-flash"
 
@@ -91,9 +94,12 @@ MODEL_CONCURRENCY = {
 MAX_WORKERS_OUTER = MODEL_CONCURRENCY.get(TEXT_MODEL_PROVIDER, (3, 3))[0]
 MAX_WORKERS_STAGE2 = MODEL_CONCURRENCY.get(TEXT_MODEL_PROVIDER, (3, 3))[1]
 
-# 全局客户端
-glm_client = OpenAI(api_key=GLM_API_KEY, base_url=GLM_BASE_URL)
-deepseek_client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url=DEEPSEEK_BASE_URL)
+def require_api_key(value, environment_name):
+    if not value:
+        raise RuntimeError(
+            f"Set {environment_name} before calling the configured model."
+        )
+    return value
 
 def render_prompt_template(filename, replacements, fallback):
     """Load a UTF-8 prompt template and replace {{PLACEHOLDER}} tokens."""
@@ -114,8 +120,10 @@ def call_text_model(messages, temperature=0.2, timeout=120):
     """Call the configured text model under one reproducible contract."""
     if TEXT_MODEL_FAMILY == "deepseek":
         api_key, base_url = DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL
+        api_key = require_api_key(api_key, "DEEPSEEK_API_KEY")
     else:
         api_key, base_url = CODING_PLAN_API_KEY, CODING_PLAN_BASE_URL
+        api_key = require_api_key(api_key, "ZHIPUAI_API_KEY")
     for attempt in range(4):
         try:
             client = OpenAI(api_key=api_key, base_url=base_url)
@@ -409,7 +417,10 @@ def stage1_blind_extraction(question_text, student_img_path, blind_checklist, q_
     
     for attempt in range(4):
         try:
-            fresh_client = OpenAI(api_key=GLM_API_KEY, base_url=GLM_BASE_URL)
+            fresh_client = OpenAI(
+                api_key=require_api_key(GLM_API_KEY, "ZHIPUAI_API_KEY"),
+                base_url=GLM_BASE_URL,
+            )
             res = fresh_client.chat.completions.create(model=VLM_MODEL_NAME, messages=[{"role": "user", "content": content_list}], temperature=0.1, timeout=180)
             time.sleep(2)
             raw_result = res.choices[0].message.content.strip()
@@ -1006,7 +1017,10 @@ Return strict JSON in this shape:
         )
     for attempt in range(4):
         try:
-            client = OpenAI(api_key=GLM_API_KEY, base_url=GLM_BASE_URL)
+            client = OpenAI(
+                api_key=require_api_key(GLM_API_KEY, "ZHIPUAI_API_KEY"),
+                base_url=GLM_BASE_URL,
+            )
             response = client.chat.completions.create(
                 model=VLM_MODELS["glm4v"],
                 messages=[{"role": "user", "content": content}],
@@ -1363,7 +1377,10 @@ Rules:
         ])
         for _ in range(2):
             try:
-                fresh_client = OpenAI(api_key=GLM_API_KEY, base_url=GLM_BASE_URL)
+                fresh_client = OpenAI(
+                    api_key=require_api_key(GLM_API_KEY, "ZHIPUAI_API_KEY"),
+                    base_url=GLM_BASE_URL,
+                )
                 res = fresh_client.chat.completions.create(
                     model=VLM_MODEL_NAME,
                     messages=[{"role": "user", "content": content}],
@@ -1642,11 +1659,24 @@ def load_a3wa_runtime_config():
         with open(A3WA_CALIBRATION_CONFIG_PATH, "r", encoding="utf-8") as f:
             loaded = json.load(f)
         if isinstance(loaded, dict):
+            gate = loaded.get("deployment_gate", {})
+            gate_passed = isinstance(gate, dict) and gate.get("passed") is True
+            allow_experimental = (
+                os.getenv("REFGRADER_ALLOW_EXPERIMENTAL_A3WA", "") == "1"
+            )
+            if not gate_passed and not allow_experimental:
+                raise RuntimeError(
+                    "A3WA deployment gate did not pass; refusing formal "
+                    "grading. Use the run_csbench diagnostic override only "
+                    "for an explicitly experimental ablation."
+                )
             _A3WA_RUNTIME_CONFIG = loaded
             print(f"      [A3WA config] loaded {A3WA_CALIBRATION_CONFIG_PATH}")
-            gate = loaded.get("deployment_gate", {})
-            if isinstance(gate, dict) and gate and not gate.get("passed", False):
-                print("      [A3WA config] experimental: validation deployment gate did not pass")
+            if not gate_passed:
+                print("      [A3WA config] experimental override: deployment gate failed")
+    except RuntimeError:
+        _A3WA_RUNTIME_CONFIG = {}
+        raise
     except Exception as exc:
         print(f"      [A3WA config] failed to load {A3WA_CALIBRATION_CONFIG_PATH}: {exc}")
         _A3WA_RUNTIME_CONFIG = {}

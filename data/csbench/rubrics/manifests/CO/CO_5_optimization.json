@@ -3,8 +3,8 @@
   "rubric_semantic_contract_version": 5,
   "question_id": "CO_5",
   "rubric_group": "CO",
-  "source_rubric": "${CSBENCH_ROOT}/rubrics/source/CO/CO_5.json",
-  "initial_rubric": "${PREPARED_CSBENCH_ROOT}/rubrics/initial/CO/CO_5_rubric_standard.json",
+  "source_rubric": "data/csbench/rubrics/source/CO/CO_5.json",
+  "initial_rubric": "data/csbench/rubrics/initial/CO/CO_5_rubric_standard.json",
   "optimized_rubric": "${PREPARED_CSBENCH_ROOT}/rubrics/optimized/CO/CO_5_rubric_standard.json",
   "calibration_answer_ids": [
     "ANS_CO_268",
@@ -16,12 +16,18 @@
   "requested_sample_size": 5,
   "completed_sample_size": 5,
   "extraction_backend": "csbench_hybrid",
+  "model_config": {
+    "text_provider": "glm5",
+    "text_model": "glm-5.2",
+    "text_thinking": "disabled",
+    "vlm_model": "glm-4.6v"
+  },
   "question_total_score": 15.0,
   "initial_total_score": 15.0,
   "optimized_total_score": 15.0,
-  "average_score_variance": 0.4555555555555556,
-  "average_item_variance": 0.15185185185185188,
-  "maximum_item_variance": 1.388888888888889,
+  "average_score_variance": 1.3333333333333335,
+  "average_item_variance": 0.4999999999999999,
+  "maximum_item_variance": 1.3888888888888886,
   "high_value_split_threshold": 4.0,
   "mandatory_split_targets": [
     {
@@ -52,41 +58,41 @@
     "severe_regression_margin": 3.0,
     "accepted": true,
     "reason": "accepted_noninferior",
-    "baseline_mae": 5.333333,
-    "candidate_mae": 4.25,
-    "mae_delta": -1.083333,
-    "improved": 3,
-    "unchanged": 2,
-    "worsened": 0,
+    "baseline_mae": 4.966667,
+    "candidate_mae": 4.55,
+    "mae_delta": -0.416667,
+    "improved": 2,
+    "unchanged": 1,
+    "worsened": 2,
     "severe_regressions": 0,
     "records": [
       {
         "answer_id": "ANS_CO_268",
-        "baseline_score": 0.6666666666666666,
-        "candidate_score": 1.25,
-        "teacher_score": 8.0
-      },
-      {
-        "answer_id": "ANS_CO_285",
-        "baseline_score": 11.666666666666666,
-        "candidate_score": 14.0,
-        "teacher_score": 15.0
-      },
-      {
-        "answer_id": "ANS_CO_289",
         "baseline_score": 0.0,
         "candidate_score": 0.0,
         "teacher_score": 8.0
       },
       {
+        "answer_id": "ANS_CO_285",
+        "baseline_score": 11.166666666666666,
+        "candidate_score": 15.0,
+        "teacher_score": 15.0
+      },
+      {
+        "answer_id": "ANS_CO_289",
+        "baseline_score": 1.3333333333333333,
+        "candidate_score": 0.0,
+        "teacher_score": 8.0
+      },
+      {
         "answer_id": "ANS_CO_301",
-        "baseline_score": 0.0,
-        "candidate_score": 2.5,
+        "baseline_score": 2.5,
+        "candidate_score": 1.25,
         "teacher_score": 8.0
       },
       {
         "answer_id": "ANS_CO_302",
-        "baseline_score": 15.0,
+        "baseline_score": 14.166666666666666,
         "candidate_score": 15.0,
         "teacher_score": 15.0
       }
@@ -98,10 +104,10 @@
   ],
   "source_sha256": "87966bfecfd407ac53965c2ccc312fe954ae2ee00dfd96a1d26de6ce3a605e4b",
   "initial_sha256": "d0d8d9aee97f0ccd0188ef2a7b023ed28ae64a5da500201669d40475d395f8ba",
-  "optimized_sha256": "3bcf84a6c54f1f65d8dcd8ba800e802d1acc00cc4739bfb1603e000d28e322ac",
-  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/restored_rubric_optimization_20260720_125148",
-  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/restored_rubric_optimization_20260720_125148/CO_5_variance_checkpoint.json",
-  "variance_checkpoint_sha256": "7503cfb12268d622aa23399308064e43e507262851288d235e569df649dd7928",
-  "created_at": "2026-07-20T12:37:05",
+  "optimized_sha256": "82ed0703ae361eeaf2e0174cc53a18cb638cc2d7da9b8bf207bc3ac629b9939a",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt/CO_5_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "e64437718cfadf0d898db0d95570cabc654c9c0e247f55c5042dc3ced46554ae",
+  "created_at": "2026-07-22T00:11:55",
   "path_format": "refgrader_placeholders_v1"
 }

@@ -19,9 +19,9 @@
       "optimization_manifest": "rubrics/manifests/CO/CO_1_optimization.json",
       "initial_sha256": "d71c92c8326562fe62b02b5290e1beba096eb7cd937aaedcbbaebf68f0b779a9",
       "optimized_sha256": "a4030adc15320c0ee83fff5fd26e43e6f03e79126ff1c0c2488134e9acf46192",
-      "optimization_manifest_sha256": "9587093fd8b9e5f9eb38d14d97983a7cc4bdd5a67e3c572ed94933984d6bb0e5",
+      "optimization_manifest_sha256": "b53fc8edbdcd6f1e1c3063d5ab06cc698169b2c03949f0784c831f1c878c67e9",
       "split_sha256": "aaec8d1496a1553dcda6df133c384994ce0e28f99a868ab1e47655ea70405182",
-      "optimization_created_at": "2026-07-19T23:28:24",
+      "optimization_created_at": "2026-07-21T23:38:20",
       "calibration_answer_ids": [
         "ANS_CO_109",
         "ANS_CO_11",
@@ -38,10 +38,10 @@
       "optimized_rubric": "rubrics/optimized/CO/CO_2_rubric_standard.json",
       "optimization_manifest": "rubrics/manifests/CO/CO_2_optimization.json",
       "initial_sha256": "ccf8f30ed66fa51b2c955bb7e22e0ccc0c6b4a14f68ae93768b595d9166c3c36",
-      "optimized_sha256": "23fa4494a4c8190bdb3229dc9ae119d4afb5acb66f3b42a94d15755a5ab07fe9",
-      "optimization_manifest_sha256": "1b489e5b18b1cfdaa5f90295742793313e63722aef46f72bae27db721ef75f13",
+      "optimized_sha256": "5b8526b31d11cce27ade7087b0e758574743f875c554f53d341c8f655cf511bd",
+      "optimization_manifest_sha256": "40f6e22776253aaed35e620d55008c5570eeb4df0c60e073772a7f4295f9cc8d",
       "split_sha256": "359c732dcc065997a756d333a380bceb4fed0d139341843da97a491001e8d28a",
-      "optimization_created_at": "2026-07-20T00:29:49",
+      "optimization_created_at": "2026-07-21T23:49:35",
       "calibration_answer_ids": [
         "ANS_CO_532",
         "ANS_CO_535",
@@ -59,9 +59,9 @@
       "optimization_manifest": "rubrics/manifests/CO/CO_3_optimization.json",
       "initial_sha256": "48d16d2d6cc28e420e459b6c5ecbea59c92321ca020a3a6c83adbdfb3dbdbfce",
       "optimized_sha256": "434b0173bf2d0bf2c5a5b532b536af0b06f810dc9927a243a3258af3bcbecabd",
-      "optimization_manifest_sha256": "a28448191292ef9cb9bd18ab7db0aeb880afb478b78055b3026ddf4229a8dda0",
+      "optimization_manifest_sha256": "f83cef9c12fb8b9182401bff0bd68105b61ce7d73e5e97de3f9cb6e6bdd0b671",
       "split_sha256": "0af7cbcbc2421101c3240fef4e1fce0c7d64d0ba1308a22e1517d06250ab1371",
-      "optimization_created_at": "2026-07-20T12:03:44",
+      "optimization_created_at": "2026-07-21T23:56:03",
       "calibration_answer_ids": [
         "ANS_CO_140",
         "ANS_CO_154",
@@ -78,10 +78,10 @@
       "optimized_rubric": "rubrics/optimized/CO/CO_4_rubric_standard.json",
       "optimization_manifest": "rubrics/manifests/CO/CO_4_optimization.json",
       "initial_sha256": "72db467b3af4bb93e018f955fab43f87336e2117921c26bc6714bca038a0db1b",
-      "optimized_sha256": "682084c24dad3ab89daa56a9a5d46150d333b8df7715ad813a077e912638b4e0",
-      "optimization_manifest_sha256": "af46029927c517e66e524b96f7f5b3795d890fe4edfc707962f449071137ead2",
+      "optimized_sha256": "969ef9d16a01786444170cf606c8487b6414ba350c80da6b34531418ecad3d5a",
+      "optimization_manifest_sha256": "deb84a719ed2e366697ba64b2b93f19db23c623aafb5a6cf647d3d5d2aba57ed",
       "split_sha256": "6250369348884c3f7ecde14d491607fd2234d49f334e00443540919ea74caef0",
-      "optimization_created_at": "2026-07-20T12:27:14",
+      "optimization_created_at": "2026-07-22T00:04:57",
       "calibration_answer_ids": [
         "ANS_CO_647",
         "ANS_CO_687",
@@ -98,10 +98,10 @@
       "optimized_rubric": "rubrics/optimized/CO/CO_5_rubric_standard.json",
       "optimization_manifest": "rubrics/manifests/CO/CO_5_optimization.json",
       "initial_sha256": "d0d8d9aee97f0ccd0188ef2a7b023ed28ae64a5da500201669d40475d395f8ba",
-      "optimized_sha256": "3bcf84a6c54f1f65d8dcd8ba800e802d1acc00cc4739bfb1603e000d28e322ac",
-      "optimization_manifest_sha256": "9d1512f4f163ea964e341accc36eadf021cfb1d9cabcbced3ee51287616db850",
+      "optimized_sha256": "82ed0703ae361eeaf2e0174cc53a18cb638cc2d7da9b8bf207bc3ac629b9939a",
+      "optimization_manifest_sha256": "f896ae536c6b86dec5272ce0d5c243e5209f78b7da80e5d90593ccf7e9eb78ca",
       "split_sha256": "5f72da0785ccd6f05a3a17ca177d78aa29166a724db5b201a1408243fdba4619",
-      "optimization_created_at": "2026-07-20T12:37:05",
+      "optimization_created_at": "2026-07-22T00:11:55",
       "calibration_answer_ids": [
         "ANS_CO_268",
         "ANS_CO_285",
@@ -119,9 +119,9 @@
       "optimization_manifest": "rubrics/manifests/CO/CO_6_optimization.json",
       "initial_sha256": "e6e279a921a11b918747cba70cd5156797ae21280ab8e289e9f24e5fdeda20ae",
       "optimized_sha256": "2fdfea7c0edcc064ea46489bfbfa4bc1e35ddfd7dc3ba1659b72474a74043c7a",
-      "optimization_manifest_sha256": "d20350b29aefe1981fdedd001b07399a11ddd03bc1f8ed3fb68173524980b7c5",
+      "optimization_manifest_sha256": "1a391bc6fc57561e956068f0f0bef64d5f5ac3454c2990ddafaf87fd9893daf3",
       "split_sha256": "ee0da96a0f4d69c6f273c3d8e56cc23d697fed0c9409d6388cc630b012bffc7c",
-      "optimization_created_at": "2026-07-20T12:43:11",
+      "optimization_created_at": "2026-07-22T00:19:42",
       "calibration_answer_ids": [
         "ANS_CO_382",
         "ANS_CO_383",
@@ -138,10 +138,10 @@
       "optimized_rubric": "rubrics/optimized/CO/CO_7_rubric_standard.json",
       "optimization_manifest": "rubrics/manifests/CO/CO_7_optimization.json",
       "initial_sha256": "043d42144b2347180478367a2a4dd781ff314e729b250f48fb316ba102d157c9",
-      "optimized_sha256": "077c2e9bc4fc4233515bec6802b162e98ae64de540ec4ad686cb5507bb37eaaf",
-      "optimization_manifest_sha256": "3176775e28990118ac81f1c220b6535d04f48527c5b982d609169e6e0167fda9",
+      "optimized_sha256": "98789f8b90ffca253a32c5b70c74a8c13a3fdd00010508ebff8121c5280a0054",
+      "optimization_manifest_sha256": "67e98665f3833d1691e8596b94e5faebb894734bcea76fd7d85b2acc5d816562",
       "split_sha256": "7af635e47fbea8fce92454a3d2159bdc3e38ff206738a8458792363cec653456",
-      "optimization_created_at": "2026-07-20T12:51:46",
+      "optimization_created_at": "2026-07-22T00:25:44",
       "calibration_answer_ids": [
         "ANS_CO_471",
         "ANS_CO_474",
@@ -154,7 +154,7 @@
   "active_a3wa": {
     "status": "active",
     "path": "calibration/active_a3wa_config.json",
-    "sha256": "1c332560adf1aef5f3e693941fecb0cb785695eb1abacdf7909f16d814fb963d",
+    "sha256": "d4ed8bfe96b7514b320529872a218c3a230ed2df1938c67b29def0b71aef3936",
     "questions": [
       "CO_1",
       "CO_2",
@@ -166,12 +166,12 @@
     ],
     "optimized_rubric_sha256": {
       "CO_1": "a4030adc15320c0ee83fff5fd26e43e6f03e79126ff1c0c2488134e9acf46192",
-      "CO_2": "23fa4494a4c8190bdb3229dc9ae119d4afb5acb66f3b42a94d15755a5ab07fe9",
+      "CO_2": "5b8526b31d11cce27ade7087b0e758574743f875c554f53d341c8f655cf511bd",
       "CO_3": "434b0173bf2d0bf2c5a5b532b536af0b06f810dc9927a243a3258af3bcbecabd",
-      "CO_4": "682084c24dad3ab89daa56a9a5d46150d333b8df7715ad813a077e912638b4e0",
-      "CO_5": "3bcf84a6c54f1f65d8dcd8ba800e802d1acc00cc4739bfb1603e000d28e322ac",
+      "CO_4": "969ef9d16a01786444170cf606c8487b6414ba350c80da6b34531418ecad3d5a",
+      "CO_5": "82ed0703ae361eeaf2e0174cc53a18cb638cc2d7da9b8bf207bc3ac629b9939a",
       "CO_6": "2fdfea7c0edcc064ea46489bfbfa4bc1e35ddfd7dc3ba1659b72474a74043c7a",
-      "CO_7": "077c2e9bc4fc4233515bec6802b162e98ae64de540ec4ad686cb5507bb37eaaf"
+      "CO_7": "98789f8b90ffca253a32c5b70c74a8c13a3fdd00010508ebff8121c5280a0054"
     },
     "validation_split_sha256": {
       "CO_1": "aaec8d1496a1553dcda6df133c384994ce0e28f99a868ab1e47655ea70405182",
@@ -182,16 +182,16 @@
       "CO_6": "ee0da96a0f4d69c6f273c3d8e56cc23d697fed0c9409d6388cc630b012bffc7c",
       "CO_7": "7af635e47fbea8fce92454a3d2159bdc3e38ff206738a8458792363cec653456"
     },
-    "source_validation_run_id": "20260721_111025",
+    "source_validation_run_id": "glm52_off_all7_validation_20260721_233203",
     "score_calibration_enabled": true,
     "model_config": {
-      "text_provider": "glm47",
-      "text_model": "glm-4.7",
+      "text_provider": "glm5",
+      "text_model": "glm-5.2",
       "text_family": "glm",
       "text_thinking": "disabled",
       "vlm_provider": "glm4v",
       "vlm_model": "glm-4.6v"
     }
   },
-  "updated_at": "2026-07-21T12:09:58"
+  "updated_at": "2026-07-22T00:56:55"
 }

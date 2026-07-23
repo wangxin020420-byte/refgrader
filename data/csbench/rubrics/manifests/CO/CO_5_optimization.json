@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "rubric_semantic_contract_version": 5,
+  "rubric_semantic_contract_version": 6,
   "question_id": "CO_5",
   "rubric_group": "CO",
   "source_rubric": "data/csbench/rubrics/source/CO/CO_5.json",
@@ -44,6 +44,7 @@
   "metadata_enriched": false,
   "semantic_policy_validated": true,
   "semantic_validation_mode": "strict_candidate_contract",
+  "selected_variant": "candidate",
   "semantic_validation_errors": [],
   "fallback_reason": null,
   "decomposition_deferred": false,
@@ -59,11 +60,11 @@
     "accepted": true,
     "reason": "accepted_noninferior",
     "baseline_mae": 4.966667,
-    "candidate_mae": 4.55,
-    "mae_delta": -0.416667,
-    "improved": 2,
+    "candidate_mae": 4.8,
+    "mae_delta": -0.166667,
+    "improved": 3,
     "unchanged": 1,
-    "worsened": 2,
+    "worsened": 1,
     "severe_regressions": 0,
     "records": [
       {
@@ -75,19 +76,19 @@
       {
         "answer_id": "ANS_CO_285",
         "baseline_score": 11.166666666666666,
-        "candidate_score": 15.0,
+        "candidate_score": 12.5,
         "teacher_score": 15.0
       },
       {
         "answer_id": "ANS_CO_289",
         "baseline_score": 1.3333333333333333,
-        "candidate_score": 0.0,
+        "candidate_score": 2.5,
         "teacher_score": 8.0
       },
       {
         "answer_id": "ANS_CO_301",
         "baseline_score": 2.5,
-        "candidate_score": 1.25,
+        "candidate_score": 0.0,
         "teacher_score": 8.0
       },
       {
@@ -104,10 +105,10 @@
   ],
   "source_sha256": "87966bfecfd407ac53965c2ccc312fe954ae2ee00dfd96a1d26de6ce3a605e4b",
   "initial_sha256": "d0d8d9aee97f0ccd0188ef2a7b023ed28ae64a5da500201669d40475d395f8ba",
-  "optimized_sha256": "82ed0703ae361eeaf2e0174cc53a18cb638cc2d7da9b8bf207bc3ac629b9939a",
+  "optimized_sha256": "ea8e3b70bdbdfb8922c9093ea319e53e6ce25cc3ba43cb92532e35c63d0c3060",
   "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt",
   "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt/CO_5_variance_checkpoint.json",
   "variance_checkpoint_sha256": "e64437718cfadf0d898db0d95570cabc654c9c0e247f55c5042dc3ced46554ae",
-  "created_at": "2026-07-22T00:11:55",
+  "created_at": "2026-07-22T23:31:57",
   "path_format": "refgrader_placeholders_v1"
 }

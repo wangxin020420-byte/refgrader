@@ -30,6 +30,7 @@ from scripts.run_csbench import (
     validate_active_configuration,
 )
 from model_runtime import runtime_model_config
+from sample_quality import SampleQualityPolicy, default_policy_path
 
 
 class CSBenchArtifactSyncTests(unittest.TestCase):
@@ -358,6 +359,20 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             )
             (prepared / "teacher_scores.json").write_text("{}", encoding="utf-8")
             (prepared / "answer_metadata.jsonl").write_text("", encoding="utf-8")
+            policy_path = default_policy_path(prepared)
+            policy_path.parent.mkdir(parents=True, exist_ok=True)
+            policy_path.write_text(
+                json.dumps({
+                    "schema_version": 1,
+                    "policy_id": "test-review-v1",
+                    "excluded": {},
+                    "corrected_scores": {"CO_1": {"B": 4}},
+                }),
+                encoding="utf-8",
+            )
+            policy_descriptor = SampleQualityPolicy.load(
+                prepared
+            ).descriptor()
             split = prepared / "splits" / "by_question" / "CO_1.json"
             split.parent.mkdir(parents=True)
             split.write_text(
@@ -395,7 +410,10 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             (validation / "run_state.json").write_text(
                 json.dumps({
                     "run_id": "legacy",
-                    "signature": {"model_config": runtime_model_config()},
+                    "signature": {
+                        "model_config": runtime_model_config(),
+                        "sample_quality_policy": policy_descriptor,
+                    },
                 }),
                 encoding="utf-8",
             )
@@ -434,14 +452,86 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             self.assertEqual(
                 run_manifest["model_config"], runtime_model_config()
             )
+            self.assertEqual(
+                run_manifest["sample_quality_policy"],
+                policy_descriptor,
+            )
+            self.assertTrue(
+                (
+                    destination
+                    / "dataset"
+                    / "sample_quality_policy.json"
+                ).is_file()
+            )
             index = json.loads(
                 (artifacts / "csbench" / "index.json").read_text(encoding="utf-8")
             )
             self.assertEqual(len(index), 1)
 
+            audit = root / "results_runs" / "csbench_co1_all"
+            audit.mkdir(parents=True)
+            audit_record = json.dumps([
+                {"student_id": "A", "3wd_route": "POS"},
+                {"student_id": "T", "3wd_route": "BND"},
+            ])
+            (audit / "CO_1_grading_checkpoint.json").write_text(
+                audit_record, encoding="utf-8"
+            )
+            (audit / "CO_1_graded_results.json").write_text(
+                audit_record, encoding="utf-8"
+            )
+            audit_args = SimpleNamespace(
+                prepared_dir=str(prepared),
+                questions=["CO_1"],
+                artifacts_repo=str(artifacts),
+                stage="audit",
+                run_id="audit1",
+                include_raw_ocr=False,
+                include_facts=False,
+                push=False,
+                a3wa_config=None,
+                a3wa_config_questions=[],
+            )
+            with patch("scripts.run_csbench.PROJECT_ROOT", root):
+                self.assertEqual(publish(audit_args), 0)
+            audit_destination = (
+                artifacts
+                / "csbench"
+                / "CO_1"
+                / "audit_runs"
+                / "audit1"
+            )
+            self.assertTrue(
+                (
+                    audit_destination
+                    / "grading"
+                    / "grading_checkpoint.json"
+                ).is_file()
+            )
+            audit_manifest = json.loads(
+                (audit_destination / "run_manifest.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(audit_manifest["answer_split"], "all")
+            self.assertEqual(audit_manifest["published_stage"], "audit")
+            audit_completion = json.loads(
+                (
+                    audit_destination
+                    / "grading"
+                    / "completion_report.json"
+                ).read_text(encoding="utf-8")
+            )
+            self.assertEqual(
+                audit_completion["questions"]["CO_1"]["raw_expected_count"],
+                2,
+            )
+
             optimized.unlink()
             manifest.unlink()
             for result_file in validation.glob("*.json"):
+                result_file.unlink()
+            for result_file in audit.glob("*.json"):
                 result_file.unlink()
 
             from scripts import restore_csbench_artifacts as restore_module
@@ -471,6 +561,30 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                     validation
                     / "runs"
                     / "run1"
+                    / "CO_1_grading_checkpoint.json"
+                ).is_file()
+            )
+
+            audit_argv = [
+                "restore_csbench_artifacts.py",
+                "CO_1",
+                "--stage", "audit",
+                "--run-id", "audit1",
+                "--artifacts-repo", str(artifacts),
+                "--prepared-dir", str(prepared),
+                "--force",
+            ]
+            with (
+                patch("scripts.run_csbench.PROJECT_ROOT", root),
+                patch.object(restore_module, "PROJECT_ROOT", root),
+                patch.object(sys, "argv", audit_argv),
+            ):
+                self.assertEqual(restore_module.main(), 0)
+            self.assertTrue(
+                (
+                    audit
+                    / "runs"
+                    / "audit1"
                     / "CO_1_grading_checkpoint.json"
                 ).is_file()
             )

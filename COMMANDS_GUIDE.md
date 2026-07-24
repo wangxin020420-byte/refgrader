@@ -11,6 +11,11 @@ CSBench 实验统一使用 `scripts/run_csbench.py`。更换题目时只需要�
 
 本节是日常实验的默认入口。评分准则、七题 validation 和 A3WA 配置已经生成并提交后，当前批准的配置位于 `data/csbench`。任何设备拉取 `refgrader-main` 后都使用同一份哈希校验配置，不再从本机 `results_runs` 猜测“最近一个”配置。
 
+教师标签审计与活动样本策略的命令见
+`CSBENCH_GUIDE.md` 的“教师标签质量控制”。活动策略不存在时，所有命令保持原始数据行为；策略存在时，批改、校准、评估和断点续传自动使用同一策略，不需要为日常 `grade` 命令增加参数。
+
+完整教师标签审计使用 `grade ... --split all`。运行结束后，批改 checkpoint、失败记录、进度和运行清单会自动复制到 `refgrader-artifacts/csbench/<题号>/audit_runs/<run_id>`；候选报告仍保存在 `refgrader-main/data/csbench/quality_control`，由 `refgrader-main` 自身同步。另一台设备可使用 `restore_csbench_artifacts.py ... --stage audit --run-id <run_id>` 恢复同一轮完整审计结果。不要添加 `--no-artifacts`，否则会明确关闭自动复制。
+
 只正式批改任意题目，例如 CO_5、CO_6：
 
 ```powershell

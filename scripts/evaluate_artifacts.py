@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -55,9 +56,11 @@ def stage_artifact_results(
     questions: list[str],
     run_id: str,
     results_dir: Path,
-) -> dict[str, dict]:
+) -> tuple[dict[str, dict], Path | None]:
     results_dir.mkdir(parents=True, exist_ok=True)
     completion = {}
+    policy_descriptors = []
+    policy_sources = []
     for question in questions:
         run_dir = artifacts_repo / "csbench" / question / "grading_runs" / run_id
         grading_dir = run_dir / "grading"
@@ -73,18 +76,56 @@ def stage_artifact_results(
             shutil.copy2(source, target)
         report_path = grading_dir / "completion_report.json"
         manifest_path = run_dir / "run_manifest.json"
+        manifest = (
+            json.loads(manifest_path.read_text(encoding="utf-8-sig"))
+            if manifest_path.is_file()
+            else {}
+        )
+        policy_descriptor = manifest.get("sample_quality_policy") or {
+            "mode": "raw",
+            "policy_id": "raw",
+            "sha256": None,
+        }
+        policy_descriptors.append(policy_descriptor)
+        if policy_descriptor.get("mode") == "active":
+            policy_source = run_dir / "dataset" / "sample_quality_policy.json"
+            if not policy_source.is_file():
+                raise FileNotFoundError(
+                    "Active sample-quality policy is missing from artifact: "
+                    f"{policy_source}"
+                )
+            policy_sources.append(policy_source)
         if report_path.is_file():
             report = json.loads(report_path.read_text(encoding="utf-8-sig"))
             question_report = report.get("questions", {}).get(question, {})
         elif manifest_path.is_file():
-            manifest = json.loads(
-                manifest_path.read_text(encoding="utf-8-sig")
-            )
             question_report = manifest.get("completion") or {}
         else:
             question_report = {}
         completion[question] = question_report
-    return completion
+    serialized = {
+        json.dumps(value, ensure_ascii=False, sort_keys=True)
+        for value in policy_descriptors
+    }
+    if len(serialized) != 1:
+        raise ValueError(
+            "Requested artifacts used different sample-quality policies."
+        )
+    staged_policy = None
+    descriptor = policy_descriptors[0]
+    if descriptor.get("mode") == "active":
+        if len(policy_sources) != len(questions):
+            raise ValueError(
+                "Sample-quality policy is missing from one or more artifacts."
+            )
+        payloads = {source.read_bytes() for source in policy_sources}
+        if len(payloads) != 1:
+            raise ValueError(
+                "Requested artifacts contain different policy payloads."
+            )
+        staged_policy = results_dir / "sample_quality_policy.json"
+        shutil.copy2(policy_sources[0], staged_policy)
+    return completion, staged_policy
 
 
 def build_evaluate_command(args: argparse.Namespace, questions: list[str], results_dir: Path) -> list[str]:
@@ -218,7 +259,7 @@ def main() -> int:
         output_dir.mkdir(parents=True, exist_ok=True)
         args.summary_output = output_dir / f"csbench_{slug}_{run_id}_summary.json"
 
-    completion = stage_artifact_results(
+    completion, staged_policy = stage_artifact_results(
         artifacts_repo=args.artifacts_repo,
         questions=questions,
         run_id=run_id,
@@ -246,7 +287,14 @@ def main() -> int:
     print("Running:", " ".join(str(part) for part in cmd), flush=True)
     if args.dry_run:
         return 0
-    return subprocess.run(cmd, cwd=PROJECT_ROOT).returncode
+    env = os.environ.copy()
+    if staged_policy:
+        env["REFGRADER_SAMPLE_POLICY"] = str(staged_policy)
+        env.pop("REFGRADER_SAMPLE_POLICY_MODE", None)
+    else:
+        env["REFGRADER_SAMPLE_POLICY_MODE"] = "raw"
+        env.pop("REFGRADER_SAMPLE_POLICY", None)
+    return subprocess.run(cmd, cwd=PROJECT_ROOT, env=env).returncode
 
 
 if __name__ == "__main__":

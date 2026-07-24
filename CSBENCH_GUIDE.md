@@ -149,6 +149,70 @@ python scripts/run_csbench.py evaluate CO_3 --export
 - 如只做提取冒烟测试，可显式增加 `--allow-initial-rubric`。
 - `data/csbench/` 是版本化的内嵌批改快照；当前 `rubrics/optimized`、`rubrics/manifests`、`active_rubric_set.json` 和 `calibration/active_a3wa_config.json` 必须提交，用于保证不同设备正式批改配置一致。`ocr_cache/`、`results_runs/` 和日志仍不提交 Git。
 
+### 6.1 教师标签质量控制
+
+教师标签去噪采用“原始数据不可变、候选自动筛查、人工确认、读取时应用”的四步流程。图片、`teacher_scores.json`、`answer_metadata.jsonl` 和 split 文件不移动、不改写；因此原始实验始终可以通过设置环境变量
+`REFGRADER_SAMPLE_POLICY_MODE=raw` 复现。
+
+1. 对全部 split 重新评分，生成可跨设备恢复的完整审计运行：
+
+```powershell
+$RunId = "teacher_audit_all7_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
+.\venv\Scripts\python.exe scripts\run_csbench.py grade `
+  CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 `
+  --split all `
+  --force `
+  --run-id $RunId `
+  --no-active-a3wa
+```
+
+不要添加 `--no-artifacts`。运行结束后，结果会自动复制到
+`refgrader-artifacts/csbench/<题号>/audit_runs/<run_id>`。如果存在失败样本，
+已完成 checkpoint 和失败清单仍会复制；使用同一 `run_id` 断点续传后会更新
+同一 artifact 目录。另一台设备恢复命令：
+
+```powershell
+.\venv\Scripts\python.exe scripts\restore_csbench_artifacts.py `
+  CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 `
+  --stage audit `
+  --run-id <run_id> `
+  --force
+```
+
+2. 从一轮现有批改 checkpoint 生成候选：
+
+```powershell
+.\venv\Scripts\python.exe scripts\audit_teacher_labels.py `
+  CO_1 CO_2 CO_3 CO_4 CO_5 CO_6 CO_7 `
+  --results-dir "results_runs\<批次目录>\runs\<run_id>"
+```
+
+候选依据题内鲁棒差值阈值产生，同时输出 `U_E/U_S/U_R`、提取质量、路由和多个模型分数。候选只表示“需要复核”，不能直接判为教师噪声；存在提取风险、评分不稳定或 rubric 映射风险时会降为 `P2`。
+
+3. 在生成的 `teacher_label_candidates.csv` 中填写：
+
+- `confirmed_noise`：确认教师标签不可用于实验；
+- `corrected`：保留样本，并在 `corrected_score` 填写复核分；
+- `retained_hard_case`：教师标签有效，只是模型难例；
+- `ambiguous`：暂不处理，继续保留。
+
+4. 先生成候选策略供检查，再显式启用：
+
+```powershell
+.\venv\Scripts\python.exe scripts\compile_sample_quality_policy.py `
+  --decisions "data\csbench\quality_control\reports\<报告目录>\teacher_label_candidates.csv" `
+  --output "data\csbench\quality_control\policies\candidate_policy.json"
+
+.\venv\Scripts\python.exe scripts\compile_sample_quality_policy.py `
+  --decisions "data\csbench\quality_control\reports\<报告目录>\teacher_label_candidates.csv" `
+  --policy-id "co_teacher_review_v1" `
+  --activate
+```
+
+5. 提交活动策略后，所有设备拉取同一版本。批改、rubric optimization、validation、A3WA/残差校准和正式评估都会统一排除 `confirmed_noise`，并使用 `corrected` 的复核分。策略描述和哈希进入 active 配置、A3WA 配置、checkpoint run signature、completion report 和 artifacts；策略发生变化时，旧运行不能被误续跑。
+
+`ambiguous` 与 `retained_hard_case` 默认不排除，避免把模型错误或评分准则错误误判为教师噪声。正式论文应同时报告原始标签结果、清洗后主结果、排除数量与规则，并保留策略文件作为可审计证据。
+
 ## 7. 评分准则语义契约
 
 评分准则优化遵循“官方父项不变、证据结构细化”的约束：

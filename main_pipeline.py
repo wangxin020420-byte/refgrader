@@ -42,6 +42,7 @@ from step4_vlm_grader import (
     MAX_WORKERS_OUTER,
 )
 from ocr.backend import ensure_paddle_ocr_cache, ocr_json_path
+from sample_quality import SampleQualityPolicy
 
 if hasattr(sys.stdout, "reconfigure"):
     try:
@@ -65,6 +66,7 @@ ANSWER_METADATA_PATH = None
 # 全局变量，用于缓存加载的成绩单，避免每次都读文件
 _GLOBAL_SCORES_DB = None
 _GLOBAL_ANSWER_METADATA = None
+SAMPLE_QUALITY_POLICY = SampleQualityPolicy.raw()
 
 # 优雅关闭标志
 _shutdown_requested = False
@@ -387,6 +389,19 @@ def parse_args():
             "Optional per-question answer partition. Use test for final CSBench "
             "experiments. Default: all."
         ),
+    )
+    parser.add_argument(
+        "--sample-policy",
+        default=None,
+        help=(
+            "Optional sample-quality policy JSON. When omitted, the active "
+            "policy under the prepared CSBench root is used if present."
+        ),
+    )
+    parser.add_argument(
+        "--raw-sample-policy",
+        action="store_true",
+        help="Ignore any active sample-quality policy for a raw-data run.",
     )
     return parser.parse_args()
 
@@ -724,12 +739,18 @@ def rubric_total(rubric):
 def load_calibration_ids(q_data):
     ids = q_data.get("rubric_calibration_ids")
     if isinstance(ids, list):
-        return [str(value) for value in ids]
+        return sorted(
+            SAMPLE_QUALITY_POLICY.filter_ids(q_data["question_id"], ids)
+        )
     split_path = q_data.get("rubric_split_path")
     if split_path and os.path.exists(split_path):
         with open(split_path, "r", encoding="utf-8") as handle:
             payload = json.load(handle)
-        return [str(value) for value in payload.get("calibration", [])]
+        return sorted(
+            SAMPLE_QUALITY_POLICY.filter_ids(
+                q_data["question_id"], payload.get("calibration", [])
+            )
+        )
     return []
 
 
@@ -745,7 +766,9 @@ def answer_ids_for_split(q_data, split_name):
         )
     with open(split_path, "r", encoding="utf-8") as handle:
         payload = json.load(handle)
-    return {str(value) for value in payload.get(split_name, [])}
+    return SAMPLE_QUALITY_POLICY.filter_ids(
+        q_data["question_id"], payload.get(split_name, [])
+    )
 
 
 def select_question_images(image_files, img_limit, q_data, answer_split="all"):
@@ -755,6 +778,14 @@ def select_question_images(image_files, img_limit, q_data, answer_split="all"):
             filename
             for filename in image_files
             if os.path.splitext(filename)[0] in allowed_ids
+        ]
+    elif SAMPLE_QUALITY_POLICY.mode == "active":
+        image_files = [
+            filename
+            for filename in image_files
+            if not SAMPLE_QUALITY_POLICY.is_excluded(
+                q_data["question_id"], os.path.splitext(filename)[0]
+            )
         ]
     return selected_image_files(image_files, img_limit)
 
@@ -775,7 +806,14 @@ def get_teacher_score_from_your_database(student_id, q_id):
 
     student_record = _GLOBAL_SCORES_DB.get(student_id, {})
     score = student_record.get(q_id, 0.0)
-    return float(score)
+    effective = SAMPLE_QUALITY_POLICY.effective_teacher_score(
+        q_id, student_id, score
+    )
+    if effective is None:
+        raise ValueError(
+            f"Excluded sample reached teacher-score lookup: {q_id}/{student_id}"
+        )
+    return float(effective)
 
 
 def load_answer_metadata():
@@ -2013,6 +2051,11 @@ if __name__ == "__main__":
     DATABASE_PATH = args.database_path
     TEACHER_DB_PATH = args.teacher_db
     ANSWER_METADATA_PATH = args.answer_metadata
+    SAMPLE_QUALITY_POLICY = SampleQualityPolicy.load(
+        Path(args.teacher_db).expanduser().resolve().parent,
+        explicit_path=args.sample_policy,
+        force_raw=args.raw_sample_policy,
+    )
     INITIAL_RUBRIC_DIR = args.initial_rubric_dir
     ALLOW_INITIAL_RUBRIC = args.allow_initial_rubric
     if args.results_dir:
@@ -2075,6 +2118,14 @@ if __name__ == "__main__":
     logging.info(f"   提取后端: {args.extraction_backend}")
     logging.info(f"   题库文件: {DATABASE_PATH}")
     logging.info(f"   教师分文件: {TEACHER_DB_PATH}")
+    policy_descriptor = SAMPLE_QUALITY_POLICY.descriptor()
+    logging.info(
+        "   Sample quality policy: "
+        f"{policy_descriptor['policy_id']} "
+        f"(mode={policy_descriptor['mode']}, "
+        f"excluded={policy_descriptor['excluded_count']}, "
+        f"corrected={policy_descriptor['corrected_count']})"
+    )
     if ANSWER_METADATA_PATH:
         logging.info(f"   答案元数据: {ANSWER_METADATA_PATH}")
     logging.info(f"   并发数:   {MAX_WORKERS_OUTER}")
@@ -2110,6 +2161,7 @@ if __name__ == "__main__":
         "teacher_db": TEACHER_DB_PATH,
         "answer_metadata": ANSWER_METADATA_PATH,
         "answer_split": args.answer_split,
+        "sample_quality_policy": policy_descriptor,
     }
     tracker = ProgressTracker(
         progress_path=progress_path,

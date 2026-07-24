@@ -42,6 +42,7 @@ import os
 import numpy as np
 from collections import Counter
 from scipy import stats
+from sample_quality import SampleQualityPolicy, load_policy_for_data_path
 try:
     from sklearn.metrics import mean_absolute_error, mean_squared_error, cohen_kappa_score
 except ModuleNotFoundError:
@@ -106,6 +107,7 @@ RUBRIC_DIR = RESULTS_DIR
 TEACHER_DB = "./database/teacher_scores.json"
 DATABASE_PATH = "./database/exam_database.json"
 RESULT_SOURCE = "graded"
+SAMPLE_QUALITY_POLICY = SampleQualityPolicy.raw()
 
 SCORE_KEY_LABEL = {
     "final_calibrated_score": "3WD final score",
@@ -207,10 +209,15 @@ def load_teacher_scores():
 def get_teacher(ts_db, student_id, q_id):
     record = ts_db.get(student_id)
     if isinstance(record, dict) and q_id in record:
-        return record.get(q_id)
+        return SAMPLE_QUALITY_POLICY.effective_teacher_score(
+            q_id, student_id, record.get(q_id)
+        )
     # Backward compatibility for legacy E12314093_Q2 result IDs.
     pure_id = student_id.split("_")[0]
-    return ts_db.get(pure_id, {}).get(q_id, None)
+    value = ts_db.get(pure_id, {}).get(q_id, None)
+    return SAMPLE_QUALITY_POLICY.effective_teacher_score(
+        q_id, pure_id, value
+    )
 
 
 def load_score_map(database_path):
@@ -1069,6 +1076,7 @@ def evaluate_question(q_id, total_score, ts_db, score_key="final_calibrated_scor
 
 def main():
     global RESULT_SOURCE, RESULTS_DIR, RUBRIC_DIR, TEACHER_DB, DATABASE_PATH
+    global SAMPLE_QUALITY_POLICY
 
     parser = argparse.ArgumentParser(description="RefGrader evaluation script")
     parser.add_argument("--questions", nargs="+", default=["Q4", "Q5", "Q6", "Q7"],
@@ -1108,6 +1116,7 @@ def main():
     RUBRIC_DIR = args.rubric_dir or RESULTS_DIR
     TEACHER_DB = args.teacher_db
     DATABASE_PATH = args.database_path
+    SAMPLE_QUALITY_POLICY = load_policy_for_data_path(TEACHER_DB)
     score_map = load_score_map(DATABASE_PATH)
     try:
         compare_score_keys = normalize_score_keys(args.compare_score_keys)

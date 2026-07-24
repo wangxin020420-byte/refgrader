@@ -1,5 +1,34 @@
 # Current Progress
 
+## 2026-07-24 Cross-Device Teacher-Label Audit Runs
+
+Complete `grade --split all` runs are now publishable artifact stages. Each
+question is copied to `audit_runs/<run_id>` with its full checkpoint, routed
+result files, completion report, exact rubric, model contract, split and sample
+policy. Resuming and republishing the same logical run updates the same
+artifact directory. Another device can restore the run with `--stage audit`
+into the same versioned `results_runs/.../runs/<run_id>` layout. Candidate
+reports and reviewed quality policies remain tracked in `refgrader-main`.
+
+## 2026-07-24 Auditable Teacher-Label Quality Layer
+
+CSBench teacher-label cleaning now uses a non-destructive, review-first
+workflow. Existing checkpoints can generate disagreement candidates with
+teacher/model residuals, `U_E/U_S/U_R`, extraction quality, route, and
+confounding signals. Candidates do not change the dataset. Human decisions are
+compiled into one optional tracked policy: confirmed noise is excluded,
+reviewed corrections overlay teacher scores, and ambiguous or valid hard cases
+remain available.
+
+The shared policy is applied consistently to rubric calibration, validation,
+A3WA and residual calibration, test grading, evaluation, result completeness,
+and resume signatures. Its dataset hashes prevent reuse after a data import.
+Active policies are copied into artifacts and restored or staged for historical
+evaluation, so different devices cannot silently evaluate one run with another
+label policy. With no active policy file, behavior remains identical to the
+previous raw-data pipeline. Raw answer, image, teacher-score, and split files
+are never moved or rewritten.
+
 ## 2026-07-22 Unattended, resumable GLM-5.2 workflow
 
 The Windows all-seven calibration plus CO_4 test workflow is now self-healing

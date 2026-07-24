@@ -21,6 +21,7 @@ from calibration_utils import (  # noqa: E402
     safe_float,
 )
 from model_runtime import runtime_model_config  # noqa: E402
+from sample_quality import load_policy_for_data_path  # noqa: E402
 
 
 LEGACY_SCORES_MAP = {
@@ -99,13 +100,18 @@ def question_id_from_path(path):
     return name
 
 
-def load_records(files, teacher_db, question_scores):
+def load_records(files, teacher_db, question_scores, sample_policy=None):
     records = []
     for path in files:
         qid = question_id_from_path(path)
         max_score = question_scores.get(qid, LEGACY_SCORES_MAP.get(qid, 20))
         for row in load_json(path):
-            teacher = teacher_score(teacher_db, row.get("student_id", ""), qid)
+            student_id = row.get("student_id", "")
+            teacher = teacher_score(teacher_db, student_id, qid)
+            if sample_policy is not None:
+                teacher = sample_policy.effective_teacher_score(
+                    qid, student_id, teacher
+                )
             avg = row.get("selected_baseline_score", row.get("model_avg_score"))
             final = row.get("final_calibrated_score")
             if teacher is None or teacher < 0 or avg is None or final is None:
@@ -813,9 +819,12 @@ def main():
         parser.error("--boundary-action-min-count must be at least 1")
 
     teacher_db = load_json(args.teacher_db)
+    sample_policy = load_policy_for_data_path(args.teacher_db)
     question_scores = load_question_scores(args.database_path)
     input_files = expand_input_files(args.files)
-    records = load_records(input_files, teacher_db, question_scores)
+    records = load_records(
+        input_files, teacher_db, question_scores, sample_policy
+    )
     if not records:
         raise SystemExit("No valid records found for calibration.")
 
@@ -970,6 +979,7 @@ def main():
         },
         "database_path": args.database_path,
         "teacher_db": args.teacher_db,
+        "sample_quality_policy": sample_policy.descriptor(),
         "files": input_files,
         "selection_objective": "constrained_expected_system_cost",
         "loss_params": best["loss_params"],

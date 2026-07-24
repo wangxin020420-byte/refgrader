@@ -44,6 +44,7 @@ from model_runtime import (
     model_environment,
     runtime_model_config,
 )
+from sample_quality import SampleQualityPolicy
 
 DEFAULT_OCR_DEVICE = "cpu" if os.name == "nt" else "gpu:0"
 ACTIVE_RUBRIC_SET_SCHEMA_VERSION = 1
@@ -399,6 +400,44 @@ def build_publish_command(
     return command
 
 
+def sample_quality_policy(ctx: "CSBenchContext") -> SampleQualityPolicy:
+    root = getattr(ctx, "root", None)
+    if root is None:
+        # Lightweight synthetic contexts used by unit tests predate the
+        # prepared-root field and intentionally exercise raw compatibility.
+        return SampleQualityPolicy.raw()
+    return SampleQualityPolicy.load(root)
+
+
+def sample_quality_descriptors_match(
+    expected: dict[str, Any] | None,
+    current: dict[str, Any],
+) -> bool:
+    return expected == current or (
+        expected is None and current.get("mode") == "raw"
+    )
+
+
+def raw_split_ids(ctx: "CSBenchContext", split_name: str) -> set[str]:
+    split = json.loads(ctx.split_file.read_text(encoding="utf-8"))
+    if split_name == "all":
+        return {
+            str(answer_id)
+            for name in ("calibration", "validation", "test")
+            for answer_id in split.get(name, [])
+        }
+    return {str(value) for value in split.get(split_name, [])}
+
+
+def effective_split_ids(
+    ctx: "CSBenchContext", split_name: str
+) -> set[str]:
+    answer_ids = raw_split_ids(ctx, split_name)
+    return sample_quality_policy(ctx).filter_ids(
+        ctx.question_id, answer_ids
+    )
+
+
 def build_evaluate_command(
     args: argparse.Namespace,
     questions: list[str],
@@ -450,8 +489,7 @@ def completed_questions_for_split(
 ) -> set[str]:
     completed = set()
     for ctx in contexts:
-        split = json.loads(ctx.split_file.read_text(encoding="utf-8"))
-        expected_ids = {str(value) for value in split.get(split_name, [])}
+        expected_ids = effective_split_ids(ctx, split_name)
         checkpoint = load_json_records(
             results_dir / f"{ctx.question_id}_grading_checkpoint.json"
         )
@@ -476,8 +514,7 @@ def inspect_results(
     questions: dict[str, Any] = {}
     structural_errors = []
     for ctx in contexts:
-        split = json.loads(ctx.split_file.read_text(encoding="utf-8"))
-        expected_ids = {str(value) for value in split.get(split_name, [])}
+        expected_ids = effective_split_ids(ctx, split_name)
         prefix = results_dir / ctx.question_id
         checkpoint_path = Path(f"{prefix}_grading_checkpoint.json")
         graded_path = Path(f"{prefix}_graded_results.json")
@@ -529,6 +566,7 @@ def inspect_results(
 
         complete = not missing and not unresolved_failed and not issues
         questions[ctx.question_id] = {
+            "raw_expected_count": len(raw_split_ids(ctx, split_name)),
             "expected_count": len(expected_ids),
             "checkpoint_count": len(checkpoint_set),
             "graded_count": len(graded_set),
@@ -556,6 +594,9 @@ def inspect_results(
     report = {
         "schema_version": 1,
         "answer_split": split_name,
+        "sample_quality_policy": sample_quality_policy(
+            contexts[0]
+        ).descriptor(),
         "status": (
             "complete"
             if questions
@@ -932,6 +973,7 @@ def _active_a3wa_metadata(
             (payload.get("score_calibration") or {}).get("enabled", False)
         ),
         "model_config": payload.get("model_config"),
+        "sample_quality_policy": payload.get("sample_quality_policy"),
     }
 
 
@@ -990,6 +1032,11 @@ def refresh_active_configuration(
             entry = entries.get(question_id)
             if not entry or entry.get("optimized_sha256") != expected_hash:
                 reasons.append(f"{question_id} optimized rubric changed")
+        if not sample_quality_descriptors_match(
+            a3wa_metadata.get("sample_quality_policy"),
+            sample_quality_policy(seed).descriptor(),
+        ):
+            reasons.append("sample-quality policy changed")
         if reasons:
             a3wa_metadata = dict(a3wa_metadata)
             a3wa_metadata["status"] = "stale"
@@ -1002,6 +1049,7 @@ def refresh_active_configuration(
             str(seed.root), [(str(PROJECT_ROOT), "${REFGRADER_ROOT}")]
         ),
         "dataset_sha256": _dataset_snapshot_hashes(seed),
+        "sample_quality_policy": sample_quality_policy(seed).descriptor(),
         "questions": entries,
         "active_a3wa": a3wa_metadata,
     }
@@ -1034,6 +1082,14 @@ def validate_active_configuration(
         raise ValueError(
             "Active rubric set was generated from a different CSBench snapshot. "
             "Re-run optimize or restore the matching configuration."
+        )
+    if not sample_quality_descriptors_match(
+        bundle.get("sample_quality_policy"),
+        sample_quality_policy(contexts[0]).descriptor(),
+    ):
+        raise ValueError(
+            "Active rubric set was generated with a different sample-quality "
+            "policy. Re-run optimize or restore the matching configuration."
         )
     entries = bundle.get("questions") or {}
     for ctx in contexts:
@@ -1090,12 +1146,21 @@ def resolve_active_a3wa_config(
             "model or thinking mode. Re-run validation and calibrate under "
             "the requested model configuration."
         )
+    if not sample_quality_descriptors_match(
+        metadata.get("sample_quality_policy"),
+        sample_quality_policy(contexts[0]).descriptor(),
+    ):
+        raise ValueError(
+            "Active A3WA config was calibrated with a different "
+            "sample-quality policy. Re-run validation and calibrate."
+        )
     return path
 
 
 def validate_a3wa_model_config(
     config_path: str | Path,
     model_config: dict[str, str],
+    prepared_root: str | Path,
 ) -> None:
     path = Path(config_path).expanduser().resolve()
     payload = json.loads(path.read_text(encoding="utf-8-sig"))
@@ -1104,6 +1169,14 @@ def validate_a3wa_model_config(
             f"A3WA config model contract does not match this run: {path}. "
             "Re-run validation and calibrate with the same model and thinking "
             "mode before test grading."
+        )
+    current_policy = SampleQualityPolicy.load(prepared_root).descriptor()
+    if not sample_quality_descriptors_match(
+        payload.get("sample_quality_policy"), current_policy
+    ):
+        raise ValueError(
+            f"A3WA config sample-quality policy does not match this run: "
+            f"{path}. Re-run validation and calibrate."
         )
 
 
@@ -1221,6 +1294,9 @@ def _run_signature(
         },
         "a3wa_config_sha256": sha256_file(config_path) if config_path else None,
         "model_config": model_config or runtime_model_config(),
+        "sample_quality_policy": sample_quality_policy(
+            contexts[0]
+        ).descriptor(),
     }
 
 
@@ -1416,6 +1492,7 @@ def register_restored_run(
 
 
 RESULT_ARTIFACT_STAGES = {
+    "audit": ("all", "audit_runs"),
     "validation": ("validation", "validation_runs"),
     "calibration": ("calibration", "calibration_runs"),
     "full": ("test", "grading_runs"),
@@ -1719,7 +1796,9 @@ def grade(args: argparse.Namespace) -> int:
             "--a3wa-config is allowed only for test."
         )
     if args.split == "test" and explicit_a3wa:
-        validate_a3wa_model_config(explicit_a3wa, model_config)
+        validate_a3wa_model_config(
+            explicit_a3wa, model_config, contexts[0].root
+        )
     if args.split == "test" and not explicit_a3wa and not disable_active_a3wa:
         active_config = resolve_active_a3wa_config(
             contexts, model_config=model_config
@@ -1735,7 +1814,9 @@ def grade(args: argparse.Namespace) -> int:
                 "ablation."
             )
     if args.split == "test" and getattr(args, "a3wa_config", None):
-        validate_a3wa_model_config(args.a3wa_config, model_config)
+        validate_a3wa_model_config(
+            args.a3wa_config, model_config, contexts[0].root
+        )
         validate_a3wa_deployment_gate(
             args.a3wa_config,
             allow_experimental=bool(
@@ -1818,12 +1899,14 @@ def grade(args: argparse.Namespace) -> int:
                         run_id=local_run_id,
                     )
                 )
-            elif args.split in ("validation", "calibration"):
+            elif args.split in ("all", "validation", "calibration"):
                 env["REFGRADER_POST_SUCCESS_CMD"] = shlex.join(
                     build_publish_command(
                         args,
                         args.questions,
-                        stage=args.split,
+                        stage=(
+                            "audit" if args.split == "all" else args.split
+                        ),
                         include_facts=args.include_facts,
                         include_raw_ocr=args.include_raw_ocr,
                         push=args.push_artifacts,
@@ -1881,7 +1964,7 @@ def grade(args: argparse.Namespace) -> int:
         return return_code
     if args.split != "test":
         state = "started" if args.background else "finished"
-        if args.split not in ("validation", "calibration"):
+        if args.split not in ("all", "validation", "calibration"):
             print(
                 f"{args.split} grading {state}. This split remains local "
                 "because it is not a publishable calibration stage."
@@ -1909,7 +1992,7 @@ def grade(args: argparse.Namespace) -> int:
                 prepared_dir=args.prepared_dir,
                 questions=args.questions,
                 artifacts_repo=args.artifacts_repo,
-                stage=args.split,
+                stage=("audit" if args.split == "all" else args.split),
                 run_id=local_run_id,
                 include_raw_ocr=args.include_raw_ocr,
                 include_facts=args.include_facts,
@@ -2079,16 +2162,25 @@ def calibrate(args: argparse.Namespace) -> int:
         run_id=getattr(args, "source_run_id", None),
     )
     validation_state = _read_run_state(validation_dir)
-    source_model_config = (
-        (validation_state.get("signature") or {}).get("model_config")
-        if validation_state
-        else None
+    validation_signature = (
+        validation_state.get("signature") or {} if validation_state else {}
     )
+    source_model_config = validation_signature.get("model_config")
     if source_model_config != model_config:
         raise ValueError(
             "The selected validation run was produced by a different or "
             "legacy model contract. Re-run validation with the requested "
             "text model and thinking mode before calibration."
+        )
+    current_policy = sample_quality_policy(contexts[0]).descriptor()
+    if not sample_quality_descriptors_match(
+        validation_signature.get("sample_quality_policy"),
+        current_policy,
+    ):
+        raise ValueError(
+            "The selected validation run used a different sample-quality "
+            "policy. Re-run validation under the current policy before "
+            "calibration."
         )
     validate_complete_results(
         contexts,
@@ -2811,6 +2903,13 @@ def publish(args: argparse.Namespace) -> int:
             destination / "dataset" / "question_split.json",
             replacements,
         )
+        active_policy = sample_quality_policy(ctx)
+        if active_policy.path:
+            copy_portable_json(
+                active_policy.path,
+                destination / "dataset" / "sample_quality_policy.json",
+                replacements,
+            )
 
         if latest_log:
             copy_if_exists(
@@ -2861,6 +2960,7 @@ def publish(args: argparse.Namespace) -> int:
             ),
             "extraction_backend": "csbench_hybrid",
             "model_config": published_model_config,
+            "sample_quality_policy": active_policy.descriptor(),
             "answer_split": answer_split if include_results else None,
             "ocr_device": os.getenv(
                 "REFGRADER_OCR_DEVICE", DEFAULT_OCR_DEVICE
@@ -2906,6 +3006,7 @@ def publish(args: argparse.Namespace) -> int:
     for destination, ctx in zip(published_paths, contexts):
         entry_stage_dir = destination.parent.name
         entry_stage = {
+            "audit_runs": "audit",
             "grading_runs": "full",
             "validation_runs": "validation",
             "calibration_runs": "calibration",
@@ -3399,7 +3500,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
     publish_parser.add_argument(
         "--stage",
-        choices=["auto", "rubric", "validation", "calibration", "full"],
+        choices=[
+            "auto",
+            "rubric",
+            "audit",
+            "validation",
+            "calibration",
+            "full",
+        ],
         default="auto",
     )
     publish_parser.add_argument("--run-id")

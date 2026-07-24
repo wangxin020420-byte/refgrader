@@ -78,6 +78,7 @@ data/csbench/rubrics/optimized/       # 当前批准的优化准则
 data/csbench/rubrics/manifests/       # 当前优化来源与哈希
 data/csbench/rubrics/active_rubric_set.json
 data/csbench/calibration/active_a3wa_config.json
+data/csbench/quality_control/        # 标签审计、人工复核与当前样本策略
 data/csbench/splits/
 ```
 
@@ -105,6 +106,7 @@ optimized rubric、manifest 和 active A3WA 体积小且决定正式批改行为
 ```text
 csbench/<question_id>/
 ├── rubric_optimizations/<run_id>/
+├── audit_runs/<run_id>/
 ├── validation_runs/<run_id>/
 ├── calibration_runs/<run_id>/
 └── grading_runs/<run_id>/
@@ -114,11 +116,12 @@ csbench/<question_id>/
     ├── grading/
     ├── evaluation/
     ├── dataset/question_split.json
+    ├── dataset/sample_quality_policy.json  # 启用时存在
     ├── logs/experiment.log
     └── run_manifest.json
 ```
 
-`run_manifest.json` 记录代码提交、数据提交、题目批次、split、模型/配置来源、文件哈希和结果数量，用于确认不同设备拿到的是同一轮实验。
+`run_manifest.json` 记录代码提交、数据提交、题目批次、split、模型/配置来源、样本质量策略、文件哈希和结果数量，用于确认不同设备拿到的是同一轮实验。
 
 两类真源不能混用：`refgrader-main/data/csbench` 表示下一次正式批改默认采用的**当前配置**；`refgrader-artifacts` 表示按 run ID 固化、不可覆盖解释的**历史证据**。重新优化或校准会修改前者，同时继续向后者新增历史快照。
 
@@ -307,16 +310,21 @@ git status --short
 | `scripts/calibrate_a3wa.py` | 从 validation 生成 A3WA/可选残差配置 |
 | `scripts/evaluate_artifacts.py` | 在任意设备评估已发布 artifacts |
 | `scripts/restore_csbench_artifacts.py` | 从 artifacts 恢复中间阶段 |
+| `scripts/audit_teacher_labels.py` | 根据既有 checkpoint 生成教师标签人工复核候选，不自动删除数据 |
+| `scripts/compile_sample_quality_policy.py` | 把人工复核决定编译为统一的读取时排除/纠分策略 |
+| `sample_quality.py` | 批改、校准、评估和断点续传共享的样本质量策略 |
 | `ocr/backend.py` | 主环境到独立 PaddleOCR 环境的调用边界 |
 | `data/csbench/manifest.json` | 内嵌数据快照来源和统计信息 |
 | `data/csbench/rubrics/active_rubric_set.json` | 当前数据、准则、split 与 A3WA 哈希清单 |
 | `data/csbench/calibration/active_a3wa_config.json` | test 默认使用的当前 A3WA/可选残差配置 |
+| `data/csbench/quality_control/policies/active_sample_policy.json` | 可选的当前教师标签质量策略；不存在时保持原始数据行为 |
 
 ## 11. 已知操作风险
 
 - 智谱模型高峰期可能返回 429，失败样本会进入 `*_failed.json`。
 - partial 指标只覆盖成功样本，论文比较必须同时报告覆盖率和失败样本处理方式。
 - 同一题目批次换用不同 rubric、数据快照或 A3WA config 时，不应直接复用旧 checkpoint。
+- 样本质量策略改变后，不得续跑旧 checkpoint；run signature 会主动拒绝混用。
 - 多设备同时向 `refgrader-artifacts` 写入前应先拉取并确认工作区干净。
 - 多设备不得同时执行 rubric optimize 或 calibrate；这两个阶段会修改 `refgrader-main` 的当前配置。
 - 不要在两个设备上同时续跑同一个尚未归档的结果目录。

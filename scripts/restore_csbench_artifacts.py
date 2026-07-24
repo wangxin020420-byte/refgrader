@@ -42,10 +42,13 @@ else:
         write_completion_report,
     )
 
+from sample_quality import default_policy_path
+
 
 DEFAULT_ARTIFACTS_REPO = PROJECT_ROOT.parent / "refgrader-artifacts"
 STAGE_LAYOUT = {
     "rubric": ("rubric_optimizations", None),
+    "audit": ("audit_runs", "all"),
     "validation": ("validation_runs", "validation"),
     "calibration": ("calibration_runs", "calibration"),
     "test": ("grading_runs", "test"),
@@ -191,6 +194,8 @@ def main() -> int:
 
     configs: list[Path] = []
     artifact_model_configs: list[dict] = []
+    artifact_policy_descriptors: list[dict] = []
+    artifact_policy_files: list[Path] = []
     for ctx in contexts:
         source = artifacts_repo / "csbench" / ctx.question_id / stage_dir / run_id
         manifest_path = source / "run_manifest.json"
@@ -208,6 +213,20 @@ def main() -> int:
             manifest.get("model_config")
             or {"status": "legacy_unspecified"}
         )
+        policy_descriptor = manifest.get("sample_quality_policy") or {
+            "mode": "raw",
+            "policy_id": "raw",
+            "sha256": None,
+        }
+        artifact_policy_descriptors.append(policy_descriptor)
+        artifact_policy = source / "dataset" / "sample_quality_policy.json"
+        if policy_descriptor.get("mode") == "active":
+            if not artifact_policy.is_file():
+                raise FileNotFoundError(
+                    "Active sample-quality policy declared but missing: "
+                    f"{artifact_policy}"
+                )
+            artifact_policy_files.append(artifact_policy)
         for relative, expected_hash in manifest.get("file_sha256", {}).items():
             artifact_file = source / relative
             if not artifact_file.is_file():
@@ -299,6 +318,42 @@ def main() -> int:
             ).resolve()
         )
         copy_checked(configs[0], restored_config, force=args.force)
+
+    serialized_policy_descriptors = {
+        json.dumps(value, ensure_ascii=False, sort_keys=True)
+        for value in artifact_policy_descriptors
+    }
+    if len(serialized_policy_descriptors) != 1:
+        raise ValueError(
+            "Question artifacts contain different sample-quality policies."
+        )
+    restored_policy_descriptor = artifact_policy_descriptors[0]
+    active_policy_path = default_policy_path(contexts[0].root)
+    if restored_policy_descriptor.get("mode") == "active":
+        if len(artifact_policy_files) != len(contexts):
+            raise ValueError(
+                "Sample-quality policy is missing from one or more artifacts."
+            )
+        policy_hashes = {
+            canonical_json_digest(path) for path in artifact_policy_files
+        }
+        if len(policy_hashes) != 1:
+            raise ValueError(
+                "Question artifacts contain different policy payloads."
+            )
+        copy_checked(
+            artifact_policy_files[0],
+            active_policy_path,
+            force=args.force,
+        )
+    elif active_policy_path.is_file():
+        if not args.force:
+            raise FileExistsError(
+                "The artifact run used raw labels, but an active local "
+                "sample-quality policy exists. Use --force after verifying "
+                "that the raw policy should be restored."
+            )
+        active_policy_path.unlink()
 
     serialized_model_configs = {
         json.dumps(value, ensure_ascii=False, sort_keys=True)

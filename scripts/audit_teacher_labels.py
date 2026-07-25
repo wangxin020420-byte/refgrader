@@ -226,7 +226,7 @@ def analyze_question(
         teacher - reference
         for _, _, teacher, reference, _, _ in comparable
     ]
-    threshold = robust_limit(
+    raw_threshold = robust_limit(
         residuals,
         max_score=max_score,
         sigma=sigma,
@@ -234,10 +234,35 @@ def analyze_question(
         minimum_points=minimum_points,
     )
     severe_threshold = max(severe_points, max_score * severe_ratio)
+    # A shifted residual distribution is itself an audit signal. Do not let
+    # that shift raise the candidate threshold above the severe-error bound.
+    threshold = min(raw_threshold, severe_threshold)
+    median_residual = statistics.median(residuals) if residuals else 0.0
+    bias_threshold = max(minimum_points, max_score * minimum_ratio)
+    systematic_bias = abs(median_residual) >= bias_threshold
+
+    centered_residuals = [
+        residual - median_residual for residual in residuals
+    ]
+    raw_outlier_threshold = robust_limit(
+        centered_residuals,
+        max_score=max_score,
+        sigma=sigma,
+        minimum_ratio=minimum_ratio,
+        minimum_points=minimum_points,
+    )
+    outlier_threshold = min(raw_outlier_threshold, severe_threshold)
+
     candidates = []
     for row, answer_id, teacher, reference, reference_key, scores in comparable:
         residual = teacher - reference
-        if abs(residual) < threshold:
+        centered_residual = residual - median_residual
+        candidate_reasons = []
+        if abs(residual) >= threshold:
+            candidate_reasons.append("absolute_disagreement")
+        if abs(centered_residual) >= outlier_threshold:
+            candidate_reasons.append("within_question_outlier")
+        if not candidate_reasons:
             continue
         confounds, high_confidence = classify_confounds(
             row,
@@ -264,6 +289,11 @@ def analyze_question(
                 "teacher_minus_reference": round(residual, 6),
                 "absolute_difference": round(abs(residual), 6),
                 "candidate_threshold": round(threshold, 6),
+                "centered_residual": round(centered_residual, 6),
+                "outlier_threshold": round(outlier_threshold, 6),
+                "candidate_reasons": "|".join(candidate_reasons),
+                "question_median_residual": round(median_residual, 6),
+                "question_systematic_bias": systematic_bias,
                 "max_score": max_score,
                 "model_avg_score": scores.get("model_avg_score"),
                 "selected_baseline_score": scores.get(
@@ -307,7 +337,13 @@ def analyze_question(
             row["review_priority"] == "P1" for row in candidates
         ),
         "threshold": round(threshold, 6),
+        "raw_robust_threshold": round(raw_threshold, 6),
         "severe_threshold": round(severe_threshold, 6),
+        "outlier_threshold": round(outlier_threshold, 6),
+        "raw_outlier_threshold": round(raw_outlier_threshold, 6),
+        "median_residual": round(median_residual, 6),
+        "bias_threshold": round(bias_threshold, 6),
+        "systematic_bias": systematic_bias,
         "score_key": score_key,
     }
     return candidates, summary

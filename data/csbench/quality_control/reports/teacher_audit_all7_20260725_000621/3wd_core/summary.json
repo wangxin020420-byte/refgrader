@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-07-25T08:40:59",
+  "purpose": "human_review_candidates_only",
+  "results_dir": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621",
+  "score_key": "three_way_core_score",
+  "candidate_count": 54,
+  "questions": [
+    {
+      "question_id": "CO_1",
+      "checkpoint": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json",
+      "records": 130,
+      "comparable": 130,
+      "candidate_count": 24,
+      "p1_count": 3,
+      "threshold": 1.0,
+      "severe_threshold": 2.0,
+      "score_key": "three_way_core_score"
+    },
+    {
+      "question_id": "CO_2",
+      "checkpoint": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+      "records": 104,
+      "comparable": 104,
+      "candidate_count": 0,
+      "p1_count": 0,
+      "threshold": 19.45535,
+      "severe_threshold": 5.0,
+      "score_key": "three_way_core_score"
+    },
+    {
+      "question_id": "CO_3",
+      "checkpoint": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_3_grading_checkpoint.json",
+      "records": 99,
+      "comparable": 99,
+      "candidate_count": 0,
+      "p1_count": 0,
+      "threshold": 7.03736,
+      "severe_threshold": 2.5,
+      "score_key": "three_way_core_score"
+    },
+    {
+      "question_id": "CO_4",
+      "checkpoint": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+      "records": 86,
+      "comparable": 86,
+      "candidate_count": 1,
+      "p1_count": 0,
+      "threshold": 11.05082,
+      "severe_threshold": 5.0,
+      "score_key": "three_way_core_score"
+    },
+    {
+      "question_id": "CO_5",
+      "checkpoint": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+      "records": 107,
+      "comparable": 107,
+      "candidate_count": 3,
+      "p1_count": 0,
+      "threshold": 9.26126,
+      "severe_threshold": 3.75,
+      "score_key": "three_way_core_score"
+    },
+    {
+      "question_id": "CO_6",
+      "checkpoint": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_6_grading_checkpoint.json",
+      "records": 59,
+      "comparable": 59,
+      "candidate_count": 0,
+      "p1_count": 0,
+      "threshold": 10.50604,
+      "severe_threshold": 5.0,
+      "score_key": "three_way_core_score"
+    },
+    {
+      "question_id": "CO_7",
+      "checkpoint": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+      "records": 65,
+      "comparable": 65,
+      "candidate_count": 26,
+      "p1_count": 7,
+      "threshold": 1.5,
+      "severe_threshold": 2.5,
+      "score_key": "three_way_core_score"
+    }
+  ],
+  "warning": "A candidate is not automatically a noisy teacher label. Human review is required before policy activation."
+}

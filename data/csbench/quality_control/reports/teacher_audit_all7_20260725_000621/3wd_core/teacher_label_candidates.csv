@@ -1,0 +1,235 @@
+﻿question_id,answer_id,review_priority,candidate_type,teacher_score,reference_score_key,reference_score,teacher_minus_reference,absolute_difference,candidate_threshold,max_score,model_avg_score,selected_baseline_score,three_way_core_score,final_calibrated_score,route,std_dev,extraction_quality,U_E,U_S,U_R,confounds,human_decision,corrected_score,review_note,raw_text,student_image
+CO_1,ANS_CO_60,P1,possible_teacher_under_score,1.0,three_way_core_score,5.0,-4.0,4.0,1.0,5.0,5.0,5.0,5.0,5.0,POS,0.0,high,0.0,0.0,0.0,,,,,答:由题目得: op=J. I=1. 可知为间接寻址 又存储器按字节编址 地址号为(11011)=37 则操作数的内容是37,data/csbench/student_images/CO_1/ANS_CO_60.jpg
+CO_1,ANS_CO_132,P1,possible_teacher_under_score,2.0,three_way_core_score,5.0,-3.0,3.0,1.0,5.0,5.0,5.0,5.0,5.0,POS,0.0,high,0.0,0.0,0.0,,,,,"DE = 11011110 
+op为0 I为1 所以进行间接寻址 A为0010111 为37H ∴该指令的操作数内容为37H",data/csbench/student_images/CO_1/ANS_CO_132.png
+CO_1,ANS_CO_134,P1,possible_teacher_over_score,5.0,three_way_core_score,2.0,3.0,3.0,1.0,5.0,2.0,2.0,2.0,2.0,BND,0.0,high,0.3,0.0,0.3,,,,,"00110111 = 36(6)
+由图可知当地址号为36时内容为37",data/csbench/student_images/CO_1/ANS_CO_134.png
+CO_1,ANS_CO_23,P2,possible_teacher_over_score,5.0,three_way_core_score,0.0,5.0,5.0,1.0,5.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.7,0.0,0.7,extraction_risk|rubric_mapping_risk,,,,37 H,data/csbench/student_images/CO_1/ANS_CO_23.jpg
+CO_1,ANS_CO_67,P2,possible_teacher_over_score,5.0,three_way_core_score,1.0,4.0,4.0,1.0,5.0,1.0,1.0,1.0,1.0,BND,0.8165,high,0.0,1.0,0.366667,unstable_model_judgements,,,,"解：A=110111=37 
+ I=1  
+OP=0  
+37→34→37 
+ 故而操作数为37A",data/csbench/student_images/CO_1/ANS_CO_67.jpg
+CO_1,ANS_CO_126,P2,possible_teacher_over_score,5.0,three_way_core_score,1.5,3.5,3.5,1.0,5.0,1.2,1.5,1.5,1.5,BND,0.2357,high,0.4,0.5,0.6,rubric_mapping_risk,,,,"11011110
+I=1 间接寻址
+故 37→34→37
+7到2位为
+10111
+即37H",data/csbench/student_images/CO_1/ANS_CO_126.png
+CO_1,ANS_CO_63,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,1.0,5.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.7,0.0,0.7,extraction_risk|rubric_mapping_risk,,,,解：34,data/csbench/student_images/CO_1/ANS_CO_63.jpg
+CO_1,ANS_CO_79,P2,possible_teacher_under_score,0.0,three_way_core_score,2.0,-2.0,2.0,1.0,5.0,3.0,3.0,2.0,2.0,BND,0.7071,high,0.0,1.0,0.3,a3wa_changed_score_materially|unstable_model_judgements,,,,"(110111)₂=55
+(37)H=55
+I=1
+内容为38H",data/csbench/student_images/CO_1/ANS_CO_79.png
+CO_1,ANS_CO_127,P2,possible_teacher_over_score,2.0,three_way_core_score,0.25,1.75,1.75,1.0,5.0,0.7,1.0,0.25,0.25,BND,0.4714,high,0.4,1.0,0.6,rubric_mapping_risk,,,,"11011110
+11011=37H.
+∴内容为34.",data/csbench/student_images/CO_1/ANS_CO_127.png
+CO_1,ANS_CO_128,P2,possible_teacher_under_score,0.0,three_way_core_score,1.7,-1.7,1.7,1.0,5.0,1.7,1.7,1.7,1.7,BND,2.357,high,0.0,1.0,0.3,unstable_model_judgements,,,,"11011110  I=1为间接地址
+地址字段为011110=35.
+操作数为36.",data/csbench/student_images/CO_1/ANS_CO_128.png
+CO_1,ANS_CO_130,P2,possible_teacher_under_score,0.0,three_way_core_score,1.7,-1.7,1.7,1.0,5.0,1.7,1.7,1.7,1.7,BND,2.357,high,0.3,1.0,0.533333,rubric_mapping_risk|unstable_model_judgements,,,,"101111=37(十六进制)]
+I=1.
+∴内容为58(十六进制)",data/csbench/student_images/CO_1/ANS_CO_130.png
+CO_1,ANS_CO_118,P2,possible_teacher_under_score,2.0,three_way_core_score,3.5,-1.5,1.5,1.0,5.0,3.5,3.5,3.5,3.5,BND,0.0,high,0.3,0.0,0.3,,,,,"∵ I=1 ∴ A=110111为操作数的储存地址 
+∴ 十进制数为 34H",data/csbench/student_images/CO_1/ANS_CO_118.png
+CO_1,ANS_CO_15,P2,possible_teacher_over_score,5.0,three_way_core_score,3.5,1.5,1.5,1.0,5.0,3.5,3.5,3.5,3.5,POS,0.0,high,0.0,0.0,0.1,,,,,"11011110
+I=1  A=110111 = 37(十进制)
+内存为 34(十六进制)为真正地址
+操作数内容为 37(十进制)",data/csbench/student_images/CO_1/ANS_CO_15.jpg
+CO_1,ANS_CO_24,P2,possible_teacher_under_score,2.0,three_way_core_score,3.5,-1.5,1.5,1.0,5.0,3.5,3.5,3.5,3.5,POS,0.0,high,0.0,0.0,0.1,,,,,"显然，间址位为1，地址字段110111=37H
+有其地址内存存储内容为 34H
+故访问的操作数内存为 34H",data/csbench/student_images/CO_1/ANS_CO_24.jpg
+CO_1,ANS_CO_28,P2,possible_teacher_over_score,5.0,three_way_core_score,3.5,1.5,1.5,1.0,5.0,3.5,3.5,3.5,3.5,POS,0.0,high,0.0,0.0,0.1,,,,,"解. 11011110
+I=1为间接寻址.
+地址字段为110111对应十六进制37
+因为是间接寻址.37地址中存放的是操作数地址34
+所以操作数为34",data/csbench/student_images/CO_1/ANS_CO_28.jpg
+CO_1,ANS_CO_77,P2,possible_teacher_under_score,2.0,three_way_core_score,3.5,-1.5,1.5,1.0,5.0,3.5,3.5,3.5,3.5,POS,0.0,high,0.0,0.0,0.1,,,,,"I=1. 间址 A=110111 B=37H
+指向内存34H
+没指定访问操作数地址  34H",data/csbench/student_images/CO_1/ANS_CO_77.png
+CO_1,ANS_CO_42,P2,possible_teacher_over_score,2.0,three_way_core_score,0.7,1.3,1.3,1.0,5.0,0.7,0.7,0.7,0.7,NEG,0.9428,low,0.6,1.0,0.733333,extraction_risk|rubric_mapping_risk|unstable_model_judgements,,,,34,data/csbench/student_images/CO_1/ANS_CO_42.jpg
+CO_1,ANS_CO_03,P2,possible_teacher_over_score,1.0,three_way_core_score,0.0,1.0,1.0,1.0,5.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"A=||0||
+I=1
+OP=0
+所求=06",data/csbench/student_images/CO_1/ANS_CO_03.jpg
+CO_1,ANS_CO_06,P2,possible_teacher_under_score,1.0,three_way_core_score,2.0,-1.0,1.0,1.0,5.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.0,,,,,解：机器码DE 1101 1110 地址字段110111=1 OP=0 易知指令是指向地址为04H的间接寻址。操作数内容为05H,data/csbench/student_images/CO_1/ANS_CO_06.jpg
+CO_1,ANS_CO_121,P2,possible_teacher_under_score,1.0,three_way_core_score,2.0,-1.0,1.0,1.0,5.0,2.0,2.0,2.0,2.0,BND,0.0,high,0.3,0.0,0.3,,,,,"地址字段 A: 110 111
+I=1, A中为操作数地址.
+∴操作数为 38",data/csbench/student_images/CO_1/ANS_CO_121.png
+CO_1,ANS_CO_26,P2,possible_teacher_under_score,1.0,three_way_core_score,2.0,-1.0,1.0,1.0,5.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.0,,,,,"11011110.
+A=00110111，I=1.
+∴ A= 37 对应内容为(08)H",data/csbench/student_images/CO_1/ANS_CO_26.jpg
+CO_1,ANS_CO_80,P2,possible_teacher_under_score,1.0,three_way_core_score,2.0,-1.0,1.0,1.0,5.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.1,,,,,"由题意. 1101111B=36H
+OP=0 ∴ 操作数内容 35H
+I=1
+A:110111",data/csbench/student_images/CO_1/ANS_CO_80.png
+CO_1,ANS_CO_93,P2,possible_teacher_over_score,1.0,three_way_core_score,0.0,1.0,1.0,1.0,5.0,0.0,0.0,0.0,0.0,BND,0.0,high,0.4,0.0,0.4,rubric_mapping_risk,,,,"11011110 去除后两位后得 1101110 . I=1为间接寻址
+故 A指定地址内容为05H",data/csbench/student_images/CO_1/ANS_CO_93.png
+CO_1,ANS_CO_95,P2,possible_teacher_under_score,1.0,three_way_core_score,2.0,-1.0,1.0,1.0,5.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.0,,,,,"解：DE(16)=11011110(2)
+则I=1.采用间址寻址，A中指定地址110111为真正操作数地址37H
+则对应内容为08H",data/csbench/student_images/CO_1/ANS_CO_95.png
+CO_4,ANS_CO_725,P2,possible_teacher_over_score,16.0,three_way_core_score,4.0,12.0,12.0,11.05082,20.0,8.0,8.0,4.0,4.0,BND,0.0,high,0.25,0.0,0.25,a3wa_changed_score_materially,,,,"解:(1)主存地址为2^23
+旧数=2^5/2=2^4
+块内地址=11.组标记
+∴主存：如图所示
+Cache容量：2^16
+cache地址如图所示
+(2)2D07FFH 无法命中
+7F0057H 可以命中",data/csbench/student_images/CO_4/ANS_CO_725.png
+CO_5,ANS_CO_279,P2,possible_teacher_over_score,15.0,three_way_core_score,4.83,10.17,10.17,9.26126,15.0,6.7,6.7,4.83,4.83,BND,2.357,high,0.0,1.0,0.277778,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：
+（1） 地址量：(2⁴ - 12) × 2⁶ - 1 =225条
+（2）：零地址量各有：((2⁴ - 12)×2⁶ - 254)×2⁶ = 2⁷ = 128条",data/csbench/student_images/CO_5/ANS_CO_279.jpg
+CO_5,ANS_CO_311,P2,possible_teacher_over_score,10.0,three_way_core_score,0.0,10.0,10.0,9.26126,15.0,2.9,2.9,0.0,0.0,BND,2.1246,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,"解: 指令长16位,地址码为6位,则操作码为16-6=10位。
+(1)二地址有12条,2^4>12,∴二地址需要4位操作码除2位地址码=6位
+零地址至少有一条,2^1>1,∴零地址指令需1位操作码+0位地址码=1位
+∴一地址指令操作码位数=16-6-1=9位
+∴一地址指令最多有2^9-1=2^8=256条
+(4)2^4>12;4+2=6位.
+2^8>252,8+1=9位  16-9-6=1
+零地址需要0位地址码.
+∴零地址指令最多有2^(1-0)=2条.
+",data/csbench/student_images/CO_5/ANS_CO_311.jpg
+CO_5,ANS_CO_323,P2,possible_teacher_over_score,15.0,three_way_core_score,5.62,9.38,9.38,9.26126,15.0,7.5,7.5,5.62,5.62,BND,2.0412,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：∵地址译码为6位，∴操作码为4位，
+(1)一地址指令需留出6位地址位，设有n条
+∴((16-12)×2⁶ -n)×2⁶=2⁶ ∴n=256条
+(2) 二地址12条，一地址254条
+((16-12)×2⁶ -254)×2⁶=128条",data/csbench/student_images/CO_5/ANS_CO_323.png
+CO_7,ANS_CO_454,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,1.5,10.0,0.7,0.7,0.0,0.0,BND,0.9428,high,0.0,1.0,0.333333,,,,,"解、∵M1和M2的主频分别为4GHz和6GHz
+∴M1和M2的时钟周期为2.5×10⁻⁸s和1.6×10⁻⁸s
+∴程序P在M1上的运行时间为：
+t₁=1×10⁵×2×2.5×10⁻⁸s=5ms
+程序P在M2上的运行时间为：
+t₂=1×10⁵×1×1.6×10⁻⁸s=1.6ms",data/csbench/student_images/CO_7/ANS_CO_454.jpg
+CO_7,ANS_CO_497,P1,possible_teacher_over_score,10.0,three_way_core_score,3.5,6.5,6.5,1.5,10.0,3.5,3.5,3.5,3.5,POS,0.4082,high,0.0,0.5,0.0,,,,,"解：F1=4GHz=4×10^-9Hz  F2=6GHz=6×10^-9Hz
+IC=10×10⁵=1×10⁶
+CPI1=2  CPI2=1
+Te=m×T
+T=1/F      
+CPI=m/IC
+⇒ Te= (CPI×IC)/F
+程序P在M1上的运行时间Te1= (2×1×10⁶)/(4×10⁹)=5×10⁻⁴s
+程序P在M2上的运行时间Te2= (1×1×10⁶)/(6×10⁹)=1.667×10⁻⁴s",data/csbench/student_images/CO_7/ANS_CO_497.jpg
+CO_7,ANS_CO_513,P1,possible_teacher_over_score,10.0,three_way_core_score,5.0,5.0,5.0,1.5,10.0,5.0,5.0,5.0,5.0,POS,0.0,high,0.0,0.0,0.0,,,,,"Fm₁ = 4G Hz. = 2^42Hz = 4×10⁹ Hz. Tm₁ = 1/(4×10⁹)
+Fm₂ = 6GHz. = 6×10⁹ Hz. Tm₂ = 1/(6×10⁹)
+CI = 100000 ∴ Te = CPI×CI×T
+∵m≈CPI×CI Tem₁ = (2×10⁵)/(4×10⁹) = 1/(2×10⁴) s
+∴CPI = m/CI 
+Te = T×m
+Tem₂ = (1×10⁵)/(6×10⁹) = 1/(6×10⁴) s",data/csbench/student_images/CO_7/ANS_CO_513.jpg
+CO_7,ANS_CO_483,P1,possible_teacher_over_score,8.0,three_way_core_score,4.0,4.0,4.0,1.5,10.0,4.0,4.0,4.0,4.0,POS,0.0,high,0.0,0.0,0.0,,,,,"解：已知某程序P共指令10^5条 即10^5条。
+设在M1和M2上的运行时间分别为t1,t2
+由已知CPI₁=2 ，CPI₂=1 ，主频F₁=4GHz=4×10^9Hz
+F₂=6GHz=6×10^9Hz。
+
+则t₁= CPI₁/F₁ = 2/(4×10^9)s = 0.5 ns
+t₂= CPI₂/F₂ = 1/(6×10^9)s = 1/6 ns
+
+即 在M1的运行时间为0.5ns，在M2的运行时间为1/6 ns。",data/csbench/student_images/CO_7/ANS_CO_483.jpg
+CO_7,ANS_CO_472,P1,possible_teacher_over_score,8.0,three_way_core_score,5.0,3.0,3.0,1.5,10.0,4.0,4.0,5.0,5.0,BND,0.8165,high,0.0,1.0,0.0,,,,,"M1: T₁ = 1/f₁ = 1/(4×10³⁰) = 0.25×10⁻³⁰s
+时钟周期数 CPL₁×10⁵ = 2×10⁵ 个时钟周期
+∴ t₁ = T₁×2×10⁵ = 0.5×10⁻²⁵ = 5×10⁻²⁶s
+M2 T₂ = 1/f₂ = 1/(6×10^30)s
+时钟周期数 CPL₂×10⁵ = 1×10⁵ 个时钟周期
+t₂ = T₂×10⁵ = 1/6×10⁻²⁵s ≈ 1.6×10⁻²⁶s
+在M1上运行时间为 5×10⁻²⁶s，在M2上为 1.6×10⁻²⁶s",data/csbench/student_images/CO_7/ANS_CO_472.jpg
+CO_7,ANS_CO_514,P1,possible_teacher_over_score,8.0,three_way_core_score,5.0,3.0,3.0,1.5,10.0,5.0,5.0,5.0,5.0,POS,0.0,high,0.0,0.0,0.0,,,,,"在M1上：2×10×10⁴×1/(4G HZ) = 5×10⁻¹⁶S
+在M2上 1×10×10⁴×1/(6G HZ) =1.67×10⁻¹⁶S",data/csbench/student_images/CO_7/ANS_CO_514.jpg
+CO_7,ANS_CO_452,P1,possible_teacher_over_score,10.0,three_way_core_score,7.3,2.7,2.7,1.5,10.0,7.3,7.3,7.3,7.3,POS,0.4714,high,0.0,0.5,0.0,,,,,"解: M₁主频为4GHz = 4×10⁹Hz 
+周期为四条.
+ CPI=2. 
+∴T = 1×CPI/f = 0.05×10⁻³s = 0.05ms M₂主频6GHz = 6×10⁹Hz 指令数目为10^5条. CPI=1 
+∴T = 1×CPI/f ≈ 0.0167×10⁻³s ≈ 0.0167ms.",data/csbench/student_images/CO_7/ANS_CO_452.jpg
+CO_7,ANS_CO_506,P2,possible_teacher_over_score,8.0,three_way_core_score,1.0,7.0,7.0,1.5,10.0,1.0,1.0,1.0,1.0,BND,1.4142,high,0.0,1.0,0.333333,unstable_model_judgements,,,,"t₁= (10×1000×2)/(4×10⁶) =5×10⁻³=0.005 s
+t₂= (10×1000×1)/(6×10⁶) ≈0.0017s",data/csbench/student_images/CO_7/ANS_CO_506.jpg
+CO_7,ANS_CO_449,P2,possible_teacher_over_score,8.0,three_way_core_score,1.7,6.3,6.3,1.5,10.0,1.7,1.7,1.7,1.7,BND,2.357,high,0.0,1.0,0.333333,unstable_model_judgements,,,,"M1的运行时间 = 2×10⁶ ÷ (4×10⁹) = 5×10⁻⁴ s
+M2的运行时间 = 1×10⁶ ÷ (6×10⁹) ≈ 1.6×10⁻⁴ s",data/csbench/student_images/CO_7/ANS_CO_449.jpg
+CO_7,ANS_CO_469,P2,possible_teacher_over_score,10.0,three_way_core_score,4.7,5.3,5.3,1.5,10.0,5.2,5.2,4.7,4.7,BND,2.2485,high,0.0,1.0,0.166667,unstable_model_judgements,,,,"t M₁ = CP1 M₁ × I C × Tm₁
+Tm₁ = 1/(4×10¹⁰) , CP1m₁=2    Ic=10×10⁴=10⁵
+∴ tM1 = 2×10⁵ × 1/(4×10⁹) = 6.25×10⁻⁵ 5×10⁻⁵ s
+tm₂ = cp2m₂× Ic × Tm₂
+= 1 × 10⁵ × 1/(6×10⁹) = 1/6×10⁻⁴s",data/csbench/student_images/CO_7/ANS_CO_469.jpg
+CO_7,ANS_CO_459,P2,possible_teacher_over_score,8.0,three_way_core_score,2.8,5.2,5.2,1.5,10.0,0.8,0.8,2.8,2.8,BND,1.1785,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：
+1/(4×10⁶) × 2×10×10^4 = 0.05 S
+1/(6×10⁶) × 1×10×10^4= 0.017S
+∴在M₁上运行时间为0.05S，在M₂上运行时间为0.017S。",data/csbench/student_images/CO_7/ANS_CO_459.jpg
+CO_7,ANS_CO_477,P2,possible_teacher_over_score,8.0,three_way_core_score,3.8,4.2,4.2,1.5,10.0,3.8,3.8,3.8,3.8,BND,1.3123,high,0.0,1.0,0.0,unstable_model_judgements,,,,"解：指令条数IC均为10^5,在M1上运行时，总的时钟周期数m1=IC×CPI1=2×10^5条
+则在M1上运行的时间t1=m1÷F1=2×10^5/4×10^6 s=0.05s
+在M2上运行时：
+总时钟周期数m2=IC×CPI2=10^6条
+15°
+在M2上运行的时间t2=m2÷F2=10^5/6×10^6 s≈0.0167s",data/csbench/student_images/CO_7/ANS_CO_477.jpg
+CO_7,ANS_CO_478,P2,possible_teacher_over_score,8.0,three_way_core_score,4.0,4.0,4.0,1.5,10.0,6.0,6.0,4.0,4.0,BND,1.4142,high,0.0,1.0,0.0,a3wa_changed_score_materially|unstable_model_judgements,,,,"M1:有10×10⁴条指令 CPI1=m1/10⁵→总时钟周期数:m1=2×10⁵
+M2:总时钟周期数:m2=10⁵
+M1总运行时间 t1=m1/F=2×10⁵/4×10²⁰=5×10⁻¹⁶s
+M2总运行时间 t2=m2/F=10⁵/6×10²⁰≈1.6×10⁻¹⁶s",data/csbench/student_images/CO_7/ANS_CO_478.jpg
+CO_7,ANS_CO_489,P2,possible_teacher_over_score,7.0,three_way_core_score,3.0,4.0,4.0,1.5,10.0,5.0,5.0,3.0,3.0,BND,2.0412,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"已知M₁、M₂的主频分别为4GHz、6GHz
+故F₁=4GHz=4×10⁹Hz，F₂=6GHz=6×10⁹Hz
+已知CPI=m/Ic，Te=mT，T=1/F
+故可由式得
+P在M₁上运行的时间为Te=CPI₁×Ic×1/F=5×10⁻⁵s
+P在M₂上运行的时间为Te=CPI₂×Ic×1/F=2.5×10⁻⁵s",data/csbench/student_images/CO_7/ANS_CO_489.jpg
+CO_7,ANS_CO_502,P2,possible_teacher_over_score,8.0,three_way_core_score,4.0,4.0,4.0,1.5,10.0,6.0,6.0,4.0,4.0,BND,0.8165,high,0.0,1.0,0.0,a3wa_changed_score_materially,,,,"基准程序P的指令数为10万条，周期数= CPI × 指令数
+在M1和M2上的时钟周期数20万和10万
+运行时间t=时钟周期数/主频.
+故P在M1的运行时间 = 2×10⁴ / 4×10⁹ = 0.50×10⁻⁵ s.
+P在M2的运行时间 = 10⁴ /( 6×10⁹) ≈ 0.17 ×10⁻⁵ s.",data/csbench/student_images/CO_7/ANS_CO_502.jpg
+CO_7,ANS_CO_479,P2,possible_teacher_over_score,8.0,three_way_core_score,4.7,3.3,3.3,1.5,10.0,2.7,2.7,4.7,4.7,BND,2.0548,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"指令条数n=1x10^5条，
+F1=4GHz，F2=6GHz，
+T1=1/F1=1/(4x10^12)=2.5x10^-13s，T2=1/(6x10^12)=1/6 x10^-12s，
+2.5x10^-13 x2=5x10^-13s，1/6 x10^-3 x1=1/6 x10^-12s，
+则tm1=5x10^-13 x1x10^5=5x10^-8s
+tm2=1/6 x10^-12 x1x10^5=1/6 x10^-7	s",data/csbench/student_images/CO_7/ANS_CO_479.jpg
+CO_7,ANS_CO_482,P2,possible_teacher_over_score,8.0,three_way_core_score,4.7,3.3,3.3,1.5,10.0,2.7,2.7,4.7,4.7,BND,2.0548,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：由题意，
+fₘ₁=4GHz=4×10⁹Hz，
+fₘ₂=6GHz=6×10⁹Hz。
+由于指令数m=10×10⁵=10⁶条。
+CPIₘ₁=2，CPIₘ₂=1。
+则tₘ₁= (CPIₘ₁·m)/fₘ₁ =5×10⁻⁴s。
+tₘ₂= (CPIₘ₂·m)/fₘ₂ =1/3×10⁻³s。",data/csbench/student_images/CO_7/ANS_CO_482.jpg
+CO_7,ANS_CO_481,P2,possible_teacher_over_score,8.0,three_way_core_score,5.0,3.0,3.0,1.5,10.0,7.0,7.0,5.0,5.0,BND,0.8165,high,0.0,1.0,0.0,a3wa_changed_score_materially,,,,"解：M₁：M₁的CPI为2.
+IC=100000
+则总周期数
+m₁=IC·CPI₁
+=200000
+则M₁的运行时间
+Te₁=m₁/4GHz
+=5ms
+
+M₂：M₂的CPI为1
+IC=100000
+则总周期数
+m₂=IC·CPI₂
+=100000
+则M₂的运行时间
+Te₂=m₂/6GHz ≈1.66ms",data/csbench/student_images/CO_7/ANS_CO_481.jpg
+CO_7,ANS_CO_493,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,1.5,10.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"1/1GHz=1ms
+M₁: t = CPI×CP/F = 800ms
+M₂: t = CPI×CP/F = 600ms",data/csbench/student_images/CO_7/ANS_CO_493.jpg
+CO_7,ANS_CO_458,P2,possible_teacher_over_score,4.0,three_way_core_score,2.3,1.7,1.7,1.5,10.0,2.3,2.3,2.3,2.3,BND,1.6997,high,0.0,1.0,0.333333,unstable_model_judgements,,,,"解: F₁=4GHz, T₁=4×10⁻⁹s.
+F₂=6GHz, F₂=6×10⁻⁹s.
+M1: IC×CPI₁×T₁=100000×2×4×10⁻⁹s=8×10⁻⁴s
+M2: IC×CPI₂×T₂=100000×1×6×10⁻⁹s=6×10⁻⁴s
+程序P在M1上的运行时间为8×10⁻⁴s,在M2上的运行时间为6×10⁻⁴s。",data/csbench/student_images/CO_7/ANS_CO_458.jpg
+CO_7,ANS_CO_465,P2,possible_teacher_over_score,10.0,three_way_core_score,8.3,1.7,1.7,1.5,10.0,8.3,8.3,8.3,8.3,BND,1.1785,high,0.0,1.0,0.166667,unstable_model_judgements,,,,"M1主频 F1=4GHz  M2主频 F2=6GHz
+指令数IC=100000条，M1的CPI1=2  M2的CPI2=1
+M1上运行时间：Te1=CPI1×IC/F1=5×10⁵S
+M2上运行时间：Te2=CPI2×IC/F2=1/6×10^-4s=1.667×10^-5S",data/csbench/student_images/CO_7/ANS_CO_465.jpg
+CO_7,ANS_CO_467,P2,possible_teacher_over_score,8.0,three_way_core_score,6.3,1.7,1.7,1.5,10.0,8.3,8.3,6.3,6.3,BND,1.2472,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"T₁ = (IC×CPI₁)/f₁ = 2×10⁵/(4×10⁹) = 0.5×10⁻⁴s = 50ms
+T₂ = (IC×CPI₂)/f₂ = 10⁵/(6×10⁹) = 0.167×10⁻⁴s = 16.7ms",data/csbench/student_images/CO_7/ANS_CO_467.jpg
+CO_7,ANS_CO_487,P2,possible_teacher_over_score,10.0,three_way_core_score,8.3,1.7,1.7,1.5,10.0,9.3,9.3,8.3,8.3,BND,0.9428,high,0.0,1.0,0.5,rubric_mapping_risk,,,,"运行时间t = 指令数m x CPI x 时钟周期
+T = 1/f
+t₁ = (10×10⁴×2)/(4×10⁹) = 5×10⁻⁵ S
+t₂ = (10×10⁴×1)/(6×10⁹) = 1/6×10⁻⁴ S",data/csbench/student_images/CO_7/ANS_CO_487.jpg
+CO_7,ANS_CO_495,P2,possible_teacher_over_score,10.0,three_way_core_score,8.3,1.7,1.7,1.5,10.0,7.3,7.3,8.3,8.3,BND,1.6997,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,"程序P在M1上运行时间：
+t₁ = CPI₁× 10⁵× 1/f₁ = 2 × 10⁵× 1/(4 × 10⁹) = 50ns
+程序P在M2上运行时间：
+t₂ = CPI₂× 10⁵× 1/f₂ = 1 × 10⁵× 1/(6 × 10⁹) ≈16.67us.",data/csbench/student_images/CO_7/ANS_CO_495.jpg
+CO_7,ANS_CO_511,P2,possible_teacher_over_score,8.0,three_way_core_score,6.3,1.7,1.7,1.5,10.0,6.3,6.3,6.3,6.3,POS,0.4714,high,0.0,0.5,0.0,,,,,"解：M1: Te1 = m×T1 = CPI1×IC×T1 = CPI1×IC/F1 = 2×10^5 /4×10^6 = 1/20 = 0.05s
+M2: Te2 = m×T2 = CPI2×IC/F2 =1×10^5 /6×10^6 = 1/60 ≈0.0167s
+故P在M1上运行时间T1=0.05s
+在M2上运行时间T2=1/60 s≈0.0167s.",data/csbench/student_images/CO_7/ANS_CO_511.jpg
+CO_7,ANS_CO_505,P2,possible_teacher_over_score,8.0,three_way_core_score,6.5,1.5,1.5,1.5,10.0,6.5,6.5,6.5,6.5,BND,1.0801,high,0.0,1.0,0.0,unstable_model_judgements,,,,"解：由CPI=m/IC得，
+M1总指令周期数m1=100000×2=2×10^5（个）
+M2总指令周期数m2=100000×1=10^5（个）  G=10^12
+M1的运行时间 t=m1/F=2×10^5/4G=0.5×10^-7
+M2的运行时间 t=m2/F=10^5/6G=1/6×10^-7",data/csbench/student_images/CO_7/ANS_CO_505.jpg

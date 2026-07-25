@@ -192,7 +192,6 @@ if ($Background) {
 Set-Location -LiteralPath $Root
 $env:PYTHONIOENCODING = "utf-8"
 $env:PYTHONUTF8 = "1"
-$env:REFGRADER_SAMPLE_POLICY_MODE = "raw"
 $Python = (Resolve-Path ".\venv\Scripts\python.exe").Path
 $Artifacts = (Resolve-Path "..\refgrader-artifacts").Path
 
@@ -335,8 +334,20 @@ try {
     if ($LASTEXITCODE -ne 0) {
         throw "CSBench snapshot audit failed."
     }
+
+    # Policy tests must exercise their temporary active policies. The audit
+    # itself switches back to immutable raw labels immediately afterwards.
+    $SavedPolicyMode = $env:REFGRADER_SAMPLE_POLICY_MODE
+    $SavedPolicyPath = $env:REFGRADER_SAMPLE_POLICY
+    $env:REFGRADER_SAMPLE_POLICY_MODE = "active"
+    Remove-Item Env:REFGRADER_SAMPLE_POLICY -ErrorAction SilentlyContinue
     & $Python -m unittest test_sample_quality.py test_audit_teacher_labels.py -q
-    if ($LASTEXITCODE -ne 0) {
+    $TestExitCode = $LASTEXITCODE
+    if ($null -ne $SavedPolicyPath) {
+        $env:REFGRADER_SAMPLE_POLICY = $SavedPolicyPath
+    }
+    $env:REFGRADER_SAMPLE_POLICY_MODE = "raw"
+    if ($TestExitCode -ne 0) {
         throw "Teacher-audit tests failed."
     }
 

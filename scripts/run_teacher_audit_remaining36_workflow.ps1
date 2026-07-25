@@ -2,6 +2,7 @@ param(
     [switch]$Background,
     [switch]$Resume,
     [switch]$Status,
+    [switch]$Stop,
     [int]$MaximumAttempts = 4,
     [int]$InitialRetrySeconds = 60
 )
@@ -80,8 +81,63 @@ function Show-Status {
     }
 }
 
+function Stop-Workflow {
+    if (-not (Test-Path -LiteralPath $PidPath)) {
+        Write-Host "No workflow PID file exists; the workflow is not running."
+        return
+    }
+
+    $WorkflowPid = (Get-Content -LiteralPath $PidPath -Raw).Trim()
+    if (-not $WorkflowPid) {
+        Write-Host "The workflow PID file is empty; the workflow is not running."
+        return
+    }
+
+    $RootProcess = Get-Process `
+        -Id ([int]$WorkflowPid) `
+        -ErrorAction SilentlyContinue
+    if ($null -eq $RootProcess) {
+        Write-Host "Workflow PID $WorkflowPid is not running."
+        return
+    }
+
+    $ProcessIds = New-Object System.Collections.Generic.List[int]
+    $PendingParents = New-Object System.Collections.Generic.Queue[int]
+    $PendingParents.Enqueue([int]$WorkflowPid)
+    while ($PendingParents.Count -gt 0) {
+        $ParentId = $PendingParents.Dequeue()
+        $Children = @(
+            Get-CimInstance Win32_Process |
+                Where-Object { $_.ParentProcessId -eq $ParentId }
+        )
+        foreach ($Child in $Children) {
+            $ChildId = [int]$Child.ProcessId
+            $ProcessIds.Add($ChildId)
+            $PendingParents.Enqueue($ChildId)
+        }
+    }
+
+    for ($Index = $ProcessIds.Count - 1; $Index -ge 0; $Index--) {
+        Stop-Process -Id $ProcessIds[$Index] -Force -ErrorAction SilentlyContinue
+    }
+    Stop-Process -Id ([int]$WorkflowPid) -Force -ErrorAction SilentlyContinue
+
+    $State = Read-State
+    if ($null -ne $State) {
+        $State.status = "interrupted"
+        $State.message = "stopped by user; resume with -Resume -Background"
+        Save-State $State
+    }
+    Write-Host "Workflow stopped. Completed checkpoints were preserved."
+}
+
 if ($Status) {
     Show-Status
+    exit 0
+}
+
+if ($Stop) {
+    Stop-Workflow
     exit 0
 }
 

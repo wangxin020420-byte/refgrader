@@ -445,6 +445,62 @@ def save_json_list(path, data):
     os.replace(temporary, path)
 
 
+def persist_validated_rubric(
+    initial_path,
+    output_path,
+    rubric,
+    total_score,
+    *,
+    allow_unchanged_baseline=False,
+    allow_baseline_fallback=False,
+):
+    """Atomically persist and validate the exact rubric consumed downstream."""
+    save_json_list(output_path, rubric)
+    with open(initial_path, "r", encoding="utf-8") as handle:
+        persisted_initial = json.load(handle)
+    with open(output_path, "r", encoding="utf-8") as handle:
+        persisted_rubric = json.load(handle)
+    valid, errors = validate_refined_rubric(
+        persisted_initial,
+        persisted_rubric,
+        total_score,
+        allow_unchanged_baseline=allow_unchanged_baseline,
+    )
+    if valid:
+        return {
+            "rubric": persisted_rubric,
+            "used_baseline_fallback": False,
+            "candidate_errors": [],
+        }
+    if not allow_baseline_fallback:
+        raise RuntimeError(
+            "Persisted optimized rubric failed semantic validation: "
+            + "; ".join(errors)
+        )
+
+    candidate_errors = list(errors)
+    baseline = prepare_rubric_semantic_contract(persisted_initial)
+    save_json_list(output_path, baseline)
+    with open(output_path, "r", encoding="utf-8") as handle:
+        persisted_baseline = json.load(handle)
+    baseline_valid, baseline_errors = validate_refined_rubric(
+        persisted_initial,
+        persisted_baseline,
+        total_score,
+        allow_unchanged_baseline=True,
+    )
+    if not baseline_valid:
+        raise RuntimeError(
+            "Persisted baseline fallback is invalid: "
+            + "; ".join(baseline_errors)
+        )
+    return {
+        "rubric": persisted_baseline,
+        "used_baseline_fallback": True,
+        "candidate_errors": candidate_errors,
+    }
+
+
 def snapshot_activation_files(paths):
     """Capture exact active-file bytes before a multi-question transaction."""
     return {
@@ -690,6 +746,59 @@ def validate_retained_optimized_rubric(q_data):
         "question_id": q_id,
         "rubric_path": rubric_path,
         "manifest_path": manifest_path,
+        "optimized_sha256": sha256_path(rubric_path),
+    }
+
+
+def validate_activated_optimized_rubric(
+    q_data,
+    *,
+    allow_baseline_fallback=False,
+):
+    """Validate the exact rubric and manifest persisted for one question."""
+    q_id = q_data["question_id"]
+    rubric_path = optimized_rubric_output_path(q_data)
+    manifest_path = optimization_manifest_path(q_data)
+    initial_path = initial_rubric_path_for(q_data)
+    if not os.path.exists(rubric_path):
+        raise FileNotFoundError(f"No optimized rubric for {q_id}: {rubric_path}")
+    if not os.path.exists(manifest_path):
+        raise FileNotFoundError(f"No optimization manifest for {q_id}: {manifest_path}")
+    if not initial_path or not os.path.exists(initial_path):
+        raise FileNotFoundError(f"No immutable initial rubric for {q_id}")
+
+    validate_optimized_rubric_provenance(q_data, rubric_path)
+    with open(manifest_path, "r", encoding="utf-8") as handle:
+        manifest = json.load(handle)
+    if (
+        manifest.get("semantic_validation_mode")
+        == "noninferiority_baseline_fallback"
+        and not allow_baseline_fallback
+    ):
+        raise ValueError(
+            f"The active rubric for {q_id} is a diagnostic baseline fallback."
+        )
+
+    with open(initial_path, "r", encoding="utf-8") as handle:
+        initial_rubric = json.load(handle)
+    with open(rubric_path, "r", encoding="utf-8") as handle:
+        active_rubric = json.load(handle)
+    semantic_valid, semantic_errors = validate_refined_rubric(
+        initial_rubric,
+        active_rubric,
+        float(q_data["total_score"]),
+        allow_unchanged_baseline=manifest_allows_unchanged_baseline(manifest),
+    )
+    if not semantic_valid:
+        raise ValueError(
+            f"The persisted rubric for {q_id} violates the active semantic "
+            "contract: " + "; ".join(semantic_errors)
+        )
+    return {
+        "question_id": q_id,
+        "rubric_path": rubric_path,
+        "manifest_path": manifest_path,
+        "semantic_validation_mode": manifest.get("semantic_validation_mode"),
         "optimized_sha256": sha256_path(rubric_path),
     }
 
@@ -1483,7 +1592,38 @@ def run_variance_optimization_process(
             + "; ".join(semantic_validation_errors)
         )
 
-    save_json_list(rubric_save_path, final_rubric)
+    persistence = persist_validated_rubric(
+        initial_rubric_path,
+        rubric_save_path,
+        final_rubric,
+        q_score,
+        allow_unchanged_baseline=(
+            semantic_validation_mode
+            in {
+                SEMANTIC_MODE_CALIBRATED_BASELINE,
+                "noninferiority_baseline_fallback",
+            }
+        ),
+        allow_baseline_fallback=allow_baseline_fallback,
+    )
+    final_rubric = persistence["rubric"]
+    if persistence["used_baseline_fallback"]:
+        candidate_persistence_errors = persistence["candidate_errors"]
+        logging.error(
+            "[rubric persistence] the accepted in-memory candidate did not "
+            "survive disk round-trip validation; activating the immutable "
+            "baseline for this diagnostic audit. "
+            + "; ".join(candidate_persistence_errors)
+        )
+        refinement_applied = False
+        structural_refinement_applied = False
+        metadata_enriched = False
+        selected_variant = "baseline"
+        semantic_validation_mode = "noninferiority_baseline_fallback"
+        semantic_policy_validated = True
+        fallback_reason = "persisted_candidate_validation_failed"
+        decomposition_deferred = True
+        deferred_semantic_errors = candidate_persistence_errors
     manifest = {
         "schema_version": 1,
         "rubric_semantic_contract_version": RUBRIC_SEMANTIC_CONTRACT_VERSION,
@@ -2214,6 +2354,18 @@ if __name__ == "__main__":
                             extraction_backend=args.extraction_backend,
                             ocr_cache_dir=args.ocr_cache_dir,
                             allow_baseline_fallback=args.allow_baseline_rubric_fallback,
+                        )
+                        activated = validate_activated_optimized_rubric(
+                            q_data,
+                            allow_baseline_fallback=(
+                                args.allow_baseline_rubric_fallback
+                            ),
+                        )
+                        logging.info(
+                            "[rubric transaction] persisted postcondition "
+                            f"passed for {q_id}; mode="
+                            f"{activated['semantic_validation_mode']}; "
+                            f"sha256={activated['optimized_sha256']}"
                         )
                     except RubricCandidateRejectedError as exc:
                         try:

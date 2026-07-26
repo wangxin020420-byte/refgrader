@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -408,6 +409,14 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             self.assertIsNotNone(selected)
             self.assertTrue(selected.samefile(current))
 
+    @patch.dict(
+        os.environ,
+        {
+            "REFGRADER_SAMPLE_POLICY_MODE": "active",
+            "REFGRADER_SAMPLE_POLICY": "",
+        },
+        clear=False,
+    )
     def test_validation_publish_uses_separate_stage(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / "refgrader"

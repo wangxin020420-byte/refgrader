@@ -1,8 +1,10 @@
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import patch
 
 import evaluate
 from sample_quality import SampleQualityPolicy, default_policy_path
@@ -12,6 +14,14 @@ from scripts.run_csbench import effective_split_ids
 
 
 class SampleQualityPolicyTests(unittest.TestCase):
+    def setUp(self):
+        policy_mode = patch.dict(
+            os.environ,
+            {"REFGRADER_SAMPLE_POLICY_MODE": "active"},
+        )
+        policy_mode.start()
+        self.addCleanup(policy_mode.stop)
+
     def make_root(self):
         temporary = tempfile.TemporaryDirectory()
         root = Path(temporary.name)

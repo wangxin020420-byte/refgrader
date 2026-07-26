@@ -397,6 +397,7 @@ try {
                     "--run-id", $Batch.run_id,
                     "--no-active-a3wa",
                     "--require-complete",
+                    "--allow-baseline-rubric-fallback",
                     "--text-provider", "glm5",
                     "--thinking-mode", "disabled",
                     "--vlm-provider", "glm4v"

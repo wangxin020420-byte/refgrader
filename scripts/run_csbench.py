@@ -253,7 +253,11 @@ class CSBenchContext:
                 f"answers, fewer than --sample-size {sample_size}."
             )
 
-    def validate_optimized(self) -> None:
+    def validate_optimized(
+        self,
+        *,
+        allow_baseline_fallback: bool = False,
+    ) -> None:
         assert self.question
         if not self.optimized_rubric.is_file():
             raise FileNotFoundError(
@@ -277,7 +281,11 @@ class CSBenchContext:
         manifest = json.loads(
             self.optimization_manifest.read_text(encoding="utf-8")
         )
-        if manifest.get("semantic_validation_mode") == "noninferiority_baseline_fallback":
+        if (
+            manifest.get("semantic_validation_mode")
+            == "noninferiority_baseline_fallback"
+            and not allow_baseline_fallback
+        ):
             raise ValueError(
                 "The optimized rubric is only a diagnostic baseline fallback, "
                 "not an accepted optimization candidate. Re-run optimize "
@@ -395,6 +403,8 @@ def build_publish_command(
         command.extend(["--a3wa-config", args.a3wa_config])
     for question_id in getattr(args, "a3wa_config_questions", None) or []:
         command.extend(["--a3wa-config-question", question_id])
+    if getattr(args, "allow_baseline_rubric_fallback", False):
+        command.append("--allow-baseline-rubric-fallback")
     if push:
         command.append("--push")
     return command
@@ -925,7 +935,11 @@ def _active_rubric_entry(ctx: CSBenchContext) -> dict[str, Any]:
     }
 
 
-def _all_valid_rubric_contexts(seed: CSBenchContext) -> list[CSBenchContext]:
+def _all_valid_rubric_contexts(
+    seed: CSBenchContext,
+    *,
+    allow_baseline_fallback: bool = False,
+) -> list[CSBenchContext]:
     exam = json.loads(seed.database.read_text(encoding="utf-8-sig"))
     valid = []
     for item in exam:
@@ -940,7 +954,9 @@ def _all_valid_rubric_contexts(seed: CSBenchContext) -> list[CSBenchContext]:
             continue
         try:
             normalize_optimization_manifest(ctx)
-            ctx.validate_optimized()
+            ctx.validate_optimized(
+                allow_baseline_fallback=allow_baseline_fallback
+            )
         except (FileNotFoundError, ValueError):
             continue
         valid.append(ctx)
@@ -982,13 +998,16 @@ def refresh_active_configuration(
     *,
     a3wa_config: Path | None = None,
     source_validation_run_id: str | None = None,
+    allow_baseline_fallback: bool = False,
 ) -> Path:
     """Write the tracked current rubric/A3WA configuration atomically."""
     if not contexts:
         raise ValueError("At least one question is required to activate rubrics.")
     for ctx in contexts:
         normalize_optimization_manifest(ctx)
-        ctx.validate_optimized()
+        ctx.validate_optimized(
+            allow_baseline_fallback=allow_baseline_fallback
+        )
 
     seed = contexts[0]
     bundle_path = active_rubric_set_path(seed)
@@ -996,7 +1015,10 @@ def refresh_active_configuration(
     if bundle_path.is_file():
         existing = json.loads(bundle_path.read_text(encoding="utf-8-sig"))
 
-    valid_contexts = _all_valid_rubric_contexts(seed)
+    valid_contexts = _all_valid_rubric_contexts(
+        seed,
+        allow_baseline_fallback=allow_baseline_fallback,
+    )
     entries = {
         ctx.question_id: _active_rubric_entry(ctx) for ctx in valid_contexts
     }
@@ -1064,6 +1086,8 @@ def refresh_active_configuration(
 
 def validate_active_configuration(
     contexts: list[CSBenchContext],
+    *,
+    allow_baseline_fallback: bool = False,
 ) -> dict[str, Any]:
     if not contexts:
         raise ValueError("At least one question is required.")
@@ -1093,7 +1117,9 @@ def validate_active_configuration(
         )
     entries = bundle.get("questions") or {}
     for ctx in contexts:
-        ctx.validate_optimized()
+        ctx.validate_optimized(
+            allow_baseline_fallback=allow_baseline_fallback
+        )
         entry = entries.get(ctx.question_id)
         if not entry:
             raise ValueError(
@@ -1611,6 +1637,9 @@ exit "$status"
 def optimize(args: argparse.Namespace) -> int:
     model_config = model_config_from_args(args)
     requested_contexts = build_contexts(args.prepared_dir, args.questions)
+    allow_baseline_fallback = bool(
+        getattr(args, "allow_baseline_rubric_fallback", False)
+    )
     for ctx in requested_contexts:
         ctx.validate_initial(args.sample_size)
     slug = batch_slug(requested_contexts)
@@ -1621,7 +1650,9 @@ def optimize(args: argparse.Namespace) -> int:
         pending_contexts = []
         for ctx in requested_contexts:
             try:
-                ctx.validate_optimized()
+                ctx.validate_optimized(
+                    allow_baseline_fallback=allow_baseline_fallback
+                )
             except (FileNotFoundError, ValueError, json.JSONDecodeError) as exc:
                 pending_contexts.append(ctx)
                 print(f"Resume {ctx.question_id}: pending ({exc})")
@@ -1632,7 +1663,10 @@ def optimize(args: argparse.Namespace) -> int:
                 )
         contexts = pending_contexts
         if not contexts:
-            bundle = refresh_active_configuration(requested_contexts)
+            bundle = refresh_active_configuration(
+                requested_contexts,
+                allow_baseline_fallback=allow_baseline_fallback,
+            )
             print("All requested rubric optimizations are already complete.")
             print(f"Active rubric set updated: {bundle}")
             if args.no_artifacts:
@@ -1652,7 +1686,8 @@ def optimize(args: argparse.Namespace) -> int:
                     run_id=None,
                     include_raw_ocr=False,
                     include_facts=args.include_facts,
-                    push_artifacts=args.push_artifacts,
+                    push=args.push_artifacts,
+                    allow_baseline_rubric_fallback=allow_baseline_fallback,
                 )
             )
 
@@ -1761,7 +1796,10 @@ def optimize(args: argparse.Namespace) -> int:
                 "published automatically after the job finishes successfully."
             )
         return return_code
-    bundle = refresh_active_configuration(requested_contexts)
+    bundle = refresh_active_configuration(
+        requested_contexts,
+        allow_baseline_fallback=allow_baseline_fallback,
+    )
     print(f"Active rubric set updated: {bundle}")
     if args.no_artifacts:
         return return_code
@@ -1776,6 +1814,7 @@ def optimize(args: argparse.Namespace) -> int:
             include_raw_ocr=False,
             include_facts=args.include_facts,
             push=args.push_artifacts,
+            allow_baseline_rubric_fallback=allow_baseline_fallback,
         )
     )
 
@@ -1783,9 +1822,22 @@ def optimize(args: argparse.Namespace) -> int:
 def grade(args: argparse.Namespace) -> int:
     model_config = model_config_from_args(args)
     contexts = build_contexts(args.prepared_dir, args.questions)
+    allow_baseline_fallback = bool(
+        getattr(args, "allow_baseline_rubric_fallback", False)
+    )
+    if allow_baseline_fallback and args.split != "all":
+        raise ValueError(
+            "--allow-baseline-rubric-fallback is restricted to --split all "
+            "teacher-label audit runs."
+        )
     for ctx in contexts:
-        ctx.validate_optimized()
-    validate_active_configuration(contexts)
+        ctx.validate_optimized(
+            allow_baseline_fallback=allow_baseline_fallback
+        )
+    validate_active_configuration(
+        contexts,
+        allow_baseline_fallback=allow_baseline_fallback,
+    )
     explicit_a3wa = getattr(args, "a3wa_config", None)
     disable_active_a3wa = bool(getattr(args, "no_active_a3wa", False))
     if explicit_a3wa and disable_active_a3wa:
@@ -2002,6 +2054,7 @@ def grade(args: argparse.Namespace) -> int:
                     args.questions if args.a3wa_config else []
                 ),
                 results_dir=str(results_dir),
+                allow_baseline_rubric_fallback=allow_baseline_fallback,
             )
         )
     if args.limit is not None:
@@ -2589,6 +2642,9 @@ def show_outputs(args: argparse.Namespace) -> int:
 def publish(args: argparse.Namespace) -> int:
     contexts = build_contexts(args.prepared_dir, args.questions)
     slug = batch_slug(contexts)
+    allow_baseline_fallback = bool(
+        getattr(args, "allow_baseline_rubric_fallback", False)
+    )
     artifacts_repo = Path(args.artifacts_repo).expanduser().resolve()
     if not (artifacts_repo / ".git").is_dir():
         raise ValueError(
@@ -2622,12 +2678,22 @@ def publish(args: argparse.Namespace) -> int:
             for ctx in contexts
         )
         requested_stage = "full" if has_test else "rubric"
+    if allow_baseline_fallback and requested_stage not in ("audit", "rubric"):
+        raise ValueError(
+            "Diagnostic baseline rubric fallback can be published only for "
+            "rubric or audit artifact stages."
+        )
 
     for ctx in contexts:
         normalize_optimization_manifest(ctx)
-        ctx.validate_optimized()
+        ctx.validate_optimized(
+            allow_baseline_fallback=allow_baseline_fallback
+        )
     if requested_stage == "rubric":
-        refresh_active_configuration(contexts)
+        refresh_active_configuration(
+            contexts,
+            allow_baseline_fallback=allow_baseline_fallback,
+        )
 
     result_stage = RESULT_ARTIFACT_STAGES.get(requested_stage)
     answer_split = result_stage[0] if result_stage else None
@@ -2723,7 +2789,9 @@ def publish(args: argparse.Namespace) -> int:
 
     published_paths = []
     for ctx in contexts:
-        ctx.validate_optimized()
+        ctx.validate_optimized(
+            allow_baseline_fallback=allow_baseline_fallback
+        )
         checkpoint = grade_dir / f"{ctx.question_id}_grading_checkpoint.json"
         has_full_results = checkpoint.is_file()
         if (
@@ -3309,6 +3377,14 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     grade_parser.add_argument(
+        "--allow-baseline-rubric-fallback",
+        action="store_true",
+        help=(
+            "Diagnostic only: allow unchanged baseline rubric fallbacks for "
+            "--split all teacher-label audit runs."
+        ),
+    )
+    grade_parser.add_argument(
         "--artifacts-repo",
         default=str((PROJECT_ROOT.parent / "refgrader-artifacts").resolve()),
     )
@@ -3512,6 +3588,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
     publish_parser.add_argument("--run-id")
     publish_parser.add_argument("--results-dir", help=argparse.SUPPRESS)
+    publish_parser.add_argument(
+        "--allow-baseline-rubric-fallback",
+        action="store_true",
+        help=(
+            "Diagnostic only: publish baseline rubric fallbacks for rubric "
+            "or audit stages."
+        ),
+    )
     publish_parser.add_argument(
         "--a3wa-config",
         help="A3WA calibration config to copy into the artifact run.",

@@ -44,7 +44,7 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             parser.parse_args(["optimize", "CO_1", "--resume", "--force"])
 
     def test_test_grading_requires_active_a3wa_unless_explicitly_disabled(self):
-        context = SimpleNamespace(validate_optimized=lambda: None)
+        context = SimpleNamespace(validate_optimized=lambda **_: None)
         args = SimpleNamespace(
             prepared_dir="data/csbench",
             questions=["CO_1"],
@@ -59,6 +59,85 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
         ):
             with self.assertRaisesRegex(ValueError, "No valid active A3WA config"):
                 grade(args)
+
+    def test_diagnostic_baseline_fallback_requires_explicit_allowance(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "refgrader"
+            prepared = root / "data" / "csbench"
+            prepared.mkdir(parents=True)
+            (prepared / "exam_database.json").write_text(
+                json.dumps([{
+                    "question_id": "CO_1",
+                    "rubric_group": "CO",
+                    "total_score": 5,
+                }]),
+                encoding="utf-8",
+            )
+            (prepared / "teacher_scores.json").write_text("{}", encoding="utf-8")
+            (prepared / "answer_metadata.jsonl").write_text("", encoding="utf-8")
+            split = prepared / "splits" / "by_question" / "CO_1.json"
+            split.parent.mkdir(parents=True)
+            split.write_text(
+                json.dumps({"calibration": ["A"], "validation": [], "test": []}),
+                encoding="utf-8",
+            )
+            initial = (
+                prepared / "rubrics" / "initial" / "CO"
+                / "CO_1_rubric_standard.json"
+            )
+            optimized = (
+                prepared / "rubrics" / "optimized" / "CO"
+                / "CO_1_rubric_standard.json"
+            )
+            manifest = (
+                prepared / "rubrics" / "manifests" / "CO"
+                / "CO_1_optimization.json"
+            )
+            for path in (initial, optimized, manifest):
+                path.parent.mkdir(parents=True, exist_ok=True)
+            rubric = json.dumps([{
+                "id": "s1",
+                "item": "write the unique final answer",
+                "points": 5,
+                "standard_answer_text": "37H",
+                "scoring_policy": "strict_atomic",
+            }])
+            initial.write_text(rubric, encoding="utf-8")
+            optimized.write_text(rubric, encoding="utf-8")
+            manifest.write_text(
+                json.dumps({
+                    "rubric_semantic_contract_version": (
+                        RUBRIC_SEMANTIC_CONTRACT_VERSION
+                    ),
+                    "semantic_policy_validated": True,
+                    "semantic_validation_mode": (
+                        "noninferiority_baseline_fallback"
+                    ),
+                    "initial_sha256": sha256_file(initial),
+                    "optimized_sha256": sha256_file(optimized),
+                }),
+                encoding="utf-8",
+            )
+
+            with patch("scripts.run_csbench.PROJECT_ROOT", root):
+                context = CSBenchContext(str(prepared), "CO_1")
+                with self.assertRaisesRegex(
+                    ValueError, "diagnostic baseline fallback"
+                ):
+                    context.validate_optimized()
+                context.validate_optimized(allow_baseline_fallback=True)
+                refresh_active_configuration(
+                    [context],
+                    allow_baseline_fallback=True,
+                )
+                validate_active_configuration(
+                    [context],
+                    allow_baseline_fallback=True,
+                )
+                with self.assertRaisesRegex(
+                    ValueError, "diagnostic baseline fallback"
+                ):
+                    validate_active_configuration([context])
 
     def test_active_configuration_is_portable_and_invalidates_stale_a3wa(self):
         with tempfile.TemporaryDirectory() as temporary:

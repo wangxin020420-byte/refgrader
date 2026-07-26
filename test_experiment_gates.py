@@ -12,7 +12,7 @@ from main_pipeline import (
 from unittest.mock import patch
 from scripts.audit_question_splits import audit
 from scripts.calibrate_a3wa import calibrate_boundary_action_gate
-from scripts.run_csbench import build_parser, validate_a3wa_deployment_gate
+from scripts.run_csbench import build_parser, grade, validate_a3wa_deployment_gate
 
 
 class ExperimentGateTests(unittest.TestCase):
@@ -25,6 +25,18 @@ class ExperimentGateTests(unittest.TestCase):
             "--require-complete",
         ])
         self.assertTrue(args.require_complete)
+
+    def test_baseline_rubric_fallback_is_restricted_to_all_audit(self):
+        args = build_parser().parse_args([
+            "grade",
+            "CO_4",
+            "--split",
+            "test",
+            "--allow-baseline-rubric-fallback",
+        ])
+        with patch("scripts.run_csbench.build_contexts", return_value=[]):
+            with self.assertRaisesRegex(ValueError, "restricted to --split all"):
+                grade(args)
 
     def test_question_split_audit_covers_portable_snapshot(self):
         report = audit(Path("data/csbench"))

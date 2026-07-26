@@ -254,14 +254,25 @@ class ExperimentGateTests(unittest.TestCase):
             manifest = root / "manifest.json"
             rubric = [{
                 "id": "step_1",
-                "item": "final answer",
-                "standard_answer_text": "37H",
+                "item": "derive both address fields",
+                "standard_answer_text": "tag=8; set=4",
                 "points": 5.0,
+                "scoring_policy": "additive_split",
+                "task_semantics": "component_additive",
+                "split_policy": "allow_semantic_split",
+                "parent_id": "step_1",
+                "parent_points": 5.0,
+                "minimum_scoring_children": 2,
+                "decomposition_required": True,
             }]
             initial.write_text(json.dumps(rubric), encoding="utf-8")
             optimized.write_text(json.dumps(rubric), encoding="utf-8")
             manifest.write_text(json.dumps({
                 "semantic_validation_mode": "noninferiority_baseline_fallback",
+                "semantic_policy_validated": True,
+                "selected_variant": "baseline",
+                "decomposition_deferred": True,
+                "fallback_reason": "candidate_noninferiority_rejected",
             }), encoding="utf-8")
 
             with (
@@ -269,7 +280,6 @@ class ExperimentGateTests(unittest.TestCase):
                 patch("main_pipeline.optimization_manifest_path", return_value=str(manifest)),
                 patch("main_pipeline.initial_rubric_path_for", return_value=str(initial)),
                 patch("main_pipeline.validate_optimized_rubric_provenance"),
-                patch("main_pipeline.validate_refined_rubric", return_value=(True, [])),
             ):
                 with self.assertRaisesRegex(ValueError, "diagnostic baseline fallback"):
                     validate_activated_optimized_rubric(question)

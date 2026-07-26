@@ -299,7 +299,10 @@ class CSBenchContext:
             initial_rubric,
             rubric,
             question_total,
-            allow_unchanged_baseline=manifest_allows_unchanged_baseline(manifest),
+            allow_unchanged_baseline=manifest_allows_unchanged_baseline(
+                manifest,
+                allow_diagnostic_fallback=allow_baseline_fallback,
+            ),
         )
         if not semantic_valid:
             raise ValueError(

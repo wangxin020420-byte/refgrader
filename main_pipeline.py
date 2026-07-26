@@ -787,7 +787,10 @@ def validate_activated_optimized_rubric(
         initial_rubric,
         active_rubric,
         float(q_data["total_score"]),
-        allow_unchanged_baseline=manifest_allows_unchanged_baseline(manifest),
+        allow_unchanged_baseline=manifest_allows_unchanged_baseline(
+            manifest,
+            allow_diagnostic_fallback=allow_baseline_fallback,
+        ),
     )
     if not semantic_valid:
         raise ValueError(

@@ -933,6 +933,23 @@ class RubricSemanticContractTests(unittest.TestCase):
         manifest["decomposition_deferred"] = False
         self.assertFalse(manifest_allows_unchanged_baseline(manifest))
 
+        diagnostic_manifest = {
+            "semantic_validation_mode": "noninferiority_baseline_fallback",
+            "semantic_policy_validated": True,
+            "selected_variant": "baseline",
+            "decomposition_deferred": True,
+            "fallback_reason": "candidate_noninferiority_rejected",
+        }
+        self.assertFalse(
+            manifest_allows_unchanged_baseline(diagnostic_manifest)
+        )
+        self.assertTrue(
+            manifest_allows_unchanged_baseline(
+                diagnostic_manifest,
+                allow_diagnostic_fallback=True,
+            )
+        )
+
     def test_noninferiority_fallback_allows_only_unchanged_coarse_baseline(self):
         baseline = [{
             "id": "step_1",

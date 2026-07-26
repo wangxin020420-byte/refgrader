@@ -224,16 +224,36 @@ def candidate_replay_supports_baseline_selection(report: dict[str, Any]) -> bool
     )
 
 
-def manifest_allows_unchanged_baseline(manifest: dict[str, Any]) -> bool:
-    """Validate evidence for the deployable calibrated-baseline mode."""
-    return bool(
+def manifest_allows_unchanged_baseline(
+    manifest: dict[str, Any],
+    *,
+    allow_diagnostic_fallback: bool = False,
+) -> bool:
+    """Validate evidence for retaining an unchanged coarse baseline.
+
+    A calibrated baseline is deployable when paired replay supports selecting
+    it. A diagnostic fallback is accepted only when the caller explicitly
+    opts in; formal validation and test runs therefore continue to reject it.
+    """
+    if (
         manifest.get("semantic_validation_mode")
         == SEMANTIC_MODE_CALIBRATED_BASELINE
+    ):
+        return bool(
+            manifest.get("selected_variant") == "baseline"
+            and manifest.get("decomposition_deferred") is True
+            and candidate_replay_supports_baseline_selection(
+                manifest.get("candidate_replay") or {}
+            )
+        )
+    return bool(
+        allow_diagnostic_fallback
+        and manifest.get("semantic_validation_mode")
+        == "noninferiority_baseline_fallback"
+        and manifest.get("semantic_policy_validated") is True
         and manifest.get("selected_variant") == "baseline"
         and manifest.get("decomposition_deferred") is True
-        and candidate_replay_supports_baseline_selection(
-            manifest.get("candidate_replay") or {}
-        )
+        and bool(manifest.get("fallback_reason"))
     )
 
 

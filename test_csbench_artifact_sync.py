@@ -98,10 +98,16 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                 path.parent.mkdir(parents=True, exist_ok=True)
             rubric = json.dumps([{
                 "id": "s1",
-                "item": "write the unique final answer",
+                "item": "derive both address fields",
                 "points": 5,
-                "standard_answer_text": "37H",
-                "scoring_policy": "strict_atomic",
+                "standard_answer_text": "tag=8; set=4",
+                "scoring_policy": "additive_split",
+                "task_semantics": "component_additive",
+                "split_policy": "allow_semantic_split",
+                "parent_id": "s1",
+                "parent_points": 5,
+                "minimum_scoring_children": 2,
+                "decomposition_required": True,
             }])
             initial.write_text(rubric, encoding="utf-8")
             optimized.write_text(rubric, encoding="utf-8")
@@ -114,6 +120,9 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                     "semantic_validation_mode": (
                         "noninferiority_baseline_fallback"
                     ),
+                    "selected_variant": "baseline",
+                    "decomposition_deferred": True,
+                    "fallback_reason": "candidate_noninferiority_rejected",
                     "initial_sha256": sha256_file(initial),
                     "optimized_sha256": sha256_file(optimized),
                 }),

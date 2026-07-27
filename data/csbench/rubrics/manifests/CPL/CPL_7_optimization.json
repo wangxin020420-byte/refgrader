@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "rubric_semantic_contract_version": 6,
+  "question_id": "CPL_7",
+  "rubric_group": "CPL",
+  "source_rubric": "data/csbench/rubrics/source/CPL/CPL_7.json",
+  "initial_rubric": "data/csbench/rubrics/initial/CPL/CPL_7_rubric_standard.json",
+  "optimized_rubric": "${PREPARED_CSBENCH_ROOT}/rubrics/optimized/CPL/CPL_7_rubric_standard.json",
+  "calibration_answer_ids": [
+    "ANS_CPL_405",
+    "ANS_CPL_407",
+    "ANS_CPL_410",
+    "ANS_CPL_413",
+    "ANS_CPL_414"
+  ],
+  "requested_sample_size": 5,
+  "completed_sample_size": 5,
+  "extraction_backend": "csbench_hybrid",
+  "model_config": {
+    "text_provider": "glm5",
+    "text_model": "glm-5.2",
+    "text_thinking": "disabled",
+    "vlm_model": "glm-4.6v"
+  },
+  "question_total_score": 15.0,
+  "initial_total_score": 15.0,
+  "optimized_total_score": 15.0,
+  "average_score_variance": 1.8111111111111111,
+  "average_item_variance": 0.36516203703703703,
+  "maximum_item_variance": 2.388888888888889,
+  "high_value_split_threshold": 4.0,
+  "mandatory_split_targets": [
+    {
+      "parent_id": "step_1",
+      "parent_points": 5.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "equal_atomic"
+    },
+    {
+      "parent_id": "step_2",
+      "parent_points": 5.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "equal_atomic"
+    },
+    {
+      "parent_id": "step_3",
+      "parent_points": 5.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "equal_atomic"
+    }
+  ],
+  "refinement_attempted": true,
+  "refinement_applied": false,
+  "structural_refinement_applied": false,
+  "metadata_enriched": false,
+  "semantic_policy_validated": true,
+  "semantic_validation_mode": "noninferiority_baseline_fallback",
+  "selected_variant": "baseline",
+  "semantic_validation_errors": [],
+  "fallback_reason": "candidate_noninferiority_rejected:severe_sample_regression",
+  "decomposition_deferred": true,
+  "deferred_semantic_errors": [
+    "additive parent step_1 must contain at least 2 scoring items, got 1",
+    "additive parent step_2 must contain at least 2 scoring items, got 1",
+    "additive parent step_3 must contain at least 2 scoring items, got 1"
+  ],
+  "candidate_replay": {
+    "method": "paired_teacher_score_noninferiority",
+    "expected": 5,
+    "paired": 5,
+    "required": 4,
+    "coverage": 1.0,
+    "mae_margin": 0.3,
+    "severe_regression_margin": 3.0,
+    "accepted": false,
+    "reason": "severe_sample_regression",
+    "baseline_mae": 1.366667,
+    "candidate_mae": 1.65,
+    "mae_delta": 0.283333,
+    "improved": 3,
+    "unchanged": 0,
+    "worsened": 2,
+    "severe_regressions": 1,
+    "records": [
+      {
+        "answer_id": "ANS_CPL_405",
+        "baseline_score": 14.5,
+        "candidate_score": 15.0,
+        "teacher_score": 15.0
+      },
+      {
+        "answer_id": "ANS_CPL_407",
+        "baseline_score": 9.5,
+        "candidate_score": 10.0,
+        "teacher_score": 8.0
+      },
+      {
+        "answer_id": "ANS_CPL_410",
+        "baseline_score": 9.0,
+        "candidate_score": 12.5,
+        "teacher_score": 12.0
+      },
+      {
+        "answer_id": "ANS_CPL_413",
+        "baseline_score": 9.5,
+        "candidate_score": 13.75,
+        "teacher_score": 9.0
+      },
+      {
+        "answer_id": "ANS_CPL_414",
+        "baseline_score": 7.666666666666667,
+        "candidate_score": 10.0,
+        "teacher_score": 9.0
+      }
+    ]
+  },
+  "scoring_policies": [
+    "additive_split"
+  ],
+  "source_sha256": "c8bbe7d99af4655549718c951c7e9d2d238d69e4e369165a6c228d8c5b589251",
+  "initial_sha256": "7a82226a3f451938602a16e58e6c3aa7a8f5cd687be72b44f9fb2c2abc648c89",
+  "optimized_sha256": "9f70cdaa0840281c24ba4f4f7d829bf77cab278a4a77e58f9f270bc4cb8687c9",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_rubric_opt/CPL_7_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "f73046aa311b9d345413048f9c4f8d601a02e1fd2818be3f782db4e1f4bda3f5",
+  "created_at": "2026-07-27T05:38:17",
+  "path_format": "refgrader_placeholders_v1"
+}

@@ -1,0 +1,28 @@
+[
+    {
+        "id": "step_1",
+        "item": "简述组成、重要性及SQL语言的作用",
+        "points": 5.0,
+        "answer_type": "derived_numeric",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": "numeric",
+        "evidence_source": "transcription",
+        "standard_answer_text": "组成：数据库(DB)、数据库管理系统(DBMS)、硬件平台、软件工具、数据库管理员(DBA)和用户 [cite: 482]。重要性：解决数据冗余和不一致问题，实现数据集中管理、共享和安全控制 [cite: 483]。SQL作用：结构化查询语言，用于定义、操作、查询与管理关系型数据库，减轻用户负担，提高数据独立性与安全性 [cite: 484]。",
+        "standard_answer_image": null,
+        "source_text": "简述组成、重要性及SQL语言的作用",
+        "parent_official_item": "简述组成、重要性及SQL语言的作用",
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "parent_id": "step_1",
+        "semantic_contract_version": 6,
+        "parent_points": 5.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "decomposition_required": true,
+        "minimum_scoring_children": 2
+    }
+]

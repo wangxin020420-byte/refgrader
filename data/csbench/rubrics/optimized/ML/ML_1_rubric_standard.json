@@ -1,0 +1,28 @@
+[
+    {
+        "id": "step_1",
+        "item": "正确填写真值表的输出结果（F列）",
+        "points": 4.0,
+        "answer_type": "table_entry",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": "table",
+        "evidence_source": "text_and_ocr",
+        "standard_answer_text": "F列输出从上到下依次为：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+        "standard_answer_image": "data/csbench/reference_images/standard_answers/ML_1.png",
+        "source_text": "正确填写真值表的输出结果（F列）",
+        "parent_official_item": "正确填写真值表的输出结果（F列）",
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "parent_id": "step_1",
+        "semantic_contract_version": 6,
+        "parent_points": 4.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "decomposition_required": true,
+        "minimum_scoring_children": 2
+    }
+]

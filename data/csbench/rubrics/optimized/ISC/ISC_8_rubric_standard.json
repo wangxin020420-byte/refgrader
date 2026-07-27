@@ -1,0 +1,130 @@
+[
+    {
+        "id": "step_1_component_1",
+        "item": "写出 X=-15 的原码、反码、补码",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "original_code",
+                    "aliases": [
+                        "原码"
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "inverse_code",
+                    "aliases": [
+                        "反码"
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "complement_code",
+                    "aliases": [
+                        "补码"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "原码: 10001111, 反码: 11110000, 补码: 11110001",
+        "source_text": "X=-15：原码 10001111，反码 11110000，补码 11110001",
+        "parent_official_item": "写出X和Y的原码、反码和补码",
+        "parent_id": "step_1",
+        "parent_points": 2.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_1_component_2",
+        "item": "写出 Y=+10 的原码、反码、补码",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "original_code",
+                    "aliases": [
+                        "原码"
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "inverse_code",
+                    "aliases": [
+                        "反码"
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "complement_code",
+                    "aliases": [
+                        "补码"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "原码: 00001010, 反码: 00001010, 补码: 00001010",
+        "source_text": "Y=+10：原码 00001010，反码 00001010，补码 00001010",
+        "parent_official_item": "写出X和Y的原码、反码和补码",
+        "parent_id": "step_1",
+        "parent_points": 2.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_2",
+        "item": "使用补码计算X-Y，并写出结果",
+        "points": 2.0,
+        "answer_type": "bit_vector",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": "bit_vector",
+        "evidence_source": "transcription",
+        "standard_answer_text": "X-Y的结果（补码）：11100111 [cite: 526]",
+        "standard_answer_image": null,
+        "source_text": "使用补码计算X-Y，并写出结果",
+        "parent_official_item": "使用补码计算X-Y，并写出结果",
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "parent_id": "step_2",
+        "semantic_contract_version": 6,
+        "parent_points": 2.0,
+        "split_policy": "preserve_atomic",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "process_dominant",
+        "scoring_policy": "strict_atomic",
+        "decomposition_required": false,
+        "full_credit_anchor": "X-Y的结果（补码）：11100111 [cite: 526]"
+    }
+]

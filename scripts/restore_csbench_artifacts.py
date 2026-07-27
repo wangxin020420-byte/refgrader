@@ -384,10 +384,13 @@ def main() -> int:
         )
 
     for ctx in contexts:
-        ctx.validate_optimized()
+        ctx.validate_optimized(
+            allow_baseline_fallback=(args.stage == "audit"),
+        )
     active_bundle = refresh_active_configuration(
         contexts,
         a3wa_config=restored_config,
+        allow_baseline_fallback=(args.stage == "audit"),
         source_validation_run_id=(
             run_id
             if restored_config and args.stage in {"validation", "calibration"}

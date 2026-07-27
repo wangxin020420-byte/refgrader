@@ -577,6 +577,27 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             (audit / "CO_1_graded_results.json").write_text(
                 audit_record, encoding="utf-8"
             )
+            diagnostic_manifest = json.loads(
+                manifest.read_text(encoding="utf-8")
+            )
+            diagnostic_manifest.update({
+                "semantic_validation_mode": (
+                    "noninferiority_baseline_fallback"
+                ),
+                "selected_variant": "baseline",
+                "fallback_reason": (
+                    "candidate_noninferiority_rejected:"
+                    "severe_sample_regression"
+                ),
+                "candidate_replay": {
+                    "accepted": False,
+                    "reason": "severe_sample_regression",
+                },
+            })
+            manifest.write_text(
+                json.dumps(diagnostic_manifest),
+                encoding="utf-8",
+            )
             audit_args = SimpleNamespace(
                 prepared_dir=str(prepared),
                 questions=["CO_1"],
@@ -588,6 +609,7 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                 push=False,
                 a3wa_config=None,
                 a3wa_config_questions=[],
+                allow_baseline_rubric_fallback=True,
             )
             with patch("scripts.run_csbench.PROJECT_ROOT", root):
                 self.assertEqual(publish(audit_args), 0)

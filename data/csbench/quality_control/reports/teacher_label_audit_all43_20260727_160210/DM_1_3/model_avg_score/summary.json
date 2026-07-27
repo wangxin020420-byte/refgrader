@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-07-27T16:27:45",
+  "purpose": "human_review_candidates_only",
+  "results_dir": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008",
+  "score_key": "model_avg_score",
+  "candidate_count": 33,
+  "questions": [
+    {
+      "question_id": "DM_1",
+      "checkpoint": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_1_grading_checkpoint.json",
+      "records": 88,
+      "comparable": 88,
+      "candidate_count": 7,
+      "p1_count": 3,
+      "threshold": 1.2,
+      "raw_robust_threshold": 1.2,
+      "severe_threshold": 2.0,
+      "outlier_threshold": 1.2,
+      "raw_outlier_threshold": 1.2,
+      "median_residual": 0.0,
+      "bias_threshold": 1.2,
+      "systematic_bias": false,
+      "score_key": "model_avg_score"
+    },
+    {
+      "question_id": "DM_2",
+      "checkpoint": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_2_grading_checkpoint.json",
+      "records": 90,
+      "comparable": 90,
+      "candidate_count": 12,
+      "p1_count": 4,
+      "threshold": 1.5,
+      "raw_robust_threshold": 1.5,
+      "severe_threshold": 2.5,
+      "outlier_threshold": 1.5,
+      "raw_outlier_threshold": 1.5,
+      "median_residual": 0.0,
+      "bias_threshold": 1.5,
+      "systematic_bias": false,
+      "score_key": "model_avg_score"
+    },
+    {
+      "question_id": "DM_3",
+      "checkpoint": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_3_grading_checkpoint.json",
+      "records": 89,
+      "comparable": 89,
+      "candidate_count": 14,
+      "p1_count": 8,
+      "threshold": 2.5,
+      "raw_robust_threshold": 4.35824,
+      "severe_threshold": 2.5,
+      "outlier_threshold": 2.5,
+      "raw_outlier_threshold": 4.35824,
+      "median_residual": 0.0,
+      "bias_threshold": 1.5,
+      "systematic_bias": false,
+      "score_key": "model_avg_score"
+    }
+  ],
+  "warning": "A candidate is not automatically a noisy teacher label. Human review is required before policy activation."
+}

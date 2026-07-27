@@ -1,0 +1,308 @@
+﻿question_id,answer_id,review_priority,candidate_type,teacher_score,reference_score_key,reference_score,teacher_minus_reference,absolute_difference,candidate_threshold,centered_residual,outlier_threshold,candidate_reasons,question_median_residual,question_systematic_bias,max_score,model_avg_score,selected_baseline_score,three_way_core_score,final_calibrated_score,route,std_dev,extraction_quality,U_E,U_S,U_R,confounds,human_decision,corrected_score,review_note,raw_text,student_image
+ISC_1,ANS_ISC_406,P1,possible_teacher_over_score,3.0,three_way_core_score,0.8,2.2,2.2,2.0,0.9,2.0,absolute_disagreement,1.3,True,5.0,0.8,0.8,0.8,0.8,BND,0.0,high,0.333333,0.0,0.333333,,,,,"挑战① ai等新技术对计算机性能要求的更新大于硬件算力的发展速度。
+② 硬件提升，算力更新已到达瓶颈，边际效益明显。
+
+方向：① 巨型化：应用巨型计算机推动多学科发展，解决复杂难题。
+② 微型化：使计算机体型变小，满足人们广泛需求。
+③ 网络化：做到资源整合，带来便利。
+④ 智能化，让计算机在更多应用场景与环节代替人力劳动。",data/csbench/student_images/ISC_1/ANS_ISC_406.jpg
+ISC_1,ANS_ISC_414,P1,possible_teacher_over_score,3.0,three_way_core_score,0.9,2.1,2.1,2.0,0.8,2.0,absolute_disagreement,1.3,True,5.0,0.9,0.9,0.9,0.9,BND,0.0794,high,0.333333,0.17,0.333333,,,,,答：挑战：知识的获取与知识库的构建问题；高效的推理机制的实现问题。①持续开发新技术提高芯片集成度 ②进行生物计算机、光计算机和量子计算机等非电子计算机的研究和探索。③提升其网络化、智能化的程度。,data/csbench/student_images/ISC_1/ANS_ISC_414.jpg
+ISC_1,ANS_ISC_429,P1,possible_teacher_over_score,3.0,three_way_core_score,1.0,2.0,2.0,2.0,0.7,2.0,absolute_disagreement,1.3,True,5.0,1.0,1.0,1.0,1.0,POS,0.0,high,0.0,0.0,0.333333,,,,,答：①影响：使计算机体积更小、运算速度更快、可靠性更高。使计算机发展迈向新的阶段。②挑战：需要不断创新、打破之前的桎梏，应用于更多的行业。③新的技术方向：提高电路芯片的集成度、模拟人脑的思维、联想等，压缩体积、提高精度。,data/csbench/student_images/ISC_1/ANS_ISC_429.jpg
+ISC_1,ANS_ISC_440,P2,possible_teacher_over_score,4.0,three_way_core_score,0.9,3.1,3.1,2.0,1.8,2.0,absolute_disagreement,1.3,True,5.0,1.9,1.9,0.9,0.9,BND,0.3928,high,0.0,0.833333,0.222222,a3wa_changed_score_materially,,,,"1、影响；推动计算机朝体积更小，成本降低，运算速度更快，可靠性更高的方向发展。
+2、挑战；与现代社会发展节奏有差距。
+3、通过不断提高集成电路芯片的集成度；还要在进行生物计算机、光计算机等非电子计算机的研究和探索来延续计算性能的提升。",data/csbench/student_images/ISC_1/ANS_ISC_440.jpg
+ISC_1,ANS_ISC_397,P2,possible_teacher_over_score,3.0,three_way_core_score,0.0,3.0,3.0,2.0,1.7,2.0,absolute_disagreement,1.3,True,5.0,0.0,0.0,0.0,0.0,BND,0.0,high,0.333333,0.0,0.444444,rubric_mapping_risk,,,,挑战：定律的进一步拓展延伸，摩尔定律在实际问题中的应用和其解决问的能力如何提升、计算性能如何提升 新的技术方向：利用人工智能对其性能验证、通过多种其它定律加以佐证辅助力在实际场景中应用,data/csbench/student_images/ISC_1/ANS_ISC_397.jpg
+ISC_1,ANS_ISC_401,P2,possible_teacher_over_score,4.0,three_way_core_score,1.0,3.0,3.0,2.0,1.7,2.0,absolute_disagreement,1.3,True,5.0,1.0,1.0,1.0,1.0,BND,0.0,high,0.333333,0.0,0.444444,rubric_mapping_risk,,,,挑战:受到散热器件工艺制造成本等多因素制约. 新方向:不断提高集成电路芯片的集成度,data/csbench/student_images/ISC_1/ANS_ISC_401.jpg
+ISC_1,ANS_ISC_452,P2,possible_teacher_over_score,3.0,three_way_core_score,0.2,2.8,2.8,2.0,1.5,2.0,absolute_disagreement,1.3,True,5.0,0.2,0.2,0.2,0.2,BND,0.2619,high,0.333333,0.5556,0.444444,rubric_mapping_risk,,,,"一、知识的获取与知识库的构建存在问题
+二、高效的推理机制无法实现
+实现可容错通用量子计算机的实际问题严峻。提高运算速度、运算精度，提高存储器的记忆能力，提高判断能力。
+",data/csbench/student_images/ISC_1/ANS_ISC_452.jpg
+ISC_1,ANS_ISC_441,P2,possible_teacher_over_score,3.0,three_way_core_score,0.6,2.4,2.4,2.0,1.1,2.0,absolute_disagreement,1.3,True,5.0,0.6,0.6,0.6,0.6,BND,0.792,high,0.333333,1.0,0.555556,rubric_mapping_risk|unstable_model_judgements,,,,答：挑战：计算速度慢，易出现差错，对计算机消耗磨损大 新技术：提高系统存储总容量，加快运算速度与精度，研发超级计算机等。,data/csbench/student_images/ISC_1/ANS_ISC_441.jpg
+ISC_1,ANS_ISC_405,P2,possible_teacher_over_score,3.0,three_way_core_score,0.8,2.2,2.2,2.0,0.9,2.0,absolute_disagreement,1.3,True,5.0,0.8,0.8,0.8,0.8,BND,0.1862,high,0.333333,0.45,0.444444,rubric_mapping_risk,,,,"1、挑战：技术革新进入瓶颈，技术突破更加困难，缓慢，对资金的需求增加；
+2、应对、②型化、网络化、",data/csbench/student_images/ISC_1/ANS_ISC_405.jpg
+ISC_1,ANS_ISC_425,P2,possible_teacher_over_score,3.0,three_way_core_score,0.8,2.2,2.2,2.0,0.9,2.0,absolute_disagreement,1.3,True,5.0,0.8,0.8,0.8,0.8,BND,0.5987,high,0.333333,1.0,0.555556,rubric_mapping_risk|unstable_model_judgements,,,,"挑战：功能有限，速率如何加快，处理能力如何增强，体积如何变小。
+新的技术方向：可穿戴设备，人工智能或t或",data/csbench/student_images/ISC_1/ANS_ISC_425.jpg
+ISC_1,ANS_ISC_390,P2,possible_teacher_over_score,3.0,three_way_core_score,0.9,2.1,2.1,2.0,0.8,2.0,absolute_disagreement,1.3,True,5.0,0.9,0.9,0.9,0.9,BND,0.0779,low,0.666667,0.17,0.666667,extraction_risk|rubric_mapping_risk,,,,"1、覆盖的问题不够全面
+2、研究量子计算机，生物计算机与光计算机，提高芯片集成度",data/csbench/student_images/ISC_1/ANS_ISC_390.jpg
+ISC_1,ANS_ISC_392,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,0.7,2.0,absolute_disagreement,1.3,True,5.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.666667,0.0,0.666667,extraction_risk|rubric_mapping_risk,,,,正在通过AI、人工智能来推动计算机性能,data/csbench/student_images/ISC_1/ANS_ISC_392.jpg
+ISC_1,ANS_ISC_403,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,0.7,2.0,absolute_disagreement,1.3,True,5.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.666667,0.0,0.777778,extraction_risk|rubric_mapping_risk,,,,挑战:要处理的数据日趋庞大；人们希望计算机能够具有像人的思维,data/csbench/student_images/ISC_1/ANS_ISC_403.jpg
+ISC_1,ANS_ISC_434,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,0.7,2.0,absolute_disagreement,1.3,True,5.0,0.0,0.0,0.0,0.0,BND,0.0,high,0.333333,0.0,0.444444,rubric_mapping_risk,,,,"摩尔定律面临的挑战：随着时代的发展逐步淘汰。
+业界正通过：巨型化、微型化、网络化、智能化的发展趋势对计算机进行进步的性能提升。",data/csbench/student_images/ISC_1/ANS_ISC_434.jpg
+ISC_1,ANS_ISC_439,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,0.7,2.0,absolute_disagreement,1.3,True,5.0,0.0,0.0,0.0,0.0,BND,0.0,high,0.333333,0.0,0.555556,rubric_mapping_risk,,,,"主要挑战：计算能力不足，急需改进。
+新的技术方向：人工智能领域",data/csbench/student_images/ISC_1/ANS_ISC_439.jpg
+ISC_1,ANS_ISC_386,P2,possible_teacher_under_score,3.0,three_way_core_score,4.4,-1.4,1.4,2.0,-2.7,2.0,within_question_outlier,1.3,True,5.0,4.4,4.4,4.4,4.4,BND,0.4779,high,0.0,1.0,0.333333,,,,,摩尔定律是指芯片制造领域，每六个月芯片的性能翻一番，而成本降低一半。而今，这个定律却因半导体制造产业发展受阻，以及芯片制造精度接近硅原子物理极限而几近失效。 业界正通过多方面的努力延续计算性能提升： 芯片制造端：通过引入GAAFin替代。FinFin工艺，使芯片制程进一步下探；通过使用碳基芯片随开硅基芯片物理极限； 芯片封装端：使用更好的封装使多核芯片通过总线互联， 以实现更高的算力密度；软件开发端：开发更加高效的算法，使算力更加充分的被利用。,data/csbench/student_images/ISC_1/ANS_ISC_386.jpg
+ISC_1,ANS_ISC_396,P2,possible_teacher_under_score,2.0,three_way_core_score,3.2,-1.2,1.2,2.0,-2.5,2.0,within_question_outlier,1.3,True,5.0,3.2,3.2,3.2,3.2,POS,0.0864,high,0.0,0.183333,0.0,,,,,"集成电路和摩尔定律让计算机性能飞升. 现在面临物理极限挑战,行业用多核,3D 堆叠,量子计算等新技术突破瓶颈.",data/csbench/student_images/ISC_1/ANS_ISC_396.jpg
+ISC_2,ANS_ISC_468,P1,possible_teacher_over_score,3.0,three_way_core_score,0.7,2.3,2.3,1.83434,2.0,1.83434,absolute_disagreement|within_question_outlier,0.3,False,5.0,0.7,0.7,0.7,0.7,BND,0.4714,high,0.0,1.0,0.0,,,,,"操作系统是其他系统软件和应用有效运行的基础
+在一个进程中创造多个线程，实现多个线程的并发执行，即一个进程的多个部分可以并发执行。",data/csbench/student_images/ISC_2/ANS_ISC_468.jpg
+ISC_2,ANS_ISC_526,P2,possible_teacher_over_score,4.0,three_way_core_score,0.8,3.2,3.2,1.83434,2.9,1.83434,absolute_disagreement|within_question_outlier,0.3,False,5.0,0.8,0.8,0.8,0.8,BND,0.6236,high,0.0,1.0,0.333333,unstable_model_judgements,,,,多任务调度：操作系统通过进程的调度使进程灵活在内存与外存中进行进程交换，通过高级调度，中级调度和作级调度灵活让进程进行，实现多任务的调度,data/csbench/student_images/ISC_2/ANS_ISC_526.jpg
+ISC_3,ANS_ISC_541,P1,possible_teacher_over_score,4.0,three_way_core_score,2.0,2.0,2.0,2.0,1.0,2.0,absolute_disagreement,1.0,True,5.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.0,,,,,"组成：语言编译程序、控制数据库运行程序、维护故障程序 重要性：信息处理是计算机的一个重要应用领域,信息处理领域,由于数据量庞大如何有效地组织、存储数据对实现高效的信息处理至关重要.数据库技术是最有效的数据管理技术 
+作用：1.非过程化的语言：只需想'做什么'不需理解'怎么做'对存取路径选择和语句的操作自动完成：
+2.功能一体化的语言：集数据之义语言，数据操作为一体
+3.语法两种使用方式
+4语句集合操作的语言
+5语法简介易于易懂的好准语言
+",data/csbench/student_images/ISC_3/ANS_ISC_541.jpg
+ISC_3,ANS_ISC_542,P1,possible_teacher_over_score,5.0,three_way_core_score,3.0,2.0,2.0,2.0,1.0,2.0,absolute_disagreement,1.0,True,5.0,2.7,3.0,3.0,3.0,POS,0.2357,high,0.0,0.5,0.0,,,,,"1.数据库系统 数据库 数据库管理系统，关系数据库 2.1）提供了内模式和外模式间的两级映像功能，使数据具有更高的物理独立性和逻辑独立性2）降低了数据冗余，提高数据共享度
+③SQL 1）允许用户在较高层的数据结构上作，操作对象可以是若干集合
+2）减轻用户的负担，提高了数据的独立性与安全性，
+3）使用户只学习一种语言形式即可完成对多种平台的数据存储请求4）符合人类的思维习惯，容易掌握与学习",data/csbench/student_images/ISC_3/ANS_ISC_542.jpg
+ISC_3,ANS_ISC_560,P1,possible_teacher_over_score,5.0,three_way_core_score,3.0,2.0,2.0,2.0,1.0,2.0,absolute_disagreement,1.0,True,5.0,2.8,3.0,3.0,3.0,POS,0.2357,high,0.0,0.5,0.0,,,,,"（1）以数据库为核心的，在数据库管理系统的支持下完成一定的数据存储和管理功能的应用软件系统。
+（2）1数据冗余度低，数据共享度高；2数据和程序间有较高独立性
+（3）1用于构造用于分析的多维度数据集2面向过程，减轻用户负担，提高数据独立安全3功能一体化，只需学一种语言可以完成多平台数据请求4一种语法多种使用方式，灵活方便",data/csbench/student_images/ISC_3/ANS_ISC_560.jpg
+ISC_3,ANS_ISC_562,P2,possible_teacher_over_score,5.0,three_way_core_score,2.0,3.0,3.0,2.0,2.0,2.0,absolute_disagreement|within_question_outlier,1.0,True,5.0,2.0,2.0,2.0,2.0,BND,0.0,high,0.5,0.0,0.5,rubric_mapping_risk,,,,"数据库系统组成：语言编译程序，控制数据库运行程序，维护数据库程序
+
+重要性：数据库技术是目前最有效的数据管理技术
+
+SQL语言应用：既可以作为一种自含式语言，被用以一种人机交互的方式在终端键盘上直接输入SQL命令对数据库进行操作；又可以作为一种嵌入式语言，被程序员在开发应用程序时直接嵌入某种高级语言中使用",data/csbench/student_images/ISC_3/ANS_ISC_562.jpg
+ISC_3,ANS_ISC_564,P2,possible_teacher_over_score,4.0,three_way_core_score,2.0,2.0,2.0,2.0,1.0,2.0,absolute_disagreement,1.0,True,5.0,1.5,2.0,2.0,2.0,BND,0.4082,high,0.5,1.0,0.5,rubric_mapping_risk,,,,数据库系统的组成：需求分析.概念结构分析.逻辑结构分析.物理结构分析.数据库实施.数据库运行和维护 数据库系统的重要性：数据冗余度低.数据共享度高；数据库系统的数据和程序之间具有较高的独立性 SQL语言用于OLAP和数据挖掘.将数据仓库中的数据组织成包含预先计算的数据集，以便快速解答.,data/csbench/student_images/ISC_3/ANS_ISC_564.jpg
+ISC_3,ANS_ISC_572,P2,possible_teacher_over_score,5.0,three_way_core_score,3.0,2.0,2.0,2.0,1.0,2.0,absolute_disagreement,1.0,True,5.0,2.0,2.5,3.0,3.0,BND,0.4082,high,0.5,1.0,0.5,rubric_mapping_risk|a3wa_changed_score_materially,,,,定义：软件开发环境，办公软件，辅助医疗软件，多媒体制作软件，网页制作软件， 网络通信软件，工具软件，零应用软件。 意义：数据库系统降低了数据冗余度，减少数据冗余带来的数据冲突，提高数据共享 程度，使得数据具有高度的物理独立性和逻辑独立性。 SQL作用：功能丰富，语言简洁，为使用方便灵活，可以减轻用户负担，提高数据独立性和安全性，比较容易学习和掌握，优化功能，符合人类思维习惯。,data/csbench/student_images/ISC_3/ANS_ISC_572.jpg
+ISC_3,ANS_ISC_577,P2,possible_teacher_over_score,5.0,three_way_core_score,3.0,2.0,2.0,2.0,1.0,2.0,absolute_disagreement,1.0,True,5.0,3.0,3.0,3.0,3.0,BND,0.0,high,0.5,0.0,0.5,rubric_mapping_risk,,,,答：①数据库系统由三类程序文件组成：语言编译程序.控制数据库运行程序.维护数据库程序. ②重要性：在信息处理领域.由于数据量庞大.而数据库技术可以有效地组织.存储数据.对实现高效率的信息处理至关重要；而数据库系统的两个鲜明特点：数据库系统的数据冗余度低.数据共享度高；数据库系统的数据和程序之间具有较高的独立性使其更好有效管理数据.对现代信息管理系统至关重要 ③SQL语言作用：非过程化语言.轻减了客户负担.提高数据独立性及安全性；功能一体化语言.语言风格一致.完成多项操作；一种语法两种使用：人机交互.嵌入式；面向集合操作的语言，允许操作对象为记录集.,data/csbench/student_images/ISC_3/ANS_ISC_577.jpg
+ISC_3,ANS_ISC_587,P2,possible_teacher_over_score,4.0,three_way_core_score,2.0,2.0,2.0,2.0,1.0,2.0,absolute_disagreement,1.0,True,5.0,1.8,2.0,2.0,2.0,BND,0.2357,high,0.5,0.5,0.5,rubric_mapping_risk,,,,组成：①数据库管理系统 ②数据库应用系统 重要性：在现代信息系统中，数据量庞大，如何有效地组织、存储数据对实现高效率的信息处理至关重要。而数据库系统是目前最有效久的数据管理技术 SQL作用：功能强大、简洁易学，可以简洁灵活地进行结构化的数据查询,data/csbench/student_images/ISC_3/ANS_ISC_587.jpg
+ISC_3,ANS_ISC_588,P2,possible_teacher_over_score,3.0,three_way_core_score,1.0,2.0,2.0,2.0,1.0,2.0,absolute_disagreement,1.0,True,5.0,0.7,1.0,1.0,1.0,BND,0.4714,high,0.5,1.0,0.666667,rubric_mapping_risk,,,,数据库系统的组成：本地数据库管理系统、全局数据库管理系统、全局数据字典、通信管理。SQL语句的作用是被构造出来访问关系数据库。,data/csbench/student_images/ISC_3/ANS_ISC_588.jpg
+ISC_3,ANS_ISC_607,P2,possible_teacher_over_score,4.0,three_way_core_score,2.0,2.0,2.0,2.0,1.0,2.0,absolute_disagreement,1.0,True,5.0,1.7,2.0,2.0,2.0,BND,0.2076,high,0.5,0.5,0.5,rubric_mapping_risk,,,,"1)数据库是长期存储在计算机内的、有组织的、可共享的数据集合。
+数据库系统的数据冗余度低，数据共享度高，数据和程序有较高的独立性。
+对现代信息系统有重要意义。
+2)SQL是用于OLAP和数据挖掘的中层服务器，包括一个服务器，可用于
+构造用于分析的多维数据集，提供对多维数据收集信息的客户端访问，
+为复杂的分析查询提供快速解答。",data/csbench/student_images/ISC_3/ANS_ISC_607.jpg
+ISC_3,ANS_ISC_615,P2,possible_teacher_over_score,5.0,three_way_core_score,3.0,2.0,2.0,2.0,1.0,2.0,absolute_disagreement,1.0,True,5.0,3.0,3.0,3.0,3.0,BND,0.0,high,0.5,0.0,0.5,rubric_mapping_risk,,,,"组成：数据库管理系统、数据库应用系统
+重要性：①降低了数据冗余度，减少了其带来的数据冲突问题。②提高了数据共享度 ③使数据具有较高独立性，当数据要更改时应用程序不用改变。
+SQL作用：①减轻用户负担。②提高数据独立性、安全性。③减轻管理负担。④提高灵活性、方便性。⑤语法简单，易学易用",data/csbench/student_images/ISC_3/ANS_ISC_615.jpg
+ISC_4,ANS_ISC_637,P1,possible_teacher_over_score,5.0,three_way_core_score,2.5,2.5,2.5,1.0,2.0,1.0,absolute_disagreement|within_question_outlier,0.5,False,5.0,2.5,2.5,2.5,2.5,POS,0.0,high,0.0,0.0,0.0,,,,,"(1)TCP协议是为在计算机网络中进行数据交换而建立的规则、标准或约定。由语法、语义和时序3个要素组成。
+
+(2)HTTP是超文本传输协议，通过发送请求把待传输的数据文件分成数据单元，以单元为基本单位发送，接收方收到后，再整合成完整数据文件。",data/csbench/student_images/ISC_4/ANS_ISC_637.jpg
+ISC_4,ANS_ISC_629,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,1.0,1.5,1.0,absolute_disagreement|within_question_outlier,0.5,False,5.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"用于操纵HTML来其他WWW文档的协议称为HTTP。
+构成：主要由统一资源定位器组成。",data/csbench/student_images/ISC_4/ANS_ISC_629.jpg
+ISC_4,ANS_ISC_662,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,1.0,1.5,1.0,absolute_disagreement|within_question_outlier,0.5,False,5.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"协议:各令域通过商量后达成共识，制定出最为安全有效的文件制约计算机网络
+构成:协议要包含条约，目的和限制对象以及处理方法",data/csbench/student_images/ISC_4/ANS_ISC_662.jpg
+ISC_4,ANS_ISC_657,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,1.0,1.5,1.0,absolute_disagreement|within_question_outlier,0.5,False,5.0,0.0,0.0,0.0,0.0,NEG,0.0,low,1.0,0.0,1.0,extraction_risk|rubric_mapping_risk,,,,HTTP是使用统一资源定位器这一概念.即URL是‘地址’ URL用于标识‘Internet’或‘数据对象’ ,data/csbench/student_images/ISC_4/ANS_ISC_657.jpg
+ISC_4,ANS_ISC_665,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,1.0,1.5,1.0,absolute_disagreement|within_question_outlier,0.5,False,5.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.5,0.0,0.666667,extraction_risk|rubric_mapping_risk,,,,"协议可以将主机A中的内容转移至主机B中. HTTP使用了统一资源定位器这一概念,",data/csbench/student_images/ISC_4/ANS_ISC_665.jpg
+ISC_4,ANS_ISC_617,P2,possible_teacher_over_score,3.0,three_way_core_score,1.3,1.7,1.7,1.0,1.2,1.0,absolute_disagreement|within_question_outlier,0.5,False,5.0,1.3,1.3,1.3,1.3,POS,0.1179,high,0.0,0.25,0.0,,,,,"“协议”是一种互联网信息传递的规范
+以HTTP为例，协议规定了数据以怎样的方式被传输。 规定了网络发包发式，发包频率等。",data/csbench/student_images/ISC_4/ANS_ISC_617.jpg
+ISC_4,ANS_ISC_620,P2,possible_teacher_over_score,2.0,three_way_core_score,0.4,1.6,1.6,1.0,1.1,1.0,absolute_disagreement|within_question_outlier,0.5,False,5.0,0.4,0.4,0.4,0.4,BND,0.5893,high,0.0,1.0,0.166667,unstable_model_judgements,,,,"计算机网络中‘协议’就是各方遵守相关的规则制度,共同维护计算机网络的稳定,不去造成破坏. 基本构成是如何正确使用计算机网络，应当遵守怎样的规则",data/csbench/student_images/ISC_4/ANS_ISC_620.jpg
+ISC_4,ANS_ISC_650,P2,possible_teacher_over_score,2.0,three_way_core_score,0.4,1.6,1.6,1.0,1.1,1.0,absolute_disagreement|within_question_outlier,0.5,False,5.0,0.4,0.4,0.4,0.4,BND,0.5893,low,0.5,1.0,0.5,extraction_risk|rubric_mapping_risk|unstable_model_judgements,,,,协议由语法 语义 时序构成 HTTP是超文本传输协议,data/csbench/student_images/ISC_4/ANS_ISC_650.jpg
+ISC_4,ANS_ISC_653,P2,possible_teacher_over_score,4.0,three_way_core_score,2.5,1.5,1.5,1.0,1.0,1.0,absolute_disagreement|within_question_outlier,0.5,False,5.0,2.5,2.5,2.5,2.5,POS,0.0,high,0.0,0.0,0.0,,,,,①协议的概念：为在计算机网络中进行数据交换而建立的规则，标准或约定称为网络协议 ②协议的构成：对于HTTP协议而言，由HTML语法，和语义，时序等构成。,data/csbench/student_images/ISC_4/ANS_ISC_653.jpg
+ISC_4,ANS_ISC_628,P2,possible_teacher_over_score,3.0,three_way_core_score,1.8,1.2,1.2,1.0,0.7,1.0,absolute_disagreement,0.5,False,5.0,2.8,2.8,1.8,1.8,BND,0.4714,high,0.0,1.0,0.166667,a3wa_changed_score_materially,,,,"概念：为在计算机网络中进行数据交换而建立的规则，标准或约定
+HTTP，即超文本传输协议，构成有语法，即HTTP中HT指出数据与控制信息为超文本hypertext. ②语义.第二个T为'Transfer'.指出要完成数据传输操作 ③时序.有对于事件实现顺序的详细说明是同步的. 协议的同时提供WWW服务.",data/csbench/student_images/ISC_4/ANS_ISC_628.jpg
+ISC_4,ANS_ISC_679,P2,possible_teacher_under_score,2.0,three_way_core_score,2.5,-0.5,0.5,1.0,-1.0,1.0,within_question_outlier,0.5,False,5.0,2.5,2.5,2.5,2.5,POS,0.0,high,0.0,0.0,0.0,,,,,4.概念：为在计算机网络中进行数据交换而建立的规则、标准或约定称为网络协议，简称协议。 基本构成：物理层、数据链路层、网络层、传输层， 会话层、表示层、应用层。,data/csbench/student_images/ISC_4/ANS_ISC_679.jpg
+ISC_4,ANS_ISC_682,P2,possible_teacher_under_score,2.0,three_way_core_score,2.5,-0.5,0.5,1.0,-1.0,1.0,within_question_outlier,0.5,False,5.0,2.5,2.5,2.5,2.5,POS,0.0,high,0.0,0.0,0.0,,,,,"答：计算机网络中‘协议’是由语法、语义、时序组成
+HTTP可提供WWW服务.",data/csbench/student_images/ISC_4/ANS_ISC_682.jpg
+ISC_5,ANS_ISC_29,P1,possible_teacher_over_score,4.0,three_way_core_score,0.2,3.8,3.8,2.0,3.7,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,0.2,0.2,0.2,0.2,POS,0.1179,high,0.0,0.208333,0.083333,,,,,"字符串：OAllo，DC4 > O 7 NAK 
+字母：A、0、1 标点：， > 
+数字字符：O、O、7",data/csbench/student_images/ISC_5/ANS_ISC_29.jpg
+ISC_5,ANS_ISC_06,P1,possible_teacher_over_score,5.0,three_way_core_score,1.8,3.2,3.2,2.0,3.1,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,1.8,1.8,1.8,1.8,BND,0.4714,high,0.25,0.833333,0.25,,,,,"字符串为：Hello，AHE！
+48，65，6C，6F，41，55，为字符
+2C，21为标点。",data/csbench/student_images/ISC_5/ANS_ISC_06.jpg
+ISC_5,ANS_ISC_38,P1,possible_teacher_over_score,5.5,three_way_core_score,2.8,2.7,2.7,2.0,2.6,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,2.8,2.8,2.8,2.8,BND,0.5401,high,0.25,1.0,0.333333,,,,,"解答：由十六进制→二进制→ASCII码可知：48→H，65→'e'，6c→'l'，6F→'o'，2C→','，20→'SPACE'，41→'A'，55→'U'，21→'!' 对应字符串为Hello,SPACE AHU!，字母有H,e,l,o,A,U,SPACE.
+标点有"",""""!""  数字字符没有",data/csbench/student_images/ISC_5/ANS_ISC_38.jpg
+ISC_5,ANS_ISC_59,P1,possible_teacher_over_score,3.0,three_way_core_score,0.4,2.6,2.6,2.0,2.5,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,0.4,0.4,0.4,0.4,BND,0.5893,high,0.0,1.0,0.166667,,,,,"HTI\MM}ANULDLE HTLFDC4 .
+标点\，6}
+字母 M A
+数文字符.DC4",data/csbench/student_images/ISC_5/ANS_ISC_59.jpg
+ISC_5,ANS_ISC_51,P1,possible_teacher_under_score,3.0,three_way_core_score,5.3,-2.3,2.3,2.0,-2.4,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,5.3,5.3,5.3,5.3,BND,0.1179,high,0.25,0.208333,0.25,,,,,"48:01001000→H 2c:00101100→, 65:01100101→e 20:00100000→space  6c:01101100→l 41:01000001→A 6c:01101100→l y3:01010010→R 55:01010101→U 6p:01101111→o 21:00100001→!",data/csbench/student_images/ISC_5/ANS_ISC_51.jpg
+ISC_5,ANS_ISC_58,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,1.9,2.0,absolute_disagreement,0.1,False,6.0,0.0,0.0,0.0,0.0,BND,0.0,high,0.25,0.0,0.25,,,,,"48 65 6c 6c 6F 2c 20  41 48 55 21 
+H  \  d  d  g  *  GS   C  H  V RS 
+字母：H d d g c H V 
+标点 \ * 
+数字字符 GS RS",data/csbench/student_images/ISC_5/ANS_ISC_58.jpg
+ISC_5,ANS_ISC_64,P1,possible_teacher_under_score,4.0,three_way_core_score,6.0,-2.0,2.0,2.0,-2.1,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,6.0,6.0,6.0,6.0,BND,0.0,high,0.375,0.0,0.375,,,,,"48 65 6c 6c 6F 2c 20 41 48 55 21 
+H e l l o ,   A H U !",data/csbench/student_images/ISC_5/ANS_ISC_64.jpg
+ISC_5,ANS_ISC_33,P2,possible_teacher_over_score,6.0,three_way_core_score,0.0,6.0,6.0,2.0,5.9,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,1.0,1.0,0.0,0.0,BND,1.4142,high,0.375,1.0,0.645833,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"Hello, SPACE AHU!
+字母 标点 标点 字母 标点",data/csbench/student_images/ISC_5/ANS_ISC_33.jpg
+ISC_5,ANS_ISC_41,P2,possible_teacher_over_score,5.0,three_way_core_score,0.0,5.0,5.0,2.0,4.9,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,1.2,1.2,0.0,0.0,BND,0.9354,high,0.375,1.0,0.541667,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"新对应的字符 Hemmo - AHU! 其中“H”“e”“m”“m”“o”“A”“H”“U”为字母 
+“ ”“-”“!” 为标点字符.",data/csbench/student_images/ISC_5/ANS_ISC_41.jpg
+ISC_5,ANS_ISC_54,P2,possible_teacher_over_score,6.0,three_way_core_score,1.2,4.8,4.8,2.0,4.7,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,1.7,1.7,1.2,1.2,BND,1.1785,high,0.25,1.0,0.333333,unstable_model_judgements,,,,"Hello, SPACE AHU!
+字母：Hello AHU
+标点：, SPACE !
+数字字符：无",data/csbench/student_images/ISC_5/ANS_ISC_54.jpg
+ISC_5,ANS_ISC_67,P2,possible_teacher_over_score,6.0,three_way_core_score,1.2,4.8,4.8,2.0,4.7,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,2.4,2.4,1.2,1.2,BND,0.4249,high,0.375,0.833333,0.5,rubric_mapping_risk|a3wa_changed_score_materially,,,,"(48)₁₆ = (1001000)₂ → H
+(65)₁₆ = (1100101)₂ → e
+(6C)₁₆ = (1101100)₂ → l
+(6F)₁₆ = (1101111)₂ → o
+(2C)₁₆ = (0101100)₂ → ,
+(20)₁₆ = (0100000)₂ → SPACE
+(41)₁₆ = (1000001)₂ = A
+(48)₁₆ = (1001000)₂ = H
+(55)₁₆ = (1010101)₂ = U
+(21)₁₆ = (0100001)₂ = !
+Hello, SPACE AHU!
+字符: Hello AHU
+标点: ,!",data/csbench/student_images/ISC_5/ANS_ISC_67.jpg
+ISC_5,ANS_ISC_57,P2,possible_teacher_over_score,6.0,three_way_core_score,1.6,4.4,4.4,2.0,4.3,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,2.8,2.8,1.6,1.6,BND,0.9354,high,0.25,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"解码:Gello, AHU!
+字母:Gello,AHU
+标点"","" 空格""SPACE""“!”",data/csbench/student_images/ISC_5/ANS_ISC_57.jpg
+ISC_5,ANS_ISC_68,P2,possible_teacher_over_score,5.5,three_way_core_score,1.2,4.3,4.3,2.0,4.2,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,1.2,1.2,1.2,1.2,BND,0.5888,high,0.375,1.0,0.5,rubric_mapping_risk,,,,"相应字符串为 Hello, SPACEAHV!
+字母有 H、e、L、o、S、P、A、C、E、V.
+标点有 ，！",data/csbench/student_images/ISC_5/ANS_ISC_68.jpg
+ISC_5,ANS_ISC_35,P2,possible_teacher_over_score,6.0,three_way_core_score,1.9,4.1,4.1,2.0,4.0,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,3.1,3.1,1.9,1.9,BND,1.3591,high,0.375,1.0,0.5,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"Hellx (SPACE)AHU!
+字母：Hellx AHU
+标点：SPACE,!",data/csbench/student_images/ISC_5/ANS_ISC_35.jpg
+ISC_5,ANS_ISC_36,P2,possible_teacher_over_score,3.5,three_way_core_score,0.0,3.5,3.5,2.0,3.4,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.75,0.0,0.75,extraction_risk|rubric_mapping_risk,,,,"转为10进制:48 65 108 108 111 44 20 41 48 55 21 转为2进制:01001000 01100101. 01101100. 01101100. 01101111, 00101100 00100000. 01000001.01001000. 01010101. 00100001 解码:Hello,world!",data/csbench/student_images/ISC_5/ANS_ISC_36.jpg
+ISC_5,ANS_ISC_20,P2,possible_teacher_over_score,5.0,three_way_core_score,1.6,3.4,3.4,2.0,3.3,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,2.8,2.8,1.6,1.6,BND,0.8498,high,0.25,1.0,0.416667,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"Hello, ADU!
+字母: He l l o A D U
+标点: ，！
+数字符: 无",data/csbench/student_images/ISC_5/ANS_ISC_20.jpg
+ISC_5,ANS_ISC_14,P2,possible_teacher_over_score,5.5,three_way_core_score,2.2,3.3,3.3,2.0,3.2,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,3.2,3.2,2.2,2.2,BND,0.736,high,0.25,1.0,0.5,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"Hello, ADU!
+字母: 48, 65, 6C, 6C, 6F
+标点: 21, 2C
+数字符号 20",data/csbench/student_images/ISC_5/ANS_ISC_14.jpg
+ISC_5,ANS_ISC_53,P2,possible_teacher_over_score,5.0,three_way_core_score,1.7,3.3,3.3,2.0,3.2,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,1.7,1.7,1.7,1.7,BND,0.4249,high,0.25,0.833333,0.5,rubric_mapping_risk,,,,"Hello， AH - !
+其中十六进制序列 48. 65. 6 C. 6 C. 6 F. 4l. 48代表字母
+2C. 21代表标点
+20 7f代表数字字符",data/csbench/student_images/ISC_5/ANS_ISC_53.jpg
+ISC_5,ANS_ISC_60,P2,possible_teacher_over_score,5.5,three_way_core_score,2.4,3.1,3.1,2.0,3.0,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,3.6,3.6,2.4,2.4,BND,0.4249,high,0.25,0.833333,0.416667,rubric_mapping_risk|a3wa_changed_score_materially,,,,"HelloFSSPACEAHU! 字母:48,65,6C,6C,6F,41,48,55. 标点:21. 数字符:2C",data/csbench/student_images/ISC_5/ANS_ISC_60.jpg
+ISC_5,ANS_ISC_76,P2,possible_teacher_over_score,6.0,three_way_core_score,3.3,2.7,2.7,2.0,2.6,2.0,absolute_disagreement|within_question_outlier,0.1,False,6.0,2.8,2.8,3.3,3.3,BND,0.2357,high,0.25,0.416667,0.583333,rubric_mapping_risk,,,,"Hello！AHU%
+48 65 6c 6c 6F 41 48 55为字母
+2C.20 21为标点
+无数字字符",data/csbench/student_images/ISC_5/ANS_ISC_76.jpg
+ISC_6,ANS_ISC_132,P1,possible_teacher_over_score,6.0,three_way_core_score,3.0,3.0,3.0,2.0,2.3,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,3.0,3.0,3.0,3.0,BND,0.0,high,0.25,0.0,0.25,,,,,0.625 x 2 1.25 --1 x 2 0.50 --0 x 2 1.00 --1 ∴0.625=(0.101)₂ 2.125 2 1/2 0 --0. x 2 0.25 --0 x 2 0.50 --0 x 2 1.00 --1 ∴2.125=(10.00)₂,data/csbench/student_images/ISC_6/ANS_ISC_132.jpg
+ISC_6,ANS_ISC_79,P2,possible_teacher_over_score,6.0,three_way_core_score,0.0,6.0,6.0,2.0,5.3,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.75,0.0,0.75,extraction_risk|rubric_mapping_risk,,,,"x 3625 / 1.25 ∴(2625)6=10,1012 212 / 0 212 / 2 0.250 212 / 0.250 212 / 0.250 212 / 0.250 212 / 1.00",data/csbench/student_images/ISC_6/ANS_ISC_79.jpg
+ISC_6,ANS_ISC_103,P2,possible_teacher_over_score,6.0,three_way_core_score,1.3,4.7,4.7,2.0,4.0,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,2.5,2.5,1.3,1.3,BND,0.7071,low,0.5,1.0,0.583333,extraction_risk|rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,0.625 整数部分0 小数部分01010一般保留位数 故(0.625)10=(0.101)2,data/csbench/student_images/ISC_6/ANS_ISC_103.jpg
+ISC_6,ANS_ISC_80,P2,possible_teacher_over_score,6.0,three_way_core_score,2.0,4.0,4.0,2.0,3.3,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,2.0,2.0,2.0,2.0,NEG,0.7071,low,0.75,1.0,0.833333,extraction_risk|rubric_mapping_risk|unstable_model_judgements,,,,0.625 210 0 …0. 0.625 × 2 1.250 …1 × 2 1.25 …0 × 2 0.5 …0 × 2 1 …1. ∴ (0.101)₂.,data/csbench/student_images/ISC_6/ANS_ISC_80.jpg
+ISC_6,ANS_ISC_100,P2,possible_teacher_over_score,5.0,three_way_core_score,1.5,3.5,3.5,2.0,2.8,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,1.5,1.5,1.5,1.5,BND,0.0,low,0.75,0.0,0.75,extraction_risk|rubric_mapping_risk,,,,0.625 0.625 二进制0.101 1.250 ----1 0.500 ----0 1.000 ----1,data/csbench/student_images/ISC_6/ANS_ISC_100.jpg
+ISC_6,ANS_ISC_104,P2,possible_teacher_over_score,6.0,three_way_core_score,3.0,3.0,3.0,2.0,2.3,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,3.0,3.0,3.0,3.0,BND,0.0,low,0.5,0.0,0.5,extraction_risk|rubric_mapping_risk,,,,(2)₁₀=(0010)₂ (0.125)₁₀=(0.001)₂ ∴(2.125)₁₀=(0010.001)₂,data/csbench/student_images/ISC_6/ANS_ISC_104.jpg
+ISC_6,ANS_ISC_106,P2,possible_teacher_over_score,6.0,three_way_core_score,3.0,3.0,3.0,2.0,2.3,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,3.0,3.0,3.0,3.0,BND,0.0,low,0.5,0.0,0.5,extraction_risk|rubric_mapping_risk,,,,0.625 2 / (1.250 - 1) 0.250 2 / (0.500 - 0) 0.500 2 / (1.000 - 1) ⇒ 拆解(0.101)₂,data/csbench/student_images/ISC_6/ANS_ISC_106.jpg
+ISC_6,ANS_ISC_120,P2,possible_teacher_over_score,6.0,three_way_core_score,3.0,3.0,3.0,2.0,2.3,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,3.0,3.0,3.0,3.0,BND,0.0,low,0.5,0.0,0.583333,extraction_risk|rubric_mapping_risk,,,,0.625：小：0.625×2=1.25 ，0.25×2=0.5 ，0.5×2=1.0 ； 整：0 ∴0625 =(0.101)₂.,data/csbench/student_images/ISC_6/ANS_ISC_120.jpg
+ISC_6,ANS_ISC_135,P2,possible_teacher_over_score,6.0,three_way_core_score,3.0,3.0,3.0,2.0,2.3,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,3.0,3.0,3.0,3.0,BND,0.0,low,0.5,0.0,0.583333,extraction_risk|rubric_mapping_risk,,,,0为0 .625为.101 所以0.625转为 0.101,data/csbench/student_images/ISC_6/ANS_ISC_135.jpg
+ISC_6,ANS_ISC_136,P2,possible_teacher_over_score,6.0,three_way_core_score,3.0,3.0,3.0,2.0,2.3,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,3.0,3.0,3.0,3.0,BND,0.0,low,0.5,0.0,0.5,extraction_risk|rubric_mapping_risk,,,,十进制：0.625 整数0： 二进制：0 小数0.625 二进制：0.1 二进制小数(0.101)₂,data/csbench/student_images/ISC_6/ANS_ISC_136.jpg
+ISC_6,ANS_ISC_149,P2,possible_teacher_over_score,6.0,three_way_core_score,3.0,3.0,3.0,2.0,2.3,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,3.0,3.0,3.0,3.0,BND,0.0,low,0.5,0.0,0.583333,extraction_risk|rubric_mapping_risk,,,,0.625 故有(0.625)₁₀=(0.101)₂ x 2 1.250 …1 x 2 0.5 …0 x 2 1 …1 x 2 0,data/csbench/student_images/ISC_6/ANS_ISC_149.jpg
+ISC_6,ANS_ISC_99,P2,possible_teacher_over_score,6.0,three_way_core_score,3.0,3.0,3.0,2.0,2.3,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,3.0,3.0,3.0,3.0,BND,0.0,low,0.5,0.0,0.5,extraction_risk|rubric_mapping_risk,,,,0.625整数部分为0，小数部分为101 ∴[0.625]₂=0.101,data/csbench/student_images/ISC_6/ANS_ISC_99.jpg
+ISC_6,ANS_ISC_112,P2,possible_teacher_over_score,6.0,three_way_core_score,3.2,2.8,2.8,2.0,2.1,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,2.0,2.0,3.2,3.2,BND,0.7071,low,0.5,1.0,0.583333,extraction_risk|rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,0.625 整数：0 小数：101 转化为二进制为：0.101,data/csbench/student_images/ISC_6/ANS_ISC_112.jpg
+ISC_6,ANS_ISC_102,P2,possible_teacher_over_score,6.0,three_way_core_score,3.8,2.2,2.2,2.0,1.5,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,5.0,5.0,3.8,3.8,BND,0.7071,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,对0.625 (0.62)₂->(0.101)₂ 对2.125 0.125 (2.125)₂(10.001)₂ 0.625 2 2 2 2 1.250 ---1 2 1 ---0 0.250 ---0 1 ---1 0 ---0 0.5 ---0 0 ---1 1 ---1,data/csbench/student_images/ISC_6/ANS_ISC_102.jpg
+ISC_6,ANS_ISC_117,P2,possible_teacher_over_score,6.0,three_way_core_score,3.8,2.2,2.2,2.0,1.5,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,5.0,5.0,3.8,3.8,BND,0.7071,high,0.25,1.0,0.5,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"0.625/1.25 1/2 0.12/1.2 0.6/1.2 0.5/1 0.21/1.2 0.5/1 0.3/1 1/1 (0.625)10=(0.101)2 ∴(0.120)2=(1.001)2, ∴(2.125)10=(0010.001)2",data/csbench/student_images/ISC_6/ANS_ISC_117.jpg
+ISC_6,ANS_ISC_122,P2,possible_teacher_over_score,6.0,three_way_core_score,3.8,2.2,2.2,2.0,1.5,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,5.0,5.0,3.8,3.8,BND,0.7071,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,整数 210/10 … 0 小数 0.625 × 2 1.25 … 1 × 2 6.5 … 0 × 2 … 1,data/csbench/student_images/ISC_6/ANS_ISC_122.jpg
+ISC_6,ANS_ISC_127,P2,possible_teacher_over_score,6.0,three_way_core_score,3.8,2.2,2.2,2.0,1.5,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,5.0,5.0,3.8,3.8,BND,0.7071,high,0.0,1.0,0.083333,a3wa_changed_score_materially|unstable_model_judgements,,,,0.625 0→0 0.625×2 1.250 …1 1.25 …1 0.625×2 2.50 …0 2.50 …0 0.625×2 0.50 …0 0.50 …0 0.625×2 1 …1 1 …1 2.125 2→(10)₂ 0.125×2 0.250 …0 0.250 …0 0.125×2 0.5 …0 0.5 …0 0.125×2 1 …1 1 …1 ∴0.625=(0.101)₂ 0.125=0010 ∴2.125=(10.0010)₂,data/csbench/student_images/ISC_6/ANS_ISC_127.jpg
+ISC_6,ANS_ISC_133,P2,possible_teacher_over_score,6.0,three_way_core_score,3.8,2.2,2.2,2.0,1.5,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,5.0,5.0,3.8,3.8,BND,1.4142,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,解：x=0.6×5/2  ∴(0.6×5)₁₀=(0000000.1010)₂  1.35÷2---1  2.125=2+0.125  0.35÷2  212÷2---0  ∴(2.125)₁₀=(0000010.001)₂  0.7  211  0  1.4  0.125  1.4  0.625  0.8  0.5,data/csbench/student_images/ISC_6/ANS_ISC_133.jpg
+ISC_6,ANS_ISC_139,P2,possible_teacher_over_score,6.0,three_way_core_score,3.8,2.2,2.2,2.0,1.5,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,5.0,5.0,3.8,3.8,BND,0.7071,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,"0.625=(0.101)₂ 0%2=0 2|Z---0 2|1---1 Z₁|25 =(10,001)₂",data/csbench/student_images/ISC_6/ANS_ISC_139.jpg
+ISC_6,ANS_ISC_147,P2,possible_teacher_over_score,3.0,three_way_core_score,0.8,2.2,2.2,2.0,1.5,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,2.0,2.0,0.8,0.8,BND,0.7071,low,0.5,1.0,0.583333,extraction_risk|rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"(0.6,5)ₙ= 画图 (0.10)、、",data/csbench/student_images/ISC_6/ANS_ISC_147.jpg
+ISC_6,ANS_ISC_150,P2,possible_teacher_over_score,5.0,three_way_core_score,2.8,2.2,2.2,2.0,1.5,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,4.0,4.0,2.8,2.8,BND,1.4142,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,(0.625)₁₀ -> (0.101)₂ (24/16) -> (0001)₂ (0.125)₁₀ -> (0.001)₂. (2.125)₁₀ -> (0001.0010)₂/(1.00)₂.,data/csbench/student_images/ISC_6/ANS_ISC_150.jpg
+ISC_6,ANS_ISC_95,P2,possible_teacher_over_score,5.0,three_way_core_score,2.8,2.2,2.2,2.0,1.5,1.14478,absolute_disagreement|within_question_outlier,0.7,False,6.0,4.0,4.0,2.8,2.8,BND,1.4142,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,(0.625)₁₀=(0000.0110 0010 0101)₂ (2)₁₀=(0010)₂ (0.125)₁₀=(0000.0001 0010 0101)₂,data/csbench/student_images/ISC_6/ANS_ISC_95.jpg
+ISC_6,ANS_ISC_140,P2,possible_teacher_under_score,5.0,three_way_core_score,6.0,-1.0,1.0,2.0,-1.7,1.14478,within_question_outlier,0.7,False,6.0,6.0,6.0,6.0,6.0,POS,0.0,high,0.0,0.0,0.333333,,,,,0.6258 整数(8位) 0000 0000 小数(3位) 101 2.125 整数(8位) 0000 0010 小数(3位) 000,data/csbench/student_images/ISC_6/ANS_ISC_140.jpg
+ISC_6,ANS_ISC_101,P2,possible_teacher_under_score,5.5,three_way_core_score,6.0,-0.5,0.5,2.0,-1.2,1.14478,within_question_outlier,0.7,False,6.0,6.0,6.0,6.0,6.0,POS,0.0,high,0.0,0.0,0.0,,,,,0.625 212与0 #7(0.625)10 = (0.101)2 1.25 …1 0.5 …1 0.5 …0 0.5 …0,data/csbench/student_images/ISC_6/ANS_ISC_101.jpg
+ISC_7,ANS_ISC_198,P1,possible_teacher_over_score,2.5,three_way_core_score,0.0,2.5,2.5,2.0,1.7,1.24478,absolute_disagreement|within_question_outlier,0.8,False,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,解：最大可寻址内存空间是2³² = 8GB 字长是32位.,data/csbench/student_images/ISC_7/ANS_ISC_198.jpg
+ISC_7,ANS_ISC_155,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,1.2,1.24478,absolute_disagreement,0.8,False,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,8GB 32位.,data/csbench/student_images/ISC_7/ANS_ISC_155.jpg
+ISC_7,ANS_ISC_157,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,1.2,1.24478,absolute_disagreement,0.8,False,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,2^32GB. 128,data/csbench/student_images/ISC_7/ANS_ISC_157.jpg
+ISC_7,ANS_ISC_174,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,1.2,1.24478,absolute_disagreement,0.8,False,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,1.64GB；32位、,data/csbench/student_images/ISC_7/ANS_ISC_174.jpg
+ISC_7,ANS_ISC_188,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,1.2,1.24478,absolute_disagreement,0.8,False,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,寻址内存空间由地址总线决定 2³²=0.5GB 字长是2⁶⁴位,data/csbench/student_images/ISC_7/ANS_ISC_188.jpg
+ISC_7,ANS_ISC_203,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,1.2,1.24478,absolute_disagreement,0.8,False,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,32×64/1024=2GB ∴最大可寻址内存是2GB 字长为32位,data/csbench/student_images/ISC_7/ANS_ISC_203.jpg
+ISC_7,ANS_ISC_211,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,1.2,1.24478,absolute_disagreement,0.8,False,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,最大寻址内存空间：2³⁶ = 64GB 其字长为36位,data/csbench/student_images/ISC_7/ANS_ISC_211.jpg
+ISC_7,ANS_ISC_218,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,1.2,1.24478,absolute_disagreement,0.8,False,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"存储空间： 0.5GB
+字长：32位",data/csbench/student_images/ISC_7/ANS_ISC_218.jpg
+ISC_7,ANS_ISC_230,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,1.2,1.24478,absolute_disagreement,0.8,False,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,2³² = 64G ∴最大可寻址的存空间64GB. 字长为32+1=33位,data/csbench/student_images/ISC_7/ANS_ISC_230.jpg
+ISC_7,ANS_ISC_173,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,1.2,1.24478,absolute_disagreement,0.8,False,4.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.5,0.0,0.5,extraction_risk|rubric_mapping_risk,,,,32GB 32GB=32×2¹⁰×2¹⁰×2¹⁰×2¹⁰=2³⁵B,data/csbench/student_images/ISC_7/ANS_ISC_173.jpg
+ISC_7,ANS_ISC_222,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,1.2,1.24478,absolute_disagreement,0.8,False,4.0,0.0,0.0,0.0,0.0,NEG,0.0,low,1.0,0.0,1.0,extraction_risk|rubric_mapping_risk,,,,地址总线宽度32位，数据总线宽度为34位，,data/csbench/student_images/ISC_7/ANS_ISC_222.jpg
+ISC_8,ANS_ISC_267,P2,possible_teacher_over_score,4.0,three_way_core_score,0.0,4.0,4.0,2.0,3.5,1.0,absolute_disagreement|within_question_outlier,0.5,False,4.0,0.0,0.0,0.0,0.0,NEG,0.0,low,1.0,0.0,1.0,extraction_risk|rubric_mapping_risk,,,,,data/csbench/student_images/ISC_8/ANS_ISC_267.jpg
+ISC_8,ANS_ISC_284,P2,possible_teacher_over_score,3.5,three_way_core_score,0.5,3.0,3.0,2.0,2.5,1.0,absolute_disagreement|within_question_outlier,0.5,False,4.0,1.3,1.3,0.5,0.5,BND,0.4714,high,0.0,1.0,0.5,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"X的原码：1000000000001111 
+反码：1111111111110000 
+补码：1111111111110001 
+Y的原码：00000000000001010 
+反码：00000000000001010 
+补码：000000000000001010 
+设Z=X-Y 
+则[Z]补=[X]补+[-Y]补 
+即 1111111111110001
++ 1111111111110110 
+= 1111111111110111 则 Z=-25",data/csbench/student_images/ISC_8/ANS_ISC_284.jpg
+ISC_8,ANS_ISC_255,P2,possible_teacher_over_score,3.5,three_way_core_score,0.7,2.8,2.8,2.0,2.3,1.0,absolute_disagreement|within_question_outlier,0.5,False,4.0,1.5,1.5,0.7,0.7,BND,0.4082,high,0.0,1.0,0.25,a3wa_changed_score_materially|unstable_model_judgements,,,,"X=-15=(10001111)₂ 原码 
+反=11110000 
+补=11110001
+Y=+10=(00000110)原 
+反=00000110 
+补=00000111
+(-Y补)=11111010
+y=X-Y⇒y(补)=X(补)+(-Y)(补)=11110001+11111010=01110011 
+⇒ y(补)=01110011 ⇒ y=-25",data/csbench/student_images/ISC_8/ANS_ISC_255.jpg
+ISC_8,ANS_ISC_290,P2,possible_teacher_over_score,4.0,three_way_core_score,1.7,2.3,2.3,2.0,1.8,1.0,absolute_disagreement|within_question_outlier,0.5,False,4.0,1.7,1.7,1.7,1.7,BND,0.4714,high,0.0,1.0,0.166667,unstable_model_judgements,,,,"X 原码 10001111 
+反码 11110000 
+补码 11110001 
+-Y=-10 原码 10001010 反码 11110101 补码 11110110 
+运算 11110001 
+11110110 
+111100111 →反码 11100110 →补码 10011001 →二进制 -25.",data/csbench/student_images/ISC_8/ANS_ISC_290.jpg
+ISC_8,ANS_ISC_262,P2,possible_teacher_over_score,4.0,three_way_core_score,1.9,2.1,2.1,2.0,1.6,1.0,absolute_disagreement|within_question_outlier,0.5,False,4.0,2.7,2.7,1.9,1.9,BND,0.9428,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"Y原码反码补码一致为00001010 
+X原码10001111反码11110000
+补码11110001 
+(X−Y)补=X补+(−Y)补
+−Y补码为11110110 
+∴(X−Y)补=1110111
+∴(X−Y)反码=11100110 
+(X−Y)原码=10011001 
+ X−Y=−(2⁰+2³+2⁴)=−25
+∴结果用二进制表示为10011001",data/csbench/student_images/ISC_8/ANS_ISC_262.jpg
+ISC_8,ANS_ISC_304,P2,possible_teacher_over_score,4.0,three_way_core_score,1.9,2.1,2.1,2.0,1.6,1.0,absolute_disagreement|within_question_outlier,0.5,False,4.0,2.7,2.7,1.9,1.9,BND,0.4714,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,"4. 解：
+        原码        反码        补码
+X       1000 1111   1111 0000   1111 0001
+Y       0000 1010   0000 1010   0000 1010
+-10     1000 1010   1111 0101   1111 0110
+
+y = X - Y
+= -15 - 10
+(y)补 = (-15)补 + (-10)补
+= 11110111
+y = 10011001
+= -25",data/csbench/student_images/ISC_8/ANS_ISC_304.jpg
+ISC_8,ANS_ISC_252,P2,possible_teacher_over_score,2.5,three_way_core_score,0.5,2.0,2.0,2.0,1.5,1.0,absolute_disagreement|within_question_outlier,0.5,False,4.0,1.3,1.3,0.5,0.5,BND,0.4714,high,0.5,1.0,0.666667,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"X：原码 10001111 反码 11110000 补码：11110001
+Y：原码 00001010 反码 01110101 补码 01110110",data/csbench/student_images/ISC_8/ANS_ISC_252.jpg
+ISC_8,ANS_ISC_288,P2,possible_teacher_over_score,4.0,three_way_core_score,2.2,1.8,1.8,2.0,1.3,1.0,within_question_outlier,0.5,False,4.0,3.0,3.0,2.2,2.2,BND,0.8165,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"X=-15 
+原:10001111 
+反:11110000 
+补:11110001 
+Y=+10 
+原:00001010 
+反:00001010 
+补:00001010 
+则X-Y 
+=11100111(补) 
+原:10011001 
+即-25",data/csbench/student_images/ISC_8/ANS_ISC_288.jpg
+ISC_8,ANS_ISC_295,P2,possible_teacher_over_score,4.0,three_way_core_score,2.2,1.8,1.8,2.0,1.3,1.0,within_question_outlier,0.5,False,4.0,2.2,2.2,2.2,2.2,BND,0.2357,high,0.0,0.625,0.416667,rubric_mapping_risk,,,,"X=-15 原码 10001111 反码 01110000 补码 01110001
+Y=+10 原码 00001010 反码 00001010 补码 00001010
+-Y=-10 原码 10001010 反码：01110101 补码：01110110
+X-Y=X+(-Y) 补码 11100111 二进制为：00011001",data/csbench/student_images/ISC_8/ANS_ISC_295.jpg
+ISC_8,ANS_ISC_246,P2,possible_teacher_over_score,4.0,three_way_core_score,2.5,1.5,1.5,2.0,1.0,1.0,within_question_outlier,0.5,False,4.0,3.3,3.3,2.5,2.5,BND,0.6138,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"     原码     反码     补码 
+X 00001111 11110000 11110001 
+Y 00001010 00001010 00001001 
+X-Y = 1110001 + 1110110 = 11100111",data/csbench/student_images/ISC_8/ANS_ISC_246.jpg
+ISC_8,ANS_ISC_271,P2,possible_teacher_over_score,3.5,three_way_core_score,2.0,1.5,1.5,2.0,1.0,1.0,within_question_outlier,0.5,False,4.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.166667,,,,,"X原码为10001111 Y原码为00001010 
+反码为11110000 反码为00001010 
+补码为11110001 补码为00001010 
+X+Y补码为11111011 
+x+Y原码为10000101",data/csbench/student_images/ISC_8/ANS_ISC_271.jpg
+ISC_8,ANS_ISC_302,P2,possible_teacher_under_score,3.0,three_way_core_score,4.0,-1.0,1.0,2.0,-1.5,1.0,within_question_outlier,0.5,False,4.0,4.0,4.0,4.0,4.0,POS,0.0,high,0.0,0.0,0.0,,,,,"    原码       反码      补码
+X：10001111；11110000；11110001 Y：00001010；00001010；00001010 
+(X)补码 - (Y)补码 = 11100111 = (X-Y)补码
+X-Y=10011001",data/csbench/student_images/ISC_8/ANS_ISC_302.jpg
+ISC_9,ANS_ISC_341,P1,possible_teacher_over_score,9.0,three_way_core_score,5.0,4.0,4.0,2.5,3.9,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,5.0,5.0,5.0,5.0,POS,0.0,high,0.0,0.0,0.333333,,,,,6000/1024 GB,data/csbench/student_images/ISC_9/ANS_ISC_341.jpg
+ISC_9,ANS_ISC_340,P1,possible_teacher_over_score,3.0,three_way_core_score,0.0,3.0,3.0,2.5,2.9,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,0.5,0.5,0.0,0.0,BND,0.7071,high,0.0,0.75,0.166667,,,,,1000 x 2048x2048x4096.= 1.6x10⁴ GB,data/csbench/student_images/ISC_9/ANS_ISC_340.jpg
+ISC_9,ANS_ISC_352,P1,possible_teacher_over_score,3.0,three_way_core_score,0.0,3.0,3.0,2.5,2.9,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,解：1000×2048×2048×4096 = 1000×1024³×2 = 2000GB,data/csbench/student_images/ISC_9/ANS_ISC_352.jpg
+ISC_9,ANS_ISC_376,P1,possible_teacher_over_score,3.0,three_way_core_score,0.0,3.0,3.0,2.5,2.9,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.166667,,,,,1000×1024×2×1024×2×4×1024/(1024³×8)=2000GB,data/csbench/student_images/ISC_9/ANS_ISC_376.jpg
+ISC_9,ANS_ISC_314,P2,possible_teacher_under_score,0.0,three_way_core_score,5.0,-5.0,5.0,2.5,-5.1,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,5.0,5.0,5.0,5.0,BND,0.0,low,0.5,0.0,0.5,extraction_risk|rubric_mapping_risk,,,,375/256 GB.,data/csbench/student_images/ISC_9/ANS_ISC_314.jpg
+ISC_9,ANS_ISC_336,P2,possible_teacher_under_score,0.0,three_way_core_score,5.0,-5.0,5.0,2.5,-5.1,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,5.0,5.0,5.0,5.0,BND,0.0,low,0.5,0.0,0.666667,extraction_risk|rubric_mapping_risk,,,,,data/csbench/student_images/ISC_9/ANS_ISC_336.jpg
+ISC_9,ANS_ISC_384,P2,possible_teacher_under_score,1.0,three_way_core_score,5.8,-4.8,4.8,2.5,-4.9,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,5.8,5.8,5.8,5.8,BND,1.1785,high,0.0,1.0,0.166667,unstable_model_judgements,,,,1000×2048×2048×4096 = 1000×2¹¹·2¹¹·2¹² = 1000×2³⁴ ≈2¹⁰·2³⁴=2⁴⁴=2¹⁸GB,data/csbench/student_images/ISC_9/ANS_ISC_384.jpg
+ISC_9,ANS_ISC_322,P2,possible_teacher_under_score,2.0,three_way_core_score,6.7,-4.7,4.7,2.5,-4.8,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,6.7,6.7,6.7,6.7,BND,2.357,high,0.0,1.0,0.333333,unstable_model_judgements,,,,"灰度深度：2¹² 
+分辨率：2¹¹×2¹¹ 
+2³⁰=1GB 
+2¹¹×2¹¹=2²²=4MB 
+ 13张：4x2=8Mb 
+1000张：8000Mb 
+∴共需共需 8000/1024 个GB",data/csbench/student_images/ISC_9/ANS_ISC_322.jpg
+ISC_9,ANS_ISC_349,P2,possible_teacher_over_score,5.0,three_way_core_score,0.8,4.2,4.2,2.5,4.1,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,0.8,0.8,0.8,0.8,BND,1.1785,high,0.0,1.0,0.166667,unstable_model_judgements,,,,已知一张1024x1024分辨率，真彩色为3MB  1000张2048x2048分辨率，4096灰级的图片大小为375/128 MB,data/csbench/student_images/ISC_9/ANS_ISC_349.jpg
+ISC_9,ANS_ISC_324,P2,possible_teacher_under_score,3.0,three_way_core_score,6.7,-3.7,3.7,2.5,-3.8,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,6.7,6.7,6.7,6.7,BND,3.118,high,0.0,1.0,0.5,rubric_mapping_risk|unstable_model_judgements,,,,2048X2048X1000 / 1024*1024X4096 = 125/128 GB,data/csbench/student_images/ISC_9/ANS_ISC_324.jpg
+ISC_9,ANS_ISC_374,P2,possible_teacher_under_score,3.0,three_way_core_score,6.7,-3.7,3.7,2.5,-3.8,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,6.7,6.7,6.7,6.7,BND,4.714,high,0.0,1.0,0.333333,unstable_model_judgements,,,,解：1000×2048×2048/4096×12÷1024÷1024÷1024÷8 =240×(1024)⁻²GB,data/csbench/student_images/ISC_9/ANS_ISC_374.jpg
+ISC_9,ANS_ISC_351,P2,possible_teacher_over_score,10.0,three_way_core_score,6.7,3.3,3.3,2.5,3.2,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,8.7,8.7,6.7,6.7,BND,0.9428,high,0.0,1.0,0.0,a3wa_changed_score_materially,,,,"2048×2048×12×1000/8
+= 2^11×2^11×12000/8
+= 2^20×48000/8
+= 2^30×48000/(1024×8) = 48000/(1024×8) = 375/(8×8) ≈ 5 G
+
+右侧演算过程与标注：
+2048×2048 × 12 × 1000 ÷ 8
+  像素      色深   个数   位
+= 2^11×2^11×12×1000÷8
+= 2^10×2^10×6×1000
+= 6000 MB ≈ 5 GB",data/csbench/student_images/ISC_9/ANS_ISC_351.jpg
+ISC_9,ANS_ISC_345,P2,possible_teacher_over_score,4.0,three_way_core_score,0.8,3.2,3.2,2.5,3.1,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,0.8,0.8,0.8,0.8,BND,1.1785,high,0.0,1.0,0.166667,unstable_model_judgements,,,,(2048×2048×2^12×1000)/(1024×1024×2^24×1) ×3MB = (12000×2^(-12)) m³ = 375×2^(-17)GB 1MB=2^(-10)GB,data/csbench/student_images/ISC_9/ANS_ISC_345.jpg
+ISC_9,ANS_ISC_342,P2,possible_teacher_over_score,3.0,three_way_core_score,0.0,3.0,3.0,2.5,2.9,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,1.7,1.7,0.0,0.0,BND,1.1785,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,2048×2048×1000×4096 =2¹¹×2¹¹×2¹²×1000 =2³⁴×1000 =2GB×1000 =2000GB,data/csbench/student_images/ISC_9/ANS_ISC_342.jpg
+ISC_9,ANS_ISC_361,P2,possible_teacher_over_score,3.0,three_way_core_score,0.0,3.0,3.0,2.5,2.9,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,1.7,1.7,0.0,0.0,BND,1.1785,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,2048×2048×4096×1000B = 2000×2048×4096MB = 4000×4096GB,data/csbench/student_images/ISC_9/ANS_ISC_361.jpg
+ISC_9,ANS_ISC_363,P2,possible_teacher_under_score,3.0,three_way_core_score,5.8,-2.8,2.8,2.5,-2.9,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,5.8,5.8,5.8,5.8,BND,3.118,high,0.0,1.0,0.166667,unstable_model_judgements,,,,∵X光片的分辨率为2048X2048 ∴其大小为12MB. 1000张长即12000MB∵1GB=1024MB. ∴12000MB=375/32GB.,data/csbench/student_images/ISC_9/ANS_ISC_363.jpg
+ISC_9,ANS_ISC_312,P2,possible_teacher_under_score,4.0,three_way_core_score,6.7,-2.7,2.7,2.5,-2.8,2.5,absolute_disagreement|within_question_outlier,0.1,False,10.0,6.7,6.7,6.7,6.7,BND,1.1785,high,0.0,1.0,0.166667,unstable_model_judgements,,,,"由题意得：2048×2048×12÷8÷1024÷1024=6 MB. 
+1000张需要6000 MB的存储空间 即需要 GB的存储空间",data/csbench/student_images/ISC_9/ANS_ISC_312.jpg

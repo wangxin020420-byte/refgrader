@@ -1,0 +1,1590 @@
+﻿question_id,answer_id,review_priority,candidate_type,teacher_score,reference_score_key,reference_score,teacher_minus_reference,absolute_difference,candidate_threshold,centered_residual,outlier_threshold,candidate_reasons,question_median_residual,question_systematic_bias,max_score,model_avg_score,selected_baseline_score,three_way_core_score,final_calibrated_score,route,std_dev,extraction_quality,U_E,U_S,U_R,confounds,human_decision,corrected_score,review_note,raw_text,student_image
+CO_1,ANS_CO_60,P1,possible_teacher_under_score,1.0,three_way_core_score,5.0,-4.0,4.0,1.0,-4.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,5.0,5.0,5.0,5.0,POS,0.0,high,0.0,0.0,0.0,,,,,答:由题目得: op=J. I=1. 可知为间接寻址 又存储器按字节编址 地址号为(11011)=37 则操作数的内容是37,data/csbench/student_images/CO_1/ANS_CO_60.jpg
+CO_1,ANS_CO_132,P1,possible_teacher_under_score,2.0,three_way_core_score,5.0,-3.0,3.0,1.0,-3.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,5.0,5.0,5.0,5.0,POS,0.0,high,0.0,0.0,0.0,,,,,"DE = 11011110 
+op为0 I为1 所以进行间接寻址 A为0010111 为37H ∴该指令的操作数内容为37H",data/csbench/student_images/CO_1/ANS_CO_132.png
+CO_1,ANS_CO_134,P1,possible_teacher_over_score,5.0,three_way_core_score,2.0,3.0,3.0,1.0,3.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,2.0,2.0,2.0,2.0,BND,0.0,high,0.3,0.0,0.3,,,,,"00110111 = 36(6)
+由图可知当地址号为36时内容为37",data/csbench/student_images/CO_1/ANS_CO_134.png
+CO_1,ANS_CO_23,P2,possible_teacher_over_score,5.0,three_way_core_score,0.0,5.0,5.0,1.0,5.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.7,0.0,0.7,extraction_risk|rubric_mapping_risk,,,,37 H,data/csbench/student_images/CO_1/ANS_CO_23.jpg
+CO_1,ANS_CO_67,P2,possible_teacher_over_score,5.0,three_way_core_score,1.0,4.0,4.0,1.0,4.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,1.0,1.0,1.0,1.0,BND,0.8165,high,0.0,1.0,0.366667,unstable_model_judgements,,,,"解：A=110111=37 
+ I=1  
+OP=0  
+37→34→37 
+ 故而操作数为37A",data/csbench/student_images/CO_1/ANS_CO_67.jpg
+CO_1,ANS_CO_126,P2,possible_teacher_over_score,5.0,three_way_core_score,1.5,3.5,3.5,1.0,3.5,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,1.2,1.5,1.5,1.5,BND,0.2357,high,0.4,0.5,0.6,rubric_mapping_risk,,,,"11011110
+I=1 间接寻址
+故 37→34→37
+7到2位为
+10111
+即37H",data/csbench/student_images/CO_1/ANS_CO_126.png
+CO_1,ANS_CO_63,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,1.0,2.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.7,0.0,0.7,extraction_risk|rubric_mapping_risk,,,,解：34,data/csbench/student_images/CO_1/ANS_CO_63.jpg
+CO_1,ANS_CO_79,P2,possible_teacher_under_score,0.0,three_way_core_score,2.0,-2.0,2.0,1.0,-2.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,3.0,3.0,2.0,2.0,BND,0.7071,high,0.0,1.0,0.3,a3wa_changed_score_materially|unstable_model_judgements,,,,"(110111)₂=55
+(37)H=55
+I=1
+内容为38H",data/csbench/student_images/CO_1/ANS_CO_79.png
+CO_1,ANS_CO_127,P2,possible_teacher_over_score,2.0,three_way_core_score,0.25,1.75,1.75,1.0,1.75,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,0.7,1.0,0.25,0.25,BND,0.4714,high,0.4,1.0,0.6,rubric_mapping_risk,,,,"11011110
+11011=37H.
+∴内容为34.",data/csbench/student_images/CO_1/ANS_CO_127.png
+CO_1,ANS_CO_128,P2,possible_teacher_under_score,0.0,three_way_core_score,1.7,-1.7,1.7,1.0,-1.7,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,1.7,1.7,1.7,1.7,BND,2.357,high,0.0,1.0,0.3,unstable_model_judgements,,,,"11011110  I=1为间接地址
+地址字段为011110=35.
+操作数为36.",data/csbench/student_images/CO_1/ANS_CO_128.png
+CO_1,ANS_CO_130,P2,possible_teacher_under_score,0.0,three_way_core_score,1.7,-1.7,1.7,1.0,-1.7,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,1.7,1.7,1.7,1.7,BND,2.357,high,0.3,1.0,0.533333,rubric_mapping_risk|unstable_model_judgements,,,,"101111=37(十六进制)]
+I=1.
+∴内容为58(十六进制)",data/csbench/student_images/CO_1/ANS_CO_130.png
+CO_1,ANS_CO_118,P2,possible_teacher_under_score,2.0,three_way_core_score,3.5,-1.5,1.5,1.0,-1.5,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,3.5,3.5,3.5,3.5,BND,0.0,high,0.3,0.0,0.3,,,,,"∵ I=1 ∴ A=110111为操作数的储存地址 
+∴ 十进制数为 34H",data/csbench/student_images/CO_1/ANS_CO_118.png
+CO_1,ANS_CO_15,P2,possible_teacher_over_score,5.0,three_way_core_score,3.5,1.5,1.5,1.0,1.5,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,3.5,3.5,3.5,3.5,POS,0.0,high,0.0,0.0,0.1,,,,,"11011110
+I=1  A=110111 = 37(十进制)
+内存为 34(十六进制)为真正地址
+操作数内容为 37(十进制)",data/csbench/student_images/CO_1/ANS_CO_15.jpg
+CO_1,ANS_CO_24,P2,possible_teacher_under_score,2.0,three_way_core_score,3.5,-1.5,1.5,1.0,-1.5,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,3.5,3.5,3.5,3.5,POS,0.0,high,0.0,0.0,0.1,,,,,"显然，间址位为1，地址字段110111=37H
+有其地址内存存储内容为 34H
+故访问的操作数内存为 34H",data/csbench/student_images/CO_1/ANS_CO_24.jpg
+CO_1,ANS_CO_28,P2,possible_teacher_over_score,5.0,three_way_core_score,3.5,1.5,1.5,1.0,1.5,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,3.5,3.5,3.5,3.5,POS,0.0,high,0.0,0.0,0.1,,,,,"解. 11011110
+I=1为间接寻址.
+地址字段为110111对应十六进制37
+因为是间接寻址.37地址中存放的是操作数地址34
+所以操作数为34",data/csbench/student_images/CO_1/ANS_CO_28.jpg
+CO_1,ANS_CO_77,P2,possible_teacher_under_score,2.0,three_way_core_score,3.5,-1.5,1.5,1.0,-1.5,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,3.5,3.5,3.5,3.5,POS,0.0,high,0.0,0.0,0.1,,,,,"I=1. 间址 A=110111 B=37H
+指向内存34H
+没指定访问操作数地址  34H",data/csbench/student_images/CO_1/ANS_CO_77.png
+CO_1,ANS_CO_42,P2,possible_teacher_over_score,2.0,three_way_core_score,0.7,1.3,1.3,1.0,1.3,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,0.7,0.7,0.7,0.7,NEG,0.9428,low,0.6,1.0,0.733333,extraction_risk|rubric_mapping_risk|unstable_model_judgements,,,,34,data/csbench/student_images/CO_1/ANS_CO_42.jpg
+CO_1,ANS_CO_03,P2,possible_teacher_over_score,1.0,three_way_core_score,0.0,1.0,1.0,1.0,1.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"A=||0||
+I=1
+OP=0
+所求=06",data/csbench/student_images/CO_1/ANS_CO_03.jpg
+CO_1,ANS_CO_06,P2,possible_teacher_under_score,1.0,three_way_core_score,2.0,-1.0,1.0,1.0,-1.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.0,,,,,解：机器码DE 1101 1110 地址字段110111=1 OP=0 易知指令是指向地址为04H的间接寻址。操作数内容为05H,data/csbench/student_images/CO_1/ANS_CO_06.jpg
+CO_1,ANS_CO_121,P2,possible_teacher_under_score,1.0,three_way_core_score,2.0,-1.0,1.0,1.0,-1.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,2.0,2.0,2.0,2.0,BND,0.0,high,0.3,0.0,0.3,,,,,"地址字段 A: 110 111
+I=1, A中为操作数地址.
+∴操作数为 38",data/csbench/student_images/CO_1/ANS_CO_121.png
+CO_1,ANS_CO_26,P2,possible_teacher_under_score,1.0,three_way_core_score,2.0,-1.0,1.0,1.0,-1.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.0,,,,,"11011110.
+A=00110111，I=1.
+∴ A= 37 对应内容为(08)H",data/csbench/student_images/CO_1/ANS_CO_26.jpg
+CO_1,ANS_CO_80,P2,possible_teacher_under_score,1.0,three_way_core_score,2.0,-1.0,1.0,1.0,-1.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.1,,,,,"由题意. 1101111B=36H
+OP=0 ∴ 操作数内容 35H
+I=1
+A:110111",data/csbench/student_images/CO_1/ANS_CO_80.png
+CO_1,ANS_CO_93,P2,possible_teacher_over_score,1.0,three_way_core_score,0.0,1.0,1.0,1.0,1.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,0.0,0.0,0.0,0.0,BND,0.0,high,0.4,0.0,0.4,rubric_mapping_risk,,,,"11011110 去除后两位后得 1101110 . I=1为间接寻址
+故 A指定地址内容为05H",data/csbench/student_images/CO_1/ANS_CO_93.png
+CO_1,ANS_CO_95,P2,possible_teacher_under_score,1.0,three_way_core_score,2.0,-1.0,1.0,1.0,-1.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,5.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.0,,,,,"解：DE(16)=11011110(2)
+则I=1.采用间址寻址，A中指定地址110111为真正操作数地址37H
+则对应内容为08H",data/csbench/student_images/CO_1/ANS_CO_95.png
+CO_2,ANS_CO_585,P1,possible_teacher_over_score,20.0,three_way_core_score,2.7,17.3,17.3,5.0,12.6,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,2.7,2.7,2.7,2.7,BND,0.9428,high,0.25,0.5,0.383333,,,,,"（1）排列顺序为 A>D>C>E>B
+各级中断源的中断屏蔽字为：
+A：A ，D：AD  C：ADC  E：ADCE
+服务程序B：ADCEB
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_585.png
+CO_2,ANS_CO_562,P1,possible_teacher_over_score,15.0,three_way_core_score,2.0,13.0,13.0,5.0,8.3,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.0,,,,,"(1) 中断处理优先级为A>D>C>E>B
+A: 00000
+B: 10111
+C: 10010
+D: 10000
+E: 10110
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_562.jpg
+CO_2,ANS_CO_594,P1,possible_teacher_over_score,20.0,three_way_core_score,10.0,10.0,10.0,5.0,5.3,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,11.0,11.0,10.0,10.0,BND,1.4142,high,0.0,0.75,0.233333,,,,,"（1）如表所示A>D>C>E>B
+A→B(被判断)→C(被判断)→D
+→B(被判断)→(¬)B(被判断)
+→E→B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_594.png
+CO_2,ANS_CO_542,P1,possible_teacher_over_score,18.0,three_way_core_score,10.0,8.0,8.0,5.0,3.3,5.0,absolute_disagreement,4.7,True,20.0,10.0,10.0,10.0,10.0,POS,0.0,high,0.0,0.0,0.0,,,,,"解: 中断处理优先级 A B C D E
+A 1 1 1 1 1
+B 0 1 0 0 0
+C 0 1 1 0 1
+D 0 1 1 1 1
+E 0 1 0 0 1
+A > D > C > E > B
+A的中断屏蔽字为11111
+B 为01000
+C 为01101
+D 为01111
+E 为01001
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_542.jpg
+CO_2,ANS_CO_580,P1,possible_teacher_over_score,20.0,three_way_core_score,14.0,6.0,6.0,5.0,1.3,5.0,absolute_disagreement,4.7,True,20.0,14.0,14.0,14.0,14.0,POS,0.0,high,0.0,0.0,0.0,,,,,"(1)A>D>C>E>B如表所示
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_580.png
+CO_2,ANS_CO_615,P1,possible_teacher_over_score,18.0,three_way_core_score,12.0,6.0,6.0,5.0,1.3,5.0,absolute_disagreement,4.7,True,20.0,12.0,12.0,12.0,12.0,BND,1.633,high,0.0,1.0,0.2,,,,,"(1)中断处理优先级：A >D >C >E >B
+中断屏蔽字：A:11111 D:01111 C:00111 E:00011 B:00001
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_615.png
+CO_2,ANS_CO_596,P1,possible_teacher_over_score,18.0,three_way_core_score,12.7,5.3,5.3,5.0,0.6,5.0,absolute_disagreement,4.7,True,20.0,12.7,12.7,12.7,12.7,BND,1.8856,high,0.0,1.0,0.133333,,,,,"（1）中断处理优先级顺序：A>D>C>E>B
+中断屏蔽字分别为：
+A 11111
+B 00001
+C 00111
+D 01111
+E 00011
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_596.png
+CO_2,ANS_CO_617,P1,possible_teacher_under_score,15.0,three_way_core_score,20.0,-5.0,5.0,5.0,-9.7,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,20.0,20.0,20.0,20.0,BND,0.0,high,0.25,0.0,0.25,,,,,"(1)由题中断处理优先级排序：A>D>C>E>B
+A级中断源中断屏蔽字：A.D.C.E.B
+B级中断源中断屏蔽字：无
+C级中断源中断屏蔽字：C.E.B
+D级中断源中断屏蔽字：D.C.E.B
+E级中断源中断屏蔽字：E.B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_617.png
+CO_2,ANS_CO_546,P2,possible_teacher_over_score,20.0,three_way_core_score,2.0,18.0,18.0,5.0,13.3,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,6.0,6.0,2.0,2.0,BND,3.266,high,0.25,1.0,0.641667,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"中断处理优先级：
+A>D>C>E>B
+中断屏蔽字：
+如图所示
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_546.jpg
+CO_2,ANS_CO_551,P2,possible_teacher_over_score,18.0,three_way_core_score,0.7,17.3,17.3,5.0,12.6,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,4.7,4.7,0.7,0.7,BND,1.8856,low,0.5,1.0,0.633333,extraction_risk|rubric_mapping_risk|a3wa_changed_score_materially,,,,"解：(1)排列顺序为 A>D>C>E>B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_551.jpg
+CO_2,ANS_CO_523,P2,possible_teacher_over_score,18.0,three_way_core_score,1.3,16.7,16.7,5.0,12.0,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,5.3,5.3,1.3,1.3,BND,3.3993,high,0.0,1.0,0.433333,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"（1）画出处理优先级：A > D > C > E > B
+慢 A级 10000 D级01000 C级00100 E级00010 B级00001
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_523.jpg
+CO_2,ANS_CO_559,P2,possible_teacher_over_score,20.0,three_way_core_score,3.3,16.7,16.7,5.0,12.0,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,7.3,7.3,3.3,3.3,BND,1.8856,high,0.0,1.0,0.133333,a3wa_changed_score_materially,,,,"由题意可知 中断处理优先级为A>D>C>E>B
+中断屏蔽字如表所示
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_559.jpg
+CO_2,ANS_CO_526,P2,possible_teacher_over_score,20.0,three_way_core_score,4.0,16.0,16.0,5.0,11.3,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,4.0,4.0,4.0,4.0,BND,2.8284,high,0.2,1.0,0.366667,unstable_model_judgements,,,,"（1）A > D > C > E > B 如表格所示
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_526.jpg
+CO_2,ANS_CO_573,P2,possible_teacher_over_score,18.0,three_way_core_score,4.0,14.0,14.0,5.0,9.3,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,8.0,8.0,4.0,4.0,BND,2.8284,high,0.0,1.0,0.3,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1)A 1 1 1 1 1
+B 0 1 0 0 0
+C 0 1 1 0 1
+D 0 1 1 1 1
+E 0 1 0 0 1
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_573.jpg
+CO_2,ANS_CO_624,P2,possible_teacher_over_score,18.0,three_way_core_score,4.0,14.0,14.0,5.0,9.3,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,8.0,8.0,4.0,4.0,BND,1.633,high,0.25,1.0,0.45,rubric_mapping_risk|a3wa_changed_score_materially,,,,"(1)由题意可知 中断处理优先级的排列顺序为 A>D>C>E>B  各级中断属于字 A:无 D:A C:A,D E:A,D,C B:A,D,C,E
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_624.png
+CO_2,ANS_CO_535,P2,possible_teacher_over_score,20.0,three_way_core_score,7.0,13.0,13.0,5.0,8.3,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,11.0,11.0,7.0,7.0,BND,3.7417,high,0.0,1.0,0.366667,a3wa_changed_score_materially|unstable_model_judgements,,,,"A>D>C>E>B 
+A A B C D E
+A 1 1 1 1
+B 0 1 0 0 0
+C 0 1 1 0 1
+D 0 1 1 1 1
+E 0 1 0 0 1 
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_535.jpg
+CO_2,ANS_CO_540,P2,possible_teacher_over_score,18.0,three_way_core_score,5.0,13.0,13.0,5.0,8.3,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,5.0,5.0,5.0,5.0,BND,2.9439,high,0.0,1.0,0.1,unstable_model_judgements,,,,"解：根据题中所给信息可得处理优先级为A>D>C>E>B。
+各中断源的屏蔽字为：
+A:00000
+B:10111
+C:10010
+D:10000
+E:10110
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_540.jpg
+CO_2,ANS_CO_565,P2,possible_teacher_over_score,18.0,three_way_core_score,5.2,12.8,12.8,5.0,8.1,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,9.2,9.2,5.2,5.2,BND,7.663,high,0.0,1.0,0.3,a3wa_changed_score_materially|unstable_model_judgements,,,,"屏蔽字
+A1 1 1 1 1
+B 0 1 0 0 0
+C 0 1 1 0 1
+D 0 1 1 1 1
+E 0 1 0 0 1
+中断优先级
+A>D>C>E>B.
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_565.jpg
+CO_2,ANS_CO_530,P2,possible_teacher_over_score,15.0,three_way_core_score,3.3,11.7,11.7,5.0,7.0,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,3.3,3.3,3.3,3.3,BND,1.8856,low,0.5,1.0,0.7,extraction_risk|rubric_mapping_risk,,,,"(1)中断处理优先级排列顺序：
+A>D>C>E>B
+A可以屏蔽A.D.C.E.B；D可以屏蔽D.C.E.B；C可以屏蔽E.B；C.
+E可以屏蔽BE,B可以屏蔽B.
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_530.jpg
+CO_2,ANS_CO_524,P2,possible_teacher_over_score,18.0,three_way_core_score,6.5,11.5,11.5,5.0,6.8,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,6.5,6.5,6.5,6.5,BND,3.8944,high,0.0,1.0,0.266667,unstable_model_judgements,,,,"(1)：由题意得：A级的优先级最高，B级优先级最低。D级优先级第二，C级第三，E级第四，即A>D>C>E>B.如表格所示
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_524.jpg
+CO_2,ANS_CO_627,P2,possible_teacher_over_score,18.0,three_way_core_score,6.7,11.3,11.3,5.0,6.6,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,6.7,6.7,6.7,6.7,BND,0.9428,low,0.5,0.5,0.5,extraction_risk|rubric_mapping_risk,,,,"（1）优先级：A>D>C>E>B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_627.png
+CO_2,ANS_CO_598,P2,possible_teacher_over_score,15.0,three_way_core_score,4.7,10.3,10.3,5.0,5.6,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,7.7,7.7,4.7,4.7,BND,1.6997,high,0.0,1.0,0.233333,a3wa_changed_score_materially,,,,"解.(1) 排列顺序：A>D>C>E>B
+中断屏蔽字：A:1111(屏蔽所有)，B:00000(不屏蔽任何)，C:01010(屏蔽BE)，D:01111(除了A其它都屏蔽)，E:01000(屏蔽B)
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_598.png
+CO_2,ANS_CO_537,P2,possible_teacher_over_score,20.0,three_way_core_score,10.0,10.0,10.0,5.0,5.3,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,10.0,10.0,10.0,10.0,BND,4.3205,high,0.0,1.0,0.3,unstable_model_judgements,,,,"(1)A>D>C>E>B
+中断屏蔽字如表所示
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_537.jpg
+CO_2,ANS_CO_552,P2,possible_teacher_over_score,20.0,three_way_core_score,10.0,10.0,10.0,5.0,5.3,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,10.0,10.0,10.0,10.0,BND,4.3205,high,0.0,1.0,0.3,unstable_model_judgements,,,,"(1)A>D>C>E>B
+A: 1 1 1 1 1
+B: 0 1 0 0 0
+C: 0 1 1 0 1
+D: 0 1 1 1 1
+E: 0 1 0 0 1
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_552.jpg
+CO_2,ANS_CO_569,P2,possible_teacher_over_score,19.0,three_way_core_score,9.0,10.0,10.0,5.0,5.3,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,13.0,13.0,9.0,9.0,BND,2.9439,high,0.05,1.0,0.35,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：(1) 屏蔽字
+A 1 1 1 11
+B 0 1 0 0 0
+C 0 1 1 0 1
+D 0 1 1 1 1
+E 0 1 0 0 1
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_569.jpg
+CO_2,ANS_CO_638,P2,possible_teacher_over_score,20.0,three_way_core_score,10.7,9.3,9.3,5.0,4.6,5.0,absolute_disagreement,4.7,True,20.0,14.7,14.7,10.7,10.7,BND,3.7712,high,0.0,1.0,0.133333,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1)A:11111 B: 01000 C: 01101 D: 01111 E:  01001 A>D>C>E>B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_638.png
+CO_2,ANS_CO_589,P2,possible_teacher_over_score,15.0,three_way_core_score,6.0,9.0,9.0,5.0,4.3,5.0,absolute_disagreement,4.7,True,20.0,6.0,6.0,6.0,6.0,NEG,3.266,low,0.5,1.0,0.766667,extraction_risk|rubric_mapping_risk|unstable_model_judgements,,,,"（1）优先级排序：A>D>C>E>B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_589.png
+CO_2,ANS_CO_558,P2,possible_teacher_over_score,18.0,three_way_core_score,9.3,8.7,8.7,5.0,4.0,5.0,absolute_disagreement,4.7,True,20.0,13.3,13.3,9.3,9.3,BND,2.4944,high,0.0,1.0,0.2,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：1. 排列顺序：A > D > C > E > B 中断屏蔽字 A: 11111 
+B: 00000 
+C: 01110 
+D: 01111 
+E: 01101
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_558.jpg
+CO_2,ANS_CO_520,P2,possible_teacher_over_score,15.0,three_way_core_score,6.7,8.3,8.3,5.0,3.6,5.0,absolute_disagreement,4.7,True,20.0,6.7,6.7,6.7,6.7,BND,2.4944,low,0.5,1.0,0.633333,extraction_risk|rubric_mapping_risk|unstable_model_judgements,,,,"(1)中断响应优先级为A>B>C>D>E.
+(2)同时出现ABC级中断请求，在处理c级中断时又出现DE级请求
+如图所示",data/csbench/student_images/CO_2/ANS_CO_520.jpg
+CO_2,ANS_CO_575,P2,possible_teacher_over_score,15.0,three_way_core_score,6.7,8.3,8.3,5.0,3.6,5.0,absolute_disagreement,4.7,True,20.0,6.7,6.7,6.7,6.7,BND,3.7712,high,0.0,1.0,0.2,unstable_model_judgements,,,,"中断处理优先级：A>D>C>E>B，
+中断屏蔽字：
+A:11111
+B:00000
+C:01010
+D:10001
+E:01000
+程序运行时
+A,B,C同时请求，用优先级A>B>C，
+先执行A程序，因处理优先级C>B，
+先执行C程序，D,E请求，因处理
+优先级D>C，且C不屏蔽D，进入D
+程序，后返回C继续执行，
+C结束后再执行B。
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_575.png
+CO_2,ANS_CO_532,P2,possible_teacher_over_score,20.0,three_way_core_score,11.8,8.2,8.2,5.0,3.5,5.0,absolute_disagreement,4.7,True,20.0,7.8,7.8,11.8,11.8,BND,0.8498,high,0.0,0.5,0.133333,a3wa_changed_score_materially,,,,"解.（1） 中断屏蔽字 中断源 
+A B C D E 
+A 1 1 1 11 
+B 0 1 0 00 
+C 0 1 10 1 
+D 0 1 11 1 
+E 0 1 00 1 中断处理优先级: A>D>C>E>B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_532.jpg
+CO_2,ANS_CO_525,P2,possible_teacher_over_score,20.0,three_way_core_score,12.0,8.0,8.0,5.0,3.3,5.0,absolute_disagreement,4.7,True,20.0,16.0,16.0,12.0,12.0,BND,2.8284,high,0.0,1.0,0.133333,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1) A>D>C>E>B 如表格所示
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_525.jpg
+CO_2,ANS_CO_550,P2,possible_teacher_over_score,20.0,three_way_core_score,12.0,8.0,8.0,5.0,3.3,5.0,absolute_disagreement,4.7,True,20.0,16.0,16.0,12.0,12.0,BND,4.3205,high,0.0,1.0,0.233333,a3wa_changed_score_materially|unstable_model_judgements,,,,"A> D > C > E > B
+M₀ M₁ M₂ M₃ M₄
+Δ 1 1 1 1 1
+B 0 0 0 0 1
+C 0 0 1 1 1
+D 0 1 1 1 1
+E 0 0 0 1 1
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_550.jpg
+CO_2,ANS_CO_564,P2,possible_teacher_over_score,20.0,three_way_core_score,12.0,8.0,8.0,5.0,3.3,5.0,absolute_disagreement,4.7,True,20.0,16.0,16.0,12.0,12.0,BND,5.6569,high,0.0,1.0,0.433333,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"用：(1) A＞D＞C＞E＞B 中断优先级，屏蔽字如表所示.
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_564.jpg
+CO_2,ANS_CO_599,P2,possible_teacher_over_score,20.0,three_way_core_score,12.0,8.0,8.0,5.0,3.3,5.0,absolute_disagreement,4.7,True,20.0,12.0,12.0,12.0,12.0,BND,3.266,high,0.0,1.0,0.266667,unstable_model_judgements,,,,"(1). A>D>C>E>B
+A: 11111  D: 01111
+B: 00001  E: 01010
+C: 01101
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_599.png
+CO_2,ANS_CO_620,P2,possible_teacher_over_score,15.0,three_way_core_score,7.3,7.7,7.7,5.0,3.0,5.0,absolute_disagreement,4.7,True,20.0,7.3,7.3,7.3,7.3,BND,1.8856,low,0.5,1.0,0.633333,extraction_risk|rubric_mapping_risk,,,,"（1）A>D>C>E>B.
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_620.png
+CO_2,ANS_CO_609,P2,possible_teacher_over_score,20.0,three_way_core_score,12.5,7.5,7.5,5.0,2.8,5.0,absolute_disagreement,4.7,True,20.0,12.5,12.5,12.5,12.5,BND,2.6771,high,0.0,1.0,0.0,unstable_model_judgements,,,,"解（1）中断处理优先级排列顺序：A>D>C>E>B.
+各级中断源的中断屏蔽字：
+A:11111，B:01000，C:01101，
+D:01111，E:01001.
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_609.png
+CO_2,ANS_CO_619,P2,possible_teacher_over_score,15.0,three_way_core_score,7.7,7.3,7.3,5.0,2.6,5.0,absolute_disagreement,4.7,True,20.0,7.7,7.7,7.7,7.7,BND,1.6997,low,0.5,1.0,0.633333,extraction_risk|rubric_mapping_risk,,,,"(1) 处理优先级：A＞D＞C＞E＞B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_619.png
+CO_2,ANS_CO_576,P2,possible_teacher_over_score,20.0,three_way_core_score,13.3,6.7,6.7,5.0,2.0,5.0,absolute_disagreement,4.7,True,20.0,17.3,17.3,13.3,13.3,BND,3.7712,high,0.0,1.0,0.133333,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1)由题知，中断所处理优先级排序为
+A＞D＞C＞E＞B
+中断屏蔽字如表所示
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_576.png
+CO_2,ANS_CO_584,P2,possible_teacher_over_score,20.0,three_way_core_score,13.3,6.7,6.7,5.0,2.0,5.0,absolute_disagreement,4.7,True,20.0,13.3,13.3,13.3,13.3,BND,3.6818,high,0.0,1.0,0.3,unstable_model_judgements,,,,"(1)
+A>D>C>E>B
+A 1 1 1 1
+B 0 1 0 0 0
+C 0 1 1 0 1
+D 0 1 1 1 1
+E 0 1 0 0 1
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_584.png
+CO_2,ANS_CO_621,P2,possible_teacher_over_score,20.0,three_way_core_score,13.3,6.7,6.7,5.0,2.0,5.0,absolute_disagreement,4.7,True,20.0,17.3,17.3,13.3,13.3,BND,3.7712,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1). A>D＞C＞E>B
+A: 11111 
+B:  01000
+C:  01101
+D:  01111
+E:  01001
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_621.png
+CO_2,ANS_CO_517,P2,possible_teacher_over_score,15.0,three_way_core_score,8.7,6.3,6.3,5.0,1.6,5.0,absolute_disagreement,4.7,True,20.0,12.7,12.7,8.7,8.7,BND,3.7712,high,0.25,1.0,0.475,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"i) 中断处理优先级顺序：A > D > C > E > B
+A: A、B、C、D、E
+D: B、C、D、E
+C: C、B、E
+E: B、E
+B: B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_517.jpg
+CO_2,ANS_CO_528,P2,possible_teacher_over_score,15.0,three_way_core_score,8.7,6.3,6.3,5.0,1.6,5.0,absolute_disagreement,4.7,True,20.0,4.7,4.7,8.7,8.7,BND,1.8856,high,0.3,1.0,0.433333,rubric_mapping_risk|a3wa_changed_score_materially,,,,"(1)中断处理优先级为A>D>C>E>B.
+A级中断源无中断屏蔽字，B级中断源为A、D、C、E，C级中断源为A、D，
+D级中断源为A，E级中断源为A、D、C
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_528.jpg
+CO_2,ANS_CO_603,P2,possible_teacher_over_score,20.0,three_way_core_score,14.0,6.0,6.0,5.0,1.3,5.0,absolute_disagreement,4.7,True,20.0,18.0,18.0,14.0,14.0,BND,2.8284,high,0.0,1.0,0.133333,a3wa_changed_score_materially|unstable_model_judgements,,,,"解:(1)中断处理优先级
+A>D>C>E>B
+A 1 1 1 1 1
+B 0 1 0 0 0
+C 0 1 1 0 1
+D 0 1 1 1 1
+E 0 1 0 0 1
+A的中断屏蔽字: 1 1 1 1 1
+B: 0 1 0 0 0
+C: 0 1 1 0 1
+D: 0 1 1 1 1
+E: 0 1 0 0 1
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_603.png
+CO_2,ANS_CO_556,P2,possible_teacher_over_score,19.0,three_way_core_score,13.3,5.7,5.7,5.0,1.0,5.0,absolute_disagreement,4.7,True,20.0,17.3,17.3,13.3,13.3,BND,3.7712,high,0.0,1.0,0.133333,a3wa_changed_score_materially|unstable_model_judgements,,,,"解:11) A>D>C>E>B
+A:11111  C:01101  E:01001
+B:01000  D:01111
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_556.jpg
+CO_2,ANS_CO_597,P2,possible_teacher_over_score,18.0,three_way_core_score,12.3,5.7,5.7,5.0,1.0,5.0,absolute_disagreement,4.7,True,20.0,8.3,8.3,12.3,12.3,BND,3.0912,high,0.0,1.0,0.266667,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1)中断处理优先级顺序为A.D.C.E.B. 各屏蔽字：A=1111 .B=1001. C=1100.D=1110.E=1010
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_597.png
+CO_2,ANS_CO_633,P2,possible_teacher_over_score,18.0,three_way_core_score,12.3,5.7,5.7,5.0,1.0,5.0,absolute_disagreement,4.7,True,20.0,12.3,12.3,12.3,12.3,BND,4.0277,high,0.0,1.0,0.433333,rubric_mapping_risk|unstable_model_judgements,,,,"由题意可知 中断优先级为 B->E->C->D->A 中断屏蔽字如下表 
+A B C D E 
+A 1 1 1 1 1 
+B 0 1 0 0 0 
+C 0 1 1 0 1 
+D 0 1 1 1 1 
+E 0 1 0 0 1
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_633.png
+CO_2,ANS_CO_547,P2,possible_teacher_over_score,18.0,three_way_core_score,12.7,5.3,5.3,5.0,0.6,5.0,absolute_disagreement,4.7,True,20.0,12.7,12.7,12.7,12.7,BND,7.7172,high,0.0,1.0,0.433333,rubric_mapping_risk|unstable_model_judgements,,,,"(1)∴A>D>C>E>B.
+中断屏蔽字如图所示
+(2)响应优先级A>B>C>D>E
+如图所示",data/csbench/student_images/CO_2/ANS_CO_547.jpg
+CO_2,ANS_CO_628,P2,possible_teacher_under_score,12.0,three_way_core_score,17.3,-5.3,5.3,5.0,-10.0,5.0,absolute_disagreement|within_question_outlier,4.7,True,20.0,17.3,17.3,17.3,17.3,BND,3.7712,high,0.25,1.0,0.383333,unstable_model_judgements,,,,"A>D>C>E>B
+A:BCDE ,B:无.
+C:BE ,D:BCDE
+E:B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_628.png
+CO_2,ANS_CO_623,P2,possible_teacher_over_score,15.0,three_way_core_score,9.8,5.2,5.2,5.0,0.5,5.0,absolute_disagreement,4.7,True,20.0,9.8,9.8,9.8,9.8,BND,4.3653,high,0.3,1.0,0.575,rubric_mapping_risk|unstable_model_judgements,,,,"顺序ADCEB，A中断屏蔽字为B、C、D、E，B无中断屏蔽字，C中断屏蔽字为B、E，D中断屏蔽字为B、C、E，E中断屏蔽字为B。
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_623.png
+CO_2,ANS_CO_571,P2,possible_teacher_over_score,15.0,three_way_core_score,10.0,5.0,5.0,5.0,0.3,5.0,absolute_disagreement,4.7,True,20.0,10.0,10.0,10.0,10.0,BND,1.633,high,0.25,1.0,0.483333,rubric_mapping_risk,,,,"(1) A > D > C > E > B
+A:A,B,C,D,E
+B:B
+C:B,C,E
+D:B,C,D,E
+E:B,E
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_571.jpg
+CO_2,ANS_CO_595,P2,possible_teacher_over_score,20.0,three_way_core_score,15.0,5.0,5.0,5.0,0.3,5.0,absolute_disagreement,4.7,True,20.0,17.0,17.0,15.0,15.0,BND,2.1602,high,0.0,1.0,0.166667,unstable_model_judgements,,,,"（1）A>D>C>E>B
+A: 1 1 1 1 1
+B: 0 0 0 0 1
+C: 0 1 1 0 1
+D: 0 1 1 1 1
+E: 0 1 0 0 1
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_595.png
+CO_2,ANS_CO_601,P2,possible_teacher_over_score,12.0,three_way_core_score,7.0,5.0,5.0,5.0,0.3,5.0,absolute_disagreement,4.7,True,20.0,7.0,7.0,7.0,7.0,BND,2.4495,high,0.25,1.0,0.45,rubric_mapping_risk|unstable_model_judgements,,,,"(1) 中断处理优先级：A>D>C>E>B.
+A:无. B: A,C,D,E.
+C: A,D. D: A. E: A,C,D.
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_601.png
+CO_2,ANS_CO_578,P2,possible_teacher_under_score,15.0,three_way_core_score,18.7,-3.7,3.7,5.0,-8.4,5.0,within_question_outlier,4.7,True,20.0,18.7,18.7,18.7,18.7,BND,1.8856,high,0.25,1.0,0.383333,,,,,"(1)解释：A＞D＞C＞E＞B
+A的中断层数字：DCEB
+B的中断层数字：无
+C的中断层数字：EB
+D的中断层数字：CEB
+E的中断层数字：B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_578.png
+CO_2,ANS_CO_579,P2,possible_teacher_under_score,18.0,three_way_core_score,20.0,-2.0,2.0,5.0,-6.7,5.0,within_question_outlier,4.7,True,20.0,20.0,20.0,20.0,20.0,POS,0.0,high,0.0,0.0,0.0,,,,,"中断屏蔽字
+中断源 A B C D E
+A 1 1 1 1 1
+B 0 1 0 0 0
+C 0 1 1 0 1
+D 0 1 1 1 1
+E 0 1 0 0 1
+由表可知，中断处理优先级为 A>D>C>E>B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_579.png
+CO_2,ANS_CO_614,P2,possible_teacher_under_score,18.0,three_way_core_score,20.0,-2.0,2.0,5.0,-6.7,5.0,within_question_outlier,4.7,True,20.0,20.0,20.0,20.0,20.0,BND,0.0,high,0.25,0.0,0.25,,,,,"1()A>D>C>E>B
+判断屏蔽字如下：
+A:ABCDE
+B:B
+C:BCE
+D:BCDE
+E:EB
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_614.png
+CO_2,ANS_CO_577,P2,possible_teacher_under_score,15.0,three_way_core_score,16.0,-1.0,1.0,5.0,-5.7,5.0,within_question_outlier,4.7,True,20.0,16.0,16.0,16.0,16.0,BND,3.266,high,0.25,1.0,0.45,rubric_mapping_risk|unstable_model_judgements,,,,"(1) A > D > C > E > B
+A屏蔽字: B C D E
+B无屏蔽字
+C屏蔽字: B. E
+D屏蔽字: B. C,E
+E屏蔽字: B.
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_577.png
+CO_2,ANS_CO_592,P2,possible_teacher_under_score,18.0,three_way_core_score,18.7,-0.7,0.7,5.0,-5.4,5.0,within_question_outlier,4.7,True,20.0,18.7,18.7,18.7,18.7,BND,1.8856,high,0.2,1.0,0.333333,,,,,"(1) A→D→C→E→B
+如表所示
+ 屏蔽字：
+A:A B C D E 
+B: B 
+C: B C E 
+D: B C D E
+ E: B E
+(2)如图所示
+",data/csbench/student_images/CO_2/ANS_CO_592.png
+CO_2,ANS_CO_622,P2,possible_teacher_under_score,18.0,three_way_core_score,18.7,-0.7,0.7,5.0,-5.4,5.0,within_question_outlier,4.7,True,20.0,18.7,18.7,18.7,18.7,BND,1.8856,high,0.0,1.0,0.133333,,,,,"(1) A > D > C > E > B
+A: 11111
+B: 01000
+C: 01101
+D: 01111
+E: 01001
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_622.png
+CO_2,ANS_CO_642,P2,possible_teacher_under_score,15.0,three_way_core_score,15.3,-0.3,0.3,5.0,-5.0,5.0,within_question_outlier,4.7,True,20.0,15.3,15.3,15.3,15.3,BND,2.357,high,0.25,1.0,0.433333,rubric_mapping_risk|unstable_model_judgements,,,,"(1)排序顺序：A、D、C、E、B
+A屏蔽：B,C,E,D
+B不屏蔽
+C屏蔽：B,E
+D屏蔽：BC,E
+E屏蔽：B
+(2)如图所示",data/csbench/student_images/CO_2/ANS_CO_642.png
+CO_3,ANS_CO_144,P1,possible_teacher_over_score,8.0,three_way_core_score,2.2,5.8,5.8,2.5,4.3,2.5,absolute_disagreement|within_question_outlier,1.5,True,10.0,2.2,2.2,2.2,2.2,POS,0.4714,high,0.0,0.5,0.0,,,,,"(x)补=00110110
+(y)补=01010100
+[z]补=11010101
+10101000
+-00110110
+01110010
+(x)真=0110110
+(y)真=1010100
+∴[x-2y]真=11110010 
+∴(x-2y)补=10001100=8C溢出
+2y=10101000
+同理可得。
+(x÷4)+2z=11001001
+∴((x÷4)+2z)补=10110111
+x-2y=-(2y-x) 不溢出",data/csbench/student_images/CO_3/ANS_CO_144.jpg
+CO_3,ANS_CO_244,P1,possible_teacher_over_score,10.0,three_way_core_score,4.7,5.3,5.3,2.5,3.8,2.5,absolute_disagreement|within_question_outlier,1.5,True,10.0,4.7,4.7,4.7,4.7,POS,0.4714,high,0.0,0.5,0.0,,,,,"① x-2y ：
+[x]补 = 36H = 0011 0110 = [x]原
+y]补 = $4H = 0101 0100 = [-y]原
+[-y]原 = 11010100
+[-y]补 = 10101100 用双符号位参与运算判溢
+[x-2y]补 = [x]补 + [-y]补 + [-y]补.
+= 00011010 + 110101100 + 110101100
+= 110001110
+OF=0未溢出.
+且(1000 1110)₂ = 8E H.
+即 [x-2y]补 = 8EH
+且OF=0.
+
+② (x+4)+2.
+[x]补 = D5H = 11010101
+[x]原 = 00110110 = (54)D. x+4 = 13.
+[x+4]补 = 00001101
+用双符号位参与运算判溢.
+[x+4]补 + [2]补 + [2]补.
+= 00000101 + 111010101 + 11101010)
+= 11010111
+OF=0未溢出.
+且(10110111)₂ = B7 H
+即 [(x+4)+2]补 = B7H
+且OF=0.",data/csbench/student_images/CO_3/ANS_CO_244.png
+CO_3,ANS_CO_180,P1,possible_teacher_over_score,7.0,three_way_core_score,3.0,4.0,4.0,2.5,2.5,2.5,absolute_disagreement|within_question_outlier,1.5,True,10.0,3.0,3.0,3.0,3.0,POS,0.0,high,0.0,0.0,0.0,,,,,"解：36H=00110110 .y:54H=010101w ,z:DSH=11/0101 .
+[-y]补=10101100  [x]补+[-y]补=11100010
+36H=(54)10,
+x-2y=[x-y]补+[y]补
+=10001110,未发生溢出,OF=0
+54÷8=13 : (0001001)2, 补码原码相同
+(x÷4)÷2z= 00010011 + 11010101 + 11010101
+=10111101 , 未发生溢出, OF=0",data/csbench/student_images/CO_3/ANS_CO_180.jpg
+CO_3,ANS_CO_163,P1,possible_teacher_over_score,8.0,three_way_core_score,4.2,3.8,3.8,2.5,2.3,2.5,absolute_disagreement,1.5,True,10.0,3.2,3.2,4.2,4.2,BND,0.6236,high,0.0,0.75,0.0,,,,,"x:36H→00110110
+y:54H→10011000
+z:85H→11011001
+x-2y = 00110110 +
+      01101000 + 0110 1000
+= 00000110 = 06H
+OF位:1 溢出
+(x÷4)+2z 中的补码00001000
+x原码：00110110=54
+z原码：10100111=-39
+(x÷4)+2z = (54÷4) + 2×(-39)
+= 13 -78 
+= -65
+= 11000001 = C1H
+OF位:0 未溢出",data/csbench/student_images/CO_3/ANS_CO_163.jpg
+CO_3,ANS_CO_220,P1,possible_teacher_over_score,7.0,three_way_core_score,3.2,3.8,3.8,2.5,2.3,2.5,absolute_disagreement,1.5,True,10.0,4.2,4.2,3.2,3.2,BND,0.6236,high,0.0,0.75,0.0,,,,,"解①求x - y：
+转为二进制：[x]补 = 00110110 [Y]补 = 0101 0100
+[x - 2Y]原 = [x - 2Y]补 = [x]补 + [-2Y]补 [ -2Y]补 = 1010 1000
+即[x - 2Y]补 = 00110110 + 10101000 = (1110 1110)₂ = DE H 未溢出
+②求(x÷4) + 2z.
+X÷4 即 01001010÷0100 且向0取整得 00010010
+故 [x÷4]补 = 0 110 1101
+[x÷4) + 2z]补 = [x÷4]补 + [2Z]补 = 6EH + AAH = BCH 未溢出",data/csbench/student_images/CO_3/ANS_CO_220.png
+CO_3,ANS_CO_170,P1,possible_teacher_over_score,7.0,three_way_core_score,3.3,3.7,3.7,2.5,2.2,2.5,absolute_disagreement,1.5,True,10.0,3.3,3.3,3.3,3.3,BND,0.9428,high,0.0,1.0,0.0,,,,,"[x]补=00110110 [y]补=01010100 [z]补=11010101
+2y=0010×01010100=010101000
+[x-2y]补=[x]补+[2y]补=00110110+110101000=111011110= FDEH
+C=Cf=0 无溢出
+x÷4 = x / 0100 = x·0.01  x⊕0=0 商的符号为0
+加法如图所示
+故x÷4 高：00001101 余数10
+(x÷4)+2z
+= 001101.10 + 2z
+2z=0010×11010100
+=[1010110]原=[10101010]补
+(x÷4)+2z
+=[11001000.10]原
+=11001000.10
+=[0111000.10]补
+=B8 8H
+无溢出",data/csbench/student_images/CO_3/ANS_CO_170.jpg
+CO_3,ANS_CO_236,P1,possible_teacher_over_score,8.0,three_way_core_score,4.3,3.7,3.7,2.5,2.2,2.5,absolute_disagreement,1.5,True,10.0,4.3,4.3,4.3,4.3,POS,0.4714,high,0.0,0.5,0.0,,,,,"
+[2y]补=A8H [-2y]补=58H [2Z]补=AAH
+[x-2y]补:[x]补+[-2y]补 = 8EH  (x÷4)补=D8H
+((X÷4)+2Z)补=(X÷4)补+(2Z)补. = B78H 
+
+x-2y结果不会发生溢出
+(X÷4)+2Z结果会发生溢出",data/csbench/student_images/CO_3/ANS_CO_236.png
+CO_3,ANS_CO_141,P1,possible_teacher_over_score,8.0,three_way_core_score,4.7,3.3,3.3,2.5,1.8,2.5,absolute_disagreement,1.5,True,10.0,4.7,4.7,4.7,4.7,BND,0.9428,high,0.0,1.0,0.166667,,,,,"36H = 00110110 B
+54H= 01010100 B
+X-2y=8EH.
+y真值=84.
+2y=168. 溢出.
+OF=1
+( x÷4 )+2 Z
+= C3H.
+x÷4无溢出.
+22无溢出
+x÷4+2 Z无溢出
+OF=0",data/csbench/student_images/CO_3/ANS_CO_141.jpg
+CO_3,ANS_CO_189,P1,possible_teacher_over_score,9.0,three_way_core_score,5.7,3.3,3.3,2.5,1.8,2.5,absolute_disagreement,1.5,True,10.0,5.7,5.7,5.7,5.7,BND,0.9428,high,0.0,1.0,0.0,,,,,"采用双符号位溢出
+[x-2y]补=[x]补+[-2y]补，将y左移1位得[-2y]补=10.1011000（双符号）
+采用双符号位，[x]补= 00.011 0110
+[-2y]补= 10.101 1000
+[x]补+[-2y]补=11.0001110=8EH其双符号位一致，不溢出
+∴[x-2y]补=8EH，OF=0
+(x÷4)+22，x先右移2位，只高位补符号位
+得[x/4]补=(0000,1101)₂ [z]补=11,101 0101(双符号位)
+将z左移一位， [2z]补=11,0101010(双符号位)
+∴有[x/4]补+[2z]补= 00,0001101 + 11,0101010
+= 11,0110111 双符号位一致，结果溢出
+∴结果为B7H，OF=P
+a 综上所述：[x-2y]补=8EH，OF=0 (x÷4)+22=B7H，OF=0",data/csbench/student_images/CO_3/ANS_CO_189.jpg
+CO_3,ANS_CO_140,P1,possible_teacher_over_score,6.0,three_way_core_score,2.8,3.2,3.2,2.5,1.7,2.5,absolute_disagreement,1.5,True,10.0,2.8,2.8,2.8,2.8,BND,0.8498,high,0.0,1.0,0.166667,,,,,"解：[X补]=36H=00110110
+[Y补]=54H=01010100
+[Z补]=D5H=11010101
+X-2y=00110110
+  -01010100
+  -01010100
+1000110 无溢出
+(X÷4)+2Z
+100/00110110,得
+(X÷4)=00001101.1
+(X÷4)+2Z= 00001101.1
+  +1101010
+  +1101010
+10110111.1",data/csbench/student_images/CO_3/ANS_CO_140.jpg
+CO_3,ANS_CO_185,P1,possible_teacher_over_score,7.0,three_way_core_score,3.8,3.2,3.2,2.5,1.7,2.5,absolute_disagreement,1.5,True,10.0,3.8,3.8,3.8,3.8,BND,0.6236,high,0.0,0.75,0.166667,,,,,"解:X=36H=00110110
+y=54H=01010100
+z=D5H=11010101
+X-2y=X补+2[-y]补
+y补=10101100
+则X-2y:
+00110110
++11011000
+100001110
+符号位溢出,则结果溢出
+正确结果(00001110)补=1110010=F2H
+x=4=9H=00001001
+2z=110101010(最高位是符号位)
+(X÷Y)+2Z
+0000 1001
++1101 0101
+1101 1110
++1101 0101
+110110011
+则(0001 1011 0011)补=111001001101
+对应十进制:D4C H",data/csbench/student_images/CO_3/ANS_CO_185.jpg
+CO_3,ANS_CO_255,P1,possible_teacher_over_score,9.0,three_way_core_score,6.2,2.8,2.8,2.5,1.3,2.5,absolute_disagreement,1.5,True,10.0,6.2,6.2,6.2,6.2,BND,0.8498,high,0.0,1.0,0.0,,,,,"[-y]补=10101100.
+加法如图所示
+∴X-2y的补码结果为8EH,
+结果未发生溢出.
+[4]补=0100 [-4]补=1100
+加法如图所示
+(x÷4)+2乙的补码结果为
+B7,结果未发生溢出.",data/csbench/student_images/CO_3/ANS_CO_255.png
+CO_3,ANS_CO_177,P1,possible_teacher_over_score,7.0,three_way_core_score,4.5,2.5,2.5,2.5,1.0,2.5,absolute_disagreement,1.5,True,10.0,4.5,4.5,4.5,4.5,POS,0.4082,high,0.0,0.5,0.0,,,,,"8位补码整数 1位符号 7位数值
+[x补]=36H=00110110H 为正数 [x原]=00110110H
+[y补]=54H=01010100H 正数 [y原]=01010100H
+[z补]=D5H=11010101H 负数 [z原]=10100111H
+
+①x-2y:
+[2y]补=10101000H 溢出，采用双符号位 [-2y]补=01010100H
+[x-2y]补=[x]补+[-2y]补=00110110+01010100H=110001110H,
+11表示结果为负数且没有溢出 OF为0. 补码结果为-72H
+
+②(x÷4)+2^z
+(4)_b=(0100)_2^1
+*[4]补=0100
+[-4]补=1100
+(x÷4)=8*(13)10
+=(1101)2
+计算如题所示
+余数是10 OF为0,未溢出",data/csbench/student_images/CO_3/ANS_CO_177.jpg
+CO_3,ANS_CO_199,P2,possible_teacher_over_score,8.0,three_way_core_score,1.3,6.7,6.7,2.5,5.2,2.5,absolute_disagreement|within_question_outlier,1.5,True,10.0,3.3,3.3,1.3,1.3,BND,2.357,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"x = [0011 0110]补
+Y = [0101 0100]补
+Z = [1101 0101]补
+
+x - 2y
+= x补 + [-2y]补
+= [0011 0110]补 + [1101 1000]补
+= [0000 1110]补
+= 0EH
+结果发生溢出,OF=1
+
+(x÷4) + 22
+= [x÷4]补 + [22]补
+= [0000 1101]补 + [1010 1010]补
+= [1011 0111]补
+= B7H
+结果发生溢出,OF=1",data/csbench/student_images/CO_3/ANS_CO_199.png
+CO_3,ANS_CO_224,P2,possible_teacher_over_score,8.0,three_way_core_score,1.8,6.2,6.2,2.5,4.7,2.5,absolute_disagreement|within_question_outlier,1.5,True,10.0,2.3,2.3,1.8,1.8,BND,1.8409,high,0.0,1.0,0.333333,unstable_model_judgements,,,,"(36H)16 = (00110110)2
+(54H)16 = (01010100)2,
+(D5H)16 = (11010101)2
+∵ x,y 为正 ∴ x补=x原, y补=y原
+∴ z为负 ∴ [z]原 = (1010 1011)2
+
+ (X-2y) 00100110 - 2×01010100 = 00100110 -010101000
+= (11000010)原 = (1011 1110)补 = (BE)16
+此时发生了溢出, OF=1
+
+(X-4)+2z = (11001101 )原 = (1011 0011)补
+= ( B3)16
+此时未发生溢出, OF=0",data/csbench/student_images/CO_3/ANS_CO_224.png
+CO_3,ANS_CO_249,P2,possible_teacher_over_score,8.0,three_way_core_score,1.8,6.2,6.2,2.5,4.7,2.5,absolute_disagreement|within_question_outlier,1.5,True,10.0,3.8,3.8,1.8,1.8,BND,0.8498,high,0.0,1.0,0.0,a3wa_changed_score_materially,,,,"X补= 36 H =  0011 0110 = X原
+Y补= 54 H =  0101 0110 = Y原 (-Y)补= 1010 1010
+Z补= D5 H =  1101 0101  Z原= 0010 1011
+X-2Y补= X补 + 2 (-Y)补= 1000 1010   OF= 1
+(X÷4)+2Z = 0000 1101 + 2Z  +4  OF= 0
+= 01100011",data/csbench/student_images/CO_3/ANS_CO_249.png
+CO_3,ANS_CO_193,P2,possible_teacher_over_score,6.0,three_way_core_score,0.0,6.0,6.0,2.5,4.5,2.5,absolute_disagreement|within_question_outlier,1.5,True,10.0,2.0,2.0,0.0,0.0,BND,1.4142,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"x - 2y.
+36H = 00110110
+54H = 01010100
+0010110
+- 01010100  
+- 01010100
+= 01010010 
+= 51H
+OF = 0
+(X÷4) + 2Z.
+D5H = 10010101
+X÷4 = 00001101.1
+(X÷4) + 2Z  
+= 00110111.1  : 37.8H
+OF = 1",data/csbench/student_images/CO_3/ANS_CO_193.jpg
+CO_3,ANS_CO_225,P2,possible_teacher_over_score,6.0,three_way_core_score,1.2,4.8,4.8,2.5,3.3,2.5,absolute_disagreement|within_question_outlier,1.5,True,10.0,3.2,3.2,1.2,1.2,BND,1.1785,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：36H=0010 0110
+54H=0101 0100
+D5H=1110 0101
+∴X=0010 0110
+Y=01010100
+Z=1110 0101
+X-2Y
+=X+[-2Y]
+= 0010110+ 00101000
+= 01011110
+
+(X+4)+2Z
+=00001110+ 11001010
+=11011000
+=C8lH
+结果没发生溢出",data/csbench/student_images/CO_3/ANS_CO_225.png
+CO_3,ANS_CO_231,P2,possible_teacher_over_score,9.0,three_way_core_score,4.2,4.8,4.8,2.5,3.3,2.5,absolute_disagreement|within_question_outlier,1.5,True,10.0,4.2,4.2,4.2,4.2,BND,1.4337,high,0.0,1.0,0.166667,unstable_model_judgements,,,,"(1) x - 2y
+y: 01010100
+2y = 10101000
+-2y =  01010100
+x -2y = 00110110 + 0101100
+=10001110
+= 08EH
+OF = 1，发生溢出
+(2) (x÷4) + 2z
+x = 00101000
+x÷4 = 00001010
+z = 11010101
+2z = 10101010
+(x÷4) + 2z = 00001010 + 10101010
+= 10110100
+= B4H
+OF = 0，未发生溢出",data/csbench/student_images/CO_3/ANS_CO_231.png
+CO_3,ANS_CO_238,P2,possible_teacher_over_score,8.0,three_way_core_score,3.2,4.8,4.8,2.5,3.3,2.5,absolute_disagreement|within_question_outlier,1.5,True,10.0,5.2,5.2,3.2,3.2,BND,0.6236,high,0.0,0.75,0.0,a3wa_changed_score_materially,,,,"[X]补码=(00110110)₂ [Z]补码=(11010101)₂
+[Y]补码=(01010100)₂ [-X]补码=(11001010)₂
+[-Y]补码=(10101100)₂ [2Z]=
+[-2Y]补码=(11011000)₂
+∵[X-2Y]补=[X]补+[-2Y]补=[00001110]补码 OF=1
+发生溢出₁ = [0F]₁₆补码
+(X÷4)+2Z=[10110111] 0F=1 发生溢出
+=[B7]补₁₆",data/csbench/student_images/CO_3/ANS_CO_238.png
+CO_3,ANS_CO_201,P2,possible_teacher_over_score,8.0,three_way_core_score,3.8,4.2,4.2,2.5,2.7,2.5,absolute_disagreement|within_question_outlier,1.5,True,10.0,5.8,5.8,3.8,3.8,BND,2.0138,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：[X]补=00110110，[Y]补=01010100，[Z]补=11010101
+[X]原=00110110 [Y]原=01010100 [Z]原=10101011
+X=+54        Y=+84        Z=-43
+2Y=168；大于127，溢出，溢出后2Y=41，X-2Y=0DH
+由于8位二进制补码所表示数的范围为-128~127，计算2Y时溢出，OF=1
+[X÷4]补=00001101=0DH，即X÷4值为+13.
+(X÷4)+2Z=13+2×(-43)=-73，补码表示为D1H，没有溢出 OF=0.
+综上：X-2Y，补码结果(十六进制)为0DH，OF=1
+(X÷4)+2Z补码结果(十六进制)为D1H，OF=0.",data/csbench/student_images/CO_3/ANS_CO_201.png
+CO_3,ANS_CO_145,P2,possible_teacher_over_score,6.0,three_way_core_score,2.0,4.0,4.0,2.5,2.5,2.5,absolute_disagreement|within_question_outlier,1.5,True,10.0,3.5,3.5,2.0,2.0,BND,1.0801,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,"x-2y = x + 2·(-y) x补=00110110
+x补=54H -y补=10101100
+y原=54H
+=01010100
+00110110 y补.
++10101100 [y]补.
+------------
+111100010
++10101100 [-y补]
+------------
+10001110 
+0F=1 溢出
+如图所示表示除法
+x÷4 = x补÷4补.
+
+z = D5H 2z = z补+z补
+    D5H
++ D5H
+------
+1AAH 溢出.
+综上得
+(x÷4)H2z =
+溢出",data/csbench/student_images/CO_3/ANS_CO_145.jpg
+CO_3,ANS_CO_243,P2,possible_teacher_over_score,5.0,three_way_core_score,1.3,3.7,3.7,2.5,2.2,2.5,absolute_disagreement,1.5,True,10.0,2.3,2.3,1.3,1.3,BND,1.6997,high,0.0,1.0,0.333333,unstable_model_judgements,,,,"①x - 2y：X补码=0011 0110 (2y)补=1010 1000 [-2y]补=0101 1000 X补 + (-2y)补=1000 1110 =8DH OF=0 未溢出
+②(x÷4)=0000 1001
+2Z溢出为AAH
+(x÷4)+2Z=09H+AAH=B3H.
+OF=1",data/csbench/student_images/CO_3/ANS_CO_243.png
+CO_3,ANS_CO_196,P2,possible_teacher_over_score,8.0,three_way_core_score,4.7,3.3,3.3,2.5,1.8,2.5,absolute_disagreement,1.5,True,10.0,4.7,4.7,4.7,4.7,BND,1.3123,high,0.0,1.0,0.0,unstable_model_judgements,,,,"[x]补=36H=00111010B [y]补=54H=01010100B [z]补=D5H=11010101B
+ [x-2y]补=[x]补+[-2y]补 [-y]补=10101100 [2y]补=01011000 符号位左移时发生了变化，结果溢出. [x-2y]补=0011010+01011000=10010010=92H 结果溢出. x-2y=36H=3×16+6-(5×16+4)×2=-114 (x÷4)=00001110B [2z]补=10101010B [x÷4+2z]补=00001110+10101010=1011100=B8H 
+x÷4+2z=-72 结果无溢出.",data/csbench/student_images/CO_3/ANS_CO_196.png
+CO_3,ANS_CO_227,P2,possible_teacher_over_score,9.0,three_way_core_score,5.7,3.3,3.3,2.5,1.8,2.5,absolute_disagreement,1.5,True,10.0,6.7,6.7,5.7,5.7,BND,1.2472,high,0.0,1.0,0.166667,unstable_model_judgements,,,,"解：X的0补码为00110110
+Y的补码为01010100
+2的补码为1101010
+[X-2Y]补=[X]补+[-Y]补+[-Y]补=10001110=8EH
+结果没有发生溢出  X-2Y的正确结果为-114
+[(X÷4)+2X]补=[X÷4]补+[X]补+[Z]补=1011011=B7H
+结果没有发生溢出  (X÷4)+2Z的正确结果为-73",data/csbench/student_images/CO_3/ANS_CO_227.png
+CO_3,ANS_CO_230,P2,possible_teacher_over_score,8.0,three_way_core_score,4.8,3.2,3.2,2.5,1.7,2.5,absolute_disagreement,1.5,True,10.0,3.8,3.8,4.8,4.8,BND,1.0274,high,0.0,1.0,0.166667,unstable_model_judgements,,,,"X:16H
+补:0011 00110
+Y:54H
+补:0101 0100
+Z:D5H
+补:1101 0101
+-y:10101100
+X-2Y = X-Y -Y
+= 10001110 = 8EH
+OF=1
+X÷4右移2位
+0000 1101  
++ 1101 0101
+1110 0010  
+11 01 0101
+10 11 0111
+D7H
+OF=1",data/csbench/student_images/CO_3/ANS_CO_230.png
+CO_3,ANS_CO_248,P2,possible_teacher_over_score,7.0,three_way_core_score,4.0,3.0,3.0,2.5,1.5,2.5,absolute_disagreement,1.5,True,10.0,2.0,2.0,4.0,4.0,BND,1.633,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"由题可得：
+x: 0011 0110
+y: 0101 0100
+[x-2y]补=[x]补+[-2y]补
+=[0011 0110]补+[0101 1110]补
+=[1110 0100]补 =90H
+x: 符号位 0；y 符号位 0
+结果符号位为 1（M）
+M = 非x非yz + xy非z
+1 = 1 + 0 成立，
+没有发生溢出
+对于(x÷4)+2z
+① x÷4 相当于左移2位，
+即 结果为 0000 1101 10 ⇒ 0000 1110
+z: 1101 0101
+2z 1 1010 1010
+即 (x÷4)+2z
+= 1011 1000 = B8H
+
+即 发生溢出，因为 x÷4 符号位
+为0，z符号位为1，结果符号位为1
+不符号溢出没有发生溢出条件. 1≠011+01非1",data/csbench/student_images/CO_3/ANS_CO_248.png
+CO_3,ANS_CO_211,P2,possible_teacher_over_score,9.0,three_way_core_score,6.3,2.7,2.7,2.5,1.2,2.5,absolute_disagreement,1.5,True,10.0,8.3,8.3,6.3,6.3,BND,0.4714,high,0.0,0.5,0.166667,a3wa_changed_score_materially,,,,"[X]补 = 36H
+= 00110110 b
+[Y]补 = 54H
+= 0101010 00b
+[Z]补 = D5H
+= 11010101 b
+[-Y]补 = 10101100 b
+[X-2Y]补 = [X-Y-Y]补
+= [X]补 + [-Y]补 + [-Y]补
+= 00110110 + 10101100 + 10101100
+= 10001110 b  OF =1
+= 8EH
+OF =1
+(4)0=0100 b
+ X÷4等价为X右移2位.
+[X÷4]补 = 0000 1101 b
+[ (X÷4) + 2Z ]补
+= [ (X÷4) + z + z ]补
+= 0000 1101 + 11010101 + 11010101
+= 1011 0111 b 
+= B7H
+OF =1
++4",data/csbench/student_images/CO_3/ANS_CO_211.png
+CO_3,ANS_CO_186,P2,possible_teacher_over_score,9.0,three_way_core_score,6.5,2.5,2.5,2.5,1.0,2.5,absolute_disagreement,1.5,True,10.0,8.0,8.0,6.5,6.5,BND,0.7071,high,0.0,0.75,0.0,a3wa_changed_score_materially,,,,"解: X=000110110 y=001010100 Z=111010101 采用双符号位
+∴ X-2y = (X)补 + (-2y)补
+∵2y 相当于将y左移一位 2y=010101000 ∴2y发生溢出
+∴X-2y= x-y -y = (x)补 +(-y)补 +(-y)补 = 000110110 + 110101100 + 110101100
+= 110001110 = 8E 未溢出.
+∴(X÷4)+2Z ∵X÷4相当于X左移2位. ∴X÷4= 000001101
+∵2Z = 110101010
+∴(X÷4)+2Z = 000001101 + 11101010
+= 110110111 = B7 未溢出.",data/csbench/student_images/CO_3/ANS_CO_186.jpg
+CO_3,ANS_CO_197,P2,possible_teacher_under_score,1.0,three_way_core_score,3.3,-2.3,2.3,2.5,-3.8,2.5,within_question_outlier,1.5,True,10.0,3.3,3.3,3.3,3.3,POS,0.4714,high,0.0,0.5,0.0,,,,,"X 补码 36H=00110110
+y 补码 54H=01010100
+Z 补码 D5H=11010101
+x-2y: 先算[2y]补，补码一位乘，乘数为2=10.
+01010100 × 10.
+再算[x-2y]补=[x补]+[-2y]补.
+补码一位加.
+(X÷4)+2z 先算X÷4 [X÷4]补，补码一位除 再求其原码
+再算[2z]补 补码一位乘，乘数为2=10
+最后算 (X÷4)补+[2z]补 再求其原码.",data/csbench/student_images/CO_3/ANS_CO_197.png
+CO_3,ANS_CO_195,P2,possible_teacher_under_score,8.0,three_way_core_score,10.0,-2.0,2.0,2.5,-3.5,2.5,within_question_outlier,1.5,True,10.0,10.0,10.0,10.0,10.0,POS,0.0,high,0.0,0.0,0.0,,,,,"① [x-2y]补=[x]补+[-2y]补
+∵[y]补=01010100
+[2y]补=10101000
+[-2y]补=01011000
+∴[x-2y]补=00110110+01011000
+=10001110
+∵fA=0,fB=0,fs=1
+∴非fA非fs+fAfB非fs=1
+∴结果发生溢出,OF=1
+②(X÷4)+2Z
+[X]补右移2位得到[X÷4]补=00001101
+[(X÷4)+2Z]补=[X÷4]补+2[Z]补
+=10110111
+∵fA=0,fB=1,fs=1
+∴非fA非fs+fAfB非fs=0
+∴结果没有溢出,OF=0",data/csbench/student_images/CO_3/ANS_CO_195.jpg
+CO_3,ANS_CO_178,P2,possible_teacher_under_score,8.0,three_way_core_score,9.5,-1.5,1.5,2.5,-3.0,2.5,within_question_outlier,1.5,True,10.0,9.5,9.5,9.5,9.5,BND,0.4082,high,0.0,0.5,0.333333,,,,,"[X]补=(36H)16=(00110110)2
+[Y]补=154H)16=(01010100)2
+[-2y]补=01011000
+[X-2y]补=[X]补+[-2Z]补=10001110
+则可知，参与运算的数的符号位为fA=0,fB=0.
+结果的符号位为fS=1,由符号位法有
+OF=fAfB非fS+非fA非fBfS=0+1=1 故结果溢出
+(2)[X÷4]补=[0001101]2
+[z]补=(11010101)2
+[2Z]补=(10101010)2
+[(X÷4)+2Z]补=[X÷4]补+[2Z]补=10110111
+可知,参与运算的数的符号位为fA=0,fB=1,结果的符号位为fS=1
+OF=fAfB非fS+非fA非fBfS=0
+故未溢出",data/csbench/student_images/CO_3/ANS_CO_178.jpg
+CO_3,ANS_CO_164,P2,possible_teacher_under_score,3.0,three_way_core_score,4.0,-1.0,1.0,2.5,-2.5,2.5,within_question_outlier,1.5,True,10.0,3.0,3.0,4.0,4.0,BND,0.8165,high,0.0,1.0,0.0,,,,,"[X]补=36H=00110110
+[X]原=00110110 
+[Y]补=54H=01010100
+[Y]原=01010100
+[Z]补=D5H=11010101
+[Z]原=10101011
+X-2Y=11110000
+(X-2Y)补=100100000
+(c+=1)
+(c=1)
+∴c+⊕c=0
+∴无溢出
+x÷4+2z=
+结果溢出",data/csbench/student_images/CO_3/ANS_CO_164.jpg
+CO_4,ANS_CO_698,P1,possible_teacher_over_score,11.0,three_way_core_score,1.8,9.2,9.2,5.0,7.2,5.0,absolute_disagreement|within_question_outlier,2.0,False,20.0,1.8,1.8,1.8,1.8,BND,0.6236,high,0.2,0.375,0.2,,,,,"(1)主存字块标记 组地址 块内地址: 15 5 3 
+(2)2D07FF H = 0010 1101 0000 0111 1111 1111 由上表可知，0101 1010 0000 0111 为主存块标记 由于表内找不到相应数据，所以此次访问Cache未命中，即不命中。 
+7F0057H = 0111 1111 0000 0000 0101 0111 可知，主存标记号为0111 1111 0000 对应表内Cache块1和块3，此次访问Cache命中，即命中。",data/csbench/student_images/CO_4/ANS_CO_698.jpg
+CO_4,ANS_CO_747,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,5.0,6.0,5.0,absolute_disagreement|within_question_outlier,2.0,False,20.0,1.3,1.3,0.0,0.0,BND,0.9428,high,0.0,0.5,0.166667,,,,,"(1)主存： 块内地址 块号
+   21 2
+Cache 话块数 块地址 块号
+21 9 2
+(2) 能；不能。
+2D07 FFH → 0010 1101 0000 0111 1111 1111
+去掉块号后两位
+→ 1111110 对应为块标记 块3
+7F0057H → 取后10位 000101 0111 +对01010|111 不符合块标记",data/csbench/student_images/CO_4/ANS_CO_747.png
+CO_4,ANS_CO_674,P1,possible_teacher_over_score,11.0,three_way_core_score,4.55,6.45,6.45,5.0,4.45,5.0,absolute_disagreement,2.0,False,20.0,6.3,6.3,4.55,4.55,BND,0.9428,high,0.1,0.5,0.266667,,,,,"解：(1)32÷2=8组。主存单元按字节编址则8MB/2KB 标记 组地址 块内地址 
+8位 4位 11位
+ (2) 2D07FFH=0010 1101 0000 010101 1111 1111B 时能在Cache中访问到该单元数据
+7F0057H=0111 1111 0000 0000 0101 0111时
+能在Cache中访问到该单元的数据",data/csbench/student_images/CO_4/ANS_CO_674.jpg
+CO_4,ANS_CO_700,P1,possible_teacher_over_score,16.0,three_way_core_score,9.8,6.2,6.2,5.0,4.2,5.0,absolute_disagreement,2.0,False,20.0,9.8,9.8,9.8,9.8,POS,0.2357,high,0.0,0.125,0.2,,,,,"8MB=2²³B ∴主存共23位(按字节编址). 
+2KB=2¹¹B ∴主存的块内地址为11位. Cache可放32个主存块,Cache块和主存块大小相同. ∴共有2⁵个,每两个一组2⁵÷2=2³组 23-11-4=8 主存块标记 Cache组号 块内地址 8位 4位 11位 每组两个Cache块,2^1,1位组块内字块地址. 
+Cache组号 Cache组内块号 块内地址 4位 7位 11位 
+2^4组，4位组号，11位块内地址
+(2)2D07FFH=001011010000011111111111 B 舍去第一位0,共23位,前位为010110,为主存块号,显然该块号在Cache中未有的第2块标记,所以可以在Cache中访问到. 7F0057H=011111110000000001010111 B 舍去第一位,块号为1111110,为Cache第3号块标记,所以可以在Cache中访问到 标记",data/csbench/student_images/CO_4/ANS_CO_700.png
+CO_4,ANS_CO_720,P1,possible_teacher_over_score,20.0,three_way_core_score,14.0,6.0,6.0,5.0,4.0,5.0,absolute_disagreement,2.0,False,20.0,15.0,15.0,14.0,14.0,BND,1.8708,high,0.0,1.0,0.15,,,,,"(1)主存为8MB，则有23位。每块2kB，按字节编址，则块内地址位数为11位。Cache每组2块，则r=1。Cache中最多存放32个主存块，共有16组，q=4。主存S=23-4-11=8位。
+主存结构和cache结构如图所示
+(2)地址为2D07FFH时，对应010 1101 0000 0111 1111 1111 主存地址标记为01011010，不能在Cache中访问到数据 7F0057H，对应1111 0000 0000 0101 0111 
+主存地址标记为111 11110，也能找到Cache块号为0",data/csbench/student_images/CO_4/ANS_CO_720.png
+CO_4,ANS_CO_727,P1,possible_teacher_over_score,7.0,three_way_core_score,1.25,5.75,5.75,5.0,3.75,5.0,absolute_disagreement,2.0,False,20.0,3.0,3.0,1.25,1.25,BND,0.8165,high,0.3,0.5,0.383333,,,,,"解：(1). 8M=2^23 32×2k=2^15. 令2个最高位决定各字段的位算，位数为6. (2). 若CPU送出前地址为2D07FFH时. 不能访问到. 若CPU送出前地址为7F0057H时, 能访问到。",data/csbench/student_images/CO_4/ANS_CO_727.png
+CO_4,ANS_CO_656,P1,possible_teacher_over_score,11.0,three_way_core_score,5.7,5.3,5.3,5.0,3.3,5.0,absolute_disagreement,2.0,False,20.0,5.7,5.7,5.7,5.7,POS,0.4714,high,0.1,0.25,0.183333,,,,,"解：(1).主存容量：8MB=2²³B，则主存地址
+每块地址：2KB=2¹¹B，有11位，Cache块号：2²¹B/2¹¹B=2¹²B。
+组：2¹²/2=2¹¹，有11位。
+则主存地址格式如图所示
+Cache地址格式如图所示
+(2).地址为2D07FFH即0010110100000111 1111 1111，去掉块内地址，11位，
+得0010110100000，查表不能找到该数据
+
+地址为7F0057H即0111 1111 0000 0000 0101 0111，去掉块内地址，11位，
+得011111110000，",data/csbench/student_images/CO_4/ANS_CO_656.jpg
+CO_4,ANS_CO_662,P1,possible_teacher_under_score,14.0,three_way_core_score,19.3,-5.3,5.3,5.0,-7.3,5.0,absolute_disagreement|within_question_outlier,2.0,False,20.0,19.3,19.3,19.3,19.3,POS,0.9428,high,0.0,0.5,0.116667,,,,,"解：∵MB=2²³B ∴主存总长度为23
+ 32=2⁵，2KB=2¹¹B ∴块内长度为11 又∵每组两1块，∴2⁵÷2¹=2⁴ ∴Cache地址为4 ∴23-4-11=8 
+主存地址 Cache地址 块内地址 8 4 11
+ (2) 2D07FFH = 0001 1101 0000 0111 1111 1111 (B) ∴不能 
+7F0057H=0111 1111 0000 0000 0101 0111 1-1 存在11111110 ∴能",data/csbench/student_images/CO_4/ANS_CO_662.jpg
+CO_4,ANS_CO_758,P1,possible_teacher_over_score,9.0,three_way_core_score,3.7,5.3,5.3,5.0,3.3,5.0,absolute_disagreement,2.0,False,20.0,3.7,3.7,3.7,3.7,BND,0.9428,high,0.1,0.5,0.166667,,,,,"(1)解:由每块2kB可知，主块内地址为 2kB = 2¹⁰B 10位。由8MB/2kB =4k = 2¹²则tag为12位 由Cache中最多放32个块块，采用组相联，Cache每组2块可知
+一共为32÷2=16组 = 2⁴组，则组索引为4位 
+故主存 tag 组索引 块内 (12位) (4位) (10位) 
+Cache 数据 tag 块内 (1位) (12位) (10位)
+ (2) 由CPU送出2D07FFH可知 tag = 2D = 0010 1101
+则由cache表可知未命中
+则不能cache中访问到该单元的数据
+ 由CPU送出7F0057H可知 tag = 7F = 01111111 则由Cache表可知，不能在cache中访问到该单元的数据",data/csbench/student_images/CO_4/ANS_CO_758.png
+CO_4,ANS_CO_647,P1,possible_teacher_over_score,14.0,three_way_core_score,8.8,5.2,5.2,5.0,3.2,5.0,absolute_disagreement,2.0,False,20.0,8.8,8.8,8.8,8.8,BND,1.9293,high,0.0,1.0,0.3,,,,,"主存地址 标记 8位 组号 4位 块内地址 12位 
+Cache地址 组号 4位 块内地址 1位 
+8MB=2²³B 共2³位 2kB=2¹¹B 块内地址11位 组号：32/2=16=2⁴ 有4位 标记：23-11-4=8.
+(2)2D07FFH: 标记：01011010 命中Cache块2. 7F0057H: 标记：11111110 命中Cache块3.",data/csbench/student_images/CO_4/ANS_CO_647.jpg
+CO_4,ANS_CO_679,P1,possible_teacher_over_score,14.0,three_way_core_score,8.95,5.05,5.05,5.0,3.05,5.0,absolute_disagreement,2.0,False,20.0,10.7,10.7,8.95,8.95,BND,0.9428,high,0.0,0.5,0.183333,,,,,"解：(1). K=1. 32=2^5 q=5. 2^5，2^?=2^4.
+l=2KB=2^11B. l=11.
+主存有：8MB/1KB=2^3×2^20/2^11=2^12. 12位. 12-4=8
+主存：主存块标记  Cache组数  块内地址.
+          8        4         11.
+Cache.  Cache组数  Cache组内块数  块内地址
+          4           1             11.
+(2). 2D07FFH=0010 1101 0000 0111 1111 1111 去掉11位和4位得01011010
+有块标记为01011010，能访问到.
+7F0057H=0111 1111 0000 0000 0101 0111 去掉11位和4位得11111110.
+有块标记为11111110，能访问到.",data/csbench/student_images/CO_4/ANS_CO_679.jpg
+CO_4,ANS_CO_756,P1,possible_teacher_over_score,17.0,three_way_core_score,12.0,5.0,5.0,5.0,3.0,5.0,absolute_disagreement,2.0,False,20.0,12.0,12.0,12.0,12.0,POS,0.0,high,0.0,0.0,0.0,,,,,"(1)8MB=2²³×B 
+32=2⁵
+ 采用二路组相联映像 
+2KB=2¹¹×B 
+组内地址11位
+ 2⁵/2=2⁴ 
+组地址4位 
+23-11-4=8位 
+主存标记地址
+8位 8位 4位 11位 
+tag标记位 组地址 组内地址 
+(2)2D07FFH=标记位为(0010 1101) 不能访问到该单元的数据 7F0057H 标记位为(0111 1111) 能访问到该单元的数据",data/csbench/student_images/CO_4/ANS_CO_756.png
+CO_4,ANS_CO_725,P2,possible_teacher_over_score,16.0,three_way_core_score,4.0,12.0,12.0,5.0,10.0,5.0,absolute_disagreement|within_question_outlier,2.0,False,20.0,8.0,8.0,4.0,4.0,BND,0.0,high,0.25,0.0,0.25,a3wa_changed_score_materially,,,,"解:(1)主存地址为2^23
+旧数=2^5/2=2^4
+块内地址=11.组标记
+∴主存：如图所示
+Cache容量：2^16
+cache地址如图所示
+(2)2D07FFH 无法命中
+7F0057H 可以命中",data/csbench/student_images/CO_4/ANS_CO_725.png
+CO_4,ANS_CO_645,P2,possible_teacher_over_score,10.0,three_way_core_score,0.57,9.43,9.43,5.0,7.43,5.0,absolute_disagreement|within_question_outlier,2.0,False,20.0,2.7,2.7,0.57,0.57,BND,0.4714,high,0.3,0.25,0.3,a3wa_changed_score_materially,,,,"(1) 8MB/32=2¹⁸B 2×2KB=2¹²B ∴名存交的位数=18 位数x=12 
+(2) 2D07FFH=001011010000011111111111B 不在块标记内 ∴不能访问到该单元的类文字层 7F0057H=111111100000000010111B 在块标记内 ∴能访问到该单元的数据",data/csbench/student_images/CO_4/ANS_CO_645.jpg
+CO_4,ANS_CO_666,P2,possible_teacher_over_score,15.0,three_way_core_score,5.7,9.3,9.3,5.0,7.3,5.0,absolute_disagreement|within_question_outlier,2.0,False,20.0,9.7,9.7,5.7,5.7,BND,1.8856,high,0.15,1.0,0.333333,a3wa_changed_score_materially,,,,"解：主存
+字块标记 组号 主存块
+19(位) 4(位) 11(位)
+Cache：
+组号 4. 组内偏号 1 字块标记 19位
+(2)：
+2D07 FFH：0010 1101 0000 0111 1111 1111
+拿掉第一位知，组号为：0001 为第1组，
+块标记为： 0101 1010，故存在
+7F 0057 H：0111 1111 0000 0000 0101 0111
+组号为：0000 为第2组
+找不到 块标记
+故无法访问",data/csbench/student_images/CO_4/ANS_CO_666.jpg
+CO_4,ANS_CO_702,P2,possible_teacher_over_score,11.0,three_way_core_score,4.7,6.3,6.3,5.0,4.3,5.0,absolute_disagreement,2.0,False,20.0,8.7,8.7,4.7,4.7,BND,2.4944,high,0.2,1.0,0.366667,a3wa_changed_score_materially|unstable_model_judgements,,,,"主存地址 组地址 块内偏移
+位 8  4 11
+(2) 2D 07 FFH
+0010 1101 0000 0111 1111 1111
+能访问块2.
+7F00 57H
+0111 1111 0000 0000 0101 0111
+能访问块3",data/csbench/student_images/CO_4/ANS_CO_702.png
+CO_4,ANS_CO_730,P2,possible_teacher_under_score,8.0,three_way_core_score,14.3,-6.3,6.3,5.0,-8.3,5.0,absolute_disagreement|within_question_outlier,2.0,False,20.0,17.3,17.3,14.3,14.3,BND,2.4944,high,0.05,1.0,0.15,a3wa_changed_score_materially|unstable_model_judgements,,,,"主存 Tag标志 块内偏移：12位 11位
+Cache Tag标志位 组索引 块内偏移：8位 4位 11位
+将2D07FF转换成二进制可得
+0010 1101 0000 0111 1111 1111
+由cache字段可知
+111 1111 1111为块内偏移
+0000为组索引1
+010 11010为Tag块标记位
+根据表可知01011010在块2内
+2-组相联可知组索引应为0001
+故cache无法访问到该单元的数据
+将7F 0057转换成二进制可得
+0111 1111 0000 0000 0101 0111
+由cache字段可知
+000 01010111为块内偏移
+→0000为组索引1
+111 11110为Tag块标记位
+根据表可知111 11110为块1块3
+组索引为000或0001
+所以cache可以访问到
+该单元的数据",data/csbench/student_images/CO_4/ANS_CO_730.png
+CO_4,ANS_CO_731,P2,possible_teacher_over_score,12.0,three_way_core_score,5.7,6.3,6.3,5.0,4.3,5.0,absolute_disagreement,2.0,False,20.0,5.7,5.7,5.7,5.7,BND,1.2472,high,0.35,0.75,0.541667,rubric_mapping_risk,,,,"解 (1)设计ache地址: 
+块内的地址 11位 
+块的地址 1位 
+组的地址 4位 
+设计主存的地址: 
+块内的地址 11位 
+块的地址 1位 
+组的地址 4位 
+最外层地址 7位 
+（2）解 能 能",data/csbench/student_images/CO_4/ANS_CO_731.png
+CO_4,ANS_CO_685,P2,possible_teacher_over_score,8.0,three_way_core_score,2.7,5.3,5.3,5.0,3.3,5.0,absolute_disagreement,2.0,False,20.0,2.7,2.7,2.7,2.7,BND,0.9428,high,0.225,0.5,0.475,rubric_mapping_risk,,,,"8MB:2²³B
+块内地址:32:2⁵ 5位
+2k8×2=2¹²B 12位
+所以标记位: 23-12-5=6
+∴ 6位 12位 5位
+标记位 12位地址 块内地址
+(2)①2D07FFH
+001011010 000 011111111111B
+②7F0057H
+0111111100000000010101111B",data/csbench/student_images/CO_4/ANS_CO_685.jpg
+CO_4,ANS_CO_704,P2,possible_teacher_over_score,5.0,three_way_core_score,0.0,5.0,5.0,5.0,3.0,5.0,absolute_disagreement,2.0,False,20.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.5,0.0,0.5,extraction_risk|rubric_mapping_risk,,,,"(1)由题中，主存为8MB，主存单元按字节编址。数据Cache中最多存放32个主存块，采用组相联方式进行主存-Cache地址映射，Cache每组2块，每块2KB。则…
+(2)若CPU送出的地址为2D07FH时，能在Cache中访问到该单元的数据；若CPU送出的地址为7F0057H时，能在Cache中访问到该单元的数据。",data/csbench/student_images/CO_4/ANS_CO_704.png
+CO_4,ANS_CO_724,P2,possible_teacher_under_score,11.0,three_way_core_score,14.7,-3.7,3.7,5.0,-5.7,5.0,within_question_outlier,2.0,False,20.0,14.7,14.7,14.7,14.7,BND,4.9889,high,0.1,1.0,0.35,unstable_model_judgements,,,,"解：(1) Cache组数为 32/2 =16块 即 2⁴ Cache组号选择字段为4位. 
+每块2kB. 即块地址为 2¹¹ 11位 
+Cache每组2块. 即Cache块组内选择字段为1位 ,同时Cache还有1位有效位 标为8MB 即 2²³B 每块2kB为2¹¹B 主存分为 2²²/2¹¹=2¹²块 故块的块号 选择字段为12位 cache地址如图所示，主存如图所示
+(2) 2D07FFH 转化为二进制为 0010,1101,0000,0111,1111,1111不能访问到 7F0057H 转化化二进制为 0111,1111,0000,0000,0101,0111 能访问到",data/csbench/student_images/CO_4/ANS_CO_724.png
+CO_4,ANS_CO_661,P2,possible_teacher_under_score,14.0,three_way_core_score,17.5,-3.5,3.5,5.0,-5.5,5.0,within_question_outlier,2.0,False,20.0,17.5,17.5,17.5,17.5,BND,1.7795,high,0.0,1.0,0.166667,,,,,"解:(1)∵Cache每个主存块2KB=2¹¹B ∴主存和Cache块内地址为11位. 
+∵Cache有32个主存块,每组2个 ∴Cache内一共分2^5/2=2⁴组.
+∴Cache块号为(2^(23-11))%2⁴=4位. ∴字块标记为23-11-4=8位.
+∴主存地址: 8位   4位 11位 
+	字块标记|组号|块内地址 
+Cache地址: 1位 8位 11位 
+	有效位|标记|块内地址 
+(2) 2007FFH=001011010000011111111111 字块标记:01011010 
+组号:0000 ⇒块0或块1 ∴未访问到
+7F0057H=0111111000000001011111 字块标记:11111110
+组号:0000 ⇒块0或块1 ∴访问到",data/csbench/student_images/CO_4/ANS_CO_661.jpg
+CO_5,ANS_CO_270,P1,possible_teacher_over_score,10.0,three_way_core_score,0.8,9.2,9.2,3.75,8.4,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.8,0.8,0.8,0.8,POS,0.5893,high,0.0,0.416667,0.055556,,,,,"解:(1). 二地址指令中,包含操作码4位,地址码1 6位,地址码2 6位.
+二地址指令12条,需要 2³<12+1<2⁴,4位操作码位数.
+一地址指令包含操作码10位,地址码6位.
+故一地址指令最多有 2^6-1 即 2^6-1条指令
+(2). 零地址指令中包含操作码16位,地址码0位,
+二地址指令12条,需要 2³<12+1<2⁴,4位操作码位数.
+一地址指令254条,需要 2⁷<254+1<2⁸,8位操作码位数.
+零地址指令的前段位数Pre=((2¹⁰⁻⁴-1)×2¹⁶⁻¹⁰-254)=2974,共需12位.
+所以零地址指令条数最多有 2^(16-12)=2⁴条",data/csbench/student_images/CO_5/ANS_CO_270.jpg
+CO_5,ANS_CO_258,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"解:
+(1)总档条数=3×2¹⁰=3072条
+∵二地址指令有12条,零地址指令至少1条
+∴一地址指令条数=3072-12-1=3059条
+
+(2)零地址指令条数=3072-12-254=2806条",data/csbench/student_images/CO_5/ANS_CO_258.jpg
+CO_5,ANS_CO_271,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"2^(16-6)=2^10=1024(条).
+1). 1024 -12 -1=1011(条).
+2). 1024 -12 -254=758(条).",data/csbench/student_images/CO_5/ANS_CO_271.jpg
+CO_5,ANS_CO_273,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"(1) 2^(16-10-1)=2^9=512.
+512-12-1=499.
+(2) 512-12-254=246.",data/csbench/student_images/CO_5/ANS_CO_273.jpg
+CO_5,ANS_CO_277,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"解:分析可得:
+如图所示
+由距离可知:
+0·x + 6·y + 12×12 
+= 16x + 10y + 4x12
+∴ y = 24 - 4x(x ≥ 1)        
+∴ y ≤20
+故最多有20条    
+
+（2）6*256+12*12=16x+10*25+12
+	x ≤56
+故最多有56条",data/csbench/student_images/CO_5/ANS_CO_277.jpg
+CO_5,ANS_CO_280,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.166667,0.0,0.166667,,,,,"指令码为16位.其中地址位为6位.∴操作码=16-6=10位.
+(1) 指令条数=2¹⁰=1024条.
+二地址指令12条.至少1条零地址指令.
+∴一地址指令最多=1024-12-1=1011条.
+(2) 零地址指令最多= 2¹⁰-12-254
+=1024-12-254
+=758条.",data/csbench/student_images/CO_5/ANS_CO_280.jpg
+CO_5,ANS_CO_289,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"解:(1)2⁶×16=1024
+1024-2²×12-1=975
+975÷2=487.5
+一地址指令最多487条
+(2)(1024-2²×12)-2*254=468
+零地址指令最多468条",data/csbench/student_images/CO_5/ANS_CO_289.jpg
+CO_5,ANS_CO_294,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"(1)地址码为6位
+2^6=64
+64-12×2=40
+2^10-12-1=611
+4×611=40440
+∴最多有40440条.
+
+(2)
+1212=6
+64-2=62
+254-62=192",data/csbench/student_images/CO_5/ANS_CO_294.jpg
+CO_5,ANS_CO_295,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"(1) 16-6=10
+12×2² + 6×2^0+ 2a = 2^10  b=22时
+αmax = 482  最多有482条
+(2) 254×2¹ + 12×2² + b×2^0 = 2^10
+b = 722  ∴零地址条数最多有722条",data/csbench/student_images/CO_5/ANS_CO_295.jpg
+CO_5,ANS_CO_299,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"(1) 
+如图所示
+令一地址指令有x条  
+则 X+24=6k
+2X+37=16k
+∴一地址指令最多有7条
+(2) 零地址最多有9条",data/csbench/student_images/CO_5/ANS_CO_299.jpg
+CO_5,ANS_CO_304,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"(1)16-10=10
+2^10=1024(种)
+1024-12-1=1011
+即最多1011条
+2) 1024-12-254=758(条)
+即最多758条",data/csbench/student_images/CO_5/ANS_CO_304.jpg
+CO_5,ANS_CO_307,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.8,0.8,0.0,0.0,BND,0.5401,high,0.166667,0.416667,0.333333,,,,,"解.
+(1)若二地址指令有12条. 当只有一条零地址时此时一地址指令是最多的.
+可知地址码有6位.即最多有2^6=64条指令.则一地址指令最多有 51条.
+(2)若二地址指令有12条. 一地址指令有254条. 一共有266条. 零地址指令
+最多有246条.",data/csbench/student_images/CO_5/ANS_CO_307.jpg
+CO_5,ANS_CO_337,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"解：(1)由于地址码有6位，一共有2⁶=64条指令格式
+    对操作码：16-6=10位
+    12=2³＋4 条,5位
+    零地址：1条,二地址：12条
+    则一地址指令最多有 16+6-5-1=16位
+        其中操作码占10位,则有2⁶=64条
+(2)二地址：12=2³＋4条
+    一地址：254=2⁸-2 条
+    16+6-4-8=10位
+    此时操作码占4位
+    零地址最多有2⁶=64条",data/csbench/student_images/CO_5/ANS_CO_337.png
+CO_5,ANS_CO_339,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"解：(1)扩展编码长为4-6-6
+由题可知：一地址最多有[(2⁴ - 1)×2⁶ - 1]×2⁶ =959
+(2)设零地址指令最多有x条。
+由题可知：[(2⁴ - x)×2⁶ - 12]×2⁶ ≥ 254
+    即：(2⁴ - x)×2⁶ - 12 ≥ 4
+    即 (2⁴ - x)×2⁶ ≥ 16
+    ∴ 2⁴ - x ≥ 1
+    ∴ x = 2⁴ - 1 = 15条。",data/csbench/student_images/CO_5/ANS_CO_339.png
+CO_5,ANS_CO_268,P1,possible_teacher_over_score,8.0,three_way_core_score,0.4,7.6,7.6,3.75,6.8,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.4,0.4,0.4,0.4,POS,0.5893,high,0.0,0.416667,0.111111,,,,,"解：1) 1b bit = 2Byte
+设一地址指令有m条，零地址指令n条，n≥1
+2^6 -12 = 52条
+52×2^6 -m = 3328 -m 条
+(3328 -m)×2^6 - n =
+(2) 2^6 -12 = 52条
+52×2^6 - 254 = 3074条",data/csbench/student_images/CO_5/ANS_CO_268.jpg
+CO_5,ANS_CO_319,P1,possible_teacher_over_score,8.0,three_way_core_score,0.4,7.6,7.6,3.75,6.8,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.4,0.4,0.4,0.4,POS,0.5893,high,0.0,0.416667,0.111111,,,,,"(1) 由题意可知编码格式为4-6-6
+(2⁴-1)×2⁶⁻⁴=960
+二地址有12条，至少需留一位
+故一地址指令最多有959条
+(2) ((2⁴-X)×2¹⁰⁻⁴)-254 > 1
+16-X≥4
+X最大为12
+故零地址指令最多12条",data/csbench/student_images/CO_5/ANS_CO_319.png
+CO_5,ANS_CO_291,P1,possible_teacher_over_score,10.0,three_way_core_score,2.8,7.2,7.2,3.75,6.4,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,2.8,2.8,2.8,2.8,POS,0.4714,high,0.0,0.333333,0.111111,,,,,"(1)2⁴-12=4
+(4-1)×2⁶=768
+∴一地址指令最多有768条
+
+(2)2⁴-12=4
+2⁸-254=2
+2×2（6+1）=>256
+∴零地址指令最多有256条",data/csbench/student_images/CO_5/ANS_CO_291.jpg
+CO_5,ANS_CO_317,P1,possible_teacher_over_score,8.0,three_way_core_score,0.8,7.2,7.2,3.75,6.4,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.8,0.8,0.8,0.8,BND,1.1785,high,0.083333,0.833333,0.180556,,,,,"1) 地址码6位
+2^6 - 1 = 64 - 1 = 63
+63 - 12 - 1 = 50条
+一地址最多50条
+
+2) 2^9 - 1 - 12 - 254 = 245条
+零地址最多245条",data/csbench/student_images/CO_5/ANS_CO_317.png
+CO_5,ANS_CO_313,P1,possible_teacher_over_score,8.0,three_way_core_score,1.2,6.8,6.8,3.75,6.0,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,1.2,1.2,1.2,1.2,BND,1.0206,high,0.166667,0.833333,0.277778,,,,,"(1) ∵L=(2ᵐ -N)×2ⁿ⁻ᵐ -N
+操作码有16-6=10位,地址码6位
+一地址最多有
+(2) ∵L=(2ᵐ -N)×2ⁿ⁻ᵐ -N
+操作码有10位,地址码6位
+零地址最多有",data/csbench/student_images/CO_5/ANS_CO_313.png
+CO_5,ANS_CO_274,P1,possible_teacher_over_score,8.0,three_way_core_score,2.1,5.9,5.9,3.75,5.1,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,2.1,2.1,2.1,2.1,BND,1.1785,high,0.0,0.833333,0.138889,,,,,"解：
+（1）二地址：
+如图所示
+当至少存在一条有零地址指测一地址：
+如图所示
+∴一地址指令最多有4098条
+（2）
+如图所示
+零地址最多有16条.",data/csbench/student_images/CO_5/ANS_CO_274.jpg
+CO_5,ANS_CO_348,P1,possible_teacher_over_score,8.0,three_way_core_score,2.9,5.1,5.1,3.75,4.3,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,2.9,2.9,2.9,2.9,BND,1.1785,high,0.0,0.833333,0.111111,,,,,"(1) 4 6 6
+∴[(2⁴×2⁶)-12]×2⁶
+∴一地址指令最多有(2⁴×2⁶ -12)×2⁶ -1 条,
+=64767条
+(2)
+零地址指令数最多为[(2⁴×2⁶ -12)×2⁶ -254]×2⁶条,",data/csbench/student_images/CO_5/ANS_CO_348.png
+CO_5,ANS_CO_263,P1,possible_teacher_under_score,8.0,three_way_core_score,12.9,-4.9,4.9,3.75,-5.7,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,12.9,12.9,12.9,12.9,POS,0.5893,high,0.0,0.416667,0.111111,,,,,"设一地址指令最多有a条 
+解:(1) 4×2⁶−a=1
+       a=2^8-1 
+(2) (2⁸−254)·2⁶=2^7",data/csbench/student_images/CO_5/ANS_CO_263.jpg
+CO_5,ANS_CO_320,P1,possible_teacher_over_score,10.0,three_way_core_score,5.8,4.2,4.2,3.75,3.4,3.75,absolute_disagreement,0.8,False,15.0,5.8,5.8,5.8,5.8,BND,0.5893,high,0.166667,0.416667,0.222222,,,,,"(1) 二地址指令有12条
+2^n -1=12
+2^n=13
+一地址指令最多[(2^n -1)×2^n ]-1=12×13 -1=156条
+(2) 128条",data/csbench/student_images/CO_5/ANS_CO_320.png
+CO_5,ANS_CO_279,P2,possible_teacher_over_score,15.0,three_way_core_score,4.83,10.17,10.17,3.75,9.37,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,6.7,6.7,4.83,4.83,BND,2.357,high,0.0,1.0,0.277778,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：
+（1） 地址量：(2⁴ - 12) × 2⁶ - 1 =225条
+（2）：零地址量各有：((2⁴ - 12)×2⁶ - 254)×2⁶ = 2⁷ = 128条",data/csbench/student_images/CO_5/ANS_CO_279.jpg
+CO_5,ANS_CO_311,P2,possible_teacher_over_score,10.0,three_way_core_score,0.0,10.0,10.0,3.75,9.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,2.9,2.9,0.0,0.0,BND,2.1246,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,"解: 指令长16位,地址码为6位,则操作码为16-6=10位。
+(1)二地址有12条,2^4>12,∴二地址需要4位操作码除2位地址码=6位
+零地址至少有一条,2^1>1,∴零地址指令需1位操作码+0位地址码=1位
+∴一地址指令操作码位数=16-6-1=9位
+∴一地址指令最多有2^9-1=2^8=256条
+(4)2^4>12;4+2=6位.
+2^8>252,8+1=9位  16-9-6=1
+零地址需要0位地址码.
+∴零地址指令最多有2^(1-0)=2条.
+",data/csbench/student_images/CO_5/ANS_CO_311.jpg
+CO_5,ANS_CO_323,P2,possible_teacher_over_score,15.0,three_way_core_score,5.62,9.38,9.38,3.75,8.58,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,7.5,7.5,5.62,5.62,BND,2.0412,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：∵地址译码为6位，∴操作码为4位，
+(1)一地址指令需留出6位地址位，设有n条
+∴((16-12)×2⁶ -n)×2⁶=2⁶ ∴n=256条
+(2) 二地址12条，一地址254条
+((16-12)×2⁶ -254)×2⁶=128条",data/csbench/student_images/CO_5/ANS_CO_323.png
+CO_5,ANS_CO_321,P2,possible_teacher_over_score,15.0,three_way_core_score,6.2,8.8,8.8,3.75,8.0,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,9.2,9.2,6.2,6.2,BND,3.118,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1)(2²-12)×2⁶ -1=255
+(2)[(4-12)×2⁶ -254]×2⁶=128",data/csbench/student_images/CO_5/ANS_CO_321.png
+CO_5,ANS_CO_260,P2,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,BND,0.0,high,0.333333,0.0,0.444444,rubric_mapping_risk,,,,"①12→二地址后缀有4位，操作码有16-6=10位。
+连地址：0000000
+ 一地址：000001 一地址最多2⁶-2=62条 
+                  111110 
+二地址：111111 0000 
+                 111111 1011 
+
+②",data/csbench/student_images/CO_5/ANS_CO_260.jpg
+CO_5,ANS_CO_287,P2,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.333333,0.0,0.333333,extraction_risk,,,,"解：
+(1) ∵二地址指令有12条，且至少有一条零地址指令，
+    地址码为6位
+    ∴一地址指令最多有71条
+(2) ∵二地址有12条，一地址指令有254条，地址码为6位
+    ∴零地址指令最多有6条。",data/csbench/student_images/CO_5/ANS_CO_287.jpg
+CO_5,ANS_CO_301,P2,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,1.2,1.2,0.0,0.0,BND,1.7678,high,0.0,1.0,0.166667,unstable_model_judgements,,,,"(1) 二地址指令全占 12×6=72
+零地址指令占 0×1=0
+一地址指令 6×16-72=24
+24÷6=4
+(2) 12×6=72
+254×6=1524",data/csbench/student_images/CO_5/ANS_CO_301.jpg
+CO_5,ANS_CO_315,P2,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.333333,0.0,0.333333,extraction_risk,,,,"二地址有12条. 
+至少有一条零地址指令
+一地止业最多有条499条
+12. 零地址指令最多245条",data/csbench/student_images/CO_5/ANS_CO_315.png
+CO_5,ANS_CO_338,P2,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,2.2,2.2,0.0,0.0,BND,2.095,high,0.0,1.0,0.222222,a3wa_changed_score_materially|unstable_model_judgements,,,,"解:
+如图所示
+若要一地址指令最多，则零地址仅有1条指令。
+设一地址指令有x条，则
+(2⁴−12)*(2⁶−x)*2⁶ =1
+x=2^9−2^10 =192条.
+(2) Lmax=(2⁴−12)×(2⁸−254)x2⁶
+=512条.
+∴零地址最多有512条.",data/csbench/student_images/CO_5/ANS_CO_338.png
+CO_5,ANS_CO_349,P2,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.333333,0.0,0.333333,extraction_risk,,,,"解: 
+(1) 3位操作码,1位间址码.
+一地址指令至少有256位
+(2) 零位地 地址指令至少有1024位",data/csbench/student_images/CO_5/ANS_CO_349.png
+CO_5,ANS_CO_373,P2,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.333333,0.0,0.333333,extraction_risk,,,,"① 一 地址指令最效有 63条
+② 地址令最效有 256 条.",data/csbench/student_images/CO_5/ANS_CO_373.png
+CO_5,ANS_CO_375,P2,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,3.75,7.2,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.333333,0.0,0.333333,extraction_risk,,,,"(1)一地址指令最多有192条
+(2)零地址指令最多有120条",data/csbench/student_images/CO_5/ANS_CO_375.png
+CO_5,ANS_CO_327,P2,possible_teacher_over_score,8.0,three_way_core_score,0.12,7.88,7.88,3.75,7.08,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,2.0,2.0,0.12,0.12,BND,2.8284,high,0.0,1.0,0.222222,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1)如图所示
+一地址 10位  6位
+二地址 4位 6位 6位
+0地址 ______ 条
+至少有一条零地址
+则一地址最多为
+(16-12)×(2⁶-1)
+= 252条
+
+(2)
+二地址 12.
+一地址 254
+0 ↑
+254=4×(2⁶-2)
+则零地址最多
+((6-12)×2×2⁶
+= 512",data/csbench/student_images/CO_5/ANS_CO_327.png
+CO_5,ANS_CO_286,P2,possible_teacher_over_score,15.0,three_way_core_score,7.8,7.2,7.2,3.75,6.4,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,10.8,10.8,7.8,7.8,BND,2.357,high,0.0,1.0,0.305556,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：
+如图所示
+(1) 如图所示
+所以有255条-地址，因为要留出一位给零地址作前缀
+(2) 如图所示
+2^7=128条
+∴零地址最多有128条",data/csbench/student_images/CO_5/ANS_CO_286.jpg
+CO_5,ANS_CO_353,P2,possible_teacher_over_score,12.0,three_way_core_score,5.62,6.38,6.38,3.75,5.58,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,7.5,7.5,5.62,5.62,BND,2.0412,high,0.0,1.0,0.277778,a3wa_changed_score_materially|unstable_model_judgements,,,,"由题意得多种格式的指令如下:
+如图所示
+可得零地址、一地址、二地址情况下操作码的码长为16-10-4.设对应的码数为L/M/N.
+(1) 二地址指令有12条,零地址指令有一条.
+则当零地址指令有一条时,一地址指令最多
+此时为 4×2^(10-4)-2 =254条.
+(2)分析可得
+Lmax=((2^4-12)×2^(10-4) -254)×2^(16-10)
+=2×2^6[
+=128条.",data/csbench/student_images/CO_5/ANS_CO_353.png
+CO_5,ANS_CO_261,P2,possible_teacher_over_score,8.0,three_way_core_score,1.7,6.3,6.3,3.75,5.5,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,1.7,1.7,1.7,1.7,BND,0.5893,high,0.333333,0.416667,0.416667,rubric_mapping_risk,,,,"1) 地址码为6位，共可表示2⁶=64个块地址。
+二地址12条。
+一地址最多51条
+2）",data/csbench/student_images/CO_5/ANS_CO_261.jpg
+CO_5,ANS_CO_372,P2,possible_teacher_over_score,8.0,three_way_core_score,2.1,5.9,5.9,3.75,5.1,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,2.1,2.1,2.1,2.1,NEG,0.5893,low,0.833333,0.416667,0.888889,extraction_risk|rubric_mapping_risk,,,,"(1)指令格式分析
+指令总长度：16位
+地址码长度：6位（固定）
+操作码采用扩展编码方式
+指令类型：零地址，一地址，二地址。
+(2)二地址指令
+2×6=12位
+16-12=4位
+12条（log12）=4位
+所以 16-12=4个编码未使用",data/csbench/student_images/CO_5/ANS_CO_372.png
+CO_5,ANS_CO_316,P2,possible_teacher_over_score,15.0,three_way_core_score,9.5,5.5,5.5,3.75,4.7,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,12.5,12.5,9.5,9.5,BND,2.0412,high,0.0,1.0,0.222222,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1)设有n条: [(2⁴-12)·2⁶ - n]·2⁶ ≥1
+得: n≤2⁸-2⁶条∴最多有255条.
+(2)[(12⁴-12)·2⁶ - 254]·2⁶ = 128条.
+最多有128条.",data/csbench/student_images/CO_5/ANS_CO_316.png
+CO_5,ANS_CO_364,P2,possible_teacher_over_score,10.0,three_way_core_score,4.5,5.5,5.5,3.75,4.7,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,7.5,7.5,4.5,4.5,BND,2.0412,high,0.0,1.0,0.111111,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1). 二地址码最多时，才能一地址指令最多。
+二地址码十位操作码，有2⁴种，只用一种，剩下(2⁴-1)种作一地址指令前缀
+一地址指令操作码有10位
+一地址指令最多有：(2⁴-1)×(2⁶-1)= 945条
+(2). ((16-12)×2⁶-254)×2⁶=128条.
+故零地址指令最多有128条",data/csbench/student_images/CO_5/ANS_CO_364.png
+CO_5,ANS_CO_345,P2,possible_teacher_over_score,10.0,three_way_core_score,4.69,5.31,5.31,3.75,4.51,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,7.5,7.5,4.69,4.69,BND,2.0412,high,0.0,1.0,0.222222,a3wa_changed_score_materially|unstable_model_judgements,,,,"解:(1)两地址操作码为4位，一地址为10位，零地址为16位 
+一地址指令最多时
+零地址指令最少
+一地址指令最多为
+(2⁴ -12)×(2⁶ -1)=252条
+
+(2) 
+[(2⁴ -12)×2⁶ -254]×2⁶=128条
+零地址指令最多有128条嗯",data/csbench/student_images/CO_5/ANS_CO_345.png
+CO_5,ANS_CO_288,P2,possible_teacher_over_score,15.0,three_way_core_score,9.8,5.2,5.2,3.75,4.4,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,12.8,12.8,9.8,9.8,BND,2.095,high,0.0,1.0,0.111111,a3wa_changed_score_materially|unstable_model_judgements,,,,"（1）二地址指令12条，操作码至少4位
+结合指令结构，我们采取4-10-16扩展编码！
+变二地址，变比上达前缀共有(2^4-12)×2^10-4=256条，
+变址地址指令至少一条，占据一条前缀
+故一地址指令最多有：(2^4+12)×2^10-4 -1 =255条。
+
+（2）此时变地址指令的前缀数：
+pre = (2^4+12)×2^16-4 -254 =2
+最多条数= 2×10^2^16-10 =128条",data/csbench/student_images/CO_5/ANS_CO_288.jpg
+CO_5,ANS_CO_269,P2,possible_teacher_over_score,12.0,three_way_core_score,7.1,4.9,4.9,3.75,4.1,3.75,absolute_disagreement|within_question_outlier,0.8,False,15.0,7.1,7.1,7.1,7.1,BND,2.1246,high,0.0,1.0,0.277778,unstable_model_judgements,,,,"解:(1).设一地址指令最多有a条.
+则要把地址指令条数 = ((2^4 -12 )×2^6-a)×2^6≥1.
+可得 a≤2^8.
+所以一地址指令最多有 256条.
+
+(2)
+0，1，2地址如图所示
+所以零指令最多有128条.",data/csbench/student_images/CO_5/ANS_CO_269.jpg
+CO_5,ANS_CO_265,P2,possible_teacher_over_score,15.0,three_way_core_score,10.8,4.2,4.2,3.75,3.4,3.75,absolute_disagreement,0.8,False,15.0,10.8,10.8,10.8,10.8,BND,4.2492,high,0.0,1.0,0.222222,unstable_model_judgements,,,,"1) 没有n条地址指令。
+由题意得
+[(2^4- 12) × 2^6 - n] × 2^6 ≥ 1
+解得 n ≤255
+∴有 最多有255条。
+2) 由题意得
+[(2ⁿ - 12) × 2^6- 254] × 2¹⁶⁻¹ =2 × 2⁶ = 128
+∴要地址指令的条数有128条。",data/csbench/student_images/CO_5/ANS_CO_265.jpg
+CO_6,ANS_CO_425,P1,possible_teacher_over_score,18.0,three_way_core_score,9.0,9.0,9.0,5.0,7.0,5.0,absolute_disagreement|within_question_outlier,2.0,False,20.0,9.0,9.0,9.0,9.0,POS,0.8165,high,0.0,0.5,0.033333,,,,,"(1)四个互斥组
+第1组:4位
+第2组:4位
+第3组:5位
+第4组:3位.
+共28位. 剩余180-12-8-16-4=140
+剩余140个信号采取直接编程得140位
+故. 控制字段是140+28=168位.
+Bcf:8种条件转移即8位.
+Baf:512=2^9 即9位
+∴微指令总长度为168+8+9=185位.
+(2)512*185=94720位
+1个字节为8位
+94720/8=11965个
+有11965个字节",data/csbench/student_images/CO_6/ANS_CO_425.png
+CO_6,ANS_CO_420,P1,possible_teacher_over_score,16.0,three_way_core_score,9.0,7.0,7.0,5.0,5.0,5.0,absolute_disagreement|within_question_outlier,2.0,False,20.0,9.0,9.0,9.0,9.0,POS,0.7071,high,0.0,0.375,0.05,,,,,"(1) 自M互斥信号的互斥组需要位数n=log₂m+1
+∴⌈log₂13⌉=4，⌈log₂9⌉=4，⌈log₂17⌉=5，⌈log₂5⌉=3.
+∴控制字段应数为4+4+5+3=16
+∵支持最为8种条件转移 ∴BCF需要3位
+∵控制储存器需要能够寻址512=2⁹条微指令 ∴BAF需要9位
+∴每条微指令总长度为16+3+9=28位.
+(2) 总容量为2⁹×28位
+    =2^6×28字节.",data/csbench/student_images/CO_6/ANS_CO_420.png
+CO_6,ANS_CO_387,P1,possible_teacher_over_score,10.0,three_way_core_score,4.0,6.0,6.0,5.0,4.0,5.0,absolute_disagreement,2.0,False,20.0,4.0,4.0,4.0,4.0,POS,0.0,high,0.0,0.0,0.066667,,,,,"(1)512=2^9
+下址字段为9位
+9-8=1
+⌈log₂(12+1)⌉=4
+⌈log₂(8+1)⌉=4
+⌈log₂(6+1)⌉=5
+⌈log₂(4+1)⌉=3
+4+4+5+3=16
+操作控制字段需要16位
+BCF需要8位
+BAF需要1位
+总长度为25位
+
+(2)25×2^9
+=12800位
+=1600字节",data/csbench/student_images/CO_6/ANS_CO_387.png
+CO_6,ANS_CO_385,P1,possible_teacher_over_score,16.0,three_way_core_score,10.2,5.8,5.8,5.0,3.8,5.0,absolute_disagreement,2.0,False,20.0,10.2,10.2,10.2,10.2,POS,0.2357,high,0.0,0.125,0.15,,,,,"⌈log₂(12+1)⌉=4. ⌈log₂(8+1)⌉=4 ⌈log₂(16+1)⌉=5
+⌈log₂(4+1)⌉=3.
+∴控制字段需要 4+4+5+3=16位  (2¹⁶>180).
+2³=8, ∴ BCF需要3位,  2⁹=512. ∴BAF需要9位.
+每条微指令的总长度:16+3+9=28位
+(2).控制存储器总容量 2⁹×28位 即 14kb = 1.75KB
+答:总容量 14k 位, 1.75k字节.",data/csbench/student_images/CO_6/ANS_CO_385.png
+CO_6,ANS_CO_424,P1,possible_teacher_over_score,16.0,three_way_core_score,10.3,5.7,5.7,5.0,3.7,5.0,absolute_disagreement,2.0,False,20.0,10.3,10.3,10.3,10.3,POS,0.4714,high,0.0,0.25,0.033333,,,,,"(1) 互斥组 所需位数
+12 4
+8 4
+16 5
+4 3
+控制字段:4+4+5+3=16位
+条件转移:2³个. 需要3位.
+微指令:2⁹个条. 需要9位
+综上:
+控制字段:16位
+BCF:3 位
+BAF:9 位
+每条微指令总长度:28.
+(2).控制存储器地址空间:9.
+容量:2⁹×28. = 14336
+字节: 2⁹×28/2³ = 1792",data/csbench/student_images/CO_6/ANS_CO_424.png
+CO_6,ANS_CO_396,P1,possible_teacher_over_score,20.0,three_way_core_score,15.0,5.0,5.0,5.0,3.0,5.0,absolute_disagreement,2.0,False,20.0,15.0,15.0,15.0,15.0,BND,0.8165,high,0.15,0.5,0.216667,,,,,"解: (1) C₁=[log₂(12+1)]=4  C₂=[log₂(8+1)]=4  C₃=[log₂(6+1)]=5  C₄=[log₂(4+1)]=3
+控制字段1:180-12-8-16-4=140
+控制字段2:4+4+5+3=16位
+8=2³  512=2⁹  BCF=3, BAF=9
+140+16+3+9=168
+∴控制字段156位,BCF 3位,BAF 9位,总长度168位
+(2) 512×68=84×2⁶=10752B
+∴总容量为86016位,即10752字节",data/csbench/student_images/CO_6/ANS_CO_396.png
+CO_6,ANS_CO_422,P2,possible_teacher_over_score,12.0,three_way_core_score,4.92,7.08,7.08,5.0,5.08,5.0,absolute_disagreement|within_question_outlier,2.0,False,20.0,8.3,8.3,4.92,4.92,BND,1.6997,high,0.0,1.0,0.2,a3wa_changed_score_materially,,,,"(1)第一组:4bit
+第2组:4bit
+第3组:5bit
+第4组:3bit .
+4+4+5+3=16 bit .
+因为支持8种转移,
+所以BCF要4bit
+(512)₁₀=2⁹
+∴BAF要9位
+总长度16+4+9=29 bit
+控制字段 16位 BCF 4位 BAF 9位 总长度29位 .
+(2) 总容量2⁹×29=14848位
+=1856字节.",data/csbench/student_images/CO_6/ANS_CO_422.png
+CO_6,ANS_CO_391,P2,possible_teacher_under_score,4.0,three_way_core_score,10.0,-6.0,6.0,5.0,-8.0,5.0,absolute_disagreement|within_question_outlier,2.0,False,20.0,10.0,10.0,10.0,10.0,BND,2.8284,high,0.2,1.0,0.5,rubric_mapping_risk|unstable_model_judgements,,,,"解（1）根据题意：
+2⁸=256>180，而2⁷=128<180. 8×2=16 16+1=17. 由于做地址和指令存储器能寻512条的指令且512=2⁹. 则有. 
+BCF 需要 3位. 
+BAF 需要 9位. 目有
+16+3+9=28(位) 即每条做指令长度为28位. 
+(2) 28+9=37. 
+故控制存储器总容量为2³⁷位. 其2³⁷/8=2³⁶个字节.",data/csbench/student_images/CO_6/ANS_CO_391.png
+CO_6,ANS_CO_442,P2,possible_teacher_over_score,6.0,three_way_core_score,0.0,6.0,6.0,5.0,4.0,5.0,absolute_disagreement,2.0,False,20.0,0.0,0.0,0.0,0.0,NEG,0.0,low,1.0,0.0,1.0,extraction_risk|rubric_mapping_risk,,,,"(1)控制字段需153位,BCF需要3位,BAF需9位
+每条微指令的总长度为165位
+(2)控制存储器总容量为84,480位(即10560字节)",data/csbench/student_images/CO_6/ANS_CO_442.png
+CO_6,ANS_CO_419,P2,possible_teacher_over_score,12.0,three_way_core_score,6.2,5.8,5.8,5.0,3.8,5.0,absolute_disagreement,2.0,False,20.0,10.2,10.2,6.2,6.2,BND,3.4238,high,0.0,1.0,0.3,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1)四个互斥组需要的位数分别为:4,4,5,3(当互斥字段对应位全为零时表示不发出任何控制信号)
+非互斥但需要的位数为:(用1位控制存储非互斥的信号)
+∴控制字段的位数:4+4+5+3=17
+BCF的位数:4(一元情况对应顺序执行)
+∵寻址微指令条数为512,∴微指令BAF的位数:9
+
+∴每条微指令的总长度为:17+4+9=30
+
+(1)∵每条微指令的长度为30位,因此每条微指令需要4字节
+∴控制存储器容量:512×4B=2048B=2kB=16k位
+即16k位,2k字节",data/csbench/student_images/CO_6/ANS_CO_419.png
+CO_6,ANS_CO_444,P2,possible_teacher_over_score,5.0,three_way_core_score,0.0,5.0,5.0,5.0,3.0,5.0,absolute_disagreement,2.0,False,20.0,0.0,0.0,0.0,0.0,NEG,0.0,low,1.0,0.0,1.0,extraction_risk|rubric_mapping_risk,,,,"(1) BCF : 3 位
+BAF : 9 位
+每条微指令的长度为 52 位
+(2) 控制存储器总容量为26624位，3328字节",data/csbench/student_images/CO_6/ANS_CO_444.png
+CO_6,ANS_CO_418,P2,possible_teacher_under_score,4.0,three_way_core_score,8.0,-4.0,4.0,5.0,-6.0,5.0,within_question_outlier,2.0,False,20.0,8.0,8.0,8.0,8.0,BND,0.8165,high,0.2,0.5,0.25,,,,,"(1)512种操作 需要 9位地址码
+8种条件转移 需要 3位
+互反组 分别属于 4位 4位 5位 3位 一支需要 16位
+BAF 需要 8位
+DCF 需要 3位
+微指令总长度为28位
+2) 2^9×180 = 92160位
+92160 ÷8= 11520字",data/csbench/student_images/CO_6/ANS_CO_418.png
+CO_6,ANS_CO_411,P2,possible_teacher_under_score,12.0,three_way_core_score,15.3,-3.3,3.3,5.0,-5.3,5.0,within_question_outlier,2.0,False,20.0,11.3,11.3,15.3,15.3,BND,2.4944,high,0.0,1.0,0.2,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1)512条微指令：512=2⁹  ∴BAF=9位
+第1组：12个互斥信号  4位  2³<12<2⁴
+第2组：8个互斥信号  4位  2³=8  3+1=4位
+第3组：16个互斥信号  5位
+第4组：4个互斥信号  3位
+8种条件转移  4位   BCF=4位
+180-12-8-16-4=140位 
+控制字段位数：132+16=156位
+BAF=9位  BCF=4位  控制字段：156位  总长度：9+4+156=169
+(2)M=2⁹×169 bits（容量，单位：位） 
+m₂=m1/8 = 2⁶×169 B",data/csbench/student_images/CO_6/ANS_CO_411.png
+CO_7,ANS_CO_454,P1,possible_teacher_over_score,8.0,three_way_core_score,0.0,8.0,8.0,1.5,8.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,0.7,0.7,0.0,0.0,BND,0.9428,high,0.0,1.0,0.333333,,,,,"解、∵M1和M2的主频分别为4GHz和6GHz
+∴M1和M2的时钟周期为2.5×10⁻⁸s和1.6×10⁻⁸s
+∴程序P在M1上的运行时间为：
+t₁=1×10⁵×2×2.5×10⁻⁸s=5ms
+程序P在M2上的运行时间为：
+t₂=1×10⁵×1×1.6×10⁻⁸s=1.6ms",data/csbench/student_images/CO_7/ANS_CO_454.jpg
+CO_7,ANS_CO_497,P1,possible_teacher_over_score,10.0,three_way_core_score,3.5,6.5,6.5,1.5,6.5,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,3.5,3.5,3.5,3.5,POS,0.4082,high,0.0,0.5,0.0,,,,,"解：F1=4GHz=4×10^-9Hz  F2=6GHz=6×10^-9Hz
+IC=10×10⁵=1×10⁶
+CPI1=2  CPI2=1
+Te=m×T
+T=1/F      
+CPI=m/IC
+⇒ Te= (CPI×IC)/F
+程序P在M1上的运行时间Te1= (2×1×10⁶)/(4×10⁹)=5×10⁻⁴s
+程序P在M2上的运行时间Te2= (1×1×10⁶)/(6×10⁹)=1.667×10⁻⁴s",data/csbench/student_images/CO_7/ANS_CO_497.jpg
+CO_7,ANS_CO_513,P1,possible_teacher_over_score,10.0,three_way_core_score,5.0,5.0,5.0,1.5,5.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,5.0,5.0,5.0,5.0,POS,0.0,high,0.0,0.0,0.0,,,,,"Fm₁ = 4G Hz. = 2^42Hz = 4×10⁹ Hz. Tm₁ = 1/(4×10⁹)
+Fm₂ = 6GHz. = 6×10⁹ Hz. Tm₂ = 1/(6×10⁹)
+CI = 100000 ∴ Te = CPI×CI×T
+∵m≈CPI×CI Tem₁ = (2×10⁵)/(4×10⁹) = 1/(2×10⁴) s
+∴CPI = m/CI 
+Te = T×m
+Tem₂ = (1×10⁵)/(6×10⁹) = 1/(6×10⁴) s",data/csbench/student_images/CO_7/ANS_CO_513.jpg
+CO_7,ANS_CO_483,P1,possible_teacher_over_score,8.0,three_way_core_score,4.0,4.0,4.0,1.5,4.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,4.0,4.0,4.0,4.0,POS,0.0,high,0.0,0.0,0.0,,,,,"解：已知某程序P共指令10^5条 即10^5条。
+设在M1和M2上的运行时间分别为t1,t2
+由已知CPI₁=2 ，CPI₂=1 ，主频F₁=4GHz=4×10^9Hz
+F₂=6GHz=6×10^9Hz。
+
+则t₁= CPI₁/F₁ = 2/(4×10^9)s = 0.5 ns
+t₂= CPI₂/F₂ = 1/(6×10^9)s = 1/6 ns
+
+即 在M1的运行时间为0.5ns，在M2的运行时间为1/6 ns。",data/csbench/student_images/CO_7/ANS_CO_483.jpg
+CO_7,ANS_CO_472,P1,possible_teacher_over_score,8.0,three_way_core_score,5.0,3.0,3.0,1.5,3.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,4.0,4.0,5.0,5.0,BND,0.8165,high,0.0,1.0,0.0,,,,,"M1: T₁ = 1/f₁ = 1/(4×10³⁰) = 0.25×10⁻³⁰s
+时钟周期数 CPL₁×10⁵ = 2×10⁵ 个时钟周期
+∴ t₁ = T₁×2×10⁵ = 0.5×10⁻²⁵ = 5×10⁻²⁶s
+M2 T₂ = 1/f₂ = 1/(6×10^30)s
+时钟周期数 CPL₂×10⁵ = 1×10⁵ 个时钟周期
+t₂ = T₂×10⁵ = 1/6×10⁻²⁵s ≈ 1.6×10⁻²⁶s
+在M1上运行时间为 5×10⁻²⁶s，在M2上为 1.6×10⁻²⁶s",data/csbench/student_images/CO_7/ANS_CO_472.jpg
+CO_7,ANS_CO_514,P1,possible_teacher_over_score,8.0,three_way_core_score,5.0,3.0,3.0,1.5,3.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,5.0,5.0,5.0,5.0,POS,0.0,high,0.0,0.0,0.0,,,,,"在M1上：2×10×10⁴×1/(4G HZ) = 5×10⁻¹⁶S
+在M2上 1×10×10⁴×1/(6G HZ) =1.67×10⁻¹⁶S",data/csbench/student_images/CO_7/ANS_CO_514.jpg
+CO_7,ANS_CO_452,P1,possible_teacher_over_score,10.0,three_way_core_score,7.3,2.7,2.7,1.5,2.7,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,7.3,7.3,7.3,7.3,POS,0.4714,high,0.0,0.5,0.0,,,,,"解: M₁主频为4GHz = 4×10⁹Hz 
+周期为四条.
+ CPI=2. 
+∴T = 1×CPI/f = 0.05×10⁻³s = 0.05ms M₂主频6GHz = 6×10⁹Hz 指令数目为10^5条. CPI=1 
+∴T = 1×CPI/f ≈ 0.0167×10⁻³s ≈ 0.0167ms.",data/csbench/student_images/CO_7/ANS_CO_452.jpg
+CO_7,ANS_CO_506,P2,possible_teacher_over_score,8.0,three_way_core_score,1.0,7.0,7.0,1.5,7.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,1.0,1.0,1.0,1.0,BND,1.4142,high,0.0,1.0,0.333333,unstable_model_judgements,,,,"t₁= (10×1000×2)/(4×10⁶) =5×10⁻³=0.005 s
+t₂= (10×1000×1)/(6×10⁶) ≈0.0017s",data/csbench/student_images/CO_7/ANS_CO_506.jpg
+CO_7,ANS_CO_449,P2,possible_teacher_over_score,8.0,three_way_core_score,1.7,6.3,6.3,1.5,6.3,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,1.7,1.7,1.7,1.7,BND,2.357,high,0.0,1.0,0.333333,unstable_model_judgements,,,,"M1的运行时间 = 2×10⁶ ÷ (4×10⁹) = 5×10⁻⁴ s
+M2的运行时间 = 1×10⁶ ÷ (6×10⁹) ≈ 1.6×10⁻⁴ s",data/csbench/student_images/CO_7/ANS_CO_449.jpg
+CO_7,ANS_CO_469,P2,possible_teacher_over_score,10.0,three_way_core_score,4.7,5.3,5.3,1.5,5.3,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,5.2,5.2,4.7,4.7,BND,2.2485,high,0.0,1.0,0.166667,unstable_model_judgements,,,,"t M₁ = CP1 M₁ × I C × Tm₁
+Tm₁ = 1/(4×10¹⁰) , CP1m₁=2    Ic=10×10⁴=10⁵
+∴ tM1 = 2×10⁵ × 1/(4×10⁹) = 6.25×10⁻⁵ 5×10⁻⁵ s
+tm₂ = cp2m₂× Ic × Tm₂
+= 1 × 10⁵ × 1/(6×10⁹) = 1/6×10⁻⁴s",data/csbench/student_images/CO_7/ANS_CO_469.jpg
+CO_7,ANS_CO_459,P2,possible_teacher_over_score,8.0,three_way_core_score,2.8,5.2,5.2,1.5,5.2,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,0.8,0.8,2.8,2.8,BND,1.1785,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：
+1/(4×10⁶) × 2×10×10^4 = 0.05 S
+1/(6×10⁶) × 1×10×10^4= 0.017S
+∴在M₁上运行时间为0.05S，在M₂上运行时间为0.017S。",data/csbench/student_images/CO_7/ANS_CO_459.jpg
+CO_7,ANS_CO_477,P2,possible_teacher_over_score,8.0,three_way_core_score,3.8,4.2,4.2,1.5,4.2,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,3.8,3.8,3.8,3.8,BND,1.3123,high,0.0,1.0,0.0,unstable_model_judgements,,,,"解：指令条数IC均为10^5,在M1上运行时，总的时钟周期数m1=IC×CPI1=2×10^5条
+则在M1上运行的时间t1=m1÷F1=2×10^5/4×10^6 s=0.05s
+在M2上运行时：
+总时钟周期数m2=IC×CPI2=10^6条
+15°
+在M2上运行的时间t2=m2÷F2=10^5/6×10^6 s≈0.0167s",data/csbench/student_images/CO_7/ANS_CO_477.jpg
+CO_7,ANS_CO_478,P2,possible_teacher_over_score,8.0,three_way_core_score,4.0,4.0,4.0,1.5,4.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,6.0,6.0,4.0,4.0,BND,1.4142,high,0.0,1.0,0.0,a3wa_changed_score_materially|unstable_model_judgements,,,,"M1:有10×10⁴条指令 CPI1=m1/10⁵→总时钟周期数:m1=2×10⁵
+M2:总时钟周期数:m2=10⁵
+M1总运行时间 t1=m1/F=2×10⁵/4×10²⁰=5×10⁻¹⁶s
+M2总运行时间 t2=m2/F=10⁵/6×10²⁰≈1.6×10⁻¹⁶s",data/csbench/student_images/CO_7/ANS_CO_478.jpg
+CO_7,ANS_CO_489,P2,possible_teacher_over_score,7.0,three_way_core_score,3.0,4.0,4.0,1.5,4.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,5.0,5.0,3.0,3.0,BND,2.0412,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"已知M₁、M₂的主频分别为4GHz、6GHz
+故F₁=4GHz=4×10⁹Hz，F₂=6GHz=6×10⁹Hz
+已知CPI=m/Ic，Te=mT，T=1/F
+故可由式得
+P在M₁上运行的时间为Te=CPI₁×Ic×1/F=5×10⁻⁵s
+P在M₂上运行的时间为Te=CPI₂×Ic×1/F=2.5×10⁻⁵s",data/csbench/student_images/CO_7/ANS_CO_489.jpg
+CO_7,ANS_CO_502,P2,possible_teacher_over_score,8.0,three_way_core_score,4.0,4.0,4.0,1.5,4.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,6.0,6.0,4.0,4.0,BND,0.8165,high,0.0,1.0,0.0,a3wa_changed_score_materially,,,,"基准程序P的指令数为10万条，周期数= CPI × 指令数
+在M1和M2上的时钟周期数20万和10万
+运行时间t=时钟周期数/主频.
+故P在M1的运行时间 = 2×10⁴ / 4×10⁹ = 0.50×10⁻⁵ s.
+P在M2的运行时间 = 10⁴ /( 6×10⁹) ≈ 0.17 ×10⁻⁵ s.",data/csbench/student_images/CO_7/ANS_CO_502.jpg
+CO_7,ANS_CO_479,P2,possible_teacher_over_score,8.0,three_way_core_score,4.7,3.3,3.3,1.5,3.3,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,2.7,2.7,4.7,4.7,BND,2.0548,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"指令条数n=1x10^5条，
+F1=4GHz，F2=6GHz，
+T1=1/F1=1/(4x10^12)=2.5x10^-13s，T2=1/(6x10^12)=1/6 x10^-12s，
+2.5x10^-13 x2=5x10^-13s，1/6 x10^-3 x1=1/6 x10^-12s，
+则tm1=5x10^-13 x1x10^5=5x10^-8s
+tm2=1/6 x10^-12 x1x10^5=1/6 x10^-7	s",data/csbench/student_images/CO_7/ANS_CO_479.jpg
+CO_7,ANS_CO_482,P2,possible_teacher_over_score,8.0,three_way_core_score,4.7,3.3,3.3,1.5,3.3,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,2.7,2.7,4.7,4.7,BND,2.0548,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：由题意，
+fₘ₁=4GHz=4×10⁹Hz，
+fₘ₂=6GHz=6×10⁹Hz。
+由于指令数m=10×10⁵=10⁶条。
+CPIₘ₁=2，CPIₘ₂=1。
+则tₘ₁= (CPIₘ₁·m)/fₘ₁ =5×10⁻⁴s。
+tₘ₂= (CPIₘ₂·m)/fₘ₂ =1/3×10⁻³s。",data/csbench/student_images/CO_7/ANS_CO_482.jpg
+CO_7,ANS_CO_481,P2,possible_teacher_over_score,8.0,three_way_core_score,5.0,3.0,3.0,1.5,3.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,7.0,7.0,5.0,5.0,BND,0.8165,high,0.0,1.0,0.0,a3wa_changed_score_materially,,,,"解：M₁：M₁的CPI为2.
+IC=100000
+则总周期数
+m₁=IC·CPI₁
+=200000
+则M₁的运行时间
+Te₁=m₁/4GHz
+=5ms
+
+M₂：M₂的CPI为1
+IC=100000
+则总周期数
+m₂=IC·CPI₂
+=100000
+则M₂的运行时间
+Te₂=m₂/6GHz ≈1.66ms",data/csbench/student_images/CO_7/ANS_CO_481.jpg
+CO_7,ANS_CO_493,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,1.5,2.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"1/1GHz=1ms
+M₁: t = CPI×CP/F = 800ms
+M₂: t = CPI×CP/F = 600ms",data/csbench/student_images/CO_7/ANS_CO_493.jpg
+CO_7,ANS_CO_458,P2,possible_teacher_over_score,4.0,three_way_core_score,2.3,1.7,1.7,1.5,1.7,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,2.3,2.3,2.3,2.3,BND,1.6997,high,0.0,1.0,0.333333,unstable_model_judgements,,,,"解: F₁=4GHz, T₁=4×10⁻⁹s.
+F₂=6GHz, F₂=6×10⁻⁹s.
+M1: IC×CPI₁×T₁=100000×2×4×10⁻⁹s=8×10⁻⁴s
+M2: IC×CPI₂×T₂=100000×1×6×10⁻⁹s=6×10⁻⁴s
+程序P在M1上的运行时间为8×10⁻⁴s,在M2上的运行时间为6×10⁻⁴s。",data/csbench/student_images/CO_7/ANS_CO_458.jpg
+CO_7,ANS_CO_465,P2,possible_teacher_over_score,10.0,three_way_core_score,8.3,1.7,1.7,1.5,1.7,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,8.3,8.3,8.3,8.3,BND,1.1785,high,0.0,1.0,0.166667,unstable_model_judgements,,,,"M1主频 F1=4GHz  M2主频 F2=6GHz
+指令数IC=100000条，M1的CPI1=2  M2的CPI2=1
+M1上运行时间：Te1=CPI1×IC/F1=5×10⁵S
+M2上运行时间：Te2=CPI2×IC/F2=1/6×10^-4s=1.667×10^-5S",data/csbench/student_images/CO_7/ANS_CO_465.jpg
+CO_7,ANS_CO_467,P2,possible_teacher_over_score,8.0,three_way_core_score,6.3,1.7,1.7,1.5,1.7,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,8.3,8.3,6.3,6.3,BND,1.2472,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"T₁ = (IC×CPI₁)/f₁ = 2×10⁵/(4×10⁹) = 0.5×10⁻⁴s = 50ms
+T₂ = (IC×CPI₂)/f₂ = 10⁵/(6×10⁹) = 0.167×10⁻⁴s = 16.7ms",data/csbench/student_images/CO_7/ANS_CO_467.jpg
+CO_7,ANS_CO_487,P2,possible_teacher_over_score,10.0,three_way_core_score,8.3,1.7,1.7,1.5,1.7,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,9.3,9.3,8.3,8.3,BND,0.9428,high,0.0,1.0,0.5,rubric_mapping_risk,,,,"运行时间t = 指令数m x CPI x 时钟周期
+T = 1/f
+t₁ = (10×10⁴×2)/(4×10⁹) = 5×10⁻⁵ S
+t₂ = (10×10⁴×1)/(6×10⁹) = 1/6×10⁻⁴ S",data/csbench/student_images/CO_7/ANS_CO_487.jpg
+CO_7,ANS_CO_495,P2,possible_teacher_over_score,10.0,three_way_core_score,8.3,1.7,1.7,1.5,1.7,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,7.3,7.3,8.3,8.3,BND,1.6997,high,0.0,1.0,0.166667,a3wa_changed_score_materially|unstable_model_judgements,,,,"程序P在M1上运行时间：
+t₁ = CPI₁× 10⁵× 1/f₁ = 2 × 10⁵× 1/(4 × 10⁹) = 50ns
+程序P在M2上运行时间：
+t₂ = CPI₂× 10⁵× 1/f₂ = 1 × 10⁵× 1/(6 × 10⁹) ≈16.67us.",data/csbench/student_images/CO_7/ANS_CO_495.jpg
+CO_7,ANS_CO_511,P2,possible_teacher_over_score,8.0,three_way_core_score,6.3,1.7,1.7,1.5,1.7,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,6.3,6.3,6.3,6.3,POS,0.4714,high,0.0,0.5,0.0,,,,,"解：M1: Te1 = m×T1 = CPI1×IC×T1 = CPI1×IC/F1 = 2×10^5 /4×10^6 = 1/20 = 0.05s
+M2: Te2 = m×T2 = CPI2×IC/F2 =1×10^5 /6×10^6 = 1/60 ≈0.0167s
+故P在M1上运行时间T1=0.05s
+在M2上运行时间T2=1/60 s≈0.0167s.",data/csbench/student_images/CO_7/ANS_CO_511.jpg
+CO_7,ANS_CO_505,P2,possible_teacher_over_score,8.0,three_way_core_score,6.5,1.5,1.5,1.5,1.5,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,6.5,6.5,6.5,6.5,BND,1.0801,high,0.0,1.0,0.0,unstable_model_judgements,,,,"解：由CPI=m/IC得，
+M1总指令周期数m1=100000×2=2×10^5（个）
+M2总指令周期数m2=100000×1=10^5（个）  G=10^12
+M1的运行时间 t=m1/F=2×10^5/4G=0.5×10^-7
+M2的运行时间 t=m2/F=10^5/6G=1/6×10^-7",data/csbench/student_images/CO_7/ANS_CO_505.jpg

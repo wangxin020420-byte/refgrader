@@ -1,0 +1,237 @@
+﻿question_id,answer_id,review_priority,candidate_type,teacher_score,reference_score_key,reference_score,teacher_minus_reference,absolute_difference,candidate_threshold,centered_residual,outlier_threshold,candidate_reasons,question_median_residual,question_systematic_bias,max_score,model_avg_score,selected_baseline_score,three_way_core_score,final_calibrated_score,route,std_dev,extraction_quality,U_E,U_S,U_R,confounds,human_decision,corrected_score,review_note,raw_text,student_image
+ML_1,ANS_ML_35,P1,possible_teacher_over_score,4.0,three_way_core_score,1.2,2.8,2.8,2.0,0.95,2.0,absolute_disagreement,1.85,True,4.0,1.2,1.2,1.2,1.2,POS,0.2357,high,0.0,0.625,0.0,,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_35.jpg
+ML_1,ANS_ML_45,P1,possible_teacher_over_score,4.0,three_way_core_score,1.2,2.8,2.8,2.0,0.95,2.0,absolute_disagreement,1.85,True,4.0,1.2,1.2,1.2,1.2,POS,0.2357,high,0.0,0.625,0.0,,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_45.jpg
+ML_1,ANS_ML_48,P1,possible_teacher_over_score,4.0,three_way_core_score,1.3,2.7,2.7,2.0,0.85,2.0,absolute_disagreement,1.85,True,4.0,1.3,1.3,1.3,1.3,POS,0.2357,high,0.0,0.625,0.0,,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_48.jpg
+ML_1,ANS_ML_50,P1,possible_teacher_over_score,4.0,three_way_core_score,1.3,2.7,2.7,2.0,0.85,2.0,absolute_disagreement,1.85,True,4.0,1.3,1.3,1.3,1.3,POS,0.2357,high,0.0,0.625,0.0,,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_50.jpg
+ML_1,ANS_ML_39,P1,possible_teacher_over_score,4.0,three_way_core_score,1.5,2.5,2.5,2.0,0.65,2.0,absolute_disagreement,1.85,True,4.0,1.5,1.5,1.5,1.5,POS,0.0,high,0.0,0.0,0.0,,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_39.jpg
+ML_1,ANS_ML_54,P1,possible_teacher_over_score,4.0,three_way_core_score,1.6,2.4,2.4,2.0,0.55,2.0,absolute_disagreement,1.85,True,4.0,1.6,1.6,1.6,1.6,POS,0.1179,high,0.0,0.3125,0.0,,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_54.jpg
+ML_1,ANS_ML_04,P1,possible_teacher_over_score,4.0,three_way_core_score,1.8,2.2,2.2,2.0,0.35,2.0,absolute_disagreement,1.85,True,4.0,1.8,1.8,1.8,1.8,POS,0.2357,high,0.0,0.625,0.0,,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_04.jpg
+ML_1,ANS_ML_22,P1,possible_teacher_over_score,4.0,three_way_core_score,1.8,2.2,2.2,2.0,0.35,2.0,absolute_disagreement,1.85,True,4.0,1.8,1.8,1.8,1.8,POS,0.2357,high,0.0,0.625,0.0,,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_22.jpg
+ML_1,ANS_ML_29,P1,possible_teacher_over_score,4.0,three_way_core_score,2.0,2.0,2.0,2.0,0.15,2.0,absolute_disagreement,1.85,True,4.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.0,,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_29.jpg
+ML_1,ANS_ML_40,P1,possible_teacher_over_score,4.0,three_way_core_score,2.0,2.0,2.0,2.0,0.15,2.0,absolute_disagreement,1.85,True,4.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.0,,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_40.jpg
+ML_1,ANS_ML_53,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,0.15,2.0,absolute_disagreement,1.85,True,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_53.jpg
+ML_1,ANS_ML_32,P2,possible_teacher_over_score,4.0,three_way_core_score,0.3,3.7,3.7,2.0,1.85,2.0,absolute_disagreement,1.85,True,4.0,0.3,0.3,0.3,0.3,BND,0.4714,high,0.0,1.0,0.333333,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_32.jpg
+ML_1,ANS_ML_38,P2,possible_teacher_over_score,4.0,three_way_core_score,0.3,3.7,3.7,2.0,1.85,2.0,absolute_disagreement,1.85,True,4.0,0.3,0.3,0.3,0.3,BND,0.4714,high,0.0,1.0,0.333333,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_38.jpg
+ML_1,ANS_ML_03,P2,possible_teacher_over_score,4.0,three_way_core_score,0.5,3.5,3.5,2.0,1.65,2.0,absolute_disagreement,1.85,True,4.0,0.5,0.5,0.5,0.5,BND,0.7071,high,0.0,1.0,0.333333,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_03.jpg
+ML_1,ANS_ML_09,P2,possible_teacher_over_score,4.0,three_way_core_score,0.5,3.5,3.5,2.0,1.65,2.0,absolute_disagreement,1.85,True,4.0,0.5,0.5,0.5,0.5,BND,0.4082,high,0.0,1.0,0.333333,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_09.jpg
+ML_1,ANS_ML_47,P2,possible_teacher_over_score,4.0,three_way_core_score,0.6,3.4,3.4,2.0,1.55,2.0,absolute_disagreement,1.85,True,4.0,0.6,0.6,0.6,0.6,BND,0.4249,high,0.0,1.0,0.0,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_47.jpg
+ML_1,ANS_ML_37,P2,possible_teacher_over_score,4.0,three_way_core_score,1.0,3.0,3.0,2.0,1.15,2.0,absolute_disagreement,1.85,True,4.0,1.0,1.0,1.0,1.0,BND,0.8165,high,0.0,1.0,0.333333,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_37.jpg
+ML_1,ANS_ML_13,P2,possible_teacher_over_score,4.0,three_way_core_score,1.2,2.8,2.8,2.0,0.95,2.0,absolute_disagreement,1.85,True,4.0,1.2,1.2,1.2,1.2,BND,0.8898,high,0.0,1.0,0.333333,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_13.jpg
+ML_1,ANS_ML_14,P2,possible_teacher_over_score,4.0,three_way_core_score,1.3,2.7,2.7,2.0,0.85,2.0,absolute_disagreement,1.85,True,4.0,1.3,1.3,1.3,1.3,BND,0.4714,high,0.0,1.0,0.0,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_14.jpg
+ML_1,ANS_ML_41,P2,possible_teacher_over_score,4.0,three_way_core_score,1.3,2.7,2.7,2.0,0.85,2.0,absolute_disagreement,1.85,True,4.0,0.5,0.5,1.3,1.3,BND,0.4082,high,0.0,1.0,0.0,a3wa_changed_score_materially|unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_41.jpg
+ML_1,ANS_ML_49,P2,possible_teacher_over_score,4.0,three_way_core_score,1.5,2.5,2.5,2.0,0.65,2.0,absolute_disagreement,1.85,True,4.0,1.5,1.5,1.5,1.5,BND,0.4082,high,0.0,1.0,0.0,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_49.jpg
+ML_1,ANS_ML_21,P2,possible_teacher_over_score,4.0,three_way_core_score,1.55,2.45,2.45,2.0,0.6,2.0,absolute_disagreement,1.85,True,4.0,2.3,2.3,1.55,1.55,BND,0.4714,high,0.0,1.0,0.0,a3wa_changed_score_materially|unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_21.jpg
+ML_1,ANS_ML_05,P2,possible_teacher_over_score,4.0,three_way_core_score,1.7,2.3,2.3,2.0,0.45,2.0,absolute_disagreement,1.85,True,4.0,1.7,1.7,1.7,1.7,BND,0.6236,high,0.0,1.0,0.0,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_05.jpg
+ML_1,ANS_ML_25,P2,possible_teacher_over_score,4.0,three_way_core_score,1.7,2.3,2.3,2.0,0.45,2.0,absolute_disagreement,1.85,True,4.0,1.7,1.7,1.7,1.7,BND,0.4714,high,0.0,1.0,0.0,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_25.jpg
+ML_1,ANS_ML_19,P2,possible_teacher_over_score,4.0,three_way_core_score,1.8,2.2,2.2,2.0,0.35,2.0,absolute_disagreement,1.85,True,4.0,1.8,1.8,1.8,1.8,BND,0.6236,high,0.0,1.0,0.0,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_19.jpg
+ML_1,ANS_ML_36,P2,possible_teacher_over_score,3.5,three_way_core_score,1.5,2.0,2.0,2.0,0.15,2.0,absolute_disagreement,1.85,True,4.0,1.5,1.5,1.5,1.5,BND,0.4082,high,0.0,1.0,0.0,unstable_model_judgements,,,,如图所示,data/csbench/student_images/ML_1/ANS_ML_36.jpg
+ML_2,ANS_ML_110,P1,possible_teacher_over_score,4.0,three_way_core_score,0.0,4.0,4.0,1.0,4.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,"F = (A + B + C\overline{D}) B\overline{C}D
+= (A + B\overline{C}D) ( B + \overline{C} + \overline{D} + B\overline{C}D )
+= (A + B\overline{C}D) ( B + \overline{C} + \overline{D} )
+= A B + A C + A D + B C\overline{D}",data/csbench/student_images/ML_2/ANS_ML_110.jpg
+ML_2,ANS_ML_64,P1,possible_teacher_under_score,0.0,three_way_core_score,4.0,-4.0,4.0,1.0,-4.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,4.0,4.0,4.0,4.0,POS,0.0,high,0.0,0.0,0.333333,,,,,解：F = [划掉的]A B C + A B D + A B + A B + A3 + A C + A D + B C D,data/csbench/student_images/ML_2/ANS_ML_64.jpg
+ML_2,ANS_ML_81,P1,possible_teacher_over_score,4.0,three_way_core_score,0.0,4.0,4.0,1.0,4.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,F = (Ā + (B + C + D))(B̄C̄D) = ĀB + ĀC̄ + ĀD + B̄C̄D = Ā + (B̄ + C̄ + D̄) + B̄C̄D = A(B + C + D) + B̄C̄D,data/csbench/student_images/ML_2/ANS_ML_81.jpg
+ML_2,ANS_ML_58,P1,possible_teacher_over_score,3.0,three_way_core_score,0.0,3.0,3.0,1.0,3.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.166667,,,,,F = (A + B + C + D) BCD = A + B + C + D + BCD = AB + A(+A) + A BCD,data/csbench/student_images/ML_2/ANS_ML_58.jpg
+ML_2,ANS_ML_60,P1,possible_teacher_over_score,4.0,three_way_core_score,1.0,3.0,3.0,1.0,3.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,0.9,1.0,1.0,1.0,POS,0.157,high,0.0,0.41625,0.0,,,,,"F = (B+¬D+A)·B∧D
+= (B+¬D)·A + B∧D
+= A B + A ¬D + A D + B∧D",data/csbench/student_images/ML_2/ANS_ML_60.jpg
+ML_2,ANS_ML_74,P1,possible_teacher_over_score,4.0,three_way_core_score,2.0,2.0,2.0,1.0,2.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,2.0,2.0,2.0,2.0,BND,0.0,high,0.25,0.0,0.25,,,,,F=(¬A + (B + C + D))·BCD = ¬A + (B + C + D) + BCD = A·(B + C + D) + BCD = ¬AB + ¬AC + ¬AD + BCD,data/csbench/student_images/ML_2/ANS_ML_74.jpg
+ML_2,ANS_ML_106,P2,possible_teacher_over_score,4.0,three_way_core_score,0.3,3.7,3.7,1.0,3.7,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,0.3,0.3,0.3,0.3,BND,0.4714,high,0.0,1.0,0.166667,unstable_model_judgements,,,,F = (A + B + C + D) - A + B + C + D + BCD,data/csbench/student_images/ML_2/ANS_ML_106.jpg
+ML_2,ANS_ML_93,P2,possible_teacher_over_score,4.0,three_way_core_score,0.5,3.5,3.5,1.0,3.5,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,0.5,0.5,0.5,0.5,BND,0.4082,high,0.25,1.0,0.5,rubric_mapping_risk|unstable_model_judgements,,,,解F=(Ā + B + C + D) B̅C̅D̅ = A(B̅C + D) B̅C̅D̅ = A(B̅C + D) + B̅C D = AB̅ + A + AD + B̅C D,data/csbench/student_images/ML_2/ANS_ML_93.jpg
+ML_2,ANS_ML_105,P2,possible_teacher_over_score,4.0,three_way_core_score,0.7,3.3,3.3,1.0,3.3,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,0.7,0.7,0.7,0.7,BND,0.0141,low,0.75,0.0375,0.75,extraction_risk|rubric_mapping_risk,,,,"F=(A+B+C+D)BCD
+=A·(B+C+D)+BCD
+=AB+A(C+AD+BCD",data/csbench/student_images/ML_2/ANS_ML_105.jpg
+ML_2,ANS_ML_98,P2,possible_teacher_over_score,4.0,three_way_core_score,1.3,2.7,2.7,1.0,2.7,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,0.5,0.5,1.3,1.3,BND,0.7071,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,F = (Ā + B + C + D) (B̅ C̅ D̅) = AB + A(+AD) + BCD ÷A + B(+),data/csbench/student_images/ML_2/ANS_ML_98.jpg
+ML_2,ANS_ML_101,P2,possible_teacher_over_score,4.0,three_way_core_score,2.0,2.0,2.0,1.0,2.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,1.2,1.2,2.0,2.0,BND,0.5655,high,0.25,1.0,0.416667,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"F=(Ā+B+(C+D))(BCD)
+= A(B+(C+D))+BCD
+= AB+A(C+AD)+BCD",data/csbench/student_images/ML_2/ANS_ML_101.jpg
+ML_2,ANS_ML_109,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,1.0,2.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,0.0,0.0,0.0,0.0,BND,0.0,low,0.75,0.0,0.75,extraction_risk|rubric_mapping_risk,,,,解：F = (A + BCD) BCD (A + B + CD) BCD = A + BCD A + B + CD BCD = A(B + CD) BCD = ABCD,data/csbench/student_images/ML_2/ANS_ML_109.jpg
+ML_2,ANS_ML_83,P2,possible_teacher_under_score,0.0,three_way_core_score,2.0,-2.0,2.0,1.0,-2.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,2.0,2.0,2.0,2.0,BND,1.633,high,0.0,1.0,0.5,rubric_mapping_risk|unstable_model_judgements,,,,F = AB(CD) + (B + C + D) = (F = AB(CD) + B(CD) + C(CD) + D(CD)) = AB(CD) + B(CD) + C(CD) + D(CD) = (AB + B + C + D)(CD) = (A + 1)B(CD) · (AB + C)(CD) / (A + B + C + D) · (B + C + D)(CD) F = B(CD),data/csbench/student_images/ML_2/ANS_ML_83.jpg
+ML_2,ANS_ML_88,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,1.0,2.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,0.3,0.3,0.0,0.0,BND,0.4714,high,0.0,1.0,0.166667,unstable_model_judgements,,,,F=(Ā+B+C+D)·BCD = (Ā+BĒD)·(B+C+D) = ĀB+ĀC+ĀD+BĒD,data/csbench/student_images/ML_2/ANS_ML_88.jpg
+ML_2,ANS_ML_84,P2,possible_teacher_over_score,3.0,three_way_core_score,2.0,1.0,1.0,1.0,1.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.0,,,,,F=(Ā+B+C+D)·BĈD = Ā+B+C+D + BCD = A·(B+C+D)+BCD = AB+AC+AD+B(C) = AB+AC+AD+BC,data/csbench/student_images/ML_2/ANS_ML_84.jpg
+ML_2,ANS_ML_92,P2,possible_teacher_over_score,3.0,three_way_core_score,2.0,1.0,1.0,1.0,1.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,4.0,2.0,2.0,2.0,2.0,BND,0.0,low,0.5,0.0,0.5,extraction_risk|rubric_mapping_risk,,,,"F=(Ā + B + C + D)·BCD
+= A(B + C + D) + BCD
+= AB + AC + AD",data/csbench/student_images/ML_2/ANS_ML_92.jpg
+ML_3,ANS_ML_140,P1,possible_teacher_over_score,6.0,three_way_core_score,2.0,4.0,4.0,1.0,4.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,2.0,2.0,2.0,2.0,POS,0.0,high,0.0,0.0,0.0,,,,,"J₁=x, K₁=x, J₂=K₂=3y, Z=3y₁y₂",data/csbench/student_images/ML_3/ANS_ML_140.jpg
+ML_3,ANS_ML_121,P2,possible_teacher_over_score,6.0,three_way_core_score,0.8,5.2,5.2,1.0,5.2,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,2.0,2.0,0.8,0.8,BND,0.8165,high,0.0,1.0,0.222222,a3wa_changed_score_materially|unstable_model_judgements,,,,"J₁=X  I₁=zX  J₂=xy,  K₂=xy₁  Z=x₂y₁",data/csbench/student_images/ML_3/ANS_ML_121.jpg
+ML_3,ANS_ML_113,P2,possible_teacher_over_score,6.0,three_way_core_score,1.0,5.0,5.0,1.0,5.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,1.0,1.0,1.0,1.0,BND,0.8165,high,0.0,1.0,0.222222,unstable_model_judgements,,,,解：激励函数：0 k₁=J₁=X k₂=J₂=ⓝ 5π/4 xy yⁿ⁺¹ x 输出函数表达式：z = y₂yⁿ⁺¹ x,data/csbench/student_images/ML_3/ANS_ML_113.jpg
+ML_3,ANS_ML_141,P2,possible_teacher_over_score,6.0,three_way_core_score,1.5,4.5,4.5,1.0,4.5,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,2.7,2.7,1.5,1.5,BND,0.9428,high,0.333333,1.0,0.444444,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,K₁=X. J₁=X. K₁=xy₁. J₁=xy₁. Z=xy₁y₂. y₁ⁿ⁺¹=\overline{x}y₁ + x\overline{y₁}. y₂ⁿ⁺¹=xy₁\overline{y₂} + xy₁\overline{y₂}.,data/csbench/student_images/ML_3/ANS_ML_141.jpg
+ML_3,ANS_ML_122,P2,possible_teacher_over_score,6.0,three_way_core_score,1.8,4.2,4.2,1.0,4.2,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,3.0,3.0,1.8,1.8,BND,2.1602,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"J₁ = X  k₁ = X  T₂ = x y,  k₂ = x y,  Z = x y, y₂",data/csbench/student_images/ML_3/ANS_ML_122.jpg
+ML_3,ANS_ML_124,P2,possible_teacher_over_score,6.0,three_way_core_score,2.5,3.5,3.5,1.0,3.5,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,3.7,3.7,2.5,2.5,BND,1.6997,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,J₁=x，k₁=x；J₂=xy，k₂=xy；Z=y，y₂x,data/csbench/student_images/ML_3/ANS_ML_124.jpg
+ML_3,ANS_ML_139,P2,possible_teacher_over_score,6.0,three_way_core_score,3.3,2.7,2.7,1.0,2.7,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,4.3,4.3,3.3,3.3,BND,1.2472,high,0.0,1.0,0.444444,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"J₁=k₁=x
+h·k₂=x·y₁ⁿ⁺¹
+y₁ⁿ⁺¹=J₁·ȳ₁ⁿ+Ī₁·y₁ⁿ
+y₂ⁿ⁺¹=J₂·ȳ₂ⁿ+Ī₂·y₂ⁿ
+=> y₁ⁿ⁺¹=x·ȳ₁ⁿ+Ī₁·y₁ⁿ
+y₂ⁿ⁺¹=x·y₁ⁿ⁺¹·ȳ₁ⁿ+Ī₁·y₁ⁿ⁺¹·y₂ⁿ
+z=x·y₁·y₂ⁿ⁺¹
+=x·(x·ȳ₁ⁿ+Ī₁·y₁ⁿ⁺¹)(x·y₁ⁿ⁺¹·ȳ₁ⁿ+Ī₁·y₁ⁿ⁺¹·y₂ⁿ",data/csbench/student_images/ML_3/ANS_ML_139.jpg
+ML_3,ANS_ML_158,P2,possible_teacher_over_score,6.0,three_way_core_score,3.3,2.7,2.7,1.0,2.7,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,3.3,3.3,3.3,3.3,BND,0.9428,high,0.0,1.0,0.444444,rubric_mapping_risk|unstable_model_judgements,,,,"J₁=X, k₁=kX. J₂=Y/X, k₂=1⊗Y/X. Z=Y₁Y₂X.",data/csbench/student_images/ML_3/ANS_ML_158.jpg
+ML_3,ANS_ML_119,P2,possible_teacher_over_score,6.0,three_way_core_score,3.5,2.5,2.5,1.0,2.5,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,4.7,4.7,3.5,3.5,BND,0.9428,high,0.0,1.0,0.222222,a3wa_changed_score_materially|unstable_model_judgements,,,,"k₁=X  yⁿ⁺¹=Xy
+J₁=X
+k₂=y,x
+J₂=y,x
+Z=y₁y₂x",data/csbench/student_images/ML_3/ANS_ML_119.jpg
+ML_3,ANS_ML_125,P2,possible_teacher_over_score,6.0,three_way_core_score,3.5,2.5,2.5,1.0,2.5,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,4.7,4.7,3.5,3.5,BND,0.9428,high,0.0,1.0,0.111111,a3wa_changed_score_materially|unstable_model_judgements,,,,"J₁=X  K₁=X J₂=xy, k₂=xy, Z=xy₁y₂",data/csbench/student_images/ML_3/ANS_ML_125.jpg
+ML_3,ANS_ML_160,P2,possible_teacher_over_score,6.0,three_way_core_score,3.5,2.5,2.5,1.0,2.5,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,4.7,4.7,3.5,3.5,BND,0.9428,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,激励函数，K₁=X J₁=X K₂=Xyⁿ J₂=Xyⁿ 输出函数，Z=yⁿy₂ⁿX.,data/csbench/student_images/ML_3/ANS_ML_160.jpg
+ML_3,ANS_ML_149,P2,possible_teacher_over_score,6.0,three_way_core_score,3.7,2.3,2.3,1.0,2.3,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,3.7,3.7,3.7,3.7,BND,1.6997,high,0.0,1.0,0.444444,rubric_mapping_risk|unstable_model_judgements,,,,"解 J₁=χ K₁=χ J₂=xy, k₂=xy. Z=xy:y",data/csbench/student_images/ML_3/ANS_ML_149.jpg
+ML_3,ANS_ML_154,P2,possible_teacher_over_score,6.0,three_way_core_score,3.7,2.3,2.3,1.0,2.3,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,3.7,3.7,3.7,3.7,BND,1.2472,high,0.0,1.0,0.444444,rubric_mapping_risk|unstable_model_judgements,,,,J₁ = x  K₁ = 反x  J₂ = x y₁  K₂ = x y₁  ∴ y₁ⁿ⁺¹ = x ȳ₁ + x̄ y₁  y₂ⁿ⁺¹ = x y₁ ȳ₂ + x̄ y₁ y₂  ∴ Z = y₁ x y₁ y₂,data/csbench/student_images/ML_3/ANS_ML_154.jpg
+ML_3,ANS_ML_146,P2,possible_teacher_over_score,6.0,three_way_core_score,3.8,2.2,2.2,1.0,2.2,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,5.0,5.0,3.8,3.8,BND,0.8165,high,0.0,1.0,0.444444,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,解: k₁=X J₁=X J₂=Y₁X K₂=Y₁X Z=XY₁Z,data/csbench/student_images/ML_3/ANS_ML_146.jpg
+ML_3,ANS_ML_135,P2,possible_teacher_over_score,6.0,three_way_core_score,4.0,2.0,2.0,1.0,2.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,3.0,3.0,4.0,4.0,BND,0.8165,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"解: J₁=X  K₁=X  J₂=y,X  K₂=y,X  Z = y₂y,X",data/csbench/student_images/ML_3/ANS_ML_135.jpg
+ML_3,ANS_ML_134,P2,possible_teacher_over_score,6.0,three_way_core_score,4.1,1.9,1.9,1.0,1.9,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,5.3,5.3,4.1,4.1,BND,0.9428,high,0.0,1.0,0.444444,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"由图：J₁=X K₁=X J₂=xy, K₂=xy, Z=xy,y,※",data/csbench/student_images/ML_3/ANS_ML_134.jpg
+ML_3,ANS_ML_126,P2,possible_teacher_over_score,6.0,three_way_core_score,4.7,1.3,1.3,1.0,1.3,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,4.7,4.7,4.7,4.7,BND,0.4714,high,0.0,0.833333,0.222222,,,,,"J₁=X  J₂=xy,  k₁=X  k₂=xy,  z=xy₁y₂",data/csbench/student_images/ML_3/ANS_ML_126.jpg
+ML_3,ANS_ML_132,P2,possible_teacher_over_score,6.0,three_way_core_score,4.7,1.3,1.3,1.0,1.3,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,4.7,4.7,4.7,4.7,BND,0.9428,high,0.0,1.0,0.222222,unstable_model_judgements,,,,"J₁ = X
+y₁ⁿ⁺¹ = J₁Q̄₁ⁿ + K̄₁Q₁ⁿ = xQ̄₁ⁿ + x̄Q₁ⁿ
+X₂ = xy₁
+J₂ = xy₁
+y₂ⁿ⁺¹ = J₂Q̄₂ⁿ + K̄₂Q₂ⁿ
+= xy₁Q̄₂ⁿ + x̄y₁Q₂ⁿ
+= xy₁⊕Q₂ⁿ
+= xy₁⊕y₂
+Z = xy₁y₂",data/csbench/student_images/ML_3/ANS_ML_132.jpg
+ML_3,ANS_ML_142,P2,possible_teacher_over_score,6.0,three_way_core_score,4.7,1.3,1.3,1.0,1.3,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,4.7,4.7,4.7,4.7,BND,1.2472,high,0.0,1.0,0.333333,unstable_model_judgements,,,,"J₁=X K₁=X J₂=xy, K₂=xy, z=xy,y₂",data/csbench/student_images/ML_3/ANS_ML_142.jpg
+ML_3,ANS_ML_152,P2,possible_teacher_over_score,5.0,three_way_core_score,3.7,1.3,1.3,1.0,1.3,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,3.7,3.7,3.7,3.7,BND,1.2472,high,0.0,1.0,0.222222,unstable_model_judgements,,,,k₁=X，k₁=X，J₂=X·y，9k₂=X·y₁，输出土诸X: Z=X·y·y₂,data/csbench/student_images/ML_3/ANS_ML_152.jpg
+ML_3,ANS_ML_159,P2,possible_teacher_over_score,6.0,three_way_core_score,4.7,1.3,1.3,1.0,1.3,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,5.7,5.7,4.7,4.7,BND,0.4714,high,0.0,0.833333,0.111111,a3wa_changed_score_materially,,,,"J₁ = X  K₁ = X
+I₂ = xy₁  K₂ = xy₁
+Z = X y₁ y₂",data/csbench/student_images/ML_3/ANS_ML_159.jpg
+ML_3,ANS_ML_138,P2,possible_teacher_over_score,6.0,three_way_core_score,5.0,1.0,1.0,1.0,1.0,1.0,absolute_disagreement|within_question_outlier,0.0,False,6.0,5.0,5.0,5.0,5.0,BND,1.4142,high,0.0,1.0,0.222222,unstable_model_judgements,,,,解 J₁=★k₁=x  y₂ⁿ⁺¹=J₂ȳ₂+Ē₂y₂=★y₁⊕y₂  J₂=◆k₂=☒xy₁  y₁ⁿ⁺¹=J₁ȳ₁+Ē₁y₁=xȳ₁+☒y₁=x⊕y₁  z=xy₁y₂,data/csbench/student_images/ML_3/ANS_ML_138.jpg
+ML_4,ANS_ML_181,P1,possible_teacher_over_score,6.0,three_way_core_score,0.0,6.0,6.0,2.0,3.8,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.333333,,,,,"a:0 1
+b:0
+c:01
+d:010
+e:0/0/1
+f:0/0/0",data/csbench/student_images/ML_4/ANS_ML_181.jpg
+ML_4,ANS_ML_211,P1,possible_teacher_over_score,6.0,three_way_core_score,0.0,6.0,6.0,2.0,3.8,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,设初始状态为A，B有0，C:01 D:010 次初始状态，A重为1 B:01 C:010 D:0101 E:D10/0 F:01/010,data/csbench/student_images/ML_4/ANS_ML_211.jpg
+ML_4,ANS_ML_173,P1,possible_teacher_over_score,6.0,three_way_core_score,0.5,5.5,5.5,2.0,3.3,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,0.5,0.5,0.5,0.5,BND,0.411,high,0.0,0.833333,0.333333,,,,,S₀:接收110，S₆:未接收有效的0 S₂:接收01 S₃:接收010 S₃₄:接收0101 S₄₅:接收01010,data/csbench/student_images/ML_4/ANS_ML_173.jpg
+ML_4,ANS_ML_212,P1,possible_teacher_over_score,6.0,three_way_core_score,0.7,5.3,5.3,2.0,3.1,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,0.7,0.7,0.7,0.7,BND,0.4714,high,0.0,0.833333,0.0,,,,,A:序列为1 B:序列为0 C:序列为01 D:序列为010 E:序列为0101 F:序列为01010,data/csbench/student_images/ML_4/ANS_ML_212.jpg
+ML_4,ANS_ML_171,P1,possible_teacher_over_score,6.0,three_way_core_score,1.3,4.7,4.7,2.0,2.5,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,1.3,1.3,1.3,1.3,POS,0.2357,high,0.0,0.416667,0.0,,,,,解: S0:未检测到有效输入 S1:检测到有效‘0’ S2:检测到有效‘0’1’ S3:检测到有效‘010’ S4:检测到有效‘0101’ S5:检测到有效‘01010’,data/csbench/student_images/ML_4/ANS_ML_171.jpg
+ML_4,ANS_ML_213,P1,possible_teacher_over_score,6.0,three_way_core_score,1.3,4.7,4.7,2.0,2.5,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,1.3,1.3,1.3,1.3,BND,0.4714,high,0.0,0.833333,0.0,,,,,没S0是未输入 S1是0. S2是01 S3是010. S4是0101,data/csbench/student_images/ML_4/ANS_ML_213.jpg
+ML_4,ANS_ML_178,P1,possible_teacher_over_score,6.0,three_way_core_score,1.5,4.5,4.5,2.0,2.3,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,1.5,1.5,1.5,1.5,POS,0.0,high,0.0,0.0,0.0,,,,,原始状态图 原始状态表,data/csbench/student_images/ML_4/ANS_ML_178.jpg
+ML_4,ANS_ML_209,P1,possible_teacher_over_score,6.0,three_way_core_score,1.5,4.5,4.5,2.0,2.3,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,1.5,1.5,1.5,1.5,BND,0.4082,high,0.0,0.833333,0.0,,,,,设S₀为未接收到第一个有效“0”的状态。S₁为接收到第一个有效“0”状态 S₂为接收到“01”状态 S₃为接收到“010”状态 S₄为接收到“0101”状态 S₅为接收到“01010”状态。,data/csbench/student_images/ML_4/ANS_ML_209.jpg
+ML_4,ANS_ML_174,P1,possible_teacher_over_score,6.0,three_way_core_score,1.7,4.3,4.3,2.0,2.1,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,1.7,1.7,1.7,1.7,POS,0.2357,high,0.0,0.416667,0.0,,,,,1. 设s₀:未输入有效“0” s₁:出现“0”序列 s₂:出现“01”序列 s₃:出现“010”序列 s₄:出现“0101”序列 s₅:出现“01010”序列,data/csbench/student_images/ML_4/ANS_ML_174.jpg
+ML_4,ANS_ML_218,P1,possible_teacher_over_score,6.0,three_way_core_score,1.7,4.3,4.3,2.0,2.1,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,1.7,1.7,1.7,1.7,BND,0.4714,high,0.0,0.833333,0.0,,,,,前：Â为0，B为01，C=010，D为0101，E为01010，F为011，G为0,data/csbench/student_images/ML_4/ANS_ML_218.jpg
+ML_4,ANS_ML_208,P1,possible_teacher_over_score,6.0,three_way_core_score,1.8,4.2,4.2,2.0,2.0,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,1.8,1.8,1.8,1.8,POS,0.2357,high,0.0,0.416667,0.0,,,,,"S0:无输入
+S1:0
+S2:01
+S3:010
+S4:-0101
+状态
+x=0 x=1
+S0 S1/0 S0/0
+S1 S2/0 S0/0
+S2 S1/0 S4/0
+S3 S3/1 S0/0",data/csbench/student_images/ML_4/ANS_ML_208.jpg
+ML_4,ANS_ML_220,P1,possible_teacher_over_score,5.0,three_way_core_score,0.8,4.2,4.2,2.0,2.0,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,0.3,0.3,0.8,0.8,BND,0.4714,high,0.0,0.833333,0.333333,,,,,状态图 原始状态表,data/csbench/student_images/ML_4/ANS_ML_220.jpg
+ML_4,ANS_ML_185,P1,possible_teacher_over_score,4.0,three_way_core_score,0.0,4.0,4.0,2.0,1.8,2.0,absolute_disagreement,2.2,True,6.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,原始状态表 状态 次态/输出 x=0 x=1 A B/0 A/0 B A/0 C/0 C D/0 A/0 D A/0 E/0 E A/1 A/0,data/csbench/student_images/ML_4/ANS_ML_185.jpg
+ML_4,ANS_ML_221,P1,possible_teacher_over_score,5.0,three_way_core_score,1.0,4.0,4.0,2.0,1.8,2.0,absolute_disagreement,2.2,True,6.0,1.0,1.0,1.0,1.0,BND,0.4082,high,0.0,0.833333,0.0,,,,,令S0:输入为0 S1:S0后输出1 S2:S1后输出0 S3:S2后输出1 S4:S3后输入为0,data/csbench/student_images/ML_4/ANS_ML_221.jpg
+ML_4,ANS_ML_179,P1,possible_teacher_over_score,6.0,three_way_core_score,3.0,3.0,3.0,2.0,0.8,2.0,absolute_disagreement,2.2,True,6.0,3.0,3.0,3.0,3.0,POS,0.0,high,0.0,0.0,0.0,,,,,"A:未识别有效“0” B:识别到一个有效“0” C:识别到连续有效的“01” D:识别到连续有效的“010” E:识别到连续有效的“0101” F:识别到连续有效的“01010” 原始状态表：现态,次态/输出Z X=0 X=1 A B/0 A/1 B B/0 C/0 C D/0 A/0 D B/0 E/0 E F/1 A/0 F B/0 E/0",data/csbench/student_images/ML_4/ANS_ML_179.jpg
+ML_4,ANS_ML_194,P1,possible_teacher_over_score,6.0,three_way_core_score,3.0,3.0,3.0,2.0,0.8,2.0,absolute_disagreement,2.2,True,6.0,3.0,3.0,3.0,3.0,POS,0.0,high,0.0,0.0,0.0,,,,,解 设 A为初始状态 B: 0,data/csbench/student_images/ML_4/ANS_ML_194.jpg
+ML_4,ANS_ML_187,P1,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,-0.2,2.0,absolute_disagreement,2.2,True,6.0,0.0,0.0,0.0,0.0,POS,0.0,high,0.0,0.0,0.0,,,,,01010→10100→01001 ↑ ↙ 00101 ←10010,data/csbench/student_images/ML_4/ANS_ML_187.jpg
+ML_4,ANS_ML_219,P2,possible_teacher_over_score,6.0,three_way_core_score,0.8,5.2,5.2,2.0,3.0,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,0.8,0.8,0.8,0.8,BND,0.6236,high,0.0,1.0,0.0,unstable_model_judgements,,,,1.解：S0:初始状态 S1:接收到0 S2:接收到01 S3:接收到010 S4:接收到0101 S5:接收到01010,data/csbench/student_images/ML_4/ANS_ML_219.jpg
+ML_4,ANS_ML_217,P2,possible_teacher_over_score,5.0,three_way_core_score,0.0,5.0,5.0,2.0,2.8,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,0.0,0.0,0.0,0.0,BND,0.0,high,0.0,0.0,0.5,rubric_mapping_risk,,,,1. 解：设 S₀ S₁=0 S₂=01 S₃=0/0 S₄=0/0/ S₅=0/0/0,data/csbench/student_images/ML_4/ANS_ML_217.jpg
+ML_4,ANS_ML_170,P2,possible_teacher_over_score,5.0,three_way_core_score,0.3,4.7,4.7,2.0,2.5,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,0.3,0.3,0.3,0.3,BND,0.4714,high,0.0,0.833333,0.666667,rubric_mapping_risk,,,,"P₁=0
+P₂=0|
+P₃=0|0
+P₄=0|0|
+P₅=0|0|0.
+P₆=1",data/csbench/student_images/ML_4/ANS_ML_170.jpg
+ML_4,ANS_ML_205,P2,possible_teacher_over_score,6.0,three_way_core_score,1.3,4.7,4.7,2.0,2.5,2.0,absolute_disagreement|within_question_outlier,2.2,True,6.0,0.8,0.8,1.3,1.3,BND,0.6236,high,0.0,1.0,0.333333,unstable_model_judgements,,,,设A:无有效输入 B:输入有效0 C:输入有效01 D:输入有效010 E:输入有效0101 F:输入有效01010,data/csbench/student_images/ML_4/ANS_ML_205.jpg
+ML_4,ANS_ML_184,P2,possible_teacher_over_score,6.0,three_way_core_score,2.1,3.9,3.9,2.0,1.7,2.0,absolute_disagreement,2.2,True,6.0,3.3,3.3,2.1,2.1,BND,0.4714,high,0.0,0.833333,0.0,a3wa_changed_score_materially,,,,"1.解: S0:未收到有效数δ S1:收到有效‘0’ S2:收到有效‘01’ S3:收到有效‘010’ S4:收到有效‘0101’ S5:收到有效‘01010’ 状态表: 现态 次态/输出 X=0 X=1 S0 S1,0 S0,0 S1 S1,0 S2,0 S2 S3,0 S0,0 S3 S4,0 S0,0 S4 S5,0 S0,0 S5 S5,1 S0,0 状态图: 110 010 010 110 110 110 010 010 110 011 110",data/csbench/student_images/ML_4/ANS_ML_184.jpg
+ML_4,ANS_ML_190,P2,possible_teacher_over_score,4.0,three_way_core_score,0.5,3.5,3.5,2.0,1.3,2.0,absolute_disagreement,2.2,True,6.0,0.5,0.5,0.5,0.5,BND,0.7071,high,0.0,1.0,0.666667,rubric_mapping_risk|unstable_model_judgements,,,,"A:初始状态为0 B:初始状态为1 C:A状态下输入一个1 D:C状态下输入一个0 E:D状态下输入一个1 F:E状态下输入一个0,同时Z输出1",data/csbench/student_images/ML_4/ANS_ML_190.jpg
+ML_4,ANS_ML_175,P2,possible_teacher_over_score,6.0,three_way_core_score,2.6,3.4,3.4,2.0,1.2,2.0,absolute_disagreement,2.2,True,6.0,3.8,3.8,2.6,2.6,BND,0.6236,high,0.0,1.0,0.0,a3wa_changed_score_materially|unstable_model_judgements,,,,原始状态： 次态/输出 视态 X=0 X=1 A B/0 A/0 B B/0 C/0 C D/0 A/0 D B/0 E/0 E F/1 A/0 F B/0 E/0,data/csbench/student_images/ML_4/ANS_ML_175.jpg
+ML_4,ANS_ML_199,P2,possible_teacher_over_score,6.0,three_way_core_score,3.5,2.5,2.5,2.0,0.3,2.0,absolute_disagreement,2.2,True,6.0,3.5,3.5,3.5,3.5,BND,0.7071,high,0.0,1.0,0.0,unstable_model_judgements,,,,状态表： 状态 次态/输出 x=0 x=1 S0 S1/0 S0/0 S1 S1/0 S2/0 S2 S3/0 S0/0 S3 S1/0 S4/0 S4 S5/1 S0/0 S5 S1/0 S4/0,data/csbench/student_images/ML_4/ANS_ML_199.jpg
+ML_4,ANS_ML_204,P2,possible_teacher_over_score,5.0,three_way_core_score,2.6,2.4,2.4,2.0,0.2,2.0,absolute_disagreement,2.2,True,6.0,3.8,3.8,2.6,2.6,BND,0.6236,high,0.0,1.0,0.0,a3wa_changed_score_materially|unstable_model_judgements,,,,"状态 | x=0 | x=1
+S0 | S1/0 | S0/0
+S1 | S0/0 | S2/0
+S2 | S3/0 | S0/0
+S3 | S0/0 | S4/0
+S4 | S5/1 | S0/0
+S5 | S0/0 | S4/0",data/csbench/student_images/ML_4/ANS_ML_204.jpg
+ML_4,ANS_ML_189,P2,possible_teacher_over_score,4.0,three_way_core_score,1.7,2.3,2.3,2.0,0.1,2.0,absolute_disagreement,2.2,True,6.0,1.7,1.7,1.7,1.7,BND,1.2472,high,0.0,1.0,0.333333,unstable_model_judgements,,,,作出状态表：A B/0 x=1. B A/0 A/0 C/0 D/0 E/0 D A/0 E/0 E A/1 A/0. 作出状态图为：,data/csbench/student_images/ML_4/ANS_ML_189.jpg
+ML_4,ANS_ML_176,P2,possible_teacher_over_score,3.0,three_way_core_score,0.8,2.2,2.2,2.0,0.0,2.0,absolute_disagreement,2.2,True,6.0,0.8,0.8,0.8,0.8,BND,0.6236,high,0.0,1.0,0.333333,unstable_model_judgements,,,,解：设A：收到0 B：收到01 C：收到010 D：收到0101 E：收到01010,data/csbench/student_images/ML_4/ANS_ML_176.jpg
+ML_4,ANS_ML_215,P2,possible_teacher_over_score,6.0,three_way_core_score,3.8,2.2,2.2,2.0,0.0,2.0,absolute_disagreement,2.2,True,6.0,4.3,4.3,3.8,3.8,BND,1.0274,high,0.0,1.0,0.0,unstable_model_judgements,,,,"So:初始状态、
+S₁:已存1值0
+S₂:已存1值01
+S₃:已存1值010
+S₄:已存1值0101
+S₅:已存1值01010
+状态  X=0  X=1
+So   S1/0  So/0
+S1   S1/0  S2/0
+S2   S3/0  So/0
+S3   S1/0  S4/0
+S4   S5//  So/0
+S5   S1/0  S4/0",data/csbench/student_images/ML_4/ANS_ML_215.jpg
+ML_4,ANS_ML_216,P2,possible_teacher_over_score,4.0,three_way_core_score,1.8,2.2,2.2,2.0,0.0,2.0,absolute_disagreement,2.2,True,6.0,1.8,1.8,1.8,1.8,BND,0.8498,high,0.0,1.0,0.0,unstable_model_judgements,,,,A:0 B:1 C:0 D:0/0 E:0/0 F:0/0 状态图： 状态表： 状态 状态/输出 X=0 X=1 A A/0 C/0 B A/0 B/0 C D/0 B/0 D A/0 F/0 E E/1 B/0 F A/0 E/0,data/csbench/student_images/ML_4/ANS_ML_216.jpg
+ML_4,ANS_ML_172,P2,possible_teacher_over_score,4.0,three_way_core_score,2.0,2.0,2.0,2.0,-0.2,2.0,absolute_disagreement,2.2,True,6.0,2.0,2.0,2.0,2.0,BND,0.7071,high,0.0,1.0,0.0,unstable_model_judgements,,,,"状态表：
+a    a' / z
+      x=0    x=1
+A    B/0    B/0
+B          C/0
+C    D/0    
+D          E/0
+E    F/1    
+F          A/0",data/csbench/student_images/ML_4/ANS_ML_172.jpg
+ML_4,ANS_ML_186,P2,possible_teacher_over_score,3.0,three_way_core_score,1.0,2.0,2.0,2.0,-0.2,2.0,absolute_disagreement,2.2,True,6.0,1.0,1.0,1.0,1.0,BND,1.4142,high,0.0,1.0,0.333333,unstable_model_judgements,,,,解:由题意可知:原始状态图: 原始状态图. 现态 次态/输出 X=0 X=1 A B/0 A/0 B A/0 C/0 C D/0 A/0 D A/0 E/0 E A/1 A/0,data/csbench/student_images/ML_4/ANS_ML_186.jpg
+ML_4,ANS_ML_188,P2,possible_teacher_over_score,3.0,three_way_core_score,1.0,2.0,2.0,2.0,-0.2,2.0,absolute_disagreement,2.2,True,6.0,1.0,1.0,1.0,1.0,BND,0.7071,high,0.0,1.0,0.333333,unstable_model_judgements,,,,"状态、输入/2
+x=0  x=1
+A    B/1  A/0
+B    B/0  C/1
+C    D/1  C/0
+D    D/0  E/1
+E    A/1  E/0",data/csbench/student_images/ML_4/ANS_ML_188.jpg
+ML_4,ANS_ML_191,P2,possible_teacher_over_score,6.0,three_way_core_score,4.0,2.0,2.0,2.0,-0.2,2.0,absolute_disagreement,2.2,True,6.0,4.0,4.0,4.0,4.0,BND,0.8165,high,0.0,1.0,0.0,unstable_model_judgements,,,,"A为010状态，B为010状态，C为010状态，D为010状态，E为0101状态，F为01010状态
+状态表
+状态/输出
+状态	X=0	X>1
+A	B/0	A/0
+B	B/0	C/0
+C	D/0	A/0
+D	B/0	E/0
+E	F/1	A/0
+F	B/0	E/0",data/csbench/student_images/ML_4/ANS_ML_191.jpg
+ML_4,ANS_ML_193,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,-0.2,2.0,absolute_disagreement,2.2,True,6.0,0.7,0.7,0.0,0.0,BND,0.9428,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"A: 0
+B: 01
+C: 010
+D: 0101
+E: 01010
+F: 11
+A
+B
+C
+D
+E
+P
+X=0
+A/0
+C/0
+A/0
+E/1
+B/1
+X=1
+B/0
+D/0
+B/1
+D/1",data/csbench/student_images/ML_4/ANS_ML_193.jpg
+ML_4,ANS_ML_210,P2,possible_teacher_over_score,2.0,three_way_core_score,0.0,2.0,2.0,2.0,-0.2,2.0,absolute_disagreement,2.2,True,6.0,0.0,0.0,0.0,0.0,BND,0.0,high,0.0,0.0,0.666667,rubric_mapping_risk,,,,1.解：∴状态表为,data/csbench/student_images/ML_4/ANS_ML_210.jpg
+ML_4,ANS_ML_197,P2,possible_teacher_under_score,1.0,three_way_core_score,2.0,-1.0,1.0,2.0,-3.2,2.0,within_question_outlier,2.2,True,6.0,1.0,1.0,2.0,2.0,BND,0.8165,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"y1 y2 y1^n+1 y2^n+1 x z
+0 0 0 0 0 0
+0 1 0 1 0 1
+1 0 1 0 1 0
+1 1 1 0 1 0
+y1^n+1 y2^n+1 / z
+y1 y2 x=0 x=1
+00 00/0 01/0
+01 01/1 10/0
+10 10/0 11/0
+11 11/0 00/0
+0 0 0 1 1 0
+0 1 1 0 1 0
+1 0 1 1 1 0
+1 1 0 0 1 0",data/csbench/student_images/ML_4/ANS_ML_197.jpg
+ML_4,ANS_ML_169,P2,possible_teacher_under_score,0.0,three_way_core_score,0.0,0.0,0.0,2.0,-2.2,2.0,within_question_outlier,2.2,True,6.0,0.0,0.0,0.0,0.0,NEG,0.0,low,1.0,0.0,1.0,extraction_risk|rubric_mapping_risk,,,,,data/csbench/student_images/ML_4/ANS_ML_169.jpg
+ML_4,ANS_ML_177,P2,possible_teacher_under_score,6.0,three_way_core_score,6.0,0.0,0.0,2.0,-2.2,2.0,within_question_outlier,2.2,True,6.0,6.0,6.0,6.0,6.0,POS,0.0,high,0.0,0.0,0.0,,,,,状态A在x=0时B/0，x=1时A/0；状态B在x=0时B/0，x=1时C/0；状态C在x=0时D/0，x=1时A/0；状态D在x=0时B/0，x=1时E/0；状态E在x=0时F/1，x=1时A/0；状态F在x=0时B/0，x=1时E/0,data/csbench/student_images/ML_4/ANS_ML_177.jpg
+ML_4,ANS_ML_195,P2,possible_teacher_under_score,0.0,three_way_core_score,0.0,0.0,0.0,2.0,-2.2,2.0,within_question_outlier,2.2,True,6.0,0.0,0.0,0.0,0.0,NEG,0.0,low,1.0,0.0,1.0,extraction_risk|rubric_mapping_risk,,,,,data/csbench/student_images/ML_4/ANS_ML_195.jpg
+ML_4,ANS_ML_201,P2,possible_teacher_under_score,3.0,three_way_core_score,3.0,0.0,0.0,2.0,-2.2,2.0,within_question_outlier,2.2,True,6.0,3.0,3.0,3.0,3.0,POS,0.0,high,0.0,0.0,0.0,,,,,原始状态表 现态 次态/输出 X=0 X=1 A B/0 A/0 B A/0 C/0 C D/0 A/0 D A/0 E/0 E D/1 A/0,data/csbench/student_images/ML_4/ANS_ML_201.jpg
+ML_4,ANS_ML_207,P2,possible_teacher_under_score,6.0,three_way_core_score,6.0,0.0,0.0,2.0,-2.2,2.0,within_question_outlier,2.2,True,6.0,6.0,6.0,6.0,6.0,POS,0.0,high,0.0,0.0,0.0,,,,,令S₀:初态，输入。S₁:输入0. S₂:输入01 S₃:输入010. S₄:输入0101. S₅:输入01010. 状态/输出 x=0 x=1 S₀ S₁/0 S₀/0 S₁ S₁/0 S₂/0 S₂ S₃/0 S₀/0 S₃ S₁/0 S₄/0 S₄ S₅/1 S₀/0 S₅ S₁/0 S₄/0.,data/csbench/student_images/ML_4/ANS_ML_207.jpg
+ML_4,ANS_ML_223,P2,possible_teacher_under_score,0.0,three_way_core_score,0.0,0.0,0.0,2.0,-2.2,2.0,within_question_outlier,2.2,True,6.0,0.0,0.0,0.0,0.0,NEG,0.0,low,1.0,0.0,1.0,extraction_risk|rubric_mapping_risk,,,,答：,data/csbench/student_images/ML_4/ANS_ML_223.jpg

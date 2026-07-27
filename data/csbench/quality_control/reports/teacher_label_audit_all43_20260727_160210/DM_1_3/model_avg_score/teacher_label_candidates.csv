@@ -1,0 +1,384 @@
+﻿question_id,answer_id,review_priority,candidate_type,teacher_score,reference_score_key,reference_score,teacher_minus_reference,absolute_difference,candidate_threshold,centered_residual,outlier_threshold,candidate_reasons,question_median_residual,question_systematic_bias,max_score,model_avg_score,selected_baseline_score,three_way_core_score,final_calibrated_score,route,std_dev,extraction_quality,U_E,U_S,U_R,confounds,human_decision,corrected_score,review_note,raw_text,student_image
+DM_1,ANS_DM_32,P1,possible_teacher_under_score,6.0,model_avg_score,8.0,-2.0,2.0,1.2,-2.0,1.2,absolute_disagreement|within_question_outlier,0.0,False,8.0,8.0,8.0,8.0,8.0,POS,0.0,high,0.125,0.0,0.125,,,,,"1.如图所示
+(2)①不存在其他元素x∈A满足x！=1且x整除1
+所以1是极小元.
+②∵24.54满足y∈A不存在y！=24且24整除y
+及4！=54且54整除y的情况.
+所以24和54为极大元
+(3)①由极1元x1且对于A中其他元素.都可以被整除.
+故1为最小元.
+②最大元不存在.
+(4).子集B{4,6,9}的最小下界是1,最大上界不存在",data/csbench/student_images/DM_1/ANS_DM_32.jpg
+DM_1,ANS_DM_41,P1,possible_teacher_under_score,6.0,model_avg_score,8.0,-2.0,2.0,1.2,-2.0,1.2,absolute_disagreement|within_question_outlier,0.0,False,8.0,8.0,8.0,8.0,8.0,BND,0.0,high,0.3125,0.0,0.354167,,,,,"(1)如图所示
+(2) 极大元 24.54
+极小元 1
+(3) 最大元 不存在
+最小元 1
+(4) 4.6.9 等价
+B={4,6,9}上界 24.54 最大上界无
+下界 1,2,3 最小上界 1",data/csbench/student_images/DM_1/ANS_DM_41.jpg
+DM_1,ANS_DM_49,P1,possible_teacher_under_score,6.0,model_avg_score,8.0,-2.0,2.0,1.2,-2.0,1.2,absolute_disagreement|within_question_outlier,0.0,False,8.0,8.0,8.0,8.0,8.0,BND,0.0,high,0.25,0.0,0.291667,,,,,"1)如图所示
+2)极大元：24.54
+极小元：1
+3)最大元：不存在.
+最小元：1.
+4)最上界：24.54
+最大下界:1",data/csbench/student_images/DM_1/ANS_DM_49.jpg
+DM_1,ANS_DM_46,P2,possible_teacher_over_score,6.0,model_avg_score,3.3,2.7,2.7,1.2,2.7,1.2,absolute_disagreement|within_question_outlier,0.0,False,8.0,3.3,3.3,4.9,4.9,BND,2.4944,high,0.3125,1.0,0.5,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"(1)如图所示
+(2),由(1)中哈斯图得：A的极大元：24 54 极小元：1
+(3),由(1)中哈斯图得：A的最大元：不存在 最小元：1
+(4),由(1)中哈斯图得：A的子集B={4,6,9}的最小上界：24 最大下界：3.",data/csbench/student_images/DM_1/ANS_DM_46.jpg
+DM_1,ANS_DM_36,P2,possible_teacher_over_score,8.0,model_avg_score,6.2,1.8,1.8,1.2,1.8,1.2,absolute_disagreement|within_question_outlier,0.0,False,8.0,6.2,6.2,5.2,5.2,BND,1.3123,high,0.3125,1.0,0.479167,rubric_mapping_risk|a3wa_changed_score_materially|unstable_model_judgements,,,,"(1)如图所示
+(2) 极大元为24和54. 极小元为1
+(3) 没有最大元，最小元为1
+(4) 最大下界为1，无最小上界",data/csbench/student_images/DM_1/ANS_DM_36.jpg
+DM_1,ANS_DM_09,P2,possible_teacher_under_score,3.0,model_avg_score,4.3,-1.3,1.3,1.2,-1.3,1.2,absolute_disagreement|within_question_outlier,0.0,False,8.0,4.3,4.3,4.8,4.8,BND,0.2357,high,0.375,0.3125,0.416667,rubric_mapping_risk,,,,"1. 如图所示
+(2)极大元为54，极小元为1
+(3)最大元与最小元均不存在。",data/csbench/student_images/DM_1/ANS_DM_09.jpg
+DM_1,ANS_DM_16,P2,possible_teacher_over_score,8.0,model_avg_score,6.7,1.3,1.3,1.2,1.3,1.2,absolute_disagreement|within_question_outlier,0.0,False,8.0,6.7,6.7,5.1,5.1,BND,0.9428,high,0.3125,1.0,0.395833,a3wa_changed_score_materially|unstable_model_judgements,,,,"(1) 如图所示
+(2) 由哈斯图可以看出 极大元:24. 54. 极小元:1
+(3) 最元:1 最大元不在
+(4) 最大下界：1
+最小上界不存在",data/csbench/student_images/DM_1/ANS_DM_16.jpg
+DM_2,ANS_DM_178,P1,possible_teacher_under_score,3.0,model_avg_score,7.3,-4.3,4.3,1.5,-4.3,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,7.3,7.3,6.3,6.3,BND,0.6236,high,0.0,0.75,0.233333,,,,,"证明：考证自等价关系则需证。
+①自反性. ∵<a,b>R<c,d>⇔a+b=c+d
+∀a∈A a+a=a+a ⇒<a,a>R<a,a>.
+ 得证 
+②对称性. ∵<a,b>R<c,d>⇔a+b=c+d 
+故∀a,b∈A a+b=b+a ⇒<a,b>R<b,a> 
+得证 
+③传递性. ∵<a,b>R<c,d>⇔a+b=c+d 
+故∀a,b,c∈A 
+a+a=b+b ⇒<a,a>R<b,b>
+b+b=c+c ⇒<b,b>R<c,c>
+ ⇒a+a=b+b=c+c.  
+故<a,a>R<c,c> 
+得证",data/csbench/student_images/DM_2/ANS_DM_178.jpg
+DM_2,ANS_DM_114,P1,possible_teacher_under_score,7.0,model_avg_score,10.0,-3.0,3.0,1.5,-3.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,10.0,10.0,10.0,10.0,POS,0.0,high,0.0,0.0,0.0,,,,,"证明：∵R是A×A上的二元关系
+①∀<a,b>∈A×A
+<a,b>R<a,b>⇒a+b=b+a
+<c,d>R<d,c>⇒c+d=d+c
+②∀<a,b>,<c,d>∈A×A
+∵<a,b>R<c,d>⇒a+b=c+d
+∴c+d=a+b⇒<a,b>R<c,d>
+③设<a,b>,<c,d>,<e,f>∈A×A.
+∴<a,b>R<c,d>⇒a+b=c+d
+设<c,d>R<e,f>⇒c+d=e+f
+又a+b=c+d=e+f∴a+b=e+f⇒<a,b>R<e,f>
+∴满足自反性,对称性,传递性∴R为等价关系",data/csbench/student_images/DM_2/ANS_DM_114.jpg
+DM_2,ANS_DM_169,P1,possible_teacher_under_score,7.0,model_avg_score,10.0,-3.0,3.0,1.5,-3.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,10.0,10.0,10.0,10.0,POS,0.0,high,0.0,0.0,0.033333,,,,,"①自反性: ∀<a,a>∈A×A. ∵a+a=a+a. ∴<a,a>R<a,a>成立, 自反性得证 ②对称性. ∀<a,b>∈A×A. ∵a+b=b+a. ∴<a,b>R<b,a>成立. ∴对称性得证 ③传递性. ∀<a,b>、<c,d>、<e,f>∈A×A. 若<a,b>R<c,d>,则a+b=c+d…(Δ₁) 若<c,d>R<e,f>,则c+d=e+f…(Δ₂). 观察Δ₁与Δ₂式不难发现.a+b=e+f成立 ∴<a,b>R<e,f>成立. ∴对称性得证 
+综上,R是等价关系.",data/csbench/student_images/DM_2/ANS_DM_169.jpg
+DM_2,ANS_DM_177,P1,possible_teacher_under_score,3.0,model_avg_score,6.0,-3.0,3.0,1.5,-3.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,6.0,6.0,5.0,5.0,BND,0.8165,high,0.0,1.0,0.333333,,,,,"解.
+若R为AxA上等价关系，则R在AxA上同时拥有自反性，对称性和传递性
+自反性: a+b=c+d.
+c+d=a+b.
+b+a=c+d.
+∴满足自反性.
+
+对称性: a+b=c+d.
+-a-c=-c-d.
+∴满足对称性
+
+传递性：设e∈A×A
+a+b+e=c+d+e
+∴满足传递性.
+∴R为A×A上等价关系",data/csbench/student_images/DM_2/ANS_DM_177.jpg
+DM_2,ANS_DM_117,P2,possible_teacher_over_score,6.0,model_avg_score,2.0,4.0,4.0,1.5,4.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,2.0,2.0,3.5,3.5,BND,0.7071,high,0.0,0.75,0.2,a3wa_changed_score_materially,,,,"证：A={1,2,3,4}。
+∀<a,b>,<c,d>∈A×A, <a,b>R<c,d>⇔a+b=c+d 自反性：a=b=c=d时，有<a,a>R<a,a> <b,b>R<b,b> <c,c>R<c,c> <d,d>R<d,d> 
+对称性∀a,b. <a,b>R<b,a> 
+传递性∀a,b,c,d <a,b>R<b,c>，则a+b=b+c，a=c， 又<b,c>R<c,d>，则b+c=c+d，b=d 有<a,b>R<c,d> 
+∴R是等价关系。",data/csbench/student_images/DM_2/ANS_DM_117.jpg
+DM_2,ANS_DM_133,P2,possible_teacher_under_score,5.0,model_avg_score,7.5,-2.5,2.5,1.5,-2.5,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,7.5,7.5,7.5,7.5,BND,1.0801,high,0.0,1.0,0.133333,unstable_model_judgements,,,,"证明①自反性
+∴∀<a,b>,<c,d>∈A×A
+<a,b>R<c,d> ⇔ a+b=c+d
+∴∀<x,y>,<x,y>∈A×A
+则<x,y>R<x,y> ⇔ x+y=x+y
+∴满足自反性
+②对称性
+∀<x,y>,<y,x>∈A×A
+∴<x,y>R<y,x> ⇔ x+y=y+x
+满足对称性
+③传递性
+∀<x,y>,<y,z>,<x,z>∈A×A
+∴<x,y>R<y,z> ⇔ x+y=y+z
+<x,y>R<x,z> ⇔ x+y=x+z
+满足传递性
+AxA={<1,1>,<1,2>,<1,3>,<1,4>,
+<2,1>,<2,2>,<2,3>,<2,4>,
+<3,1>,<3,2>,<3,3>,<3,4>,
+<4,1>,<4,2>,<4,3>,<4,4>,}",data/csbench/student_images/DM_2/ANS_DM_133.jpg
+DM_2,ANS_DM_113,P2,possible_teacher_under_score,8.0,model_avg_score,10.0,-2.0,2.0,1.5,-2.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,10.0,10.0,10.0,10.0,POS,0.0,high,0.0,0.0,0.133333,,,,,"证：
+∀<a,b>,<c,d>∈A×A
+①<a,b>R<a,b>，即a+b=a+b，故满足自反. ②由a+b=b+a，故<a,b>R<b,a>⇔a+b=b+a，故满足对称 ③∀<e,f>∈A×A，若<a,b>R<c,d>∧<c,d>R<e,f>即a+b=c+d，c+d=e+f，故a+b=e+f，故<a,b>R<e,f>⇔a+b=e+f，故R满足传递性. 综上，R为等价关系.",data/csbench/student_images/DM_2/ANS_DM_113.jpg
+DM_2,ANS_DM_131,P2,possible_teacher_under_score,8.0,model_avg_score,10.0,-2.0,2.0,1.5,-2.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,10.0,10.0,10.0,10.0,POS,0.0,high,0.0,0.0,0.0,,,,,"证明：①自反性.
+∀<a,b>,<a,b>∈A×A，<a,b>R<a,b>⇔a+b=a+b 成立
+∀<a,a>,<a,a>∈A×A，<a,a>R<a,a>⇔a+a=a+a 成立
+
+②对称性
+∀<a,b>,<b,a>∈A×A，<a,b>R<b,a>⇔a+b=b+a 由加法可交换，成立
+
+③传递性 取a,b,c,d,e,f∈A
+则若<a,b>R<c,d>⇔a+b=c+d ①
+<c,d>R<e,f>⇔c+d=e+f ②
+由①+②得 a+b=e+f
+即<a,b>R<e,f>
+故R可传递
+
+由上R为等价关系",data/csbench/student_images/DM_2/ANS_DM_131.jpg
+DM_2,ANS_DM_170,P2,possible_teacher_over_score,2.0,model_avg_score,0.0,2.0,2.0,1.5,2.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,0.0,0.0,0.0,0.0,NEG,0.0,low,1.0,0.0,1.0,extraction_risk|rubric_mapping_risk,,,,"R={A×A}={<1,1>,<1,2>,<2,1>,<1,3>,<3,1>,<1,4>,<4,1>,<2,2>,<2,3>,<3,2>,<2,4>,<4,2>,<3,3>,<3,4>,<4,3>,<4,4>}
+R={<1,2>,<2,1>,<1,3>,<3,1>,<1,4>,<4,1>,<2,2>,<2,3>,<3,2>,<2,4>,<4,2>,<3,3>,<3,4>,<4,3>,<4,4>}
+M_R=[0 1 1 1
+     1 1 1 1
+     1 1 1 1
+     1 1 1 1]
+由图知，R自反对称，且可传递。",data/csbench/student_images/DM_2/ANS_DM_170.jpg
+DM_2,ANS_DM_183,P2,possible_teacher_over_score,9.0,model_avg_score,7.0,2.0,2.0,1.5,2.0,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,7.0,7.0,7.0,7.0,POS,0.0,high,0.0,0.0,0.0,,,,,"证：<1>自反性. 对∀<a,b>∈A×A ，∵a+b=b+a ∴<b,a>∈A×A ∴可得<a,b>R<b,a>. 满足自反性. 
+<2>对称性：对∀<a,b>、<c,d>∈A×A ∵<a,b>R<c,d>⇔a+b=c+d 
+又∵a+b=c+d 
+∴<c,d>R<a,b>⇔<c,d>R<a,b> ∴由<a,b>R<c,d>→<c,d>R<a,b>,满足对称性. 
+<3>传递性：对∀<a,b>、<c,d>、<e,f>∈A×A. 由<a,b>R<c,d>可得:a+b=c+d. 
+由<c,d>R<e,f>可得:c+d=e+f 
+∴a+b=e+f ∴可得<a,b>R<e,f>. ∴由<a,b>R<c,d>∧<c,d>R<e,f>→<a,b>R<e,f>,满足传递性 ∴综上R是A×A上的等价关系.",data/csbench/student_images/DM_2/ANS_DM_183.jpg
+DM_2,ANS_DM_110,P2,possible_teacher_under_score,8.0,model_avg_score,9.8,-1.8,1.8,1.5,-1.8,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,9.8,9.8,9.8,9.8,POS,0.2357,high,0.0,0.25,0.033333,,,,,"证明：要证R为等价关系，即证其满足自反性，对称性，以及传递性.
+先证自反性：
+对∀<a,b>∈A×A，由题可得
+<a,b>R<a,b><=>a+b=a+b
+满足自反性.
+现证对称性:
+对∀<a,b>∈A×A.有：
+<a,b>R<b,a><=>a+b=b+a
+满足对称性.
+再证传递性：
+对∀<a,b>，<c,d>，<e,f>有：
+<a,b>R<c,d><=>a+b=c+d (1)
+<c,d>R<e,f><=>c+d=e+f (2)
+由(1),(2)可得：
+a+b=e+f，
+即<a+b>R<e+f>
+满足传递性. 故综上得证.",data/csbench/student_images/DM_2/ANS_DM_110.jpg
+DM_2,ANS_DM_99,P2,possible_teacher_under_score,8.0,model_avg_score,9.7,-1.7,1.7,1.5,-1.7,1.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,9.7,9.7,9.7,9.7,BND,0.4714,high,0.0,0.5,0.133333,,,,,"证：R为A×A上的二元关系，∀<a,b>,<c,d>∈A×A，
+<a,b>R<c,d>⇔a+b=c+d. 
+①自反性：取<a,b>∈A×A. ∴a+b=a+b. ∴<a,b>R<a,b>成立. ②对称性：取<a,b>∈A×A ∴<b,a>∈A×A. 又∵a+b=b+a. ∴<a,b>R<b,a>与<b,a>R<a,b>均成立. ③传递性：取<a,b>,<c,d>,<e,f>∈A×A. ∴<a,b>R<c,d>⇔a+b=c+d. 
+<c,d>R<e,f>⇔c+d=e+f 
+∴a+b=e+f 即<a,b>R<e,f>成立. 
+综上，R是等价关系.",data/csbench/student_images/DM_2/ANS_DM_99.jpg
+DM_3,ANS_DM_216,P1,possible_teacher_under_score,4.0,model_avg_score,9.5,-5.5,5.5,2.5,-5.5,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,9.5,9.5,9.5,9.5,POS,0.4082,high,0.0,0.5,0.1,,,,,"①每个参赛者跑完全程提前退赛：∀A(x)(B(x)∨C(x))
+②每个跑完完全程的参赛者都将得到奖励：∀A(x)(B(x)→D(x))
+③有些参赛者没有得到奖励：∃A(x)(¬D(x))
+④有些参赛者退赛了：∃A(x)C(x)
+证明 由∃A(x)(¬D(x))，可假设存在a，s.t. ¬D(a)成立
+由∀A(x)(B(x)→D(x))⇒B(a)→D(a)
+∵¬D(a)为真，且B(a)→D(a)，根据拒取式⇒¬B(a)
+由∀A(x)(B(x)∨C(x))⇒B(a)∨C(a)
+∵¬B(a)为真，且B(a)∨C(a)，根据析取三段式⇒C(a)
+⇒∃A(x)C(x)，即证明了有的参赛者退赛了",data/csbench/student_images/DM_3/ANS_DM_216.jpg
+DM_3,ANS_DM_203,P1,possible_teacher_under_score,7.0,model_avg_score,10.0,-3.0,3.0,2.5,-3.0,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,10.0,10.0,10.0,10.0,POS,0.0,high,0.0,0.0,0.0,,,,,"∀x(A(x)→B(x)∨C(x))、∀x(A(x)∧B(x)→D(x))、∃x(A(x)∧¬D(x))
+结论：∃x(A(x)∧C(x))
+证：
+1. ∃x(A(x)∧¬D(x)) P
+2. A(a)∧¬D(a) ES,T,1
+3. A(a) T,2
+4. ¬D(a) T,2
+5. D(a) F,4
+6. ∀x(A(x)∧B(x)→D(x)) P
+7. A(a)∧B(a)→D(a) US,T,6
+8. A(a)∧B(a) F,5,7
+9. B(a) F,3,8
+10. ∀x(A(x)→B(x)∨C(x)) P
+11. A(a)→B(a)∨C(a) US,T,10
+12. B(a)∨C(a) T,3,11
+13. C(a) T,9,12
+14. A(a)∧C(a) T,3,13
+15. ∃x(A(x)∧C(x)) EG,T,14",data/csbench/student_images/DM_3/ANS_DM_203.jpg
+DM_3,ANS_DM_239,P1,possible_teacher_under_score,7.0,model_avg_score,10.0,-3.0,3.0,2.5,-3.0,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,10.0,10.0,10.0,10.0,POS,0.0,high,0.0,0.0,0.066667,,,,,"解
+t₁: ∀x(A(x)→B(x)∨C(x))
+t₂: ∀x(A(x)∧B(x)→D(x))
+t₃ ∃x(A(x)∧¬D(x))
+t₄: ∃x(A(x)∧C(x))
+t₁∧t₂∧t₃→t₄
+证明：
+1 A₀(x)∧¬D₀(x) Tt₃,ES
+2 A₀(x) T₁
+3 ¬D₀(x) T₁
+4 B₀(x)∨C₀(x) T₂,t₁
+5 ∀x(¬D(x)→¬(A(x)∧B(x))) Tt₂
+6 ¬(A₀(x)∧B₀(x)) T₃,5
+7 ¬A₀(x)∨¬B₀(x) T₆
+8 ¬B₀(x) T,2,7
+9 C₀(x) T₄,8
+10 ∃x(A(x)∧C(x)) T2,9",data/csbench/student_images/DM_3/ANS_DM_239.jpg
+DM_3,ANS_DM_261,P1,possible_teacher_under_score,7.0,model_avg_score,10.0,-3.0,3.0,2.5,-3.0,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,10.0,10.0,10.0,10.0,POS,0.0,high,0.0,0.0,0.0,,,,,"解:由题:∀x(A(x)→B(x)∨C(x))，∀x(A(x)∧B(x)→D(x))，∃x(A(x)∧¬D(x))⇒目标∃x(A(x)∧C(x)).
+步骤 断言 根据 
+1 ∃x(A(x)∧¬D(x)) P
+2. A(a)∧¬D(a) T1.ES 
+3. A(a) T2 
+4. ¬D(a) T2
+5. ∀x(A(x)∧B(x)→D(x))  P 
+6. A(a)∧B(a)→D(a) T5.US
+7. ¬B(a) T3,4,6
+8. ∀x(A(x)→B(x)∨C(x)) P
+9. A(a)→B(a)∨C(a) T8.US.
+10. C(a) T3,7,9 
+11. A(a)∧C(a). T3,10.
+12. ∃x(A(x)∧C(x)) ,T11,EG
+
+",data/csbench/student_images/DM_3/ANS_DM_261.jpg
+DM_3,ANS_DM_272,P1,possible_teacher_under_score,7.0,model_avg_score,10.0,-3.0,3.0,2.5,-3.0,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,10.0,10.0,10.0,10.0,POS,0.0,high,0.0,0.0,0.0,,,,,"推理：由题可知前提为
+∀x(A(x)→B(x)∨C(x))，∀x(A(x)∧B(x)→D(x))，∃x(A(x)∧¬D(x))
+结论为 ∃x(A(x)∧C(x)).
+过程：
+1  ∀x(A(x)→B(x)∨C(x))  P
+2  A(a)→B(a)∨C(a)  T.1.US
+3  ∀x(A(x)∧B(x)→D(x))  P
+4  A(a)∧B(a)→D(a)  T.3.US
+5  ∃x(A(x)∧¬D(x))  P
+6  A(a)∧¬D(a)  T.5.ES
+7  A(a)  T6
+8  B(a)∨C(a)  T2,7.
+9  ¬D(a)  T.6
+10 ¬(A(a)∧B(a))  T4,9
+11 ¬A(a)∨¬B(a)  T10
+12 C(a)  T8,11
+13 A(a)∧C(a)  T7,12
+14 ∃x(A(x)∧C(x))  T13.EG
+证毕",data/csbench/student_images/DM_3/ANS_DM_272.jpg
+DM_3,ANS_DM_192,P1,possible_teacher_under_score,6.0,model_avg_score,8.7,-2.7,2.7,2.5,-2.7,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,8.7,8.7,8.7,8.7,POS,0.4714,high,0.0,0.5,0.0,,,,,"∀x( A(x)→B(x)∨C(x))
+∀x( A(x)∧B(x) →D(x))
+∃X( A(X)∧¬D(X))
+结论：∃X (A(X)∧C(X))
+(1)∀x ( A(x)→B(x)∨C(x)) P
+(2)∀x ( ¬A(x)∨B(x)∨C(x)) T (1)
+(3)¬A(a)∨B(a)∨C(a) US (2)
+(4)∀x( A(x)∧B(x) →D(x)) P
+(5)∀x(¬(A(x)∧B(x))∨D(x)) T (4)
+(6)∀x(¬A(x)∨¬B(x))∨D(x)) T (5)
+(7)(¬A(a)∨¬B(a))∨D(a) US (6)
+(8) ∃X (A(X)∧¬D(X)) P
+(9) A(a)∧¬D(a) ES (8)
+(10) ¬D(a) (9)
+(11) ¬A(a)∨¬B(a) T(7)
+(12) ¬A(a)∨B(a) F(3)
+(13) C(a) T(3) P
+(14) A(a) (9) T
+(15) A(a)∧C(a) (13)(14)
+(16) ∃X (A(X)∧C(X)) EG (15)",data/csbench/student_images/DM_3/ANS_DM_192.jpg
+DM_3,ANS_DM_217,P1,possible_teacher_under_score,7.0,model_avg_score,9.7,-2.7,2.7,2.5,-2.7,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,9.7,9.7,9.7,9.7,BND,0.4714,high,0.0,0.5,0.133333,,,,,"① ∀x(A(x)→B(x)∨C(x)) ② ∀x(A(x)∧B(x)→D(x)) ③ ∃x(A(x)∧¬D(x))
+=>④ ∃x(A(x)∧C(x))
+
+步骤    断言
+T1 ∃x(A(x)∧¬D(x)) P
+T2 A(a)∧¬D(a) T1, ES
+T3 ∀x(A(x)∧B(x)→D(x)) P
+T4 ∀x(¬D(x)→¬A(x)∨¬B(x)) T3
+T5 ¬D(a)→¬A(a)∨¬B(a) T4, US
+T6 ¬B(a) T2, T5
+T7 ∀x(A(x)→B(x)∨C(x)) P
+T8 A(a)→B(a)∨C(a) T7, US
+T9 C(a) T2, T6, T8
+T10 A(a)∧C(a) T2, T9
+T11 ∃x(A(x)∧C(x)) T10, EG",data/csbench/student_images/DM_3/ANS_DM_217.jpg
+DM_3,ANS_DM_274,P1,possible_teacher_under_score,7.0,model_avg_score,9.7,-2.7,2.7,2.5,-2.7,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,9.7,9.7,9.7,9.7,BND,0.4714,high,0.0,0.5,0.133333,,,,,"证：
+1  ∀x(A(x)→B(x)∨C(x))  P
+2  ∀x(A(x)∧B(x)→D(x))  P
+3  ∃x(A(x)∧¬D(x))  P
+4  A(x)→B(x)∨C(x)  US1
+5  A(x)∧B(x)→D(x)  US2
+6  A(a)∧¬D(a)  ES3
+7  A(a)  T6
+8  ¬D(a)  T6
+9  B(a)∨C(a)  T4,7
+10  ¬(A(a)∧B(a))  T5,8
+11  ¬A(a)∨¬B(a)  T10
+12  ¬B(a)  T7,11
+13  C(a)  T9,12
+14  A(a)∧C(a)  T7,13
+15  ∃x(A(x)∧C(x))  EG,14",data/csbench/student_images/DM_3/ANS_DM_274.jpg
+DM_3,ANS_DM_213,P2,possible_teacher_over_score,10.0,model_avg_score,5.8,4.2,4.2,2.5,4.2,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,5.8,5.8,7.8,7.8,BND,2.7183,high,0.0,1.0,0.366667,a3wa_changed_score_materially|unstable_model_judgements,,,,"解：∀x(A(x)→B(x)∨C(x))，∀x(A(x)∧B(x)→D(x))∴∀x(A(x)∧D(x))⇒∃x(A(x)∧C(x))
+步骤    断言            根据
+1   ∃x(A(x)∧¬D(x))      P
+2   A(a)∧¬D(a)          T,1,ES
+3   A(a)                T,2
+4   ¬D(a)               T,2
+5   ∀x(A(x)→B(x)∨D(x))  P
+6  A(a)→B(a)∨D(a)       T,5,US
+7  B(a)∨C(a)            T,3,6
+8  ∀x(A(x)∧B(x)→D(x)) P
+9  A(a)∧B(a)→D(a)       T,8,US
+10 ¬A(a)∨¬B(a)          T,4,9
+11  ¬B(a)               T,3,10
+12  C(a)                T,7,11
+13  A(a)∧C(a)           T,3,12
+14  ∃x(A(x)∧C(x))       T,13,EG",data/csbench/student_images/DM_3/ANS_DM_213.jpg
+DM_3,ANS_DM_224,P2,possible_teacher_under_score,0.0,model_avg_score,4.2,-4.2,4.2,2.5,-4.2,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,4.2,4.2,2.7,2.7,BND,0.8498,high,0.1,1.0,0.266667,a3wa_changed_score_materially,,,,"解：由题意得
+∀A(x)≡X（B(x)≡X∨C(x)≡X） ∀B(x)≡X，D(x)≡X
+∃¬D(x)≡X，C(x)≡X
+即 ∀x∈A(x)（B(x)∨C(x)），B(x)↔D(x)⇒A(x)∧¬D(x)→C(x)
+1. A(x) P
+2. B(x)∨C(x) T
+3. ¬D(x) P
+4. B(x)↔D(x) P
+5. ¬B(x) T3,4
+6. C(x) T2,5
+得证",data/csbench/student_images/DM_3/ANS_DM_224.jpg
+DM_3,ANS_DM_268,P2,possible_teacher_under_score,5.0,model_avg_score,9.2,-4.2,4.2,2.5,-4.2,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,9.2,9.2,9.2,9.2,BND,1.1785,high,0.0,1.0,0.2,unstable_model_judgements,,,,"∀x(A(x)→(B(x)∨C(x))), ∀x(B(x)∧A(x)→D(x)),
+∃x(A(x)∧¬D(x)) ⇒ ∃x(A(x)∧C(x)).
+证: 
+1 ∀x(A(x)→(B(x)∨C(x))) P
+2 A(a)→B(a)∨C(a) T₁.US.
+3 ¬A(a)∨(B(a)∨C(a)) T₂
+4 ∀x(B(x)∧A(x)→D(x)) P
+5 B(a)∧A(a)→D(a) T₄.us.
+6 ¬D(a)→¬(B(a)∧A(a)) T₅.
+7. ¬D(a)→¬B(a)∨¬A(a) T₆
+8 ¬D(a)→¬A(a)∨C(a) T₃.₇
+9 ∃x(A(x)∧¬D(x)) P.
+10 A(a)∧¬D(a) T₉.ES
+11. ¬D(a)→C(a) T₈.₁₀
+12. ¬(¬D(a))∨C(a) T₁₁.
+13 D(a)∨C(a) T₁₂
+14 A(a)∧C(a) T₁₀.₁₃
+15 ∃x(A(x)∧C(x)) T₁₄ EG.
+证毕.",data/csbench/student_images/DM_3/ANS_DM_268.jpg
+DM_3,ANS_DM_221,P2,possible_teacher_over_score,10.0,model_avg_score,6.0,4.0,4.0,2.5,4.0,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,6.0,6.0,6.0,6.0,BND,1.4142,high,0.0,1.0,0.066667,unstable_model_judgements,,,,"解：∀x(A(x)→B(x)V∀C(x)),∀x(A(x)∧B(x)→D(x)),∃x(A(x)∧D(x))⇒∃x(A(x)∧C(x)).
+1. ∃x(A(x)∧D(x)) P.
+2. A(x)∧D(x) T,(1),ES
+3. A(x) T,(2)
+4. ¬D(x) T,(2)
+5. ∀x(A(x)→B(x)V∀C(x)) P.
+6. A(x)→B(x)V∀C(x) T,(5),US
+7. ∀x(A(x)∧B(x)→D(x)) P
+8. A(x)∧B(x)→D(x) T,(7),US.
+9. ¬(A(x)∧B(x)) T,(4),(8)
+10. ¬B(x) T,(3),(9)
+11. B(x)V∀C(x) T,(3),(6)
+12. C(x) T,(10),(11)
+13. A(x)∧C(x) T,(3),(12)
+14. ∃x(A(x)∧C(x)) T,(13),EG
+证毕.",data/csbench/student_images/DM_3/ANS_DM_221.jpg
+DM_3,ANS_DM_235,P2,possible_teacher_over_score,4.0,model_avg_score,1.2,2.8,2.8,2.5,2.8,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,1.2,1.2,1.2,1.2,BND,0.2357,high,0.4,0.25,0.633333,rubric_mapping_risk,,,,"解:由题意,可构造谓词公式
+∀(A(x)→B(x)∨C(x)∧∀x(A(x)∧B(x))→D(x))∧¬(∀x(A(x)→D(x))⇒∃x(A(x)∧C(x)) 
+步骤 断言 根据 
+1 ∀x(A(x)→B(x)∨C(x)) P 
+2 ∀x(A(x)∧B(x))→D(x)) P 
+3 ¬(∀x(A(x)→D(x))) P 
+4 ∃x(A(x)→¬D(x)) P 
+5 ∃x(A(x)∧C(x)) P 
+6 A(a)∧C(a) P 
+7 ∃x(A(x)∧C(x)) P",data/csbench/student_images/DM_3/ANS_DM_235.jpg
+DM_3,ANS_DM_256,P2,possible_teacher_over_score,10.0,model_avg_score,7.5,2.5,2.5,2.5,2.5,2.5,absolute_disagreement|within_question_outlier,0.0,False,10.0,7.5,7.5,9.5,9.5,BND,2.0412,high,0.0,1.0,0.333333,a3wa_changed_score_materially|unstable_model_judgements,,,,"解:由题：∀x(A(x)→B(x)∨C(x))∧∀x(A(w)∧B(w)→D(x))∧∃x(A(x)∧¬D(x))=>∃x(A(w)∧C(x))
+序号.断言.依据.
+1.  ∃x(A(x)∧¬D(x))  P
+2.  A(y)∧¬D(y)  T,1,ES.
+3.  A(y)  T,2
+4  ¬D(y)  T,2.
+5.  ∀x(A(x)→B(x)∨C(x))  P
+6.  A(y)→B(y)∨C(y)  T,5,US.
+7.  B(y)∨C(y)  T,3,6假言推理
+8.  ∀x(A(x)∧B(x)→D(x))  P
+9.  A(y)∧B(y)→D(y)  T,8,US.
+10. ¬(A(y)∧B(y))  T,4,9拒取式.
+11. ¬B(y)  T,3,10.
+12. C(y).  T,7,11.
+13. A(y)∧C(y)  T,3,12
+14  ∃x(A(w)∧C(x))  T,13,EG
+故得证",data/csbench/student_images/DM_3/ANS_DM_256.jpg

@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "dataset_id": "mohler_v1",
+  "question_id": "MOHLER_3_5",
+  "seed": "mohler-v1",
+  "stratification": "question_score_interleaved_exact_quota",
+  "train": [
+    "MOHLER_3_5_001",
+    "MOHLER_3_5_006",
+    "MOHLER_3_5_007",
+    "MOHLER_3_5_011",
+    "MOHLER_3_5_012",
+    "MOHLER_3_5_014",
+    "MOHLER_3_5_015",
+    "MOHLER_3_5_016",
+    "MOHLER_3_5_017",
+    "MOHLER_3_5_018",
+    "MOHLER_3_5_019",
+    "MOHLER_3_5_022",
+    "MOHLER_3_5_023",
+    "MOHLER_3_5_025",
+    "MOHLER_3_5_026",
+    "MOHLER_3_5_027",
+    "MOHLER_3_5_030",
+    "MOHLER_3_5_031"
+  ],
+  "calibration": [
+    "MOHLER_3_5_004",
+    "MOHLER_3_5_009",
+    "MOHLER_3_5_020",
+    "MOHLER_3_5_028",
+    "MOHLER_3_5_029"
+  ],
+  "validation": [
+    "MOHLER_3_5_002",
+    "MOHLER_3_5_010",
+    "MOHLER_3_5_021"
+  ],
+  "test": [
+    "MOHLER_3_5_003",
+    "MOHLER_3_5_005",
+    "MOHLER_3_5_008",
+    "MOHLER_3_5_013",
+    "MOHLER_3_5_024"
+  ]
+}

@@ -17,7 +17,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Normalize a public scoring dataset into RefGrader format."
     )
-    parser.add_argument("dataset", choices=["asap_sas"])
+    parser.add_argument("dataset", choices=["asap_sas", "mohler"])
     parser.add_argument("--source", required=True)
     parser.add_argument("--spec", required=True)
     parser.add_argument("--output-dir", required=True)

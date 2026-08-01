@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from .adapters import prepare_asap_sas
+from .adapters import prepare_asap_sas, prepare_mohler
 
 
 ADAPTERS = {
     "asap_sas": prepare_asap_sas,
+    "mohler": prepare_mohler,
 }
 
 

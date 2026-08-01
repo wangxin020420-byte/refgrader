@@ -1,0 +1,29 @@
+[
+  {
+    "id": "overall_response",
+    "item": "Assign a score from 0 to 5 for semantic correctness and completeness relative to the instructor answer. Give proportional partial credit; do not require exact wording when the meaning is equivalent.",
+    "points": 5.0,
+    "answer_type": "free_text",
+    "role": "final",
+    "score_layer": "core",
+    "canonicalization": {
+      "type": "text"
+    },
+    "evidence_source": "text",
+    "standard_answer_text": "File scope.",
+    "standard_answer_image": null,
+    "source_text": "Reconstructed from the official Mohler 0-5 annotation scale.",
+    "parent_official_item": "holistic short-answer correctness",
+    "metadata_source": "mohler_reference_based",
+    "metadata_hard_enabled": false,
+    "metadata_confidence": 1.0,
+    "parent_id": "overall_response",
+    "semantic_contract_version": 5,
+    "parent_points": 5.0,
+    "scoring_policy": "preserve_atomic",
+    "split_policy": "preserve_atomic",
+    "weighting_policy": "preserve_parent",
+    "full_credit_policy": "rubric_evidence_required",
+    "full_credit_trigger": false
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "dataset_id": "mohler_v1",
+  "split": {
+    "seed": "mohler-v1",
+    "train": 0.6,
+    "calibration": 0.15,
+    "validation": 0.1,
+    "test": 0.15
+  },
+  "score_policy": "official_average_normalized_0_5",
+  "rubric_policy": "reference_based_reconstructed_holistic",
+  "expected_counts": {
+    "questions": 81,
+    "answers": 2273
+  }
+}

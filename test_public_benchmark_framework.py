@@ -11,6 +11,7 @@ from unittest import mock
 import main_pipeline
 import step4_vlm_grader
 from benchmark_datasets.adapters.asap_sas import prepare_asap_sas
+from benchmark_datasets.adapters.mohler import prepare_mohler
 from benchmark_datasets.contract import (
     audit_prepared_benchmark,
     load_json,
@@ -135,6 +136,99 @@ class PublicBenchmarkFrameworkTests(unittest.TestCase):
             self.assertNotIn("path", manifest["source"])
             question = load_json(prepared / "exam_database.json")[0]
             self.assertFalse(Path(question["student_images_dir"]).is_absolute())
+
+    def test_prepare_and_audit_mohler(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "ShortAnswerGrading_v2.0"
+            data = source / "data"
+            (data / "docs").mkdir(parents=True)
+            (data / "raw").mkdir(parents=True)
+            (data / "docs" / "files").write_text(
+                "1.1\n#9.9\n11.1\n",
+                encoding="utf-8",
+            )
+            (data / "raw" / "questions").write_text(
+                "1.1 Assignment question?\n"
+                "11.1 Exam question?\n",
+                encoding="utf-8",
+            )
+            (data / "raw" / "answers").write_text(
+                "1.1 Assignment reference.\n"
+                "11.1 Exam reference.\n",
+                encoding="utf-8",
+            )
+            normalized_scores = [0.0, 2.0, 4.0, 5.0]
+            for question_id, raw_scores, official_scores in (
+                ("1.1", normalized_scores, [0.0, 2.5, 4.0, 5.0]),
+                ("11.1", [0.0, 4.0, 8.0, 10.0], normalized_scores),
+            ):
+                (data / "raw" / question_id).write_text(
+                    "".join(
+                        f"{question_id} response {index}<br />detail\n"
+                        for index in range(1, 5)
+                    ),
+                    encoding="utf-8",
+                )
+                score_dir = data / "scores" / question_id
+                score_dir.mkdir(parents=True)
+                (score_dir / "ave").write_text(
+                    "\n".join(str(value) for value in official_scores) + "\n",
+                    encoding="utf-8",
+                )
+                raw_text = "\n".join(str(value) for value in raw_scores) + "\n"
+                (score_dir / "me").write_text(raw_text, encoding="utf-8")
+                (score_dir / "other").write_text(raw_text, encoding="utf-8")
+            spec = root / "mohler.json"
+            spec.write_text(
+                json.dumps(
+                    {
+                        "dataset_id": "mohler_test",
+                        "split": {
+                            "seed": "mohler-test",
+                            "train": 0.25,
+                            "calibration": 0.25,
+                            "validation": 0.25,
+                            "test": 0.25,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            prepared = root / "prepared_mohler"
+            audit = prepare_mohler(source, spec, prepared)
+
+            self.assertEqual(audit["question_count"], 2)
+            self.assertEqual(audit["answer_count"], 8)
+            self.assertEqual(
+                audit["split_counts"],
+                {"train": 2, "calibration": 2, "validation": 2, "test": 2},
+            )
+            manifest = load_json(prepared / "manifest.json")
+            self.assertEqual(manifest["adapter"], "mohler")
+            self.assertFalse(
+                manifest["rubric_policy"]["official_fine_grained_rubric"]
+            )
+            metadata = [
+                json.loads(line)
+                for line in (prepared / "answer_metadata.jsonl")
+                .read_text(encoding="utf-8")
+                .splitlines()
+            ]
+            exam_record = next(
+                item for item in metadata if item["question_id"] == "MOHLER_11_1"
+            )
+            self.assertEqual(exam_record["rater_1_score"], 0.0)
+            self.assertEqual(exam_record["rater_2_score"], 0.0)
+            last_exam_record = next(
+                item
+                for item in metadata
+                if item["answer_id"] == "MOHLER_11_1_004"
+            )
+            self.assertEqual(last_exam_record["rater_1_score"], 5.0)
+            self.assertEqual(last_exam_record["rater_1_raw_score"], 10.0)
+            self.assertEqual(last_exam_record["actual_score"], 5.0)
 
     def test_text_only_cache_is_bound_to_transcription(self):
         with tempfile.TemporaryDirectory() as temporary:

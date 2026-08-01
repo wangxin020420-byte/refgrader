@@ -17,6 +17,8 @@ refgrader-main/
 refgrader-public-datasets/         sibling repository recommended for raw data
   asap_sas/raw/                    original downloaded files
   asap_sas/spec/                   completed prompt/rubric specification
+  mohler/raw/                      extracted official Mohler archive
+  mohler/spec/                     deterministic split specification
 
 refgrader-artifacts/
   public_benchmarks/               portable experiment history
@@ -52,6 +54,42 @@ configured ratio would be empty.
 To replace an existing prepared snapshot intentionally, add `--force`. Do not
 use `--force` after an experiment has started unless the source hash or adapter
 spec is deliberately changing.
+
+## Mohler preparation
+
+The official Mohler archive already contains questions, instructor reference
+answers, student responses, two human scores, and their normalized average.
+The adapter excludes question IDs commented out in `data/docs/files`, uses the
+official normalized `ave` score as the authoritative gold label, and retains
+both original and normalized individual human scores for reliability analysis.
+It does not recompute or replace `ave` from those auxiliary files. Exam rater
+scores from assignments 11 and 12 are additionally normalized from 0-10 to the
+dataset's common 0-5 scale.
+
+The archive does not contain an official machine-readable fine-grained rubric.
+The prepared snapshot therefore records a reference-based reconstructed
+holistic rubric explicitly; it must not be described as an official rubric.
+
+```powershell
+Expand-Archive `
+  -LiteralPath "..\refgrader-public-datasets\mohler\raw\ShortAnswerGrading_v2.0.zip" `
+  -DestinationPath "..\refgrader-public-datasets\mohler\raw\ShortAnswerGrading_v2.0" `
+  -Force
+
+Copy-Item `
+  ".\benchmark_datasets\specs\mohler.example.json" `
+  "..\refgrader-public-datasets\mohler\spec\mohler.json" `
+  -Force
+
+.\venv\Scripts\python.exe scripts\benchmarks\prepare_dataset.py mohler `
+  --source "..\refgrader-public-datasets\mohler\raw\ShortAnswerGrading_v2.0" `
+  --spec "..\refgrader-public-datasets\mohler\spec\mohler.json" `
+  --output-dir "data\public_benchmarks\mohler_v1"
+```
+
+The official archive is expected to prepare 81 included questions and 2,273
+student responses. Treat any different count as a source or parser mismatch
+and stop before running an experiment.
 
 ## Audit and dry run
 

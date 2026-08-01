@@ -1,0 +1,16 @@
+{
+  "dataset_id": "mohler_v1",
+  "schema_version": 1,
+  "question_count": 81,
+  "answer_count": 2273,
+  "score_count": 2273,
+  "split_counts": {
+    "train": 1353,
+    "calibration": 353,
+    "validation": 236,
+    "test": 331
+  },
+  "source_sha256": "61edcd34d5ea7281f174e657685b6f68acaa0f2d3c30ec94f0fe90a9b7aa6dba",
+  "question_assets_sha256": "fbd87194b9fe295eb51e88fdbf88cb815a84fd0045b24cc0bc90fca88be70124",
+  "prepared_content_sha256": "f18a15a95c105ab3de6db16f9e48ce56e00a38c99aa7a5b05953055541b1ac76"
+}

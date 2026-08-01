@@ -1,6 +1,7 @@
 ﻿import os
 import json
 import math
+import hashlib
 from json_repair import repair_json
 import base64
 import re
@@ -508,6 +509,11 @@ TOPOLOGY_OR_RELATION_MARKERS = (
 )
 
 CSBENCH_EXTRACTION_SCHEMA_VERSION = 3
+TEXT_EXTRACTION_SCHEMA_VERSION = 1
+
+
+def sha256_text(value):
+    return hashlib.sha256(str(value or "").encode("utf-8")).hexdigest()
 
 
 def _rubric_item_text(item):
@@ -1064,24 +1070,46 @@ def stage1_extract_with_backend(
         )
         return facts, {"backend": "glm_vlm", "diagram_parser_used": False}
 
-    if extraction_backend not in ("paddle_glm5", "csbench_hybrid"):
+    if extraction_backend not in ("paddle_glm5", "csbench_hybrid", "text_only"):
         raise ValueError(f"Unsupported extraction backend: {extraction_backend}")
 
-    image_hash = sha256_file(student_img_path)
     answer_metadata = answer_metadata if isinstance(answer_metadata, dict) else {}
     transcription = str(student_transcription or "")
+    if extraction_backend == "text_only" and not transcription.strip():
+        raise ValueError("text_only requires a non-empty student_transcription")
+
+    image_hash = (
+        None
+        if extraction_backend == "text_only"
+        else sha256_file(student_img_path)
+    )
+    transcription_hash = sha256_text(transcription)
+    extraction_schema_version = (
+        TEXT_EXTRACTION_SCHEMA_VERSION
+        if extraction_backend == "text_only"
+        else CSBENCH_EXTRACTION_SCHEMA_VERSION
+    )
     visual_placeholder_detected = detect_visual_placeholder(transcription)
     if extraction_cache_path and not force_extraction:
         cached = load_ocr_json(extraction_cache_path)
         if (
             cached
-            and cached.get("schema_version") == CSBENCH_EXTRACTION_SCHEMA_VERSION
+            and cached.get("schema_version") == extraction_schema_version
             and cached.get("backend") == extraction_backend
-            and cached.get("image_sha256") == image_hash
             and isinstance(cached.get("facts"), dict)
             and (
-                extraction_backend != "csbench_hybrid"
-                or cached.get("student_transcription") == transcription
+                (
+                    extraction_backend == "text_only"
+                    and cached.get("transcription_sha256") == transcription_hash
+                )
+                or (
+                    extraction_backend != "text_only"
+                    and cached.get("image_sha256") == image_hash
+                    and (
+                        extraction_backend != "csbench_hybrid"
+                        or cached.get("student_transcription") == transcription
+                    )
+                )
             )
         ):
             return json.dumps(cached["facts"], ensure_ascii=False), cached
@@ -1091,7 +1119,11 @@ def stage1_extract_with_backend(
     needs_visual_fallback = _needs_visual_fallback(
         transcription, answer_metadata, visual_placeholder_detected
     )
-    if extraction_backend == "csbench_hybrid" and not needs_visual_fallback:
+    if extraction_backend == "text_only":
+        table_items = []
+        diagram_items = []
+        needs_visual_fallback = False
+    elif extraction_backend == "csbench_hybrid" and not needs_visual_fallback:
         table_items = []
         diagram_items = []
     ocr_payload = {}
@@ -1112,7 +1144,7 @@ def stage1_extract_with_backend(
             print(f"         [csbench_hybrid OCR fallback] {ocr_error}")
             ocr_payload = {}
 
-    if extraction_backend == "csbench_hybrid":
+    if extraction_backend in ("csbench_hybrid", "text_only"):
         if not transcription.strip():
             facts = {
                 item_id: "未书写"
@@ -1218,10 +1250,14 @@ def stage1_extract_with_backend(
         except Exception as exc:
             visual_fallback_reason.append(f"vlm_fallback_failed:{exc}")
     evidence = {
-        "schema_version": CSBENCH_EXTRACTION_SCHEMA_VERSION,
+        "schema_version": extraction_schema_version,
         "created_at": datetime.now().isoformat(),
         "backend": extraction_backend,
-        "image_path": os.path.abspath(student_img_path),
+        "image_path": (
+            None
+            if extraction_backend == "text_only"
+            else os.path.abspath(student_img_path)
+        ),
         "image_sha256": image_hash,
         "ocr_json_path": (
             os.path.abspath(ocr_json_path)
@@ -1230,10 +1266,21 @@ def stage1_extract_with_backend(
         ),
         "ocr_engine": ocr_payload.get("engine", {}),
         "ocr_summary": ocr_payload.get("summary", {}),
-        "student_transcription": transcription if extraction_backend == "csbench_hybrid" else None,
+        "student_transcription": (
+            transcription
+            if extraction_backend in ("csbench_hybrid", "text_only")
+            else None
+        ),
+        "transcription_sha256": (
+            transcription_hash if extraction_backend == "text_only" else None
+        ),
         "transcription_source": (
-            "csbench_human_transcription"
-            if extraction_backend == "csbench_hybrid"
+            (
+                "public_dataset_text"
+                if extraction_backend == "text_only"
+                else "csbench_human_transcription"
+            )
+            if extraction_backend in ("csbench_hybrid", "text_only")
             else None
         ),
         "visual_placeholder_detected": visual_placeholder_detected,
@@ -1935,14 +1982,30 @@ def grade_student_3wd_pipeline(
                 "extraction_cache_missing",
                 f"GRADE_ONLY requires a valid extraction cache: {extraction_cache_path}",
             )
-        if cached.get("image_sha256") != sha256_file(student_img_path):
+        if extraction_backend == "text_only":
+            if cached.get("transcription_sha256") != sha256_text(
+                student_transcription
+            ):
+                return _pipeline_failure(
+                    "extraction_cache_stale",
+                    (
+                        "GRADE_ONLY text cache hash mismatch: "
+                        f"{extraction_cache_path}"
+                    ),
+                )
+        elif cached.get("image_sha256") != sha256_file(student_img_path):
             return _pipeline_failure(
                 "extraction_cache_stale",
                 f"GRADE_ONLY extraction cache hash mismatch: {extraction_cache_path}",
             )
         if (
-            extraction_backend in ("paddle_glm5", "csbench_hybrid")
-            and cached.get("schema_version") != CSBENCH_EXTRACTION_SCHEMA_VERSION
+            extraction_backend in ("paddle_glm5", "csbench_hybrid", "text_only")
+            and cached.get("schema_version")
+            != (
+                TEXT_EXTRACTION_SCHEMA_VERSION
+                if extraction_backend == "text_only"
+                else CSBENCH_EXTRACTION_SCHEMA_VERSION
+            )
         ):
             return _pipeline_failure(
                 "extraction_cache_schema_mismatch",

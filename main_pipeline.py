@@ -357,7 +357,7 @@ def parse_args():
     )
     parser.add_argument(
         "--extraction-backend",
-        choices=["glm_vlm", "paddle_glm5", "csbench_hybrid"],
+        choices=["glm_vlm", "paddle_glm5", "csbench_hybrid", "text_only"],
         default="glm_vlm",
         help="Stage-1 extraction backend. Default: glm_vlm.",
     )
@@ -900,6 +900,31 @@ def select_question_images(image_files, img_limit, q_data, answer_split="all"):
             )
         ]
     return selected_image_files(image_files, img_limit)
+
+
+def select_question_text_answers(q_data, img_limit, answer_split="all"):
+    q_id = str(q_data["question_id"])
+    answer_ids = sorted(
+        str(answer_id)
+        for answer_id, record in load_answer_metadata().items()
+        if str(record.get("question_id", "")) == q_id
+        and str(record.get("raw_text", "")).strip()
+    )
+    allowed_ids = answer_ids_for_split(q_data, answer_split)
+    if allowed_ids is not None:
+        answer_ids = [
+            answer_id for answer_id in answer_ids if answer_id in allowed_ids
+        ]
+    elif SAMPLE_QUALITY_POLICY.mode == "active":
+        answer_ids = [
+            answer_id
+            for answer_id in answer_ids
+            if not SAMPLE_QUALITY_POLICY.is_excluded(q_id, answer_id)
+        ]
+    return selected_image_files(
+        [f"{answer_id}.txt" for answer_id in answer_ids],
+        img_limit,
+    )
 
 
 def get_teacher_score_from_your_database(student_id, q_id):
@@ -1852,18 +1877,23 @@ def process_single_question(
         return
 
     # 3. 批改逻辑
-    if not os.path.exists(images_folder):
+    if extraction_backend != "text_only" and not os.path.exists(images_folder):
         logging.warning(f"⚠️ 找不到文件夹: {images_folder}")
         return
 
-    all_image_files = [
-        f for f in os.listdir(images_folder)
-        if f.lower().endswith(('.png', '.jpg', '.jpeg'))
-    ]
-    all_image_files.sort()
-    image_files = select_question_images(
-        all_image_files, img_limit, q_data, answer_split
-    )
+    if extraction_backend == "text_only":
+        image_files = select_question_text_answers(
+            q_data, img_limit, answer_split
+        )
+    else:
+        all_image_files = [
+            f for f in os.listdir(images_folder)
+            if f.lower().endswith(('.png', '.jpg', '.jpeg'))
+        ]
+        all_image_files.sort()
+        image_files = select_question_images(
+            all_image_files, img_limit, q_data, answer_split
+        )
 
     # 灵活选人：支持 int(前N张)、list(完整答案ID/旧学号)、None(全量)
     if isinstance(img_limit, list):
@@ -2428,10 +2458,11 @@ if __name__ == "__main__":
             if args.mode == "GRADE_ONLY" and args.extraction_backend not in (
                 "paddle_glm5",
                 "csbench_hybrid",
+                "text_only",
             ):
                 raise ValueError(
-                    "GRADE_ONLY currently requires --extraction-backend paddle_glm5 "
-                    "and an existing mapped fact cache."
+                    "GRADE_ONLY requires a cache-backed extraction backend "
+                    "(paddle_glm5, csbench_hybrid, or text_only)."
                 )
 
             # 确定要处理的题目：终端 --questions 优先，否则用 GRADING_CONFIG

@@ -1,0 +1,27 @@
+{
+  "dataset_id": "asap_sas_v1",
+  "encoding": "utf-8-sig",
+  "delimiter": "\t",
+  "columns": {
+    "answer_id": "Id",
+    "question_id": "EssaySet",
+    "answer_text": "EssayText",
+    "score_1": "Score1",
+    "score_2": "Score2"
+  },
+  "split": {
+    "seed": "asap-sas-v1",
+    "train": 0.6,
+    "calibration": 0.15,
+    "validation": 0.1,
+    "test": 0.15
+  },
+  "questions": {
+    "1": {
+      "question_text": "Replace this with the official prompt for answer set 1.",
+      "reference_answer": "Replace this with the official reference answer.",
+      "grading_guidance": "Replace this with the official scoring rubric.",
+      "max_score": 3
+    }
+  }
+}

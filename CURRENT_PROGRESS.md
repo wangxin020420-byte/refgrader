@@ -1,5 +1,24 @@
 # Current Progress
 
+## 2026-07-27 Local Teacher-Label Review UI
+
+Teacher-label candidates can now be reviewed in a dependency-free local
+browser UI launched by `scripts/review_teacher_labels.py`. The UI merges
+duplicate model-average and 3WD-Core candidate rows by question and answer ID,
+shows the original answer image, all available model scores, route,
+`U_E/U_S/U_R`, extracted text, and preliminary screening notes. Reviewers can
+retain the raw label, provide a corrected score, confirm noise, or defer the
+decision.
+
+Decisions are atomically upserted to a tracked JSONL file under
+`data/csbench/quality_control/reviews`; raw images and teacher scores remain
+immutable. Policy activation is a separate confirmed action that writes the
+existing `active_sample_policy.json` format, so current grading, calibration,
+evaluation, artifact, and resume behavior remains unchanged. Targeted tests
+cover candidate merging, decision replacement, score validation, path
+isolation, and active-policy generation. Beginner instructions are in
+`TEACHER_LABEL_REVIEW_GUIDE.md`.
+
 ## 2026-07-24 Cross-Device Teacher-Label Audit Runs
 
 Complete `grade --split all` runs are now publishable artifact stages. Each

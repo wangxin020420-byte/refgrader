@@ -285,6 +285,7 @@ git status --short
 | `README.md` | 项目入口和跨设备规则 | 当前架构、仓库边界、Git/复制行为、文档地图 | 大段历史日志、所有长命令 |
 | `COMMANDS_GUIDE.md` | 操作手册 | 可复制命令、参数、监控、停止、恢复、评估、发布 | 重复研究背景和历史结果 |
 | `CSBENCH_GUIDE.md` | 数据说明 | 数据结构、内嵌快照、split、导入、审计、rubric 数据契约 | 日常实验命令全集 |
+| `TEACHER_LABEL_REVIEW_GUIDE.md` | 人工审核界面手册 | 启动界面、四种决定、策略启用、断点继续和多设备同步 | 评分模型或三支决策理论 |
 | `OCR_GUIDE.md` | OCR 专项手册 | `.venv-ocr`、PaddleX 模型缓存、证据缓存、OCR 排错 | 三支决策理论和通用 Git 流程 |
 | `CURRENT_PROGRESS.md` | 研发日志与交接记录 | 按日期追加的修改、验证结果、已知问题和下一步 | 作为日常命令的唯一来源 |
 | `prompts/*.md` | 运行时模型提示模板 | 提取、评分、盲审清单和边界仲裁指令 | 项目说明；修改它们会改变实验行为 |
@@ -311,6 +312,7 @@ git status --short
 | `scripts/evaluate_artifacts.py` | 在任意设备评估已发布 artifacts |
 | `scripts/restore_csbench_artifacts.py` | 从 artifacts 恢复中间阶段 |
 | `scripts/audit_teacher_labels.py` | 根据既有 checkpoint 生成教师标签人工复核候选，不自动删除数据 |
+| `scripts/review_teacher_labels.py` | 启动本地教师标签审核界面，显示原图、教师分、模型分并保存人工决定 |
 | `scripts/compile_sample_quality_policy.py` | 把人工复核决定编译为统一的读取时排除/纠分策略 |
 | `sample_quality.py` | 批改、校准、评估和断点续传共享的样本质量策略 |
 | `ocr/backend.py` | 主环境到独立 PaddleOCR 环境的调用边界 |
@@ -318,6 +320,9 @@ git status --short
 | `data/csbench/rubrics/active_rubric_set.json` | 当前数据、准则、split 与 A3WA 哈希清单 |
 | `data/csbench/calibration/active_a3wa_config.json` | test 默认使用的当前 A3WA/可选残差配置 |
 | `data/csbench/quality_control/policies/active_sample_policy.json` | 可选的当前教师标签质量策略；不存在时保持原始数据行为 |
+
+教师标签图形化复核的启动方式、四种决定及多设备同步方法见
+[`TEACHER_LABEL_REVIEW_GUIDE.md`](TEACHER_LABEL_REVIEW_GUIDE.md)。
 
 ## 11. 已知操作风险
 

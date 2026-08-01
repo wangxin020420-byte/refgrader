@@ -189,22 +189,36 @@ $RunId = "teacher_audit_all7_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
 
 候选依据题内鲁棒差值阈值产生，同时输出 `U_E/U_S/U_R`、提取质量、路由和多个模型分数。候选只表示“需要复核”，不能直接判为教师噪声；存在提取风险、评分不稳定或 rubric 映射风险时会降为 `P2`。
 
-3. 在生成的 `teacher_label_candidates.csv` 中填写：
+3. 推荐启动本地审核界面，不再直接编辑多份候选 CSV：
+
+```powershell
+.\venv\Scripts\python.exe scripts\review_teacher_labels.py `
+  --report-run <报告目录名>
+```
+
+界面会按 `question_id + answer_id` 合并模型均分与 3WD-Core
+报告中的重复候选，同时展示学生原图、教师分、多个模型分数、路由、
+`U_E/U_S/U_R`、提取文本和初筛提示。每次保存都会原子更新
+`data/csbench/quality_control/reviews/<报告目录名>_decisions.jsonl`。
+详细使用说明见 `TEACHER_LABEL_REVIEW_GUIDE.md`。
+
+人工决定包括：
 
 - `confirmed_noise`：确认教师标签不可用于实验；
 - `corrected`：保留样本，并在 `corrected_score` 填写复核分；
 - `retained_hard_case`：教师标签有效，只是模型难例；
 - `ambiguous`：暂不处理，继续保留。
 
-4. 先生成候选策略供检查，再显式启用：
+4. 在界面中检查决定后，点击“生成并启用策略”。也可以使用命令行对界面生成
+的决定 JSONL 先生成候选策略，再显式启用：
 
 ```powershell
 .\venv\Scripts\python.exe scripts\compile_sample_quality_policy.py `
-  --decisions "data\csbench\quality_control\reports\<报告目录>\teacher_label_candidates.csv" `
+  --decisions "data\csbench\quality_control\reviews\<报告目录>_decisions.jsonl" `
   --output "data\csbench\quality_control\policies\candidate_policy.json"
 
 .\venv\Scripts\python.exe scripts\compile_sample_quality_policy.py `
-  --decisions "data\csbench\quality_control\reports\<报告目录>\teacher_label_candidates.csv" `
+  --decisions "data\csbench\quality_control\reviews\<报告目录>_decisions.jsonl" `
   --policy-id "co_teacher_review_v1" `
   --activate
 ```

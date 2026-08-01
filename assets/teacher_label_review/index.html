@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>教师标签审核台</title>
+  <style>
+    :root {
+      --blue: #165d9c;
+      --blue-soft: #e7f1f8;
+      --green: #287a4b;
+      --red: #b9362d;
+      --ink: #17212b;
+      --muted: #64717d;
+      --line: #d6dde3;
+      --canvas: #e8ecef;
+      --panel: #ffffff;
+    }
+    [hidden] { display: none !important; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #eef1f4;
+      color: var(--ink);
+      font: 14px/1.5 "Microsoft YaHei", "Segoe UI", sans-serif;
+    }
+    button, input, select, textarea { font: inherit; }
+    button, select, input, textarea {
+      border: 1px solid #bfc9d2;
+      border-radius: 6px;
+      background: #fff;
+      color: #24313d;
+    }
+    button { min-height: 34px; padding: 7px 11px; cursor: pointer; }
+    button:hover { border-color: #6d8496; }
+    button:disabled { cursor: not-allowed; opacity: .5; }
+    .primary { color: #fff; border-color: var(--blue); background: var(--blue); }
+    .danger { color: #fff; border-color: var(--red); background: var(--red); }
+    header {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 24px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .logo {
+      width: 34px; height: 34px; flex: 0 0 34px;
+      display: grid; place-items: center;
+      border-radius: 6px;
+      background: var(--blue); color: #fff; font-weight: 700;
+    }
+    h1 { margin: 0; font-size: 20px; }
+    .subtitle {
+      color: var(--muted); font-size: 12px;
+      max-width: 700px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .progress { display: flex; align-items: center; gap: 12px; min-width: 320px; }
+    .progress-bar {
+      height: 8px; flex: 1; overflow: hidden;
+      border-radius: 4px; background: #dce2e7;
+    }
+    .progress-bar span { display: block; width: 0; height: 100%; background: #2a7bb8; }
+    .muted { color: var(--muted); font-size: 12px; font-weight: 400; }
+    .toolbar {
+      min-height: 54px;
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 24px;
+      background: #f8fafb;
+      border-bottom: 1px solid var(--line);
+    }
+    .toolbar select, .toolbar input { min-height: 34px; padding: 7px 10px; min-width: 130px; }
+    .toolbar .reviewer { width: 132px; min-width: 132px; }
+    .toolbar .spacer { flex: 1; }
+    main {
+      height: calc(100vh - 118px);
+      display: grid;
+      grid-template-columns: minmax(500px, 1.25fr) minmax(380px, .84fr) 330px;
+      gap: 1px;
+      background: var(--line);
+    }
+    section, aside { min-width: 0; overflow: auto; background: var(--panel); }
+    .panel-title {
+      position: sticky; top: 0; z-index: 2;
+      min-height: 48px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 0 18px;
+      background: #fff;
+      border-bottom: 1px solid #e0e5e9;
+      font-weight: 700;
+    }
+    .image-panel { overflow: hidden; }
+    .image-wrap {
+      position: relative;
+      height: calc(100% - 48px);
+      display: grid; place-items: center;
+      padding: 18px;
+      overflow: auto;
+      background: var(--canvas);
+    }
+    .answer-image {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+      background: white;
+      border: 1px solid #b9c1c8;
+      box-shadow: 0 2px 7px rgba(30,45,55,.12);
+      transform-origin: center;
+      transition: transform .15s ease;
+    }
+    .image-tools {
+      position: absolute; top: 12px; right: 12px; z-index: 2;
+      display: flex; gap: 6px;
+    }
+    .image-tools button { width: 36px; padding: 4px; background: rgba(255,255,255,.94); }
+    .content { padding: 16px 18px 24px; }
+    .evidence-tabs {
+      position: sticky; top: 48px; z-index: 2;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; padding: 8px 12px 0;
+      background: #fff;
+      border-bottom: 1px solid #dfe4e8;
+    }
+    .evidence-tab {
+      min-height: 38px; padding: 8px 6px;
+      border: 0; border-bottom: 3px solid transparent;
+      border-radius: 0; color: var(--muted);
+      background: transparent; font-weight: 600;
+    }
+    .evidence-tab.active {
+      border-bottom-color: var(--blue);
+      color: var(--blue);
+    }
+    .tab-panel[hidden] { display: none; }
+    .score-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 10px; margin-bottom: 16px;
+    }
+    .metric {
+      padding: 12px;
+      border: 1px solid #d8dee4;
+      border-radius: 6px;
+    }
+    .metric.teacher { border-left: 4px solid #c63f36; }
+    .metric .label { color: var(--muted); font-size: 12px; }
+    .metric .value { margin-top: 4px; font-size: 23px; font-weight: 700; }
+    .delta { margin-left: 5px; color: #b02e27; font-size: 12px; }
+    .tags { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 16px; }
+    .tag {
+      border-radius: 12px; padding: 4px 9px;
+      background: var(--blue-soft); color: #14537e; font-size: 12px;
+    }
+    .tag.red { background: #fbe9e7; color: #a52d26; }
+    .block { margin-top: 15px; }
+    .block h3 { margin: 0 0 8px; font-size: 14px; }
+    .text-box {
+      min-height: 42px;
+      padding: 11px 12px;
+      border: 1px solid #d8dee4;
+      border-radius: 6px;
+      background: #f8fafb;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .reference-image {
+      display: block;
+      max-width: 100%; max-height: 360px;
+      margin: 10px auto 0;
+      object-fit: contain;
+      border: 1px solid #cbd4dc;
+      background: #fff;
+    }
+    .context-note {
+      margin-bottom: 12px; padding: 9px 11px;
+      border-left: 4px solid var(--blue);
+      background: #eef5fa; color: #31536b;
+      font-size: 12px;
+    }
+    .rubric-meta {
+      display: grid; gap: 4px;
+      margin-bottom: 12px; color: var(--muted); font-size: 12px;
+    }
+    .rubric-meta .path { overflow-wrap: anywhere; }
+    .rubric-list { display: grid; gap: 10px; }
+    .rubric-item {
+      padding: 12px;
+      border: 1px solid #d8dee4;
+      border-radius: 6px;
+      background: #fff;
+    }
+    .rubric-head {
+      display: flex; justify-content: space-between; gap: 12px;
+      margin-bottom: 7px;
+    }
+    .rubric-id { color: var(--blue); font-weight: 700; }
+    .rubric-points {
+      flex: 0 0 auto; color: #9c2d27; font-weight: 700;
+    }
+    .rubric-answer {
+      margin-top: 8px; padding-top: 8px;
+      border-top: 1px dashed #d8dee4;
+      white-space: pre-wrap; overflow-wrap: anywhere;
+    }
+    .rubric-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+    .rubric-tags span {
+      padding: 2px 7px; border-radius: 10px;
+      background: #eef2f5; color: #53616d; font-size: 11px;
+    }
+    .risk-row {
+      display: grid; grid-template-columns: 42px 1fr 42px;
+      gap: 8px; align-items: center; margin: 8px 0;
+    }
+    .risk-bar { height: 8px; overflow: hidden; border-radius: 4px; background: #e5e9ed; }
+    .risk-bar span { display: block; height: 100%; background: #4a8dbc; }
+    aside { display: flex; flex-direction: column; }
+    .decision-body { padding: 16px; flex: 1; }
+    .decision {
+      width: 100%; margin-bottom: 9px; padding: 12px;
+      text-align: left; background: #fff;
+    }
+    .decision strong { display: block; margin-bottom: 3px; }
+    .decision small { color: var(--muted); line-height: 1.4; }
+    .decision.keep { border-left: 5px solid var(--green); }
+    .decision.correct { border-left: 5px solid #2a70a8; }
+    .decision.noise { border-left: 5px solid var(--red); background: #fff8f7; }
+    .decision.defer { border-left: 5px solid #7c8790; }
+    .decision.selected { outline: 2px solid var(--blue); outline-offset: -2px; }
+    .decision.noise.selected { outline-color: var(--red); }
+    label { display: block; margin: 13px 0 6px; font-weight: 600; }
+    aside input, aside select, aside textarea {
+      width: 100%; padding: 9px 10px;
+    }
+    aside textarea { min-height: 82px; resize: vertical; }
+    .warning {
+      margin-top: 13px; padding: 10px;
+      border: 1px solid #efc9c5;
+      border-radius: 6px;
+      background: #fff6f5;
+      color: #8d2d27;
+      font-size: 12px;
+    }
+    .decision-footer {
+      padding: 13px 16px;
+      border-top: 1px solid #dfe4e8;
+      background: #f8fafb;
+    }
+    .footer-actions { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+    .path {
+      margin-top: 9px; color: var(--muted);
+      font-size: 10px; word-break: break-all;
+    }
+    .empty { display: grid; place-items: center; min-height: 300px; color: var(--muted); }
+    .toast {
+      position: fixed; left: 50%; bottom: 24px; z-index: 10;
+      transform: translateX(-50%);
+      max-width: 680px;
+      padding: 10px 16px;
+      border-radius: 6px;
+      background: #18232d; color: #fff;
+      box-shadow: 0 4px 16px rgba(0,0,0,.2);
+      opacity: 0; pointer-events: none;
+      transition: opacity .18s ease;
+    }
+    .toast.show { opacity: 1; }
+    .toast.error { background: #9e2f28; }
+    @media (max-width: 1180px) {
+      main { grid-template-columns: 1.05fr .95fr; }
+      aside { position: fixed; right: 0; top: 118px; bottom: 0; width: 350px; box-shadow: -4px 0 12px rgba(0,0,0,.12); }
+      section:nth-of-type(2) { margin-right: 350px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">RG</div>
+      <div>
+        <h1>教师标签审核台</h1>
+        <div id="subtitle" class="subtitle">正在加载候选报告...</div>
+      </div>
+    </div>
+    <div class="progress">
+      <strong id="progressText">0 / 0</strong>
+      <div class="progress-bar"><span id="progressFill"></span></div>
+      <span id="pendingText" class="muted">待审核 0</span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <select id="questionFilter" title="按题目筛选"><option value="">全部题目</option></select>
+    <select id="priorityFilter" title="按优先级筛选">
+      <option value="">全部优先级</option><option>P1</option><option>P2</option><option>P3</option>
+    </select>
+    <select id="statusFilter" title="按审核状态筛选">
+      <option value="pending">仅待审核</option><option value="reviewed">仅已审核</option><option value="">全部状态</option>
+    </select>
+    <select id="classFilter" title="按初筛类别筛选"><option value="">全部初筛类别</option></select>
+    <select id="sortMode" title="候选排序">
+      <option value="default">按优先级与差值</option>
+      <option value="question">按题目</option>
+      <option value="difference">按差值降序</option>
+    </select>
+    <input id="reviewerInput" class="reviewer" placeholder="复核人" title="复核人姓名">
+    <div class="spacer"></div>
+    <button id="activateButton" title="根据已保存决定生成并启用样本策略">生成并启用策略</button>
+    <button id="previousButton">← 上一份</button>
+    <button id="nextButton" class="primary">下一份 →</button>
+  </div>
+
+  <main>
+    <section class="image-panel">
+      <div class="panel-title">
+        <span>学生作答图片</span>
+        <span id="answerIdentity" class="muted">--</span>
+      </div>
+      <div id="imageWrap" class="image-wrap">
+        <div class="image-tools">
+          <button id="zoomOut" title="缩小">−</button>
+          <button id="zoomReset" title="恢复大小">1:1</button>
+          <button id="zoomIn" title="放大">＋</button>
+          <button id="rotateButton" title="顺时针旋转">↻</button>
+        </div>
+        <img id="answerImage" class="answer-image" alt="学生作答图片">
+        <div id="imageEmpty" class="empty" hidden>当前候选没有可用的作答图片</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel-title">
+        <span>审核依据</span>
+        <span id="candidateType" class="muted">--</span>
+      </div>
+      <div id="evidenceTabs" class="evidence-tabs">
+        <button class="evidence-tab active" data-tab="scorePanel">分数与证据</button>
+        <button class="evidence-tab" data-tab="referencePanel">题目与参考答案</button>
+        <button class="evidence-tab" data-tab="rubricPanel">当前评分准则</button>
+      </div>
+      <div id="evidenceContent" class="content">
+        <div id="scorePanel" class="tab-panel">
+          <div class="score-grid">
+            <div class="metric teacher"><div class="label">教师分数</div><div id="teacherScore" class="value">--</div></div>
+            <div class="metric"><div class="label">模型均分</div><div id="modelAvgScore" class="value">--</div></div>
+            <div class="metric"><div class="label">3WD-Core</div><div id="coreScore" class="value">--</div></div>
+            <div class="metric"><div class="label">最终校准分</div><div id="finalScore" class="value">--</div></div>
+          </div>
+          <div id="tags" class="tags"></div>
+          <div class="block">
+            <h3>三类风险</h3>
+            <div class="risk-row"><span>U_E</span><div class="risk-bar"><span id="ueBar"></span></div><strong id="ueValue">--</strong></div>
+            <div class="risk-row"><span>U_S</span><div class="risk-bar"><span id="usBar"></span></div><strong id="usValue">--</strong></div>
+            <div class="risk-row"><span>U_R</span><div class="risk-bar"><span id="urBar"></span></div><strong id="urValue">--</strong></div>
+          </div>
+          <div class="block"><h3>提取出的作答文本</h3><div id="rawText" class="text-box"></div></div>
+          <div class="block"><h3>初筛提示</h3><div id="screeningFinding" class="text-box"></div></div>
+        </div>
+
+        <div id="referencePanel" class="tab-panel" hidden>
+          <div class="context-note">请先阅读题目和参考答案，再结合学生原图判断教师分是否合理。参考答案用于辅助复核，不应机械替代评分准则。</div>
+          <div class="block"><h3>题目</h3><div id="questionText" class="text-box"></div></div>
+          <img id="questionImage" class="reference-image" alt="题目参考图片" hidden>
+          <div class="block"><h3>官方参考答案</h3><div id="referenceAnswer" class="text-box"></div></div>
+          <div class="block"><h3>原始官方评分说明</h3><div id="officialRubric" class="text-box"></div></div>
+        </div>
+
+        <div id="rubricPanel" class="tab-panel" hidden>
+          <div class="context-note">这里展示当前活动准则集合指向的优化评分准则。逐项核对学生证据是否满足该项要求，并关注过程项、结论项及其分值关系。</div>
+          <div class="rubric-meta">
+            <span id="rubricSummary">--</span>
+            <span id="rubricSource">--</span>
+          </div>
+          <div id="rubricError" class="warning" hidden></div>
+          <div id="rubricList" class="rubric-list"></div>
+        </div>
+      </div>
+      <div id="noCandidates" class="empty" hidden>当前筛选条件下没有候选样本</div>
+    </section>
+
+    <aside>
+      <div class="panel-title"><span>人工决定</span><span id="saveState" class="muted">未保存</span></div>
+      <div class="decision-body">
+        <button class="decision keep" data-decision="retained_hard_case">
+          <strong>保留原标签</strong>
+          <small>教师分有效，作为困难样本继续使用。</small>
+        </button>
+        <button class="decision correct" data-decision="corrected">
+          <strong>修正教师分</strong>
+          <small>保留样本，用复核后的分数覆盖原教师分。</small>
+        </button>
+        <button class="decision noise" data-decision="confirmed_noise">
+          <strong>确认噪声</strong>
+          <small>从优化、校准、正式评估和断点续传中统一排除。</small>
+        </button>
+        <button class="decision defer" data-decision="ambiguous">
+          <strong>暂缓复核</strong>
+          <small>暂时保留，等待后续继续核对。</small>
+        </button>
+
+        <div id="correctedScoreGroup" hidden>
+          <label for="correctedScore">修正后的教师分</label>
+          <input id="correctedScore" type="number" min="0" step="0.1">
+        </div>
+
+        <label for="reasonCode">原因</label>
+        <select id="reasonCode">
+          <option value="">请选择原因</option>
+          <option value="teacher_score_suspected">教师原分疑似异常</option>
+          <option value="reference_mapping_suspected">参考答案或准则映射疑似异常</option>
+          <option value="image_or_extraction_issue">图片或证据提取异常</option>
+          <option value="valid_difficult_sample">有效困难样本</option>
+          <option value="needs_more_evidence">证据不足，暂缓判断</option>
+        </select>
+
+        <label for="reviewNote">复核备注</label>
+        <textarea id="reviewNote" placeholder="填写判断依据，便于后续追溯"></textarea>
+
+        <div class="warning">
+          “确认噪声”只保存审核决定，不移动或删除原始图片。点击顶部“生成并启用策略”后，样本才会在后续实验中被排除。
+        </div>
+      </div>
+      <div class="decision-footer">
+        <div class="footer-actions">
+          <button id="saveButton" class="primary">保存决定并进入下一份</button>
+          <button id="undoButton" title="撤销当前样本的已保存决定">撤销</button>
+        </div>
+        <div id="decisionPath" class="path"></div>
+      </div>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const app = {
+      state: null,
+      filtered: [],
+      index: 0,
+      selectedDecision: "",
+      zoom: 1,
+      rotation: 0,
+      activeEvidenceTab: "scorePanel",
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const fmt = (value) => value === null || value === undefined || value === "" ? "--" : Number(value).toFixed(1);
+    const riskFmt = (value) => value === null || value === undefined ? "--" : Number(value).toFixed(2);
+
+    function showToast(message, error = false) {
+      const toast = $("toast");
+      toast.textContent = message;
+      toast.className = "toast show" + (error ? " error" : "");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.className = "toast", 3200);
+    }
+
+    async function request(url, options = {}) {
+      const response = await fetch(url, {
+        headers: {"Content-Type": "application/json"},
+        ...options,
+      });
+      const payload = await response.json();
+      if (!response.ok || payload.ok === false) {
+        throw new Error(payload.error || `请求失败：${response.status}`);
+      }
+      return payload;
+    }
+
+    function uniqueValues(field) {
+      return [...new Set(app.state.candidates.map(row => row[field]).filter(Boolean))].sort();
+    }
+
+    function populateFilters() {
+      const question = $("questionFilter");
+      uniqueValues("question_id").forEach(value => {
+        const option = document.createElement("option");
+        option.value = value; option.textContent = value; question.appendChild(option);
+      });
+      const classes = $("classFilter");
+      uniqueValues("initial_class").forEach(value => {
+        const option = document.createElement("option");
+        option.value = value; option.textContent = value; classes.appendChild(option);
+      });
+    }
+
+    function updateProgress() {
+      const counts = app.state.counts;
+      $("progressText").textContent = `${counts.reviewed} / ${counts.total}`;
+      $("pendingText").textContent = `待审核 ${counts.pending}`;
+      $("progressFill").style.width = counts.total ? `${counts.reviewed / counts.total * 100}%` : "0%";
+      $("activateButton").disabled = counts.reviewed === 0;
+    }
+
+    function applyFilters(keepIdentity = null) {
+      const question = $("questionFilter").value;
+      const priority = $("priorityFilter").value;
+      const status = $("statusFilter").value;
+      const initialClass = $("classFilter").value;
+      app.filtered = app.state.candidates.filter(row => {
+        const reviewed = Boolean(row.decision);
+        return (!question || row.question_id === question)
+          && (!priority || row.review_priority === priority)
+          && (!initialClass || row.initial_class === initialClass)
+          && (!status || (status === "reviewed" ? reviewed : !reviewed));
+      });
+      const sortMode = $("sortMode").value;
+      if (sortMode === "question") {
+        app.filtered.sort((a, b) => a.question_id.localeCompare(b.question_id, undefined, {numeric:true}) || a.answer_id.localeCompare(b.answer_id, undefined, {numeric:true}));
+      } else if (sortMode === "difference") {
+        app.filtered.sort((a, b) => Number(b.absolute_difference || 0) - Number(a.absolute_difference || 0));
+      }
+      app.index = 0;
+      if (keepIdentity) {
+        const found = app.filtered.findIndex(row => `${row.question_id}/${row.answer_id}` === keepIdentity);
+        if (found >= 0) app.index = found;
+      }
+      renderCurrent();
+    }
+
+    function currentCandidate() {
+      return app.filtered[app.index] || null;
+    }
+
+    function addTag(text, red = false) {
+      if (!text) return;
+      const tag = document.createElement("span");
+      tag.className = "tag" + (red ? " red" : "");
+      tag.textContent = text;
+      $("tags").appendChild(tag);
+    }
+
+    function setRisk(prefix, value) {
+      const numeric = Math.max(0, Math.min(1, Number(value || 0)));
+      $(`${prefix}Bar`).style.width = `${numeric * 100}%`;
+      $(`${prefix}Value`).textContent = riskFmt(value);
+    }
+
+    function setEvidenceTab(tabId) {
+      app.activeEvidenceTab = tabId;
+      document.querySelectorAll(".evidence-tab").forEach(button => {
+        button.classList.toggle("active", button.dataset.tab === tabId);
+      });
+      document.querySelectorAll(".tab-panel").forEach(panel => {
+        panel.hidden = panel.id !== tabId;
+      });
+    }
+
+    function appendRubricTag(container, value) {
+      if (!value) return;
+      const tag = document.createElement("span");
+      tag.textContent = value;
+      container.appendChild(tag);
+    }
+
+    function renderQuestionContext(row) {
+      const context = app.state.question_contexts?.[row.question_id] || {};
+      $("questionText").textContent = context.question_text || "题库中没有可用的题目文本。";
+      $("referenceAnswer").textContent = context.reference_answer || "题库中没有可用的官方参考答案。";
+      $("officialRubric").textContent = context.official_rubric || "题库中没有可用的原始官方评分说明。";
+
+      const hasQuestionImage = Boolean(context.question_image_available);
+      $("questionImage").hidden = !hasQuestionImage;
+      if (hasQuestionImage) {
+        $("questionImage").src = `/api/question-image?question_id=${encodeURIComponent(row.question_id)}`;
+      } else {
+        $("questionImage").removeAttribute("src");
+      }
+
+      const rubric = context.active_rubric || {};
+      const items = Array.isArray(rubric.items) ? rubric.items : [];
+      const points = items.reduce((sum, item) => sum + Number(item.points || 0), 0);
+      $("rubricSummary").textContent = items.length
+        ? `${items.length} 个评分项 · 合计 ${points.toFixed(1)} / ${fmt(context.total_score)} 分`
+        : "没有加载到结构化评分项";
+      $("rubricSource").textContent = rubric.path
+        ? `来源：${rubric.path}`
+        : "来源路径不可用";
+      $("rubricError").hidden = !rubric.error;
+      $("rubricError").textContent = rubric.error || "";
+      $("rubricList").replaceChildren();
+
+      items.forEach(item => {
+        const card = document.createElement("article");
+        card.className = "rubric-item";
+
+        const head = document.createElement("div");
+        head.className = "rubric-head";
+        const title = document.createElement("div");
+        const id = document.createElement("span");
+        id.className = "rubric-id";
+        id.textContent = item.id || "未编号";
+        title.appendChild(id);
+        if (item.item) title.append(` · ${item.item}`);
+        const pointsText = document.createElement("span");
+        pointsText.className = "rubric-points";
+        pointsText.textContent = `${fmt(item.points)} 分`;
+        head.append(title, pointsText);
+        card.appendChild(head);
+
+        const answer = document.createElement("div");
+        answer.className = "rubric-answer";
+        answer.textContent = item.standard_answer_text
+          ? `满分依据：${item.standard_answer_text}`
+          : "该评分项没有单独记录满分依据。";
+        card.appendChild(answer);
+
+        const tags = document.createElement("div");
+        tags.className = "rubric-tags";
+        appendRubricTag(tags, item.role ? `角色 ${item.role}` : "");
+        appendRubricTag(tags, item.score_layer ? `层级 ${item.score_layer}` : "");
+        appendRubricTag(tags, item.task_semantics ? `语义 ${item.task_semantics}` : "");
+        appendRubricTag(tags, item.scoring_policy ? `策略 ${item.scoring_policy}` : "");
+        appendRubricTag(tags, item.dependency_mode ? `依赖 ${item.dependency_mode}` : "");
+        card.appendChild(tags);
+        $("rubricList").appendChild(card);
+      });
+    }
+
+    function setSelectedDecision(value) {
+      app.selectedDecision = value || "";
+      document.querySelectorAll(".decision").forEach(button => {
+        button.classList.toggle("selected", button.dataset.decision === app.selectedDecision);
+      });
+      $("correctedScoreGroup").hidden = app.selectedDecision !== "corrected";
+      $("saveState").textContent = app.selectedDecision ? "待保存" : "未选择";
+    }
+
+    function resetImageTransform() {
+      app.zoom = 1; app.rotation = 0;
+      applyImageTransform();
+    }
+
+    function applyImageTransform() {
+      $("answerImage").style.transform = `scale(${app.zoom}) rotate(${app.rotation}deg)`;
+    }
+
+    function renderCurrent() {
+      const row = currentCandidate();
+      const hasCandidate = Boolean(row);
+      $("evidenceContent").hidden = !hasCandidate;
+      $("evidenceTabs").hidden = !hasCandidate;
+      $("noCandidates").hidden = hasCandidate;
+      $("previousButton").disabled = !hasCandidate || app.index <= 0;
+      $("nextButton").disabled = !hasCandidate || app.index >= app.filtered.length - 1;
+      $("saveButton").disabled = !hasCandidate;
+      $("undoButton").disabled = !hasCandidate || !row?.decision;
+      if (!row) {
+        $("answerIdentity").textContent = "--";
+        $("answerImage").hidden = true;
+        $("imageEmpty").hidden = false;
+        return;
+      }
+
+      $("answerIdentity").textContent = `${row.question_id} / ${row.answer_id} · ${fmt(row.max_score)} 分 · ${app.index + 1}/${app.filtered.length}`;
+      $("candidateType").textContent = (row.candidate_types || []).join(" / ") || "待人工判断";
+      const teacher = fmt(row.teacher_score);
+      const diff = row.teacher_minus_reference;
+      $("teacherScore").textContent = teacher;
+      if (diff !== null && diff !== undefined) {
+        const delta = document.createElement("span");
+        delta.className = "delta";
+        delta.textContent = `差值 ${Number(diff) >= 0 ? "+" : ""}${Number(diff).toFixed(1)}`;
+        $("teacherScore").appendChild(delta);
+      }
+      $("modelAvgScore").textContent = fmt(row.model_avg_score);
+      $("coreScore").textContent = fmt(row.three_way_core_score);
+      $("finalScore").textContent = fmt(row.final_calibrated_score);
+      $("tags").replaceChildren();
+      addTag(row.review_priority, row.review_priority === "P1");
+      addTag(row.route ? `路由 ${row.route}` : "");
+      addTag(row.extraction_quality ? `提取质量 ${row.extraction_quality}` : "");
+      (row.candidate_sources || []).forEach(source => addTag(source));
+      setRisk("ue", row.U_E);
+      setRisk("us", row.U_S);
+      setRisk("ur", row.U_R);
+      $("rawText").textContent = row.raw_text || "候选报告中没有提取文本。";
+      const screening = [row.initial_finding, row.recommended_action].filter(Boolean).join("\n建议：");
+      $("screeningFinding").textContent = screening || "暂无人工初筛提示；请结合原图、教师分和模型分独立判断。";
+      renderQuestionContext(row);
+      setEvidenceTab(app.activeEvidenceTab);
+
+      resetImageTransform();
+      $("answerImage").hidden = !row.image_url;
+      $("imageEmpty").hidden = Boolean(row.image_url);
+      if (row.image_url) {
+        $("answerImage").src = row.image_url;
+        $("answerImage").alt = `${row.question_id} ${row.answer_id} 学生作答`;
+      }
+
+      const decision = row.decision || {};
+      setSelectedDecision(decision.decision || "");
+      $("correctedScore").max = row.max_score ?? "";
+      $("correctedScore").value = decision.corrected_score ?? "";
+      $("reasonCode").value = decision.reason_code || "";
+      $("reviewNote").value = decision.review_note || "";
+      if (decision.reviewer && !$("reviewerInput").value) $("reviewerInput").value = decision.reviewer;
+      $("saveState").textContent = row.decision ? `已保存：${row.decision.decision}` : "未保存";
+    }
+
+    function move(delta) {
+      const next = Math.max(0, Math.min(app.filtered.length - 1, app.index + delta));
+      if (next !== app.index) { app.index = next; renderCurrent(); }
+    }
+
+    async function saveDecision() {
+      const row = currentCandidate();
+      if (!row) return;
+      if (!app.selectedDecision) {
+        showToast("请先选择一种人工决定。", true); return;
+      }
+      const corrected = $("correctedScore").value;
+      if (app.selectedDecision === "corrected" && corrected === "") {
+        showToast("修正教师分时必须填写修正后的分数。", true); return;
+      }
+      if (app.selectedDecision === "confirmed_noise") {
+        const confirmed = window.confirm(
+          `确认将 ${row.question_id}/${row.answer_id} 标记为噪声吗？\n\n原始图片不会移动；启用策略后，该样本会从后续实验中排除。`
+        );
+        if (!confirmed) return;
+      }
+      try {
+        const payload = await request("/api/decision", {
+          method: "POST",
+          body: JSON.stringify({
+            question_id: row.question_id,
+            answer_id: row.answer_id,
+            decision: app.selectedDecision,
+            corrected_score: app.selectedDecision === "corrected" ? Number(corrected) : null,
+            reason_code: $("reasonCode").value,
+            review_note: $("reviewNote").value,
+            reviewer: $("reviewerInput").value,
+          }),
+        });
+        row.decision = payload.decision;
+        app.state.counts = payload.counts;
+        updateProgress();
+        showToast(`已保存 ${row.question_id}/${row.answer_id}`);
+        if ($("statusFilter").value === "pending") {
+          applyFilters();
+        } else {
+          move(1);
+          renderCurrent();
+        }
+      } catch (error) {
+        showToast(error.message, true);
+      }
+    }
+
+    async function undoDecision() {
+      const row = currentCandidate();
+      if (!row?.decision) return;
+      if (!window.confirm(`撤销 ${row.question_id}/${row.answer_id} 的已保存决定？`)) return;
+      try {
+        const payload = await request(`/api/decision?question_id=${encodeURIComponent(row.question_id)}&answer_id=${encodeURIComponent(row.answer_id)}`, {method: "DELETE"});
+        row.decision = null;
+        app.state.counts = payload.counts;
+        updateProgress();
+        renderCurrent();
+        showToast("已撤销当前决定");
+      } catch (error) {
+        showToast(error.message, true);
+      }
+    }
+
+    async function activatePolicy() {
+      const counts = app.state.counts;
+      const message = `将使用当前 ${counts.reviewed} 条人工决定生成并启用样本策略。\n\nconfirmed_noise 会被排除，corrected 会覆盖教师分，ambiguous 和 retained_hard_case 继续保留。\n\n确认继续吗？`;
+      if (!window.confirm(message)) return;
+      try {
+        const payload = await request("/api/policy/activate", {
+          method: "POST",
+          body: JSON.stringify({policy_id: `${app.state.report_run}_reviewed`}),
+        });
+        app.state.policy_active = true;
+        showToast(`策略已启用：排除 ${payload.excluded}，修正 ${payload.corrected}，暂缓 ${payload.ambiguous}`);
+      } catch (error) {
+        showToast(error.message, true);
+      }
+    }
+
+    async function load() {
+      try {
+        app.state = await request("/api/state");
+        $("subtitle").textContent = `${app.state.report_run} · ${app.state.screening_only ? "人工初筛候选" : "全部自动候选"} · 原始数据只读${app.state.policy_active ? " · 当前已有活动策略" : ""}`;
+        $("decisionPath").textContent = `决定文件：${app.state.decisions_path}`;
+        populateFilters();
+        updateProgress();
+        applyFilters();
+      } catch (error) {
+        showToast(error.message, true);
+        $("subtitle").textContent = "候选报告加载失败";
+      }
+    }
+
+    document.querySelectorAll(".decision").forEach(button => {
+      button.addEventListener("click", () => setSelectedDecision(button.dataset.decision));
+    });
+    document.querySelectorAll(".evidence-tab").forEach(button => {
+      button.addEventListener("click", () => setEvidenceTab(button.dataset.tab));
+    });
+    ["questionFilter", "priorityFilter", "statusFilter", "classFilter", "sortMode"].forEach(id => {
+      $(id).addEventListener("change", () => applyFilters());
+    });
+    $("previousButton").addEventListener("click", () => move(-1));
+    $("nextButton").addEventListener("click", () => move(1));
+    $("saveButton").addEventListener("click", saveDecision);
+    $("undoButton").addEventListener("click", undoDecision);
+    $("activateButton").addEventListener("click", activatePolicy);
+    $("zoomIn").addEventListener("click", () => { app.zoom = Math.min(3, app.zoom + .2); applyImageTransform(); });
+    $("zoomOut").addEventListener("click", () => { app.zoom = Math.max(.4, app.zoom - .2); applyImageTransform(); });
+    $("zoomReset").addEventListener("click", resetImageTransform);
+    $("rotateButton").addEventListener("click", () => { app.rotation = (app.rotation + 90) % 360; applyImageTransform(); });
+    window.addEventListener("keydown", event => {
+      if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)) return;
+      if (event.key === "ArrowLeft") move(-1);
+      if (event.key === "ArrowRight") move(1);
+    });
+    load();
+  </script>
+</body>
+</html>

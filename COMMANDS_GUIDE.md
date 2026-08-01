@@ -14,6 +14,15 @@ CSBench 实验统一使用 `scripts/run_csbench.py`。更换题目时只需要�
 教师标签审计与活动样本策略的命令见
 `CSBENCH_GUIDE.md` 的“教师标签质量控制”。活动策略不存在时，所有命令保持原始数据行为；策略存在时，批改、校准、评估和断点续传自动使用同一策略，不需要为日常 `grade` 命令增加参数。
 
+生成候选后，推荐使用本地审核界面完成人工复核：
+
+```powershell
+.\venv\Scripts\python.exe scripts\review_teacher_labels.py `
+  --report-run <教师标签候选报告目录名>
+```
+
+界面操作和新手说明见 `TEACHER_LABEL_REVIEW_GUIDE.md`。
+
 完整教师标签审计使用 `grade ... --split all`。运行结束后，批改 checkpoint、失败记录、进度和运行清单会自动复制到 `refgrader-artifacts/csbench/<题号>/audit_runs/<run_id>`；候选报告仍保存在 `refgrader-main/data/csbench/quality_control`，由 `refgrader-main` 自身同步。另一台设备可使用 `restore_csbench_artifacts.py ... --stage audit --run-id <run_id>` 恢复同一轮完整审计结果。不要添加 `--no-artifacts`，否则会明确关闭自动复制。
 
 只正式批改任意题目，例如 CO_5、CO_6：

@@ -1,0 +1,20 @@
+{
+  "question_id": "MOHLER_11_8",
+  "rubric_group": "MOHLER",
+  "method": "prepared_reference_baseline",
+  "rubric_semantic_contract_version": 6,
+  "semantic_policy_validated": true,
+  "initial_rubric": "rubrics/initial/MOHLER/MOHLER_11_8_rubric_standard.json",
+  "optimized_rubric": "rubrics/optimized/MOHLER/MOHLER_11_8_rubric_standard.json",
+  "initial_sha256": "4d40ed7106030902045b3df1e07a964e88ef24393554cec7229224f20b3cec1d",
+  "optimized_sha256": "4d40ed7106030902045b3df1e07a964e88ef24393554cec7229224f20b3cec1d",
+  "calibration_answer_ids": [
+    "MOHLER_11_8_006",
+    "MOHLER_11_8_009",
+    "MOHLER_11_8_011",
+    "MOHLER_11_8_013",
+    "MOHLER_11_8_015"
+  ],
+  "path_format": "prepared_relative_v1",
+  "note": "The optimized slot intentionally mirrors the validated reconstructed baseline; no test labels were used."
+}

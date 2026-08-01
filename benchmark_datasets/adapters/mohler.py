@@ -17,6 +17,11 @@ from benchmark_datasets.contract import (
     write_json,
     write_jsonl,
 )
+from rubric_semantics import (
+    RUBRIC_SEMANTIC_CONTRACT_VERSION,
+    prepare_rubric_semantic_contract,
+    validate_refined_rubric,
+)
 
 
 QUESTION_ID_PATTERN = re.compile(r"^(\d+\.\d+)\s+(.*)$")
@@ -144,7 +149,7 @@ def _rubric(reference_answer: str) -> list[dict[str, Any]]:
         "relative to the instructor answer. Give proportional partial credit; "
         "do not require exact wording when the meaning is equivalent."
     )
-    return [
+    return prepare_rubric_semantic_contract([
         {
             "id": "overall_response",
             "item": guidance,
@@ -162,7 +167,7 @@ def _rubric(reference_answer: str) -> list[dict[str, Any]]:
             "metadata_hard_enabled": False,
             "metadata_confidence": 1.0,
             "parent_id": "overall_response",
-            "semantic_contract_version": 5,
+            "semantic_contract_version": RUBRIC_SEMANTIC_CONTRACT_VERSION,
             "parent_points": 5.0,
             "scoring_policy": "preserve_atomic",
             "split_policy": "preserve_atomic",
@@ -170,7 +175,7 @@ def _rubric(reference_answer: str) -> list[dict[str, Any]]:
             "full_credit_policy": "rubric_evidence_required",
             "full_credit_trigger": False,
         }
-    ]
+    ])
 
 
 def _resolve_data_root(source: Path) -> Path:
@@ -334,6 +339,12 @@ def prepare_mohler(
         rubric_name = f"{question_id}_rubric_standard.json"
         initial_relative = Path("rubrics") / "initial" / rubric_group / rubric_name
         optimized_relative = Path("rubrics") / "optimized" / rubric_group / rubric_name
+        optimization_manifest_relative = (
+            Path("rubrics")
+            / "manifests"
+            / rubric_group
+            / f"{question_id}_optimization.json"
+        )
         split_relative = Path("splits") / f"{question_id}.json"
         write_json(output / initial_relative, rubric)
         write_json(output / optimized_relative, rubric)
@@ -359,6 +370,39 @@ def prepare_mohler(
                 "seed": seed,
                 "stratification": "question_score_interleaved_exact_quota",
                 **split,
+            },
+        )
+        semantic_valid, semantic_errors = validate_refined_rubric(
+            rubric,
+            rubric,
+            5.0,
+            allow_unchanged_baseline=True,
+        )
+        if not semantic_valid:
+            raise ValueError(
+                f"Generated baseline rubric is invalid for {question_id}: "
+                + "; ".join(semantic_errors)
+            )
+        write_json(
+            output / optimization_manifest_relative,
+            {
+                "question_id": question_id,
+                "rubric_group": rubric_group,
+                "method": "prepared_reference_baseline",
+                "rubric_semantic_contract_version": (
+                    RUBRIC_SEMANTIC_CONTRACT_VERSION
+                ),
+                "semantic_policy_validated": True,
+                "initial_rubric": initial_relative.as_posix(),
+                "optimized_rubric": optimized_relative.as_posix(),
+                "initial_sha256": sha256_file(output / initial_relative),
+                "optimized_sha256": sha256_file(output / optimized_relative),
+                "calibration_answer_ids": split["calibration"],
+                "path_format": "prepared_relative_v1",
+                "note": (
+                    "The optimized slot intentionally mirrors the validated "
+                    "reconstructed baseline; no test labels were used."
+                ),
             },
         )
         grading_guidance = (

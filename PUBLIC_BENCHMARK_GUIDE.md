@@ -108,6 +108,9 @@ The audit rejects duplicate answers, missing labels, out-of-range scores,
 overlapping splits, incomplete split coverage, and rubric totals that do not
 match the question score. Its content hash also covers the adapter
 specification, every split file, and both initial and optimized rubrics.
+Prepared datasets also contain one validated rubric-provenance manifest per
+question under `rubrics/manifests/<group>/`; grading refuses stale contracts or
+rubric files whose hashes do not match these manifests.
 
 Before a full run, execute one answer set with a small sample limit:
 

@@ -18,12 +18,16 @@
     "metadata_hard_enabled": false,
     "metadata_confidence": 1.0,
     "parent_id": "overall_response",
-    "semantic_contract_version": 5,
+    "semantic_contract_version": 6,
     "parent_points": 5.0,
-    "scoring_policy": "preserve_atomic",
+    "scoring_policy": "strict_atomic",
     "split_policy": "preserve_atomic",
     "weighting_policy": "preserve_parent",
     "full_credit_policy": "rubric_evidence_required",
-    "full_credit_trigger": false
+    "full_credit_trigger": false,
+    "task_semantics": "strict_atomic",
+    "decomposition_required": false,
+    "decomposition_exemption": "strict_atomic_single_outcome",
+    "full_credit_anchor": "Unlimited number."
   }
 ]

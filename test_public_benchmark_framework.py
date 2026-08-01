@@ -15,8 +15,10 @@ from benchmark_datasets.adapters.mohler import prepare_mohler
 from benchmark_datasets.contract import (
     audit_prepared_benchmark,
     load_json,
+    sha256_file,
     write_json,
 )
+from rubric_semantics import RUBRIC_SEMANTIC_CONTRACT_VERSION
 from sample_quality import SampleQualityPolicy
 from scripts.benchmarks import run_benchmark
 
@@ -209,6 +211,30 @@ class PublicBenchmarkFrameworkTests(unittest.TestCase):
             self.assertEqual(manifest["adapter"], "mohler")
             self.assertFalse(
                 manifest["rubric_policy"]["official_fine_grained_rubric"]
+            )
+            optimization_manifest = load_json(
+                prepared
+                / "rubrics"
+                / "manifests"
+                / "MOHLER"
+                / "MOHLER_1_1_optimization.json"
+            )
+            self.assertEqual(
+                optimization_manifest["rubric_semantic_contract_version"],
+                RUBRIC_SEMANTIC_CONTRACT_VERSION,
+            )
+            self.assertTrue(
+                optimization_manifest["semantic_policy_validated"]
+            )
+            self.assertEqual(
+                optimization_manifest["initial_sha256"],
+                sha256_file(
+                    prepared
+                    / "rubrics"
+                    / "initial"
+                    / "MOHLER"
+                    / "MOHLER_1_1_rubric_standard.json"
+                ),
             )
             metadata = [
                 json.loads(line)

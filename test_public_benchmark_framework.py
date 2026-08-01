@@ -236,6 +236,16 @@ class PublicBenchmarkFrameworkTests(unittest.TestCase):
                     / "MOHLER_1_1_rubric_standard.json"
                 ),
             )
+            self.assertNotIn(
+                b"\r\n",
+                (
+                    prepared
+                    / "rubrics"
+                    / "initial"
+                    / "MOHLER"
+                    / "MOHLER_1_1_rubric_standard.json"
+                ).read_bytes(),
+            )
             metadata = [
                 json.loads(line)
                 for line in (prepared / "answer_metadata.jsonl")

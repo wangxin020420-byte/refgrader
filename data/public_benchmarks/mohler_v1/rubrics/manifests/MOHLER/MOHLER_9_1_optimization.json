@@ -6,8 +6,8 @@
   "semantic_policy_validated": true,
   "initial_rubric": "rubrics/initial/MOHLER/MOHLER_9_1_rubric_standard.json",
   "optimized_rubric": "rubrics/optimized/MOHLER/MOHLER_9_1_rubric_standard.json",
-  "initial_sha256": "fa241024acf3834d717530aeaf4eaf4b6fbb9cd0471cce7c6cdde203df85fae8",
-  "optimized_sha256": "fa241024acf3834d717530aeaf4eaf4b6fbb9cd0471cce7c6cdde203df85fae8",
+  "initial_sha256": "fc9cf8d8bb1e395ff8a31a1b813bf768f66166a4f00437016340f0e5a15a8093",
+  "optimized_sha256": "fc9cf8d8bb1e395ff8a31a1b813bf768f66166a4f00437016340f0e5a15a8093",
   "calibration_answer_ids": [
     "MOHLER_9_1_008",
     "MOHLER_9_1_011",

@@ -1,4 +1,5 @@
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -318,12 +319,17 @@ class PublicBenchmarkFrameworkTests(unittest.TestCase):
                     capture_output=True,
                     text=True,
                     encoding="utf-8",
+                    env={
+                        **os.environ,
+                        "PYTHONIOENCODING": "utf-8",
+                        "PYTHONUTF8": "1",
+                    },
                     check=False,
                 )
                 self.assertEqual(
                     completed.returncode,
                     0,
-                    msg=completed.stdout + completed.stderr,
+                    msg=(completed.stdout or "") + (completed.stderr or ""),
                 )
                 self.assertIn("text_only", completed.stdout)
                 self.assertIn("--score-calibration", completed.stdout)

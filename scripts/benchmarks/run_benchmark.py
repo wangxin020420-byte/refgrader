@@ -24,6 +24,15 @@ from benchmark_datasets.contract import (
 from model_runtime import runtime_model_config
 
 
+def _configure_utf8_stdio() -> None:
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
+
+
+_configure_utf8_stdio()
+
+
 PATH_FIELDS = (
     "question_image",
     "ref_image",
@@ -48,10 +57,15 @@ def _run(
     print(_display(command))
     if dry_run:
         return 0
+    runtime_env = os.environ.copy()
+    if env:
+        runtime_env.update(env)
+    runtime_env["PYTHONIOENCODING"] = "utf-8"
+    runtime_env["PYTHONUTF8"] = "1"
     return subprocess.run(
         command,
         cwd=PROJECT_ROOT,
-        env=env,
+        env=runtime_env,
     ).returncode
 
 

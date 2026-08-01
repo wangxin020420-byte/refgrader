@@ -467,6 +467,171 @@ class PublicBenchmarkFrameworkTests(unittest.TestCase):
             finally:
                 shutil.rmtree(dataset_result_root, ignore_errors=True)
 
+    def test_failed_gate_is_classified_as_experimental(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            config = Path(temporary) / "a3wa.json"
+            write_json(config, {"deployment_gate": {"passed": False}})
+            self.assertEqual(
+                run_benchmark._a3wa_deployment_class(config),
+                "experimental",
+            )
+
+    def test_workflow_continues_failed_gate_as_experimental(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            prepared = self.prepare_fixture(temporary_root)
+            config = temporary_root / "a3wa.json"
+            write_json(config, {"deployment_gate": {"passed": False}})
+            with (
+                mock.patch.object(
+                    sys,
+                    "argv",
+                    [
+                        "run_benchmark.py",
+                        "--prepared-dir",
+                        str(prepared),
+                        "workflow",
+                        "ASAP_SAS_1",
+                        "--tag",
+                        "experimental_workflow",
+                    ],
+                ),
+                mock.patch.object(
+                    run_benchmark,
+                    "grade",
+                    side_effect=[0, 0],
+                ) as grade,
+                mock.patch.object(
+                    run_benchmark,
+                    "calibrate",
+                    return_value=(0, config),
+                ),
+            ):
+                code = run_benchmark.main()
+            self.assertEqual(code, 0)
+            self.assertEqual(grade.call_count, 2)
+            self.assertTrue(
+                grade.call_args_list[1].kwargs["allow_experimental_a3wa"]
+            )
+
+    def test_experimental_grade_sets_runtime_override(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            prepared = self.prepare_fixture(temporary_root)
+            context = run_benchmark._prepared_context(prepared)
+            config = temporary_root / "a3wa.json"
+            write_json(config, {"deployment_gate": {"passed": False}})
+            result_root = temporary_root / "results"
+            captured_env = {}
+
+            def capture_run(command, *, env, dry_run):
+                captured_env.update(env)
+                return 0
+
+            with (
+                mock.patch.object(
+                    run_benchmark,
+                    "_result_root",
+                    return_value=result_root,
+                ),
+                mock.patch.object(
+                    run_benchmark,
+                    "_run",
+                    side_effect=capture_run,
+                ),
+            ):
+                code = run_benchmark.grade(
+                    context,
+                    questions=["ASAP_SAS_1"],
+                    split="test",
+                    run_id="experimental",
+                    force=False,
+                    a3wa_config=str(config),
+                    dry_run=False,
+                    evaluate_after=False,
+                    allow_experimental_a3wa=True,
+                )
+            self.assertEqual(code, 0)
+            self.assertEqual(
+                captured_env["REFGRADER_ALLOW_EXPERIMENTAL_A3WA"],
+                "1",
+            )
+            manifest = load_json(
+                result_root / "runs" / "experimental" / "run_manifest.json"
+            )
+            self.assertEqual(
+                manifest["a3wa_deployment_class"],
+                "experimental",
+            )
+
+    def test_strict_workflow_stops_before_failed_gate_test(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            prepared = self.prepare_fixture(temporary_root)
+            config = temporary_root / "a3wa.json"
+            write_json(config, {"deployment_gate": {"passed": False}})
+            with (
+                mock.patch.object(
+                    sys,
+                    "argv",
+                    [
+                        "run_benchmark.py",
+                        "--prepared-dir",
+                        str(prepared),
+                        "workflow",
+                        "ASAP_SAS_1",
+                        "--tag",
+                        "strict_workflow",
+                        "--strict-deployment-gate",
+                    ],
+                ),
+                mock.patch.object(
+                    run_benchmark,
+                    "grade",
+                    return_value=0,
+                ) as grade,
+                mock.patch.object(
+                    run_benchmark,
+                    "calibrate",
+                    return_value=(0, config),
+                ),
+            ):
+                code = run_benchmark.main()
+            self.assertEqual(code, 2)
+            self.assertEqual(grade.call_count, 1)
+
+    def test_incomplete_test_run_is_not_evaluated(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            prepared = self.prepare_fixture(temporary_root)
+            context = run_benchmark._prepared_context(prepared)
+            result_root = temporary_root / "results"
+            with (
+                mock.patch.object(
+                    run_benchmark,
+                    "_result_root",
+                    return_value=result_root,
+                ),
+                mock.patch.object(run_benchmark, "_run", return_value=0),
+                mock.patch.object(run_benchmark, "evaluate_run") as evaluate,
+            ):
+                code = run_benchmark.grade(
+                    context,
+                    questions=["ASAP_SAS_1"],
+                    split="test",
+                    run_id="incomplete",
+                    force=False,
+                    a3wa_config=None,
+                    dry_run=False,
+                    evaluate_after=True,
+                )
+            self.assertEqual(code, 3)
+            evaluate.assert_not_called()
+            manifest = load_json(
+                result_root / "runs" / "incomplete" / "run_manifest.json"
+            )
+            self.assertEqual(manifest["status"], "incomplete")
+
 
 if __name__ == "__main__":
     unittest.main()

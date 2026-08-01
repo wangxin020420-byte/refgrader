@@ -142,6 +142,29 @@ This one command grades validation, calibrates A3WA, grades test, and evaluates
 Use a new tag for a new formal experiment. Reusing the same tag resumes the
 same result directories unless `--force` is explicitly supplied.
 
+After calibration, the workflow inspects the A3WA deployment gate before test
+grading. A passing configuration is recorded as `formal`. A failed gate no
+longer wastes a long unattended run by rejecting every answer after model
+calls: the workflow continues with an explicit experimental override and
+records `a3wa_deployment_class: experimental` in `run_manifest.json`. Such a
+run is diagnostic evidence and must not be reported as a formal benchmark.
+
+Use strict mode when a failed gate should stop the workflow before any test
+model calls:
+
+```powershell
+.\venv\Scripts\python.exe scripts\benchmarks\run_benchmark.py `
+  --prepared-dir "data\public_benchmarks\asap_sas_v1" `
+  workflow `
+  --tag "asap_sas_strict_001" `
+  --score-calibration `
+  --strict-deployment-gate
+```
+
+Evaluation now runs only after every selected test answer has a checkpoint.
+Incomplete runs remain resumable under the same tag and are marked
+`incomplete` instead of producing misleading metrics or a missing-file error.
+
 ## Separate stages
 
 Validation:

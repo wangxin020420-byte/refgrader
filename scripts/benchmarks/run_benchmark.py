@@ -192,6 +192,48 @@ def _run_dir(dataset_id: str, run_id: str) -> Path:
     return _result_root(dataset_id) / "runs" / run_id
 
 
+def _a3wa_deployment_class(config_path: str | Path | None) -> str:
+    if not config_path:
+        return "none"
+    path = Path(config_path).expanduser().resolve()
+    if not path.is_file():
+        return "pending"
+    payload = load_json(path)
+    gate = payload.get("deployment_gate", {})
+    return "formal" if gate.get("passed") is True else "experimental"
+
+
+def _run_completeness(
+    context: dict[str, Any],
+    *,
+    run_dir: Path,
+    questions: list[str],
+    split: str,
+    limit: int | None,
+) -> dict[str, dict[str, int]]:
+    by_id = {
+        str(question["question_id"]): question
+        for question in context["questions"]
+    }
+    incomplete: dict[str, dict[str, int]] = {}
+    for question_id in questions:
+        question = by_id[question_id]
+        split_path = context["root"] / question["rubric_split_path"]
+        split_payload = load_json(split_path)
+        expected = len(split_payload.get(split, []))
+        if limit is not None:
+            expected = min(expected, limit)
+        checkpoint_path = run_dir / f"{question_id}_grading_checkpoint.json"
+        checkpoint = load_json(checkpoint_path) if checkpoint_path.is_file() else []
+        completed = len(checkpoint) if isinstance(checkpoint, list) else 0
+        if completed != expected:
+            incomplete[question_id] = {
+                "expected": expected,
+                "completed": completed,
+            }
+    return incomplete
+
+
 def _write_run_manifest(
     run_dir: Path,
     *,
@@ -226,6 +268,7 @@ def _write_run_manifest(
             "extraction_backend": "text_only",
             "model_config": config,
             "a3wa_config": config_reference,
+            "a3wa_deployment_class": _a3wa_deployment_class(config_path),
             "a3wa_config_sha256": (
                 sha256_file(config_path)
                 if config_path and config_path.is_file()
@@ -249,6 +292,7 @@ def grade(
     dry_run: bool,
     evaluate_after: bool,
     limit: int | None = None,
+    allow_experimental_a3wa: bool = False,
 ) -> int:
     dataset_id = context["manifest"]["dataset_id"]
     run_dir = _run_dir(dataset_id, run_id)
@@ -309,6 +353,8 @@ def grade(
         if archived_a3wa_config
         else ""
     )
+    if allow_experimental_a3wa:
+        env["REFGRADER_ALLOW_EXPERIMENTAL_A3WA"] = "1"
     _write_run_manifest(
         run_dir,
         context=context,
@@ -337,6 +383,33 @@ def grade(
         )
         return code
     if evaluate_after:
+        incomplete = _run_completeness(
+            context,
+            run_dir=run_dir,
+            questions=questions,
+            split=split,
+            limit=limit,
+        )
+        if incomplete:
+            print(
+                "Refusing evaluation for an incomplete public benchmark run: "
+                + json.dumps(incomplete, ensure_ascii=False, sort_keys=True)
+            )
+            _write_run_manifest(
+                run_dir,
+                context=context,
+                run_id=run_id,
+                split=split,
+                questions=questions,
+                a3wa_config=(
+                    str(archived_a3wa_config)
+                    if archived_a3wa_config
+                    else None
+                ),
+                status="incomplete",
+                command=command,
+            )
+            return 3
         code = evaluate_run(
             context,
             questions=questions,
@@ -494,6 +567,11 @@ def build_parser() -> argparse.ArgumentParser:
     grade_parser.add_argument("--a3wa-config")
     grade_parser.add_argument("--limit", type=int)
     grade_parser.add_argument("--no-evaluate", action="store_true")
+    grade_parser.add_argument(
+        "--allow-experimental-a3wa",
+        action="store_true",
+        help="Run with a failed deployment gate and label the run experimental.",
+    )
     grade_parser.add_argument("--dry-run", action="store_true")
 
     calibrate_parser = subparsers.add_parser("calibrate")
@@ -514,6 +592,11 @@ def build_parser() -> argparse.ArgumentParser:
     workflow_parser.add_argument("--force", action="store_true")
     workflow_parser.add_argument("--score-calibration", action="store_true")
     workflow_parser.add_argument("--limit", type=int)
+    workflow_parser.add_argument(
+        "--strict-deployment-gate",
+        action="store_true",
+        help="Stop before test grading when the calibrated A3WA gate fails.",
+    )
     workflow_parser.add_argument("--dry-run", action="store_true")
 
     publish_parser = subparsers.add_parser("publish")
@@ -541,6 +624,7 @@ def main() -> int:
             dry_run=args.dry_run,
             evaluate_after=not args.no_evaluate and args.split == "test",
             limit=args.limit,
+            allow_experimental_a3wa=args.allow_experimental_a3wa,
         )
     if args.command == "calibrate":
         code, output = calibrate(
@@ -587,6 +671,17 @@ def main() -> int:
         )
         if code != 0:
             return code
+        deployment_class = _a3wa_deployment_class(config)
+        allow_experimental = deployment_class == "experimental"
+        if allow_experimental:
+            message = (
+                "A3WA deployment gate failed; the test run will continue "
+                "as an explicitly experimental benchmark."
+            )
+            if args.strict_deployment_gate:
+                print(message + " Strict mode requested, stopping before test.")
+                return 2
+            print("WARNING: " + message)
         return grade(
             context,
             questions=questions,
@@ -597,6 +692,7 @@ def main() -> int:
             dry_run=args.dry_run,
             evaluate_after=True,
             limit=args.limit,
+            allow_experimental_a3wa=allow_experimental,
         )
     if args.command == "publish":
         target = publish_run(

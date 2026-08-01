@@ -6,6 +6,7 @@ from json_repair import repair_json
 import base64
 import re
 import time
+import threading
 import concurrent.futures
 from datetime import datetime
 from openai import OpenAI
@@ -53,6 +54,7 @@ A3WA_CALIBRATION_CONFIG_PATH = os.getenv(
     os.path.join("results_rrd_vlm", "a3wa_calibration_config.json"),
 )
 _A3WA_RUNTIME_CONFIG = None
+_A3WA_RUNTIME_CONFIG_LOCK = threading.Lock()
 PROMPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts")
 
 # The CLI defaults to GLM-5.2 with thinking disabled. Environment variables
@@ -1699,13 +1701,21 @@ def load_a3wa_runtime_config():
     global _A3WA_RUNTIME_CONFIG
     if _A3WA_RUNTIME_CONFIG is not None:
         return _A3WA_RUNTIME_CONFIG
-    _A3WA_RUNTIME_CONFIG = {}
-    if not A3WA_CALIBRATION_CONFIG_PATH or not os.path.exists(A3WA_CALIBRATION_CONFIG_PATH):
-        return _A3WA_RUNTIME_CONFIG
-    try:
-        with open(A3WA_CALIBRATION_CONFIG_PATH, "r", encoding="utf-8") as f:
-            loaded = json.load(f)
-        if isinstance(loaded, dict):
+    with _A3WA_RUNTIME_CONFIG_LOCK:
+        if _A3WA_RUNTIME_CONFIG is not None:
+            return _A3WA_RUNTIME_CONFIG
+        if not A3WA_CALIBRATION_CONFIG_PATH or not os.path.exists(
+            A3WA_CALIBRATION_CONFIG_PATH
+        ):
+            _A3WA_RUNTIME_CONFIG = {}
+            return _A3WA_RUNTIME_CONFIG
+        try:
+            with open(A3WA_CALIBRATION_CONFIG_PATH, "r", encoding="utf-8") as f:
+                loaded = json.load(f)
+            if not isinstance(loaded, dict):
+                _A3WA_RUNTIME_CONFIG = {}
+                return _A3WA_RUNTIME_CONFIG
+
             gate = loaded.get("deployment_gate", {})
             gate_passed = isinstance(gate, dict) and gate.get("passed") is True
             allow_experimental = (
@@ -1717,17 +1727,26 @@ def load_a3wa_runtime_config():
                     "grading. Use the run_csbench diagnostic override only "
                     "for an explicitly experimental ablation."
                 )
+
+            # Publish the shared cache only after parsing and gate validation.
             _A3WA_RUNTIME_CONFIG = loaded
             print(f"      [A3WA config] loaded {A3WA_CALIBRATION_CONFIG_PATH}")
             if not gate_passed:
-                print("      [A3WA config] experimental override: deployment gate failed")
-    except RuntimeError:
-        _A3WA_RUNTIME_CONFIG = {}
-        raise
-    except Exception as exc:
-        print(f"      [A3WA config] failed to load {A3WA_CALIBRATION_CONFIG_PATH}: {exc}")
-        _A3WA_RUNTIME_CONFIG = {}
-    return _A3WA_RUNTIME_CONFIG
+                print(
+                    "      [A3WA config] experimental override: "
+                    "deployment gate failed"
+                )
+        except RuntimeError:
+            # Leave the cache uninitialized so no concurrent caller can
+            # mistake a rejected configuration for an empty valid config.
+            raise
+        except Exception as exc:
+            print(
+                f"      [A3WA config] failed to load "
+                f"{A3WA_CALIBRATION_CONFIG_PATH}: {exc}"
+            )
+            _A3WA_RUNTIME_CONFIG = {}
+        return _A3WA_RUNTIME_CONFIG
 
 def _category_points_ratio(strict_cots, rubrics_data, max_score):
     points_map, fallback_points = _rubric_points_map(rubrics_data)

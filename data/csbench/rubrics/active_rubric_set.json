@@ -88,9 +88,9 @@
       "optimization_manifest": "rubrics/manifests/CO/CO_12_optimization.json",
       "initial_sha256": "d35ce6eee4d2d7925dc0547fe14c634b6cb2cfa2f8cbc2168edd0efd707d8dfa",
       "optimized_sha256": "113bc2c35baa6937c94b15357a6a64e0f0c7a52c1c05bcb34fca71f627a40ce6",
-      "optimization_manifest_sha256": "979df97039a3cf0663d3ec0b8e4df7ee01941d7774414d12bd838157ac974063",
+      "optimization_manifest_sha256": "ca7e54128a72a096ca128c21521a7e9c59c5aa9df296ff0859a32e36146d33f6",
       "split_sha256": "94b61d74781c8c454fe42631a24c1c10df63b860c0cf9426020347f0002a101f",
-      "optimization_created_at": "2026-07-26T22:28:55",
+      "optimization_created_at": "2026-08-07T12:51:31",
       "calibration_answer_ids": [
         "ANS_CO_1328",
         "ANS_CO_1342",
@@ -108,9 +108,9 @@
       "optimization_manifest": "rubrics/manifests/CO/CO_13_optimization.json",
       "initial_sha256": "7d68151e31373512ea99337383d84886faa433c321a8062866786c14ab406d06",
       "optimized_sha256": "8d67bd6e2ab3b8931ec61685b5d3018c4576704a7d778e6620f74458bcaf9587",
-      "optimization_manifest_sha256": "08704484193b6b5479f2334215c592c4026803b5bdd350ff34bb89804e5c2671",
+      "optimization_manifest_sha256": "ead2700ea7f3b73fb0bab0b0fb51f42d0a39b9210addef055493fb408a7e9b6e",
       "split_sha256": "19df7c32201a07adacbb14883bf2ad02a43aa6809bedae24a8d5e2991fdcee35",
-      "optimization_created_at": "2026-07-26T22:30:33",
+      "optimization_created_at": "2026-08-07T13:02:48",
       "calibration_answer_ids": [
         "ANS_CO_1500",
         "ANS_CO_1510",
@@ -259,26 +259,6 @@
         "ANS_CO_808"
       ]
     },
-    "CO_9": {
-      "question_id": "CO_9",
-      "rubric_group": "CO",
-      "semantic_contract_version": 6,
-      "initial_rubric": "rubrics/initial/CO/CO_9_rubric_standard.json",
-      "optimized_rubric": "rubrics/optimized/CO/CO_9_rubric_standard.json",
-      "optimization_manifest": "rubrics/manifests/CO/CO_9_optimization.json",
-      "initial_sha256": "4d01e75115440301a19c3130d01d22d01fc9479c04282a01196eec7ec9b8c1a7",
-      "optimized_sha256": "63f7af49ef99c357ab537c7636017c8909f5647653743a9c1889dc29fc4711e5",
-      "optimization_manifest_sha256": "ffa8b1f5ee3a32072f0d6d49bb8fb5a41099e0efd3bac541f9304e95f3d64fd1",
-      "split_sha256": "a066545ae2ff76a4080344c918642db59c8477093a14e104ed4290058046f18d",
-      "optimization_created_at": "2026-07-26T22:33:59",
-      "calibration_answer_ids": [
-        "ANS_CO_1000",
-        "ANS_CO_1011",
-        "ANS_CO_1018",
-        "ANS_CO_1027",
-        "ANS_CO_1041"
-      ]
-    },
     "CPL_1": {
       "question_id": "CPL_1",
       "rubric_group": "CPL",
@@ -408,9 +388,9 @@
       "optimization_manifest": "rubrics/manifests/CPL/CPL_7_optimization.json",
       "initial_sha256": "7a82226a3f451938602a16e58e6c3aa7a8f5cd687be72b44f9fb2c2abc648c89",
       "optimized_sha256": "9f70cdaa0840281c24ba4f4f7d829bf77cab278a4a77e58f9f270bc4cb8687c9",
-      "optimization_manifest_sha256": "40d79c9b6c7a98f94cf29fc0a29dce27d17964e321f3686f653c0482728a8b9a",
+      "optimization_manifest_sha256": "2dbbde82b079bbd13cfd81f89219777caa1a80b25e449485d4c5a644d17fb5e0",
       "split_sha256": "c2718810b1e5dd6597a4f22caa1d76026e67c09375fe120aab46c97f83d1b4ff",
-      "optimization_created_at": "2026-07-27T05:38:17",
+      "optimization_created_at": "2026-08-07T13:08:50",
       "calibration_answer_ids": [
         "ANS_CPL_405",
         "ANS_CPL_407",
@@ -437,6 +417,66 @@
         "ANS_CPL_456",
         "ANS_CPL_465",
         "ANS_CPL_470"
+      ]
+    },
+    "DM_1": {
+      "question_id": "DM_1",
+      "rubric_group": "DM",
+      "semantic_contract_version": 6,
+      "initial_rubric": "rubrics/initial/DM/DM_1_rubric_standard.json",
+      "optimized_rubric": "rubrics/optimized/DM/DM_1_rubric_standard.json",
+      "optimization_manifest": "rubrics/manifests/DM/DM_1_optimization.json",
+      "initial_sha256": "4ece911b76e0b72de6a947724117dc5c9fac6aeeb04f0f5b8f52166323bc73e4",
+      "optimized_sha256": "c4de486103d822c0d991d5e97ebde2d99c1e9576ca1a23eed4f133f6946b8e54",
+      "optimization_manifest_sha256": "5c53aa799e44a628d2c6a523a3cd7cf6c76ec884113a9c3b604fbfc5d3fe8888",
+      "split_sha256": "10dd46f4ca2ea633210f135dcdee15d31f6a77d0b42ac891fcaf764367340943",
+      "optimization_created_at": "2026-07-25T21:31:50",
+      "calibration_answer_ids": [
+        "ANS_DM_03",
+        "ANS_DM_11",
+        "ANS_DM_19",
+        "ANS_DM_21",
+        "ANS_DM_41"
+      ]
+    },
+    "DM_2": {
+      "question_id": "DM_2",
+      "rubric_group": "DM",
+      "semantic_contract_version": 6,
+      "initial_rubric": "rubrics/initial/DM/DM_2_rubric_standard.json",
+      "optimized_rubric": "rubrics/optimized/DM/DM_2_rubric_standard.json",
+      "optimization_manifest": "rubrics/manifests/DM/DM_2_optimization.json",
+      "initial_sha256": "2d832fbda15c61b1eea5a6ec9766c51719ab81bef614c31086d283d024c21332",
+      "optimized_sha256": "aee754795fe7ba4948ff48272654f647933acd65c243128780256fb81d9575ca",
+      "optimization_manifest_sha256": "eb32e227e172aee3173d0bbe424a05828c391f6f3f39d0d9e78f3cd68cf60b6b",
+      "split_sha256": "3ff7c2ebf3959afc8afcbc9ec1486bad19f20db3af2f96840e40341c243dc946",
+      "optimization_created_at": "2026-07-25T21:47:51",
+      "calibration_answer_ids": [
+        "ANS_DM_100",
+        "ANS_DM_104",
+        "ANS_DM_107",
+        "ANS_DM_112",
+        "ANS_DM_123"
+      ]
+    },
+    "DM_3": {
+      "question_id": "DM_3",
+      "rubric_group": "DM",
+      "semantic_contract_version": 6,
+      "initial_rubric": "rubrics/initial/DM/DM_3_rubric_standard.json",
+      "optimized_rubric": "rubrics/optimized/DM/DM_3_rubric_standard.json",
+      "optimization_manifest": "rubrics/manifests/DM/DM_3_optimization.json",
+      "initial_sha256": "a2e77bdebc722486dc9c62f3f72a9d55c05fed7f4fcf4b446c4f4c6827dbddf7",
+      "optimized_sha256": "a9eb7271d0f5d23a0654c537f40bdece580e86615ebd337f3cdb631f79356a63",
+      "optimization_manifest_sha256": "df03fbaf086e1328dc99f92b58ce3de4a982ca403946ad9e7b3803e9dbb12ab3",
+      "split_sha256": "d732693a21312a218ed5fd6579b82bf1d781efcd80226f234bfd5c23cf2cf861",
+      "optimization_created_at": "2026-07-25T21:42:33",
+      "calibration_answer_ids": [
+        "ANS_DM_191",
+        "ANS_DM_199",
+        "ANS_DM_238",
+        "ANS_DM_242",
+        "ANS_DM_250"
       ]
     },
     "ISC_1": {
@@ -468,9 +508,9 @@
       "optimization_manifest": "rubrics/manifests/ISC/ISC_2_optimization.json",
       "initial_sha256": "619981049eaed0e4f63ef112634626602e857766edbf3c75f938fb83f41127bb",
       "optimized_sha256": "0a631a9a54779c68aa19a246fe610bcd841ebb8b30ece1952d2f101e5280b911",
-      "optimization_manifest_sha256": "5397dd66d27c10d6d5bc3f2782c6403fc364ca2dd97ad713f6892e442b0fccc4",
+      "optimization_manifest_sha256": "97866fcbf4bbbfc51f67b93b333da08f2abae6ccc3bf9e142de7e39c63db390f",
       "split_sha256": "d2f1adde880b09916b41ca3cd88c41005c37d51eb19062b591d1f354585dc0e4",
-      "optimization_created_at": "2026-07-27T07:26:30",
+      "optimization_created_at": "2026-08-07T13:13:17",
       "calibration_answer_ids": [
         "ANS_ISC_473",
         "ANS_ISC_478",
@@ -487,10 +527,10 @@
       "optimized_rubric": "rubrics/optimized/ISC/ISC_3_rubric_standard.json",
       "optimization_manifest": "rubrics/manifests/ISC/ISC_3_optimization.json",
       "initial_sha256": "c74f14f652a0508c34d04dbef37f5192256cae313dca080a8ba7c9e80a7596af",
-      "optimized_sha256": "3f14633b3246d4690967b036f1d39f91637e0b17fc6866b024be5075e1699461",
-      "optimization_manifest_sha256": "eca5452e585961e2ae8dd68bba83b960fe25e93f6b4549f5605b8b4b5c87e7b0",
+      "optimized_sha256": "ca46ede82b2ff2ae12c631c9368d82aa8aa0d89ed127f4f9728c70f4c299dd1c",
+      "optimization_manifest_sha256": "8cfd839cbb9241470511c9bb20adaeaf96fe113040105692651002af106fddd8",
       "split_sha256": "9bd269678eb12d556a057255ad7ad4be449199c43f8c23e1af92b3263e922d1a",
-      "optimization_created_at": "2026-07-27T07:27:51",
+      "optimization_created_at": "2026-08-07T13:17:55",
       "calibration_answer_ids": [
         "ANS_ISC_550",
         "ANS_ISC_551",
@@ -628,9 +668,9 @@
       "optimization_manifest": "rubrics/manifests/ML/ML_1_optimization.json",
       "initial_sha256": "40298ba2fee865e4b991aedcd9e44e433c017a008e8d8e8a10005ac38ff909b6",
       "optimized_sha256": "bce7630468c0545f5bf08245577dda772bc58e9a9eef4be1648ff10ad1a32acd",
-      "optimization_manifest_sha256": "e71605b63f051576e817e7644a285f603c4a2ffaf591307d235784234c1e2ead",
+      "optimization_manifest_sha256": "77fae560c48a51fef9c5583838faef4ae52047d355f51a8d41baa813a941faa5",
       "split_sha256": "84f88082fc041e119a4f763c7265e51d8db48455789fc66116baf28839726aae",
-      "optimization_created_at": "2026-07-27T10:18:08",
+      "optimization_created_at": "2026-08-07T13:28:32",
       "calibration_answer_ids": [
         "ANS_ML_09",
         "ANS_ML_25",
@@ -688,35 +728,15 @@
       "optimization_manifest": "rubrics/manifests/ML/ML_4_optimization.json",
       "initial_sha256": "0d767fb27e9eb7d870c19a929ff45b9adf08661ff94a649c72377acd40ae99e9",
       "optimized_sha256": "986d343d7b68434526e3b7dd168559b8a60dacfcdb55097c4742ae268ba1c739",
-      "optimization_manifest_sha256": "b2de1096eb09997230effa859e4a037ef83285c1cf7d010e5337a2aca79777f5",
+      "optimization_manifest_sha256": "fe76306c2112e1052485b78e8e9b24dbbcef623be1ca43e5942c13768aa60f38",
       "split_sha256": "8ecbdf26dc5e23b4a2e3891a190643453964a45d6816dd2e14c77d484e3a5634",
-      "optimization_created_at": "2026-07-27T10:21:39",
+      "optimization_created_at": "2026-08-07T13:37:33",
       "calibration_answer_ids": [
         "ANS_ML_171",
         "ANS_ML_189",
         "ANS_ML_199",
         "ANS_ML_201",
         "ANS_ML_205"
-      ]
-    },
-    "POC_1": {
-      "question_id": "POC_1",
-      "rubric_group": "POC",
-      "semantic_contract_version": 6,
-      "initial_rubric": "rubrics/initial/POC/POC_1_rubric_standard.json",
-      "optimized_rubric": "rubrics/optimized/POC/POC_1_rubric_standard.json",
-      "optimization_manifest": "rubrics/manifests/POC/POC_1_optimization.json",
-      "initial_sha256": "16b4fbcfd18d75d15a22b55fb7ea71e5844e4c22c364e3bb8bda0b7fd564a9ed",
-      "optimized_sha256": "9279ed8cf1c8d7133d72f83be51609d3f16abbbfb2c2227fedae3d4314399194",
-      "optimization_manifest_sha256": "76da2e009f52581396d2f5205d392a30330fb71010c98b977aad13e5040a706b",
-      "split_sha256": "05ceaedf210390eae151507177423f2860b1361c43c5b77367eac9bcd4726154",
-      "optimization_created_at": "2026-07-27T12:27:51",
-      "calibration_answer_ids": [
-        "ANS_POC_293",
-        "ANS_POC_297",
-        "ANS_POC_306",
-        "ANS_POC_318",
-        "ANS_POC_336"
       ]
     },
     "POC_2": {
@@ -757,26 +777,6 @@
         "ANS_POC_241",
         "ANS_POC_256",
         "ANS_POC_273"
-      ]
-    },
-    "POC_4": {
-      "question_id": "POC_4",
-      "rubric_group": "POC",
-      "semantic_contract_version": 6,
-      "initial_rubric": "rubrics/initial/POC/POC_4_rubric_standard.json",
-      "optimized_rubric": "rubrics/optimized/POC/POC_4_rubric_standard.json",
-      "optimization_manifest": "rubrics/manifests/POC/POC_4_optimization.json",
-      "initial_sha256": "7da96be44c32d96b06a269231d327b36ae4b5a0d05dda87079bcb33d573c1aad",
-      "optimized_sha256": "1737a84b62d7e7b9adb2bf302e9f666663e297c875b3f399af84214c066b74dc",
-      "optimization_manifest_sha256": "67b0a73d06227ca9a10d59222566ebc0fa10ae52c56972f78b3ffeb55d640f19",
-      "split_sha256": "f54b5ac5a051cfef875728249ac5dca4329e867df2d3131d186c4979c7b651b8",
-      "optimization_created_at": "2026-07-27T12:29:21",
-      "calibration_answer_ids": [
-        "ANS_POC_106",
-        "ANS_POC_111",
-        "ANS_POC_116",
-        "ANS_POC_73",
-        "ANS_POC_84"
       ]
     },
     "POC_5": {
@@ -871,5 +871,5 @@
       "CO_7 optimized rubric changed"
     ]
   },
-  "updated_at": "2026-07-27T12:32:32"
+  "updated_at": "2026-08-07T13:37:34"
 }

@@ -165,6 +165,31 @@ Evaluation now runs only after every selected test answer has a checkpoint.
 Incomplete runs remain resumable under the same tag and are marked
 `incomplete` instead of producing misleading metrics or a missing-file error.
 
+## Repeated external-test aggregation
+
+Repeated test runs must use the same prepared dataset snapshot, selected
+questions, model contract, and A3WA configuration. Aggregate completed runs
+without calling the model again:
+
+```powershell
+.\venv\Scripts\python.exe scripts\benchmarks\aggregate_repeats.py `
+  --runs-root "..\refgrader-artifacts\public_benchmarks\mohler_v1\runs" `
+  --run-ids `
+    "mohler_external_test_private_a3wa_20260807_230934" `
+    "mohler_external_repeat2_private_a3wa_20260808_143925" `
+    "mohler_external_repeat3_private_a3wa_20260808_143925" `
+  --output-dir `
+    "..\refgrader-artifacts\public_benchmarks\mohler_v1\repeat_analyses\mohler_external_private_a3wa_3runs_20260809"
+```
+
+The command refuses incomplete or incompatible runs and writes
+`repeat_summary.json`, `run_metrics.csv`, `ablation_by_run.csv`,
+`sample_stability.csv`, `question_stability.csv`, and `report.md`. Confidence
+intervals resample questions as clusters while retaining all repeated-run
+measurements. This is an evaluation-only operation: it does not grade answers,
+calibrate A3WA, or alter any source run. Do not select the best repeat or use
+public-test labels to tune the grading system.
+
 ## Separate stages
 
 Validation:

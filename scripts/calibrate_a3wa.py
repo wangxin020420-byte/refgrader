@@ -438,6 +438,19 @@ def summarize_risk_distributions(trial_records):
                 (row.get("trial_risk_components") or {}).get("U_R", 0.0)
                 for row in rows
             ),
+            "U_R_consensus": _numeric_summary(
+                (row.get("trial_risk_components") or {}).get(
+                    "U_R_consensus",
+                    (row.get("trial_risk_components") or {}).get("U_R", 0.0),
+                )
+                for row in rows
+            ),
+            "U_R_evidence": _numeric_summary(
+                (row.get("trial_risk_components") or {}).get(
+                    "U_R_evidence", 0.0
+                )
+                for row in rows
+            ),
         }
     return summary
 
@@ -458,6 +471,8 @@ CASE_DIAGNOSTIC_FIELDS = (
     "U_E",
     "U_S",
     "U_R",
+    "U_R_consensus",
+    "U_R_evidence",
     "unsupported_match_points_ratio",
     "effective_unsupported_match_points_ratio",
     "unsupported_high_score_risk",
@@ -516,6 +531,16 @@ def build_case_diagnostics(trial_records):
             "U_E": round(safe_float(risks.get("U_E"), 0.0), 6),
             "U_S": round(safe_float(risks.get("U_S"), 0.0), 6),
             "U_R": round(safe_float(risks.get("U_R"), 0.0), 6),
+            "U_R_consensus": round(
+                safe_float(
+                    risks.get("U_R_consensus", risks.get("U_R", 0.0)),
+                    0.0,
+                ),
+                6,
+            ),
+            "U_R_evidence": round(
+                safe_float(risks.get("U_R_evidence"), 0.0), 6
+            ),
             "unsupported_match_points_ratio": round(
                 safe_float(post.get("unsupported_match_points_ratio"), 0.0), 6
             ),
@@ -724,6 +749,52 @@ def build_candidate_diagnostics(results, top_k=20):
             _candidate_snapshot(item) for item in ordered[: max(1, int(top_k))]
         ],
         "pareto_frontier": [_candidate_snapshot(item) for item in pareto],
+    }
+
+
+def build_deployment_gate(cross_validation, best, boundary_policy):
+    """Build an explicit, auditable deployment gate without changing policy."""
+    constraint_status = best.get("constraint_status") or {}
+    enabled_actions_positive = all(
+        not boundary_policy[f"allow_{direction}"]
+        or best["boundary_action_summary"].get(action, {}).get(
+            "mean_gain", 0.0
+        ) > 0.0
+        for direction, action in (
+            ("raise", "accept_structured_raise"),
+            ("lower", "accept_structured_lower"),
+        )
+    )
+    requirements = {
+        "loqo_normalized_mae_noninferior": bool(
+            cross_validation.get("noninferior", False)
+        ),
+        "route_budget_constraints_met": best["constraint_violations"] == 0,
+        "bnd_invocation_budget_met": bool(
+            constraint_status.get("bnd_ratio_within_budget", False)
+        ),
+        "human_review_budget_met": bool(
+            constraint_status.get("human_review_ratio_within_budget", True)
+        ),
+        "neg_budget_met": bool(
+            constraint_status.get("neg_ratio_within_budget", False)
+        ),
+        "unsafe_pos_budget_met": bool(
+            constraint_status.get("unsafe_pos_rate_within_budget", False)
+        ),
+        "validation_bnd_gain_positive": best["bnd_gain"] > 0.0,
+        "enabled_boundary_actions_positive": enabled_actions_positive,
+    }
+    return {
+        "passed": bool(
+            cross_validation.get("available", False)
+            and all(requirements.values())
+        ),
+        "requirements": requirements,
+        "note": (
+            "A failed gate marks the config experimental; "
+            "it does not tune on test data."
+        ),
     }
 
 
@@ -1394,48 +1465,9 @@ def main():
             "boundary_action_min_count": args.boundary_action_min_count,
         },
     )
-    deployment_gate = {
-        "passed": bool(
-            cross_validation.get("available", False)
-            and cross_validation.get("noninferior", False)
-            and best["constraint_violations"] == 0
-            and best["bnd_gain"] > 0.0
-            and (
-                not boundary_policy["allow_raise"]
-                or best["boundary_action_summary"].get(
-                    "accept_structured_raise", {}
-                ).get("mean_gain", 0.0) > 0.0
-            )
-            and (
-                not boundary_policy["allow_lower"]
-                or best["boundary_action_summary"].get(
-                    "accept_structured_lower", {}
-                ).get("mean_gain", 0.0) > 0.0
-            )
-        ),
-        "requirements": {
-            "loqo_normalized_mae_noninferior": bool(cross_validation.get("noninferior", False)),
-            "route_budget_constraints_met": best["constraint_violations"] == 0,
-            "bnd_invocation_budget_met": best["constraint_status"][
-                "bnd_ratio_within_budget"
-            ],
-            "human_review_budget_met": best["constraint_status"][
-                "human_review_ratio_within_budget"
-            ],
-            "validation_bnd_gain_positive": best["bnd_gain"] > 0.0,
-            "enabled_boundary_actions_positive": all(
-                not boundary_policy[f"allow_{direction}"]
-                or best["boundary_action_summary"].get(action, {}).get(
-                    "mean_gain", 0.0
-                ) > 0.0
-                for direction, action in (
-                    ("raise", "accept_structured_raise"),
-                    ("lower", "accept_structured_lower"),
-                )
-            ),
-        },
-        "note": "A failed gate marks the config experimental; it does not tune on test data.",
-    }
+    deployment_gate = build_deployment_gate(
+        cross_validation, best, boundary_policy
+    )
     alpha, beta = compute_a3wa_thresholds(**best["loss_params"])
 
     config = {
@@ -1486,6 +1518,7 @@ def main():
             "expected_system_cost": round(best["expected_system_cost"], 6),
             "constraint_violations": best["constraint_violations"],
             "constraint_excess": round(best["constraint_excess"], 6),
+            "constraint_status": best["constraint_status"],
             "metrics": {k: round(v, 6) if isinstance(v, float) else v for k, v in best["metrics"].items()},
             "baseline_metrics": {
                 k: round(v, 6) if isinstance(v, float) else v for k, v in best["baseline_metrics"].items()

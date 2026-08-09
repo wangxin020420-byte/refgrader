@@ -310,6 +310,12 @@ POS 自动接受，NEG 拒判并进入人工复核，BND 先执行一次结构�
 预算及原有非劣和收益条件同时满足时才通过。该拆分只修正成本口径，不放宽现有
 BND 调用预算，也不改变 A3WA 的非对称损失和 `alpha/beta` 阈值推导。
 
+诊断配置的 `deployment_gate.requirements` 会分别记录
+`bnd_invocation_budget_met`、`human_review_budget_met`、`neg_budget_met` 和
+`unsafe_pos_budget_met`，避免只能从聚合的 `route_budget_constraints_met` 猜测
+失败原因。validation 案例报告同时导出 `U_R_consensus` 与 `U_R_evidence`；这些字段
+只用于检验风险信号的区分度，不参与额外的 test 调参。
+
 理论依据如下：
 
 - Zhao X, Miao D, Yao Y, et al., [An Asymmetric Approach to Three-Way

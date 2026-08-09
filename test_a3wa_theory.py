@@ -16,6 +16,7 @@ from scripts.calibrate_a3wa import (
     _residual_entry,
     build_case_diagnostics,
     build_candidate_diagnostics,
+    build_deployment_gate,
     build_score_calibration,
     evaluate_params,
     fit_monotonic_membership,
@@ -223,6 +224,29 @@ class A3WATheoryTests(unittest.TestCase):
             0.5,
         )
 
+    def test_deployment_gate_reports_each_route_budget(self):
+        best = {
+            "constraint_violations": 1,
+            "constraint_status": {
+                "bnd_ratio_within_budget": True,
+                "human_review_ratio_within_budget": True,
+                "neg_ratio_within_budget": True,
+                "unsafe_pos_rate_within_budget": False,
+            },
+            "bnd_gain": 0.1,
+            "boundary_action_summary": {},
+        }
+        gate = build_deployment_gate(
+            {"available": True, "noninferior": True},
+            best,
+            {"allow_raise": False, "allow_lower": False},
+        )
+        self.assertFalse(gate["passed"])
+        self.assertTrue(gate["requirements"]["bnd_invocation_budget_met"])
+        self.assertTrue(gate["requirements"]["human_review_budget_met"])
+        self.assertTrue(gate["requirements"]["neg_budget_met"])
+        self.assertFalse(gate["requirements"]["unsafe_pos_budget_met"])
+
     def test_candidate_diagnostics_certify_conflicting_constraints(self):
         def candidate(bnd_ratio, unsafe_rate):
             status = {
@@ -308,7 +332,13 @@ class A3WATheoryTests(unittest.TestCase):
             "safe_error_ratio": 0.1,
             "safe_error_points": 0.5,
             "trial_membership": 0.8,
-            "trial_risk_components": {"U_E": 0.0, "U_S": 0.0, "U_R": 0.0},
+            "trial_risk_components": {
+                "U_E": 0.0,
+                "U_S": 0.0,
+                "U_R": 0.4,
+                "U_R_consensus": 0.1,
+                "U_R_evidence": 0.4,
+            },
             "post_calibration": {"unsupported_high_score_risk": 0.4},
         }
         records = [
@@ -353,6 +383,8 @@ class A3WATheoryTests(unittest.TestCase):
             by_student["C"]["diagnostic_group"], "bnd_human_review"
         )
         self.assertEqual(by_student["A"]["unsupported_high_score_risk"], 0.4)
+        self.assertEqual(by_student["A"]["U_R_consensus"], 0.1)
+        self.assertEqual(by_student["A"]["U_R_evidence"], 0.4)
 
         with tempfile.TemporaryDirectory() as temp_dir:
             report = write_case_diagnostics(temp_dir, records)

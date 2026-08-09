@@ -289,6 +289,49 @@ POS 自动接受，NEG 拒判并进入人工复核，BND 先执行一次结构�
 明确条目 ID、可核验证据、合法 reason type、足够置信度且方向一致时才允许在条目
 分值和全题 20% 双重上限内改分，否则转人工复核。
 
+三类主风险保持为证据提取风险 `U_E`、独立评分稳定性风险 `U_S` 和评分准则映射
+风险 `U_R`。其中 `U_R` 不是仅由三次评分是否一致决定，而是分解为两项：
+
+- `U_R_consensus`：语义探针在评分准则条款分类和给分映射上的不一致风险；
+- `U_R_evidence`：已给分条款缺少规范证据、核心证据相互矛盾或核心答案锚点失败
+  所形成的证据冲突风险。
+
+二者使用无参数的最大模糊并算子融合：
+`U_R = max(U_R_consensus, U_R_evidence)`。该算子满足单调性、幂等性和有界性，
+不会让一种风险被另一种低风险抵消，也不需要根据当前 validation 经验拟合额外权重。
+因此，三次探针即使稳定地产生同一个高分，只要该分数缺少证据支持，仍会提高
+`U_R` 并影响三支路由。裸答案风险不直接并入该项，因为结论主导题允许合法短答；
+错误答案比例也不等同于不确定性，因为系统可能对“应判零分”具有高置信度。
+
+运行预算区分两个统计量：`bnd_invocation_ratio` 表示进入 BND 并触发结构化二次
+审查的比例，`actual_human_review_ratio` 表示二次审查后仍需人工处理的比例。
+`--bnd-max` 和 `--human-review-max` 分别约束这两个成本；后者默认等于前者，因而
+不会引入新的事后经验阈值。deployment gate 只有在两个预算、NEG 预算、unsafe POS
+预算及原有非劣和收益条件同时满足时才通过。该拆分只修正成本口径，不放宽现有
+BND 调用预算，也不改变 A3WA 的非对称损失和 `alpha/beta` 阈值推导。
+
+理论依据如下：
+
+- Zhao X, Miao D, Yao Y, et al., [An Asymmetric Approach to Three-Way
+  Approximation of Fuzzy Sets](https://ieeexplore.ieee.org/document/10980445),
+  IEEE Transactions on Fuzzy Systems, 2025：支持非对称三支阈值及其损失解释；
+- Yu and Zhao, [A three-way decision model for multi-granular support
+  intuitionistic fuzzy rough sets based on overlap
+  functions](https://link.springer.com/article/10.1007/s10462-025-11139-4),
+  Artificial Intelligence Review, 2025：支持对多来源、多粒度不确定性进行单调
+  聚合，并保留边界域处理；
+- Sheng et al., [Analyzing Uncertainty of LLM-as-a-Judge: Interval Evaluations
+  with Conformal Prediction](https://aclanthology.org/2025.emnlp-main.569/),
+  EMNLP 2025：说明评分一致性不能排除系统偏差，需要独立校准和证据维度；
+- [A game-theoretic sequential three-way decision using probabilistic rough
+  sets and multiple levels of
+  granularity](https://link.springer.com/article/10.1007/s10791-025-09729-5),
+  Information Retrieval Journal, 2025：支持边界域获取额外信息后再自动处理或转人工
+  的序贯决策流程。
+
+上述来源支撑变量、融合约束和序贯处理设计，但不作为针对当前数据集调高或调低阈值
+的依据；最终有效性仍必须通过固定 validation 和独立 test 报告。
+
 论文评估必须至少报告两组结果：`avg -> three_way_core_score` 衡量三支决策本身，
 `three_way_core_score -> final_calibrated_score` 衡量可选残差层。默认残差层关闭，避免
 把 validation 的整体偏差校正错误归因于 3WD。

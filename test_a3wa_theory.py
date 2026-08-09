@@ -2,6 +2,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from calibration_utils import (
     apply_route_score_calibration,
@@ -9,12 +10,14 @@ from calibration_utils import (
     build_a3wa_decision,
     calibrated_a3wa_membership,
     conformal_score_interval,
+    fuse_rubric_mapping_risk,
 )
 from scripts.calibrate_a3wa import (
     _residual_entry,
     build_case_diagnostics,
     build_candidate_diagnostics,
     build_score_calibration,
+    evaluate_params,
     fit_monotonic_membership,
     fit_score_uncertainty,
     leave_one_question_out_validation,
@@ -26,6 +29,38 @@ from scripts.replay_calibration import infer_question_id
 
 
 class A3WATheoryTests(unittest.TestCase):
+    def test_rubric_mapping_risk_uses_parameter_free_fuzzy_union(self):
+        fused = fuse_rubric_mapping_risk(0.2, {
+            "effective_unsupported_match_points_ratio": 0.35,
+            "core_contradiction_ratio": 0.1,
+        })
+        self.assertEqual(fused["U_R_consensus"], 0.2)
+        self.assertEqual(fused["U_R_evidence"], 0.35)
+        self.assertEqual(fused["U_R"], 0.35)
+        self.assertEqual(fused["fusion"], "max_t_conorm")
+
+    def test_primary_consensus_cannot_hide_evidence_mapping_risk(self):
+        decision = build_a3wa_decision(
+            model_scores=[8.0, 8.0, 8.0],
+            avg_model_score=8.0,
+            std_dev=0.0,
+            max_score=10.0,
+            blank_rate=0.0,
+            low_quality_rate=0.0,
+            perception_failure_rate=0.0,
+            extraction_quality="high",
+            fatal_points_ratio=0.0,
+            post_calibration={
+                "primary_risks": {"U_E": 0.0, "U_S": 0.0, "U_R": 0.0},
+                "effective_unsupported_match_points_ratio": 0.3,
+                "core_contradiction_ratio": 0.2,
+            },
+        )
+        risks = decision["risk_components"]
+        self.assertEqual(risks["U_R_consensus"], 0.0)
+        self.assertEqual(risks["U_R_evidence"], 0.3)
+        self.assertEqual(risks["U_R"], 0.3)
+
     def test_sequential_diagnostics_separate_bnd_from_human_review(self):
         records = [
             {
@@ -55,6 +90,83 @@ class A3WATheoryTests(unittest.TestCase):
         self.assertEqual(summary["bnd_auto_resolved_rate"], 0.5)
         self.assertEqual(summary["human_review_count"], 2)
         self.assertEqual(summary["human_review_ratio"], 0.5)
+
+    def test_route_and_human_review_budgets_are_independent(self):
+        def record(student_id):
+            return {
+                "qid": "Q1",
+                "student_id": student_id,
+                "teacher": 5.0,
+                "avg": 5.0,
+                "raw_candidate": 5.0,
+                "max_score": 10.0,
+                "model_scores": [5.0, 5.0, 5.0],
+                "std_dev": 0.0,
+                "blank_rate": 0.0,
+                "low_quality_rate": 0.0,
+                "perception_failure_rate": 0.0,
+                "structure_missing_rate": 0.0,
+                "extraction_risk": 0.0,
+                "extraction_quality": "high",
+                "fatal_points_ratio": 0.0,
+                "high_blank_high_score": False,
+                "post_calibration": {"rubric_item_points": {}},
+                "agent_evidence": {},
+            }
+
+        auto_gate = {
+            "final_score": 5.0,
+            "action": "keep_baseline",
+            "gate_reason": "validated_item_evidence",
+            "sequential_outcome": "auto_kept_after_review",
+            "requires_human_review": False,
+        }
+        human_gate = {
+            "final_score": 5.0,
+            "action": "keep_baseline",
+            "gate_reason": "structured_evidence_confidence_below_threshold",
+            "sequential_outcome": "defer_human",
+            "requires_human_review": True,
+        }
+        decision = {"route": "BND", "mu": 0.5, "risk_components": {}}
+        with patch(
+            "scripts.calibrate_a3wa.build_a3wa_decision",
+            return_value=decision,
+        ), patch(
+            "scripts.calibrate_a3wa.apply_action_policy",
+            side_effect=[auto_gate, human_gate],
+        ):
+            result = evaluate_params(
+                [record("A"), record("B")],
+                loss_params={
+                    "lambda1": 5.0,
+                    "lambda2": 1.0,
+                    "mu1": 3.0,
+                    "mu2": 7.0,
+                    "m": 0.5,
+                },
+                membership_model=None,
+                score_uncertainty=None,
+                bnd_max=1.0,
+                human_review_max=0.4,
+                neg_max=1.0,
+                bnd_cost=0.02,
+                neg_cost=0.1,
+                unsafe_pos_cost=1.0,
+                safe_error_ratio=0.1,
+                safe_error_points=0.5,
+                max_unsafe_pos_rate=1.0,
+                boundary_policy={},
+            )
+        self.assertEqual(result["bnd_invocation_ratio"], 1.0)
+        self.assertEqual(result["actual_human_review_ratio"], 0.5)
+        self.assertTrue(
+            result["constraint_status"]["bnd_ratio_within_budget"]
+        )
+        self.assertFalse(
+            result["constraint_status"]["human_review_ratio_within_budget"]
+        )
+        self.assertEqual(result["constraint_violations"], 1)
 
     def test_candidate_diagnostics_explain_infeasible_search(self):
         def candidate(bnd_ratio, unsafe_rate, violations):
@@ -460,6 +572,7 @@ class A3WATheoryTests(unittest.TestCase):
             "safe_error_ratio": 0.10,
             "safe_error_points": 0.50,
             "bnd_max": 0.75,
+            "human_review_max": 0.75,
             "neg_max": 0.75,
             "bnd_cost": 0.02,
             "neg_cost": 0.10,

@@ -607,6 +607,18 @@ def _candidate_snapshot(item):
         "objective": round(item["expected_system_cost"], 6),
         "mae": round(item["metrics"]["mae"], 6),
         "bnd_ratio": round(item["bnd_ratio"], 6),
+        "bnd_invocation_ratio": round(
+            item.get("bnd_invocation_ratio", item["bnd_ratio"]), 6
+        ),
+        "actual_human_review_ratio": round(
+            item.get(
+                "actual_human_review_ratio",
+                item.get("sequential_outcome_summary", {}).get(
+                    "human_review_ratio", 0.0
+                ),
+            ),
+            6,
+        ),
         "neg_ratio": round(item["neg_ratio"], 6),
         "unsafe_pos_rate": round(item["unsafe_pos_rate"], 6),
         "bnd_gain": round(item["bnd_gain"], 6),
@@ -633,6 +645,9 @@ def build_candidate_diagnostics(results, top_k=20):
         item
         for item in ordered
         if item["constraint_status"].get("bnd_ratio_within_budget", False)
+        and item["constraint_status"].get(
+            "human_review_ratio_within_budget", True
+        )
         and item["constraint_status"].get("neg_ratio_within_budget", False)
     ]
     safe_pos_candidates = [
@@ -654,6 +669,7 @@ def build_candidate_diagnostics(results, top_k=20):
         candidate_values = (
             candidate["metrics"]["mae"],
             candidate["bnd_ratio"],
+            candidate.get("actual_human_review_ratio", 0.0),
             candidate["unsafe_pos_rate"],
         )
         dominated = False
@@ -663,6 +679,7 @@ def build_candidate_diagnostics(results, top_k=20):
             other_values = (
                 other["metrics"]["mae"],
                 other["bnd_ratio"],
+                other.get("actual_human_review_ratio", 0.0),
                 other["unsafe_pos_rate"],
             )
             if all(a <= b for a, b in zip(other_values, candidate_values)) and any(
@@ -789,6 +806,7 @@ def evaluate_params(
     membership_model,
     score_uncertainty,
     bnd_max,
+    human_review_max,
     neg_max,
     bnd_cost,
     neg_cost,
@@ -865,6 +883,8 @@ def evaluate_params(
             normalized_score_loss += abs(row["trial_score"] - row["teacher"]) / max_score
     n = max(len(trial), 1)
     unsafe_pos_rate = unsafe_pos / max(route_counts["POS"], 1)
+    sequential_summary = summarize_sequential_outcomes(trial)
+    human_review_ratio = sequential_summary["human_review_ratio"]
     expected_system_cost = (
         normalized_score_loss / n
         + bnd_cost * bnd_ratio
@@ -873,15 +893,16 @@ def evaluate_params(
     )
     constraint_violations = (
         int(bnd_ratio > bnd_max)
+        + int(human_review_ratio > human_review_max)
         + int(neg_ratio > neg_max)
         + int(unsafe_pos_rate > max_unsafe_pos_rate)
     )
     constraint_excess = (
         max(0.0, bnd_ratio - bnd_max)
+        + max(0.0, human_review_ratio - human_review_max)
         + max(0.0, neg_ratio - neg_max)
         + max(0.0, unsafe_pos_rate - max_unsafe_pos_rate)
     )
-    sequential_summary = summarize_sequential_outcomes(trial)
     result = {
         "objective": expected_system_cost,
         "expected_system_cost": expected_system_cost,
@@ -891,6 +912,8 @@ def evaluate_params(
         "baseline_metrics": avg_metric,
         "route_counts": dict(route_counts),
         "bnd_ratio": bnd_ratio,
+        "bnd_invocation_ratio": bnd_ratio,
+        "actual_human_review_ratio": human_review_ratio,
         "neg_ratio": neg_ratio,
         "unsafe_pos_count": unsafe_pos,
         "unsafe_pos_rate": unsafe_pos_rate,
@@ -901,6 +924,9 @@ def evaluate_params(
         "sequential_outcome_summary": sequential_summary,
         "constraint_status": {
             "bnd_ratio_within_budget": bnd_ratio <= bnd_max,
+            "human_review_ratio_within_budget": (
+                human_review_ratio <= human_review_max
+            ),
             "neg_ratio_within_budget": neg_ratio <= neg_max,
             "unsafe_pos_rate_within_budget": (
                 unsafe_pos_rate <= max_unsafe_pos_rate
@@ -1085,6 +1111,9 @@ def leave_one_question_out_validation(records, calibration_args):
             "membership_model": membership,
             "score_uncertainty": uncertainty,
             "bnd_max": calibration_args["bnd_max"],
+            "human_review_max": calibration_args.get(
+                "human_review_max", calibration_args["bnd_max"]
+            ),
             "neg_max": calibration_args["neg_max"],
             "bnd_cost": calibration_args["bnd_cost"],
             "neg_cost": calibration_args["neg_cost"],
@@ -1170,6 +1199,14 @@ def main():
     parser.add_argument("--output", default="results_rrd_vlm/a3wa_calibration_config.json")
     parser.add_argument("--diagnostic-report-dir")
     parser.add_argument("--bnd-max", type=float, default=0.60)
+    parser.add_argument(
+        "--human-review-max",
+        type=float,
+        help=(
+            "Maximum fraction of validation samples deferred to a human. "
+            "Defaults to --bnd-max so no additional budget is introduced."
+        ),
+    )
     parser.add_argument("--neg-max", type=float, default=0.35)
     parser.add_argument("--top-k", type=int, default=8)
     parser.add_argument("--score-calibration", action="store_true", default=False)
@@ -1206,9 +1243,12 @@ def main():
         "--vlm-model", default=default_model_config["vlm_model"]
     )
     args = parser.parse_args()
+    if args.human_review_max is None:
+        args.human_review_max = args.bnd_max
 
     probability_args = {
         "bnd_max": args.bnd_max,
+        "human_review_max": args.human_review_max,
         "neg_max": args.neg_max,
         "conformal_coverage": args.conformal_coverage,
         "conformal_scale_floor": args.conformal_scale_floor,
@@ -1268,6 +1308,7 @@ def main():
         "membership_model": membership_model,
         "score_uncertainty": score_uncertainty,
         "bnd_max": args.bnd_max,
+        "human_review_max": args.human_review_max,
         "neg_max": args.neg_max,
         "bnd_cost": args.bnd_review_cost,
         "neg_cost": args.neg_human_cost,
@@ -1344,6 +1385,7 @@ def main():
             "safe_error_points": args.safe_error_points,
             "max_unsafe_pos_rate": args.max_unsafe_pos_rate,
             "bnd_max": args.bnd_max,
+            "human_review_max": args.human_review_max,
             "neg_max": args.neg_max,
             "bnd_cost": args.bnd_review_cost,
             "neg_cost": args.neg_human_cost,
@@ -1374,6 +1416,12 @@ def main():
         "requirements": {
             "loqo_normalized_mae_noninferior": bool(cross_validation.get("noninferior", False)),
             "route_budget_constraints_met": best["constraint_violations"] == 0,
+            "bnd_invocation_budget_met": best["constraint_status"][
+                "bnd_ratio_within_budget"
+            ],
+            "human_review_budget_met": best["constraint_status"][
+                "human_review_ratio_within_budget"
+            ],
             "validation_bnd_gain_positive": best["bnd_gain"] > 0.0,
             "enabled_boundary_actions_positive": all(
                 not boundary_policy[f"allow_{direction}"]
@@ -1414,10 +1462,13 @@ def main():
         "score_uncertainty": score_uncertainty,
         "boundary_policy": boundary_policy,
         "operational_costs": {
+            "normalized_bnd_invocation": args.bnd_review_cost,
+            # Kept for backward-compatible readers of older configurations.
             "normalized_bnd_review": args.bnd_review_cost,
             "normalized_neg_human_review": args.neg_human_cost,
             "unsafe_pos": args.unsafe_pos_cost,
             "bnd_max": args.bnd_max,
+            "human_review_max": args.human_review_max,
             "neg_max": args.neg_max,
             "max_unsafe_pos_rate": args.max_unsafe_pos_rate,
         },

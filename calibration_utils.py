@@ -1108,6 +1108,38 @@ def compute_three_way_primary_risks(
     }
 
 
+def fuse_rubric_mapping_risk(consensus_risk, post_calibration=None):
+    """Fuse rubric-consensus and evidence-conflict risks with a max t-conorm.
+
+    Both inputs describe membership in the same fuzzy risk set: an unreliable
+    mapping from extracted evidence to rubric credit. The maximum operator is
+    monotone, idempotent, bounded, and introduces no fitted fusion parameter.
+    """
+    post_calibration = (
+        post_calibration if isinstance(post_calibration, dict) else {}
+    )
+    consensus = clamp01(consensus_risk)
+    unsupported = clamp01(
+        post_calibration.get(
+            "effective_unsupported_match_points_ratio",
+            post_calibration.get("unsupported_match_points_ratio", 0.0),
+        )
+    )
+    contradiction = clamp01(
+        post_calibration.get("core_contradiction_ratio", 0.0)
+    )
+    anchor_failure = (
+        1.0 if post_calibration.get("core_anchor_failed", False) else 0.0
+    )
+    evidence = max(unsupported, contradiction, anchor_failure)
+    return {
+        "U_R_consensus": round(consensus, 6),
+        "U_R_evidence": round(evidence, 6),
+        "U_R": round(max(consensus, evidence), 6),
+        "fusion": "max_t_conorm",
+    }
+
+
 def build_post_grading_calibration(
     facts_dict,
     rubrics_data,
@@ -1448,6 +1480,26 @@ def build_post_grading_calibration(
             rule_hits.append("extraction_retry_review")
     else:
         reject_domain = False
+
+    mapping_risk = fuse_rubric_mapping_risk(
+        primary_risks.get("U_R", 0.0),
+        {
+            "effective_unsupported_match_points_ratio": effective_unsupported_ratio,
+            "core_contradiction_ratio": core_contradiction_ratio,
+            "core_anchor_failed": core_anchor_failed,
+        },
+    )
+    primary_risks.update(mapping_risk)
+    primary_risk = clamp01(
+        (
+            safe_float(primary_risks.get("U_E"), 0.0)
+            + safe_float(primary_risks.get("U_S"), 0.0)
+            + safe_float(primary_risks.get("U_R"), 0.0)
+        )
+        / 3.0
+    )
+    primary_risks["risk"] = round(primary_risk, 6)
+    primary_risks["mu"] = round(1.0 - primary_risk, 6)
 
     return {
         "unsupported_match_points": round(unsupported_match_points, 4),
@@ -1860,11 +1912,21 @@ def build_a3wa_decision(
     if isinstance(primary_risks, dict):
         u_e = clamp01(primary_risks.get("U_E", u_extract))
         u_s = clamp01(primary_risks.get("U_S", u_score))
-        u_r = clamp01(primary_risks.get("U_R", max(u_semantic, u_overcredit)))
+        mapping_risk = fuse_rubric_mapping_risk(
+            primary_risks.get(
+                "U_R_consensus", primary_risks.get("U_R", 0.0)
+            ),
+            post_calibration,
+        )
+        u_r_consensus = mapping_risk["U_R_consensus"]
+        u_r_evidence = mapping_risk["U_R_evidence"]
+        u_r = mapping_risk["U_R"]
     else:
         u_e = u_extract
         u_s = u_score
         u_r = max(u_semantic, u_overcredit)
+        u_r_consensus = u_r
+        u_r_evidence = 0.0
     membership = calibrated_a3wa_membership(
         u_e=u_e,
         u_s=u_s,
@@ -1945,6 +2007,8 @@ def build_a3wa_decision(
             "U_E": round(u_e, 6),
             "U_S": round(u_s, 6),
             "U_R": round(u_r, 6),
+            "U_R_consensus": round(u_r_consensus, 6),
+            "U_R_evidence": round(u_r_evidence, 6),
             "U_extract": round(u_extract, 6),
             "U_score": round(u_score, 6),
             "U_semantic": round(u_semantic, 6),

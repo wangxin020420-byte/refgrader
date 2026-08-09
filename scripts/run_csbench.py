@@ -2272,6 +2272,12 @@ def calibrate(args: argparse.Namespace) -> int:
         str(output),
         "--bnd-max",
         str(args.bnd_max),
+        "--human-review-max",
+        str(
+            args.human_review_max
+            if getattr(args, "human_review_max", None) is not None
+            else args.bnd_max
+        ),
         "--neg-max",
         str(getattr(args, "neg_max", 0.35)),
         "--top-k",
@@ -3441,6 +3447,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
     calibrate_parser.add_argument("--output")
     calibrate_parser.add_argument("--bnd-max", type=float, default=0.60)
+    calibrate_parser.add_argument(
+        "--human-review-max",
+        type=float,
+        help=(
+            "Maximum validation fraction deferred to human review; defaults "
+            "to --bnd-max."
+        ),
+    )
     calibrate_parser.add_argument("--neg-max", type=float, default=0.35)
     calibrate_parser.add_argument("--top-k", type=int, default=8)
     calibrate_parser.add_argument("--min-cell-count", type=int, default=20)

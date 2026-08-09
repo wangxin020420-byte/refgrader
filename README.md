@@ -22,9 +22,9 @@ data/csbench 固定数据与 split
 -> optimized rubric
 -> csbench_hybrid 证据提取（raw_text / PaddleOCR / 视觉映射）
 -> 三次独立语义评分
--> U_E / U_S / U_R 风险与可信隶属度
+-> U_E / U_S / U_R 风险与可信隶属度（U_R 同时审计探针共识与证据冲突）
 -> A3WA 阈值：POS / BND / NEG
--> BND 结构化证据仲裁
+-> BND 结构化证据仲裁（分别记录 BND 调用与实际人工复核）
 -> three_way_core_score
 -> 可选 validation 残差校正（含题目级方向冲突保护）
 -> final_calibrated_score

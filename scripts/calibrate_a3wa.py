@@ -316,15 +316,240 @@ def candidate_loss_params():
                 }
 
 
+def _percentile(values, probability):
+    values = sorted(safe_float(value, 0.0) for value in values)
+    if not values:
+        return 0.0
+    position = (len(values) - 1) * min(1.0, max(0.0, probability))
+    lower = int(math.floor(position))
+    upper = int(math.ceil(position))
+    if lower == upper:
+        return values[lower]
+    fraction = position - lower
+    return values[lower] * (1.0 - fraction) + values[upper] * fraction
+
+
+def _numeric_summary(values):
+    values = [safe_float(value, 0.0) for value in values]
+    return {
+        "n": len(values),
+        "mean": round(mean(values), 6),
+        "p50": round(_percentile(values, 0.50), 6),
+        "p90": round(_percentile(values, 0.90), 6),
+        "min": round(min(values), 6) if values else 0.0,
+        "max": round(max(values), 6) if values else 0.0,
+    }
+
+
+def summarize_sequential_outcomes(trial_records):
+    """Separate A3WA routing cost from actual human-review demand."""
+    route_counts = Counter()
+    outcome_counts = Counter()
+    human_review_count = 0
+    bnd_auto_resolved = 0
+    for row in trial_records:
+        route = str(row.get("trial_route") or "")
+        outcome = str(row.get("sequential_outcome") or "unknown")
+        route_counts[route] += 1
+        outcome_counts[outcome] += 1
+        if bool(row.get("requires_human_review", False)):
+            human_review_count += 1
+        if route == "BND" and outcome in {
+            "auto_adjusted",
+            "auto_kept_after_review",
+        }:
+            bnd_auto_resolved += 1
+
+    total = max(len(trial_records), 1)
+    bnd_count = route_counts.get("BND", 0)
+    return {
+        "route_counts": dict(route_counts),
+        "outcome_counts": dict(outcome_counts),
+        "boundary_agent_count": bnd_count,
+        "boundary_agent_ratio": round(bnd_count / total, 6),
+        "bnd_auto_resolved_count": bnd_auto_resolved,
+        "bnd_auto_resolved_rate": round(
+            bnd_auto_resolved / max(bnd_count, 1), 6
+        ),
+        "human_review_count": human_review_count,
+        "human_review_ratio": round(human_review_count / total, 6),
+    }
+
+
+def summarize_risk_distributions(trial_records):
+    """Describe U_E/U_S/U_R separation without fitting on test data."""
+    groups = {
+        "safe_baseline": [],
+        "unsafe_baseline": [],
+        "route_POS": [],
+        "route_BND": [],
+        "route_NEG": [],
+    }
+    for row in trial_records:
+        max_score = max(safe_float(row.get("max_score"), 0.0), 1.0)
+        tolerance = max(
+            safe_float(row.get("safe_error_points"), 0.5),
+            safe_float(row.get("safe_error_ratio"), 0.1) * max_score,
+        )
+        baseline_error = abs(
+            safe_float(row.get("avg"), 0.0)
+            - safe_float(row.get("teacher"), 0.0)
+        )
+        safety_group = (
+            "safe_baseline" if baseline_error <= tolerance else "unsafe_baseline"
+        )
+        groups[safety_group].append(row)
+        route_group = f"route_{row.get('trial_route', '')}"
+        if route_group in groups:
+            groups[route_group].append(row)
+
+    summary = {}
+    for group_name, rows in groups.items():
+        summary[group_name] = {
+            "n": len(rows),
+            "membership": _numeric_summary(
+                row.get("trial_membership", 0.0) for row in rows
+            ),
+            "U_E": _numeric_summary(
+                (row.get("trial_risk_components") or {}).get("U_E", 0.0)
+                for row in rows
+            ),
+            "U_S": _numeric_summary(
+                (row.get("trial_risk_components") or {}).get("U_S", 0.0)
+                for row in rows
+            ),
+            "U_R": _numeric_summary(
+                (row.get("trial_risk_components") or {}).get("U_R", 0.0)
+                for row in rows
+            ),
+        }
+    return summary
+
+
+def _candidate_snapshot(item):
+    alpha, beta = compute_a3wa_thresholds(**item["loss_params"])
+    return {
+        "alpha": round(alpha, 6),
+        "beta": round(beta, 6),
+        "loss_params": item["loss_params"],
+        "objective": round(item["expected_system_cost"], 6),
+        "mae": round(item["metrics"]["mae"], 6),
+        "bnd_ratio": round(item["bnd_ratio"], 6),
+        "neg_ratio": round(item["neg_ratio"], 6),
+        "unsafe_pos_rate": round(item["unsafe_pos_rate"], 6),
+        "bnd_gain": round(item["bnd_gain"], 6),
+        "constraint_violations": item["constraint_violations"],
+        "constraint_excess": round(item["constraint_excess"], 6),
+        "constraint_status": item["constraint_status"],
+        "route_counts": item["route_counts"],
+    }
+
+
+def build_candidate_diagnostics(results, top_k=20):
+    """Persist the constrained search frontier for reproducible audits."""
+    ordered = sorted(
+        results,
+        key=lambda item: (
+            item["constraint_violations"],
+            item["constraint_excess"],
+            item["expected_system_cost"],
+            item["metrics"]["mae"],
+        ),
+    )
+    feasible = [item for item in ordered if item["constraint_violations"] == 0]
+    bnd_budget_candidates = [
+        item
+        for item in ordered
+        if item["constraint_status"].get("bnd_ratio_within_budget", False)
+        and item["constraint_status"].get("neg_ratio_within_budget", False)
+    ]
+    safe_pos_candidates = [
+        item
+        for item in ordered
+        if item["constraint_status"].get(
+            "unsafe_pos_rate_within_budget", False
+        )
+        and item["constraint_status"].get("neg_ratio_within_budget", False)
+    ]
+    failures = Counter()
+    for item in ordered:
+        for name, passed in item["constraint_status"].items():
+            if not passed:
+                failures[name] += 1
+
+    pareto = []
+    for candidate in ordered:
+        candidate_values = (
+            candidate["metrics"]["mae"],
+            candidate["bnd_ratio"],
+            candidate["unsafe_pos_rate"],
+        )
+        dominated = False
+        for other in ordered:
+            if other is candidate:
+                continue
+            other_values = (
+                other["metrics"]["mae"],
+                other["bnd_ratio"],
+                other["unsafe_pos_rate"],
+            )
+            if all(a <= b for a, b in zip(other_values, candidate_values)) and any(
+                a < b for a, b in zip(other_values, candidate_values)
+            ):
+                dominated = True
+                break
+        if not dominated:
+            pareto.append(candidate)
+
+    return {
+        "candidate_count": len(ordered),
+        "feasible_candidate_count": len(feasible),
+        "has_feasible_candidate": bool(feasible),
+        "constraint_failure_counts": dict(sorted(failures.items())),
+        "best_candidate": _candidate_snapshot(ordered[0]) if ordered else None,
+        "best_feasible_candidate": (
+            _candidate_snapshot(feasible[0]) if feasible else None
+        ),
+        "feasibility_tradeoff": {
+            "minimum_unsafe_pos_rate_within_bnd_budget": round(
+                min(
+                    (
+                        item["unsafe_pos_rate"]
+                        for item in bnd_budget_candidates
+                    ),
+                    default=0.0,
+                ),
+                6,
+            ),
+            "minimum_bnd_ratio_within_unsafe_pos_budget": round(
+                min(
+                    (item["bnd_ratio"] for item in safe_pos_candidates),
+                    default=0.0,
+                ),
+                6,
+            ),
+            "bnd_budget_candidate_count": len(bnd_budget_candidates),
+            "unsafe_pos_budget_candidate_count": len(safe_pos_candidates),
+        },
+        "top_candidates": [
+            _candidate_snapshot(item) for item in ordered[: max(1, int(top_k))]
+        ],
+        "pareto_frontier": [_candidate_snapshot(item) for item in pareto],
+    }
+
+
 def apply_action_policy(record, route, boundary_policy=None, return_gate=False):
     avg = record["avg"]
     max_score = max(record["max_score"], 1.0)
     if route != "BND":
+        sequential_outcome = "auto_accepted" if route == "POS" else "defer_human"
         gate = {
             "final_score": avg,
             "action": "not_bnd",
             "accepted": False,
             "gate_reason": "route_not_boundary",
+            "sequential_outcome": sequential_outcome,
+            "requires_human_review": route == "NEG",
         }
         return gate if return_gate else avg
     gate = apply_structured_boundary_action_policy(
@@ -434,8 +659,16 @@ def evaluate_params(
         row = dict(record)
         row["trial_score"] = score
         row["trial_route"] = route
+        row["trial_membership"] = decision["mu"]
+        row["trial_risk_components"] = decision["risk_components"]
+        row["safe_error_ratio"] = safe_error_ratio
+        row["safe_error_points"] = safe_error_points
         row["boundary_action"] = gate.get("action")
         row["boundary_gate_reason"] = gate.get("gate_reason")
+        row["sequential_outcome"] = gate.get("sequential_outcome")
+        row["requires_human_review"] = bool(
+            gate.get("requires_human_review", False)
+        )
         trial.append(row)
         route_counts[route] += 1
         route_errors[route].append(abs(score - record["teacher"]))
@@ -476,6 +709,7 @@ def evaluate_params(
         + max(0.0, neg_ratio - neg_max)
         + max(0.0, unsafe_pos_rate - max_unsafe_pos_rate)
     )
+    sequential_summary = summarize_sequential_outcomes(trial)
     result = {
         "objective": expected_system_cost,
         "expected_system_cost": expected_system_cost,
@@ -492,6 +726,14 @@ def evaluate_params(
         "bnd_mae": bnd_mae,
         "bnd_gain": bnd_gain,
         "boundary_action_summary": summarize_boundary_actions(trial),
+        "sequential_outcome_summary": sequential_summary,
+        "constraint_status": {
+            "bnd_ratio_within_budget": bnd_ratio <= bnd_max,
+            "neg_ratio_within_budget": neg_ratio <= neg_max,
+            "unsafe_pos_rate_within_budget": (
+                unsafe_pos_rate <= max_unsafe_pos_rate
+            ),
+        },
         "loss_params": loss_params,
         "membership_model": membership_model,
         "score_uncertainty": score_uncertainty,
@@ -725,6 +967,9 @@ def leave_one_question_out_validation(records, calibration_args):
             "route_counts": held_out_result["route_counts"],
             "bnd_gain": round(held_out_result["bnd_gain"], 6),
             "boundary_action_gate": fold_action_gate,
+            "sequential_outcome_summary": held_out_result[
+                "sequential_outcome_summary"
+            ],
         })
     bootstrap = paired_bootstrap_normalized_mae_delta(all_trial)
     improved_questions = sum(
@@ -909,6 +1154,14 @@ def main():
         return_trial=True,
         **evaluation_args,
     )
+    candidate_diagnostics = build_candidate_diagnostics(
+        results,
+        top_k=max(args.top_k, 20),
+    )
+    sequential_diagnostics = best_with_trial["sequential_outcome_summary"]
+    risk_diagnostics = summarize_risk_distributions(
+        best_with_trial["trial_records"]
+    )
     cross_validation = leave_one_question_out_validation(
         records,
         {
@@ -996,6 +1249,8 @@ def main():
             "max_unsafe_pos_rate": args.max_unsafe_pos_rate,
         },
         "cross_validation": cross_validation,
+        "candidate_diagnostics": candidate_diagnostics,
+        "risk_diagnostics": risk_diagnostics,
         "deployment_gate": deployment_gate,
         "thresholds": {
             "alpha": round(alpha, 6),
@@ -1020,6 +1275,13 @@ def main():
             "bnd_mae": round(best["bnd_mae"], 6),
             "bnd_gain": round(best["bnd_gain"], 6),
             "boundary_action_summary": best["boundary_action_summary"],
+            "sequential_outcome_summary": sequential_diagnostics,
+            "actual_human_review_count": sequential_diagnostics[
+                "human_review_count"
+            ],
+            "actual_human_review_ratio": sequential_diagnostics[
+                "human_review_ratio"
+            ],
         },
     }
     config["score_calibration"] = {

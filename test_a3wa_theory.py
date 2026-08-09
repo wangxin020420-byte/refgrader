@@ -9,15 +9,179 @@ from calibration_utils import (
 )
 from scripts.calibrate_a3wa import (
     _residual_entry,
+    build_candidate_diagnostics,
     build_score_calibration,
     fit_monotonic_membership,
     fit_score_uncertainty,
     leave_one_question_out_validation,
+    summarize_risk_distributions,
+    summarize_sequential_outcomes,
 )
 from scripts.replay_calibration import infer_question_id
 
 
 class A3WATheoryTests(unittest.TestCase):
+    def test_sequential_diagnostics_separate_bnd_from_human_review(self):
+        records = [
+            {
+                "trial_route": "POS",
+                "sequential_outcome": "auto_accepted",
+                "requires_human_review": False,
+            },
+            {
+                "trial_route": "BND",
+                "sequential_outcome": "auto_kept_after_review",
+                "requires_human_review": False,
+            },
+            {
+                "trial_route": "BND",
+                "sequential_outcome": "defer_human",
+                "requires_human_review": True,
+            },
+            {
+                "trial_route": "NEG",
+                "sequential_outcome": "defer_human",
+                "requires_human_review": True,
+            },
+        ]
+        summary = summarize_sequential_outcomes(records)
+        self.assertEqual(summary["boundary_agent_count"], 2)
+        self.assertEqual(summary["bnd_auto_resolved_count"], 1)
+        self.assertEqual(summary["bnd_auto_resolved_rate"], 0.5)
+        self.assertEqual(summary["human_review_count"], 2)
+        self.assertEqual(summary["human_review_ratio"], 0.5)
+
+    def test_candidate_diagnostics_explain_infeasible_search(self):
+        def candidate(bnd_ratio, unsafe_rate, violations):
+            return {
+                "loss_params": {
+                    "lambda1": 1.0,
+                    "lambda2": 1.0,
+                    "mu1": 1.0,
+                    "mu2": 1.0,
+                    "m": 0.4,
+                },
+                "expected_system_cost": 0.2 + bnd_ratio,
+                "metrics": {"mae": 1.0 + unsafe_rate},
+                "bnd_ratio": bnd_ratio,
+                "neg_ratio": 0.0,
+                "unsafe_pos_rate": unsafe_rate,
+                "bnd_gain": 0.1,
+                "constraint_violations": violations,
+                "constraint_excess": max(0.0, bnd_ratio - 0.6),
+                "constraint_status": {
+                    "bnd_ratio_within_budget": bnd_ratio <= 0.6,
+                    "neg_ratio_within_budget": True,
+                    "unsafe_pos_rate_within_budget": unsafe_rate <= 0.1,
+                },
+                "route_counts": {"POS": 4, "BND": 6},
+            }
+
+        diagnostics = build_candidate_diagnostics([
+            candidate(0.8, 0.05, 1),
+            candidate(0.5, 0.05, 0),
+        ])
+        self.assertEqual(diagnostics["candidate_count"], 2)
+        self.assertEqual(diagnostics["feasible_candidate_count"], 1)
+        self.assertTrue(diagnostics["has_feasible_candidate"])
+        self.assertEqual(
+            diagnostics["constraint_failure_counts"][
+                "bnd_ratio_within_budget"
+            ],
+            1,
+        )
+        self.assertEqual(
+            diagnostics["best_feasible_candidate"]["bnd_ratio"], 0.5
+        )
+        self.assertEqual(
+            diagnostics["feasibility_tradeoff"][
+                "minimum_unsafe_pos_rate_within_bnd_budget"
+            ],
+            0.05,
+        )
+        self.assertEqual(
+            diagnostics["feasibility_tradeoff"][
+                "minimum_bnd_ratio_within_unsafe_pos_budget"
+            ],
+            0.5,
+        )
+
+    def test_candidate_diagnostics_certify_conflicting_constraints(self):
+        def candidate(bnd_ratio, unsafe_rate):
+            status = {
+                "bnd_ratio_within_budget": bnd_ratio <= 0.6,
+                "neg_ratio_within_budget": True,
+                "unsafe_pos_rate_within_budget": unsafe_rate <= 0.1,
+            }
+            return {
+                "loss_params": {
+                    "lambda1": 1.0,
+                    "lambda2": 1.0,
+                    "mu1": 1.0,
+                    "mu2": 1.0,
+                    "m": 0.4,
+                },
+                "expected_system_cost": 0.2,
+                "metrics": {"mae": 1.0},
+                "bnd_ratio": bnd_ratio,
+                "neg_ratio": 0.0,
+                "unsafe_pos_rate": unsafe_rate,
+                "bnd_gain": 0.1,
+                "constraint_violations": sum(not value for value in status.values()),
+                "constraint_excess": 0.1,
+                "constraint_status": status,
+                "route_counts": {"POS": 5, "BND": 5},
+            }
+
+        diagnostics = build_candidate_diagnostics([
+            candidate(0.8, 0.05),
+            candidate(0.5, 0.30),
+        ])
+        self.assertFalse(diagnostics["has_feasible_candidate"])
+        tradeoff = diagnostics["feasibility_tradeoff"]
+        self.assertEqual(
+            tradeoff["minimum_unsafe_pos_rate_within_bnd_budget"], 0.3
+        )
+        self.assertEqual(
+            tradeoff["minimum_bnd_ratio_within_unsafe_pos_budget"], 0.8
+        )
+
+    def test_risk_diagnostics_separate_safe_and_unsafe_baselines(self):
+        records = [
+            {
+                "avg": 5.0,
+                "teacher": 5.0,
+                "max_score": 10.0,
+                "safe_error_ratio": 0.1,
+                "safe_error_points": 0.5,
+                "trial_route": "POS",
+                "trial_membership": 0.9,
+                "trial_risk_components": {
+                    "U_E": 0.1,
+                    "U_S": 0.2,
+                    "U_R": 0.3,
+                },
+            },
+            {
+                "avg": 2.0,
+                "teacher": 8.0,
+                "max_score": 10.0,
+                "safe_error_ratio": 0.1,
+                "safe_error_points": 0.5,
+                "trial_route": "BND",
+                "trial_membership": 0.4,
+                "trial_risk_components": {
+                    "U_E": 0.4,
+                    "U_S": 0.5,
+                    "U_R": 0.8,
+                },
+            },
+        ]
+        diagnostics = summarize_risk_distributions(records)
+        self.assertEqual(diagnostics["safe_baseline"]["n"], 1)
+        self.assertEqual(diagnostics["unsafe_baseline"]["n"], 1)
+        self.assertEqual(diagnostics["route_BND"]["U_R"]["mean"], 0.8)
+
     def test_replay_preserves_csbench_question_id(self):
         self.assertEqual(
             infer_question_id("CO_1_grading_checkpoint.json"),

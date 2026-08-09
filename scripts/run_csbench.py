@@ -2326,6 +2326,14 @@ def calibrate(args: argparse.Namespace) -> int:
     if not output.is_file():
         raise FileNotFoundError(f"A3WA calibration config not generated: {output}")
 
+    if getattr(args, "diagnostics_only", False):
+        print(f"A3WA diagnostic config: {output}")
+        print(
+            "Diagnostics-only mode: the tracked active configuration was not "
+            "changed and no artifacts were published."
+        )
+        return 0
+
     validate_a3wa_deployment_gate(
         output,
         allow_experimental=bool(
@@ -3461,6 +3469,14 @@ def build_parser() -> argparse.ArgumentParser:
         help=(
             "Diagnostic only: activate and publish a calibration config whose "
             "deployment gate failed."
+        ),
+    )
+    calibrate_parser.add_argument(
+        "--diagnostics-only",
+        action="store_true",
+        help=(
+            "Generate the calibration config and candidate diagnostics without "
+            "activating or publishing it, even when the deployment gate fails."
         ),
     )
     add_model_arguments(calibrate_parser)

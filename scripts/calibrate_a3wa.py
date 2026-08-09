@@ -1,4 +1,5 @@
 import argparse
+import csv
 import glob
 import json
 import math
@@ -381,6 +382,10 @@ def summarize_risk_distributions(trial_records):
     groups = {
         "safe_baseline": [],
         "unsafe_baseline": [],
+        "safe_POS": [],
+        "unsafe_POS": [],
+        "bnd_auto_resolved": [],
+        "bnd_human_review": [],
         "route_POS": [],
         "route_BND": [],
         "route_NEG": [],
@@ -399,6 +404,17 @@ def summarize_risk_distributions(trial_records):
             "safe_baseline" if baseline_error <= tolerance else "unsafe_baseline"
         )
         groups[safety_group].append(row)
+        route = str(row.get("trial_route") or "")
+        if route == "POS":
+            groups[
+                "safe_POS" if safety_group == "safe_baseline" else "unsafe_POS"
+            ].append(row)
+        elif route == "BND":
+            groups[
+                "bnd_human_review"
+                if bool(row.get("requires_human_review", False))
+                else "bnd_auto_resolved"
+            ].append(row)
         route_group = f"route_{row.get('trial_route', '')}"
         if route_group in groups:
             groups[route_group].append(row)
@@ -424,6 +440,162 @@ def summarize_risk_distributions(trial_records):
             ),
         }
     return summary
+
+
+CASE_DIAGNOSTIC_FIELDS = (
+    "question_id",
+    "student_id",
+    "diagnostic_group",
+    "teacher_score",
+    "baseline_score",
+    "trial_score",
+    "max_score",
+    "safety_tolerance",
+    "baseline_abs_error",
+    "trial_abs_error",
+    "trial_route",
+    "trial_membership",
+    "U_E",
+    "U_S",
+    "U_R",
+    "unsupported_match_points_ratio",
+    "effective_unsupported_match_points_ratio",
+    "unsupported_high_score_risk",
+    "bare_answer_risk",
+    "core_support_signal",
+    "core_contradiction_ratio",
+    "evidence_supported_answer",
+    "boundary_action",
+    "boundary_gate_reason",
+    "sequential_outcome",
+    "requires_human_review",
+)
+
+
+def build_case_diagnostics(trial_records):
+    """Return privacy-limited case rows for validation-only error analysis."""
+    cases = []
+    for row in trial_records:
+        max_score = max(safe_float(row.get("max_score"), 0.0), 1.0)
+        tolerance = max(
+            safe_float(row.get("safe_error_points"), 0.5),
+            safe_float(row.get("safe_error_ratio"), 0.1) * max_score,
+        )
+        baseline_score = safe_float(row.get("avg"), 0.0)
+        trial_score = safe_float(row.get("trial_score"), baseline_score)
+        teacher_score = safe_float(row.get("teacher"), 0.0)
+        baseline_error = abs(baseline_score - teacher_score)
+        route = str(row.get("trial_route") or "")
+        requires_human = bool(row.get("requires_human_review", False))
+        if route == "POS":
+            group = "unsafe_pos" if baseline_error > tolerance else "safe_pos"
+        elif route == "BND":
+            group = "bnd_human_review" if requires_human else "bnd_auto_resolved"
+        elif route == "NEG":
+            group = "neg_human_review" if requires_human else "neg_auto_resolved"
+        else:
+            group = "unknown"
+
+        risks = row.get("trial_risk_components") or {}
+        post = row.get("post_calibration") or {}
+        cases.append({
+            "question_id": str(row.get("qid") or ""),
+            "student_id": str(row.get("student_id") or ""),
+            "diagnostic_group": group,
+            "teacher_score": round(teacher_score, 6),
+            "baseline_score": round(baseline_score, 6),
+            "trial_score": round(trial_score, 6),
+            "max_score": round(max_score, 6),
+            "safety_tolerance": round(tolerance, 6),
+            "baseline_abs_error": round(baseline_error, 6),
+            "trial_abs_error": round(abs(trial_score - teacher_score), 6),
+            "trial_route": route,
+            "trial_membership": round(
+                safe_float(row.get("trial_membership"), 0.0), 6
+            ),
+            "U_E": round(safe_float(risks.get("U_E"), 0.0), 6),
+            "U_S": round(safe_float(risks.get("U_S"), 0.0), 6),
+            "U_R": round(safe_float(risks.get("U_R"), 0.0), 6),
+            "unsupported_match_points_ratio": round(
+                safe_float(post.get("unsupported_match_points_ratio"), 0.0), 6
+            ),
+            "effective_unsupported_match_points_ratio": round(
+                safe_float(
+                    post.get(
+                        "effective_unsupported_match_points_ratio",
+                        post.get("unsupported_match_points_ratio", 0.0),
+                    ),
+                    0.0,
+                ),
+                6,
+            ),
+            "unsupported_high_score_risk": round(
+                safe_float(post.get("unsupported_high_score_risk"), 0.0), 6
+            ),
+            "bare_answer_risk": round(
+                safe_float(post.get("bare_answer_risk"), 0.0), 6
+            ),
+            "core_support_signal": round(
+                safe_float(post.get("core_support_signal"), 0.0), 6
+            ),
+            "core_contradiction_ratio": round(
+                safe_float(post.get("core_contradiction_ratio"), 0.0), 6
+            ),
+            "evidence_supported_answer": bool(
+                post.get("evidence_supported_answer", False)
+            ),
+            "boundary_action": str(row.get("boundary_action") or ""),
+            "boundary_gate_reason": str(row.get("boundary_gate_reason") or ""),
+            "sequential_outcome": str(row.get("sequential_outcome") or ""),
+            "requires_human_review": requires_human,
+        })
+
+    return sorted(
+        cases,
+        key=lambda item: (
+            item["diagnostic_group"],
+            -item["baseline_abs_error"],
+            item["question_id"],
+            item["student_id"],
+        ),
+    )
+
+
+def write_case_diagnostics(report_dir, trial_records):
+    report_dir = os.path.abspath(os.path.expanduser(str(report_dir)))
+    os.makedirs(report_dir, exist_ok=True)
+    cases = build_case_diagnostics(trial_records)
+    csv_path = os.path.join(report_dir, "case_diagnostics.csv")
+    jsonl_path = os.path.join(report_dir, "case_diagnostics.jsonl")
+    summary_path = os.path.join(report_dir, "summary.json")
+
+    with open(csv_path, "w", encoding="utf-8-sig", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=CASE_DIAGNOSTIC_FIELDS)
+        writer.writeheader()
+        writer.writerows(cases)
+    with open(jsonl_path, "w", encoding="utf-8") as handle:
+        for case in cases:
+            handle.write(json.dumps(case, ensure_ascii=False) + "\n")
+
+    group_counts = dict(sorted(Counter(
+        case["diagnostic_group"] for case in cases
+    ).items()))
+    write_json(summary_path, {
+        "n": len(cases),
+        "group_counts": group_counts,
+        "files": {
+            "csv": os.path.basename(csv_path),
+            "jsonl": os.path.basename(jsonl_path),
+        },
+    })
+    return {
+        "directory": report_dir,
+        "csv": csv_path,
+        "jsonl": jsonl_path,
+        "summary": summary_path,
+        "n": len(cases),
+        "group_counts": group_counts,
+    }
 
 
 def _candidate_snapshot(item):
@@ -996,6 +1168,7 @@ def main():
     parser.add_argument("--teacher-db", default="database/teacher_scores.json")
     parser.add_argument("--database-path", default="database/exam_database.json")
     parser.add_argument("--output", default="results_rrd_vlm/a3wa_calibration_config.json")
+    parser.add_argument("--diagnostic-report-dir")
     parser.add_argument("--bnd-max", type=float, default=0.60)
     parser.add_argument("--neg-max", type=float, default=0.35)
     parser.add_argument("--top-k", type=int, default=8)
@@ -1300,9 +1473,29 @@ def main():
             max_correction_points=args.max_correction_points,
             direction_guard_min_count=args.direction_guard_min_count,
         )
+    if args.diagnostic_report_dir:
+        report = write_case_diagnostics(
+            args.diagnostic_report_dir,
+            best_with_trial["trial_records"],
+        )
+        config["diagnostic_case_report"] = {
+            "directory": os.path.relpath(
+                report["directory"],
+                os.path.dirname(os.path.abspath(args.output)),
+            ),
+            "files": {
+                "csv": os.path.basename(report["csv"]),
+                "jsonl": os.path.basename(report["jsonl"]),
+                "summary": os.path.basename(report["summary"]),
+            },
+            "n": report["n"],
+            "group_counts": report["group_counts"],
+        }
     write_json(args.output, config)
 
     print(f"Wrote {args.output}")
+    if args.diagnostic_report_dir:
+        print(f"Wrote diagnostic cases to {args.diagnostic_report_dir}")
     for idx, item in enumerate(results[: args.top_k], start=1):
         print(
             f"#{idx} obj={item['objective']:.4f} "

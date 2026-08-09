@@ -2319,6 +2319,13 @@ def calibrate(args: argparse.Namespace) -> int:
         command.append("--score-calibration")
     if args.no_score_calibration:
         command.append("--no-score-calibration")
+    diagnostic_report_dir = None
+    if getattr(args, "diagnostics_only", False):
+        diagnostic_report_dir = output.parent / f"{output.stem}_diagnostics"
+        command.extend([
+            "--diagnostic-report-dir",
+            str(diagnostic_report_dir),
+        ])
 
     return_code = execute(command, dry_run=args.dry_run)
     if return_code != 0 or args.dry_run:
@@ -2328,6 +2335,7 @@ def calibrate(args: argparse.Namespace) -> int:
 
     if getattr(args, "diagnostics_only", False):
         print(f"A3WA diagnostic config: {output}")
+        print(f"A3WA diagnostic cases: {diagnostic_report_dir}")
         print(
             "Diagnostics-only mode: the tracked active configuration was not "
             "changed and no artifacts were published."

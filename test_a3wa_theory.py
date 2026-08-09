@@ -1,4 +1,7 @@
+import json
+import tempfile
 import unittest
+from pathlib import Path
 
 from calibration_utils import (
     apply_route_score_calibration,
@@ -9,6 +12,7 @@ from calibration_utils import (
 )
 from scripts.calibrate_a3wa import (
     _residual_entry,
+    build_case_diagnostics,
     build_candidate_diagnostics,
     build_score_calibration,
     fit_monotonic_membership,
@@ -16,6 +20,7 @@ from scripts.calibrate_a3wa import (
     leave_one_question_out_validation,
     summarize_risk_distributions,
     summarize_sequential_outcomes,
+    write_case_diagnostics,
 )
 from scripts.replay_calibration import infer_question_id
 
@@ -181,6 +186,69 @@ class A3WATheoryTests(unittest.TestCase):
         self.assertEqual(diagnostics["safe_baseline"]["n"], 1)
         self.assertEqual(diagnostics["unsafe_baseline"]["n"], 1)
         self.assertEqual(diagnostics["route_BND"]["U_R"]["mean"], 0.8)
+        self.assertEqual(diagnostics["safe_POS"]["n"], 1)
+        self.assertEqual(diagnostics["bnd_human_review"]["n"], 0)
+
+    def test_case_diagnostics_identify_unsafe_pos_and_bnd_outcomes(self):
+        common = {
+            "qid": "CO_1",
+            "max_score": 10.0,
+            "safe_error_ratio": 0.1,
+            "safe_error_points": 0.5,
+            "trial_membership": 0.8,
+            "trial_risk_components": {"U_E": 0.0, "U_S": 0.0, "U_R": 0.0},
+            "post_calibration": {"unsupported_high_score_risk": 0.4},
+        }
+        records = [
+            {
+                **common,
+                "student_id": "A",
+                "teacher": 8.0,
+                "avg": 2.0,
+                "trial_score": 2.0,
+                "trial_route": "POS",
+                "requires_human_review": False,
+                "sequential_outcome": "auto_accepted",
+            },
+            {
+                **common,
+                "student_id": "B",
+                "teacher": 5.0,
+                "avg": 5.0,
+                "trial_score": 5.0,
+                "trial_route": "BND",
+                "requires_human_review": False,
+                "sequential_outcome": "auto_kept_after_review",
+            },
+            {
+                **common,
+                "student_id": "C",
+                "teacher": 5.0,
+                "avg": 4.0,
+                "trial_score": 4.0,
+                "trial_route": "BND",
+                "requires_human_review": True,
+                "sequential_outcome": "defer_human",
+            },
+        ]
+        cases = build_case_diagnostics(records)
+        by_student = {case["student_id"]: case for case in cases}
+        self.assertEqual(by_student["A"]["diagnostic_group"], "unsafe_pos")
+        self.assertEqual(
+            by_student["B"]["diagnostic_group"], "bnd_auto_resolved"
+        )
+        self.assertEqual(
+            by_student["C"]["diagnostic_group"], "bnd_human_review"
+        )
+        self.assertEqual(by_student["A"]["unsupported_high_score_risk"], 0.4)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            report = write_case_diagnostics(temp_dir, records)
+            self.assertEqual(report["n"], 3)
+            self.assertTrue(Path(report["csv"]).is_file())
+            self.assertTrue(Path(report["jsonl"]).is_file())
+            summary = json.loads(Path(report["summary"]).read_text(encoding="utf-8"))
+            self.assertEqual(summary["group_counts"]["unsafe_pos"], 1)
 
     def test_replay_preserves_csbench_question_id(self):
         self.assertEqual(

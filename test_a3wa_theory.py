@@ -9,6 +9,7 @@ from calibration_utils import (
     apply_structured_boundary_action_policy,
     build_a3wa_decision,
     calibrated_a3wa_membership,
+    compute_bidirectional_credit_risks,
     conformal_score_interval,
     fuse_rubric_mapping_risk,
 )
@@ -32,6 +33,66 @@ from scripts.replay_calibration import infer_question_id
 
 
 class A3WATheoryTests(unittest.TestCase):
+    def test_bidirectional_credit_risks_are_item_weighted_and_teacher_free(self):
+        rubric = [{
+            "id": "step_1",
+            "points": 2.0,
+            "answer_type": "direct_numeric",
+            "role": "final",
+            "standard_answer_text": "5",
+            "metadata_confidence": 1.0,
+            "metadata_hard_enabled": True,
+            "expected_value": 5,
+        }]
+        probes = [
+            {"details": [{"id": "step_1", "score_given": 0.0}]},
+            {"details": [{"id": "step_1", "score_given": 0.0}]},
+            {"details": [{"id": "step_1", "score_given": 2.0}]},
+        ]
+
+        risks = compute_bidirectional_credit_risks(
+            {"step_1": "5"}, rubric, probes
+        )
+
+        self.assertAlmostEqual(
+            risks["U_R_allocation_undercredit"], 2.0 / 3.0, places=6
+        )
+        self.assertAlmostEqual(
+            risks["U_R_allocation_overcredit"], 1.0 / 3.0, places=6
+        )
+        self.assertEqual(risks["U_R_allocation_disagreement"], 1.0)
+        self.assertAlmostEqual(
+            risks["U_R_deterministic_undercredit"], 2.0 / 3.0, places=6
+        )
+        self.assertEqual(risks["U_R_deterministic_overcredit"], 0.0)
+        self.assertEqual(risks["deterministic_coverage"], 1.0)
+        self.assertEqual(risks["fusion_status"], "diagnostic_only")
+
+    def test_bidirectional_credit_risks_do_not_flag_unanimous_supported_credit(self):
+        rubric = [{
+            "id": "step_1",
+            "points": 1.0,
+            "answer_type": "direct_numeric",
+            "role": "final",
+            "standard_answer_text": "5",
+            "metadata_confidence": 1.0,
+            "metadata_hard_enabled": True,
+            "expected_value": 5,
+        }]
+        probes = [
+            {"details": [{"id": "step_1", "score_given": 1.0}]}
+            for _ in range(3)
+        ]
+
+        risks = compute_bidirectional_credit_risks(
+            {"step_1": "5"}, rubric, probes
+        )
+
+        self.assertEqual(risks["U_R_allocation_undercredit"], 0.0)
+        self.assertEqual(risks["U_R_allocation_overcredit"], 0.0)
+        self.assertEqual(risks["U_R_deterministic_undercredit"], 0.0)
+        self.assertEqual(risks["U_R_deterministic_overcredit"], 0.0)
+
     def test_rubric_mapping_risk_uses_parameter_free_fuzzy_union(self):
         fused = fuse_rubric_mapping_risk(0.2, {
             "effective_unsupported_match_points_ratio": 0.35,

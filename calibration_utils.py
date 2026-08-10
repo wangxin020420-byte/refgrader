@@ -1009,6 +1009,121 @@ def _detail_by_item(strict_cots):
     return per_item
 
 
+def compute_bidirectional_credit_risks(facts_dict, rubrics_data, strict_cots):
+    """Compute parameter-free, item-level credit discrepancy diagnostics.
+
+    The returned signals are diagnostic candidates only. They compare the
+    allocation of rubric credit across independent probes and, where trusted
+    structured metadata is available, compare that credit with deterministic
+    fact support. Teacher scores are deliberately not used.
+    """
+    facts_dict = facts_dict if isinstance(facts_dict, dict) else {}
+    rubrics_data = rubrics_data if isinstance(rubrics_data, list) else []
+    strict_cots = [cot for cot in (strict_cots or []) if isinstance(cot, dict)]
+    points_map, fallback_points = rubric_points_map(rubrics_data)
+    details_by_item = _detail_by_item(strict_cots)
+
+    total_points = 0.0
+    allocation_under = 0.0
+    allocation_over = 0.0
+    allocation_range = 0.0
+    deterministic_under = 0.0
+    deterministic_over = 0.0
+    deterministic_points = 0.0
+    missing_judgements = 0.0
+    item_diagnostics = []
+
+    for item in rubrics_data:
+        item_id = str(item.get("id", ""))
+        points = max(points_map.get(item_id, fallback_points), 0.0)
+        if not item_id or points <= 0.0:
+            continue
+
+        details = details_by_item.get(item_id, [])
+        score_ratios = []
+        for detail in details:
+            score_ratios.append(
+                clamp01(safe_float(detail.get("score_given", 0.0), 0.0) / points)
+            )
+
+        observed = len(score_ratios)
+        expected = len(strict_cots)
+        missing_ratio = (
+            max(expected - observed, 0) / expected if expected > 0 else 0.0
+        )
+        missing_judgements += points * missing_ratio
+
+        mean_credit = sum(score_ratios) / observed if observed else 0.0
+        maximum_credit = max(score_ratios) if score_ratios else 0.0
+        minimum_credit = min(score_ratios) if score_ratios else 0.0
+        item_allocation_under = max(0.0, maximum_credit - mean_credit)
+        item_allocation_over = max(0.0, mean_credit - minimum_credit)
+        item_allocation_range = max(0.0, maximum_credit - minimum_credit)
+        allocation_under += points * item_allocation_under
+        allocation_over += points * item_allocation_over
+        allocation_range += points * item_allocation_range
+
+        meta = classify_rubric_item(item)
+        answer_type = meta["answer_type"]
+        fact_value = facts_dict.get(item_id, "")
+        hard_metadata_enabled = (
+            safe_float(item.get("metadata_confidence", 0.0), 0.0)
+            >= TRUSTED_METADATA_THRESHOLD
+            and bool(item.get("metadata_hard_enabled", False))
+        )
+        deterministic_match = None
+        if hard_metadata_enabled and answer_type in NUMERIC_TYPES:
+            expected_number = infer_expected_number(item)
+            target_unit = item.get("unit") or infer_unit(
+                item.get("standard_answer_text") or item.get("item", "")
+            )
+            deterministic_match = _numeric_value_matches(
+                fact_value,
+                expected_number,
+                target_unit=target_unit,
+            )
+        elif hard_metadata_enabled and answer_type in METHOD_TYPES:
+            deterministic_match = _formula_is_supported(fact_value, item)
+
+        if deterministic_match is not None:
+            deterministic_points += points
+            if deterministic_match is True:
+                deterministic_under += points * max(0.0, 1.0 - mean_credit)
+            else:
+                deterministic_over += points * mean_credit
+
+        total_points += points
+        item_diagnostics.append({
+            "id": item_id,
+            "points": round(points, 6),
+            "observed_probes": observed,
+            "expected_probes": expected,
+            "mean_credit_ratio": round(mean_credit, 6),
+            "allocation_undercredit": round(item_allocation_under, 6),
+            "allocation_overcredit": round(item_allocation_over, 6),
+            "allocation_range": round(item_allocation_range, 6),
+            "deterministic_match": deterministic_match,
+        })
+
+    denominator = max(total_points, 1e-9)
+    deterministic_denominator = max(deterministic_points, 1e-9)
+    return {
+        "U_R_allocation_undercredit": round(allocation_under / denominator, 6),
+        "U_R_allocation_overcredit": round(allocation_over / denominator, 6),
+        "U_R_allocation_disagreement": round(allocation_range / denominator, 6),
+        "U_R_deterministic_undercredit": round(
+            deterministic_under / deterministic_denominator, 6
+        ) if deterministic_points > 0 else 0.0,
+        "U_R_deterministic_overcredit": round(
+            deterministic_over / deterministic_denominator, 6
+        ) if deterministic_points > 0 else 0.0,
+        "deterministic_coverage": round(deterministic_points / denominator, 6),
+        "missing_judgement_risk": round(missing_judgements / denominator, 6),
+        "fusion_status": "diagnostic_only",
+        "item_diagnostics": item_diagnostics,
+    }
+
+
 def _majority_category(details):
     categories = [str(d.get("error_category", "")) for d in details]
     return Counter(categories).most_common(1)[0][0] if categories else ""

@@ -2325,6 +2325,8 @@ def calibrate(args: argparse.Namespace) -> int:
         command.append("--score-calibration")
     if args.no_score_calibration:
         command.append("--no-score-calibration")
+    if getattr(args, "directional_undercredit_risk", False):
+        command.append("--directional-undercredit-risk")
     diagnostic_report_dir = None
     if getattr(args, "diagnostics_only", False):
         diagnostic_report_dir = output.parent / f"{output.stem}_diagnostics"
@@ -3499,6 +3501,14 @@ def build_parser() -> argparse.ArgumentParser:
         help=(
             "Generate the calibration config and candidate diagnostics without "
             "activating or publishing it, even when the deployment gate fails."
+        ),
+    )
+    calibrate_parser.add_argument(
+        "--directional-undercredit-risk",
+        action="store_true",
+        help=(
+            "Experimental A/B switch: add the validation-supported "
+            "lenient-undercredit signal to U_R using max t-conorm."
         ),
     )
     add_model_arguments(calibrate_parser)

@@ -2286,6 +2286,7 @@ def grade_student_3wd_pipeline(
     risk_profile["risk_features"]["boundary_domain"] = risk_profile["boundary_domain"]
 
     a3wa_config = load_a3wa_runtime_config()
+    mapping_risk_config = a3wa_config.get("rubric_mapping_risk") or {}
     a3wa_decision = build_a3wa_decision(
         model_scores=model_scores,
         avg_model_score=selected_baseline_score,
@@ -2304,6 +2305,9 @@ def grade_student_3wd_pipeline(
         loss_params=a3wa_config.get("loss_params"),
         membership_model=a3wa_config.get("membership_model"),
         score_uncertainty=a3wa_config.get("score_uncertainty"),
+        directional_undercredit_risk=bool(
+            mapping_risk_config.get("directional_undercredit_enabled", False)
+        ),
     )
     risk_profile["risk_features"].update({
         "a3wa_risk": a3wa_decision["risk"],

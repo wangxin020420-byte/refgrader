@@ -23,6 +23,7 @@ from scripts.calibrate_a3wa import (
     fit_monotonic_membership,
     fit_score_uncertainty,
     leave_one_question_out_validation,
+    membership_training_records,
     summarize_risk_distributions,
     summarize_sequential_outcomes,
     write_case_diagnostics,
@@ -38,8 +39,61 @@ class A3WATheoryTests(unittest.TestCase):
         })
         self.assertEqual(fused["U_R_consensus"], 0.2)
         self.assertEqual(fused["U_R_evidence"], 0.35)
+        self.assertEqual(fused["U_R_undercredit"], 0.0)
         self.assertEqual(fused["U_R"], 0.35)
         self.assertEqual(fused["fusion"], "max_t_conorm")
+
+    def test_directional_undercredit_risk_is_explicit_and_parameter_free(self):
+        fused = fuse_rubric_mapping_risk(
+            0.2,
+            {
+                "effective_unsupported_match_points_ratio": 0.35,
+                "lenient_undercredit_signal": 0.7,
+            },
+            include_undercredit=True,
+        )
+        self.assertEqual(fused["U_R_consensus"], 0.2)
+        self.assertEqual(fused["U_R_evidence"], 0.35)
+        self.assertEqual(fused["U_R_undercredit"], 0.7)
+        self.assertEqual(fused["U_R"], 0.7)
+
+    def test_directional_undercredit_risk_defaults_off_in_decision(self):
+        arguments = {
+            "model_scores": [2.0, 2.0, 2.0],
+            "avg_model_score": 2.0,
+            "std_dev": 0.0,
+            "max_score": 10.0,
+            "blank_rate": 0.0,
+            "low_quality_rate": 0.0,
+            "perception_failure_rate": 0.0,
+            "extraction_quality": "high",
+            "fatal_points_ratio": 0.0,
+            "post_calibration": {
+                "primary_risks": {"U_E": 0.0, "U_S": 0.0, "U_R": 0.0},
+                "lenient_undercredit_signal": 0.8,
+            },
+        }
+        default = build_a3wa_decision(**arguments)
+        enabled = build_a3wa_decision(
+            **arguments,
+            directional_undercredit_risk=True,
+        )
+        self.assertEqual(default["risk_components"]["U_R_undercredit"], 0.0)
+        self.assertEqual(default["risk_components"]["U_R"], 0.0)
+        self.assertEqual(enabled["risk_components"]["U_R_undercredit"], 0.8)
+        self.assertEqual(enabled["risk_components"]["U_R"], 0.8)
+
+    def test_membership_training_uses_runtime_directional_risk_contract(self):
+        records = [{
+            "U_E": 0.1,
+            "U_S": 0.2,
+            "U_R": 0.3,
+            "post_calibration": {"lenient_undercredit_signal": 0.75},
+        }]
+        self.assertIs(membership_training_records(records, False), records)
+        transformed = membership_training_records(records, True)
+        self.assertEqual(transformed[0]["U_R"], 0.75)
+        self.assertEqual(records[0]["U_R"], 0.3)
 
     def test_primary_consensus_cannot_hide_evidence_mapping_risk(self):
         decision = build_a3wa_decision(

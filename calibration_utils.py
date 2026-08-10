@@ -1108,7 +1108,11 @@ def compute_three_way_primary_risks(
     }
 
 
-def fuse_rubric_mapping_risk(consensus_risk, post_calibration=None):
+def fuse_rubric_mapping_risk(
+    consensus_risk,
+    post_calibration=None,
+    include_undercredit=False,
+):
     """Fuse rubric-consensus and evidence-conflict risks with a max t-conorm.
 
     Both inputs describe membership in the same fuzzy risk set: an unreliable
@@ -1132,10 +1136,16 @@ def fuse_rubric_mapping_risk(consensus_risk, post_calibration=None):
         1.0 if post_calibration.get("core_anchor_failed", False) else 0.0
     )
     evidence = max(unsupported, contradiction, anchor_failure)
+    undercredit = (
+        clamp01(post_calibration.get("lenient_undercredit_signal", 0.0))
+        if include_undercredit
+        else 0.0
+    )
     return {
         "U_R_consensus": round(consensus, 6),
         "U_R_evidence": round(evidence, 6),
-        "U_R": round(max(consensus, evidence), 6),
+        "U_R_undercredit": round(undercredit, 6),
+        "U_R": round(max(consensus, evidence, undercredit), 6),
         "fusion": "max_t_conorm",
     }
 
@@ -1828,6 +1838,7 @@ def build_a3wa_decision(
     loss_params=None,
     membership_model=None,
     score_uncertainty=None,
+    directional_undercredit_risk=False,
 ):
     """Build an evidence-calibrated A3WA route decision.
 
@@ -1917,14 +1928,19 @@ def build_a3wa_decision(
                 "U_R_consensus", primary_risks.get("U_R", 0.0)
             ),
             post_calibration,
+            include_undercredit=directional_undercredit_risk,
         )
         u_r_consensus = mapping_risk["U_R_consensus"]
         u_r_evidence = mapping_risk["U_R_evidence"]
+        u_r_undercredit = mapping_risk["U_R_undercredit"]
         u_r = mapping_risk["U_R"]
     else:
         u_e = u_extract
         u_s = u_score
-        u_r = max(u_semantic, u_overcredit)
+        u_r_undercredit = (
+            lenient_undercredit if directional_undercredit_risk else 0.0
+        )
+        u_r = max(u_semantic, u_overcredit, u_r_undercredit)
         u_r_consensus = u_r
         u_r_evidence = 0.0
     membership = calibrated_a3wa_membership(
@@ -2009,6 +2025,7 @@ def build_a3wa_decision(
             "U_R": round(u_r, 6),
             "U_R_consensus": round(u_r_consensus, 6),
             "U_R_evidence": round(u_r_evidence, 6),
+            "U_R_undercredit": round(u_r_undercredit, 6),
             "U_extract": round(u_extract, 6),
             "U_score": round(u_score, 6),
             "U_semantic": round(u_semantic, 6),

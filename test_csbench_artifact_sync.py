@@ -523,12 +523,20 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                 artifacts_repo=str(artifacts), run_id=None,
                 include_raw_ocr=False, include_facts=False,
                 push_artifacts=False,
+                directional_undercredit_risk=True,
             )
-            with patch("scripts.run_csbench.PROJECT_ROOT", root):
+            with (
+                patch("scripts.run_csbench.PROJECT_ROOT", root),
+                patch("scripts.run_csbench.execute", return_value=0) as execute_mock,
+            ):
                 refresh_active_configuration(
                     [CSBenchContext(str(prepared), "CO_1")]
                 )
                 self.assertEqual(calibrate(calibration_args), 0)
+            self.assertIn(
+                "--directional-undercredit-risk",
+                execute_mock.call_args.args[0],
+            )
 
             args = SimpleNamespace(
                 prepared_dir=str(prepared), questions=["CO_1"],

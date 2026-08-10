@@ -242,6 +242,25 @@ def membership_features(record):
     return [record["U_E"], record["U_S"], record["U_R"]]
 
 
+def membership_training_records(records, directional_undercredit_risk=False):
+    """Apply the same U_R feature contract used by runtime routing."""
+    if not directional_undercredit_risk:
+        return records
+    transformed = []
+    for record in records:
+        row = dict(record)
+        post_calibration = record.get("post_calibration") or {}
+        row["U_R"] = max(
+            safe_float(record.get("U_R", 0.0), 0.0),
+            safe_float(
+                post_calibration.get("lenient_undercredit_signal", 0.0),
+                0.0,
+            ),
+        )
+        transformed.append(row)
+    return transformed
+
+
 def safe_auto_grade_label(record, safe_error_ratio, safe_error_points):
     tolerance = max(safe_error_points, safe_error_ratio * max(record["max_score"], 1.0))
     return 1.0 if abs(record["avg"] - record["teacher"]) <= tolerance else 0.0
@@ -776,6 +795,7 @@ CASE_DIAGNOSTIC_FIELDS = (
     "U_R",
     "U_R_consensus",
     "U_R_evidence",
+    "U_R_undercredit",
     "result_correctness_signal",
     "result_strong_signal",
     "method_evidence_signal",
@@ -851,6 +871,9 @@ def build_case_diagnostics(trial_records):
             ),
             "U_R_evidence": round(
                 safe_float(risks.get("U_R_evidence"), 0.0), 6
+            ),
+            "U_R_undercredit": round(
+                safe_float(risks.get("U_R_undercredit"), 0.0), 6
             ),
             "result_correctness_signal": round(
                 safe_float(post.get("result_correctness_signal"), 0.0), 6
@@ -1221,6 +1244,7 @@ def evaluate_params(
     max_unsafe_pos_rate,
     boundary_policy=None,
     return_trial=False,
+    directional_undercredit_risk=False,
 ):
     trial = []
     route_counts = Counter()
@@ -1245,6 +1269,7 @@ def evaluate_params(
             loss_params=loss_params,
             membership_model=membership_model,
             score_uncertainty=score_uncertainty,
+            directional_undercredit_risk=directional_undercredit_risk,
         )
         route = decision["route"]
         gate = apply_action_policy(
@@ -1502,7 +1527,10 @@ def leave_one_question_out_validation(records, calibration_args):
             safe_tolerance_ratio=calibration_args["safe_error_ratio"],
         )
         membership = fit_monotonic_membership(
-            train,
+            membership_training_records(
+                train,
+                calibration_args.get("directional_undercredit_risk", False),
+            ),
             safe_error_ratio=calibration_args["safe_error_ratio"],
             safe_error_points=calibration_args["safe_error_points"],
         )
@@ -1527,6 +1555,9 @@ def leave_one_question_out_validation(records, calibration_args):
             "safe_error_points": calibration_args["safe_error_points"],
             "max_unsafe_pos_rate": calibration_args["max_unsafe_pos_rate"],
             "boundary_policy": fold_boundary_policy,
+            "directional_undercredit_risk": calibration_args.get(
+                "directional_undercredit_risk", False
+            ),
         }
         train_results = [
             evaluate_params(train, loss_params=params, **shared)
@@ -1631,6 +1662,14 @@ def main():
     parser.add_argument("--max-unsafe-pos-rate", type=float, default=0.10)
     parser.add_argument("--boundary-action-min-count", type=int, default=3)
     parser.add_argument(
+        "--directional-undercredit-risk",
+        action="store_true",
+        help=(
+            "Experimentally include the validated lenient-undercredit signal "
+            "in rubric-mapping risk via the parameter-free max t-conorm."
+        ),
+    )
+    parser.add_argument(
         "--text-provider", default=default_model_config["text_provider"]
     )
     parser.add_argument(
@@ -1698,7 +1737,10 @@ def main():
         safe_tolerance_ratio=args.safe_error_ratio,
     )
     membership_model = fit_monotonic_membership(
-        records,
+        membership_training_records(
+            records,
+            args.directional_undercredit_risk,
+        ),
         safe_error_ratio=args.safe_error_ratio,
         safe_error_points=args.safe_error_points,
     )
@@ -1722,6 +1764,7 @@ def main():
         "safe_error_points": args.safe_error_points,
         "max_unsafe_pos_rate": args.max_unsafe_pos_rate,
         "boundary_policy": boundary_policy,
+        "directional_undercredit_risk": args.directional_undercredit_risk,
     }
     results = [
         evaluate_params(records, loss_params=loss_params, **evaluation_args)
@@ -1802,6 +1845,7 @@ def main():
             "unsafe_pos_cost": args.unsafe_pos_cost,
             "boundary_policy": boundary_policy,
             "boundary_action_min_count": args.boundary_action_min_count,
+            "directional_undercredit_risk": args.directional_undercredit_risk,
         },
     )
     deployment_gate = build_deployment_gate(
@@ -1831,6 +1875,17 @@ def main():
         "risk_weights": normalized_risk_weights(),
         "membership_model": membership_model,
         "score_uncertainty": score_uncertainty,
+        "rubric_mapping_risk": {
+            "fusion": "max_t_conorm",
+            "directional_undercredit_enabled": bool(
+                args.directional_undercredit_risk
+            ),
+            "undercredit_signal": (
+                "lenient_undercredit_signal"
+                if args.directional_undercredit_risk
+                else None
+            ),
+        },
         "boundary_policy": boundary_policy,
         "operational_costs": {
             "normalized_bnd_invocation": args.bnd_review_cost,

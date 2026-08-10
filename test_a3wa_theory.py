@@ -17,6 +17,7 @@ from scripts.calibrate_a3wa import (
     build_case_diagnostics,
     build_candidate_diagnostics,
     build_deployment_gate,
+    build_directional_signal_diagnostics,
     build_score_calibration,
     evaluate_params,
     fit_monotonic_membership,
@@ -321,6 +322,8 @@ class A3WATheoryTests(unittest.TestCase):
         diagnostics = summarize_risk_distributions(records)
         self.assertEqual(diagnostics["safe_baseline"]["n"], 1)
         self.assertEqual(diagnostics["unsafe_baseline"]["n"], 1)
+        self.assertEqual(diagnostics["undercredit_baseline"]["n"], 1)
+        self.assertEqual(diagnostics["overcredit_baseline"]["n"], 0)
         self.assertEqual(diagnostics["route_BND"]["U_R"]["mean"], 0.8)
         self.assertEqual(diagnostics["safe_POS"]["n"], 1)
         self.assertEqual(diagnostics["bnd_human_review"]["n"], 0)
@@ -339,7 +342,15 @@ class A3WATheoryTests(unittest.TestCase):
                 "U_R_consensus": 0.1,
                 "U_R_evidence": 0.4,
             },
-            "post_calibration": {"unsupported_high_score_risk": 0.4},
+            "post_calibration": {
+                "unsupported_high_score_risk": 0.4,
+                "result_correctness_signal": 0.8,
+                "result_strong_signal": 0.7,
+                "method_evidence_signal": 0.6,
+                "lenient_undercredit_signal": 0.5,
+                "stable_undercredit_review": True,
+                "result_anchored_undercredit_review": False,
+            },
         }
         records = [
             {
@@ -385,6 +396,9 @@ class A3WATheoryTests(unittest.TestCase):
         self.assertEqual(by_student["A"]["unsupported_high_score_risk"], 0.4)
         self.assertEqual(by_student["A"]["U_R_consensus"], 0.1)
         self.assertEqual(by_student["A"]["U_R_evidence"], 0.4)
+        self.assertEqual(by_student["A"]["baseline_error_direction"], "undercredit")
+        self.assertEqual(by_student["A"]["lenient_undercredit_signal"], 0.5)
+        self.assertTrue(by_student["A"]["stable_undercredit_review"])
 
         with tempfile.TemporaryDirectory() as temp_dir:
             report = write_case_diagnostics(temp_dir, records)
@@ -393,6 +407,98 @@ class A3WATheoryTests(unittest.TestCase):
             self.assertTrue(Path(report["jsonl"]).is_file())
             summary = json.loads(Path(report["summary"]).read_text(encoding="utf-8"))
             self.assertEqual(summary["group_counts"]["unsafe_pos"], 1)
+            self.assertEqual(summary["direction_counts"]["undercredit"], 1)
+
+    def test_directional_signals_use_question_clustered_validation(self):
+        records = []
+        for index in range(1, 4):
+            common = {
+                "qid": f"Q{index}",
+                "max_score": 10.0,
+                "safe_error_ratio": 0.1,
+                "safe_error_points": 0.5,
+                "trial_route": "BND",
+                "trial_membership": 0.5,
+                "requires_human_review": False,
+                "trial_score": 5.0,
+            }
+            records.extend([
+                {
+                    **common,
+                    "student_id": f"S{index}",
+                    "teacher": 5.0,
+                    "avg": 5.0,
+                    "trial_risk_components": {"U_R_evidence": 0.1},
+                    "post_calibration": {
+                        "lenient_undercredit_signal": 0.1,
+                        "result_correctness_signal": 0.1,
+                        "result_strong_signal": 0.1,
+                        "method_evidence_signal": 0.1,
+                        "stable_undercredit_review": False,
+                        "result_anchored_undercredit_review": False,
+                        "unsupported_high_score_risk": 0.1,
+                        "bare_answer_risk": 0.1,
+                        "core_contradiction_ratio": 0.1,
+                    },
+                },
+                {
+                    **common,
+                    "student_id": f"U{index}",
+                    "teacher": 5.0,
+                    "avg": 2.0,
+                    "trial_risk_components": {"U_R_evidence": 0.1},
+                    "post_calibration": {
+                        "lenient_undercredit_signal": 0.9,
+                        "result_correctness_signal": 0.9,
+                        "result_strong_signal": 0.9,
+                        "method_evidence_signal": 0.9,
+                        "stable_undercredit_review": True,
+                        "result_anchored_undercredit_review": True,
+                        "unsupported_high_score_risk": 0.1,
+                        "bare_answer_risk": 0.1,
+                        "core_contradiction_ratio": 0.1,
+                    },
+                },
+                {
+                    **common,
+                    "student_id": f"O{index}",
+                    "teacher": 5.0,
+                    "avg": 8.0,
+                    "trial_risk_components": {"U_R_evidence": 0.9},
+                    "post_calibration": {
+                        "lenient_undercredit_signal": 0.1,
+                        "result_correctness_signal": 0.1,
+                        "result_strong_signal": 0.1,
+                        "method_evidence_signal": 0.1,
+                        "stable_undercredit_review": False,
+                        "result_anchored_undercredit_review": False,
+                        "unsupported_high_score_risk": 0.9,
+                        "bare_answer_risk": 0.9,
+                        "core_contradiction_ratio": 0.9,
+                    },
+                },
+            ])
+
+        diagnostics = build_directional_signal_diagnostics(
+            records, bootstrap_repetitions=50
+        )
+        self.assertEqual(
+            diagnostics["direction_counts"],
+            {"overcredit": 3, "safe": 3, "undercredit": 3},
+        )
+        under = diagnostics["undercredit"]["signals"][
+            "lenient_undercredit_signal"
+        ]
+        self.assertEqual(under["auc"], 1.0)
+        self.assertEqual(under["cluster_bootstrap"]["ci95"], [1.0, 1.0])
+        self.assertEqual(
+            under["leave_one_question_out"]["mean_balanced_accuracy"], 1.0
+        )
+        over = diagnostics["overcredit"]["signals"]["U_R_evidence"]
+        self.assertEqual(over["auc"], 1.0)
+        self.assertEqual(
+            over["leave_one_question_out"]["eligible_questions"], 3
+        )
 
     def test_replay_preserves_csbench_question_id(self):
         self.assertEqual(

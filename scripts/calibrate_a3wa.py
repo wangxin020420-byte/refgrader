@@ -6,7 +6,7 @@ import math
 import os
 import random
 import sys
-from collections import Counter
+from collections import Counter, defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
@@ -342,6 +342,278 @@ def _numeric_summary(values):
     }
 
 
+DIRECTIONAL_SIGNAL_SPECS = {
+    "undercredit": (
+        "lenient_undercredit_signal",
+        "result_correctness_signal",
+        "result_strong_signal",
+        "method_evidence_signal",
+        "stable_undercredit_review",
+        "result_anchored_undercredit_review",
+    ),
+    "overcredit": (
+        "U_R_evidence",
+        "unsupported_high_score_risk",
+        "bare_answer_risk",
+        "core_contradiction_ratio",
+    ),
+}
+
+
+def _baseline_error_direction(row):
+    """Label validation error direction without exposing it to runtime logic."""
+    max_score = max(safe_float(row.get("max_score"), 0.0), 1.0)
+    tolerance = max(
+        safe_float(row.get("safe_error_points"), 0.5),
+        safe_float(row.get("safe_error_ratio"), 0.1) * max_score,
+    )
+    delta = safe_float(row.get("avg"), 0.0) - safe_float(
+        row.get("teacher"), 0.0
+    )
+    if abs(delta) <= tolerance:
+        direction = "safe"
+    elif delta < 0:
+        direction = "undercredit"
+    else:
+        direction = "overcredit"
+    return direction, tolerance, delta
+
+
+def _binary_auc(rows, signal_name, positive_direction):
+    """Compute tie-aware ROC AUC for one directional risk signal."""
+    labeled = [
+        (
+            safe_float(row.get(signal_name), 0.0),
+            1 if row.get("baseline_error_direction") == positive_direction else 0,
+        )
+        for row in rows
+        if row.get("baseline_error_direction") in {"safe", positive_direction}
+    ]
+    positives = sum(label for _, label in labeled)
+    negatives = len(labeled) - positives
+    if positives == 0 or negatives == 0:
+        return None
+
+    ranked = sorted(labeled, key=lambda item: item[0])
+    positive_rank_sum = 0.0
+    index = 0
+    while index < len(ranked):
+        end = index + 1
+        while end < len(ranked) and ranked[end][0] == ranked[index][0]:
+            end += 1
+        average_rank = ((index + 1) + end) / 2.0
+        positive_rank_sum += average_rank * sum(
+            label for _, label in ranked[index:end]
+        )
+        index = end
+
+    return (
+        positive_rank_sum - positives * (positives + 1) / 2.0
+    ) / (positives * negatives)
+
+
+def _cluster_bootstrap_auc(
+    rows,
+    signal_name,
+    positive_direction,
+    repetitions=1000,
+    seed=20260810,
+):
+    """Bootstrap questions, preserving within-question sample dependence."""
+    eligible = [
+        row
+        for row in rows
+        if row.get("baseline_error_direction") in {"safe", positive_direction}
+    ]
+    clusters = defaultdict(list)
+    for row in eligible:
+        clusters[str(row.get("question_id") or "")].append(row)
+    question_ids = sorted(clusters)
+    if not question_ids:
+        return {"repetitions": repetitions, "valid_repetitions": 0, "ci95": None}
+
+    signal_seed = sum(ord(char) for char in f"{positive_direction}:{signal_name}")
+    rng = random.Random(seed + signal_seed)
+    aucs = []
+    for _ in range(repetitions):
+        sampled_rows = []
+        for _ in question_ids:
+            sampled_rows.extend(clusters[rng.choice(question_ids)])
+        auc = _binary_auc(sampled_rows, signal_name, positive_direction)
+        if auc is not None:
+            aucs.append(auc)
+    return {
+        "repetitions": repetitions,
+        "valid_repetitions": len(aucs),
+        "ci95": (
+            [
+                round(_percentile(aucs, 0.025), 6),
+                round(_percentile(aucs, 0.975), 6),
+            ]
+            if aucs
+            else None
+        ),
+    }
+
+
+def _balanced_accuracy(rows, signal_name, positive_direction, threshold):
+    labels = [
+        row.get("baseline_error_direction") == positive_direction for row in rows
+    ]
+    positives = sum(labels)
+    negatives = len(labels) - positives
+    if positives == 0 or negatives == 0:
+        return None
+    true_positive = sum(
+        label and safe_float(row.get(signal_name), 0.0) >= threshold
+        for row, label in zip(rows, labels)
+    )
+    true_negative = sum(
+        (not label) and safe_float(row.get(signal_name), 0.0) < threshold
+        for row, label in zip(rows, labels)
+    )
+    sensitivity = true_positive / positives
+    specificity = true_negative / negatives
+    return {
+        "balanced_accuracy": (sensitivity + specificity) / 2.0,
+        "sensitivity": sensitivity,
+        "specificity": specificity,
+    }
+
+
+def _threshold_candidates(rows, signal_name):
+    values = sorted({safe_float(row.get(signal_name), 0.0) for row in rows})
+    if not values:
+        return []
+    candidates = [values[0] - 1e-12]
+    candidates.extend(
+        (left + right) / 2.0 for left, right in zip(values, values[1:])
+    )
+    candidates.append(values[-1] + 1e-12)
+    return candidates
+
+
+def _leave_one_question_out_signal(
+    rows,
+    signal_name,
+    positive_direction,
+):
+    """Select a threshold on n-1 questions and evaluate the held-out question."""
+    eligible = [
+        row
+        for row in rows
+        if row.get("baseline_error_direction") in {"safe", positive_direction}
+    ]
+    question_ids = sorted({str(row.get("question_id") or "") for row in eligible})
+    folds = []
+    for held_out in question_ids:
+        train = [row for row in eligible if row.get("question_id") != held_out]
+        test = [row for row in eligible if row.get("question_id") == held_out]
+        candidates = _threshold_candidates(train, signal_name)
+        train_scores = []
+        for threshold in candidates:
+            score = _balanced_accuracy(
+                train, signal_name, positive_direction, threshold
+            )
+            if score is not None:
+                train_scores.append((score["balanced_accuracy"], threshold))
+        if not train_scores:
+            continue
+        # A higher tied threshold is the conservative choice for a risk flag.
+        _, threshold = max(train_scores, key=lambda item: (item[0], item[1]))
+        held_out_score = _balanced_accuracy(
+            test, signal_name, positive_direction, threshold
+        )
+        if held_out_score is None:
+            continue
+        folds.append({
+            "question_id": held_out,
+            "n": len(test),
+            "threshold": round(threshold, 6),
+            "balanced_accuracy": round(
+                held_out_score["balanced_accuracy"], 6
+            ),
+            "sensitivity": round(held_out_score["sensitivity"], 6),
+            "specificity": round(held_out_score["specificity"], 6),
+        })
+    return {
+        "eligible_questions": len(folds),
+        "total_questions": len(question_ids),
+        "mean_balanced_accuracy": round(
+            mean([fold["balanced_accuracy"] for fold in folds]), 6
+        ),
+        "questions_above_chance": sum(
+            fold["balanced_accuracy"] > 0.5 for fold in folds
+        ),
+        "folds": folds,
+    }
+
+
+def build_directional_signal_diagnostics(
+    trial_records,
+    bootstrap_repetitions=1000,
+):
+    """Evaluate directional evidence on validation data without changing routing."""
+    cases = build_case_diagnostics(trial_records)
+    direction_counts = dict(sorted(Counter(
+        case["baseline_error_direction"] for case in cases
+    ).items()))
+    diagnostics = {
+        "version": 1,
+        "scope": "validation_diagnostics_only",
+        "teacher_score_usage": "labels_only_not_runtime_features",
+        "positive_signal_orientation": "higher_means_more_directional_risk",
+        "direction_counts": direction_counts,
+        "undercredit": {"signals": {}},
+        "overcredit": {"signals": {}},
+    }
+    for direction, signal_names in DIRECTIONAL_SIGNAL_SPECS.items():
+        safe_rows = [
+            row for row in cases if row["baseline_error_direction"] == "safe"
+        ]
+        positive_rows = [
+            row
+            for row in cases
+            if row["baseline_error_direction"] == direction
+        ]
+        diagnostics[direction]["n_safe"] = len(safe_rows)
+        diagnostics[direction]["n_positive"] = len(positive_rows)
+        for signal_name in signal_names:
+            auc = _binary_auc(cases, signal_name, direction)
+            diagnostics[direction]["signals"][signal_name] = {
+                "safe": _numeric_summary(
+                    row.get(signal_name, 0.0) for row in safe_rows
+                ),
+                "positive": _numeric_summary(
+                    row.get(signal_name, 0.0) for row in positive_rows
+                ),
+                "mean_difference": round(
+                    mean([
+                        safe_float(row.get(signal_name), 0.0)
+                        for row in positive_rows
+                    ])
+                    - mean([
+                        safe_float(row.get(signal_name), 0.0)
+                        for row in safe_rows
+                    ]),
+                    6,
+                ),
+                "auc": round(auc, 6) if auc is not None else None,
+                "cluster_bootstrap": _cluster_bootstrap_auc(
+                    cases,
+                    signal_name,
+                    direction,
+                    repetitions=bootstrap_repetitions,
+                ),
+                "leave_one_question_out": _leave_one_question_out_signal(
+                    cases,
+                    signal_name,
+                    direction,
+                ),
+            }
+    return diagnostics
+
+
 def summarize_sequential_outcomes(trial_records):
     """Separate A3WA routing cost from actual human-review demand."""
     route_counts = Counter()
@@ -382,8 +654,12 @@ def summarize_risk_distributions(trial_records):
     groups = {
         "safe_baseline": [],
         "unsafe_baseline": [],
+        "undercredit_baseline": [],
+        "overcredit_baseline": [],
         "safe_POS": [],
         "unsafe_POS": [],
+        "undercredit_POS": [],
+        "overcredit_POS": [],
         "bnd_auto_resolved": [],
         "bnd_human_review": [],
         "route_POS": [],
@@ -396,19 +672,21 @@ def summarize_risk_distributions(trial_records):
             safe_float(row.get("safe_error_points"), 0.5),
             safe_float(row.get("safe_error_ratio"), 0.1) * max_score,
         )
-        baseline_error = abs(
-            safe_float(row.get("avg"), 0.0)
-            - safe_float(row.get("teacher"), 0.0)
-        )
+        direction, _, delta = _baseline_error_direction(row)
+        baseline_error = abs(delta)
         safety_group = (
             "safe_baseline" if baseline_error <= tolerance else "unsafe_baseline"
         )
         groups[safety_group].append(row)
+        if direction != "safe":
+            groups[f"{direction}_baseline"].append(row)
         route = str(row.get("trial_route") or "")
         if route == "POS":
             groups[
                 "safe_POS" if safety_group == "safe_baseline" else "unsafe_POS"
             ].append(row)
+            if direction != "safe":
+                groups[f"{direction}_POS"].append(row)
         elif route == "BND":
             groups[
                 "bnd_human_review"
@@ -451,6 +729,30 @@ def summarize_risk_distributions(trial_records):
                 )
                 for row in rows
             ),
+            "lenient_undercredit_signal": _numeric_summary(
+                (row.get("post_calibration") or {}).get(
+                    "lenient_undercredit_signal", 0.0
+                )
+                for row in rows
+            ),
+            "result_correctness_signal": _numeric_summary(
+                (row.get("post_calibration") or {}).get(
+                    "result_correctness_signal", 0.0
+                )
+                for row in rows
+            ),
+            "result_strong_signal": _numeric_summary(
+                (row.get("post_calibration") or {}).get(
+                    "result_strong_signal", 0.0
+                )
+                for row in rows
+            ),
+            "method_evidence_signal": _numeric_summary(
+                (row.get("post_calibration") or {}).get(
+                    "method_evidence_signal", 0.0
+                )
+                for row in rows
+            ),
         }
     return summary
 
@@ -459,6 +761,7 @@ CASE_DIAGNOSTIC_FIELDS = (
     "question_id",
     "student_id",
     "diagnostic_group",
+    "baseline_error_direction",
     "teacher_score",
     "baseline_score",
     "trial_score",
@@ -473,6 +776,12 @@ CASE_DIAGNOSTIC_FIELDS = (
     "U_R",
     "U_R_consensus",
     "U_R_evidence",
+    "result_correctness_signal",
+    "result_strong_signal",
+    "method_evidence_signal",
+    "lenient_undercredit_signal",
+    "stable_undercredit_review",
+    "result_anchored_undercredit_review",
     "unsupported_match_points_ratio",
     "effective_unsupported_match_points_ratio",
     "unsupported_high_score_risk",
@@ -499,7 +808,8 @@ def build_case_diagnostics(trial_records):
         baseline_score = safe_float(row.get("avg"), 0.0)
         trial_score = safe_float(row.get("trial_score"), baseline_score)
         teacher_score = safe_float(row.get("teacher"), 0.0)
-        baseline_error = abs(baseline_score - teacher_score)
+        direction, _, baseline_delta = _baseline_error_direction(row)
+        baseline_error = abs(baseline_delta)
         route = str(row.get("trial_route") or "")
         requires_human = bool(row.get("requires_human_review", False))
         if route == "POS":
@@ -517,6 +827,7 @@ def build_case_diagnostics(trial_records):
             "question_id": str(row.get("qid") or ""),
             "student_id": str(row.get("student_id") or ""),
             "diagnostic_group": group,
+            "baseline_error_direction": direction,
             "teacher_score": round(teacher_score, 6),
             "baseline_score": round(baseline_score, 6),
             "trial_score": round(trial_score, 6),
@@ -540,6 +851,24 @@ def build_case_diagnostics(trial_records):
             ),
             "U_R_evidence": round(
                 safe_float(risks.get("U_R_evidence"), 0.0), 6
+            ),
+            "result_correctness_signal": round(
+                safe_float(post.get("result_correctness_signal"), 0.0), 6
+            ),
+            "result_strong_signal": round(
+                safe_float(post.get("result_strong_signal"), 0.0), 6
+            ),
+            "method_evidence_signal": round(
+                safe_float(post.get("method_evidence_signal"), 0.0), 6
+            ),
+            "lenient_undercredit_signal": round(
+                safe_float(post.get("lenient_undercredit_signal"), 0.0), 6
+            ),
+            "stable_undercredit_review": bool(
+                post.get("stable_undercredit_review", False)
+            ),
+            "result_anchored_undercredit_review": bool(
+                post.get("result_anchored_undercredit_review", False)
             ),
             "unsupported_match_points_ratio": round(
                 safe_float(post.get("unsupported_match_points_ratio"), 0.0), 6
@@ -605,9 +934,13 @@ def write_case_diagnostics(report_dir, trial_records):
     group_counts = dict(sorted(Counter(
         case["diagnostic_group"] for case in cases
     ).items()))
+    direction_counts = dict(sorted(Counter(
+        case["baseline_error_direction"] for case in cases
+    ).items()))
     write_json(summary_path, {
         "n": len(cases),
         "group_counts": group_counts,
+        "direction_counts": direction_counts,
         "files": {
             "csv": os.path.basename(csv_path),
             "jsonl": os.path.basename(jsonl_path),
@@ -620,6 +953,7 @@ def write_case_diagnostics(report_dir, trial_records):
         "summary": summary_path,
         "n": len(cases),
         "group_counts": group_counts,
+        "direction_counts": direction_counts,
     }
 
 
@@ -1447,6 +1781,11 @@ def main():
     risk_diagnostics = summarize_risk_distributions(
         best_with_trial["trial_records"]
     )
+    directional_risk_diagnostics = None
+    if args.diagnostic_report_dir:
+        directional_risk_diagnostics = build_directional_signal_diagnostics(
+            best_with_trial["trial_records"]
+        )
     cross_validation = leave_one_question_out_validation(
         records,
         {
@@ -1541,6 +1880,8 @@ def main():
             ],
         },
     }
+    if directional_risk_diagnostics is not None:
+        config["directional_risk_diagnostics"] = directional_risk_diagnostics
     config["score_calibration"] = {
         "version": 3,
         "enabled": False,
@@ -1574,6 +1915,7 @@ def main():
             },
             "n": report["n"],
             "group_counts": report["group_counts"],
+            "direction_counts": report["direction_counts"],
         }
     write_json(args.output, config)
 

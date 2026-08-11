@@ -27,7 +27,7 @@ from calibration_utils import (
     apply_structured_boundary_action_policy,
     build_a3wa_decision,
     build_post_grading_calibration,
-    compute_evidence_first_directional_risks,
+    compute_evidence_verifier_directional_risks,
     compute_extraction_quality_counts,
     compute_extraction_risk_features,
     is_blank_extraction,
@@ -35,7 +35,7 @@ from calibration_utils import (
     is_perception_failure,
     is_structure_missing_extraction,
     prepare_rubrics_for_calibration,
-    normalize_evidence_first_grading_result,
+    normalize_evidence_verification_result,
     select_baseline_score,
 )
 from model_runtime import (
@@ -1539,29 +1539,6 @@ error_category 只能取以下值之一：
         },
         logic_prompt,
     )
-    if evidence_first_grading:
-        logic_prompt += """
-
-# Evidence-First Experimental Contract
-
-Before assigning points, identify the concrete extracted facts supporting each
-rubric item. For every detail object, also return:
-
-- `evidence_ids`: a JSON list containing only exact top-level keys from
-  `STUDENT_FACTS`; never invent an identifier and never cite metadata keys
-  whose names begin with `_`.
-- `evidence_support`: a number in [0, 1] measuring how much the cited evidence
-  satisfies this rubric item before points are assigned.
-- `contradiction`: true only when cited student evidence contradicts the
-  required condition.
-- `confidence`: a number in [0, 1] for the evidence-to-rubric mapping.
-
-Evidence support and awarded points are separate judgments. A high score with
-no valid evidence reference is not permitted. If no concrete fact supports an
-item, return an empty `evidence_ids` list and zero evidence support. Keep the
-existing JSON keys and add these four keys to every detail object. Return pure
-JSON only.
-"""
     for attempt in range(3):
         try:
             return call_text_model(
@@ -1571,6 +1548,160 @@ JSON only.
         except Exception:
             time.sleep(3)
     return None
+
+
+def build_evidence_verification_prompt(
+    facts_dict,
+    rubrics_data,
+    repair_context=None,
+):
+    """Build a score-blind evidence-verification request."""
+    facts = facts_dict if isinstance(facts_dict, dict) else {}
+    rubrics = rubrics_data if isinstance(rubrics_data, list) else []
+    evidence_ledger = [
+        {
+            "evidence_id": str(fact_id),
+            "text": value,
+        }
+        for fact_id, value in facts.items()
+        if str(fact_id) and not str(fact_id).startswith("_")
+    ]
+    rubric_ledger = []
+    for item in rubrics:
+        if not isinstance(item, dict) or not str(item.get("id", "")):
+            continue
+        rubric_ledger.append({
+            key: item.get(key)
+            for key in (
+                "id",
+                "points",
+                "description",
+                "standard_answer_text",
+                "source_text",
+                "type",
+                "scoring_role",
+                "parent_id",
+            )
+            if item.get(key) is not None
+        })
+
+    repair_block = ""
+    if repair_context:
+        repair_block = f"""
+
+【上一次输出的校验错误】
+{json.dumps(repair_context, ensure_ascii=False, indent=2)}
+
+这是唯一一次修复机会。请纠正缺失条目、字段类型和非法 ID；不要增加解释文本。
+"""
+
+    return f"""
+你是独立的评分证据核验器。评分已经完成且不可更改。你只能判断学生证据对每个评分项的支持程度，不能看到教师分数，也不能输出、建议或修改任何得分、评分等级、三支路由或仲裁动作。
+
+【允许引用的证据账本】
+{json.dumps(evidence_ledger, ensure_ascii=False, indent=2)}
+
+【评分项】
+{json.dumps(rubric_ledger, ensure_ascii=False, indent=2)}
+
+规则：
+1. 每个评分项必须且只能输出一次，id 必须与评分项完全一致。
+2. evidence_ids 只能使用证据账本中的 evidence_id；不能创造新 ID，不能引用以下划线开头的元数据。
+3. evidence_support 取 [0,1]，表示已引用证据对该评分项要求的满足比例。
+4. contradiction 仅在学生证据明确反驳该评分项要求时为 true。
+5. confidence 取 [0,1]，表示证据到评分项映射的把握度。
+6. 没有可引用证据时，evidence_ids=[] 且 evidence_support=0。
+
+只输出纯 JSON：
+{{
+  "items": [
+    {{
+      "id": "评分项ID",
+      "evidence_ids": ["证据ID"],
+      "evidence_support": 0.0,
+      "contradiction": false,
+      "confidence": 0.0
+    }}
+  ]
+}}
+{repair_block}
+"""
+
+
+def stage2_evidence_verification(
+    facts_dict,
+    rubrics_data,
+    repair_context=None,
+):
+    """Run one score-blind evidence verification model call."""
+    prompt = build_evidence_verification_prompt(
+        facts_dict,
+        rubrics_data,
+        repair_context=repair_context,
+    )
+    response = call_text_model(
+        [{"role": "user", "content": prompt}],
+        temperature=0.1,
+        timeout=120,
+    )
+    return response, extract_and_parse_json(response)
+
+
+def run_independent_evidence_verification(facts_dict, rubrics_data):
+    """Verify evidence once, with at most one contract-repair call."""
+    first_response = None
+    try:
+        first_response, first_parsed = stage2_evidence_verification(
+            facts_dict,
+            rubrics_data,
+        )
+    except Exception as exc:
+        first_parsed = None
+        first_response = f"verifier_call_failed:{type(exc).__name__}:{exc}"
+
+    first = normalize_evidence_verification_result(
+        first_parsed,
+        facts_dict,
+        rubrics_data,
+    )
+    first_audit = dict(first.get("audit", {}))
+    final = first
+    repair_attempted = bool(first_audit.get("requires_repair"))
+    repair_succeeded = False
+
+    if repair_attempted:
+        repair_context = {
+            "audit": first_audit,
+            "previous_response": first_response,
+        }
+        try:
+            _repair_response, repair_parsed = stage2_evidence_verification(
+                facts_dict,
+                rubrics_data,
+                repair_context=repair_context,
+            )
+            repaired = normalize_evidence_verification_result(
+                repair_parsed,
+                facts_dict,
+                rubrics_data,
+            )
+            final = repaired
+            repair_succeeded = not bool(
+                repaired.get("audit", {}).get("requires_repair")
+            )
+        except Exception:
+            final = first
+
+    final.setdefault("audit", {})
+    final["audit"].update({
+        "repair_attempted": repair_attempted,
+        "repair_succeeded": repair_succeeded,
+        "verifier_semantic_call_count": 2 if repair_attempted else 1,
+        "first_pass": first_audit,
+    })
+    if repair_attempted:
+        final["first_pass_items"] = first.get("items", [])
+    return final
 
 
 def apply_canonical_score_floor(grading_result, canonical_context):
@@ -2133,7 +2264,6 @@ def grade_student_3wd_pipeline(
             student_facts,
             rubrics_json,
             canonical_context=canonical_context,
-            evidence_first_grading=evidence_first_grading,
         )
         if res_text:
             parsed_json = extract_and_parse_json(res_text)
@@ -2148,12 +2278,6 @@ def grade_student_3wd_pipeline(
                     parsed_json,
                     json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json,
                 )
-                if evidence_first_grading:
-                    parsed_json = normalize_evidence_first_grading_result(
-                        parsed_json,
-                        evidence_facts,
-                        evidence_rubrics,
-                    )
                 return (idx, parsed_json['total_score'], parsed_json)
         return (idx, None, None)
 
@@ -2251,12 +2375,6 @@ def grade_student_3wd_pipeline(
         blank_rate=blank_rate,
         risk_profile=risk_profile,
     )
-    directional_credit_risks = None
-    if evidence_first_grading:
-        directional_credit_risks = compute_evidence_first_directional_risks(
-            evidence_rubrics,
-            strict_cots,
-        )
     calibrated_fatal_ratio = post_calibration.get("fatal_ratio", risk_profile["fatal_points_ratio"])
     risk_profile["fatal_points_ratio"] = calibrated_fatal_ratio
     risk_profile["risk_features"]["fatal_points_ratio"] = calibrated_fatal_ratio
@@ -2542,6 +2660,20 @@ def grade_student_3wd_pipeline(
                 f"({score_calibration['correction']:+.2f})"
             )
 
+    evidence_verification = None
+    directional_credit_risks = None
+    if evidence_first_grading:
+        print("  [Stage 3] independent post-scoring evidence verification...")
+        evidence_verification = run_independent_evidence_verification(
+            evidence_facts,
+            evidence_rubrics,
+        )
+        directional_credit_risks = compute_evidence_verifier_directional_risks(
+            evidence_rubrics,
+            strict_cots,
+            evidence_verification,
+        )
+
     # 结果封装。
     ordered_result = {
         "student_id": student_id,
@@ -2594,8 +2726,11 @@ def grade_student_3wd_pipeline(
     if evidence_first_grading:
         ordered_result["grading_contract"] = {
             "evidence_first_grading": True,
-            "schema_version": 1,
+            "schema_version": 2,
+            "verifier": "independent_post_scoring",
+            "scoring_effect": "none",
             "route_effect": "none",
         }
+        ordered_result["evidence_verification"] = evidence_verification
         ordered_result["directional_credit_risks"] = directional_credit_risks
     return ordered_result

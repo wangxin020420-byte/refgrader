@@ -1,26 +1,31 @@
 # Current Progress
 
-## 2026-08-11 Evidence-First Grading Diagnostic
+## 2026-08-11 Independent Evidence Verifier v2
 
-Stage 2 now has an optional `--evidence-first-grading` contract. When enabled,
-each independent grading probe must identify criterion-level fact IDs before
-assigning points and report evidence support, contradiction, and mapping
-confidence. The parser validates fact references, rejects unknown references,
-caps item scores at rubric points, and makes the validated item sum
-authoritative. Contract completeness and every deterministic fallback remain
-visible in the per-probe audit record.
+Evidence-first v1 was rejected after the complete 31-question private
+validation run: it changed the three scoring prompts and normalized item
+scores, so the supposedly diagnostic switch changed the scoring distribution
+and routes. Compared with the prior validation baseline, full 3WD MAE worsened
+by 0.084745; 480 invalid evidence references were also observed. Its new risk
+signals did not satisfy the existing route-budget feasibility constraints.
 
-The same run records teacher-label-free directional diagnostics `R_under` and
-`R_over`, computed from the gap between criterion evidence support and awarded
-credit. These values are explicitly marked `diagnostic_only` and have
-`route_effect=none`: they do not alter the existing A3WA risk fusion,
-POS/BND/NEG thresholds, boundary actions, residual calibration, or final score
-selection. The feature is disabled by default. Enabled runs carry a distinct
-run signature and artifact grading contract, preventing resume or publication
-from mixing them with earlier grading runs. Empirical effectiveness has not
-yet been established; private validation must demonstrate improved risk
-separation under the existing review budget before either signal can be
-considered for routing.
+The replacement v2 contract keeps all original semantic grading probes,
+canonical and hierarchical scoring policies, A3WA routing, BND arbitration,
+and residual calibration unchanged. Only after the final score is fixed does
+one score-blind verifier map an explicit Stage 1 evidence ledger to rubric
+items. Invalid IDs trigger at most one repair call and remain visible in the
+audit. The verifier produces teacher-label-free `R_under` and `R_over`
+diagnostics but cannot modify scores or routes. Enabled runs use schema version
+2 and a distinct run signature, preventing resume or publication from mixing
+v1 and v2 records.
+
+The next empirical step is a five-question private-validation pilot
+(`CO_1`, `CO_5`, `CO_8`, `DM_3`, `ISC_6`). Expansion to all 31 train questions
+requires contract completeness >=99%, invalid-reference records <=5%, and a
+verified zero score-mutation invariant. Routing integration remains blocked
+until complete private validation also demonstrates signal quality no worse
+than the retained risks and a feasible `BND<=60%`, `unsafe POS<=10%` operating
+point.
 
 ## 2026-07-27 Local Teacher-Label Review UI
 

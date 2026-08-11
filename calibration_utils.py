@@ -1009,7 +1009,8 @@ def _detail_by_item(strict_cots):
     return per_item
 
 
-EVIDENCE_FIRST_GRADING_SCHEMA_VERSION = 1
+LEGACY_EVIDENCE_FIRST_GRADING_SCHEMA_VERSION = 1
+EVIDENCE_FIRST_GRADING_SCHEMA_VERSION = 2
 
 
 def _evidence_text(value):
@@ -1174,7 +1175,7 @@ def normalize_evidence_first_grading_result(
     result["details"] = normalized_details
     result["total_score"] = round(normalized_total, 6)
     result["evidence_first_audit"] = {
-        "schema_version": EVIDENCE_FIRST_GRADING_SCHEMA_VERSION,
+        "schema_version": LEGACY_EVIDENCE_FIRST_GRADING_SCHEMA_VERSION,
         "item_count": item_count,
         "raw_contract_complete_count": raw_complete_count,
         "raw_contract_completeness": round(
@@ -1278,7 +1279,7 @@ def compute_evidence_first_directional_risks(rubrics_data, strict_cots):
 
     denominator = max(total_points, 1e-9)
     return {
-        "schema_version": EVIDENCE_FIRST_GRADING_SCHEMA_VERSION,
+        "schema_version": LEGACY_EVIDENCE_FIRST_GRADING_SCHEMA_VERSION,
         "R_under": round(undercredit / denominator, 6),
         "R_over": round(overcredit / denominator, 6),
         "evidence_disagreement": round(disagreement / denominator, 6),
@@ -1286,6 +1287,228 @@ def compute_evidence_first_directional_risks(rubrics_data, strict_cots):
             contract_complete / max(contract_total, 1), 6
         ),
         "status": "diagnostic_only",
+        "route_effect": "none",
+        "item_diagnostics": item_diagnostics,
+    }
+
+
+def normalize_evidence_verification_result(
+    verification_result,
+    facts_dict,
+    rubrics_data,
+):
+    """Validate a post-scoring evidence-verification response.
+
+    This parser never receives or returns an awarded score. Invalid references
+    remain visible in the audit record so a repair call can be evaluated
+    without silently converting an invalid response into a valid one.
+    """
+    source = verification_result if isinstance(verification_result, dict) else {}
+    facts = facts_dict if isinstance(facts_dict, dict) else {}
+    rubrics = rubrics_data if isinstance(rubrics_data, list) else []
+    raw_items = source.get("items") if isinstance(source.get("items"), list) else []
+
+    rubric_ids = {
+        str(item.get("id", ""))
+        for item in rubrics
+        if isinstance(item, dict) and str(item.get("id", ""))
+    }
+    allowed_fact_ids = {
+        str(fact_id)
+        for fact_id, value in facts.items()
+        if (
+            str(fact_id)
+            and not str(fact_id).startswith("_")
+            and _usable_evidence_fact(value, {})
+        )
+    }
+
+    source_by_id = {}
+    duplicate_item_ids = []
+    for raw_item in raw_items:
+        if not isinstance(raw_item, dict):
+            continue
+        item_id = str(raw_item.get("id", ""))
+        if not item_id:
+            continue
+        if item_id in source_by_id:
+            duplicate_item_ids.append(item_id)
+            continue
+        source_by_id[item_id] = deepcopy(raw_item)
+
+    unknown_item_ids = sorted(set(source_by_id) - rubric_ids)
+    missing_item_ids = sorted(rubric_ids - set(source_by_id))
+    normalized_items = []
+    raw_complete_count = 0
+    complete_count = 0
+    invalid_reference_count = 0
+    all_invalid_ids = []
+
+    for rubric in rubrics:
+        if not isinstance(rubric, dict):
+            continue
+        item_id = str(rubric.get("id", ""))
+        if not item_id:
+            continue
+        raw_item = source_by_id.get(item_id, {})
+        raw_ids = raw_item.get("evidence_ids")
+        ids_are_list = isinstance(raw_ids, list)
+        if isinstance(raw_ids, str):
+            raw_ids = [raw_ids]
+        if not isinstance(raw_ids, list):
+            raw_ids = []
+        requested_ids = [str(value) for value in raw_ids if str(value)]
+        valid_ids = [value for value in requested_ids if value in allowed_fact_ids]
+        invalid_ids = [value for value in requested_ids if value not in allowed_fact_ids]
+        invalid_reference_count += len(invalid_ids)
+        all_invalid_ids.extend(invalid_ids)
+
+        support_is_number = isinstance(
+            raw_item.get("evidence_support"), (int, float)
+        ) and not isinstance(raw_item.get("evidence_support"), bool)
+        confidence_is_number = isinstance(
+            raw_item.get("confidence"), (int, float)
+        ) and not isinstance(raw_item.get("confidence"), bool)
+        contradiction_is_bool = isinstance(raw_item.get("contradiction"), bool)
+        raw_complete = (
+            ids_are_list
+            and support_is_number
+            and confidence_is_number
+            and contradiction_is_bool
+        )
+        contract_complete = raw_complete and not invalid_ids
+        raw_complete_count += int(raw_complete)
+        complete_count += int(contract_complete)
+
+        normalized_items.append({
+            "id": item_id,
+            "requested_evidence_ids": requested_ids,
+            "evidence_ids": valid_ids,
+            "invalid_evidence_ids": invalid_ids,
+            "evidence_valid": bool(valid_ids),
+            "evidence_support": round(clamp01(
+                safe_float(raw_item.get("evidence_support"), 0.0)
+            ), 6),
+            "contradiction": _evidence_bool(
+                raw_item.get("contradiction"), False
+            ),
+            "confidence": round(clamp01(
+                safe_float(raw_item.get("confidence"), 0.0)
+            ), 6),
+            "evidence_contract_complete": contract_complete,
+        })
+
+    item_count = len(normalized_items)
+    requires_repair = bool(
+        missing_item_ids
+        or unknown_item_ids
+        or duplicate_item_ids
+        or invalid_reference_count
+        or complete_count != item_count
+    )
+    return {
+        "schema_version": EVIDENCE_FIRST_GRADING_SCHEMA_VERSION,
+        "source": "independent_post_scoring_verifier",
+        "items": normalized_items,
+        "audit": {
+            "item_count": item_count,
+            "raw_contract_complete_count": raw_complete_count,
+            "raw_contract_completeness": round(
+                raw_complete_count / max(item_count, 1), 6
+            ),
+            "contract_complete_count": complete_count,
+            "contract_completeness": round(
+                complete_count / max(item_count, 1), 6
+            ),
+            "invalid_evidence_reference_count": invalid_reference_count,
+            "invalid_evidence_ids": sorted(set(all_invalid_ids)),
+            "unknown_item_ids": unknown_item_ids,
+            "missing_item_ids": missing_item_ids,
+            "duplicate_item_ids": sorted(set(duplicate_item_ids)),
+            "requires_repair": requires_repair,
+        },
+    }
+
+
+def compute_evidence_verifier_directional_risks(
+    rubrics_data,
+    strict_cots,
+    evidence_verification,
+):
+    """Compare immutable awarded credit with an independent evidence check."""
+    rubrics = rubrics_data if isinstance(rubrics_data, list) else []
+    probes = [cot for cot in (strict_cots or []) if isinstance(cot, dict)]
+    details_by_item = _detail_by_item(probes)
+    verification = (
+        evidence_verification if isinstance(evidence_verification, dict) else {}
+    )
+    verification_by_id = {
+        str(item.get("id", "")): item
+        for item in verification.get("items", [])
+        if isinstance(item, dict) and str(item.get("id", ""))
+    }
+
+    total_points = 0.0
+    undercredit = 0.0
+    overcredit = 0.0
+    item_diagnostics = []
+    for rubric in rubrics:
+        if not isinstance(rubric, dict):
+            continue
+        item_id = str(rubric.get("id", ""))
+        points = max(safe_float(rubric.get("points", 0.0), 0.0), 0.0)
+        if not item_id or points <= 0.0:
+            continue
+
+        observations = details_by_item.get(item_id, [])
+        award_ratios = [
+            clamp01(safe_float(detail.get("score_given", 0.0), 0.0) / points)
+            for detail in observations
+            if isinstance(detail, dict)
+        ]
+        mean_award = (
+            sum(award_ratios) / len(award_ratios) if award_ratios else 0.0
+        )
+        verified = verification_by_id.get(item_id, {})
+        contract_complete = _evidence_bool(
+            verified.get("evidence_contract_complete"), False
+        )
+        evidence_valid = _evidence_bool(verified.get("evidence_valid"), False)
+        contradiction = _evidence_bool(verified.get("contradiction"), False)
+        support = clamp01(verified.get("evidence_support", 0.0))
+        effective_support = (
+            support
+            if contract_complete and evidence_valid and not contradiction
+            else 0.0
+        )
+        item_under = max(0.0, effective_support - mean_award)
+        item_over = max(0.0, mean_award - effective_support)
+
+        total_points += points
+        undercredit += points * item_under
+        overcredit += points * item_over
+        item_diagnostics.append({
+            "id": item_id,
+            "points": round(points, 6),
+            "mean_awarded_ratio": round(mean_award, 6),
+            "verified_evidence_support": round(effective_support, 6),
+            "undercredit_gap": round(item_under, 6),
+            "overcredit_gap": round(item_over, 6),
+            "evidence_contract_complete": contract_complete,
+        })
+
+    denominator = max(total_points, 1e-9)
+    audit = verification.get("audit", {})
+    return {
+        "schema_version": EVIDENCE_FIRST_GRADING_SCHEMA_VERSION,
+        "source": "independent_post_scoring_verifier",
+        "R_under": round(undercredit / denominator, 6),
+        "R_over": round(overcredit / denominator, 6),
+        "contract_completeness": round(
+            safe_float(audit.get("contract_completeness", 0.0), 0.0), 6
+        ),
+        "status": "diagnostic_only",
+        "scoring_effect": "none",
         "route_effect": "none",
         "item_diagnostics": item_diagnostics,
     }

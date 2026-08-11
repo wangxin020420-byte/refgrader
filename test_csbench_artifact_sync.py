@@ -339,8 +339,10 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                     create=True,
                     grading_contract={
                         "evidence_first_grading": True,
-                        "evidence_first_schema_version": 1,
+                        "evidence_first_schema_version": 2,
+                        "evidence_verifier": "independent_post_scoring",
                         "directional_credit_risk": "diagnostic_only",
+                        "scoring_effect": "none",
                         "route_effect": "none",
                     },
                 )

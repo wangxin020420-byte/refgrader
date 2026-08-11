@@ -59,27 +59,35 @@ python scripts/run_csbench.py grade CO_5 CO_6 --split test --force
 
 ### 证据优先评分诊断（实验开关）
 
-`--evidence-first-grading` 要求 Stage 2 在给分前为每个评分项返回具体的
-Stage 1 事实 ID、证据支持度、矛盾标记和映射置信度。系统据此额外记录
-`R_under` 与 `R_over`，但两者目前仅用于离线诊断，不参与 A3WA 风险融合、
-三支路由、BND 仲裁或最终分数校准。不开该参数时，评分提示、运行签名和
-结果结构保持原行为。
+`--evidence-first-grading` 当前使用 v2 合同。原有三次 Stage 2 评分先按完全
+相同的提示与后处理完成，三支路由、BND 仲裁和残差校准也先确定；之后才
+额外调用一次看不到教师分和模型得分的独立证据核验器。核验器只能引用
+显式 Stage 1 事实账本，输出证据支持度、矛盾标记和映射置信度，并据此记录
+诊断性的 `R_under` 与 `R_over`。证据输出不能修改评分项、总分、路由、仲裁
+或校准结果；非法证据 ID 最多触发一次合同修复，首轮违规会保留在审计字段。
+
+旧 v1 合同曾把证据要求放入三次评分提示并重新归一化得分，实际改变了评分
+路径。该版本在 31 题 validation 上出现负向结果，已停止使用。v2 使用新的
+运行签名，不能续接 v1 或普通评分 run。
 
 该模式必须使用独立 run，不要续接普通评分 run：
 
 ```powershell
-$RunId = "evidence_first_validation_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
-.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_1 `
+$RunId = "evidence_verifier_v2_pilot5_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
+.\venv\Scripts\python.exe scripts\run_csbench.py grade `
+  CO_1 CO_5 CO_8 DM_3 ISC_6 `
   --split validation `
   --force `
   --run-id $RunId `
   --evidence-first-grading
 ```
 
-输出中每份结果会增加 `grading_contract` 和
-`directional_credit_risks`。只有在独立 validation 上证明风险区分能力提高，
-且同时满足既定 BND/人工复核预算后，才允许另行设计接入路由的受控实验；
-当前实现本身不宣称能够提升 MAE。
+输出中每份结果会增加 `grading_contract`、`evidence_verification` 和
+`directional_credit_risks`。5 题 pilot 至少应满足：证据合同完整率不低于
+99%、非法引用核验记录比例不高于 5%、核验器未改变任何原评分字段。只有在
+完整 31 题 validation 上证明风险区分能力不低于既有信号，并同时找到
+`BND<=60%`、`unsafe POS<=10%` 的可行点，才允许另行设计接入路由的实验。
+当前 v2 仍是诊断功能，不宣称能够提升 MAE。
 
 只有以下情况才进入后文的完整流程：数据快照发生变化、评分语义或 rubric 发生变化、
 三支决策校准逻辑发生变化，或者需要重新生成 A3WA 配置。Windows 隐藏后台、日志重定向和

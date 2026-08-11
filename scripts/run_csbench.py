@@ -91,10 +91,14 @@ def grading_contract_from_args(args: argparse.Namespace) -> dict[str, Any]:
     evidence_first = bool(getattr(args, "evidence_first_grading", False))
     return {
         "evidence_first_grading": evidence_first,
-        "evidence_first_schema_version": 1 if evidence_first else None,
+        "evidence_first_schema_version": 2 if evidence_first else None,
+        "evidence_verifier": (
+            "independent_post_scoring" if evidence_first else "disabled"
+        ),
         "directional_credit_risk": (
             "diagnostic_only" if evidence_first else "disabled"
         ),
+        "scoring_effect": "none",
         "route_effect": "none",
     }
 

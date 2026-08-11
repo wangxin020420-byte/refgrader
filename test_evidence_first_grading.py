@@ -1,9 +1,10 @@
+import copy
 import unittest
 from unittest.mock import patch
 
 from calibration_utils import (
-    compute_evidence_first_directional_risks,
-    normalize_evidence_first_grading_result,
+    compute_evidence_verifier_directional_risks,
+    normalize_evidence_verification_result,
 )
 from scripts.run_csbench import build_parser, grading_contract_from_args
 
@@ -11,8 +12,18 @@ from scripts.run_csbench import build_parser, grading_contract_from_args
 class EvidenceFirstGradingTests(unittest.TestCase):
     def setUp(self):
         self.rubric = [
-            {"id": "step_1", "points": 2.0, "type": "formula"},
-            {"id": "step_2", "points": 3.0, "type": "judgement"},
+            {
+                "id": "step_1",
+                "points": 2.0,
+                "type": "formula",
+                "description": "核验公式",
+            },
+            {
+                "id": "step_2",
+                "points": 3.0,
+                "type": "judgement",
+                "description": "核验结论",
+            },
         ]
         self.facts = {
             "step_1": "2 + 2 = 4",
@@ -20,118 +31,121 @@ class EvidenceFirstGradingTests(unittest.TestCase):
             "_extraction_quality": "high",
         }
 
-    def test_normalizer_validates_evidence_and_item_sum(self):
-        result = {
-            "total_score": 99,
-            "details": [
+    def test_verification_parser_preserves_invalid_references(self):
+        raw = {
+            "items": [
                 {
                     "id": "step_1",
-                    "score_given": 3,
-                    "error_category": "MATCH",
                     "evidence_ids": [
                         "step_1",
                         "missing",
                         "_extraction_quality",
                     ],
-                    "evidence_support": 1,
-                    "contradiction": "false",
+                    "evidence_support": 1.0,
+                    "contradiction": False,
                     "confidence": 0.9,
                 },
                 {
                     "id": "step_2",
-                    "score_given": 1.5,
-                    "error_category": "PARTIAL_MATCH",
                     "evidence_ids": ["step_2"],
                     "evidence_support": 0.5,
                     "contradiction": False,
                     "confidence": 0.7,
                 },
-                {"id": "unknown", "score_given": 5},
-            ],
+                {"id": "unknown", "evidence_ids": []},
+            ]
         }
 
-        normalized = normalize_evidence_first_grading_result(
-            result,
+        normalized = normalize_evidence_verification_result(
+            raw,
             self.facts,
             self.rubric,
         )
 
-        self.assertEqual(normalized["total_score"], 3.5)
-        self.assertEqual(len(normalized["details"]), 2)
-        self.assertEqual(normalized["details"][0]["score_given"], 2.0)
-        self.assertFalse(normalized["details"][0]["contradiction"])
+        self.assertEqual(normalized["schema_version"], 2)
+        self.assertNotIn("total_score", normalized)
         self.assertEqual(
-            normalized["details"][0]["evidence_ids"], ["step_1"]
+            normalized["items"][0]["requested_evidence_ids"],
+            ["step_1", "missing", "_extraction_quality"],
         )
-        audit = normalized["evidence_first_audit"]
+        self.assertEqual(
+            normalized["items"][0]["invalid_evidence_ids"],
+            ["missing", "_extraction_quality"],
+        )
+        audit = normalized["audit"]
         self.assertEqual(audit["invalid_evidence_reference_count"], 2)
-        self.assertEqual(audit["unknown_detail_ids"], ["unknown"])
-        self.assertTrue(audit["score_sum_adjusted"])
+        self.assertEqual(audit["unknown_item_ids"], ["unknown"])
+        self.assertTrue(audit["requires_repair"])
 
-    def test_directional_risks_are_diagnostic_only(self):
+    def test_directional_risks_use_immutable_scores(self):
         probes = [
             {
+                "total_score": 2.5,
                 "details": [
+                    {"id": "step_1", "score_given": 1.0},
+                    {"id": "step_2", "score_given": 1.5},
+                ],
+            }
+        ]
+        original = copy.deepcopy(probes)
+        verification = normalize_evidence_verification_result(
+            {
+                "items": [
                     {
                         "id": "step_1",
-                        "score_given": 1.0,
+                        "evidence_ids": ["step_1"],
                         "evidence_support": 1.0,
-                        "evidence_valid": True,
                         "contradiction": False,
-                        "evidence_contract_complete": True,
+                        "confidence": 0.9,
                     },
                     {
                         "id": "step_2",
-                        "score_given": 1.5,
+                        "evidence_ids": [],
                         "evidence_support": 0.0,
-                        "evidence_valid": False,
                         "contradiction": False,
-                        "evidence_contract_complete": True,
+                        "confidence": 0.8,
                     },
                 ]
-            }
-        ]
-
-        risks = compute_evidence_first_directional_risks(
+            },
+            self.facts,
             self.rubric,
-            probes,
         )
 
+        risks = compute_evidence_verifier_directional_risks(
+            self.rubric,
+            probes,
+            verification,
+        )
+
+        self.assertEqual(probes, original)
         self.assertAlmostEqual(risks["R_under"], 0.2)
         self.assertAlmostEqual(risks["R_over"], 0.3)
-        self.assertEqual(risks["status"], "diagnostic_only")
+        self.assertEqual(risks["source"], "independent_post_scoring_verifier")
+        self.assertEqual(risks["scoring_effect"], "none")
         self.assertEqual(risks["route_effect"], "none")
 
-    def test_cli_defaults_off_and_records_explicit_contract(self):
+    def test_cli_defaults_off_and_records_v2_contract(self):
         parser = build_parser()
         default_args = parser.parse_args(["grade", "CO_1"])
         enabled_args = parser.parse_args(
             ["grade", "CO_1", "--evidence-first-grading"]
         )
-        run_args = parser.parse_args(
-            ["run", "CO_1", "--evidence-first-grading", "--dry-run"]
-        )
 
         self.assertFalse(default_args.evidence_first_grading)
         self.assertTrue(enabled_args.evidence_first_grading)
-        self.assertTrue(run_args.evidence_first_grading)
-        self.assertEqual(
-            grading_contract_from_args(default_args)[
-                "directional_credit_risk"
-            ],
-            "disabled",
-        )
         self.assertEqual(
             grading_contract_from_args(enabled_args),
             {
                 "evidence_first_grading": True,
-                "evidence_first_schema_version": 1,
+                "evidence_first_schema_version": 2,
+                "evidence_verifier": "independent_post_scoring",
                 "directional_credit_risk": "diagnostic_only",
+                "scoring_effect": "none",
                 "route_effect": "none",
             },
         )
 
-    def test_prompt_contract_is_added_only_when_enabled(self):
+    def test_stage2_scoring_prompt_is_identical_when_diagnostic_is_enabled(self):
         from step4_vlm_grader import stage2_logic_grading
 
         captured = []
@@ -148,9 +162,81 @@ class EvidenceFirstGradingTests(unittest.TestCase):
                 evidence_first_grading=True,
             )
 
-        marker = "# Evidence-First Experimental Contract"
-        self.assertNotIn(marker, captured[0])
-        self.assertIn(marker, captured[1])
+        self.assertEqual(captured[0], captured[1])
+        self.assertNotIn("Evidence-First Experimental Contract", captured[1])
+
+    def test_verifier_prompt_is_score_blind_and_uses_explicit_ledger(self):
+        from step4_vlm_grader import build_evidence_verification_prompt
+
+        prompt = build_evidence_verification_prompt(self.facts, self.rubric)
+
+        self.assertIn('"evidence_id": "step_1"', prompt)
+        self.assertNotIn('"evidence_id": "_extraction_quality"', prompt)
+        self.assertNotIn("teacher_score", prompt)
+        self.assertNotIn("score_given", prompt)
+        self.assertNotIn("total_score", prompt)
+
+    def test_invalid_first_pass_gets_one_repair_call(self):
+        from step4_vlm_grader import run_independent_evidence_verification
+
+        invalid = (
+            "first raw",
+            {
+                "items": [
+                    {
+                        "id": "step_1",
+                        "evidence_ids": ["invented"],
+                        "evidence_support": 1.0,
+                        "contradiction": False,
+                        "confidence": 0.9,
+                    }
+                ]
+            },
+        )
+        repaired = (
+            "repaired raw",
+            {
+                "items": [
+                    {
+                        "id": "step_1",
+                        "evidence_ids": ["step_1"],
+                        "evidence_support": 1.0,
+                        "contradiction": False,
+                        "confidence": 0.9,
+                    },
+                    {
+                        "id": "step_2",
+                        "evidence_ids": ["step_2"],
+                        "evidence_support": 1.0,
+                        "contradiction": False,
+                        "confidence": 0.9,
+                    },
+                ]
+            },
+        )
+
+        with patch(
+            "step4_vlm_grader.stage2_evidence_verification",
+            side_effect=[invalid, repaired],
+        ) as verifier:
+            result = run_independent_evidence_verification(
+                self.facts,
+                self.rubric,
+            )
+
+        self.assertEqual(verifier.call_count, 2)
+        self.assertTrue(result["audit"]["repair_attempted"])
+        self.assertTrue(result["audit"]["repair_succeeded"])
+        self.assertEqual(
+            result["audit"]["first_pass"][
+                "invalid_evidence_reference_count"
+            ],
+            1,
+        )
+        self.assertEqual(
+            result["first_pass_items"][0]["invalid_evidence_ids"],
+            ["invented"],
+        )
 
 
 if __name__ == "__main__":

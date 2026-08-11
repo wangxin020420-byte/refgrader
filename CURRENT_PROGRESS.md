@@ -1,5 +1,27 @@
 # Current Progress
 
+## 2026-08-11 Evidence-First Grading Diagnostic
+
+Stage 2 now has an optional `--evidence-first-grading` contract. When enabled,
+each independent grading probe must identify criterion-level fact IDs before
+assigning points and report evidence support, contradiction, and mapping
+confidence. The parser validates fact references, rejects unknown references,
+caps item scores at rubric points, and makes the validated item sum
+authoritative. Contract completeness and every deterministic fallback remain
+visible in the per-probe audit record.
+
+The same run records teacher-label-free directional diagnostics `R_under` and
+`R_over`, computed from the gap between criterion evidence support and awarded
+credit. These values are explicitly marked `diagnostic_only` and have
+`route_effect=none`: they do not alter the existing A3WA risk fusion,
+POS/BND/NEG thresholds, boundary actions, residual calibration, or final score
+selection. The feature is disabled by default. Enabled runs carry a distinct
+run signature and artifact grading contract, preventing resume or publication
+from mixing them with earlier grading runs. Empirical effectiveness has not
+yet been established; private validation must demonstrate improved risk
+separation under the existing review budget before either signal can be
+considered for routing.
+
 ## 2026-07-27 Local Teacher-Label Review UI
 
 Teacher-label candidates can now be reviewed in a dependency-free local

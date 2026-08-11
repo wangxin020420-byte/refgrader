@@ -1009,6 +1009,288 @@ def _detail_by_item(strict_cots):
     return per_item
 
 
+EVIDENCE_FIRST_GRADING_SCHEMA_VERSION = 1
+
+
+def _evidence_text(value):
+    if isinstance(value, str):
+        return value.strip()
+    if value is None:
+        return ""
+    try:
+        return json.dumps(value, ensure_ascii=False, sort_keys=True)
+    except Exception:
+        return str(value).strip()
+
+
+def _evidence_bool(value, default=False):
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"true", "1", "yes"}:
+            return True
+        if normalized in {"false", "0", "no", ""}:
+            return False
+    if value is None:
+        return bool(default)
+    return bool(value)
+
+
+def _usable_evidence_fact(value, rubric_item):
+    return not (
+        is_blank_extraction(value)
+        or is_perception_failure(value)
+        or is_low_quality_extraction(value, rubric_item)
+        or is_structure_missing_extraction(value, rubric_item)
+    )
+
+
+def normalize_evidence_first_grading_result(
+    grading_result,
+    facts_dict,
+    rubrics_data,
+):
+    """Normalize an evidence-first probe without using teacher labels.
+
+    The model must identify evidence before assigning credit. This function
+    validates those references, clamps item scores to rubric bounds, and makes
+    the item sum authoritative. Missing model fields are filled only to keep
+    the record parseable; every fallback is retained in the audit metadata.
+    """
+    result = deepcopy(grading_result) if isinstance(grading_result, dict) else {}
+    facts = facts_dict if isinstance(facts_dict, dict) else {}
+    rubrics = rubrics_data if isinstance(rubrics_data, list) else []
+    details = result.get("details") if isinstance(result.get("details"), list) else []
+    source_by_id = {
+        str(detail.get("id", "")): detail
+        for detail in details
+        if isinstance(detail, dict) and str(detail.get("id", ""))
+    }
+    rubric_ids = {str(item.get("id", "")) for item in rubrics}
+    unknown_detail_ids = sorted(set(source_by_id) - rubric_ids)
+    normalized_details = []
+    invalid_reference_count = 0
+    fallback_item_count = 0
+    raw_complete_count = 0
+    seen = set()
+
+    category_support = {
+        "MATCH": 1.0,
+        "FORMAT_MINOR": 1.0,
+        "PARTIAL_MATCH": None,
+        "BLANK": 0.0,
+        "SEMANTIC_FATAL": 0.0,
+        "INSUFFICIENT_INFO": 0.0,
+    }
+
+    for item in rubrics:
+        item_id = str(item.get("id", ""))
+        if not item_id or item_id in seen:
+            continue
+        seen.add(item_id)
+        points = max(safe_float(item.get("points", 0.0), 0.0), 0.0)
+        source = deepcopy(source_by_id.get(item_id, {}))
+        raw_complete = (
+            isinstance(source.get("evidence_ids"), list)
+            and source.get("evidence_support") is not None
+            and isinstance(source.get("contradiction"), bool)
+            and source.get("confidence") is not None
+        )
+        raw_complete_count += int(raw_complete)
+
+        category = str(source.get("error_category", "INSUFFICIENT_INFO")).upper()
+        if category not in category_support:
+            category = "INSUFFICIENT_INFO"
+        awarded = clamp01(
+            safe_float(source.get("score_given", 0.0), 0.0)
+            / max(points, 1e-9)
+        ) * points if points > 0.0 else 0.0
+        award_ratio = awarded / points if points > 0.0 else 0.0
+
+        raw_ids = source.get("evidence_ids")
+        if isinstance(raw_ids, str):
+            raw_ids = [raw_ids]
+        if not isinstance(raw_ids, list):
+            raw_ids = []
+        requested_ids = [str(value) for value in raw_ids if str(value)]
+        valid_ids = []
+        for evidence_id in requested_ids:
+            if (
+                not evidence_id.startswith("_")
+                and evidence_id in facts
+                and _usable_evidence_fact(facts[evidence_id], item)
+            ):
+                valid_ids.append(evidence_id)
+            else:
+                invalid_reference_count += 1
+
+        evidence_text = _evidence_text(source.get("evidence_text"))
+        if not valid_ids and item_id in facts and evidence_text:
+            fact_text = _evidence_text(facts[item_id])
+            if (
+                _usable_evidence_fact(facts[item_id], item)
+                and (
+                    evidence_text in fact_text
+                    or fact_text in evidence_text
+                )
+            ):
+                valid_ids = [item_id]
+                fallback_item_count += 1
+
+        support_fallback = category_support[category]
+        if support_fallback is None:
+            support_fallback = award_ratio
+        evidence_support = clamp01(
+            safe_float(source.get("evidence_support"), support_fallback)
+        )
+        contradiction = _evidence_bool(
+            source.get("contradiction"),
+            category == "SEMANTIC_FATAL",
+        )
+        confidence = clamp01(safe_float(source.get("confidence"), 0.0))
+        evidence_valid = bool(valid_ids)
+
+        normalized_details.append({
+            **source,
+            "id": item_id,
+            "score_given": round(awarded, 6),
+            "error_category": category,
+            "evidence_ids": valid_ids,
+            "evidence_valid": evidence_valid,
+            "evidence_support": round(evidence_support, 6),
+            "contradiction": contradiction,
+            "confidence": round(confidence, 6),
+            "max_points": round(points, 6),
+            "evidence_contract_complete": raw_complete,
+        })
+
+    original_total = safe_float(result.get("total_score", 0.0), 0.0)
+    normalized_total = sum(
+        safe_float(detail.get("score_given", 0.0), 0.0)
+        for detail in normalized_details
+    )
+    item_count = len(normalized_details)
+    result["details"] = normalized_details
+    result["total_score"] = round(normalized_total, 6)
+    result["evidence_first_audit"] = {
+        "schema_version": EVIDENCE_FIRST_GRADING_SCHEMA_VERSION,
+        "item_count": item_count,
+        "raw_contract_complete_count": raw_complete_count,
+        "raw_contract_completeness": round(
+            raw_complete_count / max(item_count, 1), 6
+        ),
+        "invalid_evidence_reference_count": invalid_reference_count,
+        "fallback_item_count": fallback_item_count,
+        "unknown_detail_ids": unknown_detail_ids,
+        "original_total_score": round(original_total, 6),
+        "normalized_total_score": round(normalized_total, 6),
+        "score_sum_adjusted": abs(original_total - normalized_total) > 1e-9,
+    }
+    return result
+
+
+def compute_evidence_first_directional_risks(rubrics_data, strict_cots):
+    """Return item-weighted under/over-credit diagnostics.
+
+    These signals compare evidence support with awarded-credit ratios. They are
+    intentionally excluded from the deployed A3WA risk fusion until validation
+    demonstrates a feasible route budget.
+    """
+    rubrics = rubrics_data if isinstance(rubrics_data, list) else []
+    probes = [cot for cot in (strict_cots or []) if isinstance(cot, dict)]
+    details_by_item = _detail_by_item(probes)
+    total_points = 0.0
+    undercredit = 0.0
+    overcredit = 0.0
+    disagreement = 0.0
+    contract_total = 0
+    contract_complete = 0
+    item_diagnostics = []
+
+    for item in rubrics:
+        item_id = str(item.get("id", ""))
+        points = max(safe_float(item.get("points", 0.0), 0.0), 0.0)
+        if not item_id or points <= 0.0:
+            continue
+        observations = details_by_item.get(item_id, [])
+        supports = []
+        awards = []
+        item_over = []
+        for detail in observations:
+            award_ratio = clamp01(
+                safe_float(detail.get("score_given", 0.0), 0.0) / points
+            )
+            support = clamp01(detail.get("evidence_support", 0.0))
+            evidence_valid = _evidence_bool(
+                detail.get("evidence_valid", False)
+            )
+            contradiction = _evidence_bool(
+                detail.get("contradiction", False)
+            )
+            contract_ok = _evidence_bool(
+                detail.get("evidence_contract_complete", False)
+            )
+            effective_support = (
+                support
+                if evidence_valid and not contradiction and contract_ok
+                else 0.0
+            )
+            supports.append(effective_support)
+            awards.append(award_ratio)
+            item_over.append(max(
+                0.0,
+                award_ratio - effective_support,
+                award_ratio if not evidence_valid else 0.0,
+                award_ratio if contradiction else 0.0,
+            ))
+            contract_total += 1
+            contract_complete += int(contract_ok)
+
+        expected = max(len(probes), 1)
+        while len(supports) < expected:
+            supports.append(0.0)
+            awards.append(0.0)
+            item_over.append(0.0)
+            contract_total += 1
+
+        mean_support = sum(supports) / expected
+        mean_award = sum(awards) / expected
+        mean_over = sum(item_over) / expected
+        item_under = max(0.0, mean_support - mean_award)
+        item_overcredit = max(0.0, mean_over)
+        item_disagreement = (
+            max(supports) - min(supports) if supports else 0.0
+        )
+        total_points += points
+        undercredit += points * item_under
+        overcredit += points * item_overcredit
+        disagreement += points * item_disagreement
+        item_diagnostics.append({
+            "id": item_id,
+            "points": round(points, 6),
+            "mean_evidence_support": round(mean_support, 6),
+            "mean_awarded_ratio": round(mean_award, 6),
+            "undercredit_gap": round(item_under, 6),
+            "overcredit_gap": round(item_overcredit, 6),
+            "support_disagreement": round(item_disagreement, 6),
+        })
+
+    denominator = max(total_points, 1e-9)
+    return {
+        "schema_version": EVIDENCE_FIRST_GRADING_SCHEMA_VERSION,
+        "R_under": round(undercredit / denominator, 6),
+        "R_over": round(overcredit / denominator, 6),
+        "evidence_disagreement": round(disagreement / denominator, 6),
+        "contract_completeness": round(
+            contract_complete / max(contract_total, 1), 6
+        ),
+        "status": "diagnostic_only",
+        "route_effect": "none",
+        "item_diagnostics": item_diagnostics,
+    }
+
+
 def compute_bidirectional_credit_risks(facts_dict, rubrics_data, strict_cots):
     """Compute parameter-free, item-level credit discrepancy diagnostics.
 

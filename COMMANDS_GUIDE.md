@@ -57,6 +57,30 @@ python scripts/run_csbench.py grade CO_5 CO_6 --split test --force
 
 `optimize` 成功后会更新 Git 可见的 `rubrics/optimized`、`rubrics/manifests` 和 `active_rubric_set.json`；`calibrate` 成功后还会更新 `calibration/active_a3wa_config.json`。这两个阶段结束后应提交 `refgrader-main`，历史运行证据仍单独提交到 `refgrader-artifacts`。
 
+### 证据优先评分诊断（实验开关）
+
+`--evidence-first-grading` 要求 Stage 2 在给分前为每个评分项返回具体的
+Stage 1 事实 ID、证据支持度、矛盾标记和映射置信度。系统据此额外记录
+`R_under` 与 `R_over`，但两者目前仅用于离线诊断，不参与 A3WA 风险融合、
+三支路由、BND 仲裁或最终分数校准。不开该参数时，评分提示、运行签名和
+结果结构保持原行为。
+
+该模式必须使用独立 run，不要续接普通评分 run：
+
+```powershell
+$RunId = "evidence_first_validation_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
+.\venv\Scripts\python.exe scripts\run_csbench.py grade CO_1 `
+  --split validation `
+  --force `
+  --run-id $RunId `
+  --evidence-first-grading
+```
+
+输出中每份结果会增加 `grading_contract` 和
+`directional_credit_risks`。只有在独立 validation 上证明风险区分能力提高，
+且同时满足既定 BND/人工复核预算后，才允许另行设计接入路由的受控实验；
+当前实现本身不宣称能够提升 MAE。
+
 只有以下情况才进入后文的完整流程：数据快照发生变化、评分语义或 rubric 发生变化、
 三支决策校准逻辑发生变化，或者需要重新生成 A3WA 配置。Windows 隐藏后台、日志重定向和
 PID 管理只是长时间运行的可选包装，不是批改必须步骤。

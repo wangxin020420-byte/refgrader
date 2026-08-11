@@ -87,6 +87,18 @@ def model_config_from_args(args: argparse.Namespace) -> dict[str, str]:
     )
 
 
+def grading_contract_from_args(args: argparse.Namespace) -> dict[str, Any]:
+    evidence_first = bool(getattr(args, "evidence_first_grading", False))
+    return {
+        "evidence_first_grading": evidence_first,
+        "evidence_first_schema_version": 1 if evidence_first else None,
+        "directional_credit_risk": (
+            "diagnostic_only" if evidence_first else "disabled"
+        ),
+        "route_effect": "none",
+    }
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -1305,13 +1317,14 @@ def _run_signature(
     answer_split: str,
     a3wa_config: str | None,
     model_config: dict[str, str] | None = None,
+    grading_contract: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     config_path = (
         Path(a3wa_config).expanduser().resolve() if a3wa_config else None
     )
     if config_path and not config_path.is_file():
         raise FileNotFoundError(f"A3WA calibration config not found: {config_path}")
-    return {
+    signature = {
         "questions": [ctx.question_id for ctx in contexts],
         "answer_split": answer_split,
         "split_sha256": {
@@ -1327,6 +1340,9 @@ def _run_signature(
             contexts[0]
         ).descriptor(),
     }
+    if grading_contract and grading_contract.get("evidence_first_grading"):
+        signature["grading_contract"] = grading_contract
+    return signature
 
 
 def _run_state_path(results_dir: Path) -> Path:
@@ -1376,6 +1392,7 @@ def select_grading_run(
     create: bool = False,
     a3wa_config: str | None = None,
     model_config: dict[str, str] | None = None,
+    grading_contract: dict[str, Any] | None = None,
 ) -> tuple[Path, str | None]:
     """Select a versioned run while preserving legacy result compatibility."""
     batch_root = grading_results_dir(contexts, answer_split)
@@ -1383,7 +1400,11 @@ def select_grading_run(
 
     if force_new:
         signature = _run_signature(
-            contexts, answer_split, a3wa_config, model_config
+            contexts,
+            answer_split,
+            a3wa_config,
+            model_config,
+            grading_contract,
         )
         selected_id = run_id or _new_grading_run_id(batch_root)
         results_dir = batch_root / "runs" / selected_id
@@ -1441,7 +1462,11 @@ def select_grading_run(
 
     if create:
         signature = _run_signature(
-            contexts, answer_split, a3wa_config, model_config
+            contexts,
+            answer_split,
+            a3wa_config,
+            model_config,
+            grading_contract,
         )
         results_dir.mkdir(parents=True, exist_ok=True)
         state = _read_run_state(results_dir)
@@ -1559,6 +1584,8 @@ def build_run_command(args: argparse.Namespace, *, background: bool) -> list[str
         command.append("--no-active-a3wa")
     if getattr(args, "allow_experimental_a3wa", False):
         command.append("--allow-experimental-a3wa")
+    if getattr(args, "evidence_first_grading", False):
+        command.append("--evidence-first-grading")
     if background:
         command.append("--background")
     if args.force:
@@ -1824,6 +1851,7 @@ def optimize(args: argparse.Namespace) -> int:
 
 def grade(args: argparse.Namespace) -> int:
     model_config = model_config_from_args(args)
+    grading_contract = grading_contract_from_args(args)
     contexts = build_contexts(args.prepared_dir, args.questions)
     allow_baseline_fallback = bool(
         getattr(args, "allow_baseline_rubric_fallback", False)
@@ -1886,6 +1914,7 @@ def grade(args: argparse.Namespace) -> int:
         create=not args.dry_run,
         a3wa_config=getattr(args, "a3wa_config", None),
         model_config=model_config,
+        grading_contract=grading_contract,
     )
     preexisting_complete = (
         completed_questions_for_split(
@@ -1926,6 +1955,8 @@ def grade(args: argparse.Namespace) -> int:
         pipeline_args.extend(["--img-limit", str(args.limit)])
     if args.force:
         pipeline_args.append("--force-rerun")
+    if grading_contract["evidence_first_grading"]:
+        pipeline_args.append("--evidence-first-grading")
 
     env = {
         "REFGRADER_OCR_DEVICE": args.device,
@@ -2196,6 +2227,9 @@ def run_experiment(args: argparse.Namespace) -> int:
             no_active_a3wa=getattr(args, "no_active_a3wa", False),
             allow_experimental_a3wa=getattr(
                 args, "allow_experimental_a3wa", False
+            ),
+            evidence_first_grading=getattr(
+                args, "evidence_first_grading", False
             ),
             run_id=getattr(args, "run_id", None),
             text_provider=args.text_provider,
@@ -2761,6 +2795,11 @@ def publish(args: argparse.Namespace) -> int:
         if run_state
         else None
     )
+    published_grading_contract = (
+        (run_state.get("signature") or {}).get("grading_contract")
+        if run_state
+        else None
+    )
     if published_model_config is None and requested_stage == "rubric":
         published_model_config = runtime_model_config()
     run_id = (
@@ -3085,6 +3124,8 @@ def publish(args: argparse.Namespace) -> int:
             "raw_ocr_files": raw_ocr_count,
             "file_sha256": artifact_hashes,
         }
+        if published_grading_contract:
+            manifest["grading_contract"] = published_grading_contract
         (destination / "run_manifest.json").write_text(
             json.dumps(manifest, ensure_ascii=False, indent=2),
             encoding="utf-8",
@@ -3237,6 +3278,14 @@ def build_parser() -> argparse.ArgumentParser:
         help="Diagnostic only: allow test grading with a failed A3WA gate.",
     )
     run_parser.add_argument(
+        "--evidence-first-grading",
+        action="store_true",
+        help=(
+            "Experimental: require criterion-level evidence before scoring "
+            "and emit diagnostic R_under/R_over without changing routing."
+        ),
+    )
+    run_parser.add_argument(
         "--background",
         action="store_true",
         help=(
@@ -3384,6 +3433,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--allow-experimental-a3wa",
         action="store_true",
         help="Diagnostic only: allow test grading with a failed A3WA gate.",
+    )
+    grade_parser.add_argument(
+        "--evidence-first-grading",
+        action="store_true",
+        help=(
+            "Experimental: require criterion-level evidence before scoring "
+            "and emit diagnostic R_under/R_over without changing routing."
+        ),
     )
     grade_parser.add_argument("--background", action="store_true")
     grade_parser.add_argument("--force", action="store_true")

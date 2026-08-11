@@ -27,6 +27,7 @@ from calibration_utils import (
     apply_structured_boundary_action_policy,
     build_a3wa_decision,
     build_post_grading_calibration,
+    compute_evidence_first_directional_risks,
     compute_extraction_quality_counts,
     compute_extraction_risk_features,
     is_blank_extraction,
@@ -34,6 +35,7 @@ from calibration_utils import (
     is_perception_failure,
     is_structure_missing_extraction,
     prepare_rubrics_for_calibration,
+    normalize_evidence_first_grading_result,
     select_baseline_score,
 )
 from model_runtime import (
@@ -1469,7 +1471,13 @@ Rules:
         return validate_extraction_against_question(question_text, json.dumps(facts_dict, ensure_ascii=False))
     return initial_facts_str
 
-def stage2_logic_grading(student_facts_str, rubrics_json_str, temperature=0.35, canonical_context=None):
+def stage2_logic_grading(
+    student_facts_str,
+    rubrics_json_str,
+    temperature=0.35,
+    canonical_context=None,
+    evidence_first_grading=False,
+):
     """Stage 2：根据视觉提取事实和细粒度评分准则进行语义判分。"""
     canonical_context_str = (
         json.dumps(canonical_context, ensure_ascii=False, indent=2)
@@ -1531,6 +1539,29 @@ error_category 只能取以下值之一：
         },
         logic_prompt,
     )
+    if evidence_first_grading:
+        logic_prompt += """
+
+# Evidence-First Experimental Contract
+
+Before assigning points, identify the concrete extracted facts supporting each
+rubric item. For every detail object, also return:
+
+- `evidence_ids`: a JSON list containing only exact top-level keys from
+  `STUDENT_FACTS`; never invent an identifier and never cite metadata keys
+  whose names begin with `_`.
+- `evidence_support`: a number in [0, 1] measuring how much the cited evidence
+  satisfies this rubric item before points are assigned.
+- `contradiction`: true only when cited student evidence contradicts the
+  required condition.
+- `confidence`: a number in [0, 1] for the evidence-to-rubric mapping.
+
+Evidence support and awarded points are separate judgments. A high score with
+no valid evidence reference is not permitted. If no concrete fact supports an
+item, return an empty `evidence_ids` list and zero evidence support. Keep the
+existing JSON keys and add these four keys to every detail object. Return pure
+JSON only.
+"""
     for attempt in range(3):
         try:
             return call_text_model(
@@ -1976,6 +2007,7 @@ def grade_student_3wd_pipeline(
     grade_only=False,
     student_transcription=None,
     answer_metadata=None,
+    evidence_first_grading=False,
 ):
     student_id = os.path.splitext(os.path.basename(student_img_path))[0]
     def _pipeline_failure(error_type, reason):
@@ -2072,6 +2104,26 @@ def grade_student_3wd_pipeline(
 
     canonical_context = build_canonical_grading_context(student_facts, rubrics_json)
 
+    try:
+        evidence_facts = (
+            json.loads(student_facts)
+            if isinstance(student_facts, str)
+            else student_facts
+        )
+        if not isinstance(evidence_facts, dict):
+            evidence_facts = {}
+    except Exception:
+        evidence_facts = {}
+    try:
+        evidence_rubrics = (
+            json.loads(rubrics_json)
+            if isinstance(rubrics_json, str)
+            else rubrics_json
+        )
+        evidence_rubrics = prepare_rubrics_for_calibration(evidence_rubrics)
+    except Exception:
+        evidence_rubrics = []
+
     print("  [Stage 2] independent semantic grading probes...")
     model_scores = []
     strict_cots = []
@@ -2081,6 +2133,7 @@ def grade_student_3wd_pipeline(
             student_facts,
             rubrics_json,
             canonical_context=canonical_context,
+            evidence_first_grading=evidence_first_grading,
         )
         if res_text:
             parsed_json = extract_and_parse_json(res_text)
@@ -2095,6 +2148,12 @@ def grade_student_3wd_pipeline(
                     parsed_json,
                     json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json,
                 )
+                if evidence_first_grading:
+                    parsed_json = normalize_evidence_first_grading_result(
+                        parsed_json,
+                        evidence_facts,
+                        evidence_rubrics,
+                    )
                 return (idx, parsed_json['total_score'], parsed_json)
         return (idx, None, None)
 
@@ -2124,12 +2183,7 @@ def grade_student_3wd_pipeline(
         TOTAL_ITEMS, MAX_SCORE = 10, 10.0
     
     # 解析 Stage 1 提取的 JSON 事实，逐条检查 value。
-    try:
-        facts_dict = json.loads(student_facts) if isinstance(student_facts, str) else student_facts
-        if not isinstance(facts_dict, dict):
-            facts_dict = {}
-    except:
-        facts_dict = {}
+    facts_dict = evidence_facts
 
     risk_rubrics_data = project_rubric_for_risk(rubrics_data, strict_cots)
     hierarchical_full_credit_locked = has_deterministic_hierarchical_full_credit(
@@ -2197,6 +2251,12 @@ def grade_student_3wd_pipeline(
         blank_rate=blank_rate,
         risk_profile=risk_profile,
     )
+    directional_credit_risks = None
+    if evidence_first_grading:
+        directional_credit_risks = compute_evidence_first_directional_risks(
+            evidence_rubrics,
+            strict_cots,
+        )
     calibrated_fatal_ratio = post_calibration.get("fatal_ratio", risk_profile["fatal_points_ratio"])
     risk_profile["fatal_points_ratio"] = calibrated_fatal_ratio
     risk_profile["risk_features"]["fatal_points_ratio"] = calibrated_fatal_ratio
@@ -2531,4 +2591,11 @@ def grade_student_3wd_pipeline(
         "strict_cot": strict_cots[0] if strict_cots else {},
         "strict_cots_all": strict_cots
     }
+    if evidence_first_grading:
+        ordered_result["grading_contract"] = {
+            "evidence_first_grading": True,
+            "schema_version": 1,
+            "route_effect": "none",
+        }
+        ordered_result["directional_credit_risks"] = directional_credit_risks
     return ordered_result

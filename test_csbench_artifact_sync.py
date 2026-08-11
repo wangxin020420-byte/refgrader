@@ -332,9 +332,33 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                 second, second_id = select_grading_run(
                     [context], "test", force_new=True, create=True
                 )
+                evidence_run, _ = select_grading_run(
+                    [context],
+                    "test",
+                    force_new=True,
+                    create=True,
+                    grading_contract={
+                        "evidence_first_grading": True,
+                        "evidence_first_schema_version": 1,
+                        "directional_credit_risk": "diagnostic_only",
+                        "route_effect": "none",
+                    },
+                )
             self.assertEqual((first, first_id), (resumed, resumed_id))
             self.assertNotEqual(first_id, second_id)
             self.assertNotEqual(first, second)
+            first_state = json.loads(
+                (first / "run_state.json").read_text(encoding="utf-8")
+            )
+            evidence_state = json.loads(
+                (evidence_run / "run_state.json").read_text(encoding="utf-8")
+            )
+            self.assertNotIn("grading_contract", first_state["signature"])
+            self.assertTrue(
+                evidence_state["signature"]["grading_contract"][
+                    "evidence_first_grading"
+                ]
+            )
 
     def test_partial_results_are_reported_without_structural_failure(self):
         with tempfile.TemporaryDirectory() as temporary:

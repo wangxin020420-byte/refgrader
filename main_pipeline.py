@@ -403,6 +403,15 @@ def parse_args():
         action="store_true",
         help="Ignore any active sample-quality policy for a raw-data run.",
     )
+    parser.add_argument(
+        "--evidence-first-grading",
+        action="store_true",
+        help=(
+            "Experimental: require criterion-level evidence before scoring "
+            "and emit diagnostic directional credit risks. This does not "
+            "change the A3WA route."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -1847,6 +1856,7 @@ def process_single_question(
     extraction_backend="glm_vlm",
     ocr_cache_dir="ocr_cache",
     grade_only=False,
+    evidence_first_grading=False,
 ):
     """处理单道题目的完整流水线"""
     q_id = q_data["question_id"]
@@ -2040,6 +2050,7 @@ def process_single_question(
                     grade_only=grade_only,
                     student_transcription=metadata.get("raw_text"),
                     answer_metadata=metadata,
+                    evidence_first_grading=evidence_first_grading,
                 )
 
                 if res and res.get("_pipeline_failed"):
@@ -2480,6 +2491,7 @@ if __name__ == "__main__":
                         extraction_backend=args.extraction_backend,
                         ocr_cache_dir=args.ocr_cache_dir,
                         grade_only=args.mode == "GRADE_ONLY",
+                        evidence_first_grading=args.evidence_first_grading,
                     )
             else:
                 # 用配置区的 GRADING_CONFIG（每题可以不同限制）
@@ -2498,6 +2510,7 @@ if __name__ == "__main__":
                             extraction_backend=args.extraction_backend,
                             ocr_cache_dir=args.ocr_cache_dir,
                             grade_only=args.mode == "GRADE_ONLY",
+                            evidence_first_grading=args.evidence_first_grading,
                         )
 
         tracker.mark_finished(status="interrupted" if _shutdown_requested else "completed")

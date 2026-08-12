@@ -3,6 +3,7 @@ import unittest
 from unittest.mock import patch
 
 from calibration_utils import (
+    close_evidence_verification_contract,
     compute_evidence_verifier_directional_risks,
     normalize_evidence_verification_result,
 )
@@ -123,6 +124,141 @@ class EvidenceFirstGradingTests(unittest.TestCase):
         self.assertEqual(risks["source"], "independent_post_scoring_verifier")
         self.assertEqual(risks["scoring_effect"], "none")
         self.assertEqual(risks["route_effect"], "none")
+
+    def test_deterministic_closure_is_fail_closed_and_auditable(self):
+        normalized = normalize_evidence_verification_result(
+            {
+                "items": [
+                    {
+                        "id": "step_1",
+                        "evidence_ids": ["invented"],
+                        "evidence_support": 1.0,
+                        "contradiction": True,
+                        "confidence": 0.9,
+                    },
+                    {
+                        "id": "step_2",
+                        "evidence_ids": ["step_2"],
+                        "evidence_support": 0.5,
+                        "contradiction": False,
+                        "confidence": 0.8,
+                    },
+                ]
+            },
+            self.facts,
+            self.rubric,
+        )
+
+        closed = close_evidence_verification_contract(normalized)
+
+        degraded, valid = closed["items"]
+        self.assertEqual(degraded["evidence_ids"], [])
+        self.assertEqual(degraded["evidence_support"], 0.0)
+        self.assertFalse(degraded["contradiction"])
+        self.assertEqual(degraded["confidence"], 0.0)
+        self.assertTrue(degraded["evidence_contract_complete"])
+        self.assertFalse(degraded["risk_eligible"])
+        self.assertEqual(valid["evidence_ids"], ["step_2"])
+        self.assertTrue(valid["risk_eligible"])
+        audit = closed["audit"]
+        self.assertTrue(audit["preclosure_requires_repair"])
+        self.assertEqual(audit["deterministic_degraded_item_ids"], ["step_1"])
+        self.assertEqual(audit["protocol_contract_completeness"], 1.0)
+        self.assertEqual(audit["semantic_evidence_coverage"], 0.5)
+        self.assertFalse(audit["requires_repair"])
+
+    def test_fail_closed_item_does_not_create_directional_risk(self):
+        normalized = normalize_evidence_verification_result(
+            {
+                "items": [
+                    {
+                        "id": "step_1",
+                        "evidence_ids": ["invented"],
+                        "evidence_support": 1.0,
+                        "contradiction": False,
+                        "confidence": 1.0,
+                    },
+                    {
+                        "id": "step_2",
+                        "evidence_ids": ["step_2"],
+                        "evidence_support": 0.5,
+                        "contradiction": False,
+                        "confidence": 0.8,
+                    },
+                ]
+            },
+            self.facts,
+            self.rubric,
+        )
+        closed = close_evidence_verification_contract(normalized)
+        risks = compute_evidence_verifier_directional_risks(
+            self.rubric,
+            [{
+                "details": [
+                    {"id": "step_1", "score_given": 2.0},
+                    {"id": "step_2", "score_given": 1.5},
+                ]
+            }],
+            closed,
+        )
+
+        first = risks["item_diagnostics"][0]
+        self.assertFalse(first["risk_eligible"])
+        self.assertEqual(first["undercredit_gap"], 0.0)
+        self.assertEqual(first["overcredit_gap"], 0.0)
+        self.assertEqual(risks["risk_eligible_points_ratio"], 0.6)
+        self.assertAlmostEqual(risks["R_over"], 0.0)
+
+    def test_unknown_duplicate_and_missing_items_are_closed_generically(self):
+        normalized = normalize_evidence_verification_result(
+            {
+                "items": [
+                    {
+                        "id": "step_1",
+                        "evidence_ids": ["step_1"],
+                        "evidence_support": 1.0,
+                        "contradiction": False,
+                        "confidence": 0.9,
+                    },
+                    {
+                        "id": "step_1",
+                        "evidence_ids": ["step_2"],
+                        "evidence_support": 0.0,
+                        "contradiction": True,
+                        "confidence": 0.2,
+                    },
+                    {
+                        "id": "unknown",
+                        "evidence_ids": ["step_2"],
+                        "evidence_support": 1.0,
+                        "contradiction": False,
+                        "confidence": 1.0,
+                    },
+                ]
+            },
+            self.facts,
+            self.rubric,
+        )
+
+        closed = close_evidence_verification_contract(normalized)
+
+        self.assertEqual([item["id"] for item in closed["items"]], [
+            "step_1",
+            "step_2",
+        ])
+        self.assertTrue(closed["items"][0]["risk_eligible"])
+        self.assertFalse(closed["items"][1]["risk_eligible"])
+        audit = closed["audit"]
+        self.assertEqual(
+            audit["deterministic_discarded_unknown_item_ids"],
+            ["unknown"],
+        )
+        self.assertEqual(
+            audit["deterministic_discarded_duplicate_item_ids"],
+            ["step_1"],
+        )
+        self.assertEqual(audit["deterministic_degraded_item_ids"], ["step_2"])
+        self.assertTrue(audit["deterministic_closure_applied"])
 
     def test_cli_defaults_off_and_records_v2_contract(self):
         parser = build_parser()
@@ -257,6 +393,47 @@ class EvidenceFirstGradingTests(unittest.TestCase):
             result["first_pass_items"][0]["invalid_evidence_ids"],
             ["invented"],
         )
+
+    def test_failed_model_repair_is_closed_without_third_call(self):
+        from step4_vlm_grader import run_independent_evidence_verification
+
+        invalid = (
+            "invalid raw",
+            {
+                "items": [
+                    {
+                        "id": "step_1",
+                        "evidence_ids": ["invented"],
+                        "evidence_support": 1.0,
+                        "contradiction": True,
+                        "confidence": 1.0,
+                    },
+                    {
+                        "id": "step_2",
+                        "evidence_ids": ["step_2"],
+                        "evidence_support": 1.0,
+                        "contradiction": False,
+                        "confidence": 0.9,
+                    },
+                ]
+            },
+        )
+        with patch(
+            "step4_vlm_grader.stage2_evidence_verification",
+            side_effect=[invalid, invalid],
+        ) as verifier:
+            result = run_independent_evidence_verification(
+                self.facts,
+                self.rubric,
+            )
+
+        self.assertEqual(verifier.call_count, 2)
+        self.assertTrue(result["audit"]["repair_attempted"])
+        self.assertFalse(result["audit"]["repair_succeeded"])
+        self.assertTrue(result["audit"]["deterministic_closure_applied"])
+        self.assertEqual(result["audit"]["protocol_contract_completeness"], 1.0)
+        self.assertFalse(result["items"][0]["risk_eligible"])
+        self.assertEqual(result["items"][0]["evidence_ids"], [])
 
 
 if __name__ == "__main__":

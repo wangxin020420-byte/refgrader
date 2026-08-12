@@ -30,6 +30,7 @@ from calibration_utils import (
     compute_evidence_verifier_directional_risks,
     compute_extraction_quality_counts,
     compute_extraction_risk_features,
+    close_evidence_verification_contract,
     is_blank_extraction,
     is_low_quality_extraction,
     is_perception_failure,
@@ -1723,7 +1724,16 @@ def run_independent_evidence_verification(facts_dict, rubrics_data):
     })
     if repair_attempted:
         final["first_pass_items"] = first.get("items", [])
-    return final
+    closed = close_evidence_verification_contract(final)
+    closed["audit"].update({
+        "repair_attempted": repair_attempted,
+        "repair_succeeded": repair_succeeded,
+        "verifier_semantic_call_count": 2 if repair_attempted else 1,
+        "first_pass": first_audit,
+    })
+    if repair_attempted:
+        closed["first_pass_items"] = first.get("items", [])
+    return closed
 
 
 def apply_canonical_score_floor(grading_result, canonical_context):

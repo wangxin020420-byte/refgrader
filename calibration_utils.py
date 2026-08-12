@@ -1430,6 +1430,103 @@ def normalize_evidence_verification_result(
     }
 
 
+def close_evidence_verification_contract(verification_result):
+    """Close an invalid verifier response without inventing evidence.
+
+    The model-facing parser intentionally preserves protocol errors.  This
+    post-repair boundary converts those errors into a structurally valid,
+    fail-closed payload while retaining the original audit for analysis.
+    """
+    source = (
+        deepcopy(verification_result)
+        if isinstance(verification_result, dict)
+        else {}
+    )
+    source_audit = (
+        deepcopy(source.get("audit"))
+        if isinstance(source.get("audit"), dict)
+        else {}
+    )
+    source_items = (
+        source.get("items") if isinstance(source.get("items"), list) else []
+    )
+
+    closed_items = []
+    degraded_item_ids = []
+    semantic_evidence_count = 0
+    for raw_item in source_items:
+        if not isinstance(raw_item, dict) or not str(raw_item.get("id", "")):
+            continue
+        item = deepcopy(raw_item)
+        valid_ids = item.get("evidence_ids")
+        if not isinstance(valid_ids, list):
+            valid_ids = []
+        valid_ids = [str(value) for value in valid_ids if str(value)]
+        item_id = str(item.get("id"))
+        was_complete = _evidence_bool(
+            item.get("evidence_contract_complete"), False
+        )
+        has_valid_evidence = was_complete and bool(valid_ids)
+
+        if not was_complete:
+            degraded_item_ids.append(item_id)
+            item["evidence_ids"] = []
+            item["evidence_valid"] = False
+            item["evidence_support"] = 0.0
+            item["contradiction"] = False
+            item["confidence"] = 0.0
+            item["evidence_contract_complete"] = True
+            item["risk_eligible"] = False
+            item["normalization_status"] = "deterministic_fail_closed"
+        else:
+            item["risk_eligible"] = True
+            item["normalization_status"] = "model_verified"
+            semantic_evidence_count += int(has_valid_evidence)
+        closed_items.append(item)
+
+    item_count = len(closed_items)
+    original_requires_repair = bool(source_audit.get("requires_repair"))
+    protocol_complete_count = sum(
+        int(_evidence_bool(item.get("evidence_contract_complete"), False))
+        for item in closed_items
+    )
+    closure_applied = original_requires_repair
+    source["items"] = closed_items
+    source["audit"] = {
+        **source_audit,
+        "preclosure": source_audit,
+        "preclosure_requires_repair": original_requires_repair,
+        "deterministic_closure_applied": closure_applied,
+        "deterministic_degraded_item_ids": degraded_item_ids,
+        "deterministic_degraded_item_count": len(degraded_item_ids),
+        "deterministic_discarded_unknown_item_ids": list(
+            source_audit.get("unknown_item_ids", [])
+        ),
+        "deterministic_discarded_duplicate_item_ids": list(
+            source_audit.get("duplicate_item_ids", [])
+        ),
+        "protocol_contract_complete_count": protocol_complete_count,
+        "protocol_contract_completeness": round(
+            protocol_complete_count / max(item_count, 1), 6
+        ),
+        "semantic_evidence_item_count": semantic_evidence_count,
+        "semantic_evidence_coverage": round(
+            semantic_evidence_count / max(item_count, 1), 6
+        ),
+        "requires_repair": False,
+        "normalization_status": (
+            "deterministic_fail_closed"
+            if degraded_item_ids
+            else (
+                "deterministic_normalized"
+                if closure_applied
+                else "model_verified"
+            )
+        ),
+    }
+    return source
+
+
 def compute_evidence_verifier_directional_risks(
     rubrics_data,
     strict_cots,
@@ -1449,6 +1546,7 @@ def compute_evidence_verifier_directional_risks(
     }
 
     total_points = 0.0
+    risk_eligible_points = 0.0
     undercredit = 0.0
     overcredit = 0.0
     item_diagnostics = []
@@ -1474,17 +1572,31 @@ def compute_evidence_verifier_directional_risks(
             verified.get("evidence_contract_complete"), False
         )
         evidence_valid = _evidence_bool(verified.get("evidence_valid"), False)
+        risk_eligible = _evidence_bool(
+            verified.get("risk_eligible"), contract_complete
+        )
         contradiction = _evidence_bool(verified.get("contradiction"), False)
         support = clamp01(verified.get("evidence_support", 0.0))
         effective_support = (
             support
-            if contract_complete and evidence_valid and not contradiction
+            if (
+                contract_complete
+                and evidence_valid
+                and risk_eligible
+                and not contradiction
+            )
             else 0.0
         )
-        item_under = max(0.0, effective_support - mean_award)
-        item_over = max(0.0, mean_award - effective_support)
+        item_under = (
+            max(0.0, effective_support - mean_award) if risk_eligible else 0.0
+        )
+        item_over = (
+            max(0.0, mean_award - effective_support) if risk_eligible else 0.0
+        )
 
         total_points += points
+        if risk_eligible:
+            risk_eligible_points += points
         undercredit += points * item_under
         overcredit += points * item_over
         item_diagnostics.append({
@@ -1495,9 +1607,10 @@ def compute_evidence_verifier_directional_risks(
             "undercredit_gap": round(item_under, 6),
             "overcredit_gap": round(item_over, 6),
             "evidence_contract_complete": contract_complete,
+            "risk_eligible": risk_eligible,
         })
 
-    denominator = max(total_points, 1e-9)
+    denominator = max(risk_eligible_points, 1e-9)
     audit = verification.get("audit", {})
     return {
         "schema_version": EVIDENCE_FIRST_GRADING_SCHEMA_VERSION,
@@ -1505,7 +1618,21 @@ def compute_evidence_verifier_directional_risks(
         "R_under": round(undercredit / denominator, 6),
         "R_over": round(overcredit / denominator, 6),
         "contract_completeness": round(
-            safe_float(audit.get("contract_completeness", 0.0), 0.0), 6
+            safe_float(
+                audit.get(
+                    "protocol_contract_completeness",
+                    audit.get("contract_completeness", 0.0),
+                ),
+                0.0,
+            ),
+            6,
+        ),
+        "semantic_evidence_coverage": round(
+            safe_float(audit.get("semantic_evidence_coverage", 0.0), 0.0),
+            6,
+        ),
+        "risk_eligible_points_ratio": round(
+            risk_eligible_points / max(total_points, 1e-9), 6
         ),
         "status": "diagnostic_only",
         "scoring_effect": "none",

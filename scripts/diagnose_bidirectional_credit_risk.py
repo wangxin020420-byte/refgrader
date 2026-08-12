@@ -105,6 +105,179 @@ def best_budget_point(scores, unsafe_labels, max_bnd_ratio=0.60):
     )
 
 
+def candidate_risk_scores(row):
+    undercredit = max(
+        safe_float(row.get("U_R_undercredit_existing")),
+        safe_float(row.get("U_R_allocation_undercredit")),
+        safe_float(row.get("U_R_deterministic_undercredit")),
+    )
+    overcredit = max(
+        safe_float(row.get("U_R_allocation_overcredit")),
+        safe_float(row.get("U_R_deterministic_overcredit")),
+    )
+    allocation = max(
+        safe_float(row.get("U_R_allocation_undercredit")),
+        safe_float(row.get("U_R_allocation_overcredit")),
+        safe_float(row.get("U_R_allocation_disagreement")),
+    )
+    evidence = max(
+        safe_float(row.get("U_E")),
+        safe_float(row.get("U_S")),
+    )
+    current = max(evidence, safe_float(row.get("U_R")))
+    return {
+        "current_max": current,
+        "current_mean": (
+            safe_float(row.get("U_E"))
+            + safe_float(row.get("U_S"))
+            + safe_float(row.get("U_R"))
+        ) / 3.0,
+        "allocation_max": max(evidence, allocation),
+        "directional_max": max(evidence, undercredit, overcredit),
+        "directional_mean": max(
+            (evidence + undercredit) / 2.0,
+            (evidence + overcredit) / 2.0,
+        ),
+    }
+
+
+def select_budget_candidate(
+    rows,
+    max_bnd_ratio=0.60,
+    max_unsafe_pos_rate=0.10,
+):
+    candidates = []
+    score_maps = [candidate_risk_scores(row) for row in rows]
+    for rule_name in score_maps[0]:
+        scores = [mapping[rule_name] for mapping in score_maps]
+        for threshold in sorted(set(scores)):
+            pos_indexes = [
+                index for index, score in enumerate(scores)
+                if score <= threshold
+            ]
+            if not pos_indexes:
+                continue
+            bnd_ratio = 1.0 - len(pos_indexes) / len(rows)
+            unsafe_pos_rate = (
+                sum(rows[index]["unsafe"] for index in pos_indexes)
+                / len(pos_indexes)
+            )
+            bnd_excess = max(0.0, bnd_ratio - max_bnd_ratio)
+            unsafe_excess = max(
+                0.0, unsafe_pos_rate - max_unsafe_pos_rate
+            )
+            candidates.append({
+                "rule": rule_name,
+                "threshold": threshold,
+                "bnd_ratio": bnd_ratio,
+                "unsafe_pos_rate": unsafe_pos_rate,
+                "feasible": bnd_excess <= 1e-12 and unsafe_excess <= 1e-12,
+                "constraint_count": int(bnd_excess > 1e-12)
+                + int(unsafe_excess > 1e-12),
+                "constraint_excess": bnd_excess + unsafe_excess,
+            })
+    return min(
+        candidates,
+        key=lambda item: (
+            item["constraint_count"],
+            item["constraint_excess"],
+            item["unsafe_pos_rate"],
+            item["bnd_ratio"],
+            item["rule"],
+        ),
+    )
+
+
+def grouped_question_oof(
+    rows,
+    max_bnd_ratio=0.60,
+    max_unsafe_pos_rate=0.10,
+):
+    questions = sorted({row["question_id"] for row in rows})
+    if len(questions) < 2:
+        raise ValueError("Grouped OOF requires at least two questions")
+    oof_rows = []
+    folds = []
+    for heldout_question in questions:
+        train_rows = [
+            row for row in rows
+            if row["question_id"] != heldout_question
+        ]
+        heldout_rows = [
+            row for row in rows
+            if row["question_id"] == heldout_question
+        ]
+        selected = select_budget_candidate(
+            train_rows,
+            max_bnd_ratio=max_bnd_ratio,
+            max_unsafe_pos_rate=max_unsafe_pos_rate,
+        )
+        heldout_pos = 0
+        heldout_unsafe_pos = 0
+        for row in heldout_rows:
+            risk = candidate_risk_scores(row)[selected["rule"]]
+            route = "POS" if risk <= selected["threshold"] else "BND"
+            heldout_pos += int(route == "POS")
+            heldout_unsafe_pos += int(route == "POS" and row["unsafe"])
+            oof_rows.append({
+                **row,
+                "oof_rule": selected["rule"],
+                "oof_threshold": selected["threshold"],
+                "oof_risk": risk,
+                "oof_route": route,
+                "train_candidate_feasible": selected["feasible"],
+            })
+        folds.append({
+            "heldout_question": heldout_question,
+            "train_question_count": len(questions) - 1,
+            "train_n": len(train_rows),
+            "heldout_n": len(heldout_rows),
+            "selected_rule": selected["rule"],
+            "selected_threshold": selected["threshold"],
+            "train_feasible": selected["feasible"],
+            "train_bnd_ratio": selected["bnd_ratio"],
+            "train_unsafe_pos_rate": selected["unsafe_pos_rate"],
+            "heldout_pos_n": heldout_pos,
+            "heldout_unsafe_pos_n": heldout_unsafe_pos,
+        })
+    pos_rows = [row for row in oof_rows if row["oof_route"] == "POS"]
+    bnd_ratio = 1.0 - len(pos_rows) / len(oof_rows)
+    unsafe_pos_rate = (
+        sum(row["unsafe"] for row in pos_rows) / len(pos_rows)
+        if pos_rows else 1.0
+    )
+    report = {
+        "method": "leave_one_question_out_rule_selection",
+        "n": len(oof_rows),
+        "question_count": len(questions),
+        "fold_count": len(folds),
+        "train_feasible_fold_count": sum(
+            fold["train_feasible"] for fold in folds
+        ),
+        "pos_n": len(pos_rows),
+        "bnd_n": len(oof_rows) - len(pos_rows),
+        "bnd_ratio": bnd_ratio,
+        "unsafe_pos_n": sum(row["unsafe"] for row in pos_rows),
+        "unsafe_pos_rate": unsafe_pos_rate,
+        "constraints": {
+            "max_bnd_ratio": max_bnd_ratio,
+            "max_unsafe_pos_rate": max_unsafe_pos_rate,
+            "bnd_ratio_within_budget": bnd_ratio <= max_bnd_ratio + 1e-12,
+            "unsafe_pos_rate_within_budget": (
+                unsafe_pos_rate <= max_unsafe_pos_rate + 1e-12
+            ),
+        },
+    }
+    report["passed"] = all(
+        report["constraints"][key]
+        for key in (
+            "bnd_ratio_within_budget",
+            "unsafe_pos_rate_within_budget",
+        )
+    )
+    return report, folds, oof_rows
+
+
 def load_questions(config, config_path):
     database_path = resolve_path(config["database_path"], config_path)
     questions = load_json(database_path)
@@ -258,6 +431,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
     parser.add_argument("--output-dir")
+    parser.add_argument("--grouped-oof", action="store_true")
+    parser.add_argument("--max-bnd-ratio", type=float, default=0.60)
+    parser.add_argument("--max-unsafe-pos-rate", type=float, default=0.10)
     args = parser.parse_args()
 
     config_path = Path(args.config).resolve()
@@ -279,6 +455,31 @@ def main():
         writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
+
+    if args.grouped_oof:
+        grouped, folds, oof_rows = grouped_question_oof(
+            rows,
+            max_bnd_ratio=args.max_bnd_ratio,
+            max_unsafe_pos_rate=args.max_unsafe_pos_rate,
+        )
+        (output_dir / "grouped_oof_summary.json").write_text(
+            json.dumps(grouped, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        for filename, records in (
+            ("grouped_oof_folds.csv", folds),
+            ("grouped_oof_cases.csv", oof_rows),
+        ):
+            with (output_dir / filename).open(
+                "w", encoding="utf-8-sig", newline=""
+            ) as handle:
+                writer = csv.DictWriter(
+                    handle, fieldnames=list(records[0])
+                )
+                writer.writeheader()
+                writer.writerows(records)
+        print("Grouped OOF:")
+        print(json.dumps(grouped, ensure_ascii=False, indent=2))
 
     print(json.dumps(report, ensure_ascii=False, indent=2))
     print(f"Report: {report_path}")

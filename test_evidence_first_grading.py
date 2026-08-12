@@ -176,6 +176,26 @@ class EvidenceFirstGradingTests(unittest.TestCase):
         self.assertNotIn("score_given", prompt)
         self.assertNotIn("total_score", prompt)
 
+    def test_repair_prompt_uses_whitelist_without_replaying_raw_response(self):
+        from step4_vlm_grader import build_evidence_verification_prompt
+
+        prompt = build_evidence_verification_prompt(
+            self.facts,
+            self.rubric,
+            repair_context={
+                "audit": {
+                    "invalid_evidence_ids": ["step_1_child"],
+                    "requires_repair": True,
+                },
+                "previous_response": "DO_NOT_REPLAY_THIS_RESPONSE",
+            },
+        )
+
+        self.assertIn('evidence_ids \u552f\u4e00\u767d\u540d\u5355', prompt)
+        self.assertIn('["step_1", "step_2"]', prompt)
+        self.assertIn('step_1_child', prompt)
+        self.assertNotIn("DO_NOT_REPLAY_THIS_RESPONSE", prompt)
+
     def test_invalid_first_pass_gets_one_repair_call(self):
         from step4_vlm_grader import run_independent_evidence_verification
 

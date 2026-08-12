@@ -1566,6 +1566,9 @@ def build_evidence_verification_prompt(
         for fact_id, value in facts.items()
         if str(fact_id) and not str(fact_id).startswith("_")
     ]
+    allowed_evidence_ids = [
+        entry["evidence_id"] for entry in evidence_ledger
+    ]
     rubric_ledger = []
     for item in rubrics:
         if not isinstance(item, dict) or not str(item.get("id", "")):
@@ -1587,12 +1590,26 @@ def build_evidence_verification_prompt(
 
     repair_block = ""
     if repair_context:
+        repair_audit = (
+            repair_context.get("audit", {})
+            if isinstance(repair_context, dict)
+            else {}
+        )
+        invalid_ids = repair_audit.get("invalid_evidence_ids", [])
         repair_block = f"""
 
 【上一次输出的校验错误】
-{json.dumps(repair_context, ensure_ascii=False, indent=2)}
+{json.dumps(repair_audit, ensure_ascii=False, indent=2)}
 
-这是唯一一次修复机会。请纠正缺失条目、字段类型和非法 ID；不要增加解释文本。
+【必须删除或替换的非法 evidence_id】
+{json.dumps(invalid_ids, ensure_ascii=False)}
+
+【本次输出唯一允许的 evidence_id 白名单】
+{json.dumps(allowed_evidence_ids, ensure_ascii=False)}
+
+这是唯一一次修复机会。请从头重新生成完整 JSON。非法 ID 只能替换为
+白名单中的 ID；没有适用证据时必须使用 evidence_ids=[] 和
+evidence_support=0。不要复述上一次输出，不要增加解释文本。
 """
 
     return f"""
@@ -1601,12 +1618,17 @@ def build_evidence_verification_prompt(
 【允许引用的证据账本】
 {json.dumps(evidence_ledger, ensure_ascii=False, indent=2)}
 
+【evidence_ids 唯一白名单】
+{json.dumps(allowed_evidence_ids, ensure_ascii=False)}
+
 【评分项】
 {json.dumps(rubric_ledger, ensure_ascii=False, indent=2)}
 
 规则：
 1. 每个评分项必须且只能输出一次，id 必须与评分项完全一致。
-2. evidence_ids 只能使用证据账本中的 evidence_id；不能创造新 ID，不能引用以下划线开头的元数据。
+2. 评分项 id 与 evidence_id 属于两个独立命名空间。evidence_ids 只能逐字
+   复制“evidence_ids 唯一白名单”中的值；评分项 id 不在白名单时绝不能
+   作为 evidence_id，不能创造新 ID，不能引用以下划线开头的元数据。
 3. evidence_support 取 [0,1]，表示已引用证据对该评分项要求的满足比例。
 4. contradiction 仅在学生证据明确反驳该评分项要求时为 true。
 5. confidence 取 [0,1]，表示证据到评分项映射的把握度。

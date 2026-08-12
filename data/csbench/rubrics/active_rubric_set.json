@@ -841,7 +841,7 @@
     }
   },
   "active_a3wa": {
-    "status": "active",
+    "status": "stale",
     "path": "calibration/active_a3wa_config.json",
     "sha256": "e4cb8423c6c5229a976969199dd73ca3e0d0598a19f372b5feb730a268d50572",
     "questions": [
@@ -961,7 +961,10 @@
       "corrected_count": 0,
       "excluded_by_question": {},
       "corrected_by_question": {}
-    }
+    },
+    "stale_reasons": [
+      "active A3WA file hash changed"
+    ]
   },
-  "updated_at": "2026-08-07T17:32:18"
+  "updated_at": "2026-08-12T16:33:04"
 }

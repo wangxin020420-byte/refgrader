@@ -1,0 +1,13 @@
+﻿{
+    "report_type":  "unsafe_pos_human_review",
+    "source_run_id":  "evidence_verifier_v2_train31_20260812_212808",
+    "source_method":  "nested_leave_one_question_out_regularized_logistic",
+    "generated_at":  "2026-08-13T12:22:53.7382633+08:00",
+    "candidate_count":  33,
+    "question_count":  20,
+    "undercredit_count":  28,
+    "overcredit_count":  5,
+    "automatically_excluded":  0,
+    "policy_activated":  false,
+    "note":  "Candidate does not imply teacher-label noise; human review is required."
+}

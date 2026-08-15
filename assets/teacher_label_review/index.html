@@ -118,7 +118,7 @@
     .content { padding: 16px 18px 24px; }
     .evidence-tabs {
       position: sticky; top: 48px; z-index: 2;
-      display: grid; grid-template-columns: repeat(3, 1fr);
+      display: grid; grid-template-columns: repeat(4, 1fr);
       gap: 0; padding: 8px 12px 0;
       background: #fff;
       border-bottom: 1px solid #dfe4e8;
@@ -209,6 +209,38 @@
       padding: 2px 7px; border-radius: 10px;
       background: #eef2f5; color: #53616d; font-size: 11px;
     }
+    .score-flow {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .score-flow div {
+      padding: 9px 10px; border: 1px solid #d8dee4;
+      border-radius: 6px; background: #f8fafb;
+    }
+    .score-flow span { display: block; color: var(--muted); font-size: 11px; }
+    .score-flow strong { display: block; margin-top: 2px; }
+    .probe-list { display: grid; gap: 12px; }
+    .probe-card {
+      padding: 11px; border: 1px solid #d8dee4;
+      border-radius: 6px; background: #fff;
+    }
+    .probe-head {
+      display: flex; justify-content: space-between; gap: 12px;
+      padding-bottom: 7px; border-bottom: 1px solid #e4e8eb;
+      font-weight: 700;
+    }
+    .reason-item { padding: 9px 0; border-bottom: 1px dashed #dfe4e8; }
+    .reason-item:last-child { border-bottom: 0; }
+    .reason-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 5px; }
+    .reason-meta span {
+      padding: 2px 6px; border-radius: 9px;
+      background: #eef2f5; color: #53616d; font-size: 10px;
+    }
+    .reason-evidence, .reason-expected, .reason-text {
+      margin-top: 4px; white-space: pre-wrap; overflow-wrap: anywhere;
+    }
+    .reason-evidence { color: #31536b; }
+    .reason-expected { color: #655526; }
     .risk-row {
       display: grid; grid-template-columns: 42px 1fr 42px;
       gap: 8px; align-items: center; margin: 8px 0;
@@ -335,6 +367,7 @@
       </div>
       <div id="evidenceTabs" class="evidence-tabs">
         <button class="evidence-tab active" data-tab="scorePanel">分数与证据</button>
+        <button class="evidence-tab" data-tab="modelEvidencePanel">模型给分依据</button>
         <button class="evidence-tab" data-tab="referencePanel">题目与参考答案</button>
         <button class="evidence-tab" data-tab="rubricPanel">当前评分准则</button>
       </div>
@@ -343,6 +376,7 @@
           <div class="score-grid">
             <div class="metric teacher"><div class="label">教师分数</div><div id="teacherScore" class="value">--</div></div>
             <div class="metric"><div class="label">模型均分</div><div id="modelAvgScore" class="value">--</div></div>
+            <div class="metric"><div class="label">基础选定分</div><div id="baselineScore" class="value">--</div></div>
             <div class="metric"><div class="label">3WD-Core</div><div id="coreScore" class="value">--</div></div>
             <div class="metric"><div class="label">最终校准分</div><div id="finalScore" class="value">--</div></div>
           </div>
@@ -355,6 +389,23 @@
           </div>
           <div class="block"><h3>提取出的作答文本</h3><div id="rawText" class="text-box"></div></div>
           <div class="block"><h3>初筛提示</h3><div id="screeningFinding" class="text-box"></div></div>
+        </div>
+
+        <div id="modelEvidencePanel" class="tab-panel" hidden>
+          <div class="context-note">这里展示批改 checkpoint 中保存的原始评分轨迹，不会重新调用模型生成解释。三次判决的总分取均值后，再经过基础分选择、三支路由、BND 仲裁和可选残差校正。</div>
+          <div id="gradingEvidenceStatus" class="text-box">切换到样本后加载评分依据。</div>
+          <div class="block">
+            <h3>分数形成链路</h3>
+            <div id="scoreFlow" class="score-flow"></div>
+          </div>
+          <div class="block">
+            <h3>三支路由与仲裁说明</h3>
+            <div id="routeRationale" class="text-box"></div>
+          </div>
+          <div class="block">
+            <h3>独立判决与逐项给分理由</h3>
+            <div id="probeList" class="probe-list"></div>
+          </div>
         </div>
 
         <div id="referencePanel" class="tab-panel" hidden>
@@ -617,6 +668,132 @@
       });
     }
 
+    function addScoreFlow(label, value, note = "") {
+      const box = document.createElement("div");
+      const labelNode = document.createElement("span");
+      labelNode.textContent = label;
+      const valueNode = document.createElement("strong");
+      valueNode.textContent = value;
+      box.append(labelNode, valueNode);
+      if (note) {
+        const noteNode = document.createElement("span");
+        noteNode.textContent = note;
+        box.appendChild(noteNode);
+      }
+      $("scoreFlow").appendChild(box);
+    }
+
+    function renderGradingEvidence(evidence) {
+      $("scoreFlow").replaceChildren();
+      $("probeList").replaceChildren();
+      if (!evidence.available) {
+        $("gradingEvidenceStatus").textContent = evidence.message || "原始评分依据不可用。";
+        $("routeRationale").textContent = "没有 checkpoint，无法展示路由和仲裁依据。";
+        const scores = evidence.scores || {};
+        addScoreFlow("候选报告中的基础分", fmt(scores.selected_baseline_score));
+        return;
+      }
+
+      $("gradingEvidenceStatus").textContent = `来源运行：${evidence.source_run_id || "未记录"}\n来源文件：${evidence.source_path}`;
+      const scores = evidence.scores || {};
+      const history = Array.isArray(evidence.score_history) ? evidence.score_history : [];
+      addScoreFlow("三次独立判决", history.length ? history.map(fmt).join(" / ") : "--", "checkpoint 保存顺序");
+      addScoreFlow("模型均分", fmt(scores.model_avg_score));
+      addScoreFlow("基础选定分", fmt(scores.selected_baseline_score), evidence.baseline_score_source || "未记录来源");
+      addScoreFlow("3WD-Core", fmt(scores.three_way_core_score), evidence.route ? `路由 ${evidence.route}` : "");
+      addScoreFlow("最终校准分", fmt(scores.final_calibrated_score), evidence.score_calibration?.applied ? `校正 ${fmt(evidence.score_calibration.correction)}` : "未应用残差校正");
+
+      const rationale = [];
+      if (evidence.route) rationale.push(`三支路由：${evidence.route}`);
+      if (evidence.route_reason) rationale.push(`路由原因：${evidence.route_reason}`);
+      if (evidence.boundary_action) rationale.push(`BND动作：${evidence.boundary_action}`);
+      if (evidence.boundary_reason) rationale.push(`仲裁依据：${evidence.boundary_reason}`);
+      if (evidence.score_calibration?.reason) rationale.push(`残差校正：${evidence.score_calibration.reason}`);
+      $("routeRationale").textContent = rationale.join("\n") || "checkpoint 未记录额外路由说明。";
+
+      const verification = new Map((evidence.evidence_verification || []).map(item => [item.id, item]));
+      (evidence.probes || []).forEach((probe, probeIndex) => {
+        const card = document.createElement("article");
+        card.className = "probe-card";
+        const head = document.createElement("div");
+        head.className = "probe-head";
+        const title = document.createElement("span");
+        title.textContent = `独立判决 ${probeIndex + 1}`;
+        const total = document.createElement("span");
+        total.textContent = `总分 ${fmt(probe.total_score)}`;
+        head.append(title, total);
+        card.appendChild(head);
+
+        (probe.details || []).forEach(detail => {
+          const item = document.createElement("div");
+          item.className = "reason-item";
+          const meta = document.createElement("div");
+          meta.className = "reason-meta";
+          [
+            detail.id || "未编号",
+            `得分 ${fmt(detail.score_given)}`,
+            detail.error_category,
+            detail.evidence_status,
+            detail.dependency_status,
+          ].filter(Boolean).forEach(value => {
+            const tag = document.createElement("span");
+            tag.textContent = value;
+            meta.appendChild(tag);
+          });
+          const verified = verification.get(detail.id);
+          if (verified) {
+            const tag = document.createElement("span");
+            tag.textContent = `证据支持 ${riskFmt(verified.evidence_support)} / 置信度 ${riskFmt(verified.confidence)}${verified.contradiction ? " / 存在矛盾" : ""}`;
+            meta.appendChild(tag);
+          }
+          item.appendChild(meta);
+          if (detail.evidence_text) {
+            const node = document.createElement("div");
+            node.className = "reason-evidence";
+            node.textContent = `学生证据：${detail.evidence_text}`;
+            item.appendChild(node);
+          }
+          if (detail.expected_condition) {
+            const node = document.createElement("div");
+            node.className = "reason-expected";
+            node.textContent = `满分期望：${detail.expected_condition}`;
+            item.appendChild(node);
+          }
+          const reason = document.createElement("div");
+          reason.className = "reason-text";
+          reason.textContent = `给分理由：${detail.reason || "checkpoint 未记录理由"}`;
+          item.appendChild(reason);
+          card.appendChild(item);
+        });
+        $("probeList").appendChild(card);
+      });
+      if (!(evidence.probes || []).length) {
+        $("probeList").textContent = "checkpoint 没有保存独立判决详情。";
+      }
+    }
+
+    async function loadGradingEvidence(row) {
+      const identity = `${row.question_id}/${row.answer_id}`;
+      $("gradingEvidenceStatus").textContent = "正在读取原始批改 checkpoint...";
+      $("scoreFlow").replaceChildren();
+      $("probeList").replaceChildren();
+      $("routeRationale").textContent = "正在加载...";
+      try {
+        const evidence = await request(`/api/grading-evidence?question_id=${encodeURIComponent(row.question_id)}&answer_id=${encodeURIComponent(row.answer_id)}`);
+        const current = currentCandidate();
+        if (!current || `${current.question_id}/${current.answer_id}` !== identity) return;
+        renderGradingEvidence(evidence);
+        const scores = evidence.scores || {};
+        $("modelAvgScore").textContent = fmt(scores.model_avg_score);
+        $("baselineScore").textContent = fmt(scores.selected_baseline_score);
+        $("coreScore").textContent = fmt(scores.three_way_core_score);
+        $("finalScore").textContent = fmt(scores.final_calibrated_score);
+      } catch (error) {
+        $("gradingEvidenceStatus").textContent = `评分依据加载失败：${error.message}`;
+        $("routeRationale").textContent = "加载失败；请不要据此判断教师标签。";
+      }
+    }
+
     function setSelectedDecision(value) {
       app.selectedDecision = value || "";
       document.querySelectorAll(".decision").forEach(button => {
@@ -661,9 +838,11 @@
         const delta = document.createElement("span");
         delta.className = "delta";
         delta.textContent = `差值 ${Number(diff) >= 0 ? "+" : ""}${Number(diff).toFixed(1)}`;
+        delta.title = "差值 = 教师分 - 候选参考分";
         $("teacherScore").appendChild(delta);
       }
       $("modelAvgScore").textContent = fmt(row.model_avg_score);
+      $("baselineScore").textContent = fmt(row.selected_baseline_score);
       $("coreScore").textContent = fmt(row.three_way_core_score);
       $("finalScore").textContent = fmt(row.final_calibrated_score);
       $("tags").replaceChildren();
@@ -678,6 +857,7 @@
       const screening = [row.initial_finding, row.recommended_action].filter(Boolean).join("\n建议：");
       $("screeningFinding").textContent = screening || "暂无人工初筛提示；请结合原图、教师分和模型分独立判断。";
       renderQuestionContext(row);
+      loadGradingEvidence(row);
       setEvidenceTab(app.activeEvidenceTab);
 
       resetImageTransform();

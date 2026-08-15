@@ -142,6 +142,7 @@ class TeacherLabelReviewStore:
         decisions_path: Path,
         screening_path: Path | None = None,
         screening_only: bool = False,
+        grading_source_dir: Path | None = None,
     ) -> None:
         self.prepared_dir = prepared_dir.expanduser().resolve()
         self.report_dir = report_dir.expanduser().resolve()
@@ -152,8 +153,14 @@ class TeacherLabelReviewStore:
             else None
         )
         self.screening_only = screening_only
+        self.grading_source_dir = (
+            grading_source_dir.expanduser().resolve()
+            if grading_source_dir
+            else None
+        )
         self.run_id = self.report_dir.name
         self.lock = threading.RLock()
+        self._checkpoint_cache: dict[Path, dict[str, dict[str, Any]]] = {}
 
         if not self.report_dir.is_dir():
             raise FileNotFoundError(f"Candidate report not found: {report_dir}")
@@ -177,6 +184,10 @@ class TeacherLabelReviewStore:
         self.screening = load_screening(self.screening_path) if (
             self.screening_path
         ) else {}
+        self.report_summary = self._load_report_summary()
+        self.source_run_id = str(
+            self.report_summary.get("source_run_id") or ""
+        ).strip()
         self.question_contexts = self._load_question_contexts()
         self.candidates = self._load_candidates()
         self.candidate_map = {
@@ -184,6 +195,16 @@ class TeacherLabelReviewStore:
             for row in self.candidates
         }
         self.decisions = self._load_normalized_decisions()
+
+    def _load_report_summary(self) -> dict[str, Any]:
+        path = self.report_dir / "summary.json"
+        if not path.is_file():
+            return {}
+        try:
+            payload = read_json(path)
+        except (OSError, ValueError, json.JSONDecodeError):
+            return {}
+        return payload if isinstance(payload, dict) else {}
 
     def _resolve_dataset_path(self, raw_path: Any) -> Path | None:
         value = str(raw_path or "").strip()
@@ -502,6 +523,244 @@ class TeacherLabelReviewStore:
             return None
         return path
 
+    def _grading_checkpoint_paths(self, question_id: str) -> list[Path]:
+        paths: list[Path] = []
+
+        def add(path: Path) -> None:
+            resolved = path.expanduser().resolve()
+            if resolved not in paths:
+                paths.append(resolved)
+
+        if self.grading_source_dir:
+            add(
+                self.grading_source_dir
+                / f"{question_id}_grading_checkpoint.json"
+            )
+            add(
+                self.grading_source_dir
+                / question_id
+                / "grading"
+                / "grading_checkpoint.json"
+            )
+
+        if self.source_run_id:
+            add(
+                PROJECT_ROOT
+                / "results_runs"
+                / "diagnostics"
+                / f"{self.source_run_id}_evaluation"
+                / f"{question_id}_grading_checkpoint.json"
+            )
+            artifacts_root = PROJECT_ROOT.parent / "refgrader-artifacts"
+            for stage in ("validation_runs", "grading_runs", "audit_runs"):
+                add(
+                    artifacts_root
+                    / "csbench"
+                    / question_id
+                    / stage
+                    / self.source_run_id
+                    / "grading"
+                    / "grading_checkpoint.json"
+                )
+        return paths
+
+    def _load_checkpoint_records(
+        self,
+        path: Path,
+    ) -> dict[str, dict[str, Any]]:
+        cached = self._checkpoint_cache.get(path)
+        if cached is not None:
+            return cached
+        if not path.is_file():
+            self._checkpoint_cache[path] = {}
+            return {}
+        payload = read_json(path)
+        if isinstance(payload, dict):
+            payload = payload.get("records") or payload.get("results") or []
+        if not isinstance(payload, list):
+            raise ValueError(f"Checkpoint must contain a JSON array: {path}")
+        records = {}
+        for row in payload:
+            if not isinstance(row, dict):
+                continue
+            answer_id = str(
+                row.get("student_id") or row.get("answer_id") or ""
+            ).strip()
+            if answer_id:
+                records[answer_id] = row
+        self._checkpoint_cache[path] = records
+        return records
+
+    @staticmethod
+    def _grading_probe(payload: Any) -> dict[str, Any]:
+        if not isinstance(payload, dict):
+            return {}
+        details = []
+        for raw in payload.get("details") or []:
+            if not isinstance(raw, dict):
+                continue
+            details.append(
+                {
+                    "id": str(raw.get("id") or ""),
+                    "score_given": optional_number(raw.get("score_given")),
+                    "error_category": str(
+                        raw.get("error_category") or ""
+                    ),
+                    "evidence_text": str(raw.get("evidence_text") or ""),
+                    "evidence_status": str(
+                        raw.get("evidence_status") or ""
+                    ),
+                    "expected_condition": str(
+                        raw.get("expected_condition") or ""
+                    ),
+                    "dependency_status": str(
+                        raw.get("dependency_status") or ""
+                    ),
+                    "reason": str(raw.get("reason") or ""),
+                }
+            )
+        return {
+            "total_score": optional_number(payload.get("total_score")),
+            "details": details,
+        }
+
+    def grading_evidence(
+        self,
+        question_id: str,
+        answer_id: str,
+    ) -> dict[str, Any]:
+        question_id = question_id.strip().upper()
+        answer_id = answer_id.strip()
+        key = (question_id, answer_id)
+        candidate = self.candidate_map.get(key)
+        if candidate is None:
+            raise ValueError(
+                f"Answer is not in this candidate report: {question_id}/{answer_id}"
+            )
+
+        checked_paths = []
+        record = None
+        source_path = None
+        for path in self._grading_checkpoint_paths(question_id):
+            checked_paths.append(relative_display_path(path))
+            try:
+                candidate_record = self._load_checkpoint_records(path).get(
+                    answer_id
+                )
+            except (OSError, ValueError, json.JSONDecodeError):
+                continue
+            if candidate_record is not None:
+                record = candidate_record
+                source_path = path
+                break
+
+        fallback_scores = {
+            name: optional_number(candidate.get(name))
+            for name in (
+                "model_avg_score",
+                "selected_baseline_score",
+                "three_way_core_score",
+                "final_calibrated_score",
+            )
+        }
+        if record is None:
+            return {
+                "available": False,
+                "source_run_id": self.source_run_id,
+                "source_path": "",
+                "checked_paths": checked_paths,
+                "scores": fallback_scores,
+                "message": (
+                    "未找到该样本对应的原始批改 checkpoint；"
+                    "这里只能显示候选报告中已有的分数。"
+                ),
+                "probes": [],
+            }
+
+        scores = {
+            name: optional_number(record.get(name))
+            for name in (
+                "model_avg_score",
+                "selected_baseline_score",
+                "three_way_core_score",
+                "final_calibrated_score",
+            )
+        }
+        for name, value in fallback_scores.items():
+            if scores.get(name) is None:
+                scores[name] = value
+
+        raw_probes = record.get("strict_cots_all") or []
+        if not isinstance(raw_probes, list):
+            raw_probes = []
+        if not raw_probes and isinstance(record.get("strict_cot"), dict):
+            raw_probes = [record["strict_cot"]]
+
+        verification = record.get("evidence_verification") or {}
+        verification_items = []
+        if isinstance(verification, dict):
+            for item in verification.get("items") or []:
+                if not isinstance(item, dict):
+                    continue
+                verification_items.append(
+                    {
+                        "id": str(item.get("id") or ""),
+                        "evidence_support": optional_number(
+                            item.get("evidence_support")
+                        ),
+                        "contradiction": bool(item.get("contradiction")),
+                        "confidence": optional_number(item.get("confidence")),
+                        "evidence_valid": bool(item.get("evidence_valid")),
+                        "normalization_status": str(
+                            item.get("normalization_status") or ""
+                        ),
+                    }
+                )
+
+        a3wa = record.get("a3wa_decision") or {}
+        boundary = record.get("boundary_gate") or {}
+        calibration = record.get("score_calibration") or {}
+        return {
+            "available": True,
+            "source_run_id": self.source_run_id,
+            "source_path": relative_display_path(source_path),
+            "checked_paths": checked_paths,
+            "scores": scores,
+            "score_history": [
+                optional_number(value)
+                for value in (record.get("model_scores_history") or [])
+                if optional_number(value) is not None
+            ],
+            "baseline_score_source": str(
+                record.get("baseline_score_source") or ""
+            ),
+            "route": str(
+                record.get("3wd_route")
+                or record.get("route")
+                or a3wa.get("route")
+                or ""
+            ),
+            "route_reason": str(a3wa.get("reason") or ""),
+            "boundary_action": str(boundary.get("action") or ""),
+            "boundary_reason": str(
+                record.get("reason_log")
+                or boundary.get("gate_reason")
+                or ""
+            ),
+            "score_calibration": {
+                "applied": bool(calibration.get("applied")),
+                "reason": str(calibration.get("reason") or ""),
+                "correction": optional_number(calibration.get("correction")),
+            },
+            "probes": [
+                self._grading_probe(probe)
+                for probe in raw_probes
+                if isinstance(probe, dict)
+            ],
+            "evidence_verification": verification_items,
+            "message": "",
+        }
+
     def decision_rows(self) -> list[dict[str, Any]]:
         order = {
             (row["question_id"], row["answer_id"]): index
@@ -745,6 +1004,26 @@ class ReviewRequestHandler(BaseHTTPRequestHandler):
                     status=HTTPStatus.INTERNAL_SERVER_ERROR,
                 )
             return
+        if parsed.path == "/api/grading-evidence":
+            query = parse_qs(parsed.query)
+            question_id = str(
+                (query.get("question_id") or [""])[0]
+            )
+            answer_id = str((query.get("answer_id") or [""])[0])
+            try:
+                payload = self.store.grading_evidence(
+                    question_id,
+                    answer_id,
+                )
+                self.send_json({"ok": True, **payload})
+            except ValueError as exc:
+                self.send_error_json(str(exc))
+            except Exception as exc:
+                self.send_error_json(
+                    str(exc),
+                    status=HTTPStatus.INTERNAL_SERVER_ERROR,
+                )
+            return
         if parsed.path == "/api/image":
             query = parse_qs(parsed.query)
             key = (
@@ -919,6 +1198,14 @@ def build_parser() -> argparse.ArgumentParser:
             "screening CSV exists."
         ),
     )
+    parser.add_argument(
+        "--grading-source-dir",
+        type=Path,
+        help=(
+            "Optional directory containing <question>_grading_checkpoint.json "
+            "files. Normally inferred from report summary source_run_id."
+        ),
+    )
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument(
@@ -956,6 +1243,7 @@ def main() -> int:
         decisions_path=decisions_path,
         screening_path=screening_path,
         screening_only=bool(screening_path and not args.all_candidates),
+        grading_source_dir=args.grading_source_dir,
     )
     server = ReviewServer((args.host, args.port), store)
     host, port = server.server_address[:2]

@@ -26,6 +26,7 @@ class TeacherLabelReviewStoreTests(unittest.TestCase):
             / "reviews"
             / "review_run_decisions.jsonl"
         )
+        self.grading_source = self.root / "grading_source"
         image = self.prepared / "student_images" / "CO_1" / "A.jpg"
         image.parent.mkdir(parents=True)
         image.write_bytes(b"not-a-real-jpeg")
@@ -132,6 +133,60 @@ class TeacherLabelReviewStoreTests(unittest.TestCase):
                 "student_image": str(image),
             },
         )
+        self.grading_source.mkdir(parents=True)
+        (
+            self.grading_source / "CO_1_grading_checkpoint.json"
+        ).write_text(
+            json.dumps(
+                [
+                    {
+                        "student_id": "A",
+                        "model_scores_history": [4.0, 5.0, 5.0],
+                        "model_avg_score": 4.7,
+                        "selected_baseline_score": 4.7,
+                        "baseline_score_source": "model_avg_score",
+                        "three_way_core_score": 4.5,
+                        "final_calibrated_score": 4.7,
+                        "3wd_route": "BND",
+                        "a3wa_decision": {
+                            "route": "BND",
+                            "reason": "boundary_membership",
+                        },
+                        "boundary_gate": {
+                            "action": "keep_baseline",
+                            "gate_reason": "no_material_change",
+                        },
+                        "strict_cots_all": [
+                            {
+                                "total_score": 4.0,
+                                "details": [
+                                    {
+                                        "id": "step_1",
+                                        "score_given": 4.0,
+                                        "error_category": "PARTIAL_MATCH",
+                                        "evidence_text": "37H",
+                                        "expected_condition": "37H",
+                                        "reason": "Answer is correct.",
+                                    }
+                                ],
+                            }
+                        ],
+                        "evidence_verification": {
+                            "items": [
+                                {
+                                    "id": "step_1",
+                                    "evidence_valid": True,
+                                    "evidence_support": 1.0,
+                                    "contradiction": False,
+                                    "confidence": 0.9,
+                                }
+                            ]
+                        },
+                    }
+                ]
+            ),
+            encoding="utf-8",
+        )
         self.write_candidates(
             "three_way_core_score",
             {
@@ -165,6 +220,7 @@ class TeacherLabelReviewStoreTests(unittest.TestCase):
             prepared_dir=self.prepared,
             report_dir=self.report,
             decisions_path=self.decisions,
+            grading_source_dir=self.grading_source,
         )
 
     def test_duplicate_candidate_sources_are_merged(self):
@@ -273,6 +329,33 @@ class TeacherLabelReviewStoreTests(unittest.TestCase):
         self.assertEqual(rows[0]["decision"], "corrected")
         self.assertEqual(rows[0]["corrected_score"], 3.5)
         self.assertEqual(store.state()["counts"]["reviewed"], 1)
+
+    def test_saved_decision_can_be_deleted_for_rereview(self):
+        store = self.make_store()
+        store.save_decision(
+            {
+                "question_id": "CO_1",
+                "answer_id": "A",
+                "decision": "retained_hard_case",
+            }
+        )
+        self.assertTrue(store.delete_decision("CO_1", "A"))
+        self.assertEqual(store.state()["counts"]["reviewed"], 0)
+        self.assertEqual(self.decisions.read_text(encoding="utf-8"), "")
+
+    def test_grading_evidence_contains_saved_item_reasons(self):
+        evidence = self.make_store().grading_evidence("CO_1", "A")
+        self.assertTrue(evidence["available"])
+        self.assertEqual(evidence["scores"]["model_avg_score"], 4.7)
+        self.assertEqual(evidence["route"], "BND")
+        self.assertEqual(evidence["probes"][0]["total_score"], 4.0)
+        detail = evidence["probes"][0]["details"][0]
+        self.assertEqual(detail["id"], "step_1")
+        self.assertEqual(detail["reason"], "Answer is correct.")
+        self.assertEqual(
+            evidence["evidence_verification"][0]["evidence_support"],
+            1.0,
+        )
 
     def test_invalid_corrected_score_is_rejected(self):
         store = self.make_store()

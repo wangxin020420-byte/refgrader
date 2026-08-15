@@ -450,6 +450,9 @@ TABLE_OR_GRID_MARKERS = (
     "grid",
     "matrix",
     "truth table",
+    "bit vector",
+    "bitvector",
+    "mask word",
     "cache",
     "tag",
     "index",
@@ -458,18 +461,28 @@ TABLE_OR_GRID_MARKERS = (
     "row",
     "column",
     "cell",
-    "表",
     "表格",
     "矩阵",
     "真值表",
+    "状态表",
+    "转换表",
+    "对照表",
+    "表头",
+    "表项",
+    "单元格",
+    "屏蔽字",
+    "位向量",
     "字段",
     "地址划分",
     "位划分",
     "组号",
     "组索引",
     "块内地址",
-    "行",
-    "列",
+    "行列",
+    "行号",
+    "列号",
+    "每行",
+    "每列",
 )
 
 TOPOLOGY_OR_RELATION_MARKERS = (
@@ -513,7 +526,7 @@ TOPOLOGY_OR_RELATION_MARKERS = (
     "路径",
 )
 
-CSBENCH_EXTRACTION_SCHEMA_VERSION = 3
+CSBENCH_EXTRACTION_SCHEMA_VERSION = 4
 TEXT_EXTRACTION_SCHEMA_VERSION = 1
 
 
@@ -521,15 +534,30 @@ def sha256_text(value):
     return hashlib.sha256(str(value or "").encode("utf-8")).hexdigest()
 
 
-def _rubric_item_text(item):
+RUBRIC_SEMANTIC_TEXT_KEYS = (
+    "item",
+    "description",
+    "standard_answer_text",
+    "source_text",
+    "parent_official_item",
+)
+
+
+def _rubric_semantic_text(item):
     return " ".join(
         str(item.get(key, ""))
-        for key in (
-            "id",
-            "description",
-            "standard_answer_text",
-            "answer_type",
-            "evidence_source",
+        for key in RUBRIC_SEMANTIC_TEXT_KEYS
+    )
+
+
+def _rubric_item_text(item):
+    return " ".join(
+        (
+            _rubric_semantic_text(item),
+            str(item.get("id", "")),
+            str(item.get("answer_type", "")),
+            str(item.get("canonicalization", "")),
+            str(item.get("evidence_source", "")),
         )
     )
 
@@ -549,8 +577,24 @@ def _contains_marker(text, marker):
 
 
 def _is_table_or_grid_item(item):
-    text = _rubric_item_text(item).lower()
-    return any(_contains_marker(text, marker) for marker in TABLE_OR_GRID_MARKERS)
+    semantic_text = _rubric_semantic_text(item).lower()
+    explicit_table = any(
+        _contains_marker(semantic_text, marker)
+        for marker in TABLE_OR_GRID_MARKERS
+    )
+    explicit_diagram = any(
+        _contains_marker(semantic_text, marker)
+        for marker in TOPOLOGY_OR_RELATION_MARKERS
+    )
+    answer_type = str(item.get("answer_type", "")).strip().lower()
+    canonicalization = str(item.get("canonicalization", "")).strip().lower()
+    evidence_source = str(item.get("evidence_source", "")).strip().lower()
+    structured_vector = answer_type in {"bit_vector", "matrix"} or canonicalization in {
+        "bit_vector",
+        "matrix",
+    }
+    explicit_ocr_table = evidence_source == "ocr_table" and not explicit_diagram
+    return explicit_table or structured_vector or explicit_ocr_table
 
 
 def _is_topology_or_relation_item(item):
@@ -566,7 +610,7 @@ def _diagram_checklist(blind_checklist, rubrics_json):
     diagram_ids = {
         str(item.get("id", ""))
         for item in rubrics
-        if _is_topology_or_relation_item(item) and not _is_table_or_grid_item(item)
+        if _is_topology_or_relation_item(item)
     }
     return [item for item in checklist if str(item.get("id", "")) in diagram_ids]
 
@@ -585,13 +629,15 @@ def _table_checklist(blind_checklist, rubrics_json):
 
 
 VISUAL_PLACEHOLDER_PATTERNS = (
-    r"如图所示",
+    r"如(?:下)?图(?:所示)?",
     r"见图",
     r"图如下",
-    r"如下图",
     r"答案见图",
     r"状态图略",
-    r"如下表",
+    r"如(?:下)?表(?:格)?(?:所示)?",
+    r"见表(?:格)?",
+    r"表(?:格)?如下",
+    r"答案见表(?:格)?",
 )
 
 
@@ -614,6 +660,7 @@ def _value_needs_visual_fallback(value):
     return (
         not text
         or text in {"未书写", "需要查看图像", "图中未明确显示", "表格结构不清晰"}
+        or detect_visual_placeholder(text)
         or is_blank_extraction(text)
         or is_perception_failure(text)
     )
@@ -630,6 +677,8 @@ def _is_concrete_visual_fact(value):
         "表格结构不清晰",
         "图中有标签但未形成可确认的连接关系",
     }:
+        return False
+    if detect_visual_placeholder(text):
         return False
     return not is_blank_extraction(text) and not is_perception_failure(text)
 
@@ -1193,6 +1242,7 @@ def stage1_extract_with_backend(
     table_facts = {}
     table_view = {}
     visual_fallback_reason = []
+    visual_recovered_ids = []
     visual_fallback_conflicts = []
     checklist_ids = _checklist_ids(blind_checklist)
     if table_items and ocr_payload:
@@ -1207,6 +1257,7 @@ def stage1_extract_with_backend(
             )
             if recovered:
                 visual_fallback_reason.append("table_ocr_recovered")
+                visual_recovered_ids.extend(recovered)
             visual_fallback_conflicts.extend(conflicts)
         except Exception as exc:
             visual_fallback_reason.append(f"table_ocr_failed:{exc}")
@@ -1234,9 +1285,10 @@ def stage1_extract_with_backend(
     )
     if recovered:
         visual_fallback_reason.append("diagram_vlm_recovered")
+        visual_recovered_ids.extend(recovered)
     visual_fallback_conflicts.extend(conflicts)
     visual_fallback_facts = {}
-    visual_fallback_recovered = []
+    vlm_fallback_recovered = []
     if extraction_backend == "csbench_hybrid" and (
         needs_visual_fallback
         or visual_fallback_reason
@@ -1248,9 +1300,10 @@ def stage1_extract_with_backend(
             parsed_fallback = extract_and_parse_json(fallback_raw)
             if isinstance(parsed_fallback, dict):
                 visual_fallback_facts = parsed_fallback
-                facts, visual_fallback_recovered, conflicts = _merge_visual_fallback_facts(
+                facts, vlm_fallback_recovered, conflicts = _merge_visual_fallback_facts(
                     facts, visual_fallback_facts, checklist_ids
                 )
+                visual_recovered_ids.extend(vlm_fallback_recovered)
                 visual_fallback_conflicts.extend(conflicts)
         except Exception as exc:
             visual_fallback_reason.append(f"vlm_fallback_failed:{exc}")
@@ -1308,7 +1361,8 @@ def stage1_extract_with_backend(
         "diagram_facts": diagram_facts,
         "diagram_checklist": diagram_items,
         "vlm_fallback_used": bool(visual_fallback_facts),
-        "vlm_fallback_recovered": visual_fallback_recovered,
+        "vlm_fallback_recovered": vlm_fallback_recovered,
+        "visual_fallback_recovered": sorted(set(visual_recovered_ids)),
         "visual_fallback_conflicts": sorted(set(visual_fallback_conflicts)),
         "vlm_fallback_reason": visual_fallback_reason,
         "vlm_fallback_facts": visual_fallback_facts,

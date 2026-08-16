@@ -68,6 +68,10 @@ _GLOBAL_SCORES_DB = None
 _GLOBAL_ANSWER_METADATA = None
 SAMPLE_QUALITY_POLICY = SampleQualityPolicy.raw()
 
+# Public benchmarks can reserve their original training partition as a fresh
+# external holdout when RefGrader itself does not fit model parameters on it.
+ANSWER_SPLIT_SOURCE_KEYS = {"external_holdout": "train"}
+
 # 优雅关闭标志
 _shutdown_requested = False
 
@@ -383,11 +387,18 @@ def parse_args():
     )
     parser.add_argument(
         "--answer-split",
-        choices=["all", "calibration", "validation", "test"],
+        choices=[
+            "all",
+            "calibration",
+            "validation",
+            "test",
+            "external_holdout",
+        ],
         default="all",
         help=(
-            "Optional per-question answer partition. Use test for final CSBench "
-            "experiments. Default: all."
+            "Optional per-question answer partition. external_holdout reads "
+            "the prepared train partition without using it for fitting. "
+            "Default: all."
         ),
     )
     parser.add_argument(
@@ -880,6 +891,7 @@ def answer_ids_for_split(q_data, split_name):
         return None
     if split_name == "calibration":
         return set(load_calibration_ids(q_data))
+    source_split = ANSWER_SPLIT_SOURCE_KEYS.get(split_name, split_name)
     split_path = q_data.get("rubric_split_path")
     if not split_path or not os.path.exists(split_path):
         raise FileNotFoundError(
@@ -887,8 +899,13 @@ def answer_ids_for_split(q_data, split_name):
         )
     with open(split_path, "r", encoding="utf-8") as handle:
         payload = json.load(handle)
+    if source_split not in payload:
+        raise ValueError(
+            f"{q_data['question_id']} split metadata has no {source_split} "
+            f"partition required by {split_name}."
+        )
     return SAMPLE_QUALITY_POLICY.filter_ids(
-        q_data["question_id"], payload.get(split_name, [])
+        q_data["question_id"], payload[source_split]
     )
 
 

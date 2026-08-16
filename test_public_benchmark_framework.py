@@ -371,6 +371,84 @@ class PublicBenchmarkFrameworkTests(unittest.TestCase):
             self.assertIn("--answer-split", command)
             self.assertIn("test", command)
 
+    def test_external_holdout_maps_train_partition_and_records_provenance(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            prepared = self.prepare_fixture(temporary_root)
+            context = run_benchmark._prepared_context(prepared)
+            result_root = temporary_root / "results"
+            with (
+                mock.patch.object(
+                    run_benchmark,
+                    "_result_root",
+                    return_value=result_root,
+                ),
+                mock.patch.object(
+                    run_benchmark, "_run", return_value=0
+                ) as execute,
+            ):
+                code = run_benchmark.grade(
+                    context,
+                    questions=["ASAP_SAS_1"],
+                    split="external_holdout",
+                    run_id="external_holdout",
+                    force=False,
+                    a3wa_config=None,
+                    dry_run=True,
+                    evaluate_after=False,
+                )
+            self.assertEqual(code, 0)
+            command = execute.call_args.args[0]
+            self.assertEqual(
+                command[command.index("--answer-split") + 1],
+                "external_holdout",
+            )
+            manifest = load_json(
+                result_root / "runs" / "external_holdout" / "run_manifest.json"
+            )
+            self.assertEqual(manifest["split"], "external_holdout")
+            self.assertEqual(manifest["source_split"], "train")
+
+            split_path = load_json(prepared / "exam_database.json")[0][
+                "rubric_split_path"
+            ]
+            question = {
+                "question_id": "ASAP_SAS_1",
+                "rubric_split_path": str(prepared / split_path),
+            }
+            previous_policy = main_pipeline.SAMPLE_QUALITY_POLICY
+            try:
+                main_pipeline.SAMPLE_QUALITY_POLICY = SampleQualityPolicy.raw()
+                selected = main_pipeline.answer_ids_for_split(
+                    question,
+                    "external_holdout",
+                )
+            finally:
+                main_pipeline.SAMPLE_QUALITY_POLICY = previous_policy
+            self.assertEqual(
+                selected,
+                set(load_json(prepared / split_path)["train"]),
+            )
+            checkpoint = [
+                {"student_id": answer_id}
+                for answer_id in sorted(selected)
+            ]
+            run_dir = result_root / "runs" / "external_holdout"
+            write_json(
+                run_dir / "ASAP_SAS_1_grading_checkpoint.json",
+                checkpoint,
+            )
+            self.assertEqual(
+                run_benchmark._run_completeness(
+                    context,
+                    run_dir=run_dir,
+                    questions=["ASAP_SAS_1"],
+                    split="external_holdout",
+                    limit=None,
+                ),
+                {},
+            )
+
     def test_public_run_archives_portable_inputs_and_a3wa_config(self):
         with tempfile.TemporaryDirectory() as temporary:
             temporary_root = Path(temporary)

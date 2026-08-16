@@ -43,6 +43,12 @@ PATH_FIELDS = (
     "student_images_dir",
 )
 
+SPLIT_SOURCE_KEYS = {"external_holdout": "train"}
+
+
+def _source_split(split: str) -> str:
+    return SPLIT_SOURCE_KEYS.get(split, split)
+
 
 def _display(command: list[str]) -> str:
     return subprocess.list2cmdline(command)
@@ -220,7 +226,13 @@ def _run_completeness(
         question = by_id[question_id]
         split_path = context["root"] / question["rubric_split_path"]
         split_payload = load_json(split_path)
-        expected = len(split_payload.get(split, []))
+        source_split = _source_split(split)
+        if source_split not in split_payload:
+            raise ValueError(
+                f"{question_id} split metadata has no {source_split} "
+                f"partition required by {split}."
+            )
+        expected = len(split_payload[source_split])
         if limit is not None:
             expected = min(expected, limit)
         checkpoint_path = run_dir / f"{question_id}_grading_checkpoint.json"
@@ -264,6 +276,7 @@ def _write_run_manifest(
                 context["root"] / "manifest.json"
             ),
             "split": split,
+            "source_split": _source_split(split),
             "questions": questions,
             "extraction_backend": "text_only",
             "model_config": config,
@@ -559,8 +572,18 @@ def build_parser() -> argparse.ArgumentParser:
     grade_parser.add_argument("questions", nargs="*")
     grade_parser.add_argument(
         "--split",
-        choices=["all", "calibration", "validation", "test"],
+        choices=[
+            "all",
+            "calibration",
+            "validation",
+            "test",
+            "external_holdout",
+        ],
         default="test",
+        help=(
+            "Prepared partition to grade. external_holdout evaluates the "
+            "original train partition as an unused external holdout."
+        ),
     )
     grade_parser.add_argument("--run-id", required=True)
     grade_parser.add_argument("--force", action="store_true")
@@ -622,7 +645,10 @@ def main() -> int:
             force=args.force,
             a3wa_config=args.a3wa_config,
             dry_run=args.dry_run,
-            evaluate_after=not args.no_evaluate and args.split == "test",
+            evaluate_after=(
+                not args.no_evaluate
+                and args.split in {"test", "external_holdout"}
+            ),
             limit=args.limit,
             allow_experimental_a3wa=args.allow_experimental_a3wa,
         )

@@ -43,23 +43,30 @@ data/csbench/student_images/<题号>/<答案ID>.<扩展名>
 cd "C:\Users\wx\Desktop\refgrader-main"
 ```
 
-审核全部教师标签时，直接启动即可。程序会优先选择最新的
+审核全 43 道题的可疑教师标签时，直接启动即可。程序会优先选择最新的
 `teacher_label_audit_all43_*` 全 43 题报告，并合并模型均分和 3WD-Core 两套候选，
-按 `question_id + answer_id` 去重。未触发自动初筛的标签也会作为 P3 常规核查样本加入：
+按 `question_id + answer_id` 去重：
 
 ```powershell
 .\venv\Scripts\python.exe scripts\review_teacher_labels.py
 ```
 
-当前全量报告应显示 `Candidates: 3326` 和 `All labels: True`，其中 P1 为
-288 条、P2 为 738 条、P3 为 2300 条。任何样本都不会在未经人工决定的情况下自动排除。
+当前全 43 题报告共有 1026 条宽召回统计候选，其中 P1 为 288 条、P2 为
+738 条。由于已存在同名 `_initial_screening.csv`，无参数启动时会默认显示
+73 条二次初筛候选：教师标签高可疑 24 条、模型或提取问题 20 条、评分规则歧义
+29 条。这些候选都不代表已经确认存在问题；任何样本都不会在未经人工决定的情况下自动排除。
+
+需要查看全部 1026 条统计候选时，增加 `--all-candidates`：
+
+```powershell
+.\venv\Scripts\python.exe scripts\review_teacher_labels.py --all-candidates
+```
 
 也可以显式指定当前 43 题审计报告：
 
 ```powershell
 .\venv\Scripts\python.exe scripts\review_teacher_labels.py `
-  --report-run teacher_label_audit_all43_20260727_160210 `
-  --all-labels
+  --report-run teacher_label_audit_all43_20260727_160210
 ```
 
 程序会自动打开浏览器，默认地址为：

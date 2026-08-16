@@ -324,7 +324,7 @@
   <div class="toolbar">
     <select id="questionFilter" title="按题目筛选"><option value="">全部题目</option></select>
     <select id="priorityFilter" title="按优先级筛选">
-      <option value="">全部优先级</option><option>P1</option><option>P2</option><option>P3</option>
+      <option value="">全部优先级</option><option>P1</option><option>P2</option>
     </select>
     <select id="statusFilter" title="按审核状态筛选">
       <option value="pending">仅待审核</option><option value="reviewed">仅已审核</option><option value="">全部状态</option>
@@ -962,9 +962,7 @@
     async function load() {
       try {
         app.state = await request("/api/state");
-        const scope = app.state.include_all_labels
-          ? "全部教师标签（P1/P2候选 + P3常规核查）"
-          : (app.state.screening_only ? "人工初筛候选" : "全部自动候选");
+        const scope = app.state.screening_only ? "人工初筛候选" : "全部自动候选";
         $("subtitle").textContent = `${app.state.report_run} · ${scope} · 原始数据只读${app.state.policy_active ? " · 当前已有活动策略" : ""}`;
         $("decisionPath").textContent = `决定文件：${app.state.decisions_path}`;
         populateFilters();

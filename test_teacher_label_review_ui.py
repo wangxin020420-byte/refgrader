@@ -239,6 +239,31 @@ class TeacherLabelReviewStoreTests(unittest.TestCase):
         )
         self.assertTrue(candidate["image_available"])
 
+    def test_unscreened_teacher_label_is_not_added_to_review_queue(self):
+        metadata_path = self.prepared / "answer_metadata.jsonl"
+        with metadata_path.open("a", encoding="utf-8") as handle:
+            handle.write(
+                json.dumps(
+                    {
+                        "answer_id": "B",
+                        "question_id": "CO_1",
+                        "raw_text": "ordinary answer",
+                    }
+                )
+                + "\n"
+            )
+        (self.prepared / "teacher_scores.json").write_text(
+            json.dumps({"A": {"CO_1": 2}, "B": {"CO_1": 3}}),
+            encoding="utf-8",
+        )
+
+        store = self.make_store()
+
+        self.assertEqual(
+            [(row["question_id"], row["answer_id"]) for row in store.candidates],
+            [("CO_1", "A")],
+        )
+
     def test_state_contains_question_reference_and_active_rubric(self):
         store = self.make_store()
         context = store.state()["question_contexts"]["CO_1"]
@@ -426,43 +451,6 @@ class TeacherLabelReviewStoreTests(unittest.TestCase):
         )
 
         self.assertEqual(selected, specialist.resolve())
-
-    def test_all_labels_adds_unscreened_answers_as_p3(self):
-        metadata_path = self.prepared / "answer_metadata.jsonl"
-        with metadata_path.open("a", encoding="utf-8") as handle:
-            handle.write(
-                json.dumps(
-                    {
-                        "answer_id": "B",
-                        "question_id": "CO_1",
-                        "raw_text": "partial",
-                    }
-                )
-                + "\n"
-            )
-        scores_path = self.prepared / "teacher_scores.json"
-        scores = json.loads(scores_path.read_text(encoding="utf-8"))
-        scores["B"] = {"CO_1": 4.0}
-        scores_path.write_text(json.dumps(scores), encoding="utf-8")
-
-        store = TeacherLabelReviewStore(
-            prepared_dir=self.prepared,
-            report_dir=self.report,
-            decisions_path=self.decisions,
-            grading_source_dir=self.grading_source,
-            include_all_labels=True,
-        )
-
-        self.assertEqual(len(store.candidates), 2)
-        routine = store.candidate_map[("CO_1", "B")]
-        self.assertEqual(routine["review_priority"], "P3")
-        self.assertEqual(routine["teacher_score"], 4.0)
-        self.assertEqual(
-            routine["candidate_types"],
-            ["not_flagged_by_automatic_screening"],
-        )
-        self.assertTrue(store.state()["include_all_labels"])
-
 
 if __name__ == "__main__":
     unittest.main()

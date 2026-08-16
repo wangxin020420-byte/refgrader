@@ -97,24 +97,6 @@ def load_questions(path: Path) -> dict[str, dict[str, Any]]:
     }
 
 
-def load_teacher_scores(path: Path) -> dict[str, dict[str, float]]:
-    payload = read_json(path)
-    if not isinstance(payload, dict):
-        raise ValueError(f"teacher_scores.json must contain an object: {path}")
-    scores: dict[str, dict[str, float]] = {}
-    for answer_id, question_scores in payload.items():
-        if not isinstance(question_scores, dict):
-            continue
-        normalized = {}
-        for question_id, score in question_scores.items():
-            number = optional_number(score)
-            if number is not None:
-                normalized[str(question_id).strip().upper()] = number
-        if normalized:
-            scores[str(answer_id)] = normalized
-    return scores
-
-
 def rubric_items(payload: Any) -> list[dict[str, Any]]:
     if isinstance(payload, list):
         return [row for row in payload if isinstance(row, dict)]
@@ -161,7 +143,6 @@ class TeacherLabelReviewStore:
         screening_path: Path | None = None,
         screening_only: bool = False,
         grading_source_dir: Path | None = None,
-        include_all_labels: bool = False,
     ) -> None:
         self.prepared_dir = prepared_dir.expanduser().resolve()
         self.report_dir = report_dir.expanduser().resolve()
@@ -172,7 +153,6 @@ class TeacherLabelReviewStore:
             else None
         )
         self.screening_only = screening_only
-        self.include_all_labels = include_all_labels
         self.grading_source_dir = (
             grading_source_dir.expanduser().resolve()
             if grading_source_dir
@@ -200,9 +180,6 @@ class TeacherLabelReviewStore:
         )
         self.valid_answers = load_valid_answers(
             self.prepared_dir / "answer_metadata.jsonl"
-        )
-        self.teacher_scores = load_teacher_scores(
-            self.prepared_dir / "teacher_scores.json"
         )
         self.screening = load_screening(self.screening_path) if (
             self.screening_path
@@ -503,38 +480,6 @@ class TeacherLabelReviewStore:
                     if value:
                         current[name] = value
 
-        if self.include_all_labels:
-            for answer_id, metadata in self.metadata.items():
-                question_id = str(
-                    metadata.get("question_id")
-                    or self.valid_answers.get(answer_id)
-                    or ""
-                ).strip().upper()
-                teacher_score = (
-                    self.teacher_scores.get(answer_id, {}).get(question_id)
-                )
-                if not question_id or teacher_score is None:
-                    continue
-                key = (question_id, answer_id)
-                if key in merged:
-                    continue
-                merged[key] = {
-                    "question_id": question_id,
-                    "answer_id": answer_id,
-                    "review_priority": "P3",
-                    "candidate_sources": ["full_teacher_label_inventory"],
-                    "candidate_types": ["not_flagged_by_automatic_screening"],
-                    "candidate_reasons": ["complete_teacher_label_audit"],
-                    "confounds": [],
-                    "teacher_score": teacher_score,
-                    "raw_text": str(metadata.get("raw_text") or ""),
-                    "student_image": str(
-                        metadata.get("student_image")
-                        or metadata.get("source_image")
-                        or ""
-                    ),
-                }
-
         candidates = []
         for key, row in merged.items():
             if self.screening_only and key not in self.screening:
@@ -552,51 +497,6 @@ class TeacherLabelReviewStore:
                 optional_number(row.get("max_score"))
                 or self.max_scores.get(row["question_id"])
             )
-            if self.include_all_labels:
-                grading_record = self._grading_record(
-                    row["question_id"],
-                    row["answer_id"],
-                )
-                if grading_record:
-                    for name in (
-                        "model_avg_score",
-                        "selected_baseline_score",
-                        "three_way_core_score",
-                        "final_calibrated_score",
-                        "std_dev",
-                    ):
-                        number = optional_number(grading_record.get(name))
-                        if row.get(name) is None and number is not None:
-                            row[name] = number
-                    if not row.get("route"):
-                        row["route"] = str(
-                            grading_record.get("3wd_route") or ""
-                        )
-                    if not row.get("extraction_quality"):
-                        row["extraction_quality"] = str(
-                            grading_record.get("extraction_quality") or ""
-                        )
-                    risk_features = grading_record.get("risk_features")
-                    if isinstance(risk_features, dict):
-                        for name in ("U_E", "U_S", "U_R"):
-                            number = optional_number(risk_features.get(name))
-                            if row.get(name) is None and number is not None:
-                                row[name] = number
-                if row.get("reference_score") is None:
-                    reference_score = optional_number(
-                        row.get("model_avg_score")
-                    )
-                    teacher_score = optional_number(row.get("teacher_score"))
-                    if reference_score is not None:
-                        row["reference_score_key"] = "model_avg_score"
-                        row["reference_score"] = reference_score
-                    if (
-                        teacher_score is not None
-                        and reference_score is not None
-                    ):
-                        difference = teacher_score - reference_score
-                        row["teacher_minus_reference"] = difference
-                        row["absolute_difference"] = abs(difference)
             screen = self.screening.get(key) or {}
             row["initial_class"] = str(
                 screen.get("initial_class") or ""
@@ -720,20 +620,6 @@ class TeacherLabelReviewStore:
                     / "grading_checkpoint.json"
                 )
         return paths
-
-    def _grading_record(
-        self,
-        question_id: str,
-        answer_id: str,
-    ) -> dict[str, Any] | None:
-        for path in self._grading_checkpoint_paths(question_id):
-            try:
-                record = self._load_checkpoint_records(path).get(answer_id)
-            except (OSError, ValueError, json.JSONDecodeError):
-                continue
-            if record is not None:
-                return record
-        return None
 
     def _load_checkpoint_records(
         self,
@@ -1089,7 +975,6 @@ class TeacherLabelReviewStore:
                 "policy_path": str(policy_path),
                 "policy_active": policy_path.is_file(),
                 "screening_only": self.screening_only,
-                "include_all_labels": self.include_all_labels,
                 "allowed_decisions": sorted(ALLOWED_DECISIONS),
                 "counts": {
                     "total": len(self.candidates),
@@ -1385,15 +1270,6 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
-        "--all-labels",
-        action="store_true",
-        help=(
-            "Review every teacher-labelled answer. Automatically screened "
-            "P1/P2 candidates keep their evidence; remaining labels are "
-            "added as P3 routine-review records."
-        ),
-    )
-    parser.add_argument(
         "--grading-source-dir",
         type=Path,
         help=(
@@ -1419,12 +1295,6 @@ def main() -> int:
         args.report_run,
         args.report_dir,
     )
-    default_full_audit = bool(
-        not args.report_run
-        and not args.report_dir
-        and report_dir.name.startswith("teacher_label_audit_all43_")
-    )
-    include_all_labels = bool(args.all_labels or default_full_audit)
     run_id = report_dir.name
     reviews_dir = prepared_dir / "quality_control" / "reviews"
     decisions_path = (
@@ -1443,13 +1313,8 @@ def main() -> int:
         report_dir=report_dir,
         decisions_path=decisions_path,
         screening_path=screening_path,
-        screening_only=bool(
-            screening_path
-            and not args.all_candidates
-            and not include_all_labels
-        ),
+        screening_only=bool(screening_path and not args.all_candidates),
         grading_source_dir=args.grading_source_dir,
-        include_all_labels=include_all_labels,
     )
     server = ReviewServer((args.host, args.port), store)
     host, port = server.server_address[:2]
@@ -1459,7 +1324,6 @@ def main() -> int:
     print("=" * 68)
     print("RefGrader teacher-label review UI")
     print(f"Candidates: {state['counts']['total']}")
-    print(f"All labels: {state['include_all_labels']}")
     print(f"Reviewed:   {state['counts']['reviewed']}")
     print(f"Pending:    {state['counts']['pending']}")
     print(f"Decisions:  {state['decisions_path']}")

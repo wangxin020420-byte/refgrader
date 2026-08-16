@@ -97,6 +97,24 @@ def load_questions(path: Path) -> dict[str, dict[str, Any]]:
     }
 
 
+def load_teacher_scores(path: Path) -> dict[str, dict[str, float]]:
+    payload = read_json(path)
+    if not isinstance(payload, dict):
+        raise ValueError(f"teacher_scores.json must contain an object: {path}")
+    scores: dict[str, dict[str, float]] = {}
+    for answer_id, question_scores in payload.items():
+        if not isinstance(question_scores, dict):
+            continue
+        normalized = {}
+        for question_id, score in question_scores.items():
+            number = optional_number(score)
+            if number is not None:
+                normalized[str(question_id).strip().upper()] = number
+        if normalized:
+            scores[str(answer_id)] = normalized
+    return scores
+
+
 def rubric_items(payload: Any) -> list[dict[str, Any]]:
     if isinstance(payload, list):
         return [row for row in payload if isinstance(row, dict)]
@@ -143,6 +161,7 @@ class TeacherLabelReviewStore:
         screening_path: Path | None = None,
         screening_only: bool = False,
         grading_source_dir: Path | None = None,
+        include_all_labels: bool = False,
     ) -> None:
         self.prepared_dir = prepared_dir.expanduser().resolve()
         self.report_dir = report_dir.expanduser().resolve()
@@ -153,6 +172,7 @@ class TeacherLabelReviewStore:
             else None
         )
         self.screening_only = screening_only
+        self.include_all_labels = include_all_labels
         self.grading_source_dir = (
             grading_source_dir.expanduser().resolve()
             if grading_source_dir
@@ -181,6 +201,9 @@ class TeacherLabelReviewStore:
         self.valid_answers = load_valid_answers(
             self.prepared_dir / "answer_metadata.jsonl"
         )
+        self.teacher_scores = load_teacher_scores(
+            self.prepared_dir / "teacher_scores.json"
+        )
         self.screening = load_screening(self.screening_path) if (
             self.screening_path
         ) else {}
@@ -188,6 +211,7 @@ class TeacherLabelReviewStore:
         self.source_run_id = str(
             self.report_summary.get("source_run_id") or ""
         ).strip()
+        self.report_checkpoint_paths = self._load_report_checkpoint_paths()
         self.question_contexts = self._load_question_contexts()
         self.candidates = self._load_candidates()
         self.candidate_map = {
@@ -205,6 +229,59 @@ class TeacherLabelReviewStore:
         except (OSError, ValueError, json.JSONDecodeError):
             return {}
         return payload if isinstance(payload, dict) else {}
+
+    def _load_report_checkpoint_paths(self) -> dict[str, list[Path]]:
+        paths: dict[str, list[Path]] = {}
+
+        def add(question_id: str, path: Path) -> None:
+            resolved = path.expanduser().resolve()
+            question_paths = paths.setdefault(question_id, [])
+            if resolved not in question_paths:
+                question_paths.append(resolved)
+
+        artifacts_root = PROJECT_ROOT.parent / "refgrader-artifacts"
+        for summary_path in self.report_dir.rglob("summary.json"):
+            try:
+                summary = read_json(summary_path)
+            except (OSError, ValueError, json.JSONDecodeError):
+                continue
+            if not isinstance(summary, dict):
+                continue
+            results_dir_value = str(summary.get("results_dir") or "").strip()
+            results_dir = Path(results_dir_value) if results_dir_value else None
+            run_id = results_dir.name if results_dir else ""
+            for raw in summary.get("questions") or []:
+                if not isinstance(raw, dict):
+                    continue
+                question_id = str(
+                    raw.get("question_id") or ""
+                ).strip().upper()
+                if not question_id:
+                    continue
+                checkpoint_value = str(raw.get("checkpoint") or "").strip()
+                if checkpoint_value:
+                    checkpoint = Path(checkpoint_value)
+                    add(question_id, checkpoint)
+                    checkpoint_parts = list(checkpoint.parts)
+                    lower_parts = [part.lower() for part in checkpoint_parts]
+                    if "results_runs" in lower_parts:
+                        index = lower_parts.index("results_runs")
+                        add(
+                            question_id,
+                            PROJECT_ROOT.joinpath(*checkpoint_parts[index:]),
+                        )
+                if run_id:
+                    add(
+                        question_id,
+                        artifacts_root
+                        / "csbench"
+                        / question_id
+                        / "audit_runs"
+                        / run_id
+                        / "grading"
+                        / "grading_checkpoint.json",
+                    )
+        return paths
 
     def _resolve_dataset_path(self, raw_path: Any) -> Path | None:
         value = str(raw_path or "").strip()
@@ -426,6 +503,38 @@ class TeacherLabelReviewStore:
                     if value:
                         current[name] = value
 
+        if self.include_all_labels:
+            for answer_id, metadata in self.metadata.items():
+                question_id = str(
+                    metadata.get("question_id")
+                    or self.valid_answers.get(answer_id)
+                    or ""
+                ).strip().upper()
+                teacher_score = (
+                    self.teacher_scores.get(answer_id, {}).get(question_id)
+                )
+                if not question_id or teacher_score is None:
+                    continue
+                key = (question_id, answer_id)
+                if key in merged:
+                    continue
+                merged[key] = {
+                    "question_id": question_id,
+                    "answer_id": answer_id,
+                    "review_priority": "P3",
+                    "candidate_sources": ["full_teacher_label_inventory"],
+                    "candidate_types": ["not_flagged_by_automatic_screening"],
+                    "candidate_reasons": ["complete_teacher_label_audit"],
+                    "confounds": [],
+                    "teacher_score": teacher_score,
+                    "raw_text": str(metadata.get("raw_text") or ""),
+                    "student_image": str(
+                        metadata.get("student_image")
+                        or metadata.get("source_image")
+                        or ""
+                    ),
+                }
+
         candidates = []
         for key, row in merged.items():
             if self.screening_only and key not in self.screening:
@@ -443,6 +552,51 @@ class TeacherLabelReviewStore:
                 optional_number(row.get("max_score"))
                 or self.max_scores.get(row["question_id"])
             )
+            if self.include_all_labels:
+                grading_record = self._grading_record(
+                    row["question_id"],
+                    row["answer_id"],
+                )
+                if grading_record:
+                    for name in (
+                        "model_avg_score",
+                        "selected_baseline_score",
+                        "three_way_core_score",
+                        "final_calibrated_score",
+                        "std_dev",
+                    ):
+                        number = optional_number(grading_record.get(name))
+                        if row.get(name) is None and number is not None:
+                            row[name] = number
+                    if not row.get("route"):
+                        row["route"] = str(
+                            grading_record.get("3wd_route") or ""
+                        )
+                    if not row.get("extraction_quality"):
+                        row["extraction_quality"] = str(
+                            grading_record.get("extraction_quality") or ""
+                        )
+                    risk_features = grading_record.get("risk_features")
+                    if isinstance(risk_features, dict):
+                        for name in ("U_E", "U_S", "U_R"):
+                            number = optional_number(risk_features.get(name))
+                            if row.get(name) is None and number is not None:
+                                row[name] = number
+                if row.get("reference_score") is None:
+                    reference_score = optional_number(
+                        row.get("model_avg_score")
+                    )
+                    teacher_score = optional_number(row.get("teacher_score"))
+                    if reference_score is not None:
+                        row["reference_score_key"] = "model_avg_score"
+                        row["reference_score"] = reference_score
+                    if (
+                        teacher_score is not None
+                        and reference_score is not None
+                    ):
+                        difference = teacher_score - reference_score
+                        row["teacher_minus_reference"] = difference
+                        row["absolute_difference"] = abs(difference)
             screen = self.screening.get(key) or {}
             row["initial_class"] = str(
                 screen.get("initial_class") or ""
@@ -531,6 +685,9 @@ class TeacherLabelReviewStore:
             if resolved not in paths:
                 paths.append(resolved)
 
+        for path in self.report_checkpoint_paths.get(question_id, []):
+            add(path)
+
         if self.grading_source_dir:
             add(
                 self.grading_source_dir
@@ -563,6 +720,20 @@ class TeacherLabelReviewStore:
                     / "grading_checkpoint.json"
                 )
         return paths
+
+    def _grading_record(
+        self,
+        question_id: str,
+        answer_id: str,
+    ) -> dict[str, Any] | None:
+        for path in self._grading_checkpoint_paths(question_id):
+            try:
+                record = self._load_checkpoint_records(path).get(answer_id)
+            except (OSError, ValueError, json.JSONDecodeError):
+                continue
+            if record is not None:
+                return record
+        return None
 
     def _load_checkpoint_records(
         self,
@@ -918,6 +1089,7 @@ class TeacherLabelReviewStore:
                 "policy_path": str(policy_path),
                 "policy_active": policy_path.is_file(),
                 "screening_only": self.screening_only,
+                "include_all_labels": self.include_all_labels,
                 "allowed_decisions": sorted(ALLOWED_DECISIONS),
                 "counts": {
                     "total": len(self.candidates),
@@ -1145,21 +1317,31 @@ def find_report_dir(
     reports_root = prepared_dir / "quality_control" / "reports"
     if report_run:
         return (reports_root / report_run).resolve()
-    candidates = sorted(
+    candidates = [
+        path
+        for path in reports_root.iterdir()
+        if path.is_dir()
+        and any(path.rglob("teacher_label_candidates.csv"))
+    ]
+    full_audits = [
+        path
+        for path in candidates
+        if path.name.startswith("teacher_label_audit_all43_")
+    ]
+    preferred = full_audits or candidates
+    preferred = sorted(
         (
             path
-            for path in reports_root.iterdir()
-            if path.is_dir()
-            and any(path.rglob("teacher_label_candidates.csv"))
+            for path in preferred
         ),
         key=lambda path: path.stat().st_mtime,
         reverse=True,
     )
-    if not candidates:
+    if not preferred:
         raise FileNotFoundError(
             f"No candidate report directories found under {reports_root}"
         )
-    return candidates[0]
+    return preferred[0]
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -1173,7 +1355,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--report-run",
-        help="Report directory name under quality_control/reports.",
+        help=(
+            "Report directory name under quality_control/reports. When "
+            "omitted, the newest full 43-question teacher-label audit is "
+            "preferred over narrower diagnostic reports."
+        ),
     )
     parser.add_argument(
         "--report-dir",
@@ -1196,6 +1382,15 @@ def build_parser() -> argparse.ArgumentParser:
         help=(
             "Include every generated candidate even when a preliminary "
             "screening CSV exists."
+        ),
+    )
+    parser.add_argument(
+        "--all-labels",
+        action="store_true",
+        help=(
+            "Review every teacher-labelled answer. Automatically screened "
+            "P1/P2 candidates keep their evidence; remaining labels are "
+            "added as P3 routine-review records."
         ),
     )
     parser.add_argument(
@@ -1224,6 +1419,12 @@ def main() -> int:
         args.report_run,
         args.report_dir,
     )
+    default_full_audit = bool(
+        not args.report_run
+        and not args.report_dir
+        and report_dir.name.startswith("teacher_label_audit_all43_")
+    )
+    include_all_labels = bool(args.all_labels or default_full_audit)
     run_id = report_dir.name
     reviews_dir = prepared_dir / "quality_control" / "reviews"
     decisions_path = (
@@ -1242,8 +1443,13 @@ def main() -> int:
         report_dir=report_dir,
         decisions_path=decisions_path,
         screening_path=screening_path,
-        screening_only=bool(screening_path and not args.all_candidates),
+        screening_only=bool(
+            screening_path
+            and not args.all_candidates
+            and not include_all_labels
+        ),
         grading_source_dir=args.grading_source_dir,
+        include_all_labels=include_all_labels,
     )
     server = ReviewServer((args.host, args.port), store)
     host, port = server.server_address[:2]
@@ -1253,6 +1459,7 @@ def main() -> int:
     print("=" * 68)
     print("RefGrader teacher-label review UI")
     print(f"Candidates: {state['counts']['total']}")
+    print(f"All labels: {state['include_all_labels']}")
     print(f"Reviewed:   {state['counts']['reviewed']}")
     print(f"Pending:    {state['counts']['pending']}")
     print(f"Decisions:  {state['decisions_path']}")

@@ -962,7 +962,10 @@
     async function load() {
       try {
         app.state = await request("/api/state");
-        $("subtitle").textContent = `${app.state.report_run} · ${app.state.screening_only ? "人工初筛候选" : "全部自动候选"} · 原始数据只读${app.state.policy_active ? " · 当前已有活动策略" : ""}`;
+        const scope = app.state.include_all_labels
+          ? "全部教师标签（P1/P2候选 + P3常规核查）"
+          : (app.state.screening_only ? "人工初筛候选" : "全部自动候选");
+        $("subtitle").textContent = `${app.state.report_run} · ${scope} · 原始数据只读${app.state.policy_active ? " · 当前已有活动策略" : ""}`;
         $("decisionPath").textContent = `决定文件：${app.state.decisions_path}`;
         populateFilters();
         updateProgress();

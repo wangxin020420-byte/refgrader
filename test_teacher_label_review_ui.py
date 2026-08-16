@@ -5,7 +5,10 @@ import unittest
 from pathlib import Path
 
 from sample_quality import default_policy_path
-from scripts.review_teacher_labels import TeacherLabelReviewStore
+from scripts.review_teacher_labels import (
+    TeacherLabelReviewStore,
+    find_report_dir,
+)
 
 
 class TeacherLabelReviewStoreTests(unittest.TestCase):
@@ -395,6 +398,70 @@ class TeacherLabelReviewStoreTests(unittest.TestCase):
         candidate["student_image"] = str(self.root / "outside.jpg")
         (self.root / "outside.jpg").write_bytes(b"x")
         self.assertIsNone(store.resolve_image_path(candidate))
+
+    def test_default_report_prefers_latest_full_43_question_audit(self):
+        reports = self.prepared / "quality_control" / "reports"
+        full_audit = reports / "teacher_label_audit_all43_20260727_160210"
+        specialist = reports / "newer_unsafe_pos_review"
+        for report in (full_audit, specialist):
+            candidate_file = report / "teacher_label_candidates.csv"
+            candidate_file.parent.mkdir(parents=True, exist_ok=True)
+            candidate_file.write_text(
+                "question_id,answer_id\nCO_1,A\n",
+                encoding="utf-8",
+            )
+        selected = find_report_dir(self.prepared, None, None)
+
+        self.assertEqual(selected, full_audit.resolve())
+
+    def test_explicit_report_run_can_select_specialist_batch(self):
+        reports = self.prepared / "quality_control" / "reports"
+        specialist = reports / "unsafe_pos_review"
+        specialist.mkdir(parents=True, exist_ok=True)
+
+        selected = find_report_dir(
+            self.prepared,
+            specialist.name,
+            None,
+        )
+
+        self.assertEqual(selected, specialist.resolve())
+
+    def test_all_labels_adds_unscreened_answers_as_p3(self):
+        metadata_path = self.prepared / "answer_metadata.jsonl"
+        with metadata_path.open("a", encoding="utf-8") as handle:
+            handle.write(
+                json.dumps(
+                    {
+                        "answer_id": "B",
+                        "question_id": "CO_1",
+                        "raw_text": "partial",
+                    }
+                )
+                + "\n"
+            )
+        scores_path = self.prepared / "teacher_scores.json"
+        scores = json.loads(scores_path.read_text(encoding="utf-8"))
+        scores["B"] = {"CO_1": 4.0}
+        scores_path.write_text(json.dumps(scores), encoding="utf-8")
+
+        store = TeacherLabelReviewStore(
+            prepared_dir=self.prepared,
+            report_dir=self.report,
+            decisions_path=self.decisions,
+            grading_source_dir=self.grading_source,
+            include_all_labels=True,
+        )
+
+        self.assertEqual(len(store.candidates), 2)
+        routine = store.candidate_map[("CO_1", "B")]
+        self.assertEqual(routine["review_priority"], "P3")
+        self.assertEqual(routine["teacher_score"], 4.0)
+        self.assertEqual(
+            routine["candidate_types"],
+            ["not_flagged_by_automatic_screening"],
+        )
+        self.assertTrue(store.state()["include_all_labels"])
 
 
 if __name__ == "__main__":

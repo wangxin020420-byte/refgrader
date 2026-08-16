@@ -17,9 +17,12 @@ CSBench 实验统一使用 `scripts/run_csbench.py`。更换题目时只需要�
 生成候选后，推荐使用本地审核界面完成人工复核：
 
 ```powershell
-.\venv\Scripts\python.exe scripts\review_teacher_labels.py `
-  --report-run <教师标签候选报告目录名>
+.\venv\Scripts\python.exe scripts\review_teacher_labels.py
 ```
+
+无参数启动优先加载最新的全 43 题教师标签审计报告，并把未触发初筛的标签作为
+P3 加入，形成全部 3326 条教师标签审核队列。仅审核某个专项批次时，再增加
+`--report-run <教师标签候选报告目录名>`；显式指定全量报告时同时增加 `--all-labels`。
 
 界面操作和新手说明见 `TEACHER_LABEL_REVIEW_GUIDE.md`。
 

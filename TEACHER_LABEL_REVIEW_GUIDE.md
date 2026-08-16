@@ -43,11 +43,23 @@ data/csbench/student_images/<题号>/<答案ID>.<扩展名>
 cd "C:\Users\wx\Desktop\refgrader-main"
 ```
 
-使用指定报告启动，例如当前 43 题审计报告：
+审核全部教师标签时，直接启动即可。程序会优先选择最新的
+`teacher_label_audit_all43_*` 全 43 题报告，并合并模型均分和 3WD-Core 两套候选，
+按 `question_id + answer_id` 去重。未触发自动初筛的标签也会作为 P3 常规核查样本加入：
+
+```powershell
+.\venv\Scripts\python.exe scripts\review_teacher_labels.py
+```
+
+当前全量报告应显示 `Candidates: 3326` 和 `All labels: True`，其中 P1 为
+288 条、P2 为 738 条、P3 为 2300 条。任何样本都不会在未经人工决定的情况下自动排除。
+
+也可以显式指定当前 43 题审计报告：
 
 ```powershell
 .\venv\Scripts\python.exe scripts\review_teacher_labels.py `
-  --report-run teacher_label_audit_all43_20260727_160210
+  --report-run teacher_label_audit_all43_20260727_160210 `
+  --all-labels
 ```
 
 程序会自动打开浏览器，默认地址为：
@@ -57,6 +69,30 @@ http://127.0.0.1:8765
 ```
 
 即使当前终端显示 `(.venv-ocr)`，上述命令也会显式使用主环境 `venv`，不受当前激活环境影响。
+
+### 3.1 仅诊断三支路由时启动 33 条 unsafe POS 专项批次
+
+当前审核批次为：
+
+```text
+evidence_verifier_v2_train31_20260812_212808_unsafe_pos_review
+```
+
+审核服务停止后，重新打开 PowerShell，完整执行以下命令即可恢复审核：
+
+```powershell
+cd "C:\Users\wx\Desktop\refgrader-main"
+
+.\venv\Scripts\python.exe scripts\review_teacher_labels.py `
+  --report-run evidence_verifier_v2_train31_20260812_212808_unsafe_pos_review
+```
+
+启动成功后，终端应显示 `Candidates: 33`，浏览器会自动打开
+`http://127.0.0.1:8765`。审核期间需要保持该 PowerShell 窗口运行；关闭窗口或按
+`Ctrl+C` 会停止审核服务，但已经保存的决定不会丢失。再次执行同一命令即可继续。
+
+如果页面显示“候选报告加载失败”或 `fetch` 失败，先确认启动命令所在终端仍在运行，
+然后在浏览器按 `Ctrl+F5`；服务已经停止时，不要只刷新旧页面，应重新执行上述命令。
 
 如果存在同名的 `_initial_screening.csv`，界面默认只加载已经完成初筛的候选，避免把全部自动候选一次性推给人工。需要检查全部自动候选时，显式增加：
 
@@ -74,7 +110,7 @@ http://127.0.0.1:8765
   --port 8766
 ```
 
-不指定 `--report-run` 时，程序会选择最近修改且包含候选 CSV 的报告目录。正式审核建议始终显式填写批次，避免误用其他实验的候选。
+不指定 `--report-run` 时，程序优先选择最新的全 43 题教师标签审计报告；只有不存在全量报告时，才回退到最近修改且包含候选 CSV 的报告。专项诊断仍应显式填写批次名。
 
 ## 4. 界面区域
 

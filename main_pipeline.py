@@ -2120,13 +2120,19 @@ def process_single_question(
         futures = {executor.submit(process_one_student, f): f for f in image_files}
         logging.info(f"⏳ [主线程] 已提交 {len(futures)} 个任务，等待结果回收...")
 
+        pending_cancelled = False
         for future in concurrent.futures.as_completed(futures):
-            # 优雅关闭检查
-            if _shutdown_requested:
+            if _shutdown_requested and not pending_cancelled:
                 logging.warning("🛑 收到终止信号，取消剩余任务...")
                 for f in futures:
-                    f.cancel()
-                break
+                    if f is not future:
+                        f.cancel()
+                pending_cancelled = True
+
+            # 已取消的任务从未启动；已经完成或正在执行的任务仍须回收并
+            # 写入 checkpoint，避免断点续传时重复消耗模型调用。
+            if future.cancelled():
+                continue
 
             try:
                 result = future.result()

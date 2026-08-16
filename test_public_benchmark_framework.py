@@ -371,6 +371,46 @@ class PublicBenchmarkFrameworkTests(unittest.TestCase):
             self.assertIn("--answer-split", command)
             self.assertIn("test", command)
 
+    def test_public_runner_records_keyboard_interrupt_as_resumable(self):
+        with mock.patch.object(
+            run_benchmark.subprocess,
+            "run",
+            side_effect=KeyboardInterrupt,
+        ):
+            self.assertEqual(
+                run_benchmark._run([sys.executable, "ignored.py"]),
+                130,
+            )
+
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            prepared = self.prepare_fixture(temporary_root)
+            context = run_benchmark._prepared_context(prepared)
+            result_root = temporary_root / "results"
+            with (
+                mock.patch.object(
+                    run_benchmark,
+                    "_result_root",
+                    return_value=result_root,
+                ),
+                mock.patch.object(run_benchmark, "_run", return_value=130),
+            ):
+                code = run_benchmark.grade(
+                    context,
+                    questions=["ASAP_SAS_1"],
+                    split="external_holdout",
+                    run_id="interrupted",
+                    force=False,
+                    a3wa_config=None,
+                    dry_run=False,
+                    evaluate_after=True,
+                )
+            self.assertEqual(code, 130)
+            manifest = load_json(
+                result_root / "runs" / "interrupted" / "run_manifest.json"
+            )
+            self.assertEqual(manifest["status"], "interrupted")
+
     def test_external_holdout_maps_train_partition_and_records_provenance(self):
         with tempfile.TemporaryDirectory() as temporary:
             temporary_root = Path(temporary)

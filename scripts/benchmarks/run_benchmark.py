@@ -68,11 +68,18 @@ def _run(
         runtime_env.update(env)
     runtime_env["PYTHONIOENCODING"] = "utf-8"
     runtime_env["PYTHONUTF8"] = "1"
-    return subprocess.run(
-        command,
-        cwd=PROJECT_ROOT,
-        env=runtime_env,
-    ).returncode
+    try:
+        return subprocess.run(
+            command,
+            cwd=PROJECT_ROOT,
+            env=runtime_env,
+        ).returncode
+    except KeyboardInterrupt:
+        print(
+            "Benchmark interrupted; completed checkpoints remain resumable.",
+            file=sys.stderr,
+        )
+        return 130
 
 
 def _prepared_context(prepared_dir: str | Path) -> dict[str, Any]:
@@ -382,6 +389,7 @@ def grade(
     )
     code = _run(command, env=env, dry_run=dry_run)
     if code != 0 or dry_run:
+        failure_status = "interrupted" if code == 130 else "failed"
         _write_run_manifest(
             run_dir,
             context=context,
@@ -391,7 +399,7 @@ def grade(
             a3wa_config=(
                 str(archived_a3wa_config) if archived_a3wa_config else None
             ),
-            status="dry_run" if dry_run else "failed",
+            status="dry_run" if dry_run else failure_status,
             command=command,
         )
         return code

@@ -91,6 +91,61 @@ The official archive is expected to prepare 81 included questions and 2,273
 student responses. Treat any different count as a source or parser mismatch
 and stop before running an experiment.
 
+### Mohler ACL 2011 comparison protocol
+
+The paper evaluates ten assignments and two examinations with 12-fold
+cross-validation. In each fold, one complete source unit is the test fold, one
+of the remaining units is held out for isotonic calibration, and the other ten
+units are used for model training. The project records this grouping separately
+from its original fixed calibration/validation/test split.
+
+The distributed archive contains 81 included questions, whereas the ACL 2011
+paper reports 80. The protocol therefore labels the complete archive run as an
+81-question reproduction and does not authorize an exact paper comparison.
+Do not remove a question merely to make the counts match; an exclusion requires
+source-backed documentation.
+
+Audit the source-unit protocol and reproduce local reference baselines:
+
+```powershell
+.\venv\Scripts\python.exe scripts\benchmarks\run_mohler_acl2011.py `
+  --prepared-dir "data\public_benchmarks\mohler_v1" `
+  audit `
+  --output "results_runs\public_benchmarks\mohler_v1\protocols\mohler_acl2011_archive81_v1\protocol.json"
+
+.\venv\Scripts\python.exe scripts\benchmarks\run_mohler_acl2011.py `
+  --prepared-dir "data\public_benchmarks\mohler_v1" `
+  baseline `
+  --output-dir "results_runs\public_benchmarks\mohler_v1\baselines\mohler_acl2011_archive81_v1"
+```
+
+For the primary cross-domain experiment, keep RefGrader's A3WA configuration
+fixed from the private CSBench calibration data and test every Mohler source
+unit exactly once. This is a zero-shot external evaluation; it is not the same
+supervision setting as the paper's trained SVM system.
+
+```powershell
+$Tag = "mohler_acl2011_zero_shot_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
+
+.\venv\Scripts\python.exe scripts\benchmarks\run_mohler_acl2011.py `
+  --prepared-dir "data\public_benchmarks\mohler_v1" `
+  refgrader `
+  --tag $Tag `
+  --variant zero_shot `
+  --a3wa-config "data\csbench\calibration\active_a3wa_config.json" `
+  --allow-experimental-a3wa `
+  --artifacts-repo "..\refgrader-artifacts"
+
+.\venv\Scripts\python.exe scripts\benchmarks\run_mohler_acl2011.py `
+  --prepared-dir "data\public_benchmarks\mohler_v1" `
+  summarize `
+  --tag $Tag `
+  --output-dir "results_runs\public_benchmarks\mohler_v1\analyses\$Tag"
+```
+
+Reusing the same tag resumes the same 12 folds. A completed test fold and an
+existing fold-calibration file are skipped unless `--force` is supplied.
+
 ## Audit and dry run
 
 ```powershell

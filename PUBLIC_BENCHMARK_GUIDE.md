@@ -146,6 +146,27 @@ $Tag = "mohler_acl2011_zero_shot_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
 Reusing the same tag resumes the same 12 folds. A completed test fold and an
 existing fold-calibration file are skipped unless `--force` is supplied.
 
+Analyze a completed 12-fold prediction file without rerunning model calls:
+
+```powershell
+.\venv\Scripts\python.exe scripts\benchmarks\analyze_mohler_acl2011.py `
+  --predictions "..\refgrader-artifacts\public_benchmarks\mohler_v1\comparison_analyses\mohler_acl2011_zero_shot_private_a3wa_v1\predictions.csv" `
+  --protocol "..\refgrader-artifacts\public_benchmarks\mohler_v1\comparison_analyses\mohler_acl2011_zero_shot_private_a3wa_v1\protocol.json" `
+  --baseline-summary "results_runs\public_benchmarks\mohler_v1\baselines\mohler_acl2011_archive81_v1\summary.json" `
+  --output-dir "results_runs\public_benchmarks\mohler_v1\analyses\mohler_acl2011_zero_shot_private_a3wa_v1_statistical" `
+  --bootstrap-iterations 10000 `
+  --seed 2011 `
+  --deployment-class experimental_external_validation
+```
+
+The analysis reports paired question-cluster bootstrap intervals, QWK for each
+question, a sample-weighted per-question QWK on the common set where every
+method has a defined QWK, and the paper-comparison boundary.
+Mohler scores are clipped to 0-5 and rounded to the nearest 0.5 before QWK is
+computed on the fixed 0-10 ordinal scale. This analysis does not authorize a
+direct paper claim when the archive question count or supervision setting does
+not match the ACL 2011 experiment.
+
 ## Audit and dry run
 
 ```powershell

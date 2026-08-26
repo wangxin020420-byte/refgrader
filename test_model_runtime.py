@@ -6,6 +6,8 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from model_runtime import (
+    DEEPSEEK_BASE_URL_ENV,
+    DEEPSEEK_MODEL_ENV,
     DEFAULT_TEXT_MODEL_PROVIDER,
     DEFAULT_TEXT_THINKING_MODE,
     get_model_runtime_config,
@@ -50,6 +52,19 @@ class ModelRuntimeTests(unittest.TestCase):
     def test_invalid_provider_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "Unsupported text model"):
             runtime_model_config(text_provider="unknown")
+
+    def test_deepseek_endpoint_and_model_can_be_frozen_by_environment(self):
+        with patch.dict(
+            os.environ,
+            {
+                DEEPSEEK_MODEL_ENV: "deepseek-chat",
+                DEEPSEEK_BASE_URL_ENV: "https://example.invalid/v1",
+            },
+            clear=True,
+        ):
+            config = runtime_model_config(text_provider="deepseek")
+        self.assertEqual(config["text_model"], "deepseek-chat")
+        self.assertEqual(config["text_base_url"], "https://example.invalid/v1")
 
     def test_run_signature_changes_with_model_contract(self):
         with tempfile.TemporaryDirectory() as temporary:

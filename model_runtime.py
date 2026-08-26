@@ -30,6 +30,9 @@ DEFAULT_VLM_MODEL_PROVIDER = "glm4v"
 TEXT_PROVIDER_ENV = "REFGRADER_TEXT_MODEL_PROVIDER"
 TEXT_THINKING_ENV = "REFGRADER_TEXT_THINKING"
 VLM_PROVIDER_ENV = "REFGRADER_VLM_MODEL_PROVIDER"
+DEEPSEEK_MODEL_ENV = "REFGRADER_DEEPSEEK_MODEL"
+DEEPSEEK_BASE_URL_ENV = "REFGRADER_DEEPSEEK_BASE_URL"
+DEFAULT_DEEPSEEK_BASE_URL = "https://gpt-agent.cc/v1"
 
 
 def _choice(value: str, choices: dict[str, Any] | set[str], label: str) -> str:
@@ -74,14 +77,24 @@ def runtime_model_config(
     thinking_mode = resolve_thinking_mode(thinking_mode)
     vlm_provider = resolve_vlm_provider(vlm_provider)
     text_profile = TEXT_MODEL_PROFILES[text_provider]
-    return {
+    text_model = text_profile["model"]
+    config = {
         "text_provider": text_provider,
-        "text_model": text_profile["model"],
+        "text_model": text_model,
         "text_family": text_profile["family"],
         "text_thinking": thinking_mode,
         "vlm_provider": vlm_provider,
         "vlm_model": VLM_MODEL_PROFILES[vlm_provider],
     }
+    if text_profile["family"] == "deepseek":
+        config["text_model"] = (
+            os.getenv(DEEPSEEK_MODEL_ENV, text_model).strip() or text_model
+        )
+        config["text_base_url"] = (
+            os.getenv(DEEPSEEK_BASE_URL_ENV, DEFAULT_DEEPSEEK_BASE_URL).strip()
+            or DEFAULT_DEEPSEEK_BASE_URL
+        )
+    return config
 
 
 def get_model_runtime_config(
@@ -99,11 +112,15 @@ def get_model_runtime_config(
 
 
 def model_environment(config: dict[str, str]) -> dict[str, str]:
-    return {
+    environment = {
         TEXT_PROVIDER_ENV: config["text_provider"],
         TEXT_THINKING_ENV: config["text_thinking"],
         VLM_PROVIDER_ENV: config["vlm_provider"],
     }
+    if config.get("text_family") == "deepseek":
+        environment[DEEPSEEK_MODEL_ENV] = config["text_model"]
+        environment[DEEPSEEK_BASE_URL_ENV] = config["text_base_url"]
+    return environment
 
 
 def thinking_extra_body(mode: str | None = None) -> dict[str, dict[str, str]]:

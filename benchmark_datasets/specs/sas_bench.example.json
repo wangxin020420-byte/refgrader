@@ -1,0 +1,13 @@
+{
+  "dataset_id": "sas_bench_v1",
+  "protocol": "external_test_only_no_public_label_tuning",
+  "score_policy": "official_manual_label_with_invalid_range_exclusion",
+  "rubric_policy": "label_blind_question_reference_analysis_baseline",
+  "expected_counts": {
+    "task_files": 12,
+    "source_records": 4109,
+    "source_question_contexts": 1113,
+    "formal_test_records": 4093,
+    "excluded_records": 16
+  }
+}

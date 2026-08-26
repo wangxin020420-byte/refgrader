@@ -8,6 +8,7 @@ import tempfile
 import hashlib
 import concurrent.futures
 import time
+import threading
 import numpy as np
 from datetime import datetime
 from pathlib import Path
@@ -141,6 +142,7 @@ class ProgressTracker:
 
     def __init__(self, progress_path, run_id, mode, model_info, cli_args):
         self.progress_path = progress_path
+        self._lock = threading.RLock()
         self.state = {
             "experiment": {
                 "run_id": run_id,
@@ -162,105 +164,124 @@ class ProgressTracker:
 
     def register_question(self, q_id, total_students):
         """开始处理某题前调用"""
-        self.state["questions"][q_id] = {
-            "total_students": total_students,
-            "completed": 0,
-            "failed": 0,
-            "remaining": total_students,
-            "started_at": datetime.now().isoformat(),
-            "last_student_at": None,
-            "eta_seconds": None,
-            "avg_seconds_per_student": None,
-            "route_distribution": {},
-            "current_errors": [],
-            "recent_completions": [],
-            "_completion_times": [],  # 内部计时，不写入 JSON
-        }
-        self._flush()
+        with self._lock:
+            self.state["questions"][q_id] = {
+                "total_students": total_students,
+                "completed": 0,
+                "failed": 0,
+                "remaining": total_students,
+                "started_at": datetime.now().isoformat(),
+                "last_student_at": None,
+                "eta_seconds": None,
+                "avg_seconds_per_student": None,
+                "route_distribution": {},
+                "current_errors": [],
+                "recent_completions": [],
+                "_completion_times": [],  # 内部计时，不写入 JSON
+            }
+            self._flush()
 
     def record_completion(self, q_id, student_id, result, duration_seconds):
         """每个学生成功完成后调用"""
-        q_state = self.state["questions"][q_id]
-        q_state["completed"] += 1
-        q_state["remaining"] -= 1
-        q_state["last_student_at"] = datetime.now().isoformat()
+        with self._lock:
+            q_state = self.state["questions"][q_id]
+            q_state["completed"] += 1
+            q_state["remaining"] -= 1
+            q_state["last_student_at"] = datetime.now().isoformat()
 
-        route = result.get("3wd_route", "UNKNOWN")
-        q_state["route_distribution"][route] = q_state["route_distribution"].get(route, 0) + 1
+            route = result.get("3wd_route", "UNKNOWN")
+            q_state["route_distribution"][route] = q_state["route_distribution"].get(route, 0) + 1
 
-        # 计时与 ETA
-        q_state["_completion_times"].append(duration_seconds)
-        if len(q_state["_completion_times"]) >= 2:
-            avg = sum(q_state["_completion_times"]) / len(q_state["_completion_times"])
-            q_state["avg_seconds_per_student"] = round(avg, 1)
-            q_state["eta_seconds"] = round(q_state["remaining"] * avg)
+            # 计时与 ETA
+            q_state["_completion_times"].append(duration_seconds)
+            if len(q_state["_completion_times"]) >= 2:
+                avg = sum(q_state["_completion_times"]) / len(q_state["_completion_times"])
+                q_state["avg_seconds_per_student"] = round(avg, 1)
+                q_state["eta_seconds"] = round(q_state["remaining"] * avg)
 
-        # 最近完成（保留最后 5 条）
-        entry = {
-            "student_id": student_id,
-            "route": route,
-            "final_score": result.get("final_calibrated_score"),
-            "teacher_score": result.get("teacher_score"),
-            "completed_at": datetime.now().isoformat(),
-            "duration_seconds": round(duration_seconds, 1),
-        }
-        q_state["recent_completions"] = (q_state["recent_completions"] + [entry])[-5:]
+            # 最近完成（保留最后 5 条）
+            entry = {
+                "student_id": student_id,
+                "route": route,
+                "final_score": result.get("final_calibrated_score"),
+                "completed_at": datetime.now().isoformat(),
+                "duration_seconds": round(duration_seconds, 1),
+            }
+            q_state["recent_completions"] = (q_state["recent_completions"] + [entry])[-5:]
 
-        self.state["experiment"]["last_updated"] = datetime.now().isoformat()
-        self._flush()
+            self.state["experiment"]["last_updated"] = datetime.now().isoformat()
+            self._flush()
 
     def record_error(self, q_id, student_id, error_msg):
         """学生批改失败后调用"""
-        q_state = self.state["questions"][q_id]
-        q_state["failed"] += 1
-        q_state["remaining"] -= 1
-        q_state["last_student_at"] = datetime.now().isoformat()
-        error_entry = {
-            "student_id": student_id,
-            "error": str(error_msg)[:200],
-            "at": datetime.now().isoformat(),
-        }
-        q_state["current_errors"] = (q_state["current_errors"] + [error_entry])[-3:]
-        self.state["experiment"]["last_updated"] = datetime.now().isoformat()
-        self._flush()
+        with self._lock:
+            q_state = self.state["questions"][q_id]
+            q_state["failed"] += 1
+            q_state["remaining"] -= 1
+            q_state["last_student_at"] = datetime.now().isoformat()
+            error_entry = {
+                "student_id": student_id,
+                "error": str(error_msg)[:200],
+                "at": datetime.now().isoformat(),
+            }
+            q_state["current_errors"] = (q_state["current_errors"] + [error_entry])[-3:]
+            self.state["experiment"]["last_updated"] = datetime.now().isoformat()
+            self._flush()
 
     def mark_question_done(self, q_id):
         """某题全部处理完后调用"""
-        q_state = self.state["questions"][q_id]
-        if q_state["remaining"] <= 0:
-            q_state["eta_seconds"] = 0
-        self._flush()
+        with self._lock:
+            q_state = self.state["questions"][q_id]
+            if q_state["remaining"] <= 0:
+                q_state["eta_seconds"] = 0
+            self._flush()
 
     def mark_finished(self, status="completed"):
         """整个运行结束时调用"""
-        self.state["experiment"]["status"] = status
-        self.state["experiment"]["last_updated"] = datetime.now().isoformat()
-        self._flush()
+        with self._lock:
+            self.state["experiment"]["status"] = status
+            self.state["experiment"]["last_updated"] = datetime.now().isoformat()
+            self._flush()
 
     def _flush(self):
         """原子写入：写临时文件 → rename"""
-        output = {
-            "experiment": self.state["experiment"],
-            "questions": {},
-        }
-        for q_id, q_data in self.state["questions"].items():
-            q_out = {k: v for k, v in q_data.items() if not k.startswith("_")}
-            output["questions"][q_id] = q_out
+        with self._lock:
+            output = {
+                "experiment": self.state["experiment"],
+                "questions": {},
+            }
+            for q_id, q_data in self.state["questions"].items():
+                q_out = {k: v for k, v in q_data.items() if not k.startswith("_")}
+                output["questions"][q_id] = q_out
 
-        dir_name = os.path.dirname(self.progress_path)
-        if dir_name:
-            os.makedirs(dir_name, exist_ok=True)
-        tmp_fd, tmp_path = tempfile.mkstemp(dir=dir_name or ".", suffix=".tmp")
-        try:
-            with os.fdopen(tmp_fd, "w", encoding="utf-8") as f:
-                json.dump(output, f, indent=2, ensure_ascii=False)
-            os.replace(tmp_path, self.progress_path)
-        except Exception:
-            try:
-                os.unlink(tmp_path)
-            except OSError:
-                pass
-            raise
+            dir_name = os.path.dirname(self.progress_path)
+            if dir_name:
+                os.makedirs(dir_name, exist_ok=True)
+            for attempt in range(4):
+                tmp_fd, tmp_path = tempfile.mkstemp(dir=dir_name or ".", suffix=".tmp")
+                try:
+                    with os.fdopen(tmp_fd, "w", encoding="utf-8") as f:
+                        json.dump(output, f, indent=2, ensure_ascii=False)
+                    os.replace(tmp_path, self.progress_path)
+                    return True
+                except PermissionError as exc:
+                    try:
+                        os.unlink(tmp_path)
+                    except OSError:
+                        pass
+                    if attempt == 3:
+                        logging.warning(
+                            "Progress file update skipped after Windows sharing violations: %s",
+                            exc,
+                        )
+                        return False
+                    time.sleep(0.05 * (attempt + 1))
+                except Exception:
+                    try:
+                        os.unlink(tmp_path)
+                    except OSError:
+                        pass
+                    raise
 
 
 # ============================================================
@@ -2043,7 +2064,6 @@ def process_single_question(
         file_base_name = os.path.splitext(img_file)[0]
         student_id = file_base_name
         img_path = os.path.join(images_folder, img_file)
-        real_teacher_score = get_teacher_score_from_your_database(student_id, q_id)
         metadata = answer_metadata_for(student_id)
         _start_time = time.time()
 
@@ -2055,7 +2075,6 @@ def process_single_question(
                     student_img_path=img_path,
                     question_text=q_text,
                     rubrics_json=json.dumps(dynamic_rubrics, ensure_ascii=False),
-                    teacher_score=real_teacher_score,
                     q_img_path=q_img,
                     blind_checklist=cached_blind_checklist,
                     extraction_backend=extraction_backend,
@@ -2365,7 +2384,7 @@ if __name__ == "__main__":
         "extraction_backend": args.extraction_backend,
         "ocr_cache_dir": args.ocr_cache_dir,
         "database_path": DATABASE_PATH,
-        "teacher_db": TEACHER_DB_PATH,
+        "teacher_db": TEACHER_DB_PATH if args.mode == "VARIANCE_OPT" else None,
         "answer_metadata": ANSWER_METADATA_PATH,
         "answer_split": args.answer_split,
         "sample_quality_policy": policy_descriptor,
@@ -2574,7 +2593,7 @@ RefGrader 常用命令。下面每条命令都可以整行直接复制到 PowerS
 作用：使用旧视觉提取器运行消融基线。
 
 【CSBench：首次生成兼容视图】
-.\venv\Scripts\python.exe scripts\prepare_csbench.py --dataset-root C:\Users\wx\Desktop\CSBench_new --output-dir data\csbench --link-mode copy --exclude-questions OS_1 OS_2 --force
+.\venv\Scripts\python.exe scripts\prepare_csbench.py --dataset-root C:\Users\wx\Desktop\CSBench_new --output-dir data\csbench --link-mode copy --force
 作用：只读外部 CSBench，在当前项目生成 source/initial/optimized 三层准则、校准/验证/测试划分和独立图片副本。
 
 【CSBench：离线检查兼容数据与路由逻辑】

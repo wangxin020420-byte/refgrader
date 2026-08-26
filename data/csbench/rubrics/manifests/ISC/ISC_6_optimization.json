@@ -25,9 +25,9 @@
   "question_total_score": 6.0,
   "initial_total_score": 6.0,
   "optimized_total_score": 6.0,
-  "average_score_variance": 0.6,
-  "average_item_variance": 0.3,
-  "maximum_item_variance": 2.0,
+  "average_score_variance": 0.11111111111111112,
+  "average_item_variance": 0.05555555555555556,
+  "maximum_item_variance": 0.5,
   "high_value_split_threshold": 4.0,
   "mandatory_split_targets": [],
   "refinement_attempted": true,
@@ -51,24 +51,24 @@
     "severe_regression_margin": 1.2,
     "accepted": true,
     "reason": "accepted_noninferior",
-    "baseline_mae": 1.3,
-    "candidate_mae": 1.3,
-    "mae_delta": 0.0,
-    "improved": 1,
-    "unchanged": 2,
-    "worsened": 2,
+    "baseline_mae": 1.233333,
+    "candidate_mae": 0.85,
+    "mae_delta": -0.383333,
+    "improved": 2,
+    "unchanged": 3,
+    "worsened": 0,
     "severe_regressions": 0,
     "records": [
       {
         "answer_id": "ANS_ISC_122",
-        "baseline_score": 3.5,
-        "candidate_score": 4.5,
+        "baseline_score": 4.333333333333333,
+        "candidate_score": 5.25,
         "teacher_score": 6.0
       },
       {
         "answer_id": "ANS_ISC_135",
-        "baseline_score": 2.0,
-        "candidate_score": 1.5,
+        "baseline_score": 3.0,
+        "candidate_score": 3.0,
         "teacher_score": 6.0
       },
       {
@@ -79,7 +79,7 @@
       },
       {
         "answer_id": "ANS_ISC_150",
-        "baseline_score": 5.0,
+        "baseline_score": 3.5,
         "candidate_score": 4.5,
         "teacher_score": 5.0
       },
@@ -95,11 +95,11 @@
     "additive_split"
   ],
   "source_sha256": "8d216c37b1f41c7e8b62fb4214c4dcc297c69ded3ded5cf7e65ae3a2a027fd26",
-  "initial_sha256": "011a7699313448df38c1ae8825403d5ffe49ae7a9efb2e0d62cef6fd7b4a4f10",
-  "optimized_sha256": "36f60c790fbfcb155e0ef06fc2b11682ade9fb2c35e85ece5ec4b597f2cf1917",
-  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_rubric_opt",
-  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_rubric_opt/ISC_6_variance_checkpoint.json",
-  "variance_checkpoint_sha256": "9903e78b49e12f8f015cd0447e7538ddf6097390ddb9729a5ea57b132ff02df3",
-  "created_at": "2026-07-27T07:30:42",
+  "initial_sha256": "58c7155186ef90368a820e4c229e96ec9b022832736acc4421fb18b0c2407d51",
+  "optimized_sha256": "e61fd92a7ba42af272d18fc71338e37d873672073eff4027aa94d9e779e512d0",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt/ISC_6_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "eddadf6882196c55926d052003413b92b21aa0846d5cdc249a9f7fa9d735ce68",
+  "created_at": "2026-08-22T01:51:42",
   "path_format": "refgrader_placeholders_v1"
 }

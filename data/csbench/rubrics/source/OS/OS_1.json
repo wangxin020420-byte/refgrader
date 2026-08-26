@@ -1,0 +1,33 @@
+{
+  "question_id": "OS_1",
+  "subject": "OS",
+  "subject_name": "操作系统",
+  "max_score": 20.0,
+  "grading_rubric": [
+    {
+      "step_id": 1,
+      "description": "正确分析同步互斥关系并初始化信号量",
+      "standard_answer_text": "semaphore mutex=1, empty=N, full=0;",
+      "score": 5.0
+    },
+    {
+      "step_id": 2,
+      "description": "正确编写其他用户发送邮件的进程",
+      "standard_answer_text": "Sender() {\n    do {\n        wait(empty);\n        wait(mutex);\n        发邮件;\n        signal(mutex);\n        signal(full);\n    } while (TRUE);\n}",
+      "score": 5.0
+    },
+    {
+      "step_id": 3,
+      "description": "正确编写信箱主人读取并自动删除邮件的进程",
+      "standard_answer_text": "Reader() {\n    do {\n        wait(full);\n        wait(mutex);\n        读邮件并自动删除;\n        signal(mutex);\n        signal(empty);\n    } while (TRUE);\n}",
+      "score": 5.0
+    },
+    {
+      "step_id": 4,
+      "description": "进程结构完整且P、V操作顺序正确",
+      "standard_answer_text": "Sender与Reader在循环中并发执行；先等待资源计数信号量，再申请mutex进入临界区，操作完成后先释放mutex，再通知另一类资源。该顺序既保证邮箱互斥访问，又避免在持有mutex时等待empty或full而造成死锁。",
+      "score": 5.0
+    }
+  ],
+  "metadata_source": "csbench"
+}

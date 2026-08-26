@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "prepared_dir": "data/csbench",
-  "question_count": 43,
-  "answer_count": 3326,
-  "student_image_count": 3326,
-  "reference_image_count": 29,
-  "snapshot_sha256": "3875c950b3e52cbbb4ceed40e4e45c0e0abd7857cb2719a75fb62458f5fea8ec"
+  "question_count": 45,
+  "answer_count": 3411,
+  "student_image_count": 3411,
+  "reference_image_count": 31,
+  "snapshot_sha256": "0e6066f96908bf032b6b159c0cccd84a546ca202a29f4243829a1ede4bea8c01"
 }

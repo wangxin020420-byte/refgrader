@@ -1,10 +1,13 @@
+import concurrent.futures
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
 
 from calibration_utils import apply_structured_boundary_action_policy
 from main_pipeline import (
+    ProgressTracker,
     persist_validated_rubric,
     restore_activation_files,
     snapshot_activation_files,
@@ -18,6 +21,62 @@ from scripts.run_csbench import build_parser, grade, validate_a3wa_deployment_ga
 
 
 class ExperimentGateTests(unittest.TestCase):
+    @staticmethod
+    def _progress_tracker(progress_path):
+        return ProgressTracker(
+            str(progress_path),
+            "test_run",
+            "grading",
+            {},
+            {},
+        )
+
+    def test_progress_tracker_retries_windows_sharing_violation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            progress_path = Path(directory) / "progress.json"
+            real_replace = os.replace
+            attempts = []
+
+            def flaky_replace(source, destination):
+                attempts.append((source, destination))
+                if len(attempts) < 3:
+                    raise PermissionError(5, "sharing violation")
+                return real_replace(source, destination)
+
+            with patch("main_pipeline.os.replace", side_effect=flaky_replace):
+                self._progress_tracker(progress_path)
+
+            self.assertEqual(len(attempts), 3)
+            self.assertEqual(
+                json.loads(progress_path.read_text(encoding="utf-8"))["experiment"]["run_id"],
+                "test_run",
+            )
+
+    def test_progress_tracker_serializes_worker_updates(self):
+        with tempfile.TemporaryDirectory() as directory:
+            progress_path = Path(directory) / "progress.json"
+            tracker = self._progress_tracker(progress_path)
+            tracker.register_question("CO_1", 12)
+
+            with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+                futures = [
+                    pool.submit(
+                        tracker.record_completion,
+                        "CO_1",
+                        f"ANS_CO_{index}",
+                        {"3wd_route": "POS", "final_calibrated_score": 8.0},
+                        1.0,
+                    )
+                    for index in range(12)
+                ]
+                for future in futures:
+                    future.result()
+
+            state = json.loads(progress_path.read_text(encoding="utf-8"))
+            self.assertEqual(state["questions"]["CO_1"]["completed"], 12)
+            self.assertEqual(state["questions"]["CO_1"]["remaining"], 0)
+            self.assertEqual(state["questions"]["CO_1"]["route_distribution"], {"POS": 12})
+
     def test_grade_can_require_complete_coverage_for_unattended_retry(self):
         args = build_parser().parse_args([
             "grade",
@@ -43,12 +102,12 @@ class ExperimentGateTests(unittest.TestCase):
     def test_question_split_audit_covers_portable_snapshot(self):
         report = audit(Path("data/csbench"))
         self.assertEqual(report["status"], "passed", report["errors"])
-        self.assertEqual(report["question_count"], 43)
+        self.assertEqual(report["question_count"], 45)
         self.assertEqual(
-            report["outer_question_splits"]["train"]["question_count"], 31
+            report["outer_question_splits"]["train"]["question_count"], 33
         )
-        self.assertEqual(report["answer_count"], 3326)
-        self.assertEqual(report["answer_metadata_count"], 3326)
+        self.assertEqual(report["answer_count"], 3411)
+        self.assertEqual(report["answer_metadata_count"], 3411)
 
     def test_failed_a3wa_gate_is_blocked_unless_explicitly_experimental(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -25,9 +25,9 @@
   "question_total_score": 6.0,
   "initial_total_score": 6.0,
   "optimized_total_score": 6.0,
-  "average_score_variance": 0.7222222222222222,
-  "average_item_variance": 0.7222222222222222,
-  "maximum_item_variance": 2.888888888888889,
+  "average_score_variance": 0.044444444444444446,
+  "average_item_variance": 0.044444444444444446,
+  "maximum_item_variance": 0.22222222222222224,
   "high_value_split_threshold": 4.0,
   "mandatory_split_targets": [
     {
@@ -39,16 +39,18 @@
     }
   ],
   "refinement_attempted": true,
-  "refinement_applied": true,
-  "structural_refinement_applied": true,
+  "refinement_applied": false,
+  "structural_refinement_applied": false,
   "metadata_enriched": false,
   "semantic_policy_validated": true,
-  "semantic_validation_mode": "strict_candidate_contract",
-  "selected_variant": "candidate",
+  "semantic_validation_mode": "calibrated_noninferior_baseline_selected",
+  "selected_variant": "baseline",
   "semantic_validation_errors": [],
-  "fallback_reason": null,
-  "decomposition_deferred": false,
-  "deferred_semantic_errors": [],
+  "fallback_reason": "candidate_noninferiority_rejected:candidate_mae_exceeds_margin",
+  "decomposition_deferred": true,
+  "deferred_semantic_errors": [
+    "additive parent step_1 must contain at least 2 scoring items, got 1"
+  ],
   "candidate_replay": {
     "method": "paired_teacher_score_noninferiority",
     "expected": 5,
@@ -57,14 +59,14 @@
     "coverage": 1.0,
     "mae_margin": 0.12,
     "severe_regression_margin": 1.2,
-    "accepted": true,
-    "reason": "accepted_noninferior",
-    "baseline_mae": 1.9,
-    "candidate_mae": 0.8,
-    "mae_delta": -1.1,
-    "improved": 4,
-    "unchanged": 1,
-    "worsened": 0,
+    "accepted": false,
+    "reason": "candidate_mae_exceeds_margin",
+    "baseline_mae": 0.066667,
+    "candidate_mae": 0.2,
+    "mae_delta": 0.133333,
+    "improved": 0,
+    "unchanged": 4,
+    "worsened": 1,
     "severe_regressions": 0,
     "records": [
       {
@@ -75,26 +77,26 @@
       },
       {
         "answer_id": "ANS_ML_125",
-        "baseline_score": 2.0,
-        "candidate_score": 4.0,
-        "teacher_score": 6.0
-      },
-      {
-        "answer_id": "ANS_ML_127",
-        "baseline_score": 3.6666666666666665,
+        "baseline_score": 5.666666666666667,
         "candidate_score": 5.0,
         "teacher_score": 6.0
       },
       {
+        "answer_id": "ANS_ML_127",
+        "baseline_score": 6.0,
+        "candidate_score": 6.0,
+        "teacher_score": 6.0
+      },
+      {
         "answer_id": "ANS_ML_129",
-        "baseline_score": 4.5,
+        "baseline_score": 6.0,
         "candidate_score": 6.0,
         "teacher_score": 6.0
       },
       {
         "answer_id": "ANS_ML_159",
-        "baseline_score": 4.333333333333333,
-        "candidate_score": 5.0,
+        "baseline_score": 6.0,
+        "candidate_score": 6.0,
         "teacher_score": 6.0
       }
     ]
@@ -103,11 +105,11 @@
     "additive_split"
   ],
   "source_sha256": "0488d0ab591312b5efc524c1b870a01389ffb5209c384ca28eaea7f446253a12",
-  "initial_sha256": "1988df560611f1911045ac921774d59637faac9e51dc3317e280de9960f53105",
-  "optimized_sha256": "b600e53199b2224ca36c09cc1d055ccb081f88aee8ba48c9682dbbd0be609b8c",
-  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_ml1_ml2_ml3_ml4_rubric_opt",
-  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_ml1_ml2_ml3_ml4_rubric_opt/ML_3_variance_checkpoint.json",
-  "variance_checkpoint_sha256": "c639717477f32a76b0da2e5f1b085e6106a4d80dec787a5832e91e5ddac49e91",
-  "created_at": "2026-07-27T10:20:15",
+  "initial_sha256": "8c32f1d33e25d59db0258b5a498703ddb9c4ab296c77eef48e1fe40c731c4f88",
+  "optimized_sha256": "908dd3b2330d9d46f5c7f1dfb7502ce3a6bfd867464ff7491ae260e60350b7ee",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt/ML_3_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "120705fb3d4367a1dc719c513f1bfd147bc66dc498ef8428464895809cfbe032",
+  "created_at": "2026-08-22T02:30:12",
   "path_format": "refgrader_placeholders_v1"
 }

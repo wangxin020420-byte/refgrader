@@ -1,0 +1,108 @@
+[
+    {
+        "id": "step_1_address",
+        "item": "正确解析机器码中的地址字段",
+        "points": 2.0,
+        "answer_type": "base_number",
+        "role": "intermediate",
+        "score_layer": "support",
+        "canonicalization": {
+            "type": "base_number",
+            "implicit_bases": [
+                2,
+                16
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "110111₂（等价于37H）",
+        "standard_answer_image": null,
+        "source_text": "正确解析机器码中的地址字段",
+        "parent_official_item": "正确计算并得出操作数内容",
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "parent_id": "step_1",
+        "semantic_contract_version": 6,
+        "parent_points": 5.0,
+        "scoring_policy": "final_sufficient_partial_credit",
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "preserve_parent",
+        "full_credit_policy": "final_answer_sufficient",
+        "full_credit_anchor": "37H",
+        "full_credit_trigger": false,
+        "fallback_cap": 3.5,
+        "task_semantics": "result_sufficient",
+        "decomposition_required": true,
+        "minimum_scoring_children": 2
+    },
+    {
+        "id": "step_1_effective_address",
+        "item": "正确识别间接寻址并得到有效地址",
+        "points": 1.5,
+        "answer_type": "base_number",
+        "role": "intermediate",
+        "score_layer": "support",
+        "canonicalization": {
+            "type": "base_number",
+            "implicit_bases": [
+                16
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "34H",
+        "standard_answer_image": null,
+        "source_text": "I=1表示间接寻址，地址37H中存放的有效地址为34H",
+        "parent_official_item": "正确计算并得出操作数内容",
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "parent_id": "step_1",
+        "semantic_contract_version": 6,
+        "parent_points": 5.0,
+        "scoring_policy": "final_sufficient_partial_credit",
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "preserve_parent",
+        "full_credit_policy": "final_answer_sufficient",
+        "full_credit_anchor": "37H",
+        "full_credit_trigger": false,
+        "fallback_cap": 3.5,
+        "task_semantics": "result_sufficient",
+        "decomposition_required": true,
+        "minimum_scoring_children": 2
+    },
+    {
+        "id": "step_1_final",
+        "item": "正确得出最终操作数内容",
+        "points": 1.5,
+        "answer_type": "base_number",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "base_number",
+            "implicit_bases": [
+                16
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "37H",
+        "standard_answer_image": null,
+        "source_text": "访问有效地址34H，取出最终操作数内容37H",
+        "parent_official_item": "正确计算并得出操作数内容",
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "parent_id": "step_1",
+        "semantic_contract_version": 6,
+        "parent_points": 5.0,
+        "scoring_policy": "final_sufficient_partial_credit",
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "preserve_parent",
+        "full_credit_policy": "final_answer_sufficient",
+        "full_credit_anchor": "37H",
+        "full_credit_trigger": true,
+        "fallback_cap": 3.5,
+        "task_semantics": "result_sufficient",
+        "decomposition_required": true,
+        "minimum_scoring_children": 2
+    }
+]

@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "rubric_semantic_contract_version": 6,
+  "question_id": "CO_6",
+  "rubric_group": "CO",
+  "source_rubric": "data/csbench/rubrics/source/CO/CO_6.json",
+  "initial_rubric": "data/csbench/rubrics/initial/CO/CO_6_rubric_standard.json",
+  "optimized_rubric": "${PREPARED_CSBENCH_ROOT}/rubrics/optimized/CO/CO_6_rubric_standard.json",
+  "calibration_answer_ids": [
+    "ANS_CO_382",
+    "ANS_CO_383",
+    "ANS_CO_414",
+    "ANS_CO_419",
+    "ANS_CO_424"
+  ],
+  "requested_sample_size": 5,
+  "completed_sample_size": 5,
+  "extraction_backend": "csbench_hybrid",
+  "model_config": {
+    "text_provider": "glm5",
+    "text_model": "glm-5.2",
+    "text_thinking": "disabled",
+    "vlm_model": "glm-4.6v"
+  },
+  "question_total_score": 20.0,
+  "initial_total_score": 20.0,
+  "optimized_total_score": 20.0,
+  "average_score_variance": 3.5666666666666673,
+  "average_item_variance": 0.24629629629629635,
+  "maximum_item_variance": 0.888888888888889,
+  "high_value_split_threshold": 4.0,
+  "mandatory_split_targets": [
+    {
+      "parent_id": "step_1",
+      "parent_points": 4.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "equal_atomic"
+    },
+    {
+      "parent_id": "step_2",
+      "parent_points": 4.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "equal_atomic"
+    },
+    {
+      "parent_id": "step_3",
+      "parent_points": 4.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "equal_atomic"
+    }
+  ],
+  "refinement_attempted": true,
+  "refinement_applied": false,
+  "structural_refinement_applied": false,
+  "metadata_enriched": false,
+  "semantic_policy_validated": true,
+  "semantic_validation_mode": "calibrated_noninferior_baseline_selected",
+  "selected_variant": "baseline",
+  "semantic_validation_errors": [],
+  "fallback_reason": "candidate_noninferiority_rejected:candidate_mae_exceeds_margin",
+  "decomposition_deferred": true,
+  "deferred_semantic_errors": [
+    "additive parent step_1 must contain at least 2 scoring items, got 1",
+    "additive parent step_2 must contain at least 2 scoring items, got 1",
+    "additive parent step_3 must contain at least 2 scoring items, got 1"
+  ],
+  "candidate_replay": {
+    "method": "paired_teacher_score_noninferiority",
+    "expected": 5,
+    "paired": 5,
+    "required": 4,
+    "coverage": 1.0,
+    "mae_margin": 0.4,
+    "severe_regression_margin": 4.0,
+    "accepted": false,
+    "reason": "candidate_mae_exceeds_margin",
+    "baseline_mae": 1.7,
+    "candidate_mae": 3.2,
+    "mae_delta": 1.5,
+    "improved": 0,
+    "unchanged": 1,
+    "worsened": 4,
+    "severe_regressions": 0,
+    "records": [
+      {
+        "answer_id": "ANS_CO_382",
+        "baseline_score": 0.6666666666666666,
+        "candidate_score": 2.0,
+        "teacher_score": 0.0
+      },
+      {
+        "answer_id": "ANS_CO_383",
+        "baseline_score": 5.0,
+        "candidate_score": 4.0,
+        "teacher_score": 7.0
+      },
+      {
+        "answer_id": "ANS_CO_414",
+        "baseline_score": 2.0,
+        "candidate_score": 2.0,
+        "teacher_score": 2.0
+      },
+      {
+        "answer_id": "ANS_CO_419",
+        "baseline_score": 8.833333333333334,
+        "candidate_score": 6.0,
+        "teacher_score": 12.0
+      },
+      {
+        "answer_id": "ANS_CO_424",
+        "baseline_score": 13.333333333333334,
+        "candidate_score": 11.0,
+        "teacher_score": 16.0
+      }
+    ]
+  },
+  "scoring_policies": [
+    "additive_split",
+    "strict_atomic"
+  ],
+  "source_sha256": "004a5a200d44fe907002301a96638ebb671df6708d1884b0e955601812817ba0",
+  "initial_sha256": "e6e279a921a11b918747cba70cd5156797ae21280ab8e289e9f24e5fdeda20ae",
+  "optimized_sha256": "767b919c639666f08933ea33d10db283c31a99bfc0a102a513209353d8db2580",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt/CO_6_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "cfe9d33292aeb1ecd3a004d48cafbeb481b8f88c3426217c8c2c827eb37ee13d",
+  "created_at": "2026-07-22T23:33:37",
+  "path_format": "refgrader_placeholders_v1"
+}

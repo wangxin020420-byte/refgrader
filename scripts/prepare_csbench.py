@@ -45,6 +45,7 @@ SUBJECT_NAMES = {
     "POC_24": "编译原理",
     "POC_25": "编译原理",
     "POC_26": "编译原理",
+    "OS": "操作系统",
 }
 VISUAL_PLACEHOLDERS = (
     "如图所示",
@@ -145,7 +146,7 @@ def parse_args() -> argparse.Namespace:
         choices=["hardlink", "symlink", "copy"],
         default="hardlink",
     )
-    parser.add_argument("--exclude-questions", nargs="*", default=["OS_1", "OS_2"])
+    parser.add_argument("--exclude-questions", nargs="*", default=[])
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--split-seed", default="csbench-v1")
     parser.add_argument("--calibration-ratio", type=float, default=0.10)
@@ -154,20 +155,29 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def flatten_question_definitions(value: Any):
+    if isinstance(value, list):
+        for item in value:
+            yield from flatten_question_definitions(item)
+    elif isinstance(value, dict):
+        if value.get("question_id"):
+            yield value
+        else:
+            for item in value.values():
+                yield from flatten_question_definitions(item)
+
+
 def load_question_definitions(dataset_root: Path) -> dict[str, dict[str, Any]]:
     questions: dict[str, dict[str, Any]] = {}
     for path in sorted((dataset_root / "question").glob("*.json")):
         data = json.loads(path.read_text(encoding="utf-8"))
-        if isinstance(data, dict):
-            flattened = []
-            for value in data.values():
-                flattened.extend(value if isinstance(value, list) else [value])
-            data = flattened
-        if not isinstance(data, list):
-            continue
-        for item in data:
-            if isinstance(item, dict) and item.get("question_id"):
-                questions[str(item["question_id"])] = item
+        for item in flatten_question_definitions(data):
+            question_id = str(item["question_id"])
+            if question_id in questions:
+                raise ValueError(
+                    f"Duplicate question_id {question_id} in {path}"
+                )
+            questions[question_id] = item
     return questions
 
 
@@ -610,6 +620,14 @@ def main() -> int:
             missing_question_counts[question_id] += 1
             continue
 
+        actual_score = float(answer.get("actual_score", 0))
+        max_score = float(questions[question_id].get("max_score", 0))
+        if actual_score < 0 or actual_score > max_score:
+            raise ValueError(
+                f"{answer_id} score {actual_score} is outside "
+                f"[0, {max_score}] for {question_id}"
+            )
+
         image_paths = answer.get("student_input", {}).get("image_paths") or []
         if len(image_paths) != 1:
             raise ValueError(
@@ -634,16 +652,19 @@ def main() -> int:
                 "visual_placeholder_detected": is_placeholder_text(raw_text),
                 "student_image": str(destination.resolve()),
                 "source_image": str(source_image),
-                "actual_score": float(answer.get("actual_score", 0)),
                 "source_file": answer["_source_file"],
                 "source_line": answer["_source_line"],
             }
         )
-        teacher_scores[answer_id] = {
-            question_id: float(answer.get("actual_score", 0))
-        }
+        teacher_scores[answer_id] = {question_id: actual_score}
         question_counts[question_id] += 1
 
+    if missing_question_counts:
+        details = ", ".join(
+            f"{question_id}={count}"
+            for question_id, count in sorted(missing_question_counts.items())
+        )
+        raise ValueError(f"Answers reference unknown questions: {details}")
     metadata_by_question: dict[str, list[str]] = {}
     for record in metadata_records:
         metadata_by_question.setdefault(record["question_id"], []).append(

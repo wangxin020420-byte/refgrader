@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "rubric_semantic_contract_version": 6,
+  "question_id": "CO_1",
+  "rubric_group": "CO",
+  "source_rubric": "data/csbench/rubrics/source/CO/CO_1.json",
+  "initial_rubric": "data/csbench/rubrics/initial/CO/CO_1_rubric_standard.json",
+  "optimized_rubric": "${PREPARED_CSBENCH_ROOT}/rubrics/optimized/CO/CO_1_rubric_standard.json",
+  "calibration_answer_ids": [
+    "ANS_CO_109",
+    "ANS_CO_11",
+    "ANS_CO_119",
+    "ANS_CO_120",
+    "ANS_CO_14"
+  ],
+  "requested_sample_size": 5,
+  "completed_sample_size": 5,
+  "extraction_backend": "csbench_hybrid",
+  "model_config": {
+    "text_provider": "glm5",
+    "text_model": "glm-5.2",
+    "text_thinking": "disabled",
+    "vlm_model": "glm-4.6v"
+  },
+  "question_total_score": 5.0,
+  "initial_total_score": 5.0,
+  "optimized_total_score": 5.0,
+  "average_score_variance": 0.044444444444444446,
+  "average_item_variance": 0.014814814814814815,
+  "maximum_item_variance": 0.22222222222222224,
+  "high_value_split_threshold": 4.0,
+  "mandatory_split_targets": [],
+  "refinement_attempted": false,
+  "refinement_applied": false,
+  "structural_refinement_applied": false,
+  "metadata_enriched": false,
+  "semantic_policy_validated": true,
+  "semantic_validation_mode": "strict_candidate_contract",
+  "selected_variant": "baseline",
+  "semantic_validation_errors": [],
+  "fallback_reason": null,
+  "decomposition_deferred": false,
+  "deferred_semantic_errors": [],
+  "candidate_replay": {
+    "method": "paired_teacher_score_noninferiority",
+    "accepted": false,
+    "reason": "not_attempted",
+    "expected": 0,
+    "paired": 0
+  },
+  "scoring_policies": [
+    "final_sufficient_partial_credit"
+  ],
+  "source_sha256": "ea3faeecadbeb0dead0cf92b6da4362d0b6f23dc842cdabc75da84d3960efbe6",
+  "initial_sha256": "d71c92c8326562fe62b02b5290e1beba096eb7cd937aaedcbbaebf68f0b779a9",
+  "optimized_sha256": "f933fd81b066bcf6e6934a855287b37f34fec57d8bbe66c2c367cd4dd0be2dbc",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt/CO_1_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "c15fd1bc95ad79fce02ebd8a80dec7775852707ba9b3fd86178a7538f9d5dee9",
+  "created_at": "2026-07-22T18:12:22",
+  "path_format": "refgrader_placeholders_v1"
+}

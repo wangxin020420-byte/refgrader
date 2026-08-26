@@ -53,11 +53,11 @@
     "strict_atomic"
   ],
   "source_sha256": "c4401f9c0949894e63aaf0bc6611b38aa4fbc5eae08d2b8da9fbd502446ef3ea",
-  "initial_sha256": "c999ba5e9b84ab8cb664ba1d054635fcc1db5fe197cfa9b1ccb92f3da6093243",
-  "optimized_sha256": "b89d47ed97edf2b05f63fb0b9946a34b5845ecfccc41cef740dba551e33a8762",
-  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_rubric_opt",
-  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_rubric_opt/ISC_7_variance_checkpoint.json",
-  "variance_checkpoint_sha256": "36d6dc2b302c7154e743806a020840ff793ac46eba7a5ab7d535b0430f3daa9a",
-  "created_at": "2026-07-27T07:30:42",
+  "initial_sha256": "4a099edcf5532129eb5cffda5b2d1f79cc9b580dec3e1d07f46a94910dc4316a",
+  "optimized_sha256": "8629bca7f351a212168798f750a9fc7b4fc2f4ab538d035f80ad9fd2500d47a6",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt/ISC_7_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "54e32ac46e75852e49e96356eca0bd50e6e6225a5f73eed67f985cba8da20120",
+  "created_at": "2026-08-22T01:56:02",
   "path_format": "refgrader_placeholders_v1"
 }

@@ -39,8 +39,15 @@ def checklist_for(rubric: list[dict]) -> str:
 
 def load_question_split(question: dict) -> dict:
     return json.loads(
-        Path(question["rubric_split_path"]).read_text(encoding="utf-8")
+        resolve_project_path(question["rubric_split_path"]).read_text(encoding="utf-8")
     )
+
+
+def resolve_project_path(raw_path: str) -> Path:
+    path = Path(raw_path)
+    if not path.is_absolute():
+        path = PROJECT_ROOT / path
+    return path.resolve()
 
 
 def main() -> int:
@@ -54,18 +61,24 @@ def main() -> int:
     teacher_scores = json.loads(
         (root / "teacher_scores.json").read_text(encoding="utf-8")
     )
-    assert len(exam) == 43
-    assert len(metadata) == len(teacher_scores) == 3326
+    assert len(exam) == 45
+    assert len(metadata) == len(teacher_scores) == 3411
     assert "ANS_CO_01" in metadata
     assert teacher_scores["ANS_CO_01"]["CO_1"] == 5.0
+    assert teacher_scores["ANS_CO_1476"]["CO_12"] == 21.0
 
     questions_by_id = {
         question["question_id"]: question for question in exam
     }
+    assert questions_by_id["OS_1"]["total_score"] == 20.0
+    assert questions_by_id["OS_1"]["sample_count"] == 51
+    assert questions_by_id["OS_1"]["subject"] == "OS"
+    assert questions_by_id["OS_2"]["total_score"] == 20.0
+    assert questions_by_id["OS_2"]["sample_count"] == 34
     for question in exam:
-        source_path = Path(question["source_rubric_path"])
-        initial_path = Path(question["initial_rubric_path"])
-        optimized_path = Path(question["optimized_rubric_path"])
+        source_path = resolve_project_path(question["source_rubric_path"])
+        initial_path = resolve_project_path(question["initial_rubric_path"])
+        optimized_path = resolve_project_path(question["optimized_rubric_path"])
         assert source_path.is_file()
         assert initial_path.is_file()
         assert source_path.is_relative_to(root / "rubrics" / "source")
@@ -107,7 +120,7 @@ def main() -> int:
     co2_split = load_question_split(co2_question)
     co2_images = sorted(
         path.name
-        for path in Path(co2_question["student_images_dir"]).iterdir()
+        for path in resolve_project_path(co2_question["student_images_dir"]).iterdir()
         if path.suffix.lower() in {".jpg", ".jpeg", ".png"}
     )
     selected_test_images = main_pipeline.select_question_images(
@@ -125,15 +138,19 @@ def main() -> int:
         text_meta = metadata["ANS_CO_01"]
         text_question = questions_by_id["CO_1"]
         text_rubric = json.loads(
-            Path(text_question["initial_rubric_path"]).read_text(
+            resolve_project_path(text_question["initial_rubric_path"]).read_text(
                 encoding="utf-8"
             )
         )
-        assert main_pipeline.rubric_path_for(
+        assert Path(main_pipeline.rubric_path_for(
             "CO_1", text_question
-        ) == text_question["initial_rubric_path"]
+        )).resolve() == resolve_project_path(text_question["optimized_rubric_path"])
+        final_item = next(
+            item for item in text_rubric if item.get("role") == "final"
+        )
         grader.call_glm5_text = lambda *args, **kwargs: json.dumps(
-            {"step_1": "37H"}, ensure_ascii=False
+            {item["id"]: "37H" for item in text_rubric},
+            ensure_ascii=False,
         )
         text_facts, text_evidence = grader.stage1_extract_with_backend(
             question_text="CO_1",
@@ -145,7 +162,7 @@ def main() -> int:
             answer_metadata=text_meta,
             force_extraction=True,
         )
-        assert json.loads(text_facts)["step_1"] == "37H"
+        assert json.loads(text_facts)[final_item["id"]] == "37H"
         assert text_evidence["diagram_parser_used"] is False
 
         # Visual-placeholder sample: preserve text facts and merge diagram facts.
@@ -156,7 +173,7 @@ def main() -> int:
             and record["visual_placeholder_detected"]
         )
         visual_rubric = json.loads(
-            Path(
+            resolve_project_path(
                 questions_by_id["CO_2"]["initial_rubric_path"]
             ).read_text(encoding="utf-8")
         )

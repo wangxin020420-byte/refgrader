@@ -25,9 +25,9 @@
   "question_total_score": 15.0,
   "initial_total_score": 15.0,
   "optimized_total_score": 15.0,
-  "average_score_variance": 2.977777777777778,
-  "average_item_variance": 0.6222222222222222,
-  "maximum_item_variance": 5.555555555555556,
+  "average_score_variance": 0.3666666666666667,
+  "average_item_variance": 0.12222222222222223,
+  "maximum_item_variance": 0.888888888888889,
   "high_value_split_threshold": 4.0,
   "mandatory_split_targets": [
     {
@@ -53,16 +53,32 @@
     }
   ],
   "refinement_attempted": true,
-  "refinement_applied": true,
-  "structural_refinement_applied": true,
+  "refinement_applied": false,
+  "structural_refinement_applied": false,
   "metadata_enriched": false,
   "semantic_policy_validated": true,
-  "semantic_validation_mode": "strict_candidate_contract",
-  "selected_variant": "candidate",
+  "semantic_validation_mode": "calibrated_noninferior_baseline_selected",
+  "selected_variant": "baseline",
   "semantic_validation_errors": [],
-  "fallback_reason": null,
-  "decomposition_deferred": false,
-  "deferred_semantic_errors": [],
+  "fallback_reason": "candidate_noninferiority_rejected:candidate_mae_exceeds_margin",
+  "decomposition_deferred": true,
+  "deferred_semantic_errors": [
+    "role-weighted parent step_1 must contain at least 2 scoring items, got 1",
+    "role-weighted child step_1 has invalid scoring_role ''",
+    "role-weighted parent step_1 must have exactly one final child",
+    "role-weighted parent step_1 must have a core-process child",
+    "role-weighted parent step_1 gives insufficient process weight",
+    "role-weighted parent step_2 must contain at least 2 scoring items, got 1",
+    "role-weighted child step_2 has invalid scoring_role ''",
+    "role-weighted parent step_2 must have exactly one final child",
+    "role-weighted parent step_2 must have a core-process child",
+    "role-weighted parent step_2 gives insufficient process weight",
+    "role-weighted parent step_3 must contain at least 2 scoring items, got 1",
+    "role-weighted child step_3 has invalid scoring_role ''",
+    "role-weighted parent step_3 must have exactly one final child",
+    "role-weighted parent step_3 must have a core-process child",
+    "role-weighted parent step_3 gives insufficient process weight"
+  ],
   "candidate_replay": {
     "method": "paired_teacher_score_noninferiority",
     "expected": 5,
@@ -71,14 +87,14 @@
     "coverage": 1.0,
     "mae_margin": 0.3,
     "severe_regression_margin": 3.0,
-    "accepted": true,
-    "reason": "accepted_noninferior",
+    "accepted": false,
+    "reason": "candidate_mae_exceeds_margin",
     "baseline_mae": 1.733333,
-    "candidate_mae": 1.9,
-    "mae_delta": 0.166667,
+    "candidate_mae": 2.1,
+    "mae_delta": 0.366667,
     "improved": 1,
-    "unchanged": 3,
-    "worsened": 1,
+    "unchanged": 2,
+    "worsened": 2,
     "severe_regressions": 0,
     "records": [
       {
@@ -89,26 +105,26 @@
       },
       {
         "answer_id": "ANS_CO_1226",
-        "baseline_score": 0.5,
-        "candidate_score": 5.5,
+        "baseline_score": 0.0,
+        "candidate_score": 0.0,
         "teacher_score": 3.0
       },
       {
         "answer_id": "ANS_CO_1245",
-        "baseline_score": 12.5,
-        "candidate_score": 12.5,
+        "baseline_score": 14.333333333333334,
+        "candidate_score": 15.0,
         "teacher_score": 15.0
       },
       {
         "answer_id": "ANS_CO_1265",
-        "baseline_score": 12.0,
-        "candidate_score": 10.0,
+        "baseline_score": 12.666666666666666,
+        "candidate_score": 11.5,
         "teacher_score": 14.0
       },
       {
         "answer_id": "ANS_CO_1268",
-        "baseline_score": 3.3333333333333335,
-        "candidate_score": 5.5,
+        "baseline_score": 1.3333333333333333,
+        "candidate_score": 0.0,
         "teacher_score": 5.0
       }
     ]
@@ -117,11 +133,11 @@
     "role_weighted_additive"
   ],
   "source_sha256": "3d914ad79ba54aa2d9de0db5b1de5be36b05f201048659af8d642465e43b6507",
-  "initial_sha256": "3c0524bc70d4025aea239377429626cb4e2630df506a8b532af356c3503b0f7b",
-  "optimized_sha256": "39b67728302bd55e7a290e105725339b4e4d118d3e57254e321be2eeb90cdbe6",
-  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_co10_co11_co12_co13_co8_co9_rubric_opt",
-  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_co10_co11_co12_co13_co8_co9_rubric_opt/CO_11_variance_checkpoint.json",
-  "variance_checkpoint_sha256": "9fb5d12defffb4245c50cbfa9c0396ebb84f14f883372e87978b47d3b3e827a4",
-  "created_at": "2026-07-26T22:26:03",
+  "initial_sha256": "7f5037e34416be4ae51832dcb0f1b75cdd623bc69607f9ce01c284ba8de4fc85",
+  "optimized_sha256": "8c325752c2d1d590af230fcaecd2bb8fcf20d6f83a682dbfe8786dceab474734",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt/CO_11_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "9802e5a40187d4d81ab7eca9c42ec1d74716554b1fed3be90e74081f22f995ba",
+  "created_at": "2026-08-21T22:25:32",
   "path_format": "refgrader_placeholders_v1"
 }

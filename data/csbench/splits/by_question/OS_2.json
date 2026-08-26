@@ -1,0 +1,44 @@
+{
+  "question_id": "OS_2",
+  "split_seed": "csbench-v1",
+  "calibration": [
+    "ANS_OS_91",
+    "ANS_OS_79",
+    "ANS_OS_73",
+    "ANS_OS_116",
+    "ANS_OS_92"
+  ],
+  "validation": [
+    "ANS_OS_103",
+    "ANS_OS_104",
+    "ANS_OS_85"
+  ],
+  "test": [
+    "ANS_OS_101",
+    "ANS_OS_108",
+    "ANS_OS_89",
+    "ANS_OS_96",
+    "ANS_OS_80",
+    "ANS_OS_67",
+    "ANS_OS_77",
+    "ANS_OS_115",
+    "ANS_OS_63",
+    "ANS_OS_94",
+    "ANS_OS_66",
+    "ANS_OS_83",
+    "ANS_OS_109",
+    "ANS_OS_90",
+    "ANS_OS_106",
+    "ANS_OS_78",
+    "ANS_OS_71",
+    "ANS_OS_60",
+    "ANS_OS_99",
+    "ANS_OS_114",
+    "ANS_OS_74",
+    "ANS_OS_61",
+    "ANS_OS_110",
+    "ANS_OS_64",
+    "ANS_OS_84",
+    "ANS_OS_76"
+  ]
+}

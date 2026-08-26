@@ -16,10 +16,14 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_1",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 4.0,
+    "task_semantics": "orthogonal_additive",
+    "scoring_policy": "additive_split",
     "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "weighting_policy": "equal_atomic",
+    "decomposition_required": true,
+    "minimum_scoring_children": 2
   },
   {
     "id": "step_2",
@@ -38,10 +42,14 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_2",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 4.0,
+    "task_semantics": "component_additive",
+    "scoring_policy": "additive_split",
     "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "weighting_policy": "equal_atomic",
+    "decomposition_required": true,
+    "minimum_scoring_children": 2
   },
   {
     "id": "step_3",
@@ -60,10 +68,14 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_3",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 4.0,
+    "task_semantics": "component_additive",
+    "scoring_policy": "additive_split",
     "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "weighting_policy": "equal_atomic",
+    "decomposition_required": true,
+    "minimum_scoring_children": 2
   },
   {
     "id": "step_4",
@@ -82,10 +94,14 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_4",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 4.0,
+    "task_semantics": "component_additive",
+    "scoring_policy": "additive_split",
     "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "weighting_policy": "equal_atomic",
+    "decomposition_required": true,
+    "minimum_scoring_children": 2
   },
   {
     "id": "step_5",
@@ -104,10 +120,19 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_5",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 4.0,
+    "task_semantics": "process_dominant",
+    "scoring_policy": "role_weighted_additive",
     "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "weighting_policy": "role_constrained",
+    "decomposition_required": true,
+    "process_complexity": "short",
+    "minimum_scoring_children": 2,
+    "dependency_mode": "independent",
+    "minimum_process_ratio": 0.65,
+    "minimum_core_process_ratio": 0.0,
+    "maximum_final_ratio": 0.35
   },
   {
     "id": "step_6",
@@ -126,9 +151,13 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_6",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 5.0,
+    "task_semantics": "orthogonal_additive",
+    "scoring_policy": "additive_split",
     "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "weighting_policy": "equal_atomic",
+    "decomposition_required": true,
+    "minimum_scoring_children": 2
   }
 ]

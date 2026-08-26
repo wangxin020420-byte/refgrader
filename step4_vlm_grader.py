@@ -87,8 +87,8 @@ GLM47_MODEL_NAME = TEXT_MODEL_PROFILES["glm47"]["model"]
 
 # DeepSeek 配置
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
-DEEPSEEK_BASE_URL = "https://gpt-agent.cc/v1"
-DEEPSEEK_MODEL_NAME = "deepseek-v4-flash"
+DEEPSEEK_BASE_URL = MODEL_RUNTIME_CONFIG.get("text_base_url", "https://gpt-agent.cc/v1")
+DEEPSEEK_MODEL_NAME = MODEL_RUNTIME_CONFIG.get("text_model", "deepseek-v4-flash")
 
 # 并发配置：provider -> (外层学生并发, 内层 Stage2 探测并发)
 MODEL_CONCURRENCY = {
@@ -122,7 +122,7 @@ def render_prompt_template(filename, replacements, fallback):
 
 # ==================== 统一文本模型调用 ====================
 
-def call_text_model(messages, temperature=0.2, timeout=120):
+def call_text_model(messages, temperature=0.2, timeout=120, response_format=None):
     """Call the configured text model under one reproducible contract."""
     if TEXT_MODEL_FAMILY == "deepseek":
         api_key, base_url = DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL
@@ -139,6 +139,8 @@ def call_text_model(messages, temperature=0.2, timeout=120):
                 "temperature": temperature,
                 "timeout": timeout,
             }
+            if response_format is not None:
+                request["response_format"] = response_format
             if TEXT_MODEL_FAMILY == "glm":
                 request["extra_body"] = thinking_extra_body(
                     TEXT_THINKING_MODE
@@ -384,18 +386,33 @@ def generate_blind_checklist(rubrics_json_str):
             "You are a visual extraction instruction generator. For each rubric item "
             "produce one precise instruction asking for the student's concrete written "
             "answer. Never put the correct answer into the instruction. Output a strict "
-            "JSON array with ids matching the rubric items. Rubric: " + rubrics_json_str
+            "JSON object with an items array whose ids match the rubric items. Rubric: "
+            + rubrics_json_str
         ),
     )
     for attempt in range(3):
         try:
-            raw = call_text_model([{"role": "user", "content": prompt}], temperature=0.3, timeout=240)
+            raw = call_text_model(
+                [{"role": "user", "content": prompt}],
+                temperature=0.3,
+                timeout=240,
+                response_format={"type": "json_object"},
+            )
             parsed = extract_and_parse_json(raw)
+            if isinstance(parsed, dict):
+                parsed = parsed.get("items")
             if parsed and isinstance(parsed, list):
                 completed = complete_checklist(parsed)
                 if completed:
                     return json.dumps(completed, ensure_ascii=False)
-        except Exception as e:
+            raw_text = str(raw or "")
+            digest = hashlib.sha256(raw_text.encode("utf-8")).hexdigest()[:12]
+            print(
+                "   [blind checklist parse failure] "
+                f"attempt={attempt + 1}/3, chars={len(raw_text)}, sha256={digest}, "
+                f"parsed_type={type(parsed).__name__}"
+            )
+        except Exception:
             time.sleep(3)
     completed = complete_checklist([])
     if completed:
@@ -1598,7 +1615,9 @@ error_category 只能取以下值之一：
         try:
             return call_text_model(
                 [{"role": "user", "content": logic_prompt}],
-                temperature=temperature, timeout=120
+                temperature=temperature,
+                timeout=120,
+                response_format={"type": "json_object"},
             )
         except Exception:
             time.sleep(3)
@@ -2214,7 +2233,6 @@ def grade_student_3wd_pipeline(
     student_img_path,
     question_text,
     rubrics_json,
-    teacher_score,
     q_img_path=None,
     blind_checklist=None,
     extraction_backend="glm_vlm",
@@ -2365,6 +2383,19 @@ def grade_student_3wd_pipeline(
                     json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json,
                 )
                 return (idx, parsed_json['total_score'], parsed_json)
+            response_text = str(res_text or "")
+            digest = hashlib.sha256(response_text.encode("utf-8")).hexdigest()[:12]
+            parsed_type = type(parsed_json).__name__ if parsed_json is not None else "none"
+            parsed_keys = (
+                sorted(str(key) for key in parsed_json.keys())[:12]
+                if isinstance(parsed_json, dict)
+                else []
+            )
+            print(
+                "      [Stage 2 parse failure] "
+                f"probe={idx + 1}, chars={len(response_text)}, sha256={digest}, "
+                f"parsed_type={parsed_type}, keys={parsed_keys}"
+            )
         return (idx, None, None)
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS_STAGE2) as s2_pool:
@@ -2418,7 +2449,6 @@ def grade_student_3wd_pipeline(
     # 综合判断提取质量。
     extraction_quality = extraction_risk_features["extraction_quality"]
 
-    real_diff = round(teacher_score - avg_model_score, 2) if teacher_score is not None else 0.0
     route = "UNKNOWN"
     final_score = avg_model_score
     reason_log = ""
@@ -2763,7 +2793,6 @@ def grade_student_3wd_pipeline(
     # 结果封装。
     ordered_result = {
         "student_id": student_id,
-        "teacher_score": teacher_score,
         "model_scores_history": model_scores,
         "model_avg_score": avg_model_score,
         "selected_baseline_score": selected_baseline_score,
@@ -2778,7 +2807,6 @@ def grade_student_3wd_pipeline(
         "suspicious_extraction_rate": round(suspicious_extraction_rate, 2),
         "extraction_risk": round(extraction_risk, 4),
         "extraction_quality": extraction_quality,
-        "real_diff": real_diff,
         "3wd_route": route,
         "3wd_sequential_outcome": sequential_outcome,
         "three_way_core_score": three_way_core_score,

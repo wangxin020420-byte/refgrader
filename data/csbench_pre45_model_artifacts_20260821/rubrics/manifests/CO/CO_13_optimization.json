@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "rubric_semantic_contract_version": 6,
+  "question_id": "CO_13",
+  "rubric_group": "CO",
+  "source_rubric": "data/csbench/rubrics/source/CO/CO_13.json",
+  "initial_rubric": "data/csbench/rubrics/initial/CO/CO_13_rubric_standard.json",
+  "optimized_rubric": "${PREPARED_CSBENCH_ROOT}/rubrics/optimized/CO/CO_13_rubric_standard.json",
+  "calibration_answer_ids": [
+    "ANS_CO_1500",
+    "ANS_CO_1510",
+    "ANS_CO_1513",
+    "ANS_CO_1542",
+    "ANS_CO_1546"
+  ],
+  "requested_sample_size": 5,
+  "completed_sample_size": 5,
+  "extraction_backend": "csbench_hybrid",
+  "model_config": {
+    "text_provider": "glm5",
+    "text_model": "glm-5.2",
+    "text_thinking": "disabled",
+    "vlm_model": "glm-4.6v"
+  },
+  "question_total_score": 20.0,
+  "initial_total_score": 20.0,
+  "optimized_total_score": 20.0,
+  "average_score_variance": 2.644444444444445,
+  "average_item_variance": 0.8421296296296298,
+  "maximum_item_variance": 10.888888888888891,
+  "high_value_split_threshold": 4.0,
+  "mandatory_split_targets": [
+    {
+      "parent_id": "step_1",
+      "parent_points": 5.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "equal_atomic"
+    },
+    {
+      "parent_id": "step_2",
+      "parent_points": 8.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "equal_atomic"
+    }
+  ],
+  "refinement_attempted": true,
+  "refinement_applied": false,
+  "structural_refinement_applied": false,
+  "metadata_enriched": false,
+  "semantic_policy_validated": true,
+  "semantic_validation_mode": "calibrated_noninferior_baseline_selected",
+  "selected_variant": "baseline",
+  "semantic_validation_errors": [],
+  "fallback_reason": "candidate_noninferiority_rejected:severe_sample_regression",
+  "decomposition_deferred": true,
+  "deferred_semantic_errors": [
+    "additive parent step_1 must contain at least 2 scoring items, got 1",
+    "additive parent step_2 must contain at least 2 scoring items, got 1"
+  ],
+  "candidate_replay": {
+    "method": "paired_teacher_score_noninferiority",
+    "expected": 5,
+    "paired": 5,
+    "required": 4,
+    "coverage": 1.0,
+    "mae_margin": 0.4,
+    "severe_regression_margin": 4.0,
+    "accepted": false,
+    "reason": "severe_sample_regression",
+    "baseline_mae": 2.766667,
+    "candidate_mae": 4.55,
+    "mae_delta": 1.783333,
+    "improved": 2,
+    "unchanged": 0,
+    "worsened": 3,
+    "severe_regressions": 1,
+    "records": [
+      {
+        "answer_id": "ANS_CO_1500",
+        "baseline_score": 17.166666666666668,
+        "candidate_score": 15.5,
+        "teacher_score": 15.0
+      },
+      {
+        "answer_id": "ANS_CO_1510",
+        "baseline_score": 14.666666666666666,
+        "candidate_score": 9.25,
+        "teacher_score": 20.0
+      },
+      {
+        "answer_id": "ANS_CO_1513",
+        "baseline_score": 9.0,
+        "candidate_score": 7.0,
+        "teacher_score": 15.0
+      },
+      {
+        "answer_id": "ANS_CO_1542",
+        "baseline_score": 14.166666666666666,
+        "candidate_score": 14.0,
+        "teacher_score": 14.0
+      },
+      {
+        "answer_id": "ANS_CO_1546",
+        "baseline_score": 14.833333333333334,
+        "candidate_score": 11.5,
+        "teacher_score": 15.0
+      }
+    ]
+  },
+  "scoring_policies": [
+    "additive_split"
+  ],
+  "source_sha256": "ef096876190634058032b1d72e51c0488f5cb2806d20636fcddc2d2ad092035e",
+  "initial_sha256": "7d68151e31373512ea99337383d84886faa433c321a8062866786c14ab406d06",
+  "optimized_sha256": "8d67bd6e2ab3b8931ec61685b5d3018c4576704a7d778e6620f74458bcaf9587",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_co13_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_co13_rubric_opt/CO_13_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "1137447f37668e3cddd210621a6fbc2c4c3a55d73fcd085434539a439338c9f8",
+  "created_at": "2026-08-07T13:02:48",
+  "path_format": "refgrader_placeholders_v1"
+}

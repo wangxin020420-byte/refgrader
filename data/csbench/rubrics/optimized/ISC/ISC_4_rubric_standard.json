@@ -1,91 +1,109 @@
 [
     {
-        "id": "step_1_sub_1",
-        "item": "准确简述计算机网络协议的概念",
+        "id": "step_1_concept",
+        "item": "给出协议概念：说明协议是为计算机网络中进行数据交换而建立的规则、标准或约定（语义上等价的定义即可）",
         "points": 2.5,
         "answer_type": "concept_keyword",
         "role": "final",
         "score_layer": "core",
-        "canonicalization": "keywords: [规则, 标准, 约定, 语法, 语义, 时序]",
+        "canonicalization": "接受语义等价表述：'规则/标准/约定'三者至少出现其一，且明确作用于'网络中数据交换/通信'即视为命中；'规范'、'共同遵守的约定'等视为等价；不要求逐字复述",
         "evidence_source": "text",
-        "standard_answer_text": "概念：为在计算机网络中进行数据交换而建立的规则、标准或约定。或包含语法、语义、时序的三要素描述。",
-        "source_text": "简述协议概念及HTTP协议的基本构成",
+        "standard_answer_text": "协议是为在计算机网络中进行数据交换而建立的规则、标准或约定 [cite: 487]",
+        "standard_answer_image": null,
+        "source_text": "概念：为在计算机网络中进行数据交换而建立的规则、标准或约定 [cite: 487]",
         "parent_official_item": "简述协议概念及HTTP协议的基本构成",
-        "metadata_source": "csbench",
-        "metadata_hard_enabled": true,
-        "metadata_confidence": 1.0,
         "parent_id": "step_1",
-        "semantic_contract_version": 6,
         "parent_points": 5.0,
-        "split_policy": "allow_semantic_split",
-        "weighting_policy": "equal_atomic",
         "task_semantics": "orthogonal_additive",
         "scoring_policy": "additive_split",
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
         "scoring_role": "component",
         "full_credit_trigger": false,
         "decomposition_required": true,
-        "minimum_scoring_children": 2
+        "minimum_scoring_children": 2,
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
     },
     {
-        "id": "step_1_sub_2",
-        "item": "说明HTTP协议的基本构成",
+        "id": "step_1_http_structure",
+        "item": "说明HTTP报文（以请求报文为例）的基本构成：请求行（含方法、URL、版本）、请求头（头部字段/客户端与环境信息）、空行、请求体（可选的数据内容），四个组成部分至少独立核验",
         "points": 2.5,
         "answer_type": "structured_fields",
         "role": "final",
         "score_layer": "core",
         "canonicalization": {
-            "type": "set",
+            "type": "structured_fields",
             "ordered": false,
             "fields": [
                 {
-                    "name": "request_line",
+                    "name": "请求行",
                     "aliases": [
-                        "请求行"
+                        "起始行",
+                        "start line",
+                        "request line"
                     ],
-                    "required": true
+                    "required": true,
+                    "accept": "包含方法(如GET/POST)、URL、HTTP版本中至少两项即可命中该字段"
                 },
                 {
-                    "name": "request_header",
+                    "name": "请求头",
                     "aliases": [
-                        "请求头",
+                        "头部字段",
+                        "首部行",
+                        "header",
                         "头部"
                     ],
-                    "required": true
+                    "required": true,
+                    "accept": "说明为键值对形式的客户端/主机/环境信息即可"
                 },
                 {
-                    "name": "blank_line",
+                    "name": "空行",
                     "aliases": [
-                        "空行"
+                        "空白行",
+                        "CRLF分隔"
                     ],
-                    "required": false
+                    "required": true,
+                    "accept": "说明分隔头部与正文即可，不要求写出CRLF"
                 },
                 {
-                    "name": "request_body",
+                    "name": "请求体",
                     "aliases": [
-                        "请求体",
+                        "正文",
+                        "报文体",
+                        "message body",
                         "数据内容"
                     ],
-                    "required": true
+                    "required": true,
+                    "accept": "说明为可选的发送数据内容即可；学生以响应报文(状态行、响应头、空行、响应体)作答视为等价"
                 }
-            ]
+            ],
+            "partial_credit": "按命中的字段数等比给分，每个字段0.625分；字段级等价表达（中英文、别名、响应报文对应结构）不扣分"
         },
         "evidence_source": "text",
-        "standard_answer_text": "HTTP基本构成：请求行（方法、URL、版本）、请求头（客户端信息）、空行、请求体（发送的数据内容）",
-        "source_text": "简述协议概念及HTTP协议的基本构成",
+        "standard_answer_text": "HTTP请求报文基本构成：请求行（方法、URL、版本）、请求头（客户端信息）、空行、请求体（发送的数据内容） [cite: 489, 490, 491, 492]",
+        "standard_answer_image": null,
+        "source_text": "HTTP基本构成：请求行（方法、URL、版本）、请求头（客户端信息）、空行、请求体（发送的数据内容） [cite: 489, 490, 491, 492]",
         "parent_official_item": "简述协议概念及HTTP协议的基本构成",
-        "metadata_source": "csbench",
-        "metadata_hard_enabled": true,
-        "metadata_confidence": 1.0,
         "parent_id": "step_1",
-        "semantic_contract_version": 6,
         "parent_points": 5.0,
-        "split_policy": "allow_semantic_split",
-        "weighting_policy": "equal_atomic",
         "task_semantics": "orthogonal_additive",
         "scoring_policy": "additive_split",
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
         "scoring_role": "component",
         "full_credit_trigger": false,
         "decomposition_required": true,
-        "minimum_scoring_children": 2
+        "minimum_scoring_children": 2,
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6,
+        "diagnostic_evidence": [
+            "仅笼统说明'协议规定数据传输方式/发包频率'而未列出HTTP报文具体组成部分，属于未命中本子项字段，不据此给结构分",
+            "以'语法/语义/时序'三要素描述协议一般构成属于等价学科表述，但若未列出HTTP报文四部分，则不计入本子项；此类作答仅在step_1_concept有部分命中可能"
+        ]
     }
 ]

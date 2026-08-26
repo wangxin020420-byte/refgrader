@@ -59,9 +59,9 @@ data/csbench/
 │   ├── initial/      # RefGrader 标准化初始准则
 │   ├── optimized/    # 当前批准的 VARIANCE_OPT 输出（进入 Git）
 │   ├── manifests/    # 当前优化来源、样本和哈希（进入 Git）
-│   └── active_rubric_set.json # 当前配置总清单
+│   └── active_rubric_set.json # optimize 完成后生成的当前配置总清单
 ├── calibration/
-│   └── active_a3wa_config.json # test 默认配置
+│   └── active_a3wa_config.json # calibrate 完成后生成的 test 默认配置
 ├── splits/
 │   └── by_question/  # 每题 calibration/validation/test
 └── student_images/
@@ -71,10 +71,10 @@ data/csbench/
 当前转换结果：
 
 ```text
-43 道题
-3326 条答案
-OS_1、OS_2 因缺少 question 定义暂时排除
-train/validation/test 按题目划分为 31/5/7 道题
+45 道题
+3411 条答案
+OS_1、OS_2 已纳入操作系统题组
+train/validation/test 按题目划分为 33/5/7 道题
 ```
 
 ## 4. 离线验证转换与路由
@@ -147,7 +147,7 @@ python scripts/run_csbench.py evaluate CO_3 --export
   服务于准则优化、A3WA/BND/残差校准和答案级最终评估。
 - `FULL` 默认要求 optimized 准则存在，不会静默回退 initial。
 - 如只做提取冒烟测试，可显式增加 `--allow-initial-rubric`。
-- `data/csbench/` 是版本化的内嵌批改快照；当前 `rubrics/optimized`、`rubrics/manifests`、`active_rubric_set.json` 和 `calibration/active_a3wa_config.json` 必须提交，用于保证不同设备正式批改配置一致。`ocr_cache/`、`results_runs/` 和日志仍不提交 Git。
+- `data/csbench/` 是版本化的内嵌批改快照。45题快照重建后，旧43题的 optimized rubric、manifest 和 A3WA 配置已归档，当前阶段显式回退到 initial rubric；重新完成 `optimize` 和 `calibrate` 后，必须提交新的 `rubrics/optimized`、`rubrics/manifests`、`active_rubric_set.json` 和 `calibration/active_a3wa_config.json`，用于保证不同设备正式批改配置一致。`ocr_cache/`、`results_runs/` 和日志仍不提交 Git。
 
 ### 6.1 教师标签质量控制
 

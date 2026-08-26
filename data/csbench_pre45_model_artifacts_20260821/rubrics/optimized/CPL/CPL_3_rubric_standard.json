@@ -1,0 +1,382 @@
+[
+    {
+        "id": "step_1_row",
+        "item": "第1行输出中 row 的数值结果正确",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "row",
+                    "aliases": [
+                        "行",
+                        "行和"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "40",
+        "source_text": "写出第 1 行的正确输出结果",
+        "parent_official_item": "写出第 1 行的正确输出结果（注：行和列的值写反扣 1 分）",
+        "parent_id": "step_1",
+        "parent_points": 2.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_1_col",
+        "item": "第1行输出中 col 的数值结果正确",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "col",
+                    "aliases": [
+                        "列",
+                        "列和"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "30",
+        "source_text": "写出第 1 行的正确输出结果",
+        "parent_official_item": "写出第 1 行的正确输出结果（注：行和列的值写反扣 1 分）",
+        "parent_id": "step_1",
+        "parent_points": 2.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_2_row",
+        "item": "第2行输出中 row 的数值结果正确",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "row",
+                    "aliases": [
+                        "行",
+                        "行和"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "30",
+        "source_text": "写出第 2 行的正确输出结果",
+        "parent_official_item": "写出第 2 行的正确输出结果（注：行和列的值写反扣 1 分）",
+        "parent_id": "step_2",
+        "parent_points": 2.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_2_col",
+        "item": "第2行输出中 col 的数值结果正确",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "col",
+                    "aliases": [
+                        "列",
+                        "列和"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "40",
+        "source_text": "写出第 2 行的正确输出结果",
+        "parent_official_item": "写出第 2 行的正确输出结果（注：行和列的值写反扣 1 分）",
+        "parent_id": "step_2",
+        "parent_points": 2.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_3_row",
+        "item": "第3行输出中 row 的数值结果正确",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "row",
+                    "aliases": [
+                        "行",
+                        "行和"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "25",
+        "source_text": "写出第 3 行的正确输出结果",
+        "parent_official_item": "写出第 3 行的正确输出结果（注：行和列的值写反扣 1 分）",
+        "parent_id": "step_3",
+        "parent_points": 2.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_3_col",
+        "item": "第3行输出中 col 的数值结果正确",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "col",
+                    "aliases": [
+                        "列",
+                        "列和"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "35",
+        "source_text": "写出第 3 行的正确输出结果",
+        "parent_official_item": "写出第 3 行的正确输出结果（注：行和列的值写反扣 1 分）",
+        "parent_id": "step_3",
+        "parent_points": 2.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_4_row",
+        "item": "第4行输出中 row 的数值结果正确",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "row",
+                    "aliases": [
+                        "行",
+                        "行和"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "30",
+        "source_text": "写出第 4 行的正确输出结果",
+        "parent_official_item": "写出第 4 行的正确输出结果（注：行和列的值写反扣 1 分）",
+        "parent_id": "step_4",
+        "parent_points": 2.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_4_col",
+        "item": "第4行输出中 col 的数值结果正确",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "col",
+                    "aliases": [
+                        "列",
+                        "列和"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "24",
+        "source_text": "写出第 4 行的正确输出结果",
+        "parent_official_item": "写出第 4 行的正确输出结果（注：行和列的值写反扣 1 分）",
+        "parent_id": "step_4",
+        "parent_points": 2.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_5_row",
+        "item": "第5行输出中 row 的数值结果正确",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "row",
+                    "aliases": [
+                        "行",
+                        "行和"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "21",
+        "source_text": "写出第 5 行的正确输出结果",
+        "parent_official_item": "写出第 5 行的正确输出结果（注：行和列的值写反扣 1 分）",
+        "parent_id": "step_5",
+        "parent_points": 2.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_5_col",
+        "item": "第5行输出中 col 的数值结果正确",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "col",
+                    "aliases": [
+                        "列",
+                        "列和"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "17",
+        "source_text": "写出第 5 行的正确输出结果",
+        "parent_official_item": "写出第 5 行的正确输出结果（注：行和列的值写反扣 1 分）",
+        "parent_id": "step_5",
+        "parent_points": 2.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    }
+]

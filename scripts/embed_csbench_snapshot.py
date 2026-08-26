@@ -58,6 +58,8 @@ def copy_reference(
         return None
     destination_dir.mkdir(parents=True, exist_ok=True)
     destination = destination_dir / f"{question_id}{source.suffix.lower()}"
+    if source.resolve() == destination.resolve():
+        return project_path(destination)
     shutil.copy2(source, destination)
     return project_path(destination)
 
@@ -180,6 +182,7 @@ def main() -> int:
         path
         for path in prepared.rglob("*")
         if path.is_file()
+        and path.name != "embedded_manifest.json"
         and "rubrics/optimized" not in path.as_posix()
         and "rubrics/manifests" not in path.as_posix()
     ]

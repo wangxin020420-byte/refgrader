@@ -16,10 +16,14 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_1",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 3.0,
-    "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "task_semantics": "process_dominant",
+    "scoring_policy": "strict_atomic",
+    "split_policy": "preserve_atomic",
+    "weighting_policy": "preserve_parent",
+    "decomposition_required": false,
+    "full_credit_anchor": "低8KW采用ROM，每片ROM为4K×16，需要8K/4K=2片ROM芯片。"
   },
   {
     "id": "step_2",
@@ -38,10 +42,14 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_2",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 3.0,
-    "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "task_semantics": "process_dominant",
+    "scoring_policy": "strict_atomic",
+    "split_policy": "preserve_atomic",
+    "weighting_policy": "preserve_parent",
+    "decomposition_required": false,
+    "full_credit_anchor": "主存共64KW，除低8KW外其余56KW采用RAM；每片RAM为8K×16，需要56K/8K=7片RAM芯片。"
   },
   {
     "id": "step_3",
@@ -60,10 +68,13 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_3",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 3.0,
+    "task_semantics": "orthogonal_additive",
+    "scoring_policy": "additive_split",
     "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "weighting_policy": "equal_atomic",
+    "decomposition_required": false
   },
   {
     "id": "step_4",
@@ -82,9 +93,13 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_4",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 6.0,
+    "task_semantics": "orthogonal_additive",
+    "scoring_policy": "additive_split",
     "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "weighting_policy": "equal_atomic",
+    "decomposition_required": true,
+    "minimum_scoring_children": 2
   }
 ]

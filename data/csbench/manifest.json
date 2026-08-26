@@ -13,12 +13,9 @@
     "answer_POC_25.jsonl",
     "answer_POC_26.jsonl"
   ],
-  "excluded_questions": [
-    "OS_1",
-    "OS_2"
-  ],
-  "prepared_questions": 43,
-  "prepared_answers": 3326,
+  "excluded_questions": [],
+  "prepared_questions": 45,
+  "prepared_answers": 3411,
   "question_counts": {
     "CO_1": 130,
     "CO_10": 103,
@@ -57,6 +54,8 @@
     "ML_2": 56,
     "ML_3": 56,
     "ML_4": 55,
+    "OS_1": 51,
+    "OS_2": 34,
     "POC_1": 54,
     "POC_2": 61,
     "POC_3": 57,
@@ -70,7 +69,7 @@
   "validation_ratio": 0.1,
   "minimum_calibration_size": 5,
   "split_question_counts": {
-    "train": 31,
+    "train": 33,
     "validation": 5,
     "test": 7
   },

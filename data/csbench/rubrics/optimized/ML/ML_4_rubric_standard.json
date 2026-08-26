@@ -18,10 +18,10 @@
         "parent_id": "step_1",
         "semantic_contract_version": 6,
         "parent_points": 6.0,
-        "split_policy": "allow_semantic_split",
-        "weighting_policy": "equal_atomic",
         "task_semantics": "orthogonal_additive",
         "scoring_policy": "additive_split",
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
         "decomposition_required": true,
         "minimum_scoring_children": 2
     }

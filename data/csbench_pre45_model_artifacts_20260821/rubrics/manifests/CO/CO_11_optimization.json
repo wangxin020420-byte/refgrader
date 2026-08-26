@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "rubric_semantic_contract_version": 6,
+  "question_id": "CO_11",
+  "rubric_group": "CO",
+  "source_rubric": "data/csbench/rubrics/source/CO/CO_11.json",
+  "initial_rubric": "data/csbench/rubrics/initial/CO/CO_11_rubric_standard.json",
+  "optimized_rubric": "${PREPARED_CSBENCH_ROOT}/rubrics/optimized/CO/CO_11_rubric_standard.json",
+  "calibration_answer_ids": [
+    "ANS_CO_1205",
+    "ANS_CO_1226",
+    "ANS_CO_1245",
+    "ANS_CO_1265",
+    "ANS_CO_1268"
+  ],
+  "requested_sample_size": 5,
+  "completed_sample_size": 5,
+  "extraction_backend": "csbench_hybrid",
+  "model_config": {
+    "text_provider": "glm5",
+    "text_model": "glm-5.2",
+    "text_thinking": "disabled",
+    "vlm_model": "glm-4.6v"
+  },
+  "question_total_score": 15.0,
+  "initial_total_score": 15.0,
+  "optimized_total_score": 15.0,
+  "average_score_variance": 2.977777777777778,
+  "average_item_variance": 0.6222222222222222,
+  "maximum_item_variance": 5.555555555555556,
+  "high_value_split_threshold": 4.0,
+  "mandatory_split_targets": [
+    {
+      "parent_id": "step_1",
+      "parent_points": 5.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "role_constrained"
+    },
+    {
+      "parent_id": "step_2",
+      "parent_points": 5.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "role_constrained"
+    },
+    {
+      "parent_id": "step_3",
+      "parent_points": 5.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "role_constrained"
+    }
+  ],
+  "refinement_attempted": true,
+  "refinement_applied": true,
+  "structural_refinement_applied": true,
+  "metadata_enriched": false,
+  "semantic_policy_validated": true,
+  "semantic_validation_mode": "strict_candidate_contract",
+  "selected_variant": "candidate",
+  "semantic_validation_errors": [],
+  "fallback_reason": null,
+  "decomposition_deferred": false,
+  "deferred_semantic_errors": [],
+  "candidate_replay": {
+    "method": "paired_teacher_score_noninferiority",
+    "expected": 5,
+    "paired": 5,
+    "required": 4,
+    "coverage": 1.0,
+    "mae_margin": 0.3,
+    "severe_regression_margin": 3.0,
+    "accepted": true,
+    "reason": "accepted_noninferior",
+    "baseline_mae": 1.733333,
+    "candidate_mae": 1.9,
+    "mae_delta": 0.166667,
+    "improved": 1,
+    "unchanged": 3,
+    "worsened": 1,
+    "severe_regressions": 0,
+    "records": [
+      {
+        "answer_id": "ANS_CO_1205",
+        "baseline_score": 0.0,
+        "candidate_score": 0.0,
+        "teacher_score": 0.0
+      },
+      {
+        "answer_id": "ANS_CO_1226",
+        "baseline_score": 0.5,
+        "candidate_score": 5.5,
+        "teacher_score": 3.0
+      },
+      {
+        "answer_id": "ANS_CO_1245",
+        "baseline_score": 12.5,
+        "candidate_score": 12.5,
+        "teacher_score": 15.0
+      },
+      {
+        "answer_id": "ANS_CO_1265",
+        "baseline_score": 12.0,
+        "candidate_score": 10.0,
+        "teacher_score": 14.0
+      },
+      {
+        "answer_id": "ANS_CO_1268",
+        "baseline_score": 3.3333333333333335,
+        "candidate_score": 5.5,
+        "teacher_score": 5.0
+      }
+    ]
+  },
+  "scoring_policies": [
+    "role_weighted_additive"
+  ],
+  "source_sha256": "3d914ad79ba54aa2d9de0db5b1de5be36b05f201048659af8d642465e43b6507",
+  "initial_sha256": "3c0524bc70d4025aea239377429626cb4e2630df506a8b532af356c3503b0f7b",
+  "optimized_sha256": "39b67728302bd55e7a290e105725339b4e4d118d3e57254e321be2eeb90cdbe6",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_co10_co11_co12_co13_co8_co9_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_co10_co11_co12_co13_co8_co9_rubric_opt/CO_11_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "9fb5d12defffb4245c50cbfa9c0396ebb84f14f883372e87978b47d3b3e827a4",
+  "created_at": "2026-07-26T22:26:03",
+  "path_format": "refgrader_placeholders_v1"
+}

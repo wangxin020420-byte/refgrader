@@ -26,7 +26,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-root")
     parser.add_argument("--prepared-dir", default="data/csbench")
-    parser.add_argument("--exclude-questions", nargs="*", default=["OS_1", "OS_2"])
+    parser.add_argument("--exclude-questions", nargs="*", default=[])
     return parser.parse_args()
 
 
@@ -168,6 +168,18 @@ def audit_prepared(prepared: Path, source_answers: dict[str, Any] | None) -> dic
             answer_id = str(record["answer_id"])
             if answer_id in metadata:
                 raise ValueError(f"duplicate embedded answer_id: {answer_id}")
+            forbidden_label_keys = {
+                "actual_score",
+                "teacher_score",
+                "gold_score",
+                "reference_score",
+            }
+            leaked_keys = forbidden_label_keys.intersection(record)
+            if leaked_keys:
+                raise ValueError(
+                    f"embedded inference metadata contains labels for {answer_id}: "
+                    f"{sorted(leaked_keys)}"
+                )
             image = PROJECT_ROOT / record["student_image"]
             if not image.is_file():
                 raise FileNotFoundError(f"missing embedded image: {image}")
@@ -214,7 +226,11 @@ def audit_prepared(prepared: Path, source_answers: dict[str, Any] | None) -> dic
             raise ValueError("embedded answer IDs differ from source after exclusions")
         for answer_id, record in metadata.items():
             source = expected[answer_id]
-            if float(record["actual_score"]) != float(source["actual_score"]):
+            question_id = str(record["question_id"])
+            prepared_score = (teacher_scores.get(answer_id) or {}).get(question_id)
+            if prepared_score is None or float(prepared_score) != float(
+                source["actual_score"]
+            ):
                 raise ValueError(f"teacher score mismatch for {answer_id}")
             if record["raw_text"] != str(source.get("student_input", {}).get("raw_text", "")):
                 raise ValueError(f"raw_text mismatch for {answer_id}")

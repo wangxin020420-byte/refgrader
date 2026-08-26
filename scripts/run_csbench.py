@@ -135,17 +135,31 @@ def normalize_question_ids(values: list[str]) -> list[str]:
 
 
 def batch_slug(contexts: list["CSBenchContext"]) -> str:
-    return "_".join(
+    question_ids = sorted(ctx.question_id for ctx in contexts)
+    readable = "_".join(
         question_slug(question_id)
-        for question_id in sorted(ctx.question_id for ctx in contexts)
+        for question_id in question_ids
     )
+    if len(readable) <= 96:
+        return readable
+    digest = hashlib.sha256(
+        "\n".join(question_ids).encode("utf-8")
+    ).hexdigest()[:16]
+    return f"q{len(question_ids)}_{digest}"
 
 
 def build_contexts(
-    prepared_dir: str, question_ids: list[str]
+    prepared_dir: str,
+    question_ids: list[str],
+    *,
+    require_teacher_db: bool = True,
 ) -> list["CSBenchContext"]:
     return [
-        CSBenchContext(prepared_dir, question_id)
+        CSBenchContext(
+            prepared_dir,
+            question_id,
+            require_teacher_db=require_teacher_db,
+        )
         for question_id in normalize_question_ids(question_ids)
     ]
 
@@ -163,7 +177,13 @@ def display_command(command: list[str], env_overrides: dict[str, str]) -> str:
 
 
 class CSBenchContext:
-    def __init__(self, prepared_dir: str, question_id: str | None = None):
+    def __init__(
+        self,
+        prepared_dir: str,
+        question_id: str | None = None,
+        *,
+        require_teacher_db: bool = True,
+    ):
         self.root = (PROJECT_ROOT / prepared_dir).resolve()
         self.database = self.root / "exam_database.json"
         self.teacher_db = self.root / "teacher_scores.json"
@@ -174,7 +194,9 @@ class CSBenchContext:
         self.question_id = normalize_question_id(question_id) if question_id else None
         self.question: dict[str, Any] | None = None
 
-        required = [self.database, self.teacher_db, self.answer_metadata]
+        required = [self.database, self.answer_metadata]
+        if require_teacher_db:
+            required.append(self.teacher_db)
         missing = [str(path) for path in required if not path.is_file()]
         if missing:
             raise FileNotFoundError(
@@ -915,7 +937,9 @@ def normalize_optimization_manifest(ctx: CSBenchContext) -> None:
 
 
 def _dataset_snapshot_hashes(ctx: CSBenchContext) -> dict[str, str]:
-    files = [ctx.database, ctx.teacher_db, ctx.answer_metadata]
+    # Runtime grading hashes only inference inputs. Teacher labels are tracked
+    # separately and are never required to validate a prediction run.
+    files = [ctx.database, ctx.answer_metadata]
     for name in ("manifest.json", "embedded_manifest.json"):
         candidate = ctx.root / name
         if candidate.is_file():
@@ -1090,6 +1114,7 @@ def refresh_active_configuration(
             str(seed.root), [(str(PROJECT_ROOT), "${REFGRADER_ROOT}")]
         ),
         "dataset_sha256": _dataset_snapshot_hashes(seed),
+        "teacher_labels_sha256": sha256_file(seed.teacher_db),
         "sample_quality_policy": sample_quality_policy(seed).descriptor(),
         "questions": entries,
         "active_a3wa": a3wa_metadata,
@@ -1856,7 +1881,11 @@ def optimize(args: argparse.Namespace) -> int:
 def grade(args: argparse.Namespace) -> int:
     model_config = model_config_from_args(args)
     grading_contract = grading_contract_from_args(args)
-    contexts = build_contexts(args.prepared_dir, args.questions)
+    contexts = build_contexts(
+        args.prepared_dir,
+        args.questions,
+        require_teacher_db=False,
+    )
     allow_baseline_fallback = bool(
         getattr(args, "allow_baseline_rubric_fallback", False)
     )
@@ -1944,8 +1973,6 @@ def grade(args: argparse.Namespace) -> int:
         "--mode",
         "FULL",
         *main_pipeline_base(contexts),
-        "--teacher-db",
-        str(contexts[0].teacher_db),
         "--answer-split",
         args.split,
         "--results-dir",
@@ -3255,7 +3282,7 @@ def build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument(
         "--exclude-questions",
         nargs="*",
-        default=["OS_1", "OS_2"],
+        default=[],
         help="Questions excluded when --dataset-root triggers prepare_csbench.",
     )
     run_parser.add_argument("--sample-size", type=int, default=5)

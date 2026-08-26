@@ -1,4 +1,5 @@
 import copy
+import json
 import unittest
 from unittest.mock import patch
 
@@ -285,9 +286,11 @@ class EvidenceFirstGradingTests(unittest.TestCase):
         from step4_vlm_grader import stage2_logic_grading
 
         captured = []
+        call_kwargs = []
 
-        def fake_call(messages, **_kwargs):
+        def fake_call(messages, **kwargs):
             captured.append(messages[0]["content"])
+            call_kwargs.append(kwargs)
             return "{}"
 
         with patch("step4_vlm_grader.call_text_model", side_effect=fake_call):
@@ -300,6 +303,40 @@ class EvidenceFirstGradingTests(unittest.TestCase):
 
         self.assertEqual(captured[0], captured[1])
         self.assertNotIn("Evidence-First Experimental Contract", captured[1])
+        self.assertEqual(
+            call_kwargs[0]["response_format"],
+            {"type": "json_object"},
+        )
+        self.assertEqual(call_kwargs[0], call_kwargs[1])
+
+    def test_blind_checklist_uses_json_object_contract(self):
+        from step4_vlm_grader import generate_blind_checklist
+
+        captured = []
+
+        def fake_call(_messages, **kwargs):
+            captured.append(kwargs)
+            return json.dumps({
+                "items": [{
+                    "id": "step_1",
+                    "instruction": "提取学生实际写出的数值。",
+                }]
+            }, ensure_ascii=False)
+
+        rubric = json.dumps([{
+            "id": "step_1",
+            "item": "计算结果",
+            "points": 2.0,
+        }], ensure_ascii=False)
+        with patch("step4_vlm_grader.call_text_model", side_effect=fake_call):
+            checklist = json.loads(generate_blind_checklist(rubric))
+
+        self.assertEqual(checklist[0]["id"], "step_1")
+        self.assertEqual(checklist[0]["instruction"], "提取学生实际写出的数值。")
+        self.assertEqual(
+            captured[0]["response_format"],
+            {"type": "json_object"},
+        )
 
     def test_verifier_prompt_is_score_blind_and_uses_explicit_ledger(self):
         from step4_vlm_grader import build_evidence_verification_prompt

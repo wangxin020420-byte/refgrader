@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "rubric_semantic_contract_version": 6,
+  "question_id": "CO_7",
+  "rubric_group": "CO",
+  "source_rubric": "data/csbench/rubrics/source/CO/CO_7.json",
+  "initial_rubric": "data/csbench/rubrics/initial/CO/CO_7_rubric_standard.json",
+  "optimized_rubric": "${PREPARED_CSBENCH_ROOT}/rubrics/optimized/CO/CO_7_rubric_standard.json",
+  "calibration_answer_ids": [
+    "ANS_CO_471",
+    "ANS_CO_474",
+    "ANS_CO_495",
+    "ANS_CO_497",
+    "ANS_CO_500"
+  ],
+  "requested_sample_size": 5,
+  "completed_sample_size": 5,
+  "extraction_backend": "csbench_hybrid",
+  "model_config": {
+    "text_provider": "glm5",
+    "text_model": "glm-5.2",
+    "text_thinking": "disabled",
+    "vlm_model": "glm-4.6v"
+  },
+  "question_total_score": 10.0,
+  "initial_total_score": 10.0,
+  "optimized_total_score": 10.0,
+  "average_score_variance": 1.0194444444444444,
+  "average_item_variance": 0.38888888888888895,
+  "maximum_item_variance": 1.8472222222222223,
+  "high_value_split_threshold": 4.0,
+  "mandatory_split_targets": [
+    {
+      "parent_id": "step_1",
+      "parent_points": 5.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "role_constrained"
+    },
+    {
+      "parent_id": "step_2",
+      "parent_points": 5.0,
+      "current_scoring_children": 1,
+      "minimum_scoring_children": 2,
+      "weighting_policy": "role_constrained"
+    }
+  ],
+  "refinement_attempted": true,
+  "refinement_applied": false,
+  "structural_refinement_applied": false,
+  "metadata_enriched": false,
+  "semantic_policy_validated": true,
+  "semantic_validation_mode": "calibrated_noninferior_baseline_selected",
+  "selected_variant": "baseline",
+  "semantic_validation_errors": [],
+  "fallback_reason": "candidate_noninferiority_rejected:severe_sample_regression",
+  "decomposition_deferred": true,
+  "deferred_semantic_errors": [
+    "role-weighted parent step_1 must contain at least 2 scoring items, got 1",
+    "role-weighted child step_1 has invalid scoring_role ''",
+    "role-weighted parent step_1 must have exactly one final child",
+    "role-weighted parent step_1 must have a core-process child",
+    "role-weighted parent step_1 gives insufficient process weight",
+    "role-weighted parent step_2 must contain at least 2 scoring items, got 1",
+    "role-weighted child step_2 has invalid scoring_role ''",
+    "role-weighted parent step_2 must have exactly one final child",
+    "role-weighted parent step_2 must have a core-process child",
+    "role-weighted parent step_2 gives insufficient process weight"
+  ],
+  "candidate_replay": {
+    "method": "paired_teacher_score_noninferiority",
+    "expected": 5,
+    "paired": 5,
+    "required": 4,
+    "coverage": 1.0,
+    "mae_margin": 0.2,
+    "severe_regression_margin": 2.0,
+    "accepted": false,
+    "reason": "severe_sample_regression",
+    "baseline_mae": 1.783333,
+    "candidate_mae": 1.7,
+    "mae_delta": -0.083333,
+    "improved": 2,
+    "unchanged": 2,
+    "worsened": 1,
+    "severe_regressions": 1,
+    "records": [
+      {
+        "answer_id": "ANS_CO_471",
+        "baseline_score": 8.5,
+        "candidate_score": 10.0,
+        "teacher_score": 10.0
+      },
+      {
+        "answer_id": "ANS_CO_474",
+        "baseline_score": 10.0,
+        "candidate_score": 10.0,
+        "teacher_score": 10.0
+      },
+      {
+        "answer_id": "ANS_CO_495",
+        "baseline_score": 6.25,
+        "candidate_score": 8.25,
+        "teacher_score": 10.0
+      },
+      {
+        "answer_id": "ANS_CO_497",
+        "baseline_score": 6.333333333333333,
+        "candidate_score": 3.25,
+        "teacher_score": 10.0
+      },
+      {
+        "answer_id": "ANS_CO_500",
+        "baseline_score": 10.0,
+        "candidate_score": 10.0,
+        "teacher_score": 10.0
+      }
+    ]
+  },
+  "scoring_policies": [
+    "role_weighted_additive"
+  ],
+  "source_sha256": "676d0352bb7ace6fe8e5f1a31657f2e37ce4405eb8586544292185e7532553c0",
+  "initial_sha256": "043d42144b2347180478367a2a4dd781ff314e729b250f48fb316ba102d157c9",
+  "optimized_sha256": "680390bb47cee80baffdfe20cacb8d1a0adcf3c10304f3c6476e93c982a6b0dc",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt/CO_7_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "07f593786b5998ed115590843f99a41394132444e3dfa4aaea9cc195d4d7cd30",
+  "created_at": "2026-07-22T23:34:47",
+  "path_format": "refgrader_placeholders_v1"
+}

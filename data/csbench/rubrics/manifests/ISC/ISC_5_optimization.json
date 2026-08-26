@@ -25,9 +25,9 @@
   "question_total_score": 6.0,
   "initial_total_score": 6.0,
   "optimized_total_score": 6.0,
-  "average_score_variance": 0.7555555555555555,
-  "average_item_variance": 0.22777777777777777,
-  "maximum_item_variance": 0.7222222222222223,
+  "average_score_variance": 0.2111111111111111,
+  "average_item_variance": 0.08333333333333334,
+  "maximum_item_variance": 0.38888888888888884,
   "high_value_split_threshold": 4.0,
   "mandatory_split_targets": [],
   "refinement_attempted": true,
@@ -51,42 +51,42 @@
     "severe_regression_margin": 1.2,
     "accepted": true,
     "reason": "accepted_noninferior",
-    "baseline_mae": 2.033333,
-    "candidate_mae": 1.5,
-    "mae_delta": -0.533333,
-    "improved": 1,
-    "unchanged": 3,
-    "worsened": 1,
+    "baseline_mae": 1.6,
+    "candidate_mae": 1.2,
+    "mae_delta": -0.4,
+    "improved": 3,
+    "unchanged": 0,
+    "worsened": 2,
     "severe_regressions": 0,
     "records": [
       {
         "answer_id": "ANS_ISC_24",
-        "baseline_score": 5.833333333333333,
-        "candidate_score": 6.0,
+        "baseline_score": 4.833333333333333,
+        "candidate_score": 5.5,
         "teacher_score": 4.5
       },
       {
         "answer_id": "ANS_ISC_53",
-        "baseline_score": 4.0,
-        "candidate_score": 6.0,
+        "baseline_score": 3.1666666666666665,
+        "candidate_score": 4.0,
         "teacher_score": 5.0
       },
       {
         "answer_id": "ANS_ISC_56",
-        "baseline_score": 6.0,
-        "candidate_score": 6.0,
+        "baseline_score": 5.833333333333333,
+        "candidate_score": 5.5,
         "teacher_score": 6.0
       },
       {
         "answer_id": "ANS_ISC_60",
-        "baseline_score": 2.1666666666666665,
-        "candidate_score": 6.0,
+        "baseline_score": 4.0,
+        "candidate_score": 4.5,
         "teacher_score": 5.5
       },
       {
         "answer_id": "ANS_ISC_68",
-        "baseline_score": 1.0,
-        "candidate_score": 1.0,
+        "baseline_score": 1.3333333333333333,
+        "candidate_score": 3.0,
         "teacher_score": 5.5
       }
     ]
@@ -95,11 +95,11 @@
     "additive_split"
   ],
   "source_sha256": "4f6c61f096cd655a2f0b6397cc8ac55f986474dd2124842aa8e36c87a4ec2f3d",
-  "initial_sha256": "9621221ed8277cce495176374554d7dc99c942dbccde1109bd6c23b7ec33c167",
-  "optimized_sha256": "e7ae2399cc77a84bc3e392dc55499fe300fd19595998266ac8e5b85211633799",
-  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_rubric_opt",
-  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_rubric_opt/ISC_5_variance_checkpoint.json",
-  "variance_checkpoint_sha256": "b001e61fbbd05b811421d11a4d9529c56d3579d1a16bec7e8765aad097c7487b",
-  "created_at": "2026-07-27T07:29:39",
+  "initial_sha256": "086bd4b7499c4bfac17db86b8863a66dc588fb8ad8d5aa423a52905d29a9ec1b",
+  "optimized_sha256": "e71fa71526756ebbe7990039ef244f854c0b3425849c830a2093ada76f7905e1",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt/ISC_5_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "3d7b0b844219f5f322af99393bff775155f4412e463f1cd05eb24a3482edd473",
+  "created_at": "2026-08-22T01:43:43",
   "path_format": "refgrader_placeholders_v1"
 }

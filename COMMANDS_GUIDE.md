@@ -9,7 +9,7 @@ CSBench 实验统一使用 `scripts/run_csbench.py`。更换题目时只需要�
 
 ## 0. 日常最短命令
 
-本节是日常实验的默认入口。评分准则、七题 validation 和 A3WA 配置已经生成并提交后，当前批准的配置位于 `data/csbench`。任何设备拉取 `refgrader-main` 后都使用同一份哈希校验配置，不再从本机 `results_runs` 猜测“最近一个”配置。
+本节是日常实验的默认入口。当前 `data/csbench` 已切换为45题数据快照，但新的 optimized rubric、validation 和 A3WA 配置尚未生成；43题旧配置保存在 `data/csbench_pre45_model_artifacts_20260821`，不得用于45题正式实验。重新完成 `optimize` 和 `calibrate` 后，各设备应使用同一份哈希校验配置，不从本机 `results_runs` 猜测“最近一个”配置。
 
 教师标签审计与活动样本策略的命令见
 `CSBENCH_GUIDE.md` 的“教师标签质量控制”。活动策略不存在时，所有命令保持原始数据行为；策略存在时，批改、校准、评估和断点续传自动使用同一策略，不需要为日常 `grade` 命令增加参数。
@@ -20,7 +20,7 @@ CSBench 实验统一使用 `scripts/run_csbench.py`。更换题目时只需要�
 .\venv\Scripts\python.exe scripts\review_teacher_labels.py
 ```
 
-无参数启动优先加载最新的全 43 题教师标签审计报告，将两套筛选结果合并去重，
+无参数启动目前优先加载最新的历史43题教师标签审计报告，将两套筛选结果合并去重，
 只审核从 3326 条教师标签中筛出的疑似异常候选。存在同名人工初筛文件时，默认只显示二次初筛结果；
 需要查看所有自动候选时增加 `--all-candidates`。仅审核某个专项批次时，再增加
 `--report-run <教师标签候选报告目录名>`。
@@ -57,7 +57,7 @@ Linux/服务器已经有固定配置时，同样只需要一条核心命令：
 python scripts/run_csbench.py grade CO_5 CO_6 --split test --force
 ```
 
-这些 test 命令会自动读取 `data/csbench/calibration/active_a3wa_config.json`，并用 `data/csbench/rubrics/active_rubric_set.json` 验证其题目覆盖、rubric 哈希和数据快照。配置缺失、过期或不覆盖待测题目时会直接停止，避免静默使用默认参数。只有进行历史对照实验时才显式传 `--a3wa-config <文件>`；明确执行无校准配置消融时传 `--no-active-a3wa`。
+这些 test 命令会自动读取 `data/csbench/calibration/active_a3wa_config.json`，并用 `data/csbench/rubrics/active_rubric_set.json` 验证其题目覆盖、rubric 哈希和数据快照。当前45题配置尚未生成这两个文件，因此正式 test 会按设计直接停止；完成新的优化和校准后才可恢复正式 test。只有进行历史对照实验时才显式传 `--a3wa-config <文件>`；明确执行无校准配置消融时传 `--no-active-a3wa`。
 
 `optimize` 成功后会更新 Git 可见的 `rubrics/optimized`、`rubrics/manifests` 和 `active_rubric_set.json`；`calibrate` 成功后还会更新 `calibration/active_a3wa_config.json`。这两个阶段结束后应提交 `refgrader-main`，历史运行证据仍单独提交到 `refgrader-artifacts`。
 
@@ -259,8 +259,8 @@ powershell -NoProfile -ExecutionPolicy Bypass `
 
 说明：
 
-- 当前兼容题库共包含 43 道题。
-- `OS_1`、`OS_2` 目前没有完整 question 定义，因此未进入兼容题库，不能传给统一入口。
+- 当前兼容题库共包含 45 道题、3411份学生答案。
+- `OS_1`、`OS_2` 已使用20分题目定义和评分细则进入操作系统题组，可传给统一入口。
 - 本项目将 `ML` 题组按实际题目内容统一称为“数字逻辑”。
 
 ## 2. 进入服务器环境

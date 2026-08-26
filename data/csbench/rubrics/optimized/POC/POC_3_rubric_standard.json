@@ -18,10 +18,10 @@
         "parent_id": "step_1",
         "semantic_contract_version": 6,
         "parent_points": 2.0,
-        "split_policy": "allow_semantic_split",
-        "weighting_policy": "equal_atomic",
         "task_semantics": "orthogonal_additive",
         "scoring_policy": "additive_split",
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
         "decomposition_required": false
     },
     {
@@ -43,10 +43,10 @@
         "parent_id": "step_2",
         "semantic_contract_version": 6,
         "parent_points": 2.0,
-        "split_policy": "allow_semantic_split",
-        "weighting_policy": "equal_atomic",
         "task_semantics": "orthogonal_additive",
         "scoring_policy": "additive_split",
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
         "decomposition_required": false
     },
     {
@@ -68,10 +68,10 @@
         "parent_id": "step_3",
         "semantic_contract_version": 6,
         "parent_points": 1.0,
-        "split_policy": "allow_semantic_split",
-        "weighting_policy": "equal_atomic",
         "task_semantics": "orthogonal_additive",
         "scoring_policy": "additive_split",
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
         "decomposition_required": false
     }
 ]

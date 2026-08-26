@@ -16,10 +16,13 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_1",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 2.0,
+    "task_semantics": "orthogonal_additive",
+    "scoring_policy": "additive_split",
     "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "weighting_policy": "equal_atomic",
+    "decomposition_required": false
   },
   {
     "id": "step_2",
@@ -38,9 +41,13 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_2",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 2.0,
-    "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "task_semantics": "process_dominant",
+    "scoring_policy": "strict_atomic",
+    "split_policy": "preserve_atomic",
+    "weighting_policy": "preserve_parent",
+    "decomposition_required": false,
+    "full_credit_anchor": "X-Y的结果（补码）：11100111 [cite: 526]"
   }
 ]

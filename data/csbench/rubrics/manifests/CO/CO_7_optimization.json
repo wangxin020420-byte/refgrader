@@ -25,9 +25,9 @@
   "question_total_score": 10.0,
   "initial_total_score": 10.0,
   "optimized_total_score": 10.0,
-  "average_score_variance": 1.0194444444444444,
-  "average_item_variance": 0.38888888888888895,
-  "maximum_item_variance": 1.8472222222222223,
+  "average_score_variance": 0.044444444444444446,
+  "average_item_variance": 0.011111111111111112,
+  "maximum_item_variance": 0.05555555555555556,
   "high_value_split_threshold": 4.0,
   "mandatory_split_targets": [
     {
@@ -77,17 +77,17 @@
     "severe_regression_margin": 2.0,
     "accepted": false,
     "reason": "severe_sample_regression",
-    "baseline_mae": 1.783333,
+    "baseline_mae": 1.433333,
     "candidate_mae": 1.7,
-    "mae_delta": -0.083333,
-    "improved": 2,
-    "unchanged": 2,
+    "mae_delta": 0.266667,
+    "improved": 1,
+    "unchanged": 3,
     "worsened": 1,
     "severe_regressions": 1,
     "records": [
       {
         "answer_id": "ANS_CO_471",
-        "baseline_score": 8.5,
+        "baseline_score": 10.0,
         "candidate_score": 10.0,
         "teacher_score": 10.0
       },
@@ -99,14 +99,14 @@
       },
       {
         "answer_id": "ANS_CO_495",
-        "baseline_score": 6.25,
-        "candidate_score": 8.25,
+        "baseline_score": 7.5,
+        "candidate_score": 8.5,
         "teacher_score": 10.0
       },
       {
         "answer_id": "ANS_CO_497",
-        "baseline_score": 6.333333333333333,
-        "candidate_score": 3.25,
+        "baseline_score": 5.333333333333333,
+        "candidate_score": 3.0,
         "teacher_score": 10.0
       },
       {
@@ -120,12 +120,12 @@
   "scoring_policies": [
     "role_weighted_additive"
   ],
-  "source_sha256": "676d0352bb7ace6fe8e5f1a31657f2e37ce4405eb8586544292185e7532553c0",
-  "initial_sha256": "043d42144b2347180478367a2a4dd781ff314e729b250f48fb316ba102d157c9",
+  "source_sha256": "565b62982d0a1441761074b36e9c9ec8afd1a5ab7f212b7192200c75ebe4b32c",
+  "initial_sha256": "12ade56e8bf11c2fc03f8b848786eb8c9a4238ccc7a0f80fad0baca7322ade24",
   "optimized_sha256": "680390bb47cee80baffdfe20cacb8d1a0adcf3c10304f3c6476e93c982a6b0dc",
-  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt",
-  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_co1_co2_co3_co4_co5_co6_co7_rubric_opt/CO_7_variance_checkpoint.json",
-  "variance_checkpoint_sha256": "07f593786b5998ed115590843f99a41394132444e3dfa4aaea9cc195d4d7cd30",
-  "created_at": "2026-07-22T23:34:47",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt/CO_7_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "6829332fa2e1a6541cd50ea8482fdc6f0d4cc4e0987ca966aabbd16291fbcfb5",
+  "created_at": "2026-08-21T23:46:47",
   "path_format": "refgrader_placeholders_v1"
 }

@@ -1,0 +1,91 @@
+[
+    {
+        "id": "step_1_sub_1",
+        "item": "准确简述计算机网络协议的概念",
+        "points": 2.5,
+        "answer_type": "concept_keyword",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": "keywords: [规则, 标准, 约定, 语法, 语义, 时序]",
+        "evidence_source": "text",
+        "standard_answer_text": "概念：为在计算机网络中进行数据交换而建立的规则、标准或约定。或包含语法、语义、时序的三要素描述。",
+        "source_text": "简述协议概念及HTTP协议的基本构成",
+        "parent_official_item": "简述协议概念及HTTP协议的基本构成",
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "parent_id": "step_1",
+        "semantic_contract_version": 6,
+        "parent_points": 5.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "full_credit_trigger": false,
+        "decomposition_required": true,
+        "minimum_scoring_children": 2
+    },
+    {
+        "id": "step_1_sub_2",
+        "item": "说明HTTP协议的基本构成",
+        "points": 2.5,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "score_layer": "core",
+        "canonicalization": {
+            "type": "set",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "request_line",
+                    "aliases": [
+                        "请求行"
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "request_header",
+                    "aliases": [
+                        "请求头",
+                        "头部"
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "blank_line",
+                    "aliases": [
+                        "空行"
+                    ],
+                    "required": false
+                },
+                {
+                    "name": "request_body",
+                    "aliases": [
+                        "请求体",
+                        "数据内容"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "HTTP基本构成：请求行（方法、URL、版本）、请求头（客户端信息）、空行、请求体（发送的数据内容）",
+        "source_text": "简述协议概念及HTTP协议的基本构成",
+        "parent_official_item": "简述协议概念及HTTP协议的基本构成",
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "parent_id": "step_1",
+        "semantic_contract_version": 6,
+        "parent_points": 5.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "full_credit_trigger": false,
+        "decomposition_required": true,
+        "minimum_scoring_children": 2
+    }
+]

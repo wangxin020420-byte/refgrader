@@ -1,0 +1,175 @@
+[
+    {
+        "id": "step_1",
+        "item": "正确写出拓广文法与初始项目集 I0 的项目核心与展望符",
+        "points": 1.0,
+        "answer_type": "structured_fields",
+        "role": "intermediate",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "extended_grammar",
+                    "aliases": [
+                        "S' -> S"
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "I0_items",
+                    "aliases": [
+                        "S' -> · S, {#}",
+                        "S -> · A a A, {#}",
+                        "S -> · b B a, {#}"
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "I0_epsilon_lookahead",
+                    "aliases": [
+                        "A -> ·, {a}"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "拓广文法: S' -> S; I0 核心项目: S' -> · S, {#}; S -> · A a A, {#}; S -> · b B a, {#}; A -> ·, {a}",
+        "source_text": "写出拓广文法并构造初始 LR(1) 项目集 I0",
+        "parent_official_item": "写出拓广文法并构造初始 LR(1) 项目集 I0",
+        "parent_id": "step_1",
+        "parent_points": 1.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "score_layer": "support",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_3",
+        "item": "构造由 I1 转移生成的后继项目集 (I4, I5)",
+        "points": 1.5,
+        "answer_type": "structured_fields",
+        "role": "intermediate",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": true,
+            "fields": [
+                {
+                    "name": "I4",
+                    "aliases": [
+                        "GOTO(I1, B)"
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "I5",
+                    "aliases": [
+                        "GOTO(I1, a)"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "I4: S -> b B · a, {#}\nI5: B -> a ·, {a}",
+        "source_text": "由 I0 和 I1 构造主要后继项目集",
+        "parent_official_item": "由 I0 和 I1 构造主要后继项目集",
+        "parent_id": "step_2",
+        "parent_points": 1.5,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "score_layer": "support",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_4",
+        "item": "正确构造剩余的归约/移进项目集 (I6, I7, I8) 及其对应的展望符",
+        "points": 1.5,
+        "answer_type": "structured_fields",
+        "role": "final",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": true,
+            "fields": [
+                {
+                    "name": "I6",
+                    "aliases": [
+                        "GOTO(I3, a)"
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "I7",
+                    "aliases": [
+                        "GOTO(I4, a)"
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "I8",
+                    "aliases": [
+                        "GOTO(I6, A)"
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        "evidence_source": "text",
+        "standard_answer_text": "I6: S -> A a · A, {#}; A -> ·, {#}\nI7: S -> b B a ·, {#}\nI8: S -> A a A ·, {#}",
+        "source_text": "继续构造剩余项目集，尤其注意 A -> ε 的展望符",
+        "parent_official_item": "继续构造剩余项目集，尤其注意 A -> ε 的展望符",
+        "parent_id": "step_3",
+        "parent_points": 1.5,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "score_layer": "core",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    },
+    {
+        "id": "step_5",
+        "item": "完整且无冗余地标出 LR(1) 项目集规范族的有向状态转移边集",
+        "points": 1.0,
+        "answer_type": "relation",
+        "role": "final",
+        "canonicalization": "graph_relation",
+        "evidence_source": "diagram",
+        "standard_answer_text": "状态转移关系:\nI0 --b--> I1\nI0 --S--> I2\nI0 --A--> I3\nI1 --B--> I4\nI1 --a--> I5\nI3 --a--> I6\nI4 --a--> I7\nI6 --A--> I8",
+        "source_text": "完整标出 LR(1) 项目集规范族的状态转移关系",
+        "parent_official_item": "完整标出 LR(1) 项目集规范族的状态转移关系",
+        "parent_id": "step_4",
+        "parent_points": 1.0,
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "scoring_role": "component",
+        "decomposition_required": false,
+        "score_layer": "core",
+        "metadata_source": "explicit",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
+        "semantic_contract_version": 6
+    }
+]

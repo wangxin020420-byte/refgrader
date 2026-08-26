@@ -28,9 +28,11 @@ Requirements:
 7. Return strict JSON only.
 
 Output format:
-[
-  {
-    "id": "rubric item id",
-    "instruction": "Extract the student's concrete handwritten content for this item without revealing the expected answer."
-  }
-]
+{
+  "items": [
+    {
+      "id": "rubric item id",
+      "instruction": "Extract the student's concrete handwritten content for this item without revealing the expected answer."
+    }
+  ]
+}

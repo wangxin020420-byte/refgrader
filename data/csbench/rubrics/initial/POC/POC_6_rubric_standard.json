@@ -16,10 +16,19 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_1",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 5.0,
+    "task_semantics": "process_dominant",
+    "scoring_policy": "role_weighted_additive",
     "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "weighting_policy": "role_constrained",
+    "decomposition_required": true,
+    "process_complexity": "complex",
+    "minimum_scoring_children": 3,
+    "dependency_mode": "independent",
+    "minimum_process_ratio": 0.8,
+    "minimum_core_process_ratio": 0.5,
+    "maximum_final_ratio": 0.2
   },
   {
     "id": "step_2",
@@ -38,9 +47,13 @@
     "metadata_hard_enabled": true,
     "metadata_confidence": 1.0,
     "parent_id": "step_2",
-    "semantic_contract_version": 1,
+    "semantic_contract_version": 6,
     "parent_points": 5.0,
+    "task_semantics": "orthogonal_additive",
+    "scoring_policy": "additive_split",
     "split_policy": "allow_semantic_split",
-    "weighting_policy": "equal_atomic"
+    "weighting_policy": "equal_atomic",
+    "decomposition_required": true,
+    "minimum_scoring_children": 2
   }
 ]

@@ -25,9 +25,9 @@
   "question_total_score": 4.0,
   "initial_total_score": 4.0,
   "optimized_total_score": 4.0,
-  "average_score_variance": 0.3944444444444444,
-  "average_item_variance": 0.3944444444444444,
-  "maximum_item_variance": 1.3888888888888886,
+  "average_score_variance": 0.05277777777777778,
+  "average_item_variance": 0.05277777777777778,
+  "maximum_item_variance": 0.16666666666666666,
   "high_value_split_threshold": 4.0,
   "mandatory_split_targets": [
     {
@@ -61,42 +61,42 @@
     "severe_regression_margin": 0.8,
     "accepted": false,
     "reason": "severe_sample_regression",
-    "baseline_mae": 1.933333,
-    "candidate_mae": 2.7,
-    "mae_delta": 0.766667,
-    "improved": 1,
-    "unchanged": 0,
-    "worsened": 4,
-    "severe_regressions": 2,
+    "baseline_mae": 1.233333,
+    "candidate_mae": 1.45,
+    "mae_delta": 0.216667,
+    "improved": 2,
+    "unchanged": 1,
+    "worsened": 2,
+    "severe_regressions": 1,
     "records": [
       {
         "answer_id": "ANS_ML_09",
-        "baseline_score": 0.5833333333333334,
-        "candidate_score": 0.0,
+        "baseline_score": 2.75,
+        "candidate_score": 1.5,
         "teacher_score": 4.0
       },
       {
         "answer_id": "ANS_ML_25",
-        "baseline_score": 2.0,
-        "candidate_score": 1.0,
+        "baseline_score": 2.5,
+        "candidate_score": 2.5,
         "teacher_score": 4.0
       },
       {
         "answer_id": "ANS_ML_28",
-        "baseline_score": 2.1666666666666665,
-        "candidate_score": 2.0,
+        "baseline_score": 2.3333333333333335,
+        "candidate_score": 2.5,
         "teacher_score": 3.5
       },
       {
         "answer_id": "ANS_ML_31",
-        "baseline_score": 2.4166666666666665,
-        "candidate_score": 3.0,
+        "baseline_score": 3.0,
+        "candidate_score": 3.25,
         "teacher_score": 4.0
       },
       {
         "answer_id": "ANS_ML_37",
-        "baseline_score": 2.6666666666666665,
-        "candidate_score": 0.0,
+        "baseline_score": 2.75,
+        "candidate_score": 2.5,
         "teacher_score": 4.0
       }
     ]
@@ -105,11 +105,11 @@
     "additive_split"
   ],
   "source_sha256": "0c441a45c38d10db54e070a739d3d3533e51a42607e550a4d512d486508e7647",
-  "initial_sha256": "40298ba2fee865e4b991aedcd9e44e433c017a008e8d8e8a10005ac38ff909b6",
-  "optimized_sha256": "bce7630468c0545f5bf08245577dda772bc58e9a9eef4be1648ff10ad1a32acd",
-  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_ml1_rubric_opt",
-  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_ml1_rubric_opt/ML_1_variance_checkpoint.json",
-  "variance_checkpoint_sha256": "76ec2632001fd47f58b8ff1932ed8c36015b198ff1ebee2e573141553762c360",
-  "created_at": "2026-08-07T13:28:32",
+  "initial_sha256": "500c202f6f7f807cabc2a00b305032c99bfe8c3183ca81fca99f53a4e80f2ac7",
+  "optimized_sha256": "c301c2ff2122dec6a3f8ed19b60f6b85b812b8af7e00c041f70f63d9e6d9c137",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt/ML_1_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "b7727afe9b04747df7b4ebcc5d0aadaf1511847ca26fc64dd4ea50616488e1c6",
+  "created_at": "2026-08-22T02:21:29",
   "path_format": "refgrader_placeholders_v1"
 }

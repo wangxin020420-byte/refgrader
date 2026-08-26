@@ -1,80 +1,127 @@
 [
     {
-        "id": "step_1_1",
-        "item": "说明数据库系统的组成",
-        "points": 1.6666666666666667,
+        "id": "step_1_a",
+        "item": "列出数据库系统的组成成分，至少包含数据库(DB)和数据库管理系统(DBMS)两个核心成分；提及硬件平台、软件工具、数据库管理员(DBA)、应用系统或用户等其余成分可作为等价补充表达",
+        "points": 2.5,
         "answer_type": "concept_keyword",
         "role": "final",
         "score_layer": "core",
-        "canonicalization": "keyword_set",
+        "canonicalization": "keyword_set_ignore_order; 接受中英文等价命名（如 DBMS/数据库管理系统、DBA/数据库管理员）；提及DBMS内部子程序（编译程序、运行控制程序、维护程序）视为DBMS的等价展开，不重复计分也不扣分；列出核心成分即可得分，不要求穷举全部成分",
         "evidence_source": "text",
-        "standard_answer_text": "数据库(DB)、数据库管理系统(DBMS)、硬件平台、软件工具、数据库管理员(DBA)和用户",
-        "standard_answer_image": null,
-        "source_text": "组成：数据库(DB)、数据库管理系统(DBMS)、硬件平台、软件工具、数据库管理员(DBA)和用户 [cite: 482]。",
+        "standard_answer_text": "组成：数据库(DB)、数据库管理系统(DBMS)、硬件平台、软件工具、数据库管理员(DBA)和用户",
+        "source_text": "组成：数据库(DB)、数据库管理系统(DBMS)、硬件平台、软件工具、数据库管理员(DBA)和用户 [cite: 482]",
         "parent_official_item": "简述组成、重要性及SQL语言的作用",
+        "parent_id": "step_1",
+        "parent_points": 5.0,
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "scoring_role": "component",
+        "full_credit_trigger": false,
+        "decomposition_required": true,
+        "minimum_scoring_children": 2,
         "metadata_source": "csbench",
         "metadata_hard_enabled": true,
         "metadata_confidence": 1.0,
-        "parent_id": "step_1",
-        "semantic_contract_version": 6,
-        "parent_points": 5.0,
-        "split_policy": "allow_semantic_split",
-        "weighting_policy": "equal_atomic",
-        "task_semantics": "orthogonal_additive",
-        "scoring_policy": "additive_split",
-        "decomposition_required": true,
-        "minimum_scoring_children": 2
+        "semantic_contract_version": 6
     },
     {
-        "id": "step_1_2",
-        "item": "说明数据库系统在现代信息系统中的重要性",
-        "points": 1.6666666666666667,
-        "answer_type": "concept_keyword",
+        "id": "step_1_b",
+        "item": "说明数据库系统在现代信息系统中的重要性并说明SQL语言的作用：重要性需涉及数据冗余/一致性、集中管理、共享或安全控制中任一要点；SQL作用需说明其为结构化查询语言且用于定义、操作、查询或管理（关系型）数据库",
+        "points": 2.5,
+        "answer_type": "structured_fields",
         "role": "final",
         "score_layer": "core",
-        "canonicalization": "keyword_set",
+        "canonicalization": {
+            "type": "structured_fields",
+            "ordered": false,
+            "fields": [
+                {
+                    "name": "importance",
+                    "aliases": [
+                        "重要性",
+                        "优点",
+                        "作用"
+                    ],
+                    "required": true,
+                    "accept_keywords": [
+                        [
+                            "冗余",
+                            "不一致",
+                            "冲突"
+                        ],
+                        [
+                            "集中管理",
+                            "共享",
+                            "共享度"
+                        ],
+                        [
+                            "安全",
+                            "独立性"
+                        ],
+                        [
+                            "方便",
+                            "灵活",
+                            "一体化",
+                            "可移植"
+                        ]
+                    ]
+                },
+                {
+                    "name": "sql_role",
+                    "aliases": [
+                        "SQL作用",
+                        "SQL语言",
+                        "SQL功能"
+                    ],
+                    "required": true,
+                    "accept_keywords": [
+                        [
+                            "查询",
+                            "操作",
+                            "定义",
+                            "管理"
+                        ],
+                        [
+                            "结构化查询语言"
+                        ],
+                        [
+                            "关系",
+                            "数据库"
+                        ],
+                        [
+                            "减轻用户负担",
+                            "一体化",
+                            "可移植",
+                            "非过程",
+                            "面向过程"
+                        ]
+                    ]
+                }
+            ]
+        },
         "evidence_source": "text",
-        "standard_answer_text": "解决数据冗余和不一致问题，实现数据集中管理、共享和安全控制",
-        "standard_answer_image": null,
-        "source_text": "重要性：解决数据冗余和不一致问题，实现数据集中管理、共享和安全控制 [cite: 483]。",
+        "standard_answer_text": "重要性：解决数据冗余和不一致问题，实现数据集中管理、共享和安全控制；等价要点（数据独立性高、减轻用户负担、功能一体化、灵活方便、可移植）同样认可。SQL作用：结构化查询语言，用于定义、操作、查询与管理关系型数据库，减轻用户负担，提高数据独立性与安全性；诸如'操作数据库的通用语言/普通话'、'统一语言完成多平台数据请求'等通俗或等价表述同样认可。",
+        "source_text": "重要性：解决数据冗余和不一致问题，实现数据集中管理、共享和安全控制 [cite: 483]。SQL作用：结构化查询语言，用于定义、操作、查询与管理关系型数据库，减轻用户负担，提高数据独立性与安全性 [cite: 484]。",
         "parent_official_item": "简述组成、重要性及SQL语言的作用",
+        "parent_id": "step_1",
+        "parent_points": 5.0,
+        "task_semantics": "orthogonal_additive",
+        "scoring_policy": "additive_split",
+        "split_policy": "allow_semantic_split",
+        "weighting_policy": "equal_atomic",
+        "scoring_role": "component",
+        "full_credit_trigger": false,
+        "decomposition_required": true,
+        "minimum_scoring_children": 2,
         "metadata_source": "csbench",
         "metadata_hard_enabled": true,
         "metadata_confidence": 1.0,
-        "parent_id": "step_1",
         "semantic_contract_version": 6,
-        "parent_points": 5.0,
-        "split_policy": "allow_semantic_split",
-        "weighting_policy": "equal_atomic",
-        "task_semantics": "orthogonal_additive",
-        "scoring_policy": "additive_split",
-        "decomposition_required": true,
-        "minimum_scoring_children": 2
-    },
-    {
-        "id": "step_1_3",
-        "item": "说明SQL语言的作用",
-        "points": 1.6666666666666667,
-        "answer_type": "concept_keyword",
-        "role": "final",
-        "score_layer": "core",
-        "canonicalization": "keyword_set",
-        "evidence_source": "text",
-        "standard_answer_text": "用于定义、操作、查询与管理关系型数据库，减轻用户负担，提高数据独立性与安全性",
-        "standard_answer_image": null,
-        "source_text": "SQL作用：结构化查询语言，用于定义、操作、查询与管理关系型数据库，减轻用户负担，提高数据独立性与安全性 [cite: 484]。",
-        "parent_official_item": "简述组成、重要性及SQL语言的作用",
-        "metadata_source": "csbench",
-        "metadata_hard_enabled": true,
-        "metadata_confidence": 1.0,
-        "parent_id": "step_1",
-        "semantic_contract_version": 6,
-        "parent_points": 5.0,
-        "split_policy": "allow_semantic_split",
-        "weighting_policy": "equal_atomic",
-        "task_semantics": "orthogonal_additive",
-        "scoring_policy": "additive_split",
-        "decomposition_required": true,
-        "minimum_scoring_children": 2
+        "diagnostic_evidence": [
+            "importance 字段缺失但 sql_role 完整（或反之）时，仅按存在字段给分，不因表述顺序或标签编号形式（如(a)/(b)/(1)(2)(3)）扣分",
+            "学生将数据库系统特点（如多维数据分析）误写为SQL作用属于内容错误，按缺失要点处理，不得因字数多而给分"
+        ]
     }
 ]

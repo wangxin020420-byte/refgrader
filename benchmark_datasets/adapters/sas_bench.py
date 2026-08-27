@@ -25,6 +25,7 @@ from rubric_semantics import (
 
 
 SPLIT_NAMES = ("train", "calibration", "validation", "test")
+TASK_FILE_PATTERN = re.compile(r"^\d+_.+\.jsonl$", flags=re.IGNORECASE)
 
 
 def _normalized_text(value: Any) -> str:
@@ -153,7 +154,11 @@ def _rubric(reference: str, analysis: str, total: float) -> list[dict[str, Any]]
 
 
 def _source_files(source: Path) -> list[Path]:
-    files = sorted(path for path in source.glob("*.jsonl") if path.is_file())
+    files = sorted(
+        path
+        for path in source.glob("*.jsonl")
+        if path.is_file() and TASK_FILE_PATTERN.fullmatch(path.name)
+    )
     if not files:
         raise FileNotFoundError(f"No SAS-Bench task JSONL files found in: {source}")
     return files

@@ -49,6 +49,10 @@ class SASBenchAdapterTests(unittest.TestCase):
                 "".join(json.dumps(item) + "\n" for item in records),
                 encoding="utf-8",
             )
+            (source / "error_type.jsonl").write_text(
+                json.dumps({"error_type": "example"}) + "\n",
+                encoding="utf-8",
+            )
             spec = root / "spec.json"
             spec.write_text(
                 json.dumps(
@@ -108,7 +112,7 @@ class SASBenchAdapterTests(unittest.TestCase):
             root = Path(temporary)
             source = root / "datasets"
             source.mkdir()
-            (source / "task.jsonl").write_text(
+            (source / "0_Task.jsonl").write_text(
                 json.dumps(_record("A1")) + "\n",
                 encoding="utf-8",
             )

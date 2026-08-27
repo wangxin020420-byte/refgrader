@@ -42,7 +42,7 @@ class SASBenchAdapterTests(unittest.TestCase):
             source.mkdir()
             records = [
                 _record("A1"),
-                _record("A2", score=3.0),
+                _record("A2", question="What  is caching?\n", score=3.0),
                 _record("BAD", total=4.0, score=5.0),
             ]
             (source / "0_Physics_ShortAns.jsonl").write_text(

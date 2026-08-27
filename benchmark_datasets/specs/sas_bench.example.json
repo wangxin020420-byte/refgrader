@@ -6,7 +6,7 @@
   "expected_counts": {
     "task_files": 12,
     "source_records": 4109,
-    "source_question_contexts": 1113,
+    "source_question_contexts": 1112,
     "formal_test_records": 4093,
     "excluded_records": 16
   }

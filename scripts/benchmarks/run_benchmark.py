@@ -190,6 +190,17 @@ def _archive_a3wa_config(
         if dry_run:
             return source
         raise FileNotFoundError(f"A3WA configuration not found: {source}")
+    payload = load_json(source)
+    calibrated_model_config = payload.get("model_config")
+    runtime_config = runtime_model_config()
+    if (
+        calibrated_model_config is not None
+        and calibrated_model_config != runtime_config
+    ):
+        raise ValueError(
+            "A3WA model contract does not match the benchmark runtime: "
+            f"calibrated={calibrated_model_config}, runtime={runtime_config}"
+        )
     target = run_dir / "calibration" / "a3wa_config.json"
     target.parent.mkdir(parents=True, exist_ok=True)
     if source != target.resolve():

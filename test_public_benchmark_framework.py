@@ -534,6 +534,42 @@ class PublicBenchmarkFrameworkTests(unittest.TestCase):
                 str(Path("calibration") / "a3wa_config.json"),
             )
 
+    def test_public_run_rejects_a3wa_model_contract_mismatch(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            prepared = self.prepare_fixture(temporary_root)
+            context = run_benchmark._prepared_context(prepared)
+            config = temporary_root / "a3wa.json"
+            write_json(
+                config,
+                {
+                    "model_config": {
+                        "text_provider": "different-provider",
+                    },
+                    "deployment_gate": {"passed": True},
+                },
+            )
+            result_root = temporary_root / "results"
+            with mock.patch.object(
+                run_benchmark,
+                "_result_root",
+                return_value=result_root,
+            ):
+                with self.assertRaisesRegex(
+                    ValueError,
+                    "A3WA model contract does not match",
+                ):
+                    run_benchmark.grade(
+                        context,
+                        questions=["ASAP_SAS_1"],
+                        split="test",
+                        run_id="mismatch",
+                        force=False,
+                        a3wa_config=str(config),
+                        dry_run=False,
+                        evaluate_after=False,
+                    )
+
     def test_public_workflow_cli_dry_run_is_parser_compatible(self):
         with tempfile.TemporaryDirectory() as temporary:
             prepared = self.prepare_fixture(Path(temporary))

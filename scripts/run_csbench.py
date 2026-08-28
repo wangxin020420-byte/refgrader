@@ -2386,6 +2386,11 @@ def calibrate(args: argparse.Namespace) -> int:
         "--vlm-model",
         model_config["vlm_model"],
     ]
+    if "text_temperature_override" in model_config:
+        command.extend([
+            "--text-temperature-override",
+            str(model_config["text_temperature_override"]),
+        ])
     if getattr(args, "score_calibration", False):
         command.append("--score-calibration")
     if args.no_score_calibration:

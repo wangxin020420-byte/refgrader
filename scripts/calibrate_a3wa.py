@@ -21,7 +21,10 @@ from calibration_utils import (  # noqa: E402
     route_score_band,
     safe_float,
 )
-from model_runtime import runtime_model_config  # noqa: E402
+from model_runtime import (  # noqa: E402
+    resolve_text_temperature_override,
+    runtime_model_config,
+)
 from sample_quality import load_policy_for_data_path  # noqa: E402
 
 
@@ -1681,6 +1684,11 @@ def main():
         default=default_model_config["text_thinking"],
     )
     parser.add_argument(
+        "--text-temperature-override",
+        type=resolve_text_temperature_override,
+        default=default_model_config.get("text_temperature_override"),
+    )
+    parser.add_argument(
         "--vlm-provider", default=default_model_config["vlm_provider"]
     )
     parser.add_argument(
@@ -1853,19 +1861,25 @@ def main():
     )
     alpha, beta = compute_a3wa_thresholds(**best["loss_params"])
 
+    calibrated_model_config = {
+        "text_provider": args.text_provider,
+        "text_model": args.text_model,
+        "text_family": (
+            "deepseek" if args.text_provider.startswith("deepseek") else "glm"
+        ),
+        "text_thinking": args.thinking_mode,
+        "vlm_provider": args.vlm_provider,
+        "vlm_model": args.vlm_model,
+    }
+    if args.text_temperature_override is not None:
+        calibrated_model_config["text_temperature_override"] = (
+            args.text_temperature_override
+        )
+
     config = {
         "version": 2,
         "source": "scripts/calibrate_a3wa.py",
-        "model_config": {
-            "text_provider": args.text_provider,
-            "text_model": args.text_model,
-            "text_family": (
-                "deepseek" if args.text_provider.startswith("deepseek") else "glm"
-            ),
-            "text_thinking": args.thinking_mode,
-            "vlm_provider": args.vlm_provider,
-            "vlm_model": args.vlm_model,
-        },
+        "model_config": calibrated_model_config,
         "database_path": args.database_path,
         "teacher_db": args.teacher_db,
         "sample_quality_policy": sample_policy.descriptor(),

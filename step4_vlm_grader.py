@@ -43,6 +43,7 @@ from model_runtime import (
     TEXT_MODEL_PROFILES,
     VLM_MODEL_PROFILES,
     runtime_model_config,
+    effective_text_temperature,
     thinking_extra_body,
 )
 
@@ -66,6 +67,9 @@ TEXT_MODEL_PROVIDER = MODEL_RUNTIME_CONFIG["text_provider"]
 TEXT_MODEL_NAME = MODEL_RUNTIME_CONFIG["text_model"]
 TEXT_MODEL_FAMILY = MODEL_RUNTIME_CONFIG["text_family"]
 TEXT_THINKING_MODE = MODEL_RUNTIME_CONFIG["text_thinking"]
+TEXT_TEMPERATURE_OVERRIDE = MODEL_RUNTIME_CONFIG.get(
+    "text_temperature_override"
+)
 
 # Coding Plan 统一配置（OpenAI 兼容接口）
 CODING_PLAN_API_KEY = (
@@ -124,6 +128,10 @@ def render_prompt_template(filename, replacements, fallback):
 
 def call_text_model(messages, temperature=0.2, timeout=120, response_format=None):
     """Call the configured text model under one reproducible contract."""
+    effective_temperature = effective_text_temperature(
+        temperature,
+        override=TEXT_TEMPERATURE_OVERRIDE,
+    )
     if TEXT_MODEL_FAMILY == "deepseek":
         api_key, base_url = DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL
         api_key = require_api_key(api_key, "DEEPSEEK_API_KEY")
@@ -136,7 +144,7 @@ def call_text_model(messages, temperature=0.2, timeout=120, response_format=None
             request = {
                 "model": TEXT_MODEL_NAME,
                 "messages": messages,
-                "temperature": temperature,
+                "temperature": effective_temperature,
                 "timeout": timeout,
             }
             if response_format is not None:

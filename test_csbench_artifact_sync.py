@@ -32,9 +32,21 @@ from scripts.run_csbench import (
 )
 from model_runtime import runtime_model_config
 from sample_quality import SampleQualityPolicy, default_policy_path
+from portable_hash import sha256_file as portable_sha256_file
+from portable_hash import text_file_hash_matches
 
 
 class CSBenchArtifactSyncTests(unittest.TestCase):
+    def test_text_hash_accepts_only_line_ending_equivalent_content(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "rubric.json"
+            path.write_bytes(b'{\n  "points": 5\n}\n')
+            expected = portable_sha256_file(path)
+            path.write_bytes(b'{\r\n  "points": 5\r\n}\r\n')
+            self.assertTrue(text_file_hash_matches(expected, path))
+            path.write_bytes(b'{\r\n  "points": 4\r\n}\r\n')
+            self.assertFalse(text_file_hash_matches(expected, path))
+
     def test_optimize_resume_is_explicit_and_mutually_exclusive_with_force(self):
         parser = build_parser()
         args = parser.parse_args(["optimize", "CO_1", "--resume"])
@@ -167,7 +179,9 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             split = prepared / "splits" / "by_question" / "CO_1.json"
             split.parent.mkdir(parents=True)
             split.write_text(
-                json.dumps({"validation": ["A"], "test": ["T"]}),
+                json.dumps(
+                    {"validation": ["A"], "test": ["T"]}, indent=2
+                ),
                 encoding="utf-8",
             )
             initial = (
@@ -184,13 +198,16 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             )
             for path in (initial, optimized, manifest):
                 path.parent.mkdir(parents=True, exist_ok=True)
-            atomic_rubric = json.dumps([{
-                "id": "s1",
-                "item": "write the unique final answer",
-                "points": 5,
-                "standard_answer_text": "37H",
-                "scoring_policy": "strict_atomic",
-            }])
+            atomic_rubric = json.dumps(
+                [{
+                    "id": "s1",
+                    "item": "write the unique final answer",
+                    "points": 5,
+                    "standard_answer_text": "37H",
+                    "scoring_policy": "strict_atomic",
+                }],
+                indent=2,
+            )
             initial.write_text(atomic_rubric, encoding="utf-8")
             optimized.write_text(atomic_rubric, encoding="utf-8")
             manifest.write_text(
@@ -209,11 +226,14 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
             config = root / "results_runs" / "a3wa.json"
             config.parent.mkdir(parents=True)
             config.write_text(
-                json.dumps({
-                    "database_path": str(prepared / "exam_database.json"),
-                    "score_calibration": {"enabled": True},
-                    "model_config": runtime_model_config(),
-                }),
+                json.dumps(
+                    {
+                        "database_path": str(prepared / "exam_database.json"),
+                        "score_calibration": {"enabled": True},
+                        "model_config": runtime_model_config(),
+                    },
+                    indent=2,
+                ),
                 encoding="utf-8",
             )
 
@@ -224,6 +244,22 @@ class CSBenchArtifactSyncTests(unittest.TestCase):
                     a3wa_config=config,
                     source_validation_run_id="validation-1",
                 )
+                validate_active_configuration([context])
+                self.assertEqual(
+                    resolve_active_a3wa_config([context]),
+                    active_a3wa_config_path(context),
+                )
+
+                for text_path in (
+                    initial,
+                    optimized,
+                    manifest,
+                    split,
+                    active_a3wa_config_path(context),
+                ):
+                    content = text_path.read_bytes().replace(b"\r\n", b"\n")
+                    text_path.write_bytes(content.replace(b"\n", b"\r\n"))
+                context.validate_optimized()
                 validate_active_configuration([context])
                 self.assertEqual(
                     resolve_active_a3wa_config([context]),

@@ -44,6 +44,7 @@ from step4_vlm_grader import (
 )
 from ocr.backend import ensure_paddle_ocr_cache, ocr_json_path
 from sample_quality import SampleQualityPolicy
+from portable_hash import text_file_hash_matches
 
 if hasattr(sys.stdout, "reconfigure"):
     try:
@@ -731,13 +732,16 @@ def validate_optimized_rubric_provenance(q_data, rubric_path):
             "semantic-policy validation. Re-run VARIANCE_OPT."
         )
     initial_path = initial_rubric_path_for(q_data)
-    expected_initial_hash = sha256_path(initial_path)
-    if manifest.get("initial_sha256") != expected_initial_hash:
+    if not text_file_hash_matches(
+        manifest.get("initial_sha256"), initial_path
+    ):
         raise ValueError(
             f"Optimized rubric for {q_data['question_id']} was produced from "
             "a different initial rubric. Re-run VARIANCE_OPT."
         )
-    if manifest.get("optimized_sha256") != sha256_path(rubric_path):
+    if not text_file_hash_matches(
+        manifest.get("optimized_sha256"), rubric_path
+    ):
         raise ValueError(
             f"Optimized rubric hash mismatch for {q_data['question_id']}. "
             "Re-run VARIANCE_OPT or restore the recorded file."

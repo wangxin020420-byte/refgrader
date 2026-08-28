@@ -45,6 +45,7 @@ from model_runtime import (
     runtime_model_config,
 )
 from sample_quality import SampleQualityPolicy
+from portable_hash import sha256_file, text_file_hash_matches
 
 DEFAULT_OCR_DEVICE = "cpu" if os.name == "nt" else "gpu:0"
 ACTIVE_RUBRIC_SET_SCHEMA_VERSION = 1
@@ -101,14 +102,6 @@ def grading_contract_from_args(args: argparse.Namespace) -> dict[str, Any]:
         "scoring_effect": "none",
         "route_effect": "none",
     }
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def rubric_total(rubric: list[dict[str, Any]]) -> float:
@@ -362,13 +355,15 @@ class CSBenchContext:
                 "The optimized rubric has no successful semantic-policy "
                 "validation. Re-run optimize with --force."
             )
-        if manifest.get("initial_sha256") != sha256_file(self.initial_rubric):
+        if not text_file_hash_matches(
+            manifest.get("initial_sha256"), self.initial_rubric
+        ):
             raise ValueError(
                 "The optimized rubric was generated from a different initial "
                 "rubric. Re-run optimize with --force."
             )
-        if manifest.get("optimized_sha256") != sha256_file(
-            self.optimized_rubric
+        if not text_file_hash_matches(
+            manifest.get("optimized_sha256"), self.optimized_rubric
         ):
             raise ValueError(
                 "The optimized rubric does not match its manifest. "
@@ -950,6 +945,26 @@ def _dataset_snapshot_hashes(ctx: CSBenchContext) -> dict[str, str]:
     }
 
 
+def _dataset_snapshot_matches(
+    expected: dict[str, str] | None,
+    ctx: CSBenchContext,
+) -> bool:
+    if not isinstance(expected, dict):
+        return False
+    actual_paths = [ctx.database, ctx.answer_metadata]
+    for name in ("manifest.json", "embedded_manifest.json"):
+        candidate = ctx.root / name
+        if candidate.is_file():
+            actual_paths.append(candidate)
+    paths = {
+        path.relative_to(ctx.root).as_posix(): path for path in actual_paths
+    }
+    return set(expected) == set(paths) and all(
+        text_file_hash_matches(expected[name], path)
+        for name, path in paths.items()
+    )
+
+
 def _active_rubric_entry(ctx: CSBenchContext) -> dict[str, Any]:
     manifest = json.loads(
         ctx.optimization_manifest.read_text(encoding="utf-8-sig")
@@ -1091,11 +1106,18 @@ def refresh_active_configuration(
         reasons = []
         if not active_config.is_file():
             reasons.append("active A3WA file is missing")
-        elif a3wa_metadata.get("sha256") != sha256_file(active_config):
+        elif not text_file_hash_matches(
+            a3wa_metadata.get("sha256"), active_config
+        ):
             reasons.append("active A3WA file hash changed")
+        valid_by_question = {
+            ctx.question_id: ctx for ctx in valid_contexts
+        }
         for question_id, expected_hash in expected_rubrics.items():
-            entry = entries.get(question_id)
-            if not entry or entry.get("optimized_sha256") != expected_hash:
+            rubric_ctx = valid_by_question.get(question_id)
+            if not rubric_ctx or not text_file_hash_matches(
+                expected_hash, rubric_ctx.optimized_rubric
+            ):
                 reasons.append(f"{question_id} optimized rubric changed")
         if not sample_quality_descriptors_match(
             a3wa_metadata.get("sample_quality_policy"),
@@ -1146,7 +1168,7 @@ def validate_active_configuration(
         raise ValueError("Unsupported active rubric set schema version.")
     if bundle.get("semantic_contract_version") != RUBRIC_SEMANTIC_CONTRACT_VERSION:
         raise ValueError("Active rubric set uses an obsolete semantic contract.")
-    if bundle.get("dataset_sha256") != _dataset_snapshot_hashes(contexts[0]):
+    if not _dataset_snapshot_matches(bundle.get("dataset_sha256"), contexts[0]):
         raise ValueError(
             "Active rubric set was generated from a different CSBench snapshot. "
             "Re-run optimize or restore the matching configuration."
@@ -1170,15 +1192,13 @@ def validate_active_configuration(
                 f"{ctx.question_id} is not registered in the active rubric set."
             )
         checks = {
-            "initial_sha256": sha256_file(ctx.initial_rubric),
-            "optimized_sha256": sha256_file(ctx.optimized_rubric),
-            "optimization_manifest_sha256": sha256_file(
-                ctx.optimization_manifest
-            ),
-            "split_sha256": sha256_file(ctx.split_file),
+            "initial_sha256": ctx.initial_rubric,
+            "optimized_sha256": ctx.optimized_rubric,
+            "optimization_manifest_sha256": ctx.optimization_manifest,
+            "split_sha256": ctx.split_file,
         }
-        for key, actual in checks.items():
-            if entry.get(key) != actual:
+        for key, path in checks.items():
+            if not text_file_hash_matches(entry.get(key), path):
                 raise ValueError(
                     f"Active rubric set hash mismatch for {ctx.question_id}: {key}."
                 )
@@ -1199,11 +1219,15 @@ def resolve_active_a3wa_config(
     if not requested.issubset(covered):
         return None
     path = active_a3wa_config_path(contexts[0])
-    if not path.is_file() or metadata.get("sha256") != sha256_file(path):
+    if not path.is_file() or not text_file_hash_matches(
+        metadata.get("sha256"), path
+    ):
         raise ValueError("Tracked active A3WA config does not match its manifest.")
     expected = metadata.get("optimized_rubric_sha256") or {}
     for ctx in contexts:
-        if expected.get(ctx.question_id) != sha256_file(ctx.optimized_rubric):
+        if not text_file_hash_matches(
+            expected.get(ctx.question_id), ctx.optimized_rubric
+        ):
             raise ValueError(
                 f"Active A3WA config is stale for {ctx.question_id}. Re-run "
                 "validation and calibrate."

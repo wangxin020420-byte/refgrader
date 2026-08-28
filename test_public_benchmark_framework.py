@@ -57,6 +57,25 @@ def rubric(points):
 
 
 class PublicBenchmarkFrameworkTests(unittest.TestCase):
+    def test_main_pipeline_loads_large_question_list_from_json_file(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            questions_file = Path(temporary) / "question_ids.json"
+            expected = [f"SASB_Q{index}" for index in range(1111)]
+            write_json(questions_file, expected)
+            with mock.patch.object(
+                sys,
+                "argv",
+                [
+                    "main_pipeline.py",
+                    "--mode",
+                    "FULL",
+                    "--questions-file",
+                    str(questions_file),
+                ],
+            ):
+                args = main_pipeline.parse_args()
+            self.assertEqual(args.questions, expected)
+
     def prepare_fixture(self, root):
         source = root / "train.tsv"
         source.write_text(
@@ -370,6 +389,14 @@ class PublicBenchmarkFrameworkTests(unittest.TestCase):
             self.assertIn("text_only", command)
             self.assertIn("--answer-split", command)
             self.assertIn("test", command)
+            self.assertIn("--questions-file", command)
+            self.assertNotIn("--questions", command)
+            questions_file = Path(
+                command[command.index("--questions-file") + 1]
+            )
+            self.assertEqual(
+                load_json(questions_file), ["ASAP_SAS_1"]
+            )
 
     def test_public_runner_records_keyboard_interrupt_as_resumable(self):
         with mock.patch.object(

@@ -312,6 +312,14 @@ def parse_args():
         help="要处理的题号，空格分隔 (例: Q5 Q6 Q7)。不指定则处理全部题目。",
     )
     parser.add_argument(
+        "--questions-file",
+        default=None,
+        help=(
+            "JSON file containing the question ID list. Use this instead of "
+            "--questions when the list is too large for the command line."
+        ),
+    )
+    parser.add_argument(
         "--img-limit", type=int, default=None,
         help="每题最多批改的试卷数 (默认: 全量)",
     )
@@ -445,7 +453,20 @@ def parse_args():
             "change the A3WA route."
         ),
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.questions and args.questions_file:
+        parser.error("--questions and --questions-file are mutually exclusive")
+    if args.questions_file:
+        with open(args.questions_file, "r", encoding="utf-8") as file:
+            question_ids = json.load(file)
+        if not isinstance(question_ids, list) or not question_ids:
+            parser.error("--questions-file must contain a non-empty JSON list")
+        if any(not isinstance(item, str) or not item.strip() for item in question_ids):
+            parser.error("--questions-file contains an invalid question ID")
+        if len(question_ids) != len(set(question_ids)):
+            parser.error("--questions-file contains duplicate question IDs")
+        args.questions = question_ids
+    return args
 
 
 # ============================================================

@@ -337,13 +337,15 @@ def grade(
         dry_run=dry_run,
     )
     runtime_db = _runtime_database(context, run_dir)
+    questions_file = run_dir / "question_ids.json"
+    write_json(questions_file, questions)
     command = [
         sys.executable,
         str(PROJECT_ROOT / "main_pipeline.py"),
         "--mode",
         "FULL",
-        "--questions",
-        *questions,
+        "--questions-file",
+        str(questions_file),
         "--database-path",
         str(runtime_db),
         "--teacher-db",

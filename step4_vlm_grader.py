@@ -9,7 +9,7 @@ import time
 import threading
 import concurrent.futures
 from datetime import datetime
-from openai import OpenAI
+from openai import AuthenticationError, OpenAI, PermissionDeniedError
 from PIL import Image, ImageEnhance, ImageOps
 import io
 import numpy as np
@@ -109,7 +109,7 @@ def require_api_key(value, environment_name):
         raise RuntimeError(
             f"Set {environment_name} before calling the configured model."
         )
-    return value
+    return str(value).strip()
 
 def render_prompt_template(filename, replacements, fallback):
     """Load a UTF-8 prompt template and replace {{PLACEHOLDER}} tokens."""
@@ -155,6 +155,11 @@ def call_text_model(messages, temperature=0.2, timeout=120, response_format=None
                 )
             response = client.chat.completions.create(**request)
             return response.choices[0].message.content.strip()
+        except (AuthenticationError, PermissionDeniedError) as exc:
+            raise RuntimeError(
+                f"{TEXT_MODEL_NAME} authentication failed at {base_url}; "
+                "verify that the API key belongs to this endpoint"
+            ) from exc
         except Exception as exc:
             wait = 5 * (attempt + 1)
             print(

@@ -5,6 +5,9 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
+import httpx
+from openai import AuthenticationError
+
 from model_runtime import (
     DEEPSEEK_BASE_URL_ENV,
     DEEPSEEK_MODEL_ENV,
@@ -125,6 +128,30 @@ class ModelRuntimeTests(unittest.TestCase):
             client.chat.completions.create.call_args.kwargs["temperature"],
             0.0,
         )
+
+    def test_text_model_authentication_failure_is_not_retried(self):
+        import step4_vlm_grader as grader
+
+        response = httpx.Response(
+            401,
+            request=httpx.Request("POST", "https://example.invalid/v1/chat"),
+        )
+        client = MagicMock()
+        client.chat.completions.create.side_effect = AuthenticationError(
+            "Invalid token",
+            response=response,
+            body={"error": "Invalid token"},
+        )
+        with (
+            patch.object(grader, "TEXT_MODEL_FAMILY", "deepseek"),
+            patch.object(grader, "TEXT_MODEL_NAME", "deepseek-chat"),
+            patch.object(grader, "DEEPSEEK_API_KEY", " test-key "),
+            patch.object(grader, "DEEPSEEK_BASE_URL", "https://example.invalid"),
+            patch.object(grader, "OpenAI", return_value=client),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "authentication failed"):
+                grader.call_text_model([], temperature=0)
+        self.assertEqual(client.chat.completions.create.call_count, 1)
 
     def test_run_signature_changes_with_model_contract(self):
         with tempfile.TemporaryDirectory() as temporary:

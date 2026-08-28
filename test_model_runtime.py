@@ -138,17 +138,18 @@ class ModelRuntimeTests(unittest.TestCase):
                 split_file=split,
                 optimized_rubric=rubric,
             )
-            no_thinking = runtime_model_config(
-                text_provider="glm47", thinking_mode="disabled"
-            )
-            thinking = runtime_model_config(
-                text_provider="glm47", thinking_mode="enabled"
-            )
-            fixed_temperature = runtime_model_config(
-                text_provider="glm47",
-                thinking_mode="disabled",
-                text_temperature_override=0,
-            )
+            with patch.dict(os.environ, {}, clear=True):
+                no_thinking = runtime_model_config(
+                    text_provider="glm47", thinking_mode="disabled"
+                )
+                thinking = runtime_model_config(
+                    text_provider="glm47", thinking_mode="enabled"
+                )
+                fixed_temperature = runtime_model_config(
+                    text_provider="glm47",
+                    thinking_mode="disabled",
+                    text_temperature_override=0,
+                )
             first = _run_signature([context], "test", None, no_thinking)
             second = _run_signature([context], "test", None, thinking)
             third = _run_signature(

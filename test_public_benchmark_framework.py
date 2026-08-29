@@ -438,6 +438,39 @@ class PublicBenchmarkFrameworkTests(unittest.TestCase):
             )
             self.assertEqual(manifest["status"], "interrupted")
 
+    def test_public_evaluation_uses_question_file(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            prepared = self.prepare_fixture(temporary_root)
+            context = run_benchmark._prepared_context(prepared)
+            result_root = temporary_root / "results"
+            with (
+                mock.patch.object(
+                    run_benchmark,
+                    "_result_root",
+                    return_value=result_root,
+                ),
+                mock.patch.object(
+                    run_benchmark,
+                    "_run",
+                    return_value=0,
+                ) as execute,
+            ):
+                code = run_benchmark.evaluate_run(
+                    context,
+                    questions=["ASAP_SAS_1"],
+                    run_id="evaluation",
+                    dry_run=False,
+                )
+            self.assertEqual(code, 0)
+            command = execute.call_args.args[0]
+            self.assertIn("--questions-file", command)
+            self.assertNotIn("--questions", command)
+            questions_file = Path(
+                command[command.index("--questions-file") + 1]
+            )
+            self.assertEqual(load_json(questions_file), ["ASAP_SAS_1"])
+
     def test_external_holdout_maps_train_partition_and_records_provenance(self):
         with tempfile.TemporaryDirectory() as temporary:
             temporary_root = Path(temporary)

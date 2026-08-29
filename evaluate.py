@@ -1079,8 +1079,13 @@ def main():
     global SAMPLE_QUALITY_POLICY
 
     parser = argparse.ArgumentParser(description="RefGrader evaluation script")
-    parser.add_argument("--questions", nargs="+", default=["Q4", "Q5", "Q6", "Q7"],
+    parser.add_argument("--questions", nargs="+", default=None,
                         help="Questions to evaluate, e.g. Q6 Q7")
+    parser.add_argument(
+        "--questions-file",
+        default=None,
+        help="JSON file containing question IDs for large evaluation runs",
+    )
     parser.add_argument("--score-key", default="final_calibrated_score",
                         help=(
                             "Score type: single / avg / selected / 3wd-core / 3wd "
@@ -1111,6 +1116,20 @@ def main():
     parser.add_argument("--database-path", default=DATABASE_PATH,
                         help="Question database JSON used to read dynamic max scores")
     args = parser.parse_args()
+    if args.questions and args.questions_file:
+        parser.error("--questions and --questions-file are mutually exclusive")
+    if args.questions_file:
+        with open(args.questions_file, "r", encoding="utf-8") as file:
+            question_ids = json.load(file)
+        if not isinstance(question_ids, list) or not question_ids:
+            parser.error("--questions-file must contain a non-empty JSON list")
+        if any(not isinstance(item, str) or not item.strip() for item in question_ids):
+            parser.error("--questions-file contains an invalid question ID")
+        if len(question_ids) != len(set(question_ids)):
+            parser.error("--questions-file contains duplicate question IDs")
+        args.questions = question_ids
+    elif not args.questions:
+        args.questions = ["Q4", "Q5", "Q6", "Q7"]
     RESULT_SOURCE = args.result_source
     RESULTS_DIR = args.results_dir
     RUBRIC_DIR = args.rubric_dir or RESULTS_DIR

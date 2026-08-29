@@ -524,13 +524,15 @@ def evaluate_run(
 ) -> int:
     run_dir = _run_dir(context["manifest"]["dataset_id"], run_id)
     evaluation_dir = run_dir / "evaluation"
+    questions_file = run_dir / "question_ids.json"
     if not dry_run:
         evaluation_dir.mkdir(parents=True, exist_ok=True)
+        write_json(questions_file, questions)
     command = [
         sys.executable,
         str(PROJECT_ROOT / "evaluate.py"),
-        "--questions",
-        *questions,
+        "--questions-file",
+        str(questions_file),
         "--results-dir",
         str(run_dir),
         "--result-source",

@@ -1556,6 +1556,73 @@ Rules:
         return validate_extraction_against_question(question_text, json.dumps(facts_dict, ensure_ascii=False))
     return initial_facts_str
 
+
+def normalize_stage2_score_contract(grading_result, rubrics_data):
+    """Recover a missing Stage 2 total only from a complete, valid item ledger."""
+    if not isinstance(grading_result, dict):
+        return None
+    if "total_score" in grading_result:
+        return grading_result
+
+    if isinstance(rubrics_data, str):
+        try:
+            rubrics_data = json.loads(rubrics_data)
+        except Exception:
+            return None
+    if not isinstance(rubrics_data, list) or not rubrics_data:
+        return None
+
+    expected_points = {}
+    for item in rubrics_data:
+        if not isinstance(item, dict):
+            return None
+        item_id = str(item.get("id", "")).strip()
+        if not item_id or item_id in expected_points:
+            return None
+        try:
+            points = float(item.get("points", 0))
+        except (TypeError, ValueError):
+            return None
+        if not math.isfinite(points) or points < 0:
+            return None
+        expected_points[item_id] = points
+
+    details = grading_result.get("details")
+    if not isinstance(details, list) or not details:
+        return None
+
+    seen_ids = set()
+    reconstructed_total = 0.0
+    for detail in details:
+        if not isinstance(detail, dict):
+            return None
+        item_id = str(detail.get("id", "")).strip()
+        if item_id not in expected_points or item_id in seen_ids:
+            return None
+        raw_score = detail.get("score_given")
+        if isinstance(raw_score, bool):
+            return None
+        try:
+            score = float(raw_score)
+        except (TypeError, ValueError):
+            return None
+        if (
+            not math.isfinite(score)
+            or score < -1e-9
+            or score > expected_points[item_id] + 1e-9
+        ):
+            return None
+        seen_ids.add(item_id)
+        reconstructed_total += score
+
+    if seen_ids != set(expected_points):
+        return None
+
+    grading_result["total_score"] = round(reconstructed_total, 6)
+    grading_result["total_score_reconstructed_from_details"] = True
+    return grading_result
+
+
 def stage2_logic_grading(
     student_facts_str,
     rubrics_json_str,
@@ -2383,8 +2450,17 @@ def grade_student_3wd_pipeline(
             canonical_context=canonical_context,
         )
         if res_text:
-            parsed_json = extract_and_parse_json(res_text)
+            raw_parsed_json = extract_and_parse_json(res_text)
+            parsed_json = normalize_stage2_score_contract(
+                raw_parsed_json,
+                rubrics_json,
+            )
             if parsed_json and 'total_score' in parsed_json:
+                if parsed_json.get("total_score_reconstructed_from_details"):
+                    print(
+                        "      [Stage 2 contract recovery] "
+                        f"probe={idx + 1}, total_score={parsed_json['total_score']}"
+                    )
                 parsed_json = apply_canonical_score_floor(parsed_json, canonical_context)
                 parsed_json = apply_hierarchical_scoring_policy(
                     parsed_json,
@@ -2398,10 +2474,14 @@ def grade_student_3wd_pipeline(
                 return (idx, parsed_json['total_score'], parsed_json)
             response_text = str(res_text or "")
             digest = hashlib.sha256(response_text.encode("utf-8")).hexdigest()[:12]
-            parsed_type = type(parsed_json).__name__ if parsed_json is not None else "none"
+            parsed_type = (
+                type(raw_parsed_json).__name__
+                if raw_parsed_json is not None
+                else "none"
+            )
             parsed_keys = (
-                sorted(str(key) for key in parsed_json.keys())[:12]
-                if isinstance(parsed_json, dict)
+                sorted(str(key) for key in raw_parsed_json.keys())[:12]
+                if isinstance(raw_parsed_json, dict)
                 else []
             )
             print(

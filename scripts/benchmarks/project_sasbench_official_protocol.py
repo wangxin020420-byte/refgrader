@@ -40,6 +40,7 @@ METHOD_COLUMNS = {
     "3wd": "final_calibrated_score",
 }
 CORRECT_NAME = "步骤正确"
+PROJECTION_POLICY_VERSION = 2
 
 
 class ProjectionFailure(RuntimeError):
@@ -219,10 +220,40 @@ def _api_contract(args: argparse.Namespace) -> dict[str, Any]:
     return {**config, "api_key": api_key, "base_url": base_url}
 
 
-def call_projection_model(prompt: str, api: dict[str, Any], timeout: int) -> str:
+def projection_messages(
+    prompt: str,
+    repair_context: tuple[str, str] | None = None,
+) -> list[dict[str, str]]:
+    messages = [{"role": "user", "content": prompt}]
+    if repair_context is not None:
+        previous_response, contract_error = repair_context
+        messages.extend(
+            [
+                {"role": "assistant", "content": previous_response},
+                {
+                    "role": "user",
+                    "content": (
+                        "上一输出未通过格式与分值合同校验。"
+                        f"校验错误：{contract_error}\n"
+                        "请根据原始任务纠正上一输出。保持步骤数量和顺序不变，"
+                        "所有步骤得分均为非负整数且总和不得超过题目满分，"
+                        "错误名称只能来自允许列表。只输出纠正后的 JSON。"
+                    ),
+                },
+            ]
+        )
+    return messages
+
+
+def call_projection_model(
+    prompt: str,
+    api: dict[str, Any],
+    timeout: int,
+    repair_context: tuple[str, str] | None = None,
+) -> str:
     request = {
         "model": api["text_model"],
-        "messages": [{"role": "user", "content": prompt}],
+        "messages": projection_messages(prompt, repair_context),
         "temperature": float(api.get("text_temperature_override", 0.0)),
         "response_format": {"type": "json_object"},
         "timeout": timeout,
@@ -246,16 +277,26 @@ def project_one(
     prompt = build_projection_prompt(safe_record, contract)
     last_error = None
     last_content = None
+    repair_context = None
     for attempt in range(4):
         try:
-            content = call_projection_model(prompt, api, timeout)
-            last_content = content
-            pred_steps = parse_projection_response(
-                content,
-                expected_steps=len(safe_record["steps"]),
-                total=safe_record["total"],
-                allowed_errors=set(contract["allowed_error_names"]),
+            content = call_projection_model(
+                prompt,
+                api,
+                timeout,
+                repair_context=repair_context,
             )
+            last_content = content
+            try:
+                pred_steps = parse_projection_response(
+                    content,
+                    expected_steps=len(safe_record["steps"]),
+                    total=safe_record["total"],
+                    allowed_errors=set(contract["allowed_error_names"]),
+                )
+            except Exception as exc:
+                repair_context = (content, str(exc))
+                raise
             return {
                 "answer_id": safe_record["id"],
                 "source_task": task,
@@ -377,7 +418,8 @@ def main() -> int:
     api = _api_contract(args)
     contracts = load_error_contracts(error_path)
     public_model_contract = {
-        key: value for key, value in api.items() if key != "api_key"
+        "projection_policy_version": PROJECTION_POLICY_VERSION,
+        **{key: value for key, value in api.items() if key != "api_key"},
     }
     model_contract_sha256 = hashlib.sha256(
         json.dumps(
@@ -481,6 +523,7 @@ def main() -> int:
     elif failure_path.exists():
         failure_path.unlink()
     manifest = {
+        "projection_policy_version": PROJECTION_POLICY_VERSION,
         "method": args.method,
         "record_count": selected_count,
         "prediction_count": written,

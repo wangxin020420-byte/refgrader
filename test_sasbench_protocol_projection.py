@@ -12,21 +12,40 @@ from scripts.benchmarks.filter_sasbench_official_common_subset import (
 )
 from scripts.benchmarks.project_sasbench_official_protocol import (
     CORRECT_NAME,
+    PROJECTION_POLICY_VERSION,
     ProjectionFailure,
     build_projection_prompt,
     materialize_predictions,
     parse_projection_response,
+    projection_messages,
     safe_projection_input,
 )
 
 
 class SASBenchProtocolProjectionTests(unittest.TestCase):
+    def test_projection_policy_version_is_explicit(self):
+        self.assertEqual(PROJECTION_POLICY_VERSION, 2)
+
     def test_projection_failure_preserves_last_invalid_response(self):
         failure = ProjectionFailure(
             "invalid response",
             raw_response='{"unexpected":true}',
         )
         self.assertEqual(failure.raw_response, '{"unexpected":true}')
+
+    def test_projection_repair_messages_include_contract_error(self):
+        messages = projection_messages(
+            "base prompt",
+            ('{"steps":[]}', "Step score sum exceeds total: sum=22, total=12"),
+        )
+        self.assertEqual([message["role"] for message in messages], [
+            "user",
+            "assistant",
+            "user",
+        ])
+        self.assertEqual(messages[1]["content"], '{"steps":[]}')
+        self.assertIn("sum=22, total=12", messages[2]["content"])
+        self.assertIn("不得超过题目满分", messages[2]["content"])
 
     def test_prompt_uses_only_label_blind_source_fields(self):
         source = {

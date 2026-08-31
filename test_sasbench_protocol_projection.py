@@ -12,6 +12,7 @@ from scripts.benchmarks.filter_sasbench_official_common_subset import (
 )
 from scripts.benchmarks.project_sasbench_official_protocol import (
     CORRECT_NAME,
+    ProjectionFailure,
     build_projection_prompt,
     materialize_predictions,
     parse_projection_response,
@@ -20,6 +21,13 @@ from scripts.benchmarks.project_sasbench_official_protocol import (
 
 
 class SASBenchProtocolProjectionTests(unittest.TestCase):
+    def test_projection_failure_preserves_last_invalid_response(self):
+        failure = ProjectionFailure(
+            "invalid response",
+            raw_response='{"unexpected":true}',
+        )
+        self.assertEqual(failure.raw_response, '{"unexpected":true}')
+
     def test_prompt_uses_only_label_blind_source_fields(self):
         source = {
             "id": "A1",

@@ -1,6 +1,6 @@
 # RefGrader
 
-> 跨设备项目入口。最后更新：2026-07-22。
+> 跨设备项目入口。最后更新：2026-08-31。
 
 RefGrader 是面向主观题自动评分的实验系统。当前研究主线是把混合视觉证据、细粒度评分准则、三次独立语义评分、三支决策（3WD/A3WA）、边界仲裁和可选残差校正组合为可审计的评分流水线。
 
@@ -10,7 +10,7 @@ RefGrader 是面向主观题自动评分的实验系统。当前研究主线是�
 
 正式实验默认启用三层安全门禁：评分准则候选失败时保留旧 active rubric 且整阶段失败；A3WA 配置只有在跨题验证、路由预算和 BND 收益门禁全部通过后才能激活并进入 test；BND 加分与降分动作分别在 validation 上验证，样本不足或平均收益不为正的方向会被自动禁用。`--allow-baseline-rubric-fallback` 和 `--allow-experimental-a3wa` 仅用于明确标记的诊断消融，不能用于论文正式结果。
 
-本文档只回答五个问题：项目目前是什么、三个仓库分别保存什么、多个设备如何保持一致、一次实验会自动复制什么、其他 Markdown 文档应该去哪里查。完整命令见 [COMMANDS_GUIDE.md](COMMANDS_GUIDE.md)，按日期的开发记录见 [CURRENT_PROGRESS.md](CURRENT_PROGRESS.md)。
+本文档只回答五个问题：项目目前是什么、三个仓库分别保存什么、多个设备如何保持一致、一次实验会自动复制什么、其他 Markdown 文档应该去哪里查。当前结论见 [PROJECT_STATUS.md](PROJECT_STATUS.md)，SAS-Bench 对比进度见 [SAS_BENCH_REPRODUCTION_PROGRESS.md](SAS_BENCH_REPRODUCTION_PROGRESS.md)，仓库审计与清理依据见 [REPOSITORY_AUDIT.md](REPOSITORY_AUDIT.md)。完整命令见 [COMMANDS_GUIDE.md](COMMANDS_GUIDE.md)，按日期的开发记录见 [CURRENT_PROGRESS.md](CURRENT_PROGRESS.md)。
 
 ## 1. 当前系统
 

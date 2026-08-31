@@ -42,6 +42,14 @@ METHOD_COLUMNS = {
 CORRECT_NAME = "步骤正确"
 
 
+class ProjectionFailure(RuntimeError):
+    """Preserve the final invalid model response for offline diagnosis."""
+
+    def __init__(self, message: str, *, raw_response: str | None = None) -> None:
+        super().__init__(message)
+        self.raw_response = raw_response
+
+
 def read_jsonl(path: Path) -> list[dict[str, Any]]:
     with path.open("r", encoding="utf-8-sig") as handle:
         return [json.loads(line) for line in handle if line.strip()]
@@ -237,9 +245,11 @@ def project_one(
     safe_record = safe_projection_input(record)
     prompt = build_projection_prompt(safe_record, contract)
     last_error = None
+    last_content = None
     for attempt in range(4):
         try:
             content = call_projection_model(prompt, api, timeout)
+            last_content = content
             pred_steps = parse_projection_response(
                 content,
                 expected_steps=len(safe_record["steps"]),
@@ -260,7 +270,10 @@ def project_one(
             last_error = exc
             if attempt < 3:
                 time.sleep(5 * (attempt + 1))
-    raise RuntimeError(f"Projection failed after 4 attempts: {last_error}")
+    raise ProjectionFailure(
+        f"Projection failed after 4 attempts: {last_error}",
+        raw_response=last_content,
+    )
 
 
 def select_source_records(
@@ -438,9 +451,16 @@ def main() -> int:
                 predictions[answer_id] = prediction
                 append_jsonl(checkpoint_path, prediction, lock)
             except Exception as exc:
-                failures.append(
-                    {"source_task": task, "answer_id": answer_id, "error": str(exc)}
-                )
+                failure = {
+                    "source_task": task,
+                    "answer_id": answer_id,
+                    "error_type": type(exc).__name__,
+                    "error": str(exc),
+                }
+                raw_response = getattr(exc, "raw_response", None)
+                if raw_response is not None:
+                    failure["raw_response"] = raw_response
+                failures.append(failure)
             if completed % 25 == 0 or completed == len(future_map):
                 print(
                     f"Projection progress: {completed}/{len(future_map)}, "

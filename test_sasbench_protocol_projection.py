@@ -24,7 +24,7 @@ from scripts.benchmarks.project_sasbench_official_protocol import (
 
 class SASBenchProtocolProjectionTests(unittest.TestCase):
     def test_projection_policy_version_is_explicit(self):
-        self.assertEqual(PROJECTION_POLICY_VERSION, 2)
+        self.assertEqual(PROJECTION_POLICY_VERSION, 3)
 
     def test_projection_failure_preserves_last_invalid_response(self):
         failure = ProjectionFailure(
@@ -36,7 +36,7 @@ class SASBenchProtocolProjectionTests(unittest.TestCase):
     def test_projection_repair_messages_include_contract_error(self):
         messages = projection_messages(
             "base prompt",
-            ('{"steps":[]}', "Step score sum exceeds total: sum=22, total=12"),
+            ('{"steps":[]}', "Step count mismatch: expected=2, actual=0"),
         )
         self.assertEqual([message["role"] for message in messages], [
             "user",
@@ -44,8 +44,8 @@ class SASBenchProtocolProjectionTests(unittest.TestCase):
             "user",
         ])
         self.assertEqual(messages[1]["content"], '{"steps":[]}')
-        self.assertIn("sum=22, total=12", messages[2]["content"])
-        self.assertIn("不得超过题目满分", messages[2]["content"])
+        self.assertIn("expected=2, actual=0", messages[2]["content"])
+        self.assertIn("非负整数", messages[2]["content"])
 
     def test_prompt_uses_only_label_blind_source_fields(self):
         source = {
@@ -99,6 +99,24 @@ class SASBenchProtocolProjectionTests(unittest.TestCase):
                 total=5,
                 allowed_errors={"allowed", CORRECT_NAME},
             )
+
+    def test_projection_step_labels_are_not_constrained_by_holistic_total(self):
+        content = json.dumps(
+            {
+                "steps": [
+                    {"step_score": 1, "errors": [CORRECT_NAME]}
+                    for _ in range(16)
+                ]
+            },
+            ensure_ascii=False,
+        )
+        parsed = parse_projection_response(
+            content,
+            expected_steps=16,
+            total=12,
+            allowed_errors={CORRECT_NAME},
+        )
+        self.assertEqual(sum(step["step_score"] for step in parsed), 16)
 
     def test_materialized_prediction_preserves_source_gold_for_official_evaluator(self):
         with tempfile.TemporaryDirectory() as temporary:

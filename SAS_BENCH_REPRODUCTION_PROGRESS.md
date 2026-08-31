@@ -85,7 +85,7 @@ SAS-Bench 的 CCS/ECS 不只使用整体分：
 D:\Users\王鑫020420\Desktop\refgrader-public-datasets\sas_bench\protocol_comparison\refgrader_smoke12_RefGrader_3WD_Deepseek_t0_smoke_v1_Scored
 ```
 
-旧策略的 11 条 checkpoint 保留作为失败诊断记录。由于修复重试现在会携带上一次合同错误，投影策略版本已升级为 2；为防止混合协议，新冒烟使用 `smoke_v2` 标签重新运行 12 条，不覆盖旧目录。
+旧策略的 checkpoint 保留作为失败诊断记录。官方 CCS 将整体分和各步骤标签分别比较，并不要求步骤标签之和等于卷面满分；投影策略已据此升级为 3。为防止混合协议，新冒烟使用 `smoke_v3` 标签重新运行 12 条，不覆盖旧目录。
 
 当前代码已增强失败记录：新失败文件同时保存异常类型、异常信息和最后一次无效模型输出，便于区分步骤数量、分值上限、JSON 或错因标签问题。该修改只位于论文协议投影脚本，不改变主评分。
 
@@ -129,7 +129,7 @@ $Source = "D:\Users\王鑫020420\Desktop\refgrader-public-datasets\sas_bench\off
 $RunDir = "D:\Users\王鑫020420\Desktop\refgrader-main\results_runs\public_benchmarks\sas_bench_v1\runs\sasbench_refgrader_deepseek_official_t0_zeroshot_20260828_173432"
 $Compare = Join-Path $RunDir "evaluation\compare.csv"
 $ProtocolBase = "D:\Users\王鑫020420\Desktop\refgrader-public-datasets\sas_bench\protocol_comparison\refgrader_smoke12"
-$Tag = "RefGrader_3WD_Deepseek_t0_smoke_v2"
+$Tag = "RefGrader_3WD_Deepseek_t0_smoke_v3"
 $Output = "${ProtocolBase}_${Tag}_Scored"
 
 & $Python scripts\benchmarks\project_sasbench_official_protocol.py `
@@ -160,13 +160,13 @@ if ($CheckpointCount -ne 12) {
 }
 ```
 
-该命令首次执行必须显示 `Completed checkpoint records: 0` 和 `Pending projection records: 12`。若中断，保持 `smoke_v2` 标签再次执行即可续传。
+该命令首次执行必须显示 `Completed checkpoint records: 0` 和 `Pending projection records: 12`。若中断，保持 `smoke_v3` 标签再次执行即可续传。
 
 ### 7.2 冒烟通过后启动 4,093 条全量投影
 
 ```powershell
 $FullBase = "D:\Users\王鑫020420\Desktop\refgrader-public-datasets\sas_bench\protocol_comparison\refgrader_full4093"
-$FullTag = "RefGrader_3WD_Deepseek_t0_official_v1"
+$FullTag = "RefGrader_3WD_Deepseek_t0_official_v3"
 
 & $Python scripts\benchmarks\project_sasbench_official_protocol.py `
     --source-dir $Source `

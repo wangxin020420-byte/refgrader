@@ -40,7 +40,7 @@ METHOD_COLUMNS = {
     "3wd": "final_calibrated_score",
 }
 CORRECT_NAME = "步骤正确"
-PROJECTION_POLICY_VERSION = 2
+PROJECTION_POLICY_VERSION = 3
 
 
 class ProjectionFailure(RuntimeError):
@@ -153,8 +153,9 @@ def build_projection_prompt(
         f"学生分步作答：{json.dumps(safe_record['steps'], ensure_ascii=False)}\n\n"
         "输出严格 JSON：{\"steps\":[{\"step_score\":非负整数,"
         "\"errors\":[\"允许的错因名称\"]}]}。steps 数量和顺序必须与输入完全一致；"
-        "正确步骤使用‘步骤正确’，错误名称只能来自允许列表；所有步骤得分之和不得"
-        "超过题目满分。不要输出整体分、教师分、解释或 Markdown。"
+        "正确步骤使用‘步骤正确’，错误名称只能来自允许列表；步骤分是各原始步骤的"
+        "独立标签，不要求其总和等于或小于整体卷面满分，也不得将其与整体分相加。"
+        "不要输出整体分、教师分、解释或 Markdown。"
     )
 
 
@@ -176,7 +177,6 @@ def parse_projection_response(
             f"Step count mismatch: expected={expected_steps}, actual={len(steps)}"
         )
     normalized = []
-    score_sum = 0
     for index, step in enumerate(steps, start=1):
         if not isinstance(step, dict):
             raise ValueError(f"Step {index} is not an object")
@@ -190,13 +190,8 @@ def parse_projection_response(
         unknown = set(normalized_errors) - allowed_errors
         if unknown:
             raise ValueError(f"Unknown error labels at step {index}: {sorted(unknown)}")
-        score_sum += int(score)
         normalized.append(
             {"step_score": int(score), "errors": list(dict.fromkeys(normalized_errors))}
-        )
-    if score_sum > int(float(total)):
-        raise ValueError(
-            f"Step score sum exceeds total: sum={score_sum}, total={total}"
         )
     return normalized
 
@@ -236,7 +231,7 @@ def projection_messages(
                         "上一输出未通过格式与分值合同校验。"
                         f"校验错误：{contract_error}\n"
                         "请根据原始任务纠正上一输出。保持步骤数量和顺序不变，"
-                        "所有步骤得分均为非负整数且总和不得超过题目满分，"
+                        "每个步骤得分均为非负整数，"
                         "错误名称只能来自允许列表。只输出纠正后的 JSON。"
                     ),
                 },

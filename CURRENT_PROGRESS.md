@@ -1,5 +1,37 @@
 # Current Progress
 
+## 2026-09-03 Private Evaluation, Patent, and S-GRADES R5
+
+The authoritative current-state summary is `PROJECT_STATUS.md`; the detailed
+handoff for starting a new conversation is `CONVERSATION_HANDOFF_20260903.md`.
+This file remains a reverse-chronological history rather than the primary
+source of current execution state.
+
+The latest completed private test-set evaluation contains 2,723 answers. The
+multi-probe average achieved MAE 1.4003, RMSE 2.3362, Pearson 0.9157, and
+77.34% of predictions within two points. The 3WD-Core score achieved MAE
+1.3481, RMSE 2.2787, Pearson 0.9174, and 78.11% within two points. These results
+support the current patent draft, but they do not by themselves establish
+cross-dataset generalization.
+
+The patent draft is maintained as a formal Word document on the desktop. Its
+scope has been narrowed to the deployable automatic-grading method and system,
+with asymmetric three-way decision routing as the main algorithmic feature;
+transitional testing and internal optimization procedures are not treated as
+claimed production modules.
+
+For S-GRADES, the upstream source and dataset versions are frozen, the six
+reasoning strategies have been adapted to the Coding Plan endpoint, and model
+responses are recorded as observed `glm-5.3` while the configured request alias
+remains `glm-5.2`. R4 real-API smoke testing completed all 138 combinations.
+The R5 small-unit matrix completed 78/78 combinations with 9,462/9,462 valid
+predictions and zero invalid outputs. The remaining ten large units are running
+as a resumable 200-row shard queue (942 jobs in total). At the documented
+snapshot, the first `D_ASAP_plus_plus` inductive shard had completed and the
+second was running. Completed stages must not be rerun unless their inputs
+change; any continuation must preserve the existing R5 output root and shard
+manifests.
+
 ## 2026-08-11 Independent Evidence Verifier v2
 
 Evidence-first v1 was rejected after the complete 31-question private

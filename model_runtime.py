@@ -17,6 +17,12 @@ TEXT_MODEL_PROFILES = {
     "glm47": {"model": "glm-4.7", "family": "glm"},
     "deepseek": {"model": "deepseek-v4-flash", "family": "deepseek"},
     "deepseek_v4pro": {"model": "deepseek-v4-pro", "family": "deepseek"},
+    "deepseek_v41flash": {
+        "model": "deepseek-v4.1-flash",
+        "family": "deepseek",
+        "base_url": "https://gpt-agent.cc/v1",
+        "thinking_control": True,
+    },
 }
 
 VLM_MODEL_PROFILES = {
@@ -133,6 +139,10 @@ def runtime_model_config(
         "vlm_provider": vlm_provider,
         "vlm_model": VLM_MODEL_PROFILES[vlm_provider],
     }
+    if "thinking_control" in text_profile:
+        config["text_thinking_control"] = bool(
+            text_profile["thinking_control"]
+        )
     temperature_override = resolve_text_temperature_override(
         text_temperature_override
     )
@@ -143,8 +153,11 @@ def runtime_model_config(
             os.getenv(DEEPSEEK_MODEL_ENV, text_model).strip() or text_model
         )
         config["text_base_url"] = (
-            os.getenv(DEEPSEEK_BASE_URL_ENV, DEFAULT_DEEPSEEK_BASE_URL).strip()
-            or DEFAULT_DEEPSEEK_BASE_URL
+            os.getenv(
+                DEEPSEEK_BASE_URL_ENV,
+                text_profile.get("base_url", DEFAULT_DEEPSEEK_BASE_URL),
+            ).strip()
+            or text_profile.get("base_url", DEFAULT_DEEPSEEK_BASE_URL)
         )
     return config
 

@@ -67,6 +67,9 @@ TEXT_MODEL_PROVIDER = MODEL_RUNTIME_CONFIG["text_provider"]
 TEXT_MODEL_NAME = MODEL_RUNTIME_CONFIG["text_model"]
 TEXT_MODEL_FAMILY = MODEL_RUNTIME_CONFIG["text_family"]
 TEXT_THINKING_MODE = MODEL_RUNTIME_CONFIG["text_thinking"]
+TEXT_THINKING_CONTROL = MODEL_RUNTIME_CONFIG.get(
+    "text_thinking_control", TEXT_MODEL_FAMILY == "glm"
+)
 TEXT_TEMPERATURE_OVERRIDE = MODEL_RUNTIME_CONFIG.get(
     "text_temperature_override"
 )
@@ -100,6 +103,7 @@ MODEL_CONCURRENCY = {
     "glm5":     (2, 2),  # GLM-5.2 限流较严，保持较低并发
     "glm47":    (2, 2),  # GLM-4.7 采用保守并发，降低共享服务限流风险
     "deepseek": (2, 2),  # 第三方代理，保守并发
+    "deepseek_v41flash": (2, 2),  # 固定 V4.1 Flash，同样保守并发
 }
 MAX_WORKERS_OUTER = MODEL_CONCURRENCY.get(TEXT_MODEL_PROVIDER, (3, 3))[0]
 MAX_WORKERS_STAGE2 = MODEL_CONCURRENCY.get(TEXT_MODEL_PROVIDER, (3, 3))[1]
@@ -149,7 +153,7 @@ def call_text_model(messages, temperature=0.2, timeout=120, response_format=None
             }
             if response_format is not None:
                 request["response_format"] = response_format
-            if TEXT_MODEL_FAMILY == "glm":
+            if TEXT_THINKING_CONTROL:
                 request["extra_body"] = thinking_extra_body(
                     TEXT_THINKING_MODE
                 )

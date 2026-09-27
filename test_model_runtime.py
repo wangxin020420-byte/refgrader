@@ -32,6 +32,7 @@ class ModelRuntimeTests(unittest.TestCase):
         self.assertEqual(config["text_model"], "glm-5.2")
         self.assertEqual(config["text_thinking"], "disabled")
         self.assertEqual(config["vlm_model"], "glm-4.6v")
+        self.assertNotIn("text_thinking_control", config)
 
     def test_public_runtime_config_alias_matches_primary_helper(self):
         self.assertEqual(get_model_runtime_config(), runtime_model_config())
@@ -71,6 +72,20 @@ class ModelRuntimeTests(unittest.TestCase):
             config = runtime_model_config(text_provider="deepseek")
         self.assertEqual(config["text_model"], "deepseek-chat")
         self.assertEqual(config["text_base_url"], "https://example.invalid/v1")
+
+    def test_deepseek_v41flash_is_an_independent_compatible_profile(self):
+        with patch.dict(os.environ, {}, clear=True):
+            config = runtime_model_config(
+                text_provider="deepseek_v41flash",
+                thinking_mode="disabled",
+                text_temperature_override=0,
+            )
+        self.assertEqual(config["text_model"], "deepseek-v4.1-flash")
+        self.assertEqual(config["text_family"], "deepseek")
+        self.assertEqual(config["text_base_url"], "https://gpt-agent.cc/v1")
+        self.assertEqual(config["text_thinking"], "disabled")
+        self.assertTrue(config["text_thinking_control"])
+        self.assertEqual(config["text_temperature_override"], 0.0)
 
     def test_zero_temperature_override_is_recorded_and_propagated(self):
         with patch.dict(
@@ -127,6 +142,10 @@ class ModelRuntimeTests(unittest.TestCase):
         self.assertEqual(
             client.chat.completions.create.call_args.kwargs["temperature"],
             0.0,
+        )
+        self.assertEqual(
+            client.chat.completions.create.call_args.kwargs["extra_body"],
+            {"thinking": {"type": "disabled"}},
         )
 
     def test_text_model_authentication_failure_is_not_retried(self):

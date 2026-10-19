@@ -1,0 +1,33 @@
+[
+  {
+    "id": "overall_response",
+    "item": "根据给定参考答案评价正确性与完整性，允许等价表达及部分得分。此为参考答案重建规则，非官方细则；不得推测未提供的题干或事实。",
+    "points": 10.0,
+    "answer_type": "free_text",
+    "role": "final",
+    "score_layer": "core",
+    "canonicalization": {
+      "type": "text"
+    },
+    "evidence_source": "text",
+    "standard_answer_text": "（1）优点是每个栈仅用一个顺序存储空间时，操作简单。缺点是分配空间小了，容易溢出，分配空间大了，容易造成浪费，各栈不能共享空间。（2）",
+    "standard_answer_image": null,
+    "source_text": "根据给定参考答案评价正确性与完整性，允许等价表达及部分得分。此为参考答案重建规则，非官方细则；不得推测未提供的题干或事实。",
+    "parent_official_item": "official SAS-Bench response score",
+    "metadata_source": "sas_bench_question_reference_analysis",
+    "metadata_hard_enabled": false,
+    "metadata_confidence": 1.0,
+    "parent_id": "overall_response",
+    "parent_points": 10.0,
+    "scoring_policy": "strict_atomic",
+    "split_policy": "preserve_atomic",
+    "weighting_policy": "preserve_parent",
+    "full_credit_policy": "rubric_evidence_required",
+    "full_credit_trigger": false,
+    "semantic_contract_version": 6,
+    "task_semantics": "strict_atomic",
+    "decomposition_required": false,
+    "decomposition_exemption": "strict_atomic_single_outcome",
+    "full_credit_anchor": "（1）优点是每个栈仅用一个顺序存储空间时，操作简单。缺点是分配空间小了，容易溢出，分配空间大了，容易造成浪费，各栈不能共享空间。（2）"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "dataset": "SR",
+  "commit": "9e1a866d58edaa0d78af374d2f3529a10d72239a",
+  "split_seed": 42,
+  "validation_count": 50,
+  "rubric_calibration_per_context": 5,
+  "score_scale": "linear 0-10",
+  "context_policy": "question plus exact ordered references",
+  "method": "RefGrader",
+  "source_hashes": {
+    "SR/s_train_zh.csv": "4f518cab6d77266c6f526b8fdfd99a1661e1d7c14edbb6ad3b0c0f74d16e3b86",
+    "SR/s_eval_zh.csv": "f0edd73ac34e76de54bfcd01e9d4179995d6ab9e32f0c5ad5a1a16238acb5786"
+  }
+}

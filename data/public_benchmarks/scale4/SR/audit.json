@@ -1,0 +1,16 @@
+{
+  "dataset_id": "scale4_sr_v1",
+  "schema_version": 1,
+  "question_count": 34,
+  "answer_count": 331,
+  "score_count": 331,
+  "split_counts": {
+    "train": 87,
+    "calibration": 144,
+    "validation": 50,
+    "test": 50
+  },
+  "source_sha256": "9e1a866d58edaa0d78af374d2f3529a10d72239a",
+  "question_assets_sha256": "d04fc8c2cbd3f36829ac326d318b15ec378945c0b4a89405632656ba3594b06f",
+  "prepared_content_sha256": "cd8e884077b61dfd789a30dee5e9433a6a4c97cd9823cc30ba2515eb16655b24"
+}

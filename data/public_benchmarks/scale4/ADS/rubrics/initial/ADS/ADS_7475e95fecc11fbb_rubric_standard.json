@@ -1,0 +1,33 @@
+[
+  {
+    "id": "overall_response",
+    "item": "根据给定参考答案评价正确性与完整性，允许等价表达及部分得分。此为参考答案重建规则，非官方细则；不得推测未提供的题干或事实。",
+    "points": 10.0,
+    "answer_type": "free_text",
+    "role": "final",
+    "score_layer": "core",
+    "canonicalization": {
+      "type": "text"
+    },
+    "evidence_source": "text",
+    "standard_answer_text": "在冒泡排序过程中，确实可能出现某些关键字在某趟排序中朝着与最终排序相反的方向移动。举个例子：假设我们有一个数组：[ 3, 1, 4, 5, 2 ]。在冒泡排序的第一次遍历（第一趟）时，排序规则是相邻的元素两两比较并交换，如果顺序错误就交换：1. 比较 3 和 1，3 > 1，交换，数组变为：[ 1, 3, 4, 5, 2 ]。2. 比较 3 和 4，3 < 4，不交换。3. 比较 4 和 5，4 < 5，不交换。4. 比较 5 和 2，5 > 2，交换，数组变为：[ 1, 3, 4, 2, 5 ]。我们注意到，第一个关键字 2 在第一趟排序中从右向左移动，但在最终排序中它应该往右移动到第四个位置。这说明关键字 2 在第一趟排序中朝着与最终排序相反的方向移动了。在快速排序过程中，不会出现关键字朝着与最终排序相反的方向移动的现象。快排划分的过程中，元素只会逐步接近它们的最终位置，而不会暂时朝着与最终排序相反的方向移动。因此，快速排序不存在这种现象。\n\nn/2；sum(i=1--n){(n-i)/(n*(n+1)/2)}",
+    "standard_answer_image": null,
+    "source_text": "根据给定参考答案评价正确性与完整性，允许等价表达及部分得分。此为参考答案重建规则，非官方细则；不得推测未提供的题干或事实。",
+    "parent_official_item": "official SAS-Bench response score",
+    "metadata_source": "sas_bench_question_reference_analysis",
+    "metadata_hard_enabled": false,
+    "metadata_confidence": 1.0,
+    "parent_id": "overall_response",
+    "parent_points": 10.0,
+    "scoring_policy": "strict_atomic",
+    "split_policy": "preserve_atomic",
+    "weighting_policy": "preserve_parent",
+    "full_credit_policy": "rubric_evidence_required",
+    "full_credit_trigger": false,
+    "semantic_contract_version": 6,
+    "task_semantics": "strict_atomic",
+    "decomposition_required": false,
+    "decomposition_exemption": "strict_atomic_single_outcome",
+    "full_credit_anchor": "在冒泡排序过程中，确实可能出现某些关键字在某趟排序中朝着与最终排序相反的方向移动。举个例子：假设我们有一个数组：[ 3, 1, 4, 5, 2 ]。在冒泡排序的第一次遍历（第一趟）时，排序规则是相邻的元素两两比较并交换，如果顺序错误就交换：1. 比较 3 和 1，3 > 1，交换，数组变为：[ 1, 3, 4, 5, 2 ]。2. 比较 3 和 4，3 < 4，不交换。3. 比较 4 和 5，4 < 5，不交换。4. 比较 5 和 2，5 > 2，交换，数组变为：[ 1, 3, 4, 2, 5 ]。我们注意到，第一个关键字 2 在第一趟排序中从右向左移动，但在最终排序中它应该往右移动到第四个位置。这说明关键字 2 在第一趟排序中朝着与最终排序相反的方向移动了。在快速排序过程中，不会出现关键字朝着与最终排序相反的方向移动的现象。快排划分的过程中，元素只会逐步接近它们的最终位置，而不会暂时朝着与最终排序相反的方向移动。因此，快速排序不存在这种现象。\n\nn/2；sum(i=1--n){(n-i)/(n*(n+1)/2)}"
+  }
+]

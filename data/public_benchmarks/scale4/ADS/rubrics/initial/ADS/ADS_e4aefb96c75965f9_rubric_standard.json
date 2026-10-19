@@ -1,0 +1,33 @@
+[
+  {
+    "id": "overall_response",
+    "item": "根据给定参考答案评价正确性与完整性，允许等价表达及部分得分。此为参考答案重建规则，非官方细则；不得推测未提供的题干或事实。",
+    "points": 10.0,
+    "answer_type": "free_text",
+    "role": "final",
+    "score_layer": "core",
+    "canonicalization": {
+      "type": "text"
+    },
+    "evidence_source": "text",
+    "standard_answer_text": "假设输出元素序列为Y，对于n个元素输入序列X，若按照如下过程进行操作：（1）X中元素按序全部顺序进入S1中。（2）依次将S1中元素出栈并压入S2栈中，直到S1栈空为止。（3）依次将S2中元素出栈并压入Y，直到S2栈空为止。则输出序列顺序与输入序列X完全相同，符合队列先进先出特点。所以两个栈模拟队列三个功能操作过程可描述为：（1）enqueue（入队）：入队元素直接放入S1栈中（Push）。（2）dequeue（出队）：若S2栈不为空，则取S2栈栈顶元素作为出队元素；否则将栈S1中元素全部搬到S2中，再取S2栈栈顶元素（Pop）作为出队元素（这可视为将入队元素分段地通过S1和S2栈）。（3）isEmpty（判空）：若S1和S2两个栈均为空，则队列为空；否则不为空。",
+    "standard_answer_image": null,
+    "source_text": "根据给定参考答案评价正确性与完整性，允许等价表达及部分得分。此为参考答案重建规则，非官方细则；不得推测未提供的题干或事实。",
+    "parent_official_item": "official SAS-Bench response score",
+    "metadata_source": "sas_bench_question_reference_analysis",
+    "metadata_hard_enabled": false,
+    "metadata_confidence": 1.0,
+    "parent_id": "overall_response",
+    "parent_points": 10.0,
+    "scoring_policy": "strict_atomic",
+    "split_policy": "preserve_atomic",
+    "weighting_policy": "preserve_parent",
+    "full_credit_policy": "rubric_evidence_required",
+    "full_credit_trigger": false,
+    "semantic_contract_version": 6,
+    "task_semantics": "strict_atomic",
+    "decomposition_required": false,
+    "decomposition_exemption": "strict_atomic_single_outcome",
+    "full_credit_anchor": "假设输出元素序列为Y，对于n个元素输入序列X，若按照如下过程进行操作：（1）X中元素按序全部顺序进入S1中。（2）依次将S1中元素出栈并压入S2栈中，直到S1栈空为止。（3）依次将S2中元素出栈并压入Y，直到S2栈空为止。则输出序列顺序与输入序列X完全相同，符合队列先进先出特点。所以两个栈模拟队列三个功能操作过程可描述为：（1）enqueue（入队）：入队元素直接放入S1栈中（Push）。（2）dequeue（出队）：若S2栈不为空，则取S2栈栈顶元素作为出队元素；否则将栈S1中元素全部搬到S2中，再取S2栈栈顶元素（Pop）作为出队元素（这可视为将入队元素分段地通过S1和S2栈）。（3）isEmpty（判空）：若S1和S2两个栈均为空，则队列为空；否则不为空。"
+  }
+]

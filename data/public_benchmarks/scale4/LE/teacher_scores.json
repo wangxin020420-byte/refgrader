@@ -1,0 +1,1757 @@
+{
+  "LE_train_00008": {
+    "LE_01f7a3c41234092f": 8.0
+  },
+  "LE_train_00107": {
+    "LE_01f7a3c41234092f": 0.0
+  },
+  "LE_train_00147": {
+    "LE_01f7a3c41234092f": 3.0
+  },
+  "LE_train_00237": {
+    "LE_01f7a3c41234092f": 10.0
+  },
+  "LE_train_00314": {
+    "LE_01f7a3c41234092f": 6.0
+  },
+  "LE_test_00015": {
+    "LE_01f7a3c41234092f": 5.0
+  },
+  "LE_train_00043": {
+    "LE_0365988b32893afe": 4.0
+  },
+  "LE_train_00235": {
+    "LE_0365988b32893afe": 10.0
+  },
+  "LE_train_00330": {
+    "LE_0365988b32893afe": 8.0
+  },
+  "LE_train_00406": {
+    "LE_0365988b32893afe": 2.0
+  },
+  "LE_test_00033": {
+    "LE_0365988b32893afe": 4.0
+  },
+  "LE_test_00146": {
+    "LE_0365988b32893afe": 6.0
+  },
+  "LE_test_00168": {
+    "LE_0365988b32893afe": 0.0
+  },
+  "LE_train_00278": {
+    "LE_03a183caa774fcfe": 5.0
+  },
+  "LE_train_00296": {
+    "LE_03a183caa774fcfe": 0.0
+  },
+  "LE_train_00385": {
+    "LE_03a183caa774fcfe": 5.0
+  },
+  "LE_test_00044": {
+    "LE_03a183caa774fcfe": 10.0
+  },
+  "LE_test_00069": {
+    "LE_03a183caa774fcfe": 0.0
+  },
+  "LE_train_00063": {
+    "LE_0adede32e1b20c9d": 7.0
+  },
+  "LE_train_00103": {
+    "LE_0adede32e1b20c9d": 10.0
+  },
+  "LE_train_00154": {
+    "LE_0adede32e1b20c9d": 3.0
+  },
+  "LE_train_00357": {
+    "LE_0adede32e1b20c9d": 0.0
+  },
+  "LE_train_00392": {
+    "LE_0adede32e1b20c9d": 3.0
+  },
+  "LE_test_00102": {
+    "LE_0adede32e1b20c9d": 6.0
+  },
+  "LE_train_00007": {
+    "LE_0cd4b246c5f3189d": 10.0
+  },
+  "LE_train_00017": {
+    "LE_0cd4b246c5f3189d": 5.0
+  },
+  "LE_train_00039": {
+    "LE_0cd4b246c5f3189d": 6.0
+  },
+  "LE_train_00244": {
+    "LE_0cd4b246c5f3189d": 3.0
+  },
+  "LE_train_00267": {
+    "LE_0cd4b246c5f3189d": 8.0
+  },
+  "LE_train_00279": {
+    "LE_0cd4b246c5f3189d": 0.0
+  },
+  "LE_train_00040": {
+    "LE_0fc4d1203644e4a5": 8.0
+  },
+  "LE_train_00190": {
+    "LE_0fc4d1203644e4a5": 10.0
+  },
+  "LE_train_00241": {
+    "LE_0fc4d1203644e4a5": 3.0
+  },
+  "LE_train_00354": {
+    "LE_0fc4d1203644e4a5": 5.0
+  },
+  "LE_test_00056": {
+    "LE_0fc4d1203644e4a5": 7.0
+  },
+  "LE_test_00110": {
+    "LE_0fc4d1203644e4a5": 0.0
+  },
+  "LE_train_00047": {
+    "LE_10fb6e05f1655b05": 7.0
+  },
+  "LE_train_00123": {
+    "LE_10fb6e05f1655b05": 0.0
+  },
+  "LE_train_00307": {
+    "LE_10fb6e05f1655b05": 10.0
+  },
+  "LE_test_00057": {
+    "LE_10fb6e05f1655b05": 4.0
+  },
+  "LE_test_00095": {
+    "LE_10fb6e05f1655b05": 10.0
+  },
+  "LE_train_00006": {
+    "LE_114e9976b1870ca8": 0.0
+  },
+  "LE_train_00248": {
+    "LE_114e9976b1870ca8": 2.0
+  },
+  "LE_train_00249": {
+    "LE_114e9976b1870ca8": 8.0
+  },
+  "LE_train_00320": {
+    "LE_114e9976b1870ca8": 6.0
+  },
+  "LE_test_00113": {
+    "LE_114e9976b1870ca8": 4.0
+  },
+  "LE_test_00123": {
+    "LE_114e9976b1870ca8": 10.0
+  },
+  "LE_test_00176": {
+    "LE_114e9976b1870ca8": 8.0
+  },
+  "LE_train_00124": {
+    "LE_120e010970cdfb12": 8.0
+  },
+  "LE_train_00171": {
+    "LE_120e010970cdfb12": 3.0
+  },
+  "LE_train_00186": {
+    "LE_120e010970cdfb12": 6.0
+  },
+  "LE_train_00268": {
+    "LE_120e010970cdfb12": 3.0
+  },
+  "LE_test_00049": {
+    "LE_120e010970cdfb12": 10.0
+  },
+  "LE_test_00061": {
+    "LE_120e010970cdfb12": 0.0
+  },
+  "LE_train_00118": {
+    "LE_1b681f22e674f167": 2.0
+  },
+  "LE_train_00122": {
+    "LE_1b681f22e674f167": 0.0
+  },
+  "LE_train_00255": {
+    "LE_1b681f22e674f167": 5.0
+  },
+  "LE_train_00289": {
+    "LE_1b681f22e674f167": 6.0
+  },
+  "LE_train_00360": {
+    "LE_1b681f22e674f167": 10.0
+  },
+  "LE_train_00369": {
+    "LE_1b681f22e674f167": 8.0
+  },
+  "LE_test_00090": {
+    "LE_1b681f22e674f167": 4.0
+  },
+  "LE_test_00150": {
+    "LE_1b681f22e674f167": 9.0
+  },
+  "LE_test_00164": {
+    "LE_1b681f22e674f167": 6.0
+  },
+  "LE_train_00004": {
+    "LE_1f41cc89582568cf": 10.0
+  },
+  "LE_train_00127": {
+    "LE_1f41cc89582568cf": 0.0
+  },
+  "LE_train_00220": {
+    "LE_1f41cc89582568cf": 4.0
+  },
+  "LE_train_00238": {
+    "LE_1f41cc89582568cf": 8.0
+  },
+  "LE_test_00062": {
+    "LE_1f41cc89582568cf": 7.0
+  },
+  "LE_train_00102": {
+    "LE_24b6d52a6195ae39": 0.0
+  },
+  "LE_train_00138": {
+    "LE_24b6d52a6195ae39": 4.0
+  },
+  "LE_train_00176": {
+    "LE_24b6d52a6195ae39": 7.0
+  },
+  "LE_train_00276": {
+    "LE_24b6d52a6195ae39": 10.0
+  },
+  "LE_test_00151": {
+    "LE_24b6d52a6195ae39": 10.0
+  },
+  "LE_train_00062": {
+    "LE_26cb936a1b6b854a": 8.0
+  },
+  "LE_train_00157": {
+    "LE_26cb936a1b6b854a": 10.0
+  },
+  "LE_train_00162": {
+    "LE_26cb936a1b6b854a": 4.0
+  },
+  "LE_train_00266": {
+    "LE_26cb936a1b6b854a": 4.0
+  },
+  "LE_train_00298": {
+    "LE_26cb936a1b6b854a": 2.0
+  },
+  "LE_train_00365": {
+    "LE_26cb936a1b6b854a": 6.0
+  },
+  "LE_train_00366": {
+    "LE_26cb936a1b6b854a": 0.0
+  },
+  "LE_train_00197": {
+    "LE_280e7ef873a14d84": 10.0
+  },
+  "LE_train_00272": {
+    "LE_280e7ef873a14d84": 5.0
+  },
+  "LE_train_00277": {
+    "LE_280e7ef873a14d84": 10.0
+  },
+  "LE_test_00108": {
+    "LE_280e7ef873a14d84": 0.0
+  },
+  "LE_test_00131": {
+    "LE_280e7ef873a14d84": 5.0
+  },
+  "LE_train_00014": {
+    "LE_29848430a1197d92": 5.0
+  },
+  "LE_train_00088": {
+    "LE_29848430a1197d92": 10.0
+  },
+  "LE_train_00256": {
+    "LE_29848430a1197d92": 10.0
+  },
+  "LE_test_00034": {
+    "LE_29848430a1197d92": 0.0
+  },
+  "LE_test_00139": {
+    "LE_29848430a1197d92": 5.0
+  },
+  "LE_train_00112": {
+    "LE_2a545b5a1a6b79fc": 7.0
+  },
+  "LE_train_00204": {
+    "LE_2a545b5a1a6b79fc": 6.0
+  },
+  "LE_train_00283": {
+    "LE_2a545b5a1a6b79fc": 4.0
+  },
+  "LE_test_00072": {
+    "LE_2a545b5a1a6b79fc": 10.0
+  },
+  "LE_test_00144": {
+    "LE_2a545b5a1a6b79fc": 0.0
+  },
+  "LE_train_00083": {
+    "LE_2d47b5f285bae03e": 3.0
+  },
+  "LE_train_00207": {
+    "LE_2d47b5f285bae03e": 6.0
+  },
+  "LE_train_00243": {
+    "LE_2d47b5f285bae03e": 10.0
+  },
+  "LE_train_00381": {
+    "LE_2d47b5f285bae03e": 4.0
+  },
+  "LE_test_00118": {
+    "LE_2d47b5f285bae03e": 2.0
+  },
+  "LE_test_00136": {
+    "LE_2d47b5f285bae03e": 8.0
+  },
+  "LE_test_00141": {
+    "LE_2d47b5f285bae03e": 0.0
+  },
+  "LE_train_00023": {
+    "LE_3416bcfe9475eff0": 5.0
+  },
+  "LE_train_00116": {
+    "LE_3416bcfe9475eff0": 10.0
+  },
+  "LE_train_00155": {
+    "LE_3416bcfe9475eff0": 7.0
+  },
+  "LE_train_00323": {
+    "LE_3416bcfe9475eff0": 5.0
+  },
+  "LE_train_00372": {
+    "LE_3416bcfe9475eff0": 0.0
+  },
+  "LE_train_00156": {
+    "LE_3521bac2b88022a6": 2.0
+  },
+  "LE_train_00172": {
+    "LE_3521bac2b88022a6": 8.0
+  },
+  "LE_train_00253": {
+    "LE_3521bac2b88022a6": 0.0
+  },
+  "LE_train_00273": {
+    "LE_3521bac2b88022a6": 10.0
+  },
+  "LE_train_00293": {
+    "LE_3521bac2b88022a6": 4.0
+  },
+  "LE_test_00012": {
+    "LE_3521bac2b88022a6": 10.0
+  },
+  "LE_test_00030": {
+    "LE_3521bac2b88022a6": 6.0
+  },
+  "LE_train_00018": {
+    "LE_378ed35fb380706b": 5.0
+  },
+  "LE_train_00192": {
+    "LE_378ed35fb380706b": 7.0
+  },
+  "LE_train_00206": {
+    "LE_378ed35fb380706b": 3.0
+  },
+  "LE_train_00221": {
+    "LE_378ed35fb380706b": 10.0
+  },
+  "LE_train_00291": {
+    "LE_378ed35fb380706b": 8.0
+  },
+  "LE_test_00080": {
+    "LE_378ed35fb380706b": 0.0
+  },
+  "LE_train_00066": {
+    "LE_379d56c8008fc26b": 10.0
+  },
+  "LE_train_00139": {
+    "LE_379d56c8008fc26b": 10.0
+  },
+  "LE_test_00008": {
+    "LE_379d56c8008fc26b": 0.0
+  },
+  "LE_test_00053": {
+    "LE_379d56c8008fc26b": 5.0
+  },
+  "LE_test_00170": {
+    "LE_379d56c8008fc26b": 5.0
+  },
+  "LE_train_00026": {
+    "LE_3851e74d115b75d8": 5.0
+  },
+  "LE_train_00168": {
+    "LE_3851e74d115b75d8": 0.0
+  },
+  "LE_train_00322": {
+    "LE_3851e74d115b75d8": 5.0
+  },
+  "LE_train_00400": {
+    "LE_3851e74d115b75d8": 10.0
+  },
+  "LE_test_00024": {
+    "LE_3851e74d115b75d8": 3.0
+  },
+  "LE_test_00101": {
+    "LE_3851e74d115b75d8": 8.0
+  },
+  "LE_train_00058": {
+    "LE_39ef6aa300233194": 5.0
+  },
+  "LE_train_00120": {
+    "LE_39ef6aa300233194": 10.0
+  },
+  "LE_train_00271": {
+    "LE_39ef6aa300233194": 10.0
+  },
+  "LE_train_00396": {
+    "LE_39ef6aa300233194": 0.0
+  },
+  "LE_test_00130": {
+    "LE_39ef6aa300233194": 5.0
+  },
+  "LE_train_00042": {
+    "LE_3ad9c45c97aca039": 4.0
+  },
+  "LE_train_00101": {
+    "LE_3ad9c45c97aca039": 8.0
+  },
+  "LE_train_00153": {
+    "LE_3ad9c45c97aca039": 1.0
+  },
+  "LE_train_00303": {
+    "LE_3ad9c45c97aca039": 2.0
+  },
+  "LE_train_00310": {
+    "LE_3ad9c45c97aca039": 4.0
+  },
+  "LE_train_00378": {
+    "LE_3ad9c45c97aca039": 0.0
+  },
+  "LE_test_00052": {
+    "LE_3ad9c45c97aca039": 10.0
+  },
+  "LE_test_00089": {
+    "LE_3ad9c45c97aca039": 6.0
+  },
+  "LE_train_00037": {
+    "LE_3bec99b004ab2ab8": 3.0
+  },
+  "LE_train_00167": {
+    "LE_3bec99b004ab2ab8": 0.0
+  },
+  "LE_train_00185": {
+    "LE_3bec99b004ab2ab8": 10.0
+  },
+  "LE_train_00231": {
+    "LE_3bec99b004ab2ab8": 4.0
+  },
+  "LE_test_00014": {
+    "LE_3bec99b004ab2ab8": 7.0
+  },
+  "LE_train_00019": {
+    "LE_3fce429d0ae756de": 10.0
+  },
+  "LE_train_00071": {
+    "LE_3fce429d0ae756de": 10.0
+  },
+  "LE_train_00178": {
+    "LE_3fce429d0ae756de": 5.0
+  },
+  "LE_train_00352": {
+    "LE_3fce429d0ae756de": 0.0
+  },
+  "LE_test_00100": {
+    "LE_3fce429d0ae756de": 5.0
+  },
+  "LE_train_00133": {
+    "LE_4332af2f98c36b80": 10.0
+  },
+  "LE_train_00263": {
+    "LE_4332af2f98c36b80": 10.0
+  },
+  "LE_train_00264": {
+    "LE_4332af2f98c36b80": 5.0
+  },
+  "LE_train_00284": {
+    "LE_4332af2f98c36b80": 8.0
+  },
+  "LE_train_00297": {
+    "LE_4332af2f98c36b80": 0.0
+  },
+  "LE_test_00132": {
+    "LE_4332af2f98c36b80": 3.0
+  },
+  "LE_train_00016": {
+    "LE_4607a64eb1808094": 7.0
+  },
+  "LE_train_00065": {
+    "LE_4607a64eb1808094": 7.0
+  },
+  "LE_test_00106": {
+    "LE_4607a64eb1808094": 10.0
+  },
+  "LE_test_00159": {
+    "LE_4607a64eb1808094": 0.0
+  },
+  "LE_test_00172": {
+    "LE_4607a64eb1808094": 4.0
+  },
+  "LE_train_00092": {
+    "LE_494936fb8e11bcc2": 0.0
+  },
+  "LE_train_00212": {
+    "LE_494936fb8e11bcc2": 7.0
+  },
+  "LE_test_00054": {
+    "LE_494936fb8e11bcc2": 10.0
+  },
+  "LE_test_00103": {
+    "LE_494936fb8e11bcc2": 4.0
+  },
+  "LE_test_00158": {
+    "LE_494936fb8e11bcc2": 7.0
+  },
+  "LE_train_00158": {
+    "LE_4c675562a30169a9": 10.0
+  },
+  "LE_train_00198": {
+    "LE_4c675562a30169a9": 5.0
+  },
+  "LE_train_00363": {
+    "LE_4c675562a30169a9": 1.0
+  },
+  "LE_test_00059": {
+    "LE_4c675562a30169a9": 2.0
+  },
+  "LE_test_00073": {
+    "LE_4c675562a30169a9": 4.0
+  },
+  "LE_test_00116": {
+    "LE_4c675562a30169a9": 8.0
+  },
+  "LE_test_00124": {
+    "LE_4c675562a30169a9": 5.0
+  },
+  "LE_test_00126": {
+    "LE_4c675562a30169a9": 0.0
+  },
+  "LE_test_00152": {
+    "LE_4c675562a30169a9": 6.0
+  },
+  "LE_train_00049": {
+    "LE_4dd6d5d1ef32a844": 5.0
+  },
+  "LE_train_00114": {
+    "LE_4dd6d5d1ef32a844": 10.0
+  },
+  "LE_train_00209": {
+    "LE_4dd6d5d1ef32a844": 0.0
+  },
+  "LE_train_00226": {
+    "LE_4dd6d5d1ef32a844": 5.0
+  },
+  "LE_test_00109": {
+    "LE_4dd6d5d1ef32a844": 10.0
+  },
+  "LE_train_00100": {
+    "LE_520a6f4826af201e": 3.0
+  },
+  "LE_train_00146": {
+    "LE_520a6f4826af201e": 0.0
+  },
+  "LE_train_00183": {
+    "LE_520a6f4826af201e": 4.0
+  },
+  "LE_train_00349": {
+    "LE_520a6f4826af201e": 7.0
+  },
+  "LE_test_00023": {
+    "LE_520a6f4826af201e": 10.0
+  },
+  "LE_train_00029": {
+    "LE_53e5cd1191c8ff40": 0.0
+  },
+  "LE_train_00098": {
+    "LE_53e5cd1191c8ff40": 10.0
+  },
+  "LE_train_00227": {
+    "LE_53e5cd1191c8ff40": 7.0
+  },
+  "LE_train_00250": {
+    "LE_53e5cd1191c8ff40": 10.0
+  },
+  "LE_test_00169": {
+    "LE_53e5cd1191c8ff40": 4.0
+  },
+  "LE_train_00010": {
+    "LE_568de5add2ed848e": 0.0
+  },
+  "LE_train_00044": {
+    "LE_568de5add2ed848e": 10.0
+  },
+  "LE_train_00117": {
+    "LE_568de5add2ed848e": 8.0
+  },
+  "LE_train_00175": {
+    "LE_568de5add2ed848e": 7.0
+  },
+  "LE_train_00254": {
+    "LE_568de5add2ed848e": 3.0
+  },
+  "LE_test_00019": {
+    "LE_568de5add2ed848e": 5.0
+  },
+  "LE_train_00086": {
+    "LE_56ee242fed27ed33": 5.0
+  },
+  "LE_train_00091": {
+    "LE_56ee242fed27ed33": 5.0
+  },
+  "LE_train_00247": {
+    "LE_56ee242fed27ed33": 10.0
+  },
+  "LE_train_00408": {
+    "LE_56ee242fed27ed33": 0.0
+  },
+  "LE_test_00135": {
+    "LE_56ee242fed27ed33": 5.0
+  },
+  "LE_train_00003": {
+    "LE_5ab6633004af947c": 0.0
+  },
+  "LE_train_00159": {
+    "LE_5ab6633004af947c": 8.0
+  },
+  "LE_train_00169": {
+    "LE_5ab6633004af947c": 10.0
+  },
+  "LE_train_00393": {
+    "LE_5ab6633004af947c": 5.0
+  },
+  "LE_test_00026": {
+    "LE_5ab6633004af947c": 5.0
+  },
+  "LE_train_00202": {
+    "LE_5c58bc9e2088047a": 10.0
+  },
+  "LE_train_00233": {
+    "LE_5c58bc9e2088047a": 10.0
+  },
+  "LE_train_00361": {
+    "LE_5c58bc9e2088047a": 5.0
+  },
+  "LE_train_00370": {
+    "LE_5c58bc9e2088047a": 5.0
+  },
+  "LE_test_00175": {
+    "LE_5c58bc9e2088047a": 0.0
+  },
+  "LE_train_00295": {
+    "LE_5e588d7a13107c79": 4.0
+  },
+  "LE_train_00301": {
+    "LE_5e588d7a13107c79": 7.0
+  },
+  "LE_test_00028": {
+    "LE_5e588d7a13107c79": 8.0
+  },
+  "LE_test_00078": {
+    "LE_5e588d7a13107c79": 10.0
+  },
+  "LE_test_00162": {
+    "LE_5e588d7a13107c79": 0.0
+  },
+  "LE_train_00005": {
+    "LE_5f1cf25f3ca697d9": 6.0
+  },
+  "LE_train_00094": {
+    "LE_5f1cf25f3ca697d9": 8.0
+  },
+  "LE_test_00040": {
+    "LE_5f1cf25f3ca697d9": 10.0
+  },
+  "LE_test_00041": {
+    "LE_5f1cf25f3ca697d9": 2.0
+  },
+  "LE_test_00071": {
+    "LE_5f1cf25f3ca697d9": 0.0
+  },
+  "LE_test_00127": {
+    "LE_5f1cf25f3ca697d9": 8.0
+  },
+  "LE_test_00154": {
+    "LE_5f1cf25f3ca697d9": 4.0
+  },
+  "LE_train_00242": {
+    "LE_67b8b2b86dc0aaae": 10.0
+  },
+  "LE_test_00005": {
+    "LE_67b8b2b86dc0aaae": 4.0
+  },
+  "LE_test_00007": {
+    "LE_67b8b2b86dc0aaae": 10.0
+  },
+  "LE_test_00021": {
+    "LE_67b8b2b86dc0aaae": 0.0
+  },
+  "LE_test_00037": {
+    "LE_67b8b2b86dc0aaae": 7.0
+  },
+  "LE_train_00033": {
+    "LE_6bae4ee94994aa20": 6.0
+  },
+  "LE_train_00096": {
+    "LE_6bae4ee94994aa20": 0.0
+  },
+  "LE_train_00131": {
+    "LE_6bae4ee94994aa20": 10.0
+  },
+  "LE_train_00160": {
+    "LE_6bae4ee94994aa20": 6.0
+  },
+  "LE_train_00355": {
+    "LE_6bae4ee94994aa20": 3.0
+  },
+  "LE_test_00020": {
+    "LE_6bae4ee94994aa20": 6.0
+  },
+  "LE_test_00166": {
+    "LE_6bae4ee94994aa20": 0.0
+  },
+  "LE_train_00148": {
+    "LE_6d57216955f8625b": 5.0
+  },
+  "LE_train_00195": {
+    "LE_6d57216955f8625b": 9.0
+  },
+  "LE_train_00281": {
+    "LE_6d57216955f8625b": 10.0
+  },
+  "LE_train_00342": {
+    "LE_6d57216955f8625b": 5.0
+  },
+  "LE_train_00383": {
+    "LE_6d57216955f8625b": 0.0
+  },
+  "LE_train_00061": {
+    "LE_6fcc9bbe7bb83b0d": 10.0
+  },
+  "LE_train_00068": {
+    "LE_6fcc9bbe7bb83b0d": 0.0
+  },
+  "LE_train_00334": {
+    "LE_6fcc9bbe7bb83b0d": 10.0
+  },
+  "LE_train_00403": {
+    "LE_6fcc9bbe7bb83b0d": 3.0
+  },
+  "LE_test_00075": {
+    "LE_6fcc9bbe7bb83b0d": 8.0
+  },
+  "LE_test_00147": {
+    "LE_6fcc9bbe7bb83b0d": 5.0
+  },
+  "LE_train_00111": {
+    "LE_6ffc2f9d75cf44eb": 6.0
+  },
+  "LE_train_00337": {
+    "LE_6ffc2f9d75cf44eb": 0.0
+  },
+  "LE_train_00371": {
+    "LE_6ffc2f9d75cf44eb": 8.0
+  },
+  "LE_train_00389": {
+    "LE_6ffc2f9d75cf44eb": 4.0
+  },
+  "LE_test_00063": {
+    "LE_6ffc2f9d75cf44eb": 10.0
+  },
+  "LE_test_00098": {
+    "LE_6ffc2f9d75cf44eb": 10.0
+  },
+  "LE_train_00274": {
+    "LE_704ade8756bc0769": 5.0
+  },
+  "LE_train_00329": {
+    "LE_704ade8756bc0769": 0.0
+  },
+  "LE_train_00384": {
+    "LE_704ade8756bc0769": 9.0
+  },
+  "LE_train_00409": {
+    "LE_704ade8756bc0769": 10.0
+  },
+  "LE_test_00038": {
+    "LE_704ade8756bc0769": 5.0
+  },
+  "LE_train_00069": {
+    "LE_735bec0a45df7a19": 2.0
+  },
+  "LE_train_00089": {
+    "LE_735bec0a45df7a19": 5.0
+  },
+  "LE_train_00137": {
+    "LE_735bec0a45df7a19": 0.0
+  },
+  "LE_train_00239": {
+    "LE_735bec0a45df7a19": 6.0
+  },
+  "LE_train_00261": {
+    "LE_735bec0a45df7a19": 8.0
+  },
+  "LE_train_00321": {
+    "LE_735bec0a45df7a19": 10.0
+  },
+  "LE_test_00094": {
+    "LE_735bec0a45df7a19": 4.0
+  },
+  "LE_train_00087": {
+    "LE_772f7d44aaef7e81": 2.0
+  },
+  "LE_train_00188": {
+    "LE_772f7d44aaef7e81": 6.0
+  },
+  "LE_train_00210": {
+    "LE_772f7d44aaef7e81": 1.0
+  },
+  "LE_train_00269": {
+    "LE_772f7d44aaef7e81": 0.0
+  },
+  "LE_train_00351": {
+    "LE_772f7d44aaef7e81": 4.0
+  },
+  "LE_test_00006": {
+    "LE_772f7d44aaef7e81": 6.0
+  },
+  "LE_test_00036": {
+    "LE_772f7d44aaef7e81": 8.0
+  },
+  "LE_test_00042": {
+    "LE_772f7d44aaef7e81": 10.0
+  },
+  "LE_train_00034": {
+    "LE_793b538a573cb0dd": 5.0
+  },
+  "LE_train_00125": {
+    "LE_793b538a573cb0dd": 10.0
+  },
+  "LE_train_00187": {
+    "LE_793b538a573cb0dd": 8.0
+  },
+  "LE_test_00009": {
+    "LE_793b538a573cb0dd": 3.0
+  },
+  "LE_test_00039": {
+    "LE_793b538a573cb0dd": 7.0
+  },
+  "LE_test_00140": {
+    "LE_793b538a573cb0dd": 0.0
+  },
+  "LE_train_00051": {
+    "LE_7db4f957517eef0b": 6.0
+  },
+  "LE_train_00142": {
+    "LE_7db4f957517eef0b": 10.0
+  },
+  "LE_train_00182": {
+    "LE_7db4f957517eef0b": 5.0
+  },
+  "LE_train_00208": {
+    "LE_7db4f957517eef0b": 2.0
+  },
+  "LE_train_00292": {
+    "LE_7db4f957517eef0b": 1.0
+  },
+  "LE_train_00299": {
+    "LE_7db4f957517eef0b": 0.0
+  },
+  "LE_train_00325": {
+    "LE_7db4f957517eef0b": 8.0
+  },
+  "LE_test_00115": {
+    "LE_7db4f957517eef0b": 4.0
+  },
+  "LE_train_00011": {
+    "LE_7eb9b6db3fe22bd3": 1.0
+  },
+  "LE_train_00134": {
+    "LE_7eb9b6db3fe22bd3": 2.0
+  },
+  "LE_train_00152": {
+    "LE_7eb9b6db3fe22bd3": 6.0
+  },
+  "LE_train_00312": {
+    "LE_7eb9b6db3fe22bd3": 4.0
+  },
+  "LE_test_00002": {
+    "LE_7eb9b6db3fe22bd3": 8.0
+  },
+  "LE_test_00016": {
+    "LE_7eb9b6db3fe22bd3": 10.0
+  },
+  "LE_test_00017": {
+    "LE_7eb9b6db3fe22bd3": 6.0
+  },
+  "LE_test_00092": {
+    "LE_7eb9b6db3fe22bd3": 0.0
+  },
+  "LE_train_00046": {
+    "LE_8050a37ea8b732e7": 7.0
+  },
+  "LE_train_00236": {
+    "LE_8050a37ea8b732e7": 6.0
+  },
+  "LE_train_00350": {
+    "LE_8050a37ea8b732e7": 8.0
+  },
+  "LE_train_00364": {
+    "LE_8050a37ea8b732e7": 4.0
+  },
+  "LE_test_00001": {
+    "LE_8050a37ea8b732e7": 0.0
+  },
+  "LE_test_00055": {
+    "LE_8050a37ea8b732e7": 2.0
+  },
+  "LE_test_00114": {
+    "LE_8050a37ea8b732e7": 10.0
+  },
+  "LE_train_00166": {
+    "LE_8152a7746bff2443": 0.0
+  },
+  "LE_train_00240": {
+    "LE_8152a7746bff2443": 10.0
+  },
+  "LE_train_00287": {
+    "LE_8152a7746bff2443": 5.0
+  },
+  "LE_train_00333": {
+    "LE_8152a7746bff2443": 8.0
+  },
+  "LE_test_00013": {
+    "LE_8152a7746bff2443": 5.0
+  },
+  "LE_test_00161": {
+    "LE_8152a7746bff2443": 3.0
+  },
+  "LE_train_00126": {
+    "LE_8ae7ea92856989cf": 0.0
+  },
+  "LE_train_00129": {
+    "LE_8ae7ea92856989cf": 3.0
+  },
+  "LE_train_00252": {
+    "LE_8ae7ea92856989cf": 6.0
+  },
+  "LE_train_00285": {
+    "LE_8ae7ea92856989cf": 3.0
+  },
+  "LE_train_00341": {
+    "LE_8ae7ea92856989cf": 10.0
+  },
+  "LE_test_00133": {
+    "LE_8ae7ea92856989cf": 3.0
+  },
+  "LE_train_00036": {
+    "LE_8fec7f8ae34eeb16": 3.0
+  },
+  "LE_train_00095": {
+    "LE_8fec7f8ae34eeb16": 0.0
+  },
+  "LE_train_00097": {
+    "LE_8fec7f8ae34eeb16": 7.0
+  },
+  "LE_train_00230": {
+    "LE_8fec7f8ae34eeb16": 10.0
+  },
+  "LE_train_00395": {
+    "LE_8fec7f8ae34eeb16": 3.0
+  },
+  "LE_train_00358": {
+    "LE_90f9a3fa9f920cb5": 7.0
+  },
+  "LE_train_00379": {
+    "LE_90f9a3fa9f920cb5": 0.0
+  },
+  "LE_train_00380": {
+    "LE_90f9a3fa9f920cb5": 10.0
+  },
+  "LE_test_00025": {
+    "LE_90f9a3fa9f920cb5": 10.0
+  },
+  "LE_test_00091": {
+    "LE_90f9a3fa9f920cb5": 4.0
+  },
+  "LE_train_00203": {
+    "LE_97ac9777eb96aad9": 10.0
+  },
+  "LE_train_00205": {
+    "LE_97ac9777eb96aad9": 0.0
+  },
+  "LE_train_00215": {
+    "LE_97ac9777eb96aad9": 5.0
+  },
+  "LE_train_00234": {
+    "LE_97ac9777eb96aad9": 3.0
+  },
+  "LE_train_00282": {
+    "LE_97ac9777eb96aad9": 8.0
+  },
+  "LE_test_00082": {
+    "LE_97ac9777eb96aad9": 3.0
+  },
+  "LE_train_00022": {
+    "LE_9b2eccc76ba5eed1": 10.0
+  },
+  "LE_train_00180": {
+    "LE_9b2eccc76ba5eed1": 10.0
+  },
+  "LE_test_00134": {
+    "LE_9b2eccc76ba5eed1": 0.0
+  },
+  "LE_train_00090": {
+    "LE_9b8b4943d89aea59": 0.0
+  },
+  "LE_train_00150": {
+    "LE_9b8b4943d89aea59": 4.0
+  },
+  "LE_train_00260": {
+    "LE_9b8b4943d89aea59": 8.0
+  },
+  "LE_train_00262": {
+    "LE_9b8b4943d89aea59": 9.0
+  },
+  "LE_train_00286": {
+    "LE_9b8b4943d89aea59": 10.0
+  },
+  "LE_train_00359": {
+    "LE_9b8b4943d89aea59": 6.0
+  },
+  "LE_test_00064": {
+    "LE_9b8b4943d89aea59": 2.0
+  },
+  "LE_train_00028": {
+    "LE_a43064ac163a2884": 5.0
+  },
+  "LE_train_00135": {
+    "LE_a43064ac163a2884": 5.0
+  },
+  "LE_test_00045": {
+    "LE_a43064ac163a2884": 10.0
+  },
+  "LE_test_00060": {
+    "LE_a43064ac163a2884": 0.0
+  },
+  "LE_test_00122": {
+    "LE_a43064ac163a2884": 5.0
+  },
+  "LE_train_00030": {
+    "LE_a50b27a27397d4ad": 6.0
+  },
+  "LE_train_00288": {
+    "LE_a50b27a27397d4ad": 5.0
+  },
+  "LE_train_00374": {
+    "LE_a50b27a27397d4ad": 8.0
+  },
+  "LE_train_00386": {
+    "LE_a50b27a27397d4ad": 3.0
+  },
+  "LE_test_00035": {
+    "LE_a50b27a27397d4ad": 0.0
+  },
+  "LE_test_00138": {
+    "LE_a50b27a27397d4ad": 10.0
+  },
+  "LE_train_00067": {
+    "LE_a69e6e7b9b03e5d2": 8.0
+  },
+  "LE_train_00257": {
+    "LE_a69e6e7b9b03e5d2": 10.0
+  },
+  "LE_train_00275": {
+    "LE_a69e6e7b9b03e5d2": 0.0
+  },
+  "LE_train_00305": {
+    "LE_a69e6e7b9b03e5d2": 5.0
+  },
+  "LE_train_00399": {
+    "LE_a69e6e7b9b03e5d2": 3.0
+  },
+  "LE_test_00093": {
+    "LE_a69e6e7b9b03e5d2": 8.0
+  },
+  "LE_train_00078": {
+    "LE_aafcfd3521e8e525": 4.0
+  },
+  "LE_train_00302": {
+    "LE_aafcfd3521e8e525": 7.0
+  },
+  "LE_train_00391": {
+    "LE_aafcfd3521e8e525": 0.0
+  },
+  "LE_test_00047": {
+    "LE_aafcfd3521e8e525": 6.0
+  },
+  "LE_test_00111": {
+    "LE_aafcfd3521e8e525": 10.0
+  },
+  "LE_train_00056": {
+    "LE_b10b0ebfdf0a76f1": 5.0
+  },
+  "LE_train_00057": {
+    "LE_b10b0ebfdf0a76f1": 5.0
+  },
+  "LE_train_00149": {
+    "LE_b10b0ebfdf0a76f1": 5.0
+  },
+  "LE_test_00066": {
+    "LE_b10b0ebfdf0a76f1": 0.0
+  },
+  "LE_test_00157": {
+    "LE_b10b0ebfdf0a76f1": 10.0
+  },
+  "LE_train_00045": {
+    "LE_b59049d8345f4a76": 10.0
+  },
+  "LE_train_00075": {
+    "LE_b59049d8345f4a76": 0.0
+  },
+  "LE_train_00315": {
+    "LE_b59049d8345f4a76": 5.0
+  },
+  "LE_train_00376": {
+    "LE_b59049d8345f4a76": 5.0
+  },
+  "LE_test_00070": {
+    "LE_b59049d8345f4a76": 10.0
+  },
+  "LE_train_00013": {
+    "LE_b805f20575201365": 8.0
+  },
+  "LE_train_00132": {
+    "LE_b805f20575201365": 4.0
+  },
+  "LE_test_00043": {
+    "LE_b805f20575201365": 0.0
+  },
+  "LE_test_00048": {
+    "LE_b805f20575201365": 10.0
+  },
+  "LE_test_00065": {
+    "LE_b805f20575201365": 6.0
+  },
+  "LE_test_00076": {
+    "LE_b805f20575201365": 5.0
+  },
+  "LE_test_00081": {
+    "LE_b805f20575201365": 2.0
+  },
+  "LE_test_00171": {
+    "LE_b805f20575201365": 6.0
+  },
+  "LE_train_00015": {
+    "LE_b83d697b8cabfb9a": 8.0
+  },
+  "LE_train_00054": {
+    "LE_b83d697b8cabfb9a": 10.0
+  },
+  "LE_train_00073": {
+    "LE_b83d697b8cabfb9a": 0.0
+  },
+  "LE_train_00353": {
+    "LE_b83d697b8cabfb9a": 5.0
+  },
+  "LE_test_00068": {
+    "LE_b83d697b8cabfb9a": 5.0
+  },
+  "LE_train_00041": {
+    "LE_bc13b17f7c0a17cd": 8.0
+  },
+  "LE_train_00311": {
+    "LE_bc13b17f7c0a17cd": 10.0
+  },
+  "LE_train_00317": {
+    "LE_bc13b17f7c0a17cd": 5.0
+  },
+  "LE_train_00394": {
+    "LE_bc13b17f7c0a17cd": 0.0
+  },
+  "LE_test_00003": {
+    "LE_bc13b17f7c0a17cd": 3.0
+  },
+  "LE_test_00149": {
+    "LE_bc13b17f7c0a17cd": 8.0
+  },
+  "LE_train_00048": {
+    "LE_bcd0960dfda1ee4a": 10.0
+  },
+  "LE_train_00070": {
+    "LE_bcd0960dfda1ee4a": 6.0
+  },
+  "LE_train_00128": {
+    "LE_bcd0960dfda1ee4a": 4.0
+  },
+  "LE_train_00163": {
+    "LE_bcd0960dfda1ee4a": 10.0
+  },
+  "LE_train_00300": {
+    "LE_bcd0960dfda1ee4a": 8.0
+  },
+  "LE_train_00407": {
+    "LE_bcd0960dfda1ee4a": 0.0
+  },
+  "LE_test_00125": {
+    "LE_bcd0960dfda1ee4a": 2.0
+  },
+  "LE_train_00179": {
+    "LE_bdf3aa81f3643521": 3.0
+  },
+  "LE_train_00265": {
+    "LE_bdf3aa81f3643521": 10.0
+  },
+  "LE_train_00306": {
+    "LE_bdf3aa81f3643521": 8.0
+  },
+  "LE_train_00340": {
+    "LE_bdf3aa81f3643521": 5.0
+  },
+  "LE_test_00142": {
+    "LE_bdf3aa81f3643521": 5.0
+  },
+  "LE_test_00167": {
+    "LE_bdf3aa81f3643521": 0.0
+  },
+  "LE_train_00113": {
+    "LE_bee8f9fea090b566": 3.0
+  },
+  "LE_train_00170": {
+    "LE_bee8f9fea090b566": 8.0
+  },
+  "LE_train_00222": {
+    "LE_bee8f9fea090b566": 0.0
+  },
+  "LE_train_00324": {
+    "LE_bee8f9fea090b566": 10.0
+  },
+  "LE_test_00032": {
+    "LE_bee8f9fea090b566": 5.0
+  },
+  "LE_test_00085": {
+    "LE_bee8f9fea090b566": 6.0
+  },
+  "LE_train_00009": {
+    "LE_bf5dcbfeaca77c3b": 10.0
+  },
+  "LE_train_00055": {
+    "LE_bf5dcbfeaca77c3b": 7.0
+  },
+  "LE_train_00074": {
+    "LE_bf5dcbfeaca77c3b": 0.0
+  },
+  "LE_train_00080": {
+    "LE_bf5dcbfeaca77c3b": 4.0
+  },
+  "LE_train_00191": {
+    "LE_bf5dcbfeaca77c3b": 10.0
+  },
+  "LE_train_00165": {
+    "LE_c0dca9fa076ab7b8": 0.0
+  },
+  "LE_train_00405": {
+    "LE_c0dca9fa076ab7b8": 4.0
+  },
+  "LE_test_00097": {
+    "LE_c0dca9fa076ab7b8": 7.0
+  },
+  "LE_test_00137": {
+    "LE_c0dca9fa076ab7b8": 10.0
+  },
+  "LE_test_00165": {
+    "LE_c0dca9fa076ab7b8": 7.0
+  },
+  "LE_train_00060": {
+    "LE_c1c1f09d5d7e5559": 7.0
+  },
+  "LE_train_00106": {
+    "LE_c1c1f09d5d7e5559": 2.0
+  },
+  "LE_train_00143": {
+    "LE_c1c1f09d5d7e5559": 3.0
+  },
+  "LE_train_00217": {
+    "LE_c1c1f09d5d7e5559": 8.0
+  },
+  "LE_train_00331": {
+    "LE_c1c1f09d5d7e5559": 10.0
+  },
+  "LE_train_00344": {
+    "LE_c1c1f09d5d7e5559": 0.0
+  },
+  "LE_train_00397": {
+    "LE_c1c1f09d5d7e5559": 6.0
+  },
+  "LE_test_00004": {
+    "LE_c1c1f09d5d7e5559": 1.0
+  },
+  "LE_test_00163": {
+    "LE_c1c1f09d5d7e5559": 4.0
+  },
+  "LE_train_00173": {
+    "LE_c255b0e3867b5ed5": 10.0
+  },
+  "LE_train_00290": {
+    "LE_c255b0e3867b5ed5": 3.0
+  },
+  "LE_train_00326": {
+    "LE_c255b0e3867b5ed5": 10.0
+  },
+  "LE_test_00029": {
+    "LE_c255b0e3867b5ed5": 3.0
+  },
+  "LE_test_00050": {
+    "LE_c255b0e3867b5ed5": 0.0
+  },
+  "LE_test_00105": {
+    "LE_c255b0e3867b5ed5": 6.0
+  },
+  "LE_train_00189": {
+    "LE_c4b3865a6802c27d": 0.0
+  },
+  "LE_train_00332": {
+    "LE_c4b3865a6802c27d": 7.0
+  },
+  "LE_train_00348": {
+    "LE_c4b3865a6802c27d": 10.0
+  },
+  "LE_train_00356": {
+    "LE_c4b3865a6802c27d": 3.0
+  },
+  "LE_train_00387": {
+    "LE_c4b3865a6802c27d": 7.0
+  },
+  "LE_train_00181": {
+    "LE_c4e4892ab54bd0b3": 0.0
+  },
+  "LE_train_00246": {
+    "LE_c4e4892ab54bd0b3": 3.0
+  },
+  "LE_train_00316": {
+    "LE_c4e4892ab54bd0b3": 10.0
+  },
+  "LE_test_00120": {
+    "LE_c4e4892ab54bd0b3": 7.0
+  },
+  "LE_test_00173": {
+    "LE_c4e4892ab54bd0b3": 4.0
+  },
+  "LE_train_00012": {
+    "LE_c5681f9bb94f6bd9": 4.0
+  },
+  "LE_train_00031": {
+    "LE_c5681f9bb94f6bd9": 7.0
+  },
+  "LE_train_00052": {
+    "LE_c5681f9bb94f6bd9": 10.0
+  },
+  "LE_train_00053": {
+    "LE_c5681f9bb94f6bd9": 7.0
+  },
+  "LE_test_00058": {
+    "LE_c5681f9bb94f6bd9": 0.0
+  },
+  "LE_train_00164": {
+    "LE_c842aae7b18b7ecd": 8.0
+  },
+  "LE_train_00216": {
+    "LE_c842aae7b18b7ecd": 4.0
+  },
+  "LE_train_00336": {
+    "LE_c842aae7b18b7ecd": 6.0
+  },
+  "LE_train_00338": {
+    "LE_c842aae7b18b7ecd": 0.0
+  },
+  "LE_test_00074": {
+    "LE_c842aae7b18b7ecd": 2.0
+  },
+  "LE_test_00145": {
+    "LE_c842aae7b18b7ecd": 10.0
+  },
+  "LE_test_00148": {
+    "LE_c842aae7b18b7ecd": 4.0
+  },
+  "LE_train_00151": {
+    "LE_c99fc280b2d84f1b": 10.0
+  },
+  "LE_train_00161": {
+    "LE_c99fc280b2d84f1b": 8.0
+  },
+  "LE_train_00199": {
+    "LE_c99fc280b2d84f1b": 5.0
+  },
+  "LE_train_00228": {
+    "LE_c99fc280b2d84f1b": 6.0
+  },
+  "LE_train_00347": {
+    "LE_c99fc280b2d84f1b": 0.0
+  },
+  "LE_test_00119": {
+    "LE_c99fc280b2d84f1b": 3.0
+  },
+  "LE_train_00021": {
+    "LE_ca7eff1170c8ce23": 0.0
+  },
+  "LE_train_00059": {
+    "LE_ca7eff1170c8ce23": 3.0
+  },
+  "LE_train_00077": {
+    "LE_ca7eff1170c8ce23": 8.0
+  },
+  "LE_train_00313": {
+    "LE_ca7eff1170c8ce23": 8.0
+  },
+  "LE_train_00327": {
+    "LE_ca7eff1170c8ce23": 10.0
+  },
+  "LE_train_00398": {
+    "LE_ca7eff1170c8ce23": 5.0
+  },
+  "LE_train_00099": {
+    "LE_cd6de138b1c88b0a": 5.0
+  },
+  "LE_train_00200": {
+    "LE_cd6de138b1c88b0a": 8.0
+  },
+  "LE_train_00362": {
+    "LE_cd6de138b1c88b0a": 10.0
+  },
+  "LE_train_00368": {
+    "LE_cd6de138b1c88b0a": 4.0
+  },
+  "LE_test_00067": {
+    "LE_cd6de138b1c88b0a": 0.0
+  },
+  "LE_test_00117": {
+    "LE_cd6de138b1c88b0a": 6.0
+  },
+  "LE_train_00050": {
+    "LE_cee8a1db74ef223e": 10.0
+  },
+  "LE_train_00144": {
+    "LE_cee8a1db74ef223e": 10.0
+  },
+  "LE_train_00390": {
+    "LE_cee8a1db74ef223e": 0.0
+  },
+  "LE_train_00401": {
+    "LE_cee8a1db74ef223e": 7.0
+  },
+  "LE_test_00156": {
+    "LE_cee8a1db74ef223e": 4.0
+  },
+  "LE_train_00104": {
+    "LE_d26aba42d922272a": 0.0
+  },
+  "LE_train_00229": {
+    "LE_d26aba42d922272a": 3.0
+  },
+  "LE_train_00259": {
+    "LE_d26aba42d922272a": 8.0
+  },
+  "LE_train_00404": {
+    "LE_d26aba42d922272a": 10.0
+  },
+  "LE_test_00107": {
+    "LE_d26aba42d922272a": 10.0
+  },
+  "LE_test_00174": {
+    "LE_d26aba42d922272a": 5.0
+  },
+  "LE_train_00109": {
+    "LE_d31f0ee4b0827905": 5.0
+  },
+  "LE_train_00335": {
+    "LE_d31f0ee4b0827905": 0.0
+  },
+  "LE_train_00343": {
+    "LE_d31f0ee4b0827905": 10.0
+  },
+  "LE_train_00388": {
+    "LE_d31f0ee4b0827905": 4.0
+  },
+  "LE_test_00096": {
+    "LE_d31f0ee4b0827905": 5.0
+  },
+  "LE_train_00079": {
+    "LE_d5878df2e47ad7eb": 0.0
+  },
+  "LE_train_00081": {
+    "LE_d5878df2e47ad7eb": 2.0
+  },
+  "LE_train_00211": {
+    "LE_d5878df2e47ad7eb": 4.0
+  },
+  "LE_train_00213": {
+    "LE_d5878df2e47ad7eb": 8.0
+  },
+  "LE_train_00328": {
+    "LE_d5878df2e47ad7eb": 10.0
+  },
+  "LE_test_00031": {
+    "LE_d5878df2e47ad7eb": 6.0
+  },
+  "LE_test_00160": {
+    "LE_d5878df2e47ad7eb": 6.0
+  },
+  "LE_train_00038": {
+    "LE_d63ce5bcc35ab343": 0.0
+  },
+  "LE_train_00136": {
+    "LE_d63ce5bcc35ab343": 7.0
+  },
+  "LE_train_00339": {
+    "LE_d63ce5bcc35ab343": 10.0
+  },
+  "LE_test_00079": {
+    "LE_d63ce5bcc35ab343": 7.0
+  },
+  "LE_test_00129": {
+    "LE_d63ce5bcc35ab343": 4.0
+  },
+  "LE_train_00141": {
+    "LE_de2767b542d55003": 4.0
+  },
+  "LE_train_00218": {
+    "LE_de2767b542d55003": 7.0
+  },
+  "LE_train_00225": {
+    "LE_de2767b542d55003": 10.0
+  },
+  "LE_train_00251": {
+    "LE_de2767b542d55003": 7.0
+  },
+  "LE_test_00104": {
+    "LE_de2767b542d55003": 0.0
+  },
+  "LE_train_00082": {
+    "LE_de2a3d65c663522e": 10.0
+  },
+  "LE_train_00084": {
+    "LE_de2a3d65c663522e": 10.0
+  },
+  "LE_train_00108": {
+    "LE_de2a3d65c663522e": 7.0
+  },
+  "LE_train_00294": {
+    "LE_de2a3d65c663522e": 4.0
+  },
+  "LE_train_00346": {
+    "LE_de2a3d65c663522e": 0.0
+  },
+  "LE_train_00130": {
+    "LE_e0763d986ce2108f": 2.0
+  },
+  "LE_train_00140": {
+    "LE_e0763d986ce2108f": 8.0
+  },
+  "LE_train_00174": {
+    "LE_e0763d986ce2108f": 10.0
+  },
+  "LE_train_00270": {
+    "LE_e0763d986ce2108f": 8.0
+  },
+  "LE_train_00280": {
+    "LE_e0763d986ce2108f": 4.0
+  },
+  "LE_train_00304": {
+    "LE_e0763d986ce2108f": 0.0
+  },
+  "LE_test_00112": {
+    "LE_e0763d986ce2108f": 6.0
+  },
+  "LE_train_00193": {
+    "LE_e9588efa4b845109": 10.0
+  },
+  "LE_train_00194": {
+    "LE_e9588efa4b845109": 0.0
+  },
+  "LE_train_00224": {
+    "LE_e9588efa4b845109": 10.0
+  },
+  "LE_test_00046": {
+    "LE_e9588efa4b845109": 5.0
+  },
+  "LE_test_00077": {
+    "LE_e9588efa4b845109": 5.0
+  },
+  "LE_train_00024": {
+    "LE_e9d9aed860bb2397": 5.0
+  },
+  "LE_train_00201": {
+    "LE_e9d9aed860bb2397": 10.0
+  },
+  "LE_train_00232": {
+    "LE_e9d9aed860bb2397": 10.0
+  },
+  "LE_test_00022": {
+    "LE_e9d9aed860bb2397": 5.0
+  },
+  "LE_test_00051": {
+    "LE_e9d9aed860bb2397": 0.0
+  },
+  "LE_train_00020": {
+    "LE_e9dbc05dec537cad": 0.0
+  },
+  "LE_train_00025": {
+    "LE_e9dbc05dec537cad": 10.0
+  },
+  "LE_train_00145": {
+    "LE_e9dbc05dec537cad": 4.0
+  },
+  "LE_train_00308": {
+    "LE_e9dbc05dec537cad": 7.0
+  },
+  "LE_test_00087": {
+    "LE_e9dbc05dec537cad": 9.0
+  },
+  "LE_train_00002": {
+    "LE_eebb9e960d4694f3": 6.0
+  },
+  "LE_train_00076": {
+    "LE_eebb9e960d4694f3": 4.0
+  },
+  "LE_train_00367": {
+    "LE_eebb9e960d4694f3": 6.0
+  },
+  "LE_train_00377": {
+    "LE_eebb9e960d4694f3": 0.0
+  },
+  "LE_test_00011": {
+    "LE_eebb9e960d4694f3": 2.0
+  },
+  "LE_test_00086": {
+    "LE_eebb9e960d4694f3": 10.0
+  },
+  "LE_test_00128": {
+    "LE_eebb9e960d4694f3": 8.0
+  },
+  "LE_train_00115": {
+    "LE_f0cf3f01415864d6": 10.0
+  },
+  "LE_train_00223": {
+    "LE_f0cf3f01415864d6": 4.0
+  },
+  "LE_train_00258": {
+    "LE_f0cf3f01415864d6": 7.0
+  },
+  "LE_test_00010": {
+    "LE_f0cf3f01415864d6": 0.0
+  },
+  "LE_test_00084": {
+    "LE_f0cf3f01415864d6": 10.0
+  },
+  "LE_train_00072": {
+    "LE_f2365aa54e4e6bd0": 0.0
+  },
+  "LE_train_00085": {
+    "LE_f2365aa54e4e6bd0": 6.0
+  },
+  "LE_train_00119": {
+    "LE_f2365aa54e4e6bd0": 2.0
+  },
+  "LE_train_00214": {
+    "LE_f2365aa54e4e6bd0": 10.0
+  },
+  "LE_test_00088": {
+    "LE_f2365aa54e4e6bd0": 7.0
+  },
+  "LE_test_00121": {
+    "LE_f2365aa54e4e6bd0": 8.0
+  },
+  "LE_test_00153": {
+    "LE_f2365aa54e4e6bd0": 4.0
+  },
+  "LE_train_00001": {
+    "LE_f2d9dd08dd41cd6b": 5.0
+  },
+  "LE_train_00064": {
+    "LE_f2d9dd08dd41cd6b": 10.0
+  },
+  "LE_train_00110": {
+    "LE_f2d9dd08dd41cd6b": 0.0
+  },
+  "LE_train_00219": {
+    "LE_f2d9dd08dd41cd6b": 5.0
+  },
+  "LE_test_00155": {
+    "LE_f2d9dd08dd41cd6b": 8.0
+  },
+  "LE_train_00093": {
+    "LE_f62486d7221fb28d": 0.0
+  },
+  "LE_train_00318": {
+    "LE_f62486d7221fb28d": 4.0
+  },
+  "LE_train_00319": {
+    "LE_f62486d7221fb28d": 3.0
+  },
+  "LE_train_00373": {
+    "LE_f62486d7221fb28d": 10.0
+  },
+  "LE_test_00018": {
+    "LE_f62486d7221fb28d": 7.0
+  },
+  "LE_train_00027": {
+    "LE_f7b2a98393ca9870": 10.0
+  },
+  "LE_train_00105": {
+    "LE_f7b2a98393ca9870": 10.0
+  },
+  "LE_train_00184": {
+    "LE_f7b2a98393ca9870": 0.0
+  },
+  "LE_train_00375": {
+    "LE_f7b2a98393ca9870": 5.0
+  },
+  "LE_train_00382": {
+    "LE_f7b2a98393ca9870": 5.0
+  },
+  "LE_train_00032": {
+    "LE_fa55177d9c91a4c8": 8.0
+  },
+  "LE_train_00121": {
+    "LE_fa55177d9c91a4c8": 5.0
+  },
+  "LE_train_00177": {
+    "LE_fa55177d9c91a4c8": 3.0
+  },
+  "LE_train_00245": {
+    "LE_fa55177d9c91a4c8": 5.0
+  },
+  "LE_train_00309": {
+    "LE_fa55177d9c91a4c8": 0.0
+  },
+  "LE_train_00345": {
+    "LE_fa55177d9c91a4c8": 10.0
+  },
+  "LE_train_00035": {
+    "LE_fc666f06d75ef07a": 0.0
+  },
+  "LE_train_00196": {
+    "LE_fc666f06d75ef07a": 6.0
+  },
+  "LE_train_00402": {
+    "LE_fc666f06d75ef07a": 8.0
+  },
+  "LE_test_00027": {
+    "LE_fc666f06d75ef07a": 4.0
+  },
+  "LE_test_00083": {
+    "LE_fc666f06d75ef07a": 2.0
+  },
+  "LE_test_00099": {
+    "LE_fc666f06d75ef07a": 4.0
+  },
+  "LE_test_00143": {
+    "LE_fc666f06d75ef07a": 10.0
+  }
+}

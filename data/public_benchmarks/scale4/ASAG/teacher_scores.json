@@ -1,0 +1,1889 @@
+{
+  "ASAG_train_00083": {
+    "ASAG_010261aad4f92612": 4.0
+  },
+  "ASAG_train_00090": {
+    "ASAG_010261aad4f92612": 3.0
+  },
+  "ASAG_train_00109": {
+    "ASAG_010261aad4f92612": 10.0
+  },
+  "ASAG_train_00133": {
+    "ASAG_010261aad4f92612": 9.0
+  },
+  "ASAG_train_00150": {
+    "ASAG_010261aad4f92612": 10.0
+  },
+  "ASAG_train_00182": {
+    "ASAG_010261aad4f92612": 9.0
+  },
+  "ASAG_train_00183": {
+    "ASAG_010261aad4f92612": 5.0
+  },
+  "ASAG_train_00207": {
+    "ASAG_010261aad4f92612": 4.0
+  },
+  "ASAG_train_00231": {
+    "ASAG_010261aad4f92612": 10.0
+  },
+  "ASAG_train_00234": {
+    "ASAG_010261aad4f92612": 6.0
+  },
+  "ASAG_train_00235": {
+    "ASAG_010261aad4f92612": 4.0
+  },
+  "ASAG_train_00244": {
+    "ASAG_010261aad4f92612": 10.0
+  },
+  "ASAG_train_00260": {
+    "ASAG_010261aad4f92612": 4.0
+  },
+  "ASAG_train_00269": {
+    "ASAG_010261aad4f92612": 10.0
+  },
+  "ASAG_train_00297": {
+    "ASAG_010261aad4f92612": 5.0
+  },
+  "ASAG_train_00306": {
+    "ASAG_010261aad4f92612": 6.0
+  },
+  "ASAG_train_00309": {
+    "ASAG_010261aad4f92612": 10.0
+  },
+  "ASAG_train_00376": {
+    "ASAG_010261aad4f92612": 10.0
+  },
+  "ASAG_train_00391": {
+    "ASAG_010261aad4f92612": 7.0
+  },
+  "ASAG_train_00417": {
+    "ASAG_010261aad4f92612": 5.0
+  },
+  "ASAG_train_00440": {
+    "ASAG_010261aad4f92612": 6.0
+  },
+  "ASAG_test_00025": {
+    "ASAG_010261aad4f92612": 10.0
+  },
+  "ASAG_test_00052": {
+    "ASAG_010261aad4f92612": 7.0
+  },
+  "ASAG_test_00054": {
+    "ASAG_010261aad4f92612": 5.0
+  },
+  "ASAG_test_00061": {
+    "ASAG_010261aad4f92612": 4.0
+  },
+  "ASAG_test_00103": {
+    "ASAG_010261aad4f92612": 10.0
+  },
+  "ASAG_test_00109": {
+    "ASAG_010261aad4f92612": 8.0
+  },
+  "ASAG_test_00135": {
+    "ASAG_010261aad4f92612": 10.0
+  },
+  "ASAG_test_00164": {
+    "ASAG_010261aad4f92612": 4.0
+  },
+  "ASAG_train_00092": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00117": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00131": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00137": {
+    "ASAG_02eacd511044f203": 8.0
+  },
+  "ASAG_train_00196": {
+    "ASAG_02eacd511044f203": 9.0
+  },
+  "ASAG_train_00212": {
+    "ASAG_02eacd511044f203": 7.0
+  },
+  "ASAG_train_00229": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00230": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00232": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00240": {
+    "ASAG_02eacd511044f203": 9.0
+  },
+  "ASAG_train_00254": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00284": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00303": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00325": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00394": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00400": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00408": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00413": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00430": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_test_00005": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_test_00018": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_test_00055": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_test_00066": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_test_00082": {
+    "ASAG_02eacd511044f203": 7.0
+  },
+  "ASAG_test_00085": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_test_00151": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_test_00167": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_test_00178": {
+    "ASAG_02eacd511044f203": 0.0
+  },
+  "ASAG_test_00182": {
+    "ASAG_02eacd511044f203": 10.0
+  },
+  "ASAG_train_00007": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00014": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00035": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00043": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00057": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00089": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00098": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00176": {
+    "ASAG_04851c6989138792": 7.0
+  },
+  "ASAG_train_00190": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00206": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00246": {
+    "ASAG_04851c6989138792": 4.0
+  },
+  "ASAG_train_00251": {
+    "ASAG_04851c6989138792": 6.0
+  },
+  "ASAG_train_00292": {
+    "ASAG_04851c6989138792": 4.0
+  },
+  "ASAG_train_00310": {
+    "ASAG_04851c6989138792": 7.0
+  },
+  "ASAG_train_00357": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00360": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00385": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00392": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_train_00398": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_test_00013": {
+    "ASAG_04851c6989138792": 7.0
+  },
+  "ASAG_test_00046": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_test_00056": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_test_00058": {
+    "ASAG_04851c6989138792": 6.0
+  },
+  "ASAG_test_00089": {
+    "ASAG_04851c6989138792": 0.0
+  },
+  "ASAG_test_00114": {
+    "ASAG_04851c6989138792": 9.0
+  },
+  "ASAG_test_00119": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_test_00121": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_test_00125": {
+    "ASAG_04851c6989138792": 10.0
+  },
+  "ASAG_test_00175": {
+    "ASAG_04851c6989138792": 8.0
+  },
+  "ASAG_test_00177": {
+    "ASAG_04851c6989138792": 6.0
+  },
+  "ASAG_train_00009": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00011": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00018": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00044": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00046": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00076": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00077": {
+    "ASAG_04bb0bcf824d1439": 6.0
+  },
+  "ASAG_train_00119": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00152": {
+    "ASAG_04bb0bcf824d1439": 3.0
+  },
+  "ASAG_train_00153": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00168": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00178": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00199": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00233": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00248": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00259": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00314": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00335": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00355": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00382": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00412": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_test_00032": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_test_00044": {
+    "ASAG_04bb0bcf824d1439": 2.0
+  },
+  "ASAG_test_00069": {
+    "ASAG_04bb0bcf824d1439": 7.0
+  },
+  "ASAG_test_00071": {
+    "ASAG_04bb0bcf824d1439": 7.0
+  },
+  "ASAG_test_00107": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_test_00118": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_test_00147": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_test_00183": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_test_00184": {
+    "ASAG_04bb0bcf824d1439": 10.0
+  },
+  "ASAG_train_00003": {
+    "ASAG_088ade8e8f678093": 8.0
+  },
+  "ASAG_train_00020": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00049": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00070": {
+    "ASAG_088ade8e8f678093": 6.0
+  },
+  "ASAG_train_00093": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00104": {
+    "ASAG_088ade8e8f678093": 6.0
+  },
+  "ASAG_train_00127": {
+    "ASAG_088ade8e8f678093": 6.0
+  },
+  "ASAG_train_00147": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00167": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00189": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00203": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00211": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00223": {
+    "ASAG_088ade8e8f678093": 6.0
+  },
+  "ASAG_train_00225": {
+    "ASAG_088ade8e8f678093": 7.0
+  },
+  "ASAG_train_00237": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00283": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00288": {
+    "ASAG_088ade8e8f678093": 0.0
+  },
+  "ASAG_train_00321": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00326": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00330": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00339": {
+    "ASAG_088ade8e8f678093": 6.0
+  },
+  "ASAG_train_00342": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_train_00359": {
+    "ASAG_088ade8e8f678093": 9.0
+  },
+  "ASAG_train_00426": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_test_00027": {
+    "ASAG_088ade8e8f678093": 6.0
+  },
+  "ASAG_test_00072": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_test_00083": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_test_00108": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_test_00126": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_test_00132": {
+    "ASAG_088ade8e8f678093": 10.0
+  },
+  "ASAG_test_00134": {
+    "ASAG_088ade8e8f678093": 9.0
+  },
+  "ASAG_train_00048": {
+    "ASAG_171f79aea8b86cd1": 4.0
+  },
+  "ASAG_train_00053": {
+    "ASAG_171f79aea8b86cd1": 4.0
+  },
+  "ASAG_train_00146": {
+    "ASAG_171f79aea8b86cd1": 3.0
+  },
+  "ASAG_train_00148": {
+    "ASAG_171f79aea8b86cd1": 6.0
+  },
+  "ASAG_train_00238": {
+    "ASAG_171f79aea8b86cd1": 6.0
+  },
+  "ASAG_train_00274": {
+    "ASAG_171f79aea8b86cd1": 4.0
+  },
+  "ASAG_train_00298": {
+    "ASAG_171f79aea8b86cd1": 2.0
+  },
+  "ASAG_train_00337": {
+    "ASAG_171f79aea8b86cd1": 6.0
+  },
+  "ASAG_train_00346": {
+    "ASAG_171f79aea8b86cd1": 7.0
+  },
+  "ASAG_train_00347": {
+    "ASAG_171f79aea8b86cd1": 7.0
+  },
+  "ASAG_train_00351": {
+    "ASAG_171f79aea8b86cd1": 7.0
+  },
+  "ASAG_train_00371": {
+    "ASAG_171f79aea8b86cd1": 10.0
+  },
+  "ASAG_train_00384": {
+    "ASAG_171f79aea8b86cd1": 6.0
+  },
+  "ASAG_train_00388": {
+    "ASAG_171f79aea8b86cd1": 3.0
+  },
+  "ASAG_train_00389": {
+    "ASAG_171f79aea8b86cd1": 10.0
+  },
+  "ASAG_train_00409": {
+    "ASAG_171f79aea8b86cd1": 7.0
+  },
+  "ASAG_train_00418": {
+    "ASAG_171f79aea8b86cd1": 7.0
+  },
+  "ASAG_train_00420": {
+    "ASAG_171f79aea8b86cd1": 5.0
+  },
+  "ASAG_train_00425": {
+    "ASAG_171f79aea8b86cd1": 9.0
+  },
+  "ASAG_test_00041": {
+    "ASAG_171f79aea8b86cd1": 3.0
+  },
+  "ASAG_test_00047": {
+    "ASAG_171f79aea8b86cd1": 10.0
+  },
+  "ASAG_test_00068": {
+    "ASAG_171f79aea8b86cd1": 8.0
+  },
+  "ASAG_test_00073": {
+    "ASAG_171f79aea8b86cd1": 7.0
+  },
+  "ASAG_test_00096": {
+    "ASAG_171f79aea8b86cd1": 5.0
+  },
+  "ASAG_test_00098": {
+    "ASAG_171f79aea8b86cd1": 3.0
+  },
+  "ASAG_test_00115": {
+    "ASAG_171f79aea8b86cd1": 6.0
+  },
+  "ASAG_test_00148": {
+    "ASAG_171f79aea8b86cd1": 4.0
+  },
+  "ASAG_test_00155": {
+    "ASAG_171f79aea8b86cd1": 5.0
+  },
+  "ASAG_test_00173": {
+    "ASAG_171f79aea8b86cd1": 8.0
+  },
+  "ASAG_train_00026": {
+    "ASAG_2128a4a68dad369b": 8.0
+  },
+  "ASAG_train_00027": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_train_00045": {
+    "ASAG_2128a4a68dad369b": 4.0
+  },
+  "ASAG_train_00086": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_train_00111": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_train_00121": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_train_00126": {
+    "ASAG_2128a4a68dad369b": 9.0
+  },
+  "ASAG_train_00164": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_train_00214": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_train_00241": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_train_00242": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_train_00257": {
+    "ASAG_2128a4a68dad369b": 8.0
+  },
+  "ASAG_train_00273": {
+    "ASAG_2128a4a68dad369b": 7.0
+  },
+  "ASAG_train_00300": {
+    "ASAG_2128a4a68dad369b": 8.0
+  },
+  "ASAG_train_00338": {
+    "ASAG_2128a4a68dad369b": 9.0
+  },
+  "ASAG_train_00356": {
+    "ASAG_2128a4a68dad369b": 6.0
+  },
+  "ASAG_train_00377": {
+    "ASAG_2128a4a68dad369b": 9.0
+  },
+  "ASAG_train_00381": {
+    "ASAG_2128a4a68dad369b": 8.0
+  },
+  "ASAG_train_00403": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_test_00006": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_test_00014": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_test_00022": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_test_00029": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_test_00074": {
+    "ASAG_2128a4a68dad369b": 7.0
+  },
+  "ASAG_test_00079": {
+    "ASAG_2128a4a68dad369b": 9.0
+  },
+  "ASAG_test_00100": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_test_00143": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_test_00161": {
+    "ASAG_2128a4a68dad369b": 10.0
+  },
+  "ASAG_test_00171": {
+    "ASAG_2128a4a68dad369b": 7.0
+  },
+  "ASAG_train_00002": {
+    "ASAG_2e59a63ba3f84c9d": 9.0
+  },
+  "ASAG_train_00004": {
+    "ASAG_2e59a63ba3f84c9d": 4.0
+  },
+  "ASAG_train_00033": {
+    "ASAG_2e59a63ba3f84c9d": 3.0
+  },
+  "ASAG_train_00041": {
+    "ASAG_2e59a63ba3f84c9d": 9.0
+  },
+  "ASAG_train_00059": {
+    "ASAG_2e59a63ba3f84c9d": 10.0
+  },
+  "ASAG_train_00074": {
+    "ASAG_2e59a63ba3f84c9d": 5.0
+  },
+  "ASAG_train_00079": {
+    "ASAG_2e59a63ba3f84c9d": 9.0
+  },
+  "ASAG_train_00115": {
+    "ASAG_2e59a63ba3f84c9d": 6.0
+  },
+  "ASAG_train_00166": {
+    "ASAG_2e59a63ba3f84c9d": 10.0
+  },
+  "ASAG_train_00171": {
+    "ASAG_2e59a63ba3f84c9d": 8.0
+  },
+  "ASAG_train_00216": {
+    "ASAG_2e59a63ba3f84c9d": 7.0
+  },
+  "ASAG_train_00222": {
+    "ASAG_2e59a63ba3f84c9d": 10.0
+  },
+  "ASAG_train_00226": {
+    "ASAG_2e59a63ba3f84c9d": 2.0
+  },
+  "ASAG_train_00265": {
+    "ASAG_2e59a63ba3f84c9d": 4.0
+  },
+  "ASAG_train_00278": {
+    "ASAG_2e59a63ba3f84c9d": 6.0
+  },
+  "ASAG_train_00282": {
+    "ASAG_2e59a63ba3f84c9d": 4.0
+  },
+  "ASAG_train_00287": {
+    "ASAG_2e59a63ba3f84c9d": 8.0
+  },
+  "ASAG_train_00291": {
+    "ASAG_2e59a63ba3f84c9d": 5.0
+  },
+  "ASAG_train_00307": {
+    "ASAG_2e59a63ba3f84c9d": 4.0
+  },
+  "ASAG_train_00333": {
+    "ASAG_2e59a63ba3f84c9d": 5.0
+  },
+  "ASAG_train_00350": {
+    "ASAG_2e59a63ba3f84c9d": 5.0
+  },
+  "ASAG_train_00365": {
+    "ASAG_2e59a63ba3f84c9d": 7.0
+  },
+  "ASAG_train_00370": {
+    "ASAG_2e59a63ba3f84c9d": 5.0
+  },
+  "ASAG_train_00372": {
+    "ASAG_2e59a63ba3f84c9d": 10.0
+  },
+  "ASAG_train_00386": {
+    "ASAG_2e59a63ba3f84c9d": 6.0
+  },
+  "ASAG_test_00059": {
+    "ASAG_2e59a63ba3f84c9d": 8.0
+  },
+  "ASAG_test_00123": {
+    "ASAG_2e59a63ba3f84c9d": 9.0
+  },
+  "ASAG_test_00140": {
+    "ASAG_2e59a63ba3f84c9d": 10.0
+  },
+  "ASAG_test_00145": {
+    "ASAG_2e59a63ba3f84c9d": 4.0
+  },
+  "ASAG_train_00001": {
+    "ASAG_3641b9b969b9bc35": 9.0
+  },
+  "ASAG_train_00024": {
+    "ASAG_3641b9b969b9bc35": 9.0
+  },
+  "ASAG_train_00097": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_train_00120": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_train_00124": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_train_00175": {
+    "ASAG_3641b9b969b9bc35": 5.0
+  },
+  "ASAG_train_00185": {
+    "ASAG_3641b9b969b9bc35": 9.0
+  },
+  "ASAG_train_00195": {
+    "ASAG_3641b9b969b9bc35": 9.0
+  },
+  "ASAG_train_00197": {
+    "ASAG_3641b9b969b9bc35": 8.0
+  },
+  "ASAG_train_00204": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_train_00213": {
+    "ASAG_3641b9b969b9bc35": 6.0
+  },
+  "ASAG_train_00224": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_train_00290": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_train_00299": {
+    "ASAG_3641b9b969b9bc35": 6.0
+  },
+  "ASAG_train_00311": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_train_00315": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_train_00323": {
+    "ASAG_3641b9b969b9bc35": 9.0
+  },
+  "ASAG_train_00324": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_train_00352": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_train_00395": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_train_00397": {
+    "ASAG_3641b9b969b9bc35": 9.0
+  },
+  "ASAG_train_00406": {
+    "ASAG_3641b9b969b9bc35": 9.0
+  },
+  "ASAG_train_00421": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_train_00428": {
+    "ASAG_3641b9b969b9bc35": 9.0
+  },
+  "ASAG_train_00437": {
+    "ASAG_3641b9b969b9bc35": 9.0
+  },
+  "ASAG_test_00015": {
+    "ASAG_3641b9b969b9bc35": 9.0
+  },
+  "ASAG_test_00088": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_test_00094": {
+    "ASAG_3641b9b969b9bc35": 9.0
+  },
+  "ASAG_test_00112": {
+    "ASAG_3641b9b969b9bc35": 10.0
+  },
+  "ASAG_test_00165": {
+    "ASAG_3641b9b969b9bc35": 5.0
+  },
+  "ASAG_test_00187": {
+    "ASAG_3641b9b969b9bc35": 9.0
+  },
+  "ASAG_train_00012": {
+    "ASAG_40bf2394811f3d5a": 10.0
+  },
+  "ASAG_train_00039": {
+    "ASAG_40bf2394811f3d5a": 7.0
+  },
+  "ASAG_train_00067": {
+    "ASAG_40bf2394811f3d5a": 5.0
+  },
+  "ASAG_train_00071": {
+    "ASAG_40bf2394811f3d5a": 9.0
+  },
+  "ASAG_train_00072": {
+    "ASAG_40bf2394811f3d5a": 9.0
+  },
+  "ASAG_train_00073": {
+    "ASAG_40bf2394811f3d5a": 4.0
+  },
+  "ASAG_train_00091": {
+    "ASAG_40bf2394811f3d5a": 8.0
+  },
+  "ASAG_train_00107": {
+    "ASAG_40bf2394811f3d5a": 6.0
+  },
+  "ASAG_train_00157": {
+    "ASAG_40bf2394811f3d5a": 10.0
+  },
+  "ASAG_train_00173": {
+    "ASAG_40bf2394811f3d5a": 6.0
+  },
+  "ASAG_train_00201": {
+    "ASAG_40bf2394811f3d5a": 10.0
+  },
+  "ASAG_train_00256": {
+    "ASAG_40bf2394811f3d5a": 9.0
+  },
+  "ASAG_train_00277": {
+    "ASAG_40bf2394811f3d5a": 6.0
+  },
+  "ASAG_train_00327": {
+    "ASAG_40bf2394811f3d5a": 10.0
+  },
+  "ASAG_train_00343": {
+    "ASAG_40bf2394811f3d5a": 9.0
+  },
+  "ASAG_train_00354": {
+    "ASAG_40bf2394811f3d5a": 9.0
+  },
+  "ASAG_train_00374": {
+    "ASAG_40bf2394811f3d5a": 10.0
+  },
+  "ASAG_train_00378": {
+    "ASAG_40bf2394811f3d5a": 10.0
+  },
+  "ASAG_train_00383": {
+    "ASAG_40bf2394811f3d5a": 8.0
+  },
+  "ASAG_train_00402": {
+    "ASAG_40bf2394811f3d5a": 9.0
+  },
+  "ASAG_train_00433": {
+    "ASAG_40bf2394811f3d5a": 7.0
+  },
+  "ASAG_train_00435": {
+    "ASAG_40bf2394811f3d5a": 10.0
+  },
+  "ASAG_test_00009": {
+    "ASAG_40bf2394811f3d5a": 9.0
+  },
+  "ASAG_test_00076": {
+    "ASAG_40bf2394811f3d5a": 9.0
+  },
+  "ASAG_test_00091": {
+    "ASAG_40bf2394811f3d5a": 8.0
+  },
+  "ASAG_test_00097": {
+    "ASAG_40bf2394811f3d5a": 9.0
+  },
+  "ASAG_test_00099": {
+    "ASAG_40bf2394811f3d5a": 9.0
+  },
+  "ASAG_test_00141": {
+    "ASAG_40bf2394811f3d5a": 9.0
+  },
+  "ASAG_test_00166": {
+    "ASAG_40bf2394811f3d5a": 7.0
+  },
+  "ASAG_test_00188": {
+    "ASAG_40bf2394811f3d5a": 8.0
+  },
+  "ASAG_train_00005": {
+    "ASAG_4c2b5b81ff95f923": 6.0
+  },
+  "ASAG_train_00010": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00013": {
+    "ASAG_4c2b5b81ff95f923": 9.0
+  },
+  "ASAG_train_00021": {
+    "ASAG_4c2b5b81ff95f923": 6.0
+  },
+  "ASAG_train_00047": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00052": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00095": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00113": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00116": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00125": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00149": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00177": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00179": {
+    "ASAG_4c2b5b81ff95f923": 6.0
+  },
+  "ASAG_train_00187": {
+    "ASAG_4c2b5b81ff95f923": 9.0
+  },
+  "ASAG_train_00202": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00217": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00220": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00245": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00255": {
+    "ASAG_4c2b5b81ff95f923": 6.0
+  },
+  "ASAG_train_00289": {
+    "ASAG_4c2b5b81ff95f923": 4.0
+  },
+  "ASAG_train_00294": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00316": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00366": {
+    "ASAG_4c2b5b81ff95f923": 6.0
+  },
+  "ASAG_train_00423": {
+    "ASAG_4c2b5b81ff95f923": 9.0
+  },
+  "ASAG_test_00007": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_test_00019": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_test_00036": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_test_00049": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_test_00090": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_test_00160": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_test_00168": {
+    "ASAG_4c2b5b81ff95f923": 10.0
+  },
+  "ASAG_train_00040": {
+    "ASAG_52b5b40b48b7f07f": 10.0
+  },
+  "ASAG_train_00064": {
+    "ASAG_52b5b40b48b7f07f": 9.0
+  },
+  "ASAG_train_00082": {
+    "ASAG_52b5b40b48b7f07f": 10.0
+  },
+  "ASAG_train_00100": {
+    "ASAG_52b5b40b48b7f07f": 4.0
+  },
+  "ASAG_train_00108": {
+    "ASAG_52b5b40b48b7f07f": 9.0
+  },
+  "ASAG_train_00118": {
+    "ASAG_52b5b40b48b7f07f": 9.0
+  },
+  "ASAG_train_00134": {
+    "ASAG_52b5b40b48b7f07f": 9.0
+  },
+  "ASAG_train_00141": {
+    "ASAG_52b5b40b48b7f07f": 9.0
+  },
+  "ASAG_train_00169": {
+    "ASAG_52b5b40b48b7f07f": 10.0
+  },
+  "ASAG_train_00194": {
+    "ASAG_52b5b40b48b7f07f": 9.0
+  },
+  "ASAG_train_00268": {
+    "ASAG_52b5b40b48b7f07f": 6.0
+  },
+  "ASAG_train_00271": {
+    "ASAG_52b5b40b48b7f07f": 9.0
+  },
+  "ASAG_train_00275": {
+    "ASAG_52b5b40b48b7f07f": 8.0
+  },
+  "ASAG_train_00348": {
+    "ASAG_52b5b40b48b7f07f": 7.0
+  },
+  "ASAG_train_00349": {
+    "ASAG_52b5b40b48b7f07f": 10.0
+  },
+  "ASAG_train_00379": {
+    "ASAG_52b5b40b48b7f07f": 10.0
+  },
+  "ASAG_train_00410": {
+    "ASAG_52b5b40b48b7f07f": 7.0
+  },
+  "ASAG_train_00416": {
+    "ASAG_52b5b40b48b7f07f": 8.0
+  },
+  "ASAG_train_00434": {
+    "ASAG_52b5b40b48b7f07f": 8.0
+  },
+  "ASAG_train_00436": {
+    "ASAG_52b5b40b48b7f07f": 5.0
+  },
+  "ASAG_train_00439": {
+    "ASAG_52b5b40b48b7f07f": 10.0
+  },
+  "ASAG_test_00002": {
+    "ASAG_52b5b40b48b7f07f": 10.0
+  },
+  "ASAG_test_00004": {
+    "ASAG_52b5b40b48b7f07f": 10.0
+  },
+  "ASAG_test_00010": {
+    "ASAG_52b5b40b48b7f07f": 9.0
+  },
+  "ASAG_test_00037": {
+    "ASAG_52b5b40b48b7f07f": 9.0
+  },
+  "ASAG_test_00039": {
+    "ASAG_52b5b40b48b7f07f": 4.0
+  },
+  "ASAG_test_00048": {
+    "ASAG_52b5b40b48b7f07f": 9.0
+  },
+  "ASAG_test_00116": {
+    "ASAG_52b5b40b48b7f07f": 8.0
+  },
+  "ASAG_test_00127": {
+    "ASAG_52b5b40b48b7f07f": 9.0
+  },
+  "ASAG_test_00185": {
+    "ASAG_52b5b40b48b7f07f": 9.0
+  },
+  "ASAG_train_00017": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_train_00023": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_train_00042": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_train_00058": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_train_00069": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_train_00139": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_train_00158": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_train_00172": {
+    "ASAG_585396e1421b111d": 9.0
+  },
+  "ASAG_train_00181": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_train_00198": {
+    "ASAG_585396e1421b111d": 9.0
+  },
+  "ASAG_train_00249": {
+    "ASAG_585396e1421b111d": 7.0
+  },
+  "ASAG_train_00267": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_train_00301": {
+    "ASAG_585396e1421b111d": 7.0
+  },
+  "ASAG_train_00328": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_train_00361": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_train_00414": {
+    "ASAG_585396e1421b111d": 8.0
+  },
+  "ASAG_test_00003": {
+    "ASAG_585396e1421b111d": 8.0
+  },
+  "ASAG_test_00008": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_test_00011": {
+    "ASAG_585396e1421b111d": 9.0
+  },
+  "ASAG_test_00016": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_test_00021": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_test_00031": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_test_00045": {
+    "ASAG_585396e1421b111d": 9.0
+  },
+  "ASAG_test_00050": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_test_00086": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_test_00095": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_test_00106": {
+    "ASAG_585396e1421b111d": 5.0
+  },
+  "ASAG_test_00146": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_test_00150": {
+    "ASAG_585396e1421b111d": 6.0
+  },
+  "ASAG_test_00179": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_test_00189": {
+    "ASAG_585396e1421b111d": 10.0
+  },
+  "ASAG_train_00034": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00075": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00088": {
+    "ASAG_69824d048db983b8": 5.0
+  },
+  "ASAG_train_00143": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00151": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00154": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00165": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00186": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00200": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00208": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00209": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00261": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00296": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00302": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00317": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00332": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00341": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00369": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00375": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00405": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_train_00422": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_test_00001": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_test_00024": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_test_00030": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_test_00080": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_test_00092": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_test_00122": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_test_00139": {
+    "ASAG_69824d048db983b8": 10.0
+  },
+  "ASAG_test_00174": {
+    "ASAG_69824d048db983b8": 0.0
+  },
+  "ASAG_train_00025": {
+    "ASAG_79c5fa1b092b3fdd": 6.0
+  },
+  "ASAG_train_00080": {
+    "ASAG_79c5fa1b092b3fdd": 6.0
+  },
+  "ASAG_train_00112": {
+    "ASAG_79c5fa1b092b3fdd": 8.0
+  },
+  "ASAG_train_00132": {
+    "ASAG_79c5fa1b092b3fdd": 6.0
+  },
+  "ASAG_train_00142": {
+    "ASAG_79c5fa1b092b3fdd": 7.0
+  },
+  "ASAG_train_00144": {
+    "ASAG_79c5fa1b092b3fdd": 7.0
+  },
+  "ASAG_train_00155": {
+    "ASAG_79c5fa1b092b3fdd": 3.0
+  },
+  "ASAG_train_00160": {
+    "ASAG_79c5fa1b092b3fdd": 0.0
+  },
+  "ASAG_train_00227": {
+    "ASAG_79c5fa1b092b3fdd": 6.0
+  },
+  "ASAG_train_00236": {
+    "ASAG_79c5fa1b092b3fdd": 9.0
+  },
+  "ASAG_train_00243": {
+    "ASAG_79c5fa1b092b3fdd": 9.0
+  },
+  "ASAG_train_00250": {
+    "ASAG_79c5fa1b092b3fdd": 7.0
+  },
+  "ASAG_train_00313": {
+    "ASAG_79c5fa1b092b3fdd": 8.0
+  },
+  "ASAG_train_00319": {
+    "ASAG_79c5fa1b092b3fdd": 7.0
+  },
+  "ASAG_train_00320": {
+    "ASAG_79c5fa1b092b3fdd": 7.0
+  },
+  "ASAG_train_00322": {
+    "ASAG_79c5fa1b092b3fdd": 5.0
+  },
+  "ASAG_train_00353": {
+    "ASAG_79c5fa1b092b3fdd": 8.0
+  },
+  "ASAG_train_00396": {
+    "ASAG_79c5fa1b092b3fdd": 7.0
+  },
+  "ASAG_train_00411": {
+    "ASAG_79c5fa1b092b3fdd": 6.0
+  },
+  "ASAG_train_00424": {
+    "ASAG_79c5fa1b092b3fdd": 10.0
+  },
+  "ASAG_train_00432": {
+    "ASAG_79c5fa1b092b3fdd": 6.0
+  },
+  "ASAG_test_00051": {
+    "ASAG_79c5fa1b092b3fdd": 2.0
+  },
+  "ASAG_test_00102": {
+    "ASAG_79c5fa1b092b3fdd": 9.0
+  },
+  "ASAG_test_00113": {
+    "ASAG_79c5fa1b092b3fdd": 9.0
+  },
+  "ASAG_test_00130": {
+    "ASAG_79c5fa1b092b3fdd": 7.0
+  },
+  "ASAG_test_00131": {
+    "ASAG_79c5fa1b092b3fdd": 6.0
+  },
+  "ASAG_test_00138": {
+    "ASAG_79c5fa1b092b3fdd": 7.0
+  },
+  "ASAG_test_00169": {
+    "ASAG_79c5fa1b092b3fdd": 3.0
+  },
+  "ASAG_test_00172": {
+    "ASAG_79c5fa1b092b3fdd": 6.0
+  },
+  "ASAG_test_00176": {
+    "ASAG_79c5fa1b092b3fdd": 5.0
+  },
+  "ASAG_train_00015": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_train_00016": {
+    "ASAG_901a76b0a7aaa1d1": 9.0
+  },
+  "ASAG_train_00036": {
+    "ASAG_901a76b0a7aaa1d1": 7.0
+  },
+  "ASAG_train_00051": {
+    "ASAG_901a76b0a7aaa1d1": 9.0
+  },
+  "ASAG_train_00066": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_train_00078": {
+    "ASAG_901a76b0a7aaa1d1": 9.0
+  },
+  "ASAG_train_00114": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_train_00136": {
+    "ASAG_901a76b0a7aaa1d1": 4.0
+  },
+  "ASAG_train_00145": {
+    "ASAG_901a76b0a7aaa1d1": 9.0
+  },
+  "ASAG_train_00163": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_train_00184": {
+    "ASAG_901a76b0a7aaa1d1": 9.0
+  },
+  "ASAG_train_00215": {
+    "ASAG_901a76b0a7aaa1d1": 5.0
+  },
+  "ASAG_train_00218": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_train_00247": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_train_00258": {
+    "ASAG_901a76b0a7aaa1d1": 8.0
+  },
+  "ASAG_train_00305": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_train_00318": {
+    "ASAG_901a76b0a7aaa1d1": 9.0
+  },
+  "ASAG_train_00329": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_train_00331": {
+    "ASAG_901a76b0a7aaa1d1": 4.0
+  },
+  "ASAG_train_00404": {
+    "ASAG_901a76b0a7aaa1d1": 4.0
+  },
+  "ASAG_train_00415": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_train_00419": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_train_00431": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_test_00012": {
+    "ASAG_901a76b0a7aaa1d1": 7.0
+  },
+  "ASAG_test_00020": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_test_00028": {
+    "ASAG_901a76b0a7aaa1d1": 7.0
+  },
+  "ASAG_test_00053": {
+    "ASAG_901a76b0a7aaa1d1": 6.0
+  },
+  "ASAG_test_00064": {
+    "ASAG_901a76b0a7aaa1d1": 6.0
+  },
+  "ASAG_test_00078": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_test_00186": {
+    "ASAG_901a76b0a7aaa1d1": 10.0
+  },
+  "ASAG_train_00022": {
+    "ASAG_aff5a9c60067b208": 5.0
+  },
+  "ASAG_train_00056": {
+    "ASAG_aff5a9c60067b208": 9.0
+  },
+  "ASAG_train_00068": {
+    "ASAG_aff5a9c60067b208": 6.0
+  },
+  "ASAG_train_00081": {
+    "ASAG_aff5a9c60067b208": 9.0
+  },
+  "ASAG_train_00084": {
+    "ASAG_aff5a9c60067b208": 4.0
+  },
+  "ASAG_train_00105": {
+    "ASAG_aff5a9c60067b208": 6.0
+  },
+  "ASAG_train_00129": {
+    "ASAG_aff5a9c60067b208": 6.0
+  },
+  "ASAG_train_00130": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_train_00135": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_train_00138": {
+    "ASAG_aff5a9c60067b208": 9.0
+  },
+  "ASAG_train_00159": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_train_00161": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_train_00180": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_train_00228": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_train_00239": {
+    "ASAG_aff5a9c60067b208": 8.0
+  },
+  "ASAG_train_00263": {
+    "ASAG_aff5a9c60067b208": 9.0
+  },
+  "ASAG_train_00264": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_train_00286": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_train_00308": {
+    "ASAG_aff5a9c60067b208": 9.0
+  },
+  "ASAG_train_00336": {
+    "ASAG_aff5a9c60067b208": 8.0
+  },
+  "ASAG_test_00023": {
+    "ASAG_aff5a9c60067b208": 4.0
+  },
+  "ASAG_test_00034": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_test_00060": {
+    "ASAG_aff5a9c60067b208": 9.0
+  },
+  "ASAG_test_00063": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_test_00110": {
+    "ASAG_aff5a9c60067b208": 4.0
+  },
+  "ASAG_test_00129": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_test_00133": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_test_00154": {
+    "ASAG_aff5a9c60067b208": 7.0
+  },
+  "ASAG_test_00170": {
+    "ASAG_aff5a9c60067b208": 7.0
+  },
+  "ASAG_test_00180": {
+    "ASAG_aff5a9c60067b208": 10.0
+  },
+  "ASAG_test_00181": {
+    "ASAG_aff5a9c60067b208": 0.0
+  },
+  "ASAG_train_00019": {
+    "ASAG_cc620a47640fffc1": 9.0
+  },
+  "ASAG_train_00029": {
+    "ASAG_cc620a47640fffc1": 7.0
+  },
+  "ASAG_train_00030": {
+    "ASAG_cc620a47640fffc1": 7.0
+  },
+  "ASAG_train_00102": {
+    "ASAG_cc620a47640fffc1": 7.0
+  },
+  "ASAG_train_00122": {
+    "ASAG_cc620a47640fffc1": 10.0
+  },
+  "ASAG_train_00170": {
+    "ASAG_cc620a47640fffc1": 5.0
+  },
+  "ASAG_train_00174": {
+    "ASAG_cc620a47640fffc1": 7.0
+  },
+  "ASAG_train_00205": {
+    "ASAG_cc620a47640fffc1": 8.0
+  },
+  "ASAG_train_00210": {
+    "ASAG_cc620a47640fffc1": 4.0
+  },
+  "ASAG_train_00221": {
+    "ASAG_cc620a47640fffc1": 6.0
+  },
+  "ASAG_train_00253": {
+    "ASAG_cc620a47640fffc1": 7.0
+  },
+  "ASAG_train_00262": {
+    "ASAG_cc620a47640fffc1": 10.0
+  },
+  "ASAG_train_00270": {
+    "ASAG_cc620a47640fffc1": 9.0
+  },
+  "ASAG_train_00279": {
+    "ASAG_cc620a47640fffc1": 7.0
+  },
+  "ASAG_train_00295": {
+    "ASAG_cc620a47640fffc1": 7.0
+  },
+  "ASAG_train_00345": {
+    "ASAG_cc620a47640fffc1": 8.0
+  },
+  "ASAG_train_00373": {
+    "ASAG_cc620a47640fffc1": 7.0
+  },
+  "ASAG_train_00427": {
+    "ASAG_cc620a47640fffc1": 7.0
+  },
+  "ASAG_train_00429": {
+    "ASAG_cc620a47640fffc1": 10.0
+  },
+  "ASAG_test_00035": {
+    "ASAG_cc620a47640fffc1": 10.0
+  },
+  "ASAG_test_00038": {
+    "ASAG_cc620a47640fffc1": 8.0
+  },
+  "ASAG_test_00067": {
+    "ASAG_cc620a47640fffc1": 5.0
+  },
+  "ASAG_test_00075": {
+    "ASAG_cc620a47640fffc1": 9.0
+  },
+  "ASAG_test_00084": {
+    "ASAG_cc620a47640fffc1": 2.0
+  },
+  "ASAG_test_00087": {
+    "ASAG_cc620a47640fffc1": 8.0
+  },
+  "ASAG_test_00144": {
+    "ASAG_cc620a47640fffc1": 7.0
+  },
+  "ASAG_test_00152": {
+    "ASAG_cc620a47640fffc1": 7.0
+  },
+  "ASAG_test_00157": {
+    "ASAG_cc620a47640fffc1": 9.0
+  },
+  "ASAG_test_00159": {
+    "ASAG_cc620a47640fffc1": 7.0
+  },
+  "ASAG_train_00006": {
+    "ASAG_ea83b5961c5053d6": 8.0
+  },
+  "ASAG_train_00031": {
+    "ASAG_ea83b5961c5053d6": 8.0
+  },
+  "ASAG_train_00063": {
+    "ASAG_ea83b5961c5053d6": 6.0
+  },
+  "ASAG_train_00094": {
+    "ASAG_ea83b5961c5053d6": 8.0
+  },
+  "ASAG_train_00099": {
+    "ASAG_ea83b5961c5053d6": 8.0
+  },
+  "ASAG_train_00106": {
+    "ASAG_ea83b5961c5053d6": 7.0
+  },
+  "ASAG_train_00123": {
+    "ASAG_ea83b5961c5053d6": 6.0
+  },
+  "ASAG_train_00128": {
+    "ASAG_ea83b5961c5053d6": 8.0
+  },
+  "ASAG_train_00140": {
+    "ASAG_ea83b5961c5053d6": 8.0
+  },
+  "ASAG_train_00156": {
+    "ASAG_ea83b5961c5053d6": 8.0
+  },
+  "ASAG_train_00188": {
+    "ASAG_ea83b5961c5053d6": 5.0
+  },
+  "ASAG_train_00192": {
+    "ASAG_ea83b5961c5053d6": 6.0
+  },
+  "ASAG_train_00219": {
+    "ASAG_ea83b5961c5053d6": 7.0
+  },
+  "ASAG_train_00285": {
+    "ASAG_ea83b5961c5053d6": 5.0
+  },
+  "ASAG_train_00334": {
+    "ASAG_ea83b5961c5053d6": 10.0
+  },
+  "ASAG_train_00362": {
+    "ASAG_ea83b5961c5053d6": 7.0
+  },
+  "ASAG_train_00390": {
+    "ASAG_ea83b5961c5053d6": 6.0
+  },
+  "ASAG_train_00393": {
+    "ASAG_ea83b5961c5053d6": 9.0
+  },
+  "ASAG_train_00399": {
+    "ASAG_ea83b5961c5053d6": 8.0
+  },
+  "ASAG_train_00401": {
+    "ASAG_ea83b5961c5053d6": 10.0
+  },
+  "ASAG_test_00057": {
+    "ASAG_ea83b5961c5053d6": 6.0
+  },
+  "ASAG_test_00070": {
+    "ASAG_ea83b5961c5053d6": 8.0
+  },
+  "ASAG_test_00081": {
+    "ASAG_ea83b5961c5053d6": 5.0
+  },
+  "ASAG_test_00093": {
+    "ASAG_ea83b5961c5053d6": 8.0
+  },
+  "ASAG_test_00104": {
+    "ASAG_ea83b5961c5053d6": 7.0
+  },
+  "ASAG_test_00111": {
+    "ASAG_ea83b5961c5053d6": 10.0
+  },
+  "ASAG_test_00137": {
+    "ASAG_ea83b5961c5053d6": 7.0
+  },
+  "ASAG_test_00149": {
+    "ASAG_ea83b5961c5053d6": 8.0
+  },
+  "ASAG_test_00156": {
+    "ASAG_ea83b5961c5053d6": 5.0
+  },
+  "ASAG_test_00158": {
+    "ASAG_ea83b5961c5053d6": 5.0
+  },
+  "ASAG_train_00037": {
+    "ASAG_ed357bdefa6aa58c": 7.0
+  },
+  "ASAG_train_00038": {
+    "ASAG_ed357bdefa6aa58c": 10.0
+  },
+  "ASAG_train_00050": {
+    "ASAG_ed357bdefa6aa58c": 10.0
+  },
+  "ASAG_train_00054": {
+    "ASAG_ed357bdefa6aa58c": 10.0
+  },
+  "ASAG_train_00060": {
+    "ASAG_ed357bdefa6aa58c": 10.0
+  },
+  "ASAG_train_00062": {
+    "ASAG_ed357bdefa6aa58c": 10.0
+  },
+  "ASAG_train_00087": {
+    "ASAG_ed357bdefa6aa58c": 7.0
+  },
+  "ASAG_train_00110": {
+    "ASAG_ed357bdefa6aa58c": 6.0
+  },
+  "ASAG_train_00193": {
+    "ASAG_ed357bdefa6aa58c": 6.0
+  },
+  "ASAG_train_00252": {
+    "ASAG_ed357bdefa6aa58c": 10.0
+  },
+  "ASAG_train_00272": {
+    "ASAG_ed357bdefa6aa58c": 10.0
+  },
+  "ASAG_train_00276": {
+    "ASAG_ed357bdefa6aa58c": 7.0
+  },
+  "ASAG_train_00280": {
+    "ASAG_ed357bdefa6aa58c": 7.0
+  },
+  "ASAG_train_00304": {
+    "ASAG_ed357bdefa6aa58c": 6.0
+  },
+  "ASAG_train_00312": {
+    "ASAG_ed357bdefa6aa58c": 7.0
+  },
+  "ASAG_train_00340": {
+    "ASAG_ed357bdefa6aa58c": 10.0
+  },
+  "ASAG_train_00358": {
+    "ASAG_ed357bdefa6aa58c": 6.0
+  },
+  "ASAG_train_00363": {
+    "ASAG_ed357bdefa6aa58c": 10.0
+  },
+  "ASAG_train_00364": {
+    "ASAG_ed357bdefa6aa58c": 9.0
+  },
+  "ASAG_train_00367": {
+    "ASAG_ed357bdefa6aa58c": 7.0
+  },
+  "ASAG_train_00380": {
+    "ASAG_ed357bdefa6aa58c": 10.0
+  },
+  "ASAG_train_00387": {
+    "ASAG_ed357bdefa6aa58c": 7.0
+  },
+  "ASAG_train_00438": {
+    "ASAG_ed357bdefa6aa58c": 7.0
+  },
+  "ASAG_test_00026": {
+    "ASAG_ed357bdefa6aa58c": 7.0
+  },
+  "ASAG_test_00042": {
+    "ASAG_ed357bdefa6aa58c": 10.0
+  },
+  "ASAG_test_00065": {
+    "ASAG_ed357bdefa6aa58c": 6.0
+  },
+  "ASAG_test_00105": {
+    "ASAG_ed357bdefa6aa58c": 7.0
+  },
+  "ASAG_test_00117": {
+    "ASAG_ed357bdefa6aa58c": 9.0
+  },
+  "ASAG_test_00128": {
+    "ASAG_ed357bdefa6aa58c": 10.0
+  },
+  "ASAG_test_00162": {
+    "ASAG_ed357bdefa6aa58c": 8.0
+  },
+  "ASAG_test_00163": {
+    "ASAG_ed357bdefa6aa58c": 8.0
+  },
+  "ASAG_train_00008": {
+    "ASAG_f0c2779adb5b54ff": 3.0
+  },
+  "ASAG_train_00028": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_train_00032": {
+    "ASAG_f0c2779adb5b54ff": 0.0
+  },
+  "ASAG_train_00055": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_train_00061": {
+    "ASAG_f0c2779adb5b54ff": 0.0
+  },
+  "ASAG_train_00065": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_train_00085": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_train_00096": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_train_00101": {
+    "ASAG_f0c2779adb5b54ff": 5.0
+  },
+  "ASAG_train_00103": {
+    "ASAG_f0c2779adb5b54ff": 0.0
+  },
+  "ASAG_train_00162": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_train_00191": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_train_00266": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_train_00281": {
+    "ASAG_f0c2779adb5b54ff": 9.0
+  },
+  "ASAG_train_00293": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_train_00344": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_train_00368": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_train_00407": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_test_00017": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_test_00033": {
+    "ASAG_f0c2779adb5b54ff": 0.0
+  },
+  "ASAG_test_00040": {
+    "ASAG_f0c2779adb5b54ff": 0.0
+  },
+  "ASAG_test_00043": {
+    "ASAG_f0c2779adb5b54ff": 3.0
+  },
+  "ASAG_test_00062": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_test_00077": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_test_00101": {
+    "ASAG_f0c2779adb5b54ff": 0.0
+  },
+  "ASAG_test_00120": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_test_00124": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_test_00136": {
+    "ASAG_f0c2779adb5b54ff": 0.0
+  },
+  "ASAG_test_00142": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  },
+  "ASAG_test_00153": {
+    "ASAG_f0c2779adb5b54ff": 10.0
+  }
+}

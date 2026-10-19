@@ -1,0 +1,13 @@
+{
+  "train": [],
+  "calibration": [
+    "LE_train_00037",
+    "LE_train_00167",
+    "LE_train_00185",
+    "LE_train_00231"
+  ],
+  "validation": [],
+  "test": [
+    "LE_test_00014"
+  ]
+}

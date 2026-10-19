@@ -1,0 +1,33 @@
+[
+  {
+    "id": "overall_response",
+    "item": "根据给定参考答案评价正确性与完整性，允许等价表达及部分得分。此为参考答案重建规则，非官方细则；不得推测未提供的题干或事实。",
+    "points": 10.0,
+    "answer_type": "free_text",
+    "role": "final",
+    "score_layer": "core",
+    "canonicalization": {
+      "type": "text"
+    },
+    "evidence_source": "text",
+    "standard_answer_text": "配送系统的特征：配送是一个小型的综合物流系统；配送系统的服务应以用户为中心，是面向终端用户的服务；配送强调时效性和准时性；配送系统输出特点：客户多，批量小；配送系统的服务对象不确定性。",
+    "standard_answer_image": null,
+    "source_text": "根据给定参考答案评价正确性与完整性，允许等价表达及部分得分。此为参考答案重建规则，非官方细则；不得推测未提供的题干或事实。",
+    "parent_official_item": "official SAS-Bench response score",
+    "metadata_source": "sas_bench_question_reference_analysis",
+    "metadata_hard_enabled": false,
+    "metadata_confidence": 1.0,
+    "parent_id": "overall_response",
+    "parent_points": 10.0,
+    "scoring_policy": "strict_atomic",
+    "split_policy": "preserve_atomic",
+    "weighting_policy": "preserve_parent",
+    "full_credit_policy": "rubric_evidence_required",
+    "full_credit_trigger": false,
+    "semantic_contract_version": 6,
+    "task_semantics": "strict_atomic",
+    "decomposition_required": false,
+    "decomposition_exemption": "strict_atomic_single_outcome",
+    "full_credit_anchor": "配送系统的特征：配送是一个小型的综合物流系统；配送系统的服务应以用户为中心，是面向终端用户的服务；配送强调时效性和准时性；配送系统输出特点：客户多，批量小；配送系统的服务对象不确定性。"
+  }
+]

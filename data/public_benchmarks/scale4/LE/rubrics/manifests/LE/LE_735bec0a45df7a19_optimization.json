@@ -1,0 +1,21 @@
+{
+  "question_id": "LE_735bec0a45df7a19",
+  "rubric_group": "LE",
+  "method": "label_blind_reference_baseline",
+  "selected_variant": "baseline",
+  "rubric_semantic_contract_version": 6,
+  "semantic_policy_validated": true,
+  "semantic_validation_mode": "prepared_label_blind_baseline",
+  "initial_rubric": "rubrics/initial/LE/LE_735bec0a45df7a19_rubric_standard.json",
+  "optimized_rubric": "rubrics/optimized/LE/LE_735bec0a45df7a19_rubric_standard.json",
+  "initial_sha256": "e620c421e9fa08ce4f92f3ccd2f106a08588e588cc2559cde07faab390f24623",
+  "optimized_sha256": "e620c421e9fa08ce4f92f3ccd2f106a08588e588cc2559cde07faab390f24623",
+  "calibration_answer_ids": [
+    "LE_train_00069",
+    "LE_train_00137",
+    "LE_train_00239",
+    "LE_train_00261",
+    "LE_train_00321"
+  ],
+  "path_format": "prepared_relative_v1"
+}

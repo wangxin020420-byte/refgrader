@@ -1,0 +1,101 @@
+[
+  {
+    "text_sha256": "5f2455b330a994e6187aebb7bebfbb7b5337bc893c5deded66bf01dcf6511a06",
+    "splits": {
+      "train": [
+        "ASAG_train_00032",
+        "ASAG_train_00061"
+      ],
+      "validation": [
+        "ASAG_test_00040"
+      ],
+      "test": [
+        "ASAG_test_00101",
+        "ASAG_test_00136"
+      ]
+    }
+  },
+  {
+    "text_sha256": "849cae5856a63425b0c3bfc75690afd2ba1f9024855fc4ae1604927d3388bb2a",
+    "splits": {
+      "train": [
+        "ASAG_train_00068",
+        "ASAG_train_00105"
+      ],
+      "validation": [
+        "ASAG_test_00023"
+      ]
+    }
+  },
+  {
+    "text_sha256": "e01363b9c4bdc40d710e231efc154b98d3c28850ace5335cae8c2cd1ed578c1e",
+    "splits": {
+      "train": [
+        "ASAG_train_00149"
+      ],
+      "validation": [
+        "ASAG_test_00007"
+      ],
+      "test": [
+        "ASAG_test_00160"
+      ]
+    }
+  },
+  {
+    "text_sha256": "fc3e4715d235882e8dfe544c9fb371c0b61b9d910f829a117e1bdf3645961b28",
+    "splits": {
+      "calibration": [
+        "ASAG_train_00163"
+      ],
+      "test": [
+        "ASAG_test_00020",
+        "ASAG_test_00078"
+      ]
+    }
+  },
+  {
+    "text_sha256": "fd6232a8d95afc15665a9a485c03b3813a5085609d0fc986e0438966455fb037",
+    "splits": {
+      "calibration": [
+        "ASAG_train_00165"
+      ],
+      "test": [
+        "ASAG_test_00001"
+      ]
+    }
+  },
+  {
+    "text_sha256": "2898d42f93920d1906da1cbe6c87df4213587a13dbad1ba798f3a8626ea85568",
+    "splits": {
+      "train": [
+        "ASAG_train_00178",
+        "ASAG_train_00248"
+      ],
+      "calibration": [
+        "ASAG_train_00335"
+      ]
+    }
+  },
+  {
+    "text_sha256": "64eec40b2129ffb694ec83b5f9bcf12d737025cfe4138ed1f1c8d576af5188f7",
+    "splits": {
+      "train": [
+        "ASAG_train_00309"
+      ],
+      "test": [
+        "ASAG_test_00135"
+      ]
+    }
+  },
+  {
+    "text_sha256": "bd79b737e410c74fe1d83d09571ec90bbc26587abda7299e2ce49c9d02d2b245",
+    "splits": {
+      "test": [
+        "ASAG_test_00143"
+      ],
+      "validation": [
+        "ASAG_test_00161"
+      ]
+    }
+  }
+]

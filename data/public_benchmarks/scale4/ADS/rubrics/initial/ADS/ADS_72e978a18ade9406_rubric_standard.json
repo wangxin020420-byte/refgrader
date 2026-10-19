@@ -1,0 +1,33 @@
+[
+  {
+    "id": "overall_response",
+    "item": "根据给定参考答案评价正确性与完整性，允许等价表达及部分得分。此为参考答案重建规则，非官方细则；不得推测未提供的题干或事实。",
+    "points": 10.0,
+    "answer_type": "free_text",
+    "role": "final",
+    "score_layer": "core",
+    "canonicalization": {
+      "type": "text"
+    },
+    "evidence_source": "text",
+    "standard_answer_text": "顺序表的存储空间连续，支持随机访问，按下标进行访问时时间复杂度为O（1），但在数据量不确定的情况下容易造成内存浪费或者元素溢出。链表的存储空间不连续，不支持随机访问，对数据进行操作的时候需要从头开始遍历，最坏情况为O（n），但是链表没有空间限制，不会溢出也不会产生内存浪费。\n\n顺序表：①将表中元素逐个放在连续的空间中；②无需为表示元素之间的逻辑关系而增加额外的存储空间；③数组大小确定之后就难以更改，空间分配的灵活性较差。链表：①每个逻辑上相邻的元素在空间上不一定是相邻的；②需要在每个单元中设置指针来表示元素间的逻辑关系，增加了额外的空间开销；③可以实时分配或释放空间，表长可以灵活变化。",
+    "standard_answer_image": null,
+    "source_text": "根据给定参考答案评价正确性与完整性，允许等价表达及部分得分。此为参考答案重建规则，非官方细则；不得推测未提供的题干或事实。",
+    "parent_official_item": "official SAS-Bench response score",
+    "metadata_source": "sas_bench_question_reference_analysis",
+    "metadata_hard_enabled": false,
+    "metadata_confidence": 1.0,
+    "parent_id": "overall_response",
+    "parent_points": 10.0,
+    "scoring_policy": "strict_atomic",
+    "split_policy": "preserve_atomic",
+    "weighting_policy": "preserve_parent",
+    "full_credit_policy": "rubric_evidence_required",
+    "full_credit_trigger": false,
+    "semantic_contract_version": 6,
+    "task_semantics": "strict_atomic",
+    "decomposition_required": false,
+    "decomposition_exemption": "strict_atomic_single_outcome",
+    "full_credit_anchor": "顺序表的存储空间连续，支持随机访问，按下标进行访问时时间复杂度为O（1），但在数据量不确定的情况下容易造成内存浪费或者元素溢出。链表的存储空间不连续，不支持随机访问，对数据进行操作的时候需要从头开始遍历，最坏情况为O（n），但是链表没有空间限制，不会溢出也不会产生内存浪费。\n\n顺序表：①将表中元素逐个放在连续的空间中；②无需为表示元素之间的逻辑关系而增加额外的存储空间；③数组大小确定之后就难以更改，空间分配的灵活性较差。链表：①每个逻辑上相邻的元素在空间上不一定是相邻的；②需要在每个单元中设置指针来表示元素间的逻辑关系，增加了额外的空间开销；③可以实时分配或释放空间，表长可以灵活变化。"
+  }
+]

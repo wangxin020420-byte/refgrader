@@ -1,0 +1,16 @@
+{
+  "dataset_id": "scale4_asag_v1",
+  "schema_version": 1,
+  "question_count": 21,
+  "answer_count": 629,
+  "score_count": 629,
+  "split_counts": {
+    "train": 335,
+    "calibration": 105,
+    "validation": 50,
+    "test": 139
+  },
+  "source_sha256": "9e1a866d58edaa0d78af374d2f3529a10d72239a",
+  "question_assets_sha256": "41022b207d880ce28e735f7679b078afbb28ff7dd8dd49023395b824da007ef8",
+  "prepared_content_sha256": "006397a30e01c4c9b439f0f45dc4f6d2487d4fe44d2cdd621dea43d0f794f279"
+}

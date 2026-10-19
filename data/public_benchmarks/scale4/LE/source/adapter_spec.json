@@ -1,0 +1,15 @@
+{
+  "dataset": "LE",
+  "commit": "9e1a866d58edaa0d78af374d2f3529a10d72239a",
+  "split_seed": 42,
+  "validation_count": 50,
+  "rubric_calibration_per_context": 5,
+  "score_scale": "linear 0-10",
+  "context_policy": "question plus exact ordered references",
+  "method": "RefGrader",
+  "source_hashes": {
+    "LE/qa.csv": "e7b3839e2cb490402b77d047358ea3548b7097dc5142c025237cf35db057d551",
+    "LE/s_train_zh.csv": "f00933b83c5abd161cb86e6b6f2222d5c33f4e69adc0523b83a563141c879f4a",
+    "LE/s_eval_zh.csv": "dab05a6e275248fde508f735a225fb4ebce394d294a9a29b56ffc4a2df3110b1"
+  }
+}

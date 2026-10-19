@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "dataset_id": "scale4_ads_v1",
+  "adapter": "scale4",
+  "source": {
+    "sha256": "9e1a866d58edaa0d78af374d2f3529a10d72239a",
+    "adapter_spec_sha256": "b75e1b783bd3163958dafdbf3c5f74ec81f9ea7160f2cbc67ce1e1adcd44a4d1"
+  },
+  "counts": {
+    "questions": 15,
+    "answers": 1582
+  },
+  "split": {
+    "policy": "upstream train; 50 fixed upstream-test validation; remainder test",
+    "ratios": {}
+  },
+  "score_policy": "source score / source maximum * 10; retain source scores separately",
+  "limits": [
+    "ASAG/SR public Chinese translations",
+    "ASAG pinned public files contain 629 not 630 rows",
+    "SR question text unavailable",
+    "reference-derived rubric, not official scoring criteria",
+    "author split seed and QWK discretization unverified",
+    "audit exact text overlaps without dropping rows"
+  ],
+  "blank_policy": "retain rows; explicit blank marker only in model input; exact original text separately retained"
+}

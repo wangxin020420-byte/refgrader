@@ -1,0 +1,34 @@
+{
+  "train": [
+    "SR_train_00003",
+    "SR_train_00036",
+    "SR_train_00050",
+    "SR_train_00061",
+    "SR_train_00095",
+    "SR_train_00123",
+    "SR_train_00150"
+  ],
+  "calibration": [
+    "SR_train_00005",
+    "SR_train_00091",
+    "SR_train_00092",
+    "SR_train_00096",
+    "SR_train_00139"
+  ],
+  "validation": [
+    "SR_test_00015",
+    "SR_test_00017",
+    "SR_test_00018",
+    "SR_test_00080"
+  ],
+  "test": [
+    "SR_test_00010",
+    "SR_test_00013",
+    "SR_test_00035",
+    "SR_test_00049",
+    "SR_test_00050",
+    "SR_test_00053",
+    "SR_test_00056",
+    "SR_test_00092"
+  ]
+}

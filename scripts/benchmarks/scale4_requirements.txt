@@ -1,0 +1,8 @@
+# Isolated Python 3.11 text-only runtime. No torch, CUDA or PaddleOCR required.
+openai==2.37.0
+numpy==2.4.5
+scipy==1.17.1
+pillow==12.2.0
+json_repair==0.59.10
+scikit-learn==1.8.0
+filelock==3.32.2

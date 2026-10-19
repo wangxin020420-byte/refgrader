@@ -1,0 +1,13 @@
+[
+  {
+    "text_sha256": "9bf98434ab5e473872938cb39a53a1c8e5ab289914e4fd9c9410f90825dd8ff5",
+    "splits": {
+      "calibration": [
+        "LE_train_00077"
+      ],
+      "train": [
+        "LE_train_00313"
+      ]
+    }
+  }
+]

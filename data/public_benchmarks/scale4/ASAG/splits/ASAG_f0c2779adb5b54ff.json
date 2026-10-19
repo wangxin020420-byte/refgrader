@@ -1,0 +1,40 @@
+{
+  "train": [
+    "ASAG_train_00008",
+    "ASAG_train_00032",
+    "ASAG_train_00055",
+    "ASAG_train_00061",
+    "ASAG_train_00065",
+    "ASAG_train_00085",
+    "ASAG_train_00096",
+    "ASAG_train_00103",
+    "ASAG_train_00162",
+    "ASAG_train_00281",
+    "ASAG_train_00293",
+    "ASAG_train_00344",
+    "ASAG_train_00407"
+  ],
+  "calibration": [
+    "ASAG_train_00028",
+    "ASAG_train_00101",
+    "ASAG_train_00191",
+    "ASAG_train_00266",
+    "ASAG_train_00368"
+  ],
+  "validation": [
+    "ASAG_test_00040"
+  ],
+  "test": [
+    "ASAG_test_00017",
+    "ASAG_test_00033",
+    "ASAG_test_00043",
+    "ASAG_test_00062",
+    "ASAG_test_00077",
+    "ASAG_test_00101",
+    "ASAG_test_00120",
+    "ASAG_test_00124",
+    "ASAG_test_00136",
+    "ASAG_test_00142",
+    "ASAG_test_00153"
+  ]
+}

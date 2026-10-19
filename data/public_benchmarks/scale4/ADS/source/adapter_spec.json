@@ -1,0 +1,14 @@
+{
+  "dataset": "ADS",
+  "commit": "9e1a866d58edaa0d78af374d2f3529a10d72239a",
+  "split_seed": 42,
+  "validation_count": 50,
+  "rubric_calibration_per_context": 5,
+  "score_scale": "linear 0-10",
+  "context_policy": "question plus exact ordered references",
+  "method": "RefGrader",
+  "source_hashes": {
+    "ADS/train.jsonl": "6fcbcc2ee5f58f3ab558fdf623e81999a25f58fc122ab13a68a2c16191afaf84",
+    "ADS/test.jsonl": "d4400a05768ccf936ee02fbcd3a5b7711defce323836d5cbceff0033066ee237"
+  }
+}

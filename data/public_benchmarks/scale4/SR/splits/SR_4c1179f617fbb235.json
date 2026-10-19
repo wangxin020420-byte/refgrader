@@ -1,0 +1,22 @@
+{
+  "train": [
+    "SR_train_00111",
+    "SR_train_00131"
+  ],
+  "calibration": [
+    "SR_train_00020",
+    "SR_train_00039",
+    "SR_train_00077",
+    "SR_train_00133",
+    "SR_train_00192"
+  ],
+  "validation": [
+    "SR_test_00028"
+  ],
+  "test": [
+    "SR_test_00011",
+    "SR_test_00022",
+    "SR_test_00042",
+    "SR_test_00067"
+  ]
+}

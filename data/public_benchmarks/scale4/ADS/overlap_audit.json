@@ -1,0 +1,489 @@
+[
+  {
+    "text_sha256": "b74dde719ba282dcae657abe60fb2e6d6ec474a2ec1d6ca3789089eeff79211e",
+    "splits": {
+      "train": [
+        "ADS_train_00007"
+      ],
+      "test": [
+        "ADS_test_00397"
+      ]
+    }
+  },
+  {
+    "text_sha256": "91c7a893321d9c993866870b57efdbde48d664e1dbf4b8063c3bef4c161c40ed",
+    "splits": {
+      "train": [
+        "ADS_train_00008",
+        "ADS_train_00044",
+        "ADS_train_00273",
+        "ADS_train_00595",
+        "ADS_train_00773"
+      ],
+      "test": [
+        "ADS_test_00408"
+      ]
+    }
+  },
+  {
+    "text_sha256": "4d702bb5b563b94b3669db12e8a1acfbcaf3f758fb9aaa1614bcf5ae19f3cb37",
+    "splits": {
+      "train": [
+        "ADS_train_00012",
+        "ADS_train_00115",
+        "ADS_train_00135",
+        "ADS_train_00199",
+        "ADS_train_00604",
+        "ADS_train_00789",
+        "ADS_train_00807",
+        "ADS_train_00838",
+        "ADS_train_01011",
+        "ADS_train_01085"
+      ],
+      "test": [
+        "ADS_test_00039"
+      ]
+    }
+  },
+  {
+    "text_sha256": "dc752f009bd8de93c26e8ba7d098978fecd905346a857a6d33b8699758dd813d",
+    "splits": {
+      "train": [
+        "ADS_train_00014"
+      ],
+      "test": [
+        "ADS_test_00398"
+      ]
+    }
+  },
+  {
+    "text_sha256": "2fc99fb4bbd00b75e7a053ed7a7392c50f7fe33f9bbab585b8a876f7f55d6612",
+    "splits": {
+      "train": [
+        "ADS_train_00039",
+        "ADS_train_00507",
+        "ADS_train_00997"
+      ],
+      "test": [
+        "ADS_test_00395"
+      ],
+      "validation": [
+        "ADS_test_00434"
+      ]
+    }
+  },
+  {
+    "text_sha256": "72d82ac0ebd5acf9246b6721c681ab7880dd10d1cdf66754431c579496f561be",
+    "splits": {
+      "train": [
+        "ADS_train_00088"
+      ],
+      "test": [
+        "ADS_test_00068"
+      ]
+    }
+  },
+  {
+    "text_sha256": "0451a5d7a43766b7004a9a89a2dd60363e472c8967dfbceab4137be01ee597a2",
+    "splits": {
+      "train": [
+        "ADS_train_00105",
+        "ADS_train_00196",
+        "ADS_train_00431",
+        "ADS_train_00557",
+        "ADS_train_00585",
+        "ADS_train_00694"
+      ],
+      "calibration": [
+        "ADS_train_01090"
+      ],
+      "validation": [
+        "ADS_test_00058"
+      ],
+      "test": [
+        "ADS_test_00458"
+      ]
+    }
+  },
+  {
+    "text_sha256": "18ffa692881e5c1d00c857c6f6f6f6fee8b1f4518f154414b102d79e1db26d56",
+    "splits": {
+      "train": [
+        "ADS_train_00109"
+      ],
+      "test": [
+        "ADS_test_00121",
+        "ADS_test_00351"
+      ],
+      "validation": [
+        "ADS_test_00367"
+      ]
+    }
+  },
+  {
+    "text_sha256": "28104480d8b300bb192f46fdb37b26c8ddcff1740f7e49310bf50311aabdaba2",
+    "splits": {
+      "calibration": [
+        "ADS_train_00110",
+        "ADS_train_00253",
+        "ADS_train_00925"
+      ],
+      "train": [
+        "ADS_train_00368",
+        "ADS_train_00843"
+      ],
+      "test": [
+        "ADS_test_00235",
+        "ADS_test_00338",
+        "ADS_test_00349"
+      ]
+    }
+  },
+  {
+    "text_sha256": "e066960c263706e9f2b7992edaadda3e948d4a5ecc7d7bf4d249f63b7a40e6ff",
+    "splits": {
+      "train": [
+        "ADS_train_00117"
+      ],
+      "calibration": [
+        "ADS_train_00696"
+      ]
+    }
+  },
+  {
+    "text_sha256": "7e31db93f9f4a923ac76981984b07f1dc24a516ddfe2efa8a91049a57e0733c9",
+    "splits": {
+      "train": [
+        "ADS_train_00118",
+        "ADS_train_00206",
+        "ADS_train_00452"
+      ],
+      "calibration": [
+        "ADS_train_00188"
+      ],
+      "test": [
+        "ADS_test_00038",
+        "ADS_test_00105",
+        "ADS_test_00166",
+        "ADS_test_00405",
+        "ADS_test_00432"
+      ]
+    }
+  },
+  {
+    "text_sha256": "261bcb953cc051e9e3fab9d5790b9a895ebcbf922e94d0f8f7a2cdf11ec8b645",
+    "splits": {
+      "train": [
+        "ADS_train_00123"
+      ],
+      "calibration": [
+        "ADS_train_00297"
+      ]
+    }
+  },
+  {
+    "text_sha256": "7c5c56d2ece9b436b86f5c172f22f9c17d6ffa3c019b2588107ad9c94bd5b10c",
+    "splits": {
+      "train": [
+        "ADS_train_00156",
+        "ADS_train_00619"
+      ],
+      "test": [
+        "ADS_test_00137"
+      ]
+    }
+  },
+  {
+    "text_sha256": "7537a9108b57433224ab0bd20fb112258609fb621ac749fa43cb9355c1ca02e7",
+    "splits": {
+      "train": [
+        "ADS_train_00158"
+      ],
+      "test": [
+        "ADS_test_00122"
+      ]
+    }
+  },
+  {
+    "text_sha256": "a80a420a8ef82b1f658fc415d4bf64803b26e895cbb00a0063db68e0068baf4d",
+    "splits": {
+      "train": [
+        "ADS_train_00164"
+      ],
+      "test": [
+        "ADS_test_00290"
+      ]
+    }
+  },
+  {
+    "text_sha256": "6378221221c5ea1112bb033829267ffebac5a413ae472bf795a3fc1c066c6e59",
+    "splits": {
+      "train": [
+        "ADS_train_00172"
+      ],
+      "test": [
+        "ADS_test_00057"
+      ]
+    }
+  },
+  {
+    "text_sha256": "179e1e32b46b23af908dc31c7d941bf36d4578eeaf59072813bd48f9ada9a795",
+    "splits": {
+      "train": [
+        "ADS_train_00174",
+        "ADS_train_00449",
+        "ADS_train_00561",
+        "ADS_train_00690",
+        "ADS_train_00898",
+        "ADS_train_00970"
+      ],
+      "test": [
+        "ADS_test_00232",
+        "ADS_test_00275",
+        "ADS_test_00401"
+      ],
+      "validation": [
+        "ADS_test_00309"
+      ]
+    }
+  },
+  {
+    "text_sha256": "7c43081848294b7c0214fe7917e3d3777236228a97ba7273dc40ad95391b860e",
+    "splits": {
+      "train": [
+        "ADS_train_00180"
+      ],
+      "test": [
+        "ADS_test_00396"
+      ]
+    }
+  },
+  {
+    "text_sha256": "6240e0480286423774481c4d284634b230a0f4e67940309cf91df7334865eeba",
+    "splits": {
+      "train": [
+        "ADS_train_00235",
+        "ADS_train_00860"
+      ],
+      "validation": [
+        "ADS_test_00347"
+      ]
+    }
+  },
+  {
+    "text_sha256": "f1e10e3a80610acf7f7919df0e324ecfab936b0c41b74ac33bb6b0313a87f691",
+    "splits": {
+      "train": [
+        "ADS_train_00248"
+      ],
+      "validation": [
+        "ADS_test_00014"
+      ]
+    }
+  },
+  {
+    "text_sha256": "07f7c8bd9ebab4d093b455d444790fbcb2a347b7c8ea473a5d84d67b30ea86fa",
+    "splits": {
+      "train": [
+        "ADS_train_00292"
+      ],
+      "test": [
+        "ADS_test_00252",
+        "ADS_test_00269"
+      ]
+    }
+  },
+  {
+    "text_sha256": "a33e891495c5b31530b707feca2cc18f996c3a8b792a3d6cfd0986d29ed9b0ad",
+    "splits": {
+      "train": [
+        "ADS_train_00321"
+      ],
+      "calibration": [
+        "ADS_train_00724"
+      ],
+      "test": [
+        "ADS_test_00344"
+      ]
+    }
+  },
+  {
+    "text_sha256": "8f031296f8ae909387ccdf3448140df6fa4fa9f249762c3aed3ab338e55299c2",
+    "splits": {
+      "train": [
+        "ADS_train_00363",
+        "ADS_train_00781"
+      ],
+      "test": [
+        "ADS_test_00422"
+      ]
+    }
+  },
+  {
+    "text_sha256": "c06dece85dcbbe17e2e0dd1c0d22ff78fabae10565a9ac76e0b63ea4c1196cf7",
+    "splits": {
+      "calibration": [
+        "ADS_train_00385"
+      ],
+      "test": [
+        "ADS_test_00011"
+      ]
+    }
+  },
+  {
+    "text_sha256": "a029b46de190abae427f6b219d7f8a755e4890fc1eabbe3d4cd25b822689821f",
+    "splits": {
+      "calibration": [
+        "ADS_train_00436"
+      ],
+      "train": [
+        "ADS_train_00726",
+        "ADS_train_00966"
+      ],
+      "test": [
+        "ADS_test_00313"
+      ]
+    }
+  },
+  {
+    "text_sha256": "ef5bcff0b790da1aa745d83cb668a6a8dfa37d69ca9f9e88ce809d308e1daf43",
+    "splits": {
+      "train": [
+        "ADS_train_00532",
+        "ADS_train_00854",
+        "ADS_train_01019"
+      ],
+      "validation": [
+        "ADS_test_00013"
+      ],
+      "test": [
+        "ADS_test_00463"
+      ]
+    }
+  },
+  {
+    "text_sha256": "941b89552752d548783aa0e4d24572283cd26d98cf50f4b002025a7ddcb0705a",
+    "splits": {
+      "train": [
+        "ADS_train_00540",
+        "ADS_train_00747"
+      ],
+      "test": [
+        "ADS_test_00307"
+      ]
+    }
+  },
+  {
+    "text_sha256": "35af69c44c421267d5ea22e7f4bef02ea16c6a011831d1b28b74a04261750a79",
+    "splits": {
+      "train": [
+        "ADS_train_00627",
+        "ADS_train_00716"
+      ],
+      "test": [
+        "ADS_test_00260"
+      ]
+    }
+  },
+  {
+    "text_sha256": "dc1749d585ec5b77deea563caf101f53fe54f8f2f61e2a411ba39389aed3b396",
+    "splits": {
+      "calibration": [
+        "ADS_train_00689"
+      ],
+      "test": [
+        "ADS_test_00024",
+        "ADS_test_00081"
+      ]
+    }
+  },
+  {
+    "text_sha256": "65c25ac252d4580e5126193b65eefde87c275f0afc6b7b0cbd4a14cca7001516",
+    "splits": {
+      "train": [
+        "ADS_train_00700"
+      ],
+      "test": [
+        "ADS_test_00238"
+      ]
+    }
+  },
+  {
+    "text_sha256": "e42598a743111d337dfe2c728d2d1adb780c8609ca5c33b11ce1730e9915a603",
+    "splits": {
+      "train": [
+        "ADS_train_00761"
+      ],
+      "validation": [
+        "ADS_test_00391"
+      ]
+    }
+  },
+  {
+    "text_sha256": "d7390c147645d04c04dab771aacc54984feb5dc3ac17edd1f59aefc1085a6b52",
+    "splits": {
+      "train": [
+        "ADS_train_00814"
+      ],
+      "test": [
+        "ADS_test_00336"
+      ]
+    }
+  },
+  {
+    "text_sha256": "d4ecd48784568ef6b918a1c3f04a47cddb787ddf166795ec6d0bf3ab66bd4477",
+    "splits": {
+      "train": [
+        "ADS_train_00840"
+      ],
+      "test": [
+        "ADS_test_00162",
+        "ADS_test_00202"
+      ]
+    }
+  },
+  {
+    "text_sha256": "d6c03f9a24159ee39841df9fa84f6a0c835ccc030a71a502d13635781143f189",
+    "splits": {
+      "train": [
+        "ADS_train_00964"
+      ],
+      "test": [
+        "ADS_test_00285"
+      ]
+    }
+  },
+  {
+    "text_sha256": "79c438598db906de3107ca35f5a88e636e951d166403e946093fb13c389b7658",
+    "splits": {
+      "train": [
+        "ADS_train_01013"
+      ],
+      "test": [
+        "ADS_test_00009"
+      ]
+    }
+  },
+  {
+    "text_sha256": "364f15af0438436c7753caf77f90e909037a1988a1bc1dfad4989bc91c6b8a28",
+    "splits": {
+      "train": [
+        "ADS_train_01024"
+      ],
+      "test": [
+        "ADS_test_00223"
+      ]
+    }
+  },
+  {
+    "text_sha256": "c02dc4c1f790fe6d1ba408affe59061777e6803108d74bb7547c5ea430ad2af1",
+    "splits": {
+      "test": [
+        "ADS_test_00008"
+      ],
+      "validation": [
+        "ADS_test_00230"
+      ]
+    }
+  }
+]

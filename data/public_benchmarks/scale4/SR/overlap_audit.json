@@ -1,0 +1,13 @@
+[
+  {
+    "text_sha256": "c394f153b2096e8f5c3f3f75b7e7641d914b2b2733a7d35fc22a7f15743a4ef6",
+    "splits": {
+      "calibration": [
+        "SR_train_00170"
+      ],
+      "validation": [
+        "SR_test_00004"
+      ]
+    }
+  }
+]

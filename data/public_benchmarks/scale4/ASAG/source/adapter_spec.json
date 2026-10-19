@@ -1,0 +1,15 @@
+{
+  "dataset": "ASAG",
+  "commit": "9e1a866d58edaa0d78af374d2f3529a10d72239a",
+  "split_seed": 42,
+  "validation_count": 50,
+  "rubric_calibration_per_context": 5,
+  "score_scale": "linear 0-10",
+  "context_policy": "question plus exact ordered references",
+  "method": "RefGrader",
+  "source_hashes": {
+    "ASAG/qa_zh.csv": "cb4b05913c42547353b4e1f42e996409a2032150ed3d5209097865dcb8c3a9e5",
+    "ASAG/s_train_zh.csv": "969e564d7430fb3a5956e4080a1d867054173e32a07eed08a574536a8aa09481",
+    "ASAG/s_eval_zh.csv": "08f40ce783e9f6529db118a2f61ba68affcc757ab615bbe757f0c4b35ed82803"
+  }
+}

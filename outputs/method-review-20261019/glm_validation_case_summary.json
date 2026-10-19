@@ -1,0 +1,6862 @@
+[
+  {
+    "qid": "CO_10",
+    "id": "ANS_CO_1085",
+    "y": 6.0,
+    "M": 15.0,
+    "mean": 1.0,
+    "base": 1.0,
+    "core": 1.0,
+    "final": 1.0,
+    "mu": 0.4,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.8,
+      0.0,
+      0.8
+    ]
+  },
+  {
+    "qid": "CO_10",
+    "id": "ANS_CO_1082",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 14.0,
+    "base": 14.0,
+    "core": 14.0,
+    "final": 14.0,
+    "mu": 0.798333,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.066667,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "CO_10",
+    "id": "ANS_CO_1091",
+    "y": 8.0,
+    "M": 15.0,
+    "mean": 2.0,
+    "base": 2.0,
+    "core": 2.0,
+    "final": 2.0,
+    "mu": 0.5,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.666667,
+      0.0,
+      0.666667
+    ]
+  },
+  {
+    "qid": "CO_10",
+    "id": "ANS_CO_1095",
+    "y": 8.0,
+    "M": 15.0,
+    "mean": 9.3,
+    "base": 9.3,
+    "core": 9.3,
+    "final": 9.3,
+    "mu": 0.843333,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.066667,
+      0.333333,
+      0.133333
+    ]
+  },
+  {
+    "qid": "CO_10",
+    "id": "ANS_CO_1102",
+    "y": 11.0,
+    "M": 15.0,
+    "mean": 10.5,
+    "base": 10.5,
+    "core": 10.5,
+    "final": 10.5,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_10",
+    "id": "ANS_CO_1101",
+    "y": 12.0,
+    "M": 15.0,
+    "mean": 7.5,
+    "base": 7.5,
+    "core": 7.5,
+    "final": 7.5,
+    "mu": 0.793334,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.133333,
+      0.333333,
+      0.2
+    ]
+  },
+  {
+    "qid": "CO_10",
+    "id": "ANS_CO_1115",
+    "y": 7.0,
+    "M": 15.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 0.626667,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.466667,
+      0.0,
+      0.533333
+    ]
+  },
+  {
+    "qid": "CO_10",
+    "id": "ANS_CO_1116",
+    "y": 12.0,
+    "M": 15.0,
+    "mean": 12.0,
+    "base": 12.0,
+    "core": 12.0,
+    "final": 12.0,
+    "mu": 0.798333,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.066667,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "CO_10",
+    "id": "ANS_CO_1118",
+    "y": 4.0,
+    "M": 15.0,
+    "mean": 3.3,
+    "base": 3.3,
+    "core": 3.3,
+    "final": 3.3,
+    "mu": 0.658333,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.4,
+      0.166667,
+      0.4
+    ]
+  },
+  {
+    "qid": "CO_10",
+    "id": "ANS_CO_1181",
+    "y": 6.0,
+    "M": 15.0,
+    "mean": 2.8,
+    "base": 2.8,
+    "core": 2.05,
+    "final": 2.05,
+    "mu": 0.47,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.533333,
+      0.333333,
+      0.666667
+    ]
+  },
+  {
+    "qid": "CO_11",
+    "id": "ANS_CO_1213",
+    "y": 0.0,
+    "M": 15.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_11",
+    "id": "ANS_CO_1202",
+    "y": 7.0,
+    "M": 15.0,
+    "mean": 0.7,
+    "base": 0.7,
+    "core": 0,
+    "final": 0,
+    "mu": 0.794444,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.666667,
+      0.111111
+    ]
+  },
+  {
+    "qid": "CO_11",
+    "id": "ANS_CO_1221",
+    "y": 9.0,
+    "M": 15.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_11",
+    "id": "ANS_CO_1232",
+    "y": 14.0,
+    "M": 15.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_11",
+    "id": "ANS_CO_1254",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_11",
+    "id": "ANS_CO_1239",
+    "y": 14.0,
+    "M": 15.0,
+    "mean": 11.3,
+    "base": 11.3,
+    "core": 11.3,
+    "final": 11.3,
+    "mu": 0.794444,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.666667,
+      0.111111
+    ]
+  },
+  {
+    "qid": "CO_11",
+    "id": "ANS_CO_1290",
+    "y": 0.0,
+    "M": 15.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_11",
+    "id": "ANS_CO_1283",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 15.0,
+    "base": 15.0,
+    "core": 15.0,
+    "final": 15.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_11",
+    "id": "ANS_CO_1300",
+    "y": 5.0,
+    "M": 15.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_11",
+    "id": "ANS_CO_1312",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 15.0,
+    "base": 15.0,
+    "core": 15.0,
+    "final": 15.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1324",
+    "y": 0.0,
+    "M": 25.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.25,
+    "unsafe": false,
+    "route": "NEG",
+    "human": true,
+    "evidence": false,
+    "risks": [
+      1.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1334",
+    "y": 16.0,
+    "M": 25.0,
+    "mean": 9.5,
+    "base": 9.5,
+    "core": 9.5,
+    "final": 9.5,
+    "mu": 0.645667,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.36,
+      0.3,
+      0.386667
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1336",
+    "y": 14.0,
+    "M": 25.0,
+    "mean": 17.2,
+    "base": 17.2,
+    "core": 17.2,
+    "final": 17.2,
+    "mu": 0.901333,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.04,
+      0.2,
+      0.093333
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1365",
+    "y": 16.0,
+    "M": 25.0,
+    "mean": 17.0,
+    "base": 17.0,
+    "core": 17.0,
+    "final": 17.0,
+    "mu": 0.832,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.12,
+      0.2,
+      0.2
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1366",
+    "y": 17.0,
+    "M": 25.0,
+    "mean": 21.3,
+    "base": 21.3,
+    "core": 20.3,
+    "final": 20.3,
+    "mu": 0.821,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.12,
+      0.3,
+      0.16
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1379",
+    "y": 16.0,
+    "M": 25.0,
+    "mean": 18.2,
+    "base": 18.2,
+    "core": 18.2,
+    "final": 18.2,
+    "mu": 0.834,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.16,
+      0.1,
+      0.22
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1380",
+    "y": 13.0,
+    "M": 25.0,
+    "mean": 13.3,
+    "base": 13.3,
+    "core": 13.3,
+    "final": 13.3,
+    "mu": 0.933667,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.2,
+      0.046667
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1400",
+    "y": 18.0,
+    "M": 25.0,
+    "mean": 11.4,
+    "base": 11.4,
+    "core": 12.65,
+    "final": 12.65,
+    "mu": 0.8105,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.08,
+      0.35,
+      0.2
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1405",
+    "y": 17.0,
+    "M": 25.0,
+    "mean": 12.0,
+    "base": 12.0,
+    "core": 12.0,
+    "final": 12.0,
+    "mu": 0.64,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.48,
+      0.0,
+      0.48
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1435",
+    "y": 19.0,
+    "M": 25.0,
+    "mean": 22.3,
+    "base": 22.3,
+    "core": 22.3,
+    "final": 22.3,
+    "mu": 0.915,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.08,
+      0.1,
+      0.08
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1441",
+    "y": 17.0,
+    "M": 25.0,
+    "mean": 19.2,
+    "base": 19.2,
+    "core": 19.2,
+    "final": 19.2,
+    "mu": 0.822,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.1,
+      0.3,
+      0.18
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1445",
+    "y": 9.0,
+    "M": 25.0,
+    "mean": 10.2,
+    "base": 10.2,
+    "core": 8.82,
+    "final": 8.82,
+    "mu": 0.738,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.24,
+      0.3,
+      0.26
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1457",
+    "y": 22.0,
+    "M": 25.0,
+    "mean": 23.2,
+    "base": 23.2,
+    "core": 23.2,
+    "final": 23.2,
+    "mu": 0.945,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.04,
+      0.1,
+      0.04
+    ]
+  },
+  {
+    "qid": "CO_12",
+    "id": "ANS_CO_1485",
+    "y": 17.0,
+    "M": 25.0,
+    "mean": 22.1,
+    "base": 22.1,
+    "core": 22.1,
+    "final": 22.1,
+    "mu": 0.820333,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.2,
+      0.1,
+      0.213333
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1521",
+    "y": 15.0,
+    "M": 20.0,
+    "mean": 11.5,
+    "base": 11.5,
+    "core": 11.5,
+    "final": 11.5,
+    "mu": 0.9375,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1531",
+    "y": 19.0,
+    "M": 20.0,
+    "mean": 20.0,
+    "base": 20.0,
+    "core": 20.0,
+    "final": 20.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1563",
+    "y": 18.0,
+    "M": 20.0,
+    "mean": 13.7,
+    "base": 13.7,
+    "core": 13.7,
+    "final": 13.7,
+    "mu": 0.908333,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.083333
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1588",
+    "y": 15.0,
+    "M": 20.0,
+    "mean": 11.0,
+    "base": 11.0,
+    "core": 9.0,
+    "final": 9.0,
+    "mu": 0.709167,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.116667
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1598",
+    "y": 18.0,
+    "M": 20.0,
+    "mean": 14.2,
+    "base": 14.2,
+    "core": 14.2,
+    "final": 14.2,
+    "mu": 0.814583,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.625,
+      0.083333
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1605",
+    "y": 16.0,
+    "M": 20.0,
+    "mean": 9.8,
+    "base": 9.8,
+    "core": 9.8,
+    "final": 9.8,
+    "mu": 0.96875,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.125,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1604",
+    "y": 14.0,
+    "M": 20.0,
+    "mean": 9.3,
+    "base": 9.3,
+    "core": 9.3,
+    "final": 9.3,
+    "mu": 0.9375,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1612",
+    "y": 15.0,
+    "M": 20.0,
+    "mean": 17.7,
+    "base": 17.7,
+    "core": 17.7,
+    "final": 17.7,
+    "mu": 0.9375,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1617",
+    "y": 19.0,
+    "M": 20.0,
+    "mean": 20.0,
+    "base": 20.0,
+    "core": 20.0,
+    "final": 20.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1629",
+    "y": 15.0,
+    "M": 20.0,
+    "mean": 17.8,
+    "base": 17.8,
+    "core": 17.8,
+    "final": 17.8,
+    "mu": 0.96875,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.125,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1633",
+    "y": 9.0,
+    "M": 20.0,
+    "mean": 15.7,
+    "base": 15.7,
+    "core": 15.7,
+    "final": 15.7,
+    "mu": 0.771667,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.75,
+      0.116667
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1636",
+    "y": 20.0,
+    "M": 20.0,
+    "mean": 14.2,
+    "base": 14.2,
+    "core": 14.2,
+    "final": 14.2,
+    "mu": 0.814583,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.625,
+      0.083333
+    ]
+  },
+  {
+    "qid": "CO_13",
+    "id": "ANS_CO_1644",
+    "y": 18.0,
+    "M": 20.0,
+    "mean": 19.0,
+    "base": 19.0,
+    "core": 19.0,
+    "final": 19.0,
+    "mu": 0.845833,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.083333
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_132",
+    "y": 2.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_134",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_23",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_32",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_37",
+    "y": 0.0,
+    "M": 5.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_44",
+    "y": 2.0,
+    "M": 5.0,
+    "mean": 2.0,
+    "base": 2.0,
+    "core": 2.0,
+    "final": 2.0,
+    "mu": 0.953333,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.133333
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_47",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_58",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_73",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_61",
+    "y": 2.0,
+    "M": 5.0,
+    "mean": 2.0,
+    "base": 2.0,
+    "core": 2.0,
+    "final": 2.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_76",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_87",
+    "y": 0.0,
+    "M": 5.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.775,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.3,
+      0.0,
+      0.3
+    ]
+  },
+  {
+    "qid": "CO_1",
+    "id": "ANS_CO_88",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_2",
+    "id": "ANS_CO_525",
+    "y": 20.0,
+    "M": 20.0,
+    "mean": 16.3,
+    "base": 16.3,
+    "core": 16.3,
+    "final": 16.3,
+    "mu": 0.890833,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.133333
+    ]
+  },
+  {
+    "qid": "CO_2",
+    "id": "ANS_CO_536",
+    "y": 20.0,
+    "M": 20.0,
+    "mean": 17.3,
+    "base": 17.3,
+    "core": 17.3,
+    "final": 17.3,
+    "mu": 0.703333,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.133333
+    ]
+  },
+  {
+    "qid": "CO_2",
+    "id": "ANS_CO_566",
+    "y": 5.0,
+    "M": 20.0,
+    "mean": 2.0,
+    "base": 2.0,
+    "core": 2.0,
+    "final": 2.0,
+    "mu": 0.325,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.9,
+      0.0,
+      0.9
+    ]
+  },
+  {
+    "qid": "CO_2",
+    "id": "ANS_CO_556",
+    "y": 19.0,
+    "M": 20.0,
+    "mean": 17.7,
+    "base": 17.7,
+    "core": 17.7,
+    "final": 17.7,
+    "mu": 0.703333,
+    "unsafe": false,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.133333
+    ]
+  },
+  {
+    "qid": "CO_2",
+    "id": "ANS_CO_576",
+    "y": 20.0,
+    "M": 20.0,
+    "mean": 14.7,
+    "base": 14.7,
+    "core": 14.7,
+    "final": 14.7,
+    "mu": 0.6425,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.05,
+      1.0,
+      0.25
+    ]
+  },
+  {
+    "qid": "CO_2",
+    "id": "ANS_CO_577",
+    "y": 15.0,
+    "M": 20.0,
+    "mean": 17.0,
+    "base": 17.0,
+    "core": 17.0,
+    "final": 17.0,
+    "mu": 0.5725,
+    "unsafe": false,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.75,
+      0.4
+    ]
+  },
+  {
+    "qid": "CO_2",
+    "id": "ANS_CO_620",
+    "y": 15.0,
+    "M": 20.0,
+    "mean": 9.0,
+    "base": 9.0,
+    "core": 9.0,
+    "final": 9.0,
+    "mu": 0.629167,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.5,
+      0.416667
+    ]
+  },
+  {
+    "qid": "CO_2",
+    "id": "ANS_CO_622",
+    "y": 18.0,
+    "M": 20.0,
+    "mean": 16.3,
+    "base": 16.3,
+    "core": 14.3,
+    "final": 14.3,
+    "mu": 0.8125,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.75,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_2",
+    "id": "ANS_CO_625",
+    "y": 20.0,
+    "M": 20.0,
+    "mean": 18.7,
+    "base": 18.7,
+    "core": 18.7,
+    "final": 18.7,
+    "mu": 0.703333,
+    "unsafe": false,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.133333
+    ]
+  },
+  {
+    "qid": "CO_2",
+    "id": "ANS_CO_643",
+    "y": 20.0,
+    "M": 20.0,
+    "mean": 16.7,
+    "base": 16.7,
+    "core": 16.7,
+    "final": 16.7,
+    "mu": 0.800833,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.75,
+      0.033333
+    ]
+  },
+  {
+    "qid": "CO_3",
+    "id": "ANS_CO_152",
+    "y": 2.0,
+    "M": 10.0,
+    "mean": 1.5,
+    "base": 1.5,
+    "core": 1.5,
+    "final": 1.5,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_3",
+    "id": "ANS_CO_142",
+    "y": 5.0,
+    "M": 10.0,
+    "mean": 3.2,
+    "base": 3.2,
+    "core": 4.2,
+    "final": 4.2,
+    "mu": 0.8125,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.75,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_3",
+    "id": "ANS_CO_160",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_3",
+    "id": "ANS_CO_179",
+    "y": 6.0,
+    "M": 10.0,
+    "mean": 5.3,
+    "base": 5.3,
+    "core": 5.3,
+    "final": 5.3,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_3",
+    "id": "ANS_CO_208",
+    "y": 8.0,
+    "M": 10.0,
+    "mean": 4.2,
+    "base": 4.2,
+    "core": 4.2,
+    "final": 4.2,
+    "mu": 0.9375,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_3",
+    "id": "ANS_CO_217",
+    "y": 9.0,
+    "M": 10.0,
+    "mean": 7.8,
+    "base": 7.8,
+    "core": 8.3,
+    "final": 8.3,
+    "mu": 0.754167,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.75,
+      0.166667
+    ]
+  },
+  {
+    "qid": "CO_3",
+    "id": "ANS_CO_230",
+    "y": 8.0,
+    "M": 10.0,
+    "mean": 6.0,
+    "base": 6.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 0.754167,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.75,
+      0.166667
+    ]
+  },
+  {
+    "qid": "CO_3",
+    "id": "ANS_CO_237",
+    "y": 9.0,
+    "M": 10.0,
+    "mean": 6.3,
+    "base": 6.3,
+    "core": 7.3,
+    "final": 7.3,
+    "mu": 0.816667,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.5,
+      0.166667
+    ]
+  },
+  {
+    "qid": "CO_3",
+    "id": "ANS_CO_241",
+    "y": 6.0,
+    "M": 10.0,
+    "mean": 3.8,
+    "base": 3.8,
+    "core": 4.8,
+    "final": 4.8,
+    "mu": 0.8125,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.75,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_3",
+    "id": "ANS_CO_250",
+    "y": 9.0,
+    "M": 10.0,
+    "mean": 7.5,
+    "base": 7.5,
+    "core": 7.5,
+    "final": 7.5,
+    "mu": 0.816667,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.5,
+      0.166667
+    ]
+  },
+  {
+    "qid": "CO_4",
+    "id": "ANS_CO_676",
+    "y": 8.0,
+    "M": 20.0,
+    "mean": 11.0,
+    "base": 11.0,
+    "core": 11.0,
+    "final": 11.0,
+    "mu": 0.9,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.125,
+      0.025,
+      0.125
+    ]
+  },
+  {
+    "qid": "CO_4",
+    "id": "ANS_CO_654",
+    "y": 20.0,
+    "M": 20.0,
+    "mean": 18.5,
+    "base": 18.5,
+    "core": 20.0,
+    "final": 20.0,
+    "mu": 0.80875,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.625,
+      0.1
+    ]
+  },
+  {
+    "qid": "CO_4",
+    "id": "ANS_CO_710",
+    "y": 20.0,
+    "M": 20.0,
+    "mean": 20.0,
+    "base": 20.0,
+    "core": 20.0,
+    "final": 20.0,
+    "mu": 0.93,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.2
+    ]
+  },
+  {
+    "qid": "CO_4",
+    "id": "ANS_CO_686",
+    "y": 14.0,
+    "M": 20.0,
+    "mean": 12.8,
+    "base": 12.8,
+    "core": 14.8,
+    "final": 14.8,
+    "mu": 0.595833,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.75,
+      0.333333
+    ]
+  },
+  {
+    "qid": "CO_4",
+    "id": "ANS_CO_718",
+    "y": 17.0,
+    "M": 20.0,
+    "mean": 18.3,
+    "base": 18.3,
+    "core": 18.3,
+    "final": 18.3,
+    "mu": 0.925833,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.033333
+    ]
+  },
+  {
+    "qid": "CO_4",
+    "id": "ANS_CO_713",
+    "y": 20.0,
+    "M": 20.0,
+    "mean": 19.7,
+    "base": 19.7,
+    "core": 19.7,
+    "final": 19.7,
+    "mu": 0.9025,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.1
+    ]
+  },
+  {
+    "qid": "CO_4",
+    "id": "ANS_CO_723",
+    "y": 20.0,
+    "M": 20.0,
+    "mean": 17.8,
+    "base": 17.8,
+    "core": 17.8,
+    "final": 17.8,
+    "mu": 0.948333,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.125,
+      0.058333
+    ]
+  },
+  {
+    "qid": "CO_4",
+    "id": "ANS_CO_724",
+    "y": 11.0,
+    "M": 20.0,
+    "mean": 11.7,
+    "base": 11.7,
+    "core": 11.7,
+    "final": 11.7,
+    "mu": 0.8675,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.2
+    ]
+  },
+  {
+    "qid": "CO_4",
+    "id": "ANS_CO_760",
+    "y": 20.0,
+    "M": 20.0,
+    "mean": 18.5,
+    "base": 18.5,
+    "core": 18.5,
+    "final": 18.5,
+    "mu": 0.99125,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.025
+    ]
+  },
+  {
+    "qid": "CO_5",
+    "id": "ANS_CO_292",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 14.3,
+    "base": 14.3,
+    "core": 14.3,
+    "final": 14.3,
+    "mu": 0.897222,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.333333,
+      0.055556
+    ]
+  },
+  {
+    "qid": "CO_5",
+    "id": "ANS_CO_260",
+    "y": 8.0,
+    "M": 15.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.75,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.333333,
+      0.0,
+      0.333333
+    ]
+  },
+  {
+    "qid": "CO_5",
+    "id": "ANS_CO_313",
+    "y": 8.0,
+    "M": 15.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.6625,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.333333,
+      0.0,
+      0.583333
+    ]
+  },
+  {
+    "qid": "CO_5",
+    "id": "ANS_CO_327",
+    "y": 8.0,
+    "M": 15.0,
+    "mean": 3.6,
+    "base": 3.6,
+    "core": 2.85,
+    "final": 2.85,
+    "mu": 0.754167,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.75,
+      0.166667
+    ]
+  },
+  {
+    "qid": "CO_5",
+    "id": "ANS_CO_334",
+    "y": 0.0,
+    "M": 15.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.25,
+    "unsafe": false,
+    "route": "NEG",
+    "human": true,
+    "evidence": false,
+    "risks": [
+      1.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "qid": "CO_5",
+    "id": "ANS_CO_344",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 15.0,
+    "base": 15.0,
+    "core": 15.0,
+    "final": 15.0,
+    "mu": 0.980555,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.055556
+    ]
+  },
+  {
+    "qid": "CO_5",
+    "id": "ANS_CO_353",
+    "y": 12.0,
+    "M": 15.0,
+    "mean": 10.1,
+    "base": 10.1,
+    "core": 9.16,
+    "final": 9.16,
+    "mu": 0.7125,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.916667,
+      0.166667
+    ]
+  },
+  {
+    "qid": "CO_5",
+    "id": "ANS_CO_356",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_5",
+    "id": "ANS_CO_361",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 15.0,
+    "base": 15.0,
+    "core": 15.0,
+    "final": 15.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_5",
+    "id": "ANS_CO_373",
+    "y": 8.0,
+    "M": 15.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.75,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.333333,
+      0.0,
+      0.333333
+    ]
+  },
+  {
+    "qid": "CO_5",
+    "id": "ANS_CO_359",
+    "y": 10.0,
+    "M": 15.0,
+    "mean": 13.8,
+    "base": 13.8,
+    "core": 12.55,
+    "final": 12.55,
+    "mu": 0.441667,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.833333,
+      1.0
+    ]
+  },
+  {
+    "qid": "CO_6",
+    "id": "ANS_CO_408",
+    "y": 0.0,
+    "M": 20.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.25,
+    "unsafe": false,
+    "route": "NEG",
+    "human": true,
+    "evidence": false,
+    "risks": [
+      1.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "qid": "CO_6",
+    "id": "ANS_CO_411",
+    "y": 12.0,
+    "M": 20.0,
+    "mean": 13.0,
+    "base": 13.0,
+    "core": 13.0,
+    "final": 13.0,
+    "mu": 0.84,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "qid": "CO_6",
+    "id": "ANS_CO_412",
+    "y": 14.0,
+    "M": 20.0,
+    "mean": 13.0,
+    "base": 13.0,
+    "core": 13.0,
+    "final": 13.0,
+    "mu": 0.84999,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.4286
+    ]
+  },
+  {
+    "qid": "CO_6",
+    "id": "ANS_CO_420",
+    "y": 16.0,
+    "M": 20.0,
+    "mean": 11.7,
+    "base": 12.0,
+    "core": 12.0,
+    "final": 12.0,
+    "mu": 0.9,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.05,
+      0.25,
+      0.05
+    ]
+  },
+  {
+    "qid": "CO_6",
+    "id": "ANS_CO_427",
+    "y": 6.0,
+    "M": 20.0,
+    "mean": 4.5,
+    "base": 4.5,
+    "core": 4.5,
+    "final": 4.5,
+    "mu": 0.84,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "qid": "CO_6",
+    "id": "ANS_CO_433",
+    "y": 4.0,
+    "M": 20.0,
+    "mean": 2.7,
+    "base": 2.7,
+    "core": 2.7,
+    "final": 2.7,
+    "mu": 0.845833,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.083333
+    ]
+  },
+  {
+    "qid": "CO_7",
+    "id": "ANS_CO_457",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_7",
+    "id": "ANS_CO_458",
+    "y": 4.0,
+    "M": 10.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_7",
+    "id": "ANS_CO_459",
+    "y": 8.0,
+    "M": 10.0,
+    "mean": 4.7,
+    "base": 4.7,
+    "core": 4.7,
+    "final": 4.7,
+    "mu": 0.875,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_7",
+    "id": "ANS_CO_464",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 9.5,
+    "base": 9.5,
+    "core": 9.5,
+    "final": 9.5,
+    "mu": 0.754167,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.75,
+      0.166667
+    ]
+  },
+  {
+    "qid": "CO_7",
+    "id": "ANS_CO_494",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_7",
+    "id": "ANS_CO_475",
+    "y": 6.0,
+    "M": 10.0,
+    "mean": 6.7,
+    "base": 6.7,
+    "core": 4.7,
+    "final": 4.7,
+    "mu": 0.691667,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.166667
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_762",
+    "y": 5.0,
+    "M": 10.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_767",
+    "y": 5.0,
+    "M": 10.0,
+    "mean": 2.3,
+    "base": 2.3,
+    "core": 1.55,
+    "final": 1.55,
+    "mu": 0.816667,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.5,
+      0.166667
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_770",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_778",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_809",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_847",
+    "y": 8.0,
+    "M": 10.0,
+    "mean": 7.5,
+    "base": 7.5,
+    "core": 7.5,
+    "final": 7.5,
+    "mu": 0.941667,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.166667
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_852",
+    "y": 8.0,
+    "M": 10.0,
+    "mean": 7.0,
+    "base": 7.0,
+    "core": 7.0,
+    "final": 7.0,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_855",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 9.7,
+    "base": 9.7,
+    "core": 9.7,
+    "final": 9.7,
+    "mu": 0.758333,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.5,
+      0.333333
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_873",
+    "y": 3.0,
+    "M": 10.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.5,
+    "final": 4.5,
+    "mu": 0.75,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_875",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_877",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_892",
+    "y": 7.0,
+    "M": 10.0,
+    "mean": 7.0,
+    "base": 7.0,
+    "core": 7.0,
+    "final": 7.0,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_890",
+    "y": 7.0,
+    "M": 10.0,
+    "mean": 5.7,
+    "base": 5.7,
+    "core": 5.7,
+    "final": 5.7,
+    "mu": 0.691667,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.166667
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_904",
+    "y": 3.0,
+    "M": 10.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_8",
+    "id": "ANS_CO_902",
+    "y": 4.0,
+    "M": 10.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 0.691667,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.166667
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_1015",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 15.0,
+    "base": 15.0,
+    "core": 15.0,
+    "final": 15.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_1012",
+    "y": 14.0,
+    "M": 15.0,
+    "mean": 14.0,
+    "base": 14.0,
+    "core": 14.0,
+    "final": 14.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_1021",
+    "y": 13.0,
+    "M": 15.0,
+    "mean": 11.1,
+    "base": 11.1,
+    "core": 11.1,
+    "final": 11.1,
+    "mu": 0.9375,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_1042",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 15.0,
+    "base": 15.0,
+    "core": 15.0,
+    "final": 15.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_1025",
+    "y": 10.0,
+    "M": 15.0,
+    "mean": 6.8,
+    "base": 6.8,
+    "core": 6.8,
+    "final": 6.8,
+    "mu": 0.595,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.2,
+      0.833333,
+      0.333333
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_941",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 15.0,
+    "base": 15.0,
+    "core": 15.0,
+    "final": 15.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_1063",
+    "y": 13.0,
+    "M": 15.0,
+    "mean": 9.7,
+    "base": 9.7,
+    "core": 9.7,
+    "final": 9.7,
+    "mu": 0.958333,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.166667,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_982",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 14.5,
+    "base": 14.5,
+    "core": 14.5,
+    "final": 14.5,
+    "mu": 0.851667,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.066667
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_993",
+    "y": 14.0,
+    "M": 15.0,
+    "mean": 13.3,
+    "base": 13.3,
+    "core": 13.3,
+    "final": 13.3,
+    "mu": 0.633333,
+    "unsafe": false,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.333333
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_996",
+    "y": 9.0,
+    "M": 15.0,
+    "mean": 6.5,
+    "base": 6.5,
+    "core": 6.5,
+    "final": 6.5,
+    "mu": 0.851667,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.066667
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_995",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 12.8,
+    "base": 12.8,
+    "core": 12.8,
+    "final": 12.8,
+    "mu": 0.68,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.2
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_997",
+    "y": 11.0,
+    "M": 15.0,
+    "mean": 15.0,
+    "base": 15.0,
+    "core": 15.0,
+    "final": 15.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CO_9",
+    "id": "ANS_CO_998",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 14.5,
+    "base": 14.5,
+    "core": 15.0,
+    "final": 15.0,
+    "mu": 0.828333,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.5,
+      0.133333
+    ]
+  },
+  {
+    "qid": "CPL_1",
+    "id": "ANS_CPL_16",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_1",
+    "id": "ANS_CPL_08",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_1",
+    "id": "ANS_CPL_24",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_1",
+    "id": "ANS_CPL_22",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 0.8125,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.0,
+      0.25
+    ]
+  },
+  {
+    "qid": "CPL_1",
+    "id": "ANS_CPL_59",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_1",
+    "id": "ANS_CPL_37",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 0.8125,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.0,
+      0.25
+    ]
+  },
+  {
+    "qid": "CPL_2",
+    "id": "ANS_CPL_113",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_2",
+    "id": "ANS_CPL_111",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_2",
+    "id": "ANS_CPL_75",
+    "y": 0.0,
+    "M": 5.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_2",
+    "id": "ANS_CPL_77",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_2",
+    "id": "ANS_CPL_99",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_2",
+    "id": "ANS_CPL_78",
+    "y": 0.0,
+    "M": 5.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_3",
+    "id": "ANS_CPL_129",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_3",
+    "id": "ANS_CPL_125",
+    "y": 9.0,
+    "M": 10.0,
+    "mean": 8.7,
+    "base": 8.7,
+    "core": 8.7,
+    "final": 8.7,
+    "mu": 0.851667,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.066667
+    ]
+  },
+  {
+    "qid": "CPL_3",
+    "id": "ANS_CPL_132",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_3",
+    "id": "ANS_CPL_139",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 0.976667,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.066667
+    ]
+  },
+  {
+    "qid": "CPL_3",
+    "id": "ANS_CPL_158",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_3",
+    "id": "ANS_CPL_180",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_4",
+    "id": "ANS_CPL_185",
+    "y": 9.0,
+    "M": 10.0,
+    "mean": 8.3,
+    "base": 8.3,
+    "core": 8.3,
+    "final": 8.3,
+    "mu": 0.75,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_4",
+    "id": "ANS_CPL_187",
+    "y": 9.0,
+    "M": 10.0,
+    "mean": 9.0,
+    "base": 9.0,
+    "core": 9.0,
+    "final": 9.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_4",
+    "id": "ANS_CPL_186",
+    "y": 5.0,
+    "M": 10.0,
+    "mean": 2.7,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 0.75,
+    "unsafe": false,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_4",
+    "id": "ANS_CPL_217",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_4",
+    "id": "ANS_CPL_214",
+    "y": 5.0,
+    "M": 10.0,
+    "mean": 4.3,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_4",
+    "id": "ANS_CPL_221",
+    "y": 0.0,
+    "M": 10.0,
+    "mean": 3.7,
+    "base": 3.7,
+    "core": 1.7,
+    "final": 1.7,
+    "mu": 0.516667,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.666667
+    ]
+  },
+  {
+    "qid": "CPL_5",
+    "id": "ANS_CPL_266",
+    "y": 2.0,
+    "M": 10.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_5",
+    "id": "ANS_CPL_272",
+    "y": 5.0,
+    "M": 10.0,
+    "mean": 3.3,
+    "base": 3.3,
+    "core": 5.3,
+    "final": 5.3,
+    "mu": 0.6,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.2,
+      1.0,
+      0.2
+    ]
+  },
+  {
+    "qid": "CPL_5",
+    "id": "ANS_CPL_286",
+    "y": 2.0,
+    "M": 10.0,
+    "mean": 2.0,
+    "base": 2.0,
+    "core": 2.0,
+    "final": 2.0,
+    "mu": 0.7,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.4,
+      0.0,
+      0.4
+    ]
+  },
+  {
+    "qid": "CPL_5",
+    "id": "ANS_CPL_296",
+    "y": 6.0,
+    "M": 10.0,
+    "mean": 6.0,
+    "base": 6.0,
+    "core": 6.0,
+    "final": 6.0,
+    "mu": 0.85,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.2,
+      0.0,
+      0.2
+    ]
+  },
+  {
+    "qid": "CPL_5",
+    "id": "ANS_CPL_293",
+    "y": 6.0,
+    "M": 10.0,
+    "mean": 6.0,
+    "base": 6.0,
+    "core": 6.0,
+    "final": 6.0,
+    "mu": 0.676667,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.4,
+      0.0,
+      0.466667
+    ]
+  },
+  {
+    "qid": "CPL_6",
+    "id": "ANS_CPL_311",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 0.825,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "CPL_6",
+    "id": "ANS_CPL_302",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 0.825,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "CPL_6",
+    "id": "ANS_CPL_315",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 0.825,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "CPL_6",
+    "id": "ANS_CPL_319",
+    "y": 7.0,
+    "M": 10.0,
+    "mean": 5.3,
+    "base": 5.3,
+    "core": 4.3,
+    "final": 4.3,
+    "mu": 0.828333,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.5,
+      0.133333
+    ]
+  },
+  {
+    "qid": "CPL_6",
+    "id": "ANS_CPL_323",
+    "y": 2.0,
+    "M": 10.0,
+    "mean": 5.2,
+    "base": 5.2,
+    "core": 5.2,
+    "final": 5.2,
+    "mu": 0.8675,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.2
+    ]
+  },
+  {
+    "qid": "CPL_6",
+    "id": "ANS_CPL_332",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 0.825,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "CPL_7",
+    "id": "ANS_CPL_362",
+    "y": 12.0,
+    "M": 15.0,
+    "mean": 15.0,
+    "base": 15.0,
+    "core": 15.0,
+    "final": 15.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_7",
+    "id": "ANS_CPL_372",
+    "y": 15.0,
+    "M": 15.0,
+    "mean": 13.5,
+    "base": 13.5,
+    "core": 13.5,
+    "final": 13.5,
+    "mu": 0.918055,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.055556
+    ]
+  },
+  {
+    "qid": "CPL_7",
+    "id": "ANS_CPL_388",
+    "y": 10.0,
+    "M": 15.0,
+    "mean": 4.2,
+    "base": 4.2,
+    "core": 4.2,
+    "final": 4.2,
+    "mu": 0.708333,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.333333,
+      0.166667,
+      0.333333
+    ]
+  },
+  {
+    "qid": "CPL_7",
+    "id": "ANS_CPL_374",
+    "y": 10.0,
+    "M": 15.0,
+    "mean": 8.8,
+    "base": 8.8,
+    "core": 6.92,
+    "final": 6.92,
+    "mu": 0.818056,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.416667,
+      0.222222
+    ]
+  },
+  {
+    "qid": "CPL_7",
+    "id": "ANS_CPL_395",
+    "y": 10.0,
+    "M": 15.0,
+    "mean": 13.8,
+    "base": 13.8,
+    "core": 13.8,
+    "final": 13.8,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "CPL_7",
+    "id": "ANS_CPL_412",
+    "y": 12.0,
+    "M": 15.0,
+    "mean": 9.5,
+    "base": 9.5,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 0.694444,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.833333,
+      0.277778
+    ]
+  },
+  {
+    "qid": "CPL_8",
+    "id": "ANS_CPL_424",
+    "y": 6.0,
+    "M": 10.0,
+    "mean": 6.0,
+    "base": 6.0,
+    "core": 6.0,
+    "final": 6.0,
+    "mu": 0.89,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.1,
+      0.0,
+      0.2
+    ]
+  },
+  {
+    "qid": "CPL_8",
+    "id": "ANS_CPL_426",
+    "y": 4.0,
+    "M": 10.0,
+    "mean": 5.7,
+    "base": 5.7,
+    "core": 5.7,
+    "final": 5.7,
+    "mu": 0.851667,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.066667
+    ]
+  },
+  {
+    "qid": "CPL_8",
+    "id": "ANS_CPL_434",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 0.976667,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.066667
+    ]
+  },
+  {
+    "qid": "CPL_8",
+    "id": "ANS_CPL_445",
+    "y": 0.0,
+    "M": 10.0,
+    "mean": 1.3,
+    "base": 1.3,
+    "core": 0,
+    "final": 0,
+    "mu": 0.53,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.2,
+      1.0,
+      0.4
+    ]
+  },
+  {
+    "qid": "CPL_8",
+    "id": "ANS_CPL_451",
+    "y": 4.0,
+    "M": 10.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 0.93,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.2
+    ]
+  },
+  {
+    "qid": "CPL_8",
+    "id": "ANS_CPL_464",
+    "y": 8.0,
+    "M": 10.0,
+    "mean": 8.8,
+    "base": 8.8,
+    "core": 8.43,
+    "final": 8.43,
+    "mu": 0.8275,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.1,
+      0.25,
+      0.2
+    ]
+  },
+  {
+    "qid": "DM_1",
+    "id": "ANS_DM_15",
+    "y": 8.0,
+    "M": 8.0,
+    "mean": 8.0,
+    "base": 8.0,
+    "core": 8.0,
+    "final": 8.0,
+    "mu": 0.970833,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.083333
+    ]
+  },
+  {
+    "qid": "DM_1",
+    "id": "ANS_DM_22",
+    "y": 5.0,
+    "M": 8.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "DM_1",
+    "id": "ANS_DM_44",
+    "y": 6.0,
+    "M": 8.0,
+    "mean": 6.0,
+    "base": 6.0,
+    "core": 6.0,
+    "final": 6.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "DM_1",
+    "id": "ANS_DM_34",
+    "y": 5.0,
+    "M": 8.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "DM_1",
+    "id": "ANS_DM_66",
+    "y": 7.0,
+    "M": 8.0,
+    "mean": 7.0,
+    "base": 7.0,
+    "core": 7.0,
+    "final": 7.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "DM_1",
+    "id": "ANS_DM_53",
+    "y": 6.0,
+    "M": 8.0,
+    "mean": 5.7,
+    "base": 5.7,
+    "core": 4.7,
+    "final": 4.7,
+    "mu": 0.814583,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.625,
+      0.083333
+    ]
+  },
+  {
+    "qid": "DM_1",
+    "id": "ANS_DM_72",
+    "y": 7.0,
+    "M": 8.0,
+    "mean": 7.0,
+    "base": 7.0,
+    "core": 7.0,
+    "final": 7.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "DM_1",
+    "id": "ANS_DM_82",
+    "y": 7.0,
+    "M": 8.0,
+    "mean": 7.0,
+    "base": 7.0,
+    "core": 7.0,
+    "final": 7.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "DM_1",
+    "id": "ANS_DM_88",
+    "y": 4.0,
+    "M": 8.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "DM_2",
+    "id": "ANS_DM_108",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 0.988333,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.033333
+    ]
+  },
+  {
+    "qid": "DM_2",
+    "id": "ANS_DM_106",
+    "y": 8.0,
+    "M": 10.0,
+    "mean": 8.0,
+    "base": 8.0,
+    "core": 8.0,
+    "final": 8.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "DM_2",
+    "id": "ANS_DM_127",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 0.93,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.2
+    ]
+  },
+  {
+    "qid": "DM_2",
+    "id": "ANS_DM_150",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "DM_2",
+    "id": "ANS_DM_149",
+    "y": 0.0,
+    "M": 10.0,
+    "mean": 2.0,
+    "base": 2.0,
+    "core": 2.0,
+    "final": 2.0,
+    "mu": 0.288333,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.6,
+      1.0,
+      0.633333
+    ]
+  },
+  {
+    "qid": "DM_2",
+    "id": "ANS_DM_165",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "DM_2",
+    "id": "ANS_DM_169",
+    "y": 7.0,
+    "M": 10.0,
+    "mean": 9.7,
+    "base": 9.7,
+    "core": 9.7,
+    "final": 9.7,
+    "mu": 0.84,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "qid": "DM_2",
+    "id": "ANS_DM_170",
+    "y": 2.0,
+    "M": 10.0,
+    "mean": 1.0,
+    "base": 1.0,
+    "core": 1.0,
+    "final": 1.0,
+    "mu": 0.325,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.9,
+      0.0,
+      0.9
+    ]
+  },
+  {
+    "qid": "DM_2",
+    "id": "ANS_DM_180",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "DM_3",
+    "id": "ANS_DM_227",
+    "y": 1.0,
+    "M": 10.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.4575,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.7,
+      0.0,
+      0.75
+    ]
+  },
+  {
+    "qid": "DM_3",
+    "id": "ANS_DM_186",
+    "y": 0.0,
+    "M": 10.0,
+    "mean": 2.3,
+    "base": 2.3,
+    "core": 2.3,
+    "final": 2.3,
+    "mu": 0.92,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.05
+    ]
+  },
+  {
+    "qid": "DM_3",
+    "id": "ANS_DM_240",
+    "y": 4.0,
+    "M": 10.0,
+    "mean": 5.5,
+    "base": 5.5,
+    "core": 5.5,
+    "final": 5.5,
+    "mu": 0.851667,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.066667
+    ]
+  },
+  {
+    "qid": "DM_3",
+    "id": "ANS_DM_243",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 9.2,
+    "base": 9.2,
+    "core": 9.2,
+    "final": 9.2,
+    "mu": 0.7525,
+    "unsafe": false,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.5,
+      0.35
+    ]
+  },
+  {
+    "qid": "DM_3",
+    "id": "ANS_DM_245",
+    "y": 0.0,
+    "M": 10.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.25,
+    "unsafe": false,
+    "route": "NEG",
+    "human": true,
+    "evidence": false,
+    "risks": [
+      1.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "qid": "DM_3",
+    "id": "ANS_DM_248",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 0.8775,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.35
+    ]
+  },
+  {
+    "qid": "DM_3",
+    "id": "ANS_DM_262",
+    "y": 0.0,
+    "M": 10.0,
+    "mean": 1.9,
+    "base": 1.9,
+    "core": 0.15,
+    "final": 0.15,
+    "mu": 0.7875,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.5,
+      0.25
+    ]
+  },
+  {
+    "qid": "DM_3",
+    "id": "ANS_DM_269",
+    "y": 6.0,
+    "M": 10.0,
+    "mean": 6.2,
+    "base": 6.2,
+    "core": 6.7,
+    "final": 6.7,
+    "mu": 0.816667,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.5,
+      0.166667
+    ]
+  },
+  {
+    "qid": "DM_3",
+    "id": "ANS_DM_274",
+    "y": 7.0,
+    "M": 10.0,
+    "mean": 9.8,
+    "base": 9.8,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 0.815,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.25,
+      0.35
+    ]
+  },
+  {
+    "qid": "ISC_1",
+    "id": "ANS_ISC_398",
+    "y": 0.0,
+    "M": 5.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.25,
+    "unsafe": false,
+    "route": "NEG",
+    "human": true,
+    "evidence": false,
+    "risks": [
+      1.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "qid": "ISC_1",
+    "id": "ANS_ISC_387",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 2.7,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 0.875,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_1",
+    "id": "ANS_ISC_421",
+    "y": 2.0,
+    "M": 5.0,
+    "mean": 1.2,
+    "base": 1.5,
+    "core": 1.5,
+    "final": 1.5,
+    "mu": 0.5,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  {
+    "qid": "ISC_1",
+    "id": "ANS_ISC_426",
+    "y": 2.0,
+    "M": 5.0,
+    "mean": 1.0,
+    "base": 1.0,
+    "core": 1.0,
+    "final": 1.0,
+    "mu": 0.625,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ISC_1",
+    "id": "ANS_ISC_440",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 2.7,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 0.875,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_1",
+    "id": "ANS_ISC_443",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 2.3,
+    "base": 2.3,
+    "core": 2.3,
+    "final": 2.3,
+    "mu": 0.75,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_1",
+    "id": "ANS_ISC_461",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 2.7,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 0.375,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      1.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ISC_2",
+    "id": "ANS_ISC_483",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 3.8,
+    "base": 3.8,
+    "core": 3.8,
+    "final": 3.8,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_2",
+    "id": "ANS_ISC_495",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 3.5,
+    "base": 3.5,
+    "core": 3.5,
+    "final": 3.5,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_2",
+    "id": "ANS_ISC_497",
+    "y": 3.0,
+    "M": 5.0,
+    "mean": 2.5,
+    "base": 2.5,
+    "core": 2.5,
+    "final": 2.5,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_2",
+    "id": "ANS_ISC_504",
+    "y": 3.0,
+    "M": 5.0,
+    "mean": 3.3,
+    "base": 3.3,
+    "core": 3.3,
+    "final": 3.3,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_2",
+    "id": "ANS_ISC_516",
+    "y": 3.0,
+    "M": 5.0,
+    "mean": 2.5,
+    "base": 2.5,
+    "core": 2.5,
+    "final": 2.5,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_2",
+    "id": "ANS_ISC_532",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 3.7,
+    "base": 3.7,
+    "core": 3.7,
+    "final": 3.7,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_2",
+    "id": "ANS_ISC_538",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 3.8,
+    "base": 3.8,
+    "core": 3.8,
+    "final": 3.8,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_3",
+    "id": "ANS_ISC_568",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 3.8,
+    "base": 3.8,
+    "core": 3.8,
+    "final": 3.8,
+    "mu": 0.9375,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_3",
+    "id": "ANS_ISC_556",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 2.0,
+    "base": 2.0,
+    "core": 1.75,
+    "final": 1.75,
+    "mu": 0.316667,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      1.0,
+      0.666667
+    ]
+  },
+  {
+    "qid": "ISC_3",
+    "id": "ANS_ISC_572",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 1.7,
+    "base": 1.7,
+    "core": 1.95,
+    "final": 1.95,
+    "mu": 0.5,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  {
+    "qid": "ISC_3",
+    "id": "ANS_ISC_595",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 2.2,
+    "base": 2.2,
+    "core": 2.2,
+    "final": 2.2,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_3",
+    "id": "ANS_ISC_599",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 3.8,
+    "base": 3.8,
+    "core": 3.8,
+    "final": 3.8,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_3",
+    "id": "ANS_ISC_598",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 2.2,
+    "base": 2.2,
+    "core": 3.2,
+    "final": 3.2,
+    "mu": 0.691667,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.166667
+    ]
+  },
+  {
+    "qid": "ISC_3",
+    "id": "ANS_ISC_614",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 3.9,
+    "base": 3.9,
+    "core": 3.9,
+    "final": 3.9,
+    "mu": 0.9375,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_4",
+    "id": "ANS_ISC_628",
+    "y": 3.0,
+    "M": 5.0,
+    "mean": 2.5,
+    "base": 2.5,
+    "core": 2.5,
+    "final": 2.5,
+    "mu": 0.941667,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.166667
+    ]
+  },
+  {
+    "qid": "ISC_4",
+    "id": "ANS_ISC_624",
+    "y": 3.0,
+    "M": 5.0,
+    "mean": 2.5,
+    "base": 2.5,
+    "core": 2.5,
+    "final": 2.5,
+    "mu": 0.941667,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.166667
+    ]
+  },
+  {
+    "qid": "ISC_4",
+    "id": "ANS_ISC_641",
+    "y": 0.0,
+    "M": 5.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.25,
+    "unsafe": false,
+    "route": "NEG",
+    "human": true,
+    "evidence": false,
+    "risks": [
+      1.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "qid": "ISC_4",
+    "id": "ANS_ISC_660",
+    "y": 3.0,
+    "M": 5.0,
+    "mean": 2.5,
+    "base": 2.5,
+    "core": 2.5,
+    "final": 2.5,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_4",
+    "id": "ANS_ISC_672",
+    "y": 3.0,
+    "M": 5.0,
+    "mean": 2.5,
+    "base": 2.5,
+    "core": 2.5,
+    "final": 2.5,
+    "mu": 0.625,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ISC_4",
+    "id": "ANS_ISC_676",
+    "y": 3.0,
+    "M": 5.0,
+    "mean": 2.5,
+    "base": 2.5,
+    "core": 2.5,
+    "final": 2.5,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_4",
+    "id": "ANS_ISC_682",
+    "y": 2.0,
+    "M": 5.0,
+    "mean": 0.7,
+    "base": 0.7,
+    "core": 0.7,
+    "final": 0.7,
+    "mu": 0.691667,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.166667
+    ]
+  },
+  {
+    "qid": "ISC_5",
+    "id": "ANS_ISC_08",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 5.2,
+    "base": 5.2,
+    "core": 5.2,
+    "final": 5.2,
+    "mu": 0.8125,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.0,
+      0.25
+    ]
+  },
+  {
+    "qid": "ISC_5",
+    "id": "ANS_ISC_51",
+    "y": 3.0,
+    "M": 6.0,
+    "mean": 2.5,
+    "base": 2.5,
+    "core": 2.5,
+    "final": 2.5,
+    "mu": 0.8125,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.0,
+      0.25
+    ]
+  },
+  {
+    "qid": "ISC_5",
+    "id": "ANS_ISC_54",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 5.4,
+    "base": 5.4,
+    "core": 5.4,
+    "final": 5.4,
+    "mu": 0.825,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.125,
+      0.208333,
+      0.208333
+    ]
+  },
+  {
+    "qid": "ISC_5",
+    "id": "ANS_ISC_57",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 4.4,
+    "base": 4.4,
+    "core": 4.65,
+    "final": 4.65,
+    "mu": 0.760417,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.208333,
+      0.25
+    ]
+  },
+  {
+    "qid": "ISC_5",
+    "id": "ANS_ISC_67",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 5.8,
+    "base": 5.8,
+    "core": 5.8,
+    "final": 5.8,
+    "mu": 0.866667,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.416667,
+      0.083333
+    ]
+  },
+  {
+    "qid": "ISC_6",
+    "id": "ANS_ISC_104",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 0.625,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ISC_6",
+    "id": "ANS_ISC_112",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 0.625,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ISC_6",
+    "id": "ANS_ISC_83",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 4.5,
+    "base": 4.5,
+    "core": 4.5,
+    "final": 4.5,
+    "mu": 0.8125,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.0,
+      0.25
+    ]
+  },
+  {
+    "qid": "ISC_6",
+    "id": "ANS_ISC_116",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 4.5,
+    "base": 4.5,
+    "core": 4.5,
+    "final": 4.5,
+    "mu": 0.8125,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.0,
+      0.25
+    ]
+  },
+  {
+    "qid": "ISC_6",
+    "id": "ANS_ISC_90",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 6.0,
+    "base": 6.0,
+    "core": 6.0,
+    "final": 6.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_6",
+    "id": "ANS_ISC_95",
+    "y": 5.0,
+    "M": 6.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_6",
+    "id": "ANS_ISC_99",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 0.625,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ISC_7",
+    "id": "ANS_ISC_189",
+    "y": 1.0,
+    "M": 4.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.625,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ISC_7",
+    "id": "ANS_ISC_171",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 0.65,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "qid": "ISC_7",
+    "id": "ANS_ISC_207",
+    "y": 0.0,
+    "M": 4.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.25,
+    "unsafe": false,
+    "route": "NEG",
+    "human": true,
+    "evidence": false,
+    "risks": [
+      1.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "qid": "ISC_7",
+    "id": "ANS_ISC_195",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 0.65,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "qid": "ISC_7",
+    "id": "ANS_ISC_208",
+    "y": 2.0,
+    "M": 4.0,
+    "mean": 2.0,
+    "base": 2.0,
+    "core": 2.0,
+    "final": 2.0,
+    "mu": 0.625,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ISC_7",
+    "id": "ANS_ISC_210",
+    "y": 1.0,
+    "M": 4.0,
+    "mean": 0.3,
+    "base": 0.3,
+    "core": 0,
+    "final": 0,
+    "mu": 0.691667,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.166667
+    ]
+  },
+  {
+    "qid": "ISC_7",
+    "id": "ANS_ISC_225",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 0.65,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "qid": "ISC_8",
+    "id": "ANS_ISC_247",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_8",
+    "id": "ANS_ISC_259",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_8",
+    "id": "ANS_ISC_266",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 3.3,
+    "base": 3.3,
+    "core": 3.3,
+    "final": 3.3,
+    "mu": 0.84375,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.625,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_8",
+    "id": "ANS_ISC_287",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_8",
+    "id": "ANS_ISC_298",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_8",
+    "id": "ANS_ISC_302",
+    "y": 3.0,
+    "M": 4.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_8",
+    "id": "ANS_ISC_306",
+    "y": 3.0,
+    "M": 4.0,
+    "mean": 2.0,
+    "base": 2.0,
+    "core": 2.0,
+    "final": 2.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_9",
+    "id": "ANS_ISC_318",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_9",
+    "id": "ANS_ISC_322",
+    "y": 2.0,
+    "M": 10.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_9",
+    "id": "ANS_ISC_328",
+    "y": 0.0,
+    "M": 10.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.25,
+    "unsafe": false,
+    "route": "NEG",
+    "human": true,
+    "evidence": false,
+    "risks": [
+      1.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "qid": "ISC_9",
+    "id": "ANS_ISC_337",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_9",
+    "id": "ANS_ISC_363",
+    "y": 3.0,
+    "M": 10.0,
+    "mean": 3.3,
+    "base": 3.3,
+    "core": 3.3,
+    "final": 3.3,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_9",
+    "id": "ANS_ISC_367",
+    "y": 2.0,
+    "M": 10.0,
+    "mean": 2.0,
+    "base": 2.0,
+    "core": 2.0,
+    "final": 2.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_9",
+    "id": "ANS_ISC_369",
+    "y": 2.0,
+    "M": 10.0,
+    "mean": 3.3,
+    "base": 3.3,
+    "core": 3.3,
+    "final": 3.3,
+    "mu": 0.875,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "ISC_9",
+    "id": "ANS_ISC_378",
+    "y": 0.0,
+    "M": 10.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.625,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ML_1",
+    "id": "ANS_ML_05",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 0.84375,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.625,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_1",
+    "id": "ANS_ML_24",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 3.1,
+    "base": 3.1,
+    "core": 3.35,
+    "final": 3.35,
+    "mu": 0.75,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_1",
+    "id": "ANS_ML_45",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 2.1,
+    "base": 2.1,
+    "core": 2.1,
+    "final": 2.1,
+    "mu": 0.921875,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.3125,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_1",
+    "id": "ANS_ML_39",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 2.8,
+    "base": 2.8,
+    "core": 3.6,
+    "final": 3.6,
+    "mu": 0.75,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_1",
+    "id": "ANS_ML_48",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 2.3,
+    "base": 2.3,
+    "core": 2.3,
+    "final": 2.3,
+    "mu": 0.84375,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.625,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_1",
+    "id": "ANS_ML_55",
+    "y": 2.0,
+    "M": 4.0,
+    "mean": 1.7,
+    "base": 1.7,
+    "core": 1.7,
+    "final": 1.7,
+    "mu": 0.84375,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.625,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_2",
+    "id": "ANS_ML_104",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 0.725,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ML_2",
+    "id": "ANS_ML_105",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 3.7,
+    "base": 3.7,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 0.475,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      1.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ML_2",
+    "id": "ANS_ML_109",
+    "y": 2.0,
+    "M": 4.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 0.4375,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.75,
+      0.0,
+      0.75
+    ]
+  },
+  {
+    "qid": "ML_2",
+    "id": "ANS_ML_57",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 0.725,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ML_2",
+    "id": "ANS_ML_58",
+    "y": 3.0,
+    "M": 4.0,
+    "mean": 0.5,
+    "base": 0.5,
+    "core": 0.5,
+    "final": 0.5,
+    "mu": 0.625,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.5,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ML_2",
+    "id": "ANS_ML_61",
+    "y": 4.0,
+    "M": 4.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 0.725,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.0,
+      0.5
+    ]
+  },
+  {
+    "qid": "ML_3",
+    "id": "ANS_ML_130",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 6.0,
+    "base": 6.0,
+    "core": 6.0,
+    "final": 6.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_3",
+    "id": "ANS_ML_114",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 6.0,
+    "base": 6.0,
+    "core": 6.0,
+    "final": 6.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_3",
+    "id": "ANS_ML_148",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 6.0,
+    "base": 6.0,
+    "core": 6.0,
+    "final": 6.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_3",
+    "id": "ANS_ML_138",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 3.2,
+    "base": 3.2,
+    "core": 3.2,
+    "final": 3.2,
+    "mu": 0.895833,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.416667,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_3",
+    "id": "ANS_ML_166",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 6.0,
+    "base": 6.0,
+    "core": 6.0,
+    "final": 6.0,
+    "mu": 0.883333,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.333333
+    ]
+  },
+  {
+    "qid": "ML_3",
+    "id": "ANS_ML_154",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 5.5,
+    "base": 5.5,
+    "core": 5.5,
+    "final": 5.5,
+    "mu": 0.633333,
+    "unsafe": false,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.333333
+    ]
+  },
+  {
+    "qid": "ML_4",
+    "id": "ANS_ML_169",
+    "y": 0.0,
+    "M": 6.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_4",
+    "id": "ANS_ML_181",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_4",
+    "id": "ANS_ML_180",
+    "y": 3.0,
+    "M": 6.0,
+    "mean": 2.7,
+    "base": 2.7,
+    "core": 2.7,
+    "final": 2.7,
+    "mu": 0.791667,
+    "unsafe": false,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.833333,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_4",
+    "id": "ANS_ML_204",
+    "y": 5.0,
+    "M": 6.0,
+    "mean": 6.0,
+    "base": 6.0,
+    "core": 6.0,
+    "final": 6.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_4",
+    "id": "ANS_ML_207",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "ML_4",
+    "id": "ANS_ML_224",
+    "y": 6.0,
+    "M": 6.0,
+    "mean": 2.8,
+    "base": 2.8,
+    "core": 2.8,
+    "final": 2.8,
+    "mu": 0.895833,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.416667,
+      0.0
+    ]
+  },
+  {
+    "qid": "OS_1",
+    "id": "ANS_OS_11",
+    "y": 13.0,
+    "M": 20.0,
+    "mean": 10.8,
+    "base": 10.8,
+    "core": 10.8,
+    "final": 10.8,
+    "mu": 0.96875,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.125,
+      0.0
+    ]
+  },
+  {
+    "qid": "OS_1",
+    "id": "ANS_OS_01",
+    "y": 17.0,
+    "M": 20.0,
+    "mean": 14.3,
+    "base": 14.3,
+    "core": 14.3,
+    "final": 14.3,
+    "mu": 0.629167,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.5,
+      0.416667
+    ]
+  },
+  {
+    "qid": "OS_1",
+    "id": "ANS_OS_28",
+    "y": 6.0,
+    "M": 20.0,
+    "mean": 3.2,
+    "base": 3.2,
+    "core": 5.2,
+    "final": 5.2,
+    "mu": 0.566667,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.25,
+      0.75,
+      0.416667
+    ]
+  },
+  {
+    "qid": "OS_1",
+    "id": "ANS_OS_13",
+    "y": 15.0,
+    "M": 20.0,
+    "mean": 12.0,
+    "base": 12.0,
+    "core": 16.0,
+    "final": 16.0,
+    "mu": 0.6625,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.25
+    ]
+  },
+  {
+    "qid": "OS_1",
+    "id": "ANS_OS_42",
+    "y": 10.0,
+    "M": 20.0,
+    "mean": 7.2,
+    "base": 7.2,
+    "core": 7.2,
+    "final": 7.2,
+    "mu": 0.84375,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.625,
+      0.0
+    ]
+  },
+  {
+    "qid": "OS_2",
+    "id": "ANS_OS_104",
+    "y": 16.0,
+    "M": 20.0,
+    "mean": 17.0,
+    "base": 17.0,
+    "core": 17.0,
+    "final": 17.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "OS_2",
+    "id": "ANS_OS_103",
+    "y": 14.0,
+    "M": 20.0,
+    "mean": 11.8,
+    "base": 11.8,
+    "core": 14.3,
+    "final": 14.3,
+    "mu": 0.789167,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.75,
+      0.066667
+    ]
+  },
+  {
+    "qid": "OS_2",
+    "id": "ANS_OS_85",
+    "y": 20.0,
+    "M": 20.0,
+    "mean": 18.7,
+    "base": 18.7,
+    "core": 18.7,
+    "final": 18.7,
+    "mu": 0.875,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_1",
+    "id": "ANS_POC_303",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_1",
+    "id": "ANS_POC_312",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 0.3,
+    "base": 0.3,
+    "core": 0.3,
+    "final": 0.3,
+    "mu": 0.633333,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.333333
+    ]
+  },
+  {
+    "qid": "POC_1",
+    "id": "ANS_POC_317",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_1",
+    "id": "ANS_POC_322",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_1",
+    "id": "ANS_POC_337",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 0.0,
+    "base": 0,
+    "core": 0,
+    "final": 0,
+    "mu": 1.0,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_2",
+    "id": "ANS_POC_23",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 4.0,
+    "base": 4.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_2",
+    "id": "ANS_POC_1",
+    "y": 1.0,
+    "M": 5.0,
+    "mean": 0.3,
+    "base": 0.3,
+    "core": 0.3,
+    "final": 0.3,
+    "mu": 0.703333,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.133333
+    ]
+  },
+  {
+    "qid": "POC_2",
+    "id": "ANS_POC_24",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_2",
+    "id": "ANS_POC_43",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_2",
+    "id": "ANS_POC_49",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_2",
+    "id": "ANS_POC_6",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 0.953333,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.133333
+    ]
+  },
+  {
+    "qid": "POC_3",
+    "id": "ANS_POC_255",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_3",
+    "id": "ANS_POC_250",
+    "y": 2.0,
+    "M": 5.0,
+    "mean": 1.8,
+    "base": 1.8,
+    "core": 1.8,
+    "final": 1.8,
+    "mu": 0.68,
+    "unsafe": false,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.2
+    ]
+  },
+  {
+    "qid": "POC_3",
+    "id": "ANS_POC_266",
+    "y": 1.0,
+    "M": 5.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 4.0,
+    "final": 4.0,
+    "mu": 0.703333,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.133333
+    ]
+  },
+  {
+    "qid": "POC_3",
+    "id": "ANS_POC_271",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_3",
+    "id": "ANS_POC_290",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 0.953333,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.133333
+    ]
+  },
+  {
+    "qid": "POC_3",
+    "id": "ANS_POC_282",
+    "y": 3.0,
+    "M": 5.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_4",
+    "id": "ANS_POC_108",
+    "y": 0.0,
+    "M": 5.0,
+    "mean": 1.3,
+    "base": 1.3,
+    "core": 1.3,
+    "final": 1.3,
+    "mu": 0.75,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_4",
+    "id": "ANS_POC_110",
+    "y": 1.0,
+    "M": 5.0,
+    "mean": 1.7,
+    "base": 1.7,
+    "core": 1.7,
+    "final": 1.7,
+    "mu": 0.75,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_4",
+    "id": "ANS_POC_122",
+    "y": 2.0,
+    "M": 5.0,
+    "mean": 3.2,
+    "base": 3.2,
+    "core": 3.2,
+    "final": 3.2,
+    "mu": 0.75,
+    "unsafe": true,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_4",
+    "id": "ANS_POC_78",
+    "y": 1.0,
+    "M": 5.0,
+    "mean": 1.0,
+    "base": 1.0,
+    "core": 1.0,
+    "final": 1.0,
+    "mu": 0.633333,
+    "unsafe": false,
+    "route": "BND",
+    "human": true,
+    "evidence": true,
+    "risks": [
+      0.0,
+      1.0,
+      0.333333
+    ]
+  },
+  {
+    "qid": "POC_4",
+    "id": "ANS_POC_79",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 5.0,
+    "base": 5.0,
+    "core": 5.0,
+    "final": 5.0,
+    "mu": 0.65,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "qid": "POC_4",
+    "id": "ANS_POC_92",
+    "y": 2.0,
+    "M": 5.0,
+    "mean": 2.8,
+    "base": 2.8,
+    "core": 2.8,
+    "final": 2.8,
+    "mu": 0.875,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_5",
+    "id": "ANS_POC_140",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 4.8,
+    "base": 4.8,
+    "core": 4.8,
+    "final": 4.8,
+    "mu": 0.84,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "qid": "POC_5",
+    "id": "ANS_POC_133",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 4.2,
+    "base": 4.2,
+    "core": 3.7,
+    "final": 3.7,
+    "mu": 0.789167,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.75,
+      0.066667
+    ]
+  },
+  {
+    "qid": "POC_5",
+    "id": "ANS_POC_144",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 4.5,
+    "base": 4.5,
+    "core": 4.5,
+    "final": 4.5,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_5",
+    "id": "ANS_POC_156",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 4.4,
+    "base": 4.4,
+    "core": 4.4,
+    "final": 4.4,
+    "mu": 0.9375,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_5",
+    "id": "ANS_POC_159",
+    "y": 4.0,
+    "M": 5.0,
+    "mean": 3.8,
+    "base": 3.8,
+    "core": 3.8,
+    "final": 3.8,
+    "mu": 0.84,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.1
+    ]
+  },
+  {
+    "qid": "POC_5",
+    "id": "ANS_POC_164",
+    "y": 5.0,
+    "M": 5.0,
+    "mean": 3.0,
+    "base": 3.0,
+    "core": 3.0,
+    "final": 3.0,
+    "mu": 0.951667,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.1,
+      0.066667
+    ]
+  },
+  {
+    "qid": "POC_6",
+    "id": "ANS_POC_182",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 10.0,
+    "base": 10.0,
+    "core": 10.0,
+    "final": 10.0,
+    "mu": 1.0,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "qid": "POC_6",
+    "id": "ANS_POC_185",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 6.0,
+    "base": 6.0,
+    "core": 6.0,
+    "final": 6.0,
+    "mu": 0.7,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.4,
+      0.0,
+      0.4
+    ]
+  },
+  {
+    "qid": "POC_6",
+    "id": "ANS_POC_186",
+    "y": 2.0,
+    "M": 10.0,
+    "mean": 2.5,
+    "base": 2.5,
+    "core": 2.5,
+    "final": 2.5,
+    "mu": 0.7,
+    "unsafe": false,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.4,
+      0.0,
+      0.4
+    ]
+  },
+  {
+    "qid": "POC_6",
+    "id": "ANS_POC_207",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 6.7,
+    "base": 6.7,
+    "core": 6.7,
+    "final": 6.7,
+    "mu": 0.908333,
+    "unsafe": true,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.25,
+      0.083333
+    ]
+  },
+  {
+    "qid": "POC_6",
+    "id": "ANS_POC_218",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 8.0,
+    "base": 8.0,
+    "core": 8.0,
+    "final": 8.0,
+    "mu": 0.783333,
+    "unsafe": true,
+    "route": "BND",
+    "human": false,
+    "evidence": true,
+    "risks": [
+      0.0,
+      0.75,
+      0.083333
+    ]
+  },
+  {
+    "qid": "POC_6",
+    "id": "ANS_POC_229",
+    "y": 10.0,
+    "M": 10.0,
+    "mean": 9.3,
+    "base": 9.3,
+    "core": 9.3,
+    "final": 9.3,
+    "mu": 0.845833,
+    "unsafe": false,
+    "route": "POS",
+    "human": false,
+    "evidence": false,
+    "risks": [
+      0.0,
+      0.5,
+      0.083333
+    ]
+  }
+]

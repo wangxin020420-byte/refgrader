@@ -1,0 +1,891 @@
+{
+  "configs": {
+    "glm": {
+      "path": "C:\\Users\\wx\\Desktop\\refgrader-artifacts\\csbench\\CO_1\\grading_runs\\csbench45_full_experimental_glm52_20260825_163432\\calibration\\a3wa_config.json",
+      "sha256": "672284bbcd659629112113f4c430fc92436baa210bd6db703d44f5a50c47945e",
+      "loss_params": {
+        "lambda1": 1.0,
+        "lambda2": 1.0,
+        "mu1": 1.0,
+        "mu2": 0.25,
+        "m": 0.2
+      },
+      "thresholds": {
+        "alpha": 0.6,
+        "beta": 0.04
+      },
+      "membership": {
+        "version": 1,
+        "type": "monotonic_logistic",
+        "target": "safe_auto_grading",
+        "safe_error_ratio": 0.1,
+        "safe_error_points": 0.5,
+        "intercept": 0.63494954,
+        "coefficients": {
+          "U_E": 0.13199296,
+          "U_S": 0.74047743,
+          "U_R": 0.04569256
+        },
+        "constraints": "non_negative_risk_coefficients",
+        "regularization_l2": 0.05,
+        "training_n": 343,
+        "positive_rate": 0.600583,
+        "brier_score": 0.222402
+      },
+      "theoretical_mu_range": [
+        0.42966614248638724,
+        0.6536109066578931
+      ],
+      "boundary_policy": {
+        "version": 2,
+        "method": "structured_item_evidence",
+        "min_evidence_confidence": 0.6,
+        "auto_keep_confidence": 0.8,
+        "max_adjustment_ratio": 0.2,
+        "allow_raise": true,
+        "allow_lower": false,
+        "action_validation": {
+          "minimum_count": 3,
+          "actions": {
+            "accept_structured_lower": {
+              "n": 21,
+              "mean_gain": -0.2904761904761905,
+              "improved": 6,
+              "unchanged": 0,
+              "worsened": 15
+            },
+            "accept_structured_raise": {
+              "n": 21,
+              "mean_gain": 0.7404761904761905,
+              "improved": 18,
+              "unchanged": 0,
+              "worsened": 3
+            },
+            "keep_baseline": {
+              "n": 84,
+              "mean_gain": 0.0,
+              "improved": 0,
+              "unchanged": 84,
+              "worsened": 0
+            }
+          },
+          "allow_raise": true,
+          "raise_reason": "positive_validation_gain",
+          "allow_lower": false,
+          "lower_reason": "insufficient_or_nonpositive_validation_gain"
+        }
+      },
+      "validation_summary": {
+        "n": 343,
+        "objective": 0.318073,
+        "expected_system_cost": 0.318073,
+        "constraint_violations": 1,
+        "constraint_excess": 0.199539,
+        "constraint_status": {
+          "bnd_ratio_within_budget": true,
+          "human_review_ratio_within_budget": true,
+          "neg_ratio_within_budget": true,
+          "unsafe_pos_rate_within_budget": false
+        },
+        "metrics": {
+          "n": 343,
+          "mae": 1.292566,
+          "rmse": 2.118141,
+          "tar2": 0.772595,
+          "bias": -0.652915,
+          "over2": 21,
+          "under2": 57
+        },
+        "baseline_metrics": {
+          "n": 343,
+          "mae": 1.337901,
+          "rmse": 2.154871,
+          "tar2": 0.758017,
+          "bias": -0.723907,
+          "over2": 20,
+          "under2": 63
+        },
+        "route_counts": {
+          "POS": 217,
+          "BND": 126
+        },
+        "bnd_ratio": 0.367347,
+        "neg_ratio": 0.0,
+        "unsafe_pos_count": 65,
+        "unsafe_pos_rate": 0.299539,
+        "pos_mae": 1.08894,
+        "bnd_mae": 1.643254,
+        "bnd_gain": 0.123413,
+        "boundary_action_summary": {
+          "accept_structured_raise": {
+            "n": 21,
+            "mean_gain": 0.7404761904761905,
+            "improved": 18,
+            "unchanged": 0,
+            "worsened": 3
+          },
+          "keep_baseline": {
+            "n": 105,
+            "mean_gain": 0.0,
+            "improved": 0,
+            "unchanged": 105,
+            "worsened": 0
+          }
+        },
+        "sequential_outcome_summary": {
+          "route_counts": {
+            "POS": 217,
+            "BND": 126
+          },
+          "outcome_counts": {
+            "auto_accepted": 217,
+            "defer_human": 91,
+            "auto_adjusted": 21,
+            "auto_kept_after_review": 14
+          },
+          "boundary_agent_count": 126,
+          "boundary_agent_ratio": 0.367347,
+          "bnd_auto_resolved_count": 35,
+          "bnd_auto_resolved_rate": 0.277778,
+          "human_review_count": 91,
+          "human_review_ratio": 0.265306
+        },
+        "actual_human_review_count": 91,
+        "actual_human_review_ratio": 0.265306
+      },
+      "feasible": 0,
+      "tradeoff": {
+        "minimum_unsafe_pos_rate_within_bnd_budget": 0.299539,
+        "minimum_bnd_ratio_within_unsafe_pos_budget": 1.0,
+        "bnd_budget_candidate_count": 40,
+        "unsafe_pos_budget_candidate_count": 55
+      },
+      "deployment_gate": {
+        "passed": false,
+        "requirements": {
+          "loqo_normalized_mae_noninferior": true,
+          "route_budget_constraints_met": false,
+          "bnd_invocation_budget_met": true,
+          "human_review_budget_met": true,
+          "neg_budget_met": true,
+          "unsafe_pos_budget_met": false,
+          "validation_bnd_gain_positive": true,
+          "enabled_boundary_actions_positive": true
+        },
+        "note": "A failed gate marks the config experimental; it does not tune on test data."
+      },
+      "cv_summary": {
+        "available": true,
+        "method": "leave_one_question_out",
+        "n": 343,
+        "improved_questions": 11,
+        "normalized_mae_delta": {
+          "mean": -0.003744,
+          "ci95": [
+            -0.006599,
+            -0.001147
+          ],
+          "iterations": 2000,
+          "seed": 20260714
+        },
+        "noninferiority_margin": 0.01,
+        "noninferior": true,
+        "superior": true
+      },
+      "risk_summary": {
+        "safe_baseline": {
+          "n": 206,
+          "mean": 0.618344,
+          "p50": 0.650847,
+          "p90": 0.653611,
+          "min": 0.459744,
+          "max": 0.653611
+        },
+        "unsafe_baseline": {
+          "n": 137,
+          "mean": 0.573881,
+          "p50": 0.588092,
+          "p90": 0.653611,
+          "min": 0.446787,
+          "max": 0.653611
+        },
+        "undercredit_baseline": {
+          "n": 105,
+          "mean": 0.573234,
+          "p50": 0.586041,
+          "p90": 0.653611,
+          "min": 0.449674,
+          "max": 0.653611
+        },
+        "overcredit_baseline": {
+          "n": 32,
+          "mean": 0.576004,
+          "p50": 0.601495,
+          "p90": 0.653611,
+          "min": 0.446787,
+          "max": 0.653611
+        },
+        "safe_POS": {
+          "n": 152,
+          "mean": 0.646127,
+          "p50": 0.653611,
+          "p90": 0.653611,
+          "min": 0.605275,
+          "max": 0.653611
+        },
+        "unsafe_POS": {
+          "n": 65,
+          "mean": 0.63287,
+          "p50": 0.633232,
+          "p90": 0.653611,
+          "min": 0.60679,
+          "max": 0.653611
+        },
+        "undercredit_POS": {
+          "n": 49,
+          "mean": 0.632041,
+          "p50": 0.633232,
+          "p90": 0.653611,
+          "min": 0.607368,
+          "max": 0.653611
+        },
+        "overcredit_POS": {
+          "n": 16,
+          "mean": 0.635412,
+          "p50": 0.63885,
+          "p90": 0.653611,
+          "min": 0.60679,
+          "max": 0.653611
+        },
+        "bnd_auto_resolved": {
+          "n": 35,
+          "mean": 0.510273,
+          "p50": 0.50784,
+          "p90": 0.563922,
+          "min": 0.45156,
+          "max": 0.596615
+        },
+        "bnd_human_review": {
+          "n": 91,
+          "mean": 0.536188,
+          "p50": 0.563922,
+          "p90": 0.57996,
+          "min": 0.446787,
+          "max": 0.59954
+        },
+        "route_POS": {
+          "n": 217,
+          "mean": 0.642156,
+          "p50": 0.653266,
+          "p90": 0.653611,
+          "min": 0.605275,
+          "max": 0.653611
+        },
+        "route_BND": {
+          "n": 126,
+          "mean": 0.528989,
+          "p50": 0.542932,
+          "p90": 0.57487,
+          "min": 0.446787,
+          "max": 0.59954
+        },
+        "route_NEG": {
+          "n": 0,
+          "mean": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        }
+      },
+      "score_uncertainty": {
+        "version": 1,
+        "enabled": true,
+        "method": "locally_scaled_split_conformal",
+        "coverage": 0.9,
+        "calibration_n": 343,
+        "scale_floor": 0.05,
+        "safe_tolerance_ratio": 0.1,
+        "nonconformity_quantile": 5.333333,
+        "empirical_coverage": 0.912536,
+        "mean_interval_width_ratio": 0.965131,
+        "assumption": "exchangeable_validation_and_test_records"
+      }
+    },
+    "deepseek": {
+      "path": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\a3wa_configs\\private45_validation_deepseek_official_flash_t0_20260927_200831.json",
+      "sha256": "1bbd6eaf1c5dbd9bf29ed5d5bb96a39219c06bb877f254b39af90769907d0182",
+      "loss_params": {
+        "lambda1": 0.25,
+        "lambda2": 1.0,
+        "mu1": 1.0,
+        "mu2": 0.25,
+        "m": 0.4
+      },
+      "thresholds": {
+        "alpha": 0.52,
+        "beta": 0.08
+      },
+      "membership": {
+        "version": 1,
+        "type": "monotonic_logistic",
+        "target": "safe_auto_grading",
+        "safe_error_ratio": 0.1,
+        "safe_error_points": 0.5,
+        "intercept": 0.22197436,
+        "coefficients": {
+          "U_E": 0.09358572,
+          "U_S": 0.31518474,
+          "U_R": 0.01793244
+        },
+        "constraints": "non_negative_risk_coefficients",
+        "regularization_l2": 0.05,
+        "training_n": 343,
+        "positive_rate": 0.54519,
+        "brier_score": 0.244895
+      },
+      "theoretical_mu_range": [
+        0.4489958885811007,
+        0.5552668476220144
+      ],
+      "boundary_policy": {
+        "version": 2,
+        "method": "structured_item_evidence",
+        "min_evidence_confidence": 0.6,
+        "auto_keep_confidence": 0.8,
+        "max_adjustment_ratio": 0.2,
+        "allow_raise": false,
+        "allow_lower": false,
+        "action_validation": {
+          "minimum_count": 3,
+          "actions": {
+            "keep_baseline": {
+              "n": 32,
+              "mean_gain": 0.0,
+              "improved": 0,
+              "unchanged": 32,
+              "worsened": 0
+            }
+          },
+          "allow_raise": false,
+          "raise_reason": "insufficient_or_nonpositive_validation_gain",
+          "allow_lower": false,
+          "lower_reason": "insufficient_or_nonpositive_validation_gain"
+        }
+      },
+      "validation_summary": {
+        "n": 343,
+        "objective": 0.566036,
+        "expected_system_cost": 0.566036,
+        "constraint_violations": 1,
+        "constraint_excess": 0.327653,
+        "constraint_status": {
+          "bnd_ratio_within_budget": true,
+          "human_review_ratio_within_budget": true,
+          "neg_ratio_within_budget": true,
+          "unsafe_pos_rate_within_budget": false
+        },
+        "metrics": {
+          "n": 343,
+          "mae": 1.927697,
+          "rmse": 3.324562,
+          "tar2": 0.702624,
+          "bias": -1.419242,
+          "over2": 14,
+          "under2": 88
+        },
+        "baseline_metrics": {
+          "n": 343,
+          "mae": 1.927697,
+          "rmse": 3.324562,
+          "tar2": 0.702624,
+          "bias": -1.419242,
+          "over2": 14,
+          "under2": 88
+        },
+        "route_counts": {
+          "POS": 311,
+          "BND": 32
+        },
+        "bnd_ratio": 0.093294,
+        "neg_ratio": 0.0,
+        "unsafe_pos_count": 133,
+        "unsafe_pos_rate": 0.427653,
+        "pos_mae": 1.857235,
+        "bnd_mae": 2.6125,
+        "bnd_gain": 0.0,
+        "boundary_action_summary": {
+          "keep_baseline": {
+            "n": 32,
+            "mean_gain": 0.0,
+            "improved": 0,
+            "unchanged": 32,
+            "worsened": 0
+          }
+        },
+        "sequential_outcome_summary": {
+          "route_counts": {
+            "POS": 311,
+            "BND": 32
+          },
+          "outcome_counts": {
+            "auto_accepted": 311,
+            "defer_human": 18,
+            "auto_kept_after_review": 14
+          },
+          "boundary_agent_count": 32,
+          "boundary_agent_ratio": 0.093294,
+          "bnd_auto_resolved_count": 14,
+          "bnd_auto_resolved_rate": 0.4375,
+          "human_review_count": 18,
+          "human_review_ratio": 0.052478
+        },
+        "actual_human_review_count": 18,
+        "actual_human_review_ratio": 0.052478
+      },
+      "feasible": 0,
+      "tradeoff": {
+        "minimum_unsafe_pos_rate_within_bnd_budget": 0.427653,
+        "minimum_bnd_ratio_within_unsafe_pos_budget": 1.0,
+        "bnd_budget_candidate_count": 25,
+        "unsafe_pos_budget_candidate_count": 75
+      },
+      "deployment_gate": {
+        "passed": false,
+        "requirements": {
+          "loqo_normalized_mae_noninferior": true,
+          "route_budget_constraints_met": false,
+          "bnd_invocation_budget_met": true,
+          "human_review_budget_met": true,
+          "neg_budget_met": true,
+          "unsafe_pos_budget_met": false,
+          "validation_bnd_gain_positive": false,
+          "enabled_boundary_actions_positive": true
+        },
+        "note": "A failed gate marks the config experimental; it does not tune on test data."
+      },
+      "cv_summary": {
+        "available": true,
+        "method": "leave_one_question_out",
+        "n": 343,
+        "improved_questions": 0,
+        "normalized_mae_delta": {
+          "mean": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "iterations": 2000,
+          "seed": 20260714
+        },
+        "noninferiority_margin": 0.01,
+        "noninferior": true,
+        "superior": false
+      },
+      "risk_summary": {
+        "safe_baseline": {
+          "n": 187,
+          "mean": 0.548336,
+          "p50": 0.555267,
+          "p90": 0.555267,
+          "min": 0.475223,
+          "max": 0.555267
+        },
+        "unsafe_baseline": {
+          "n": 156,
+          "mean": 0.54142,
+          "p50": 0.553026,
+          "p90": 0.555267,
+          "min": 0.474094,
+          "max": 0.555267
+        },
+        "undercredit_baseline": {
+          "n": 131,
+          "mean": 0.540874,
+          "p50": 0.551592,
+          "p90": 0.555267,
+          "min": 0.474094,
+          "max": 0.555267
+        },
+        "overcredit_baseline": {
+          "n": 25,
+          "mean": 0.544278,
+          "p50": 0.554159,
+          "p90": 0.555267,
+          "min": 0.492688,
+          "max": 0.555267
+        },
+        "safe_POS": {
+          "n": 178,
+          "mean": 0.5513,
+          "p50": 0.555267,
+          "p90": 0.555267,
+          "min": 0.522293,
+          "max": 0.555267
+        },
+        "unsafe_POS": {
+          "n": 133,
+          "mean": 0.549628,
+          "p50": 0.554492,
+          "p90": 0.555267,
+          "min": 0.521841,
+          "max": 0.555267
+        },
+        "undercredit_POS": {
+          "n": 112,
+          "mean": 0.549258,
+          "p50": 0.553905,
+          "p90": 0.555267,
+          "min": 0.521841,
+          "max": 0.555267
+        },
+        "overcredit_POS": {
+          "n": 21,
+          "mean": 0.551601,
+          "p50": 0.555267,
+          "p90": 0.555267,
+          "min": 0.528947,
+          "max": 0.555267
+        },
+        "bnd_auto_resolved": {
+          "n": 14,
+          "mean": 0.486372,
+          "p50": 0.475969,
+          "p90": 0.511753,
+          "min": 0.475223,
+          "max": 0.519058
+        },
+        "bnd_human_review": {
+          "n": 18,
+          "mean": 0.497735,
+          "p50": 0.502156,
+          "p90": 0.51609,
+          "min": 0.474094,
+          "max": 0.518966
+        },
+        "route_POS": {
+          "n": 311,
+          "mean": 0.550585,
+          "p50": 0.555267,
+          "p90": 0.555267,
+          "min": 0.521841,
+          "max": 0.555267
+        },
+        "route_BND": {
+          "n": 32,
+          "mean": 0.492764,
+          "p50": 0.493833,
+          "p90": 0.51609,
+          "min": 0.474094,
+          "max": 0.519058
+        },
+        "route_NEG": {
+          "n": 0,
+          "mean": 0.0,
+          "p50": 0.0,
+          "p90": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        }
+      },
+      "score_uncertainty": {
+        "version": 1,
+        "enabled": true,
+        "method": "locally_scaled_split_conformal",
+        "coverage": 0.9,
+        "calibration_n": 343,
+        "scale_floor": 0.05,
+        "safe_tolerance_ratio": 0.1,
+        "nonconformity_quantile": 10.0,
+        "empirical_coverage": 0.927114,
+        "mean_interval_width_ratio": 1.299806,
+        "assumption": "exchangeable_validation_and_test_records"
+      }
+    }
+  },
+  "runs": {
+    "glm_validation": {
+      "run_id": "csbench45_validation_glm52_20260822_090920",
+      "path": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_q45_12039bfe25ca4168_validation\\runs\\csbench45_validation_glm52_20260822_090920",
+      "stats": {
+        "n": 343,
+        "agent_evidence": 134,
+        "stable_but_unsafe": 38,
+        "POS_unsafe": 58,
+        "zero_risk": 107,
+        "human": 35,
+        "zero_risk_unsafe": 19,
+        "threshold_neg": 8,
+        "canonical_lock": 8,
+        "canonical_unsafe_base": 1
+      },
+      "routes": {
+        "BND": 134,
+        "POS": 201,
+        "NEG": 8
+      },
+      "outcomes": {
+        "auto_kept_after_review": 62,
+        "auto_accepted": 193,
+        "defer_human": 35,
+        "auto_adjusted": 45,
+        "auto_accepted_canonical_lock": 8
+      },
+      "gate_reasons": {
+        "structured_evidence_supports_no_material_change": 83,
+        "none": 209,
+        "structured_evidence_confidence_below_threshold": 6,
+        "validated_item_evidence": 45
+      },
+      "param_counts": {
+        "(0.828571, 0.285714)": 343
+      },
+      "all_equal_score_count": 179,
+      "mu_quantiles": {
+        "min": 0.25,
+        "p10": 0.625,
+        "p50": 0.875,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      "mu_distinct": 111,
+      "safety_auc": 0.6723300970873787,
+      "metrics": {
+        "mean": {
+          "MAE": 1.3481049562682215,
+          "Bias": -0.7341107871720116
+        },
+        "base": {
+          "MAE": 1.3379008746355685,
+          "Bias": -0.7239067055393585
+        },
+        "core": {
+          "MAE": 1.3091253644314869,
+          "Bias": -0.7241107871720117
+        },
+        "final": {
+          "MAE": 1.3091253644314869,
+          "Bias": -0.7241107871720117
+        }
+      },
+      "loader_vs_runtime_risk_mismatch_count": {
+        "U_R": 1
+      },
+      "agent_evidence_routes": {
+        "BND": 134
+      }
+    },
+    "glm_test": {
+      "run_id": "csbench45_full_experimental_glm52_20260825_163432",
+      "path": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_q45_12039bfe25ca4168_full\\runs\\csbench45_full_experimental_glm52_20260825_163432",
+      "stats": {
+        "n": 2723,
+        "wide_interval": 2723,
+        "wide_interval_POS": 1637,
+        "POS_unsafe": 486,
+        "human": 532,
+        "agent_evidence": 1084,
+        "stable_but_unsafe": 335,
+        "zero_risk": 824,
+        "zero_risk_unsafe": 185,
+        "canonical_lock": 42,
+        "canonical_unsafe_base": 1
+      },
+      "routes": {
+        "POS": 1637,
+        "BND": 1086
+      },
+      "outcomes": {
+        "auto_accepted": 1595,
+        "defer_human": 532,
+        "auto_adjusted": 264,
+        "auto_kept_after_review": 290,
+        "auto_accepted_canonical_lock": 42
+      },
+      "gate_reasons": {
+        "none": 1639,
+        "structured_evidence_confidence_below_threshold": 57,
+        "structured_evidence_supports_no_material_change": 585,
+        "validated_item_evidence": 264,
+        "lower_action_disabled_by_validation_gate": 172,
+        "candidate_direction_conflicts_with_structured_evidence": 6
+      },
+      "param_counts": {
+        "(0.6, 0.04)": 2723
+      },
+      "all_equal_score_count": 1329,
+      "mu_quantiles": {
+        "min": 0.447163,
+        "p10": 0.472124,
+        "p50": 0.620766,
+        "p90": 0.653611,
+        "max": 0.653611
+      },
+      "mu_distinct": 549,
+      "safety_auc": 0.6850371297455152,
+      "metrics": {
+        "mean": {
+          "MAE": 1.4003305178112375,
+          "Bias": -0.8486595666544253
+        },
+        "base": {
+          "MAE": 1.3922511935365405,
+          "Bias": -0.8405802423797283
+        },
+        "core": {
+          "MAE": 1.3481454278369445,
+          "Bias": -0.7170914432611091
+        },
+        "final": {
+          "MAE": 1.2540470069775982,
+          "Bias": -0.4623393316195373
+        }
+      },
+      "loader_vs_runtime_risk_mismatch_count": {
+        "U_R": 15
+      },
+      "agent_evidence_routes": {
+        "BND": 1084
+      }
+    },
+    "deepseek_validation": {
+      "run_id": "private45_validation_deepseek_official_flash_t0_20260927_200831",
+      "path": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_q45_12039bfe25ca4168_validation\\runs\\private45_validation_deepseek_official_flash_t0_20260927_200831",
+      "stats": {
+        "n": 343,
+        "agent_evidence": 92,
+        "stable_but_unsafe": 115,
+        "human": 31,
+        "POS_unsafe": 99,
+        "zero_risk": 183,
+        "zero_risk_unsafe": 64,
+        "threshold_neg": 9,
+        "canonical_lock": 8,
+        "canonical_unsafe_base": 1
+      },
+      "routes": {
+        "BND": 92,
+        "POS": 242,
+        "NEG": 9
+      },
+      "outcomes": {
+        "auto_kept_after_review": 70,
+        "defer_human": 31,
+        "auto_accepted": 234,
+        "auto_accepted_canonical_lock": 8
+      },
+      "gate_reasons": {
+        "structured_evidence_supports_no_material_change": 92,
+        "none": 251
+      },
+      "param_counts": {
+        "(0.828571, 0.285714)": 343
+      },
+      "all_equal_score_count": 281,
+      "mu_quantiles": {
+        "min": 0.25,
+        "p10": 0.633333,
+        "p50": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      "mu_distinct": 78,
+      "safety_auc": 0.6052036199095022,
+      "metrics": {
+        "mean": {
+          "MAE": 1.9291545189504375,
+          "Bias": -1.4206997084548105
+        },
+        "base": {
+          "MAE": 1.9276967930029156,
+          "Bias": -1.4192419825072886
+        },
+        "core": {
+          "MAE": 1.9276967930029156,
+          "Bias": -1.4192419825072886
+        },
+        "final": {
+          "MAE": 1.9276967930029156,
+          "Bias": -1.4192419825072886
+        }
+      },
+      "loader_vs_runtime_risk_mismatch_count": {
+        "U_R": 2
+      },
+      "agent_evidence_routes": {
+        "BND": 92
+      }
+    },
+    "deepseek_test": {
+      "run_id": "private45_test_deepseek_official_flash_t0_20260927_200831",
+      "path": "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_q45_12039bfe25ca4168_full\\runs\\private45_test_deepseek_official_flash_t0_20260927_200831",
+      "stats": {
+        "n": 2723,
+        "wide_interval": 2723,
+        "wide_interval_POS": 2328,
+        "stable_but_unsafe": 881,
+        "POS_unsafe": 993,
+        "agent_evidence": 395,
+        "zero_risk": 1353,
+        "zero_risk_unsafe": 499,
+        "human": 183,
+        "canonical_lock": 38,
+        "canonical_unsafe_base": 1
+      },
+      "routes": {
+        "POS": 2328,
+        "BND": 395
+      },
+      "outcomes": {
+        "auto_accepted": 2290,
+        "auto_kept_after_review": 212,
+        "defer_human": 183,
+        "auto_accepted_canonical_lock": 38
+      },
+      "gate_reasons": {
+        "none": 2328,
+        "structured_evidence_supports_no_material_change": 387,
+        "raise_action_disabled_by_validation_gate": 2,
+        "structured_evidence_confidence_below_threshold": 2,
+        "lower_action_disabled_by_validation_gate": 4
+      },
+      "param_counts": {
+        "(0.52, 0.08)": 2723
+      },
+      "all_equal_score_count": 2153,
+      "mu_quantiles": {
+        "min": 0.459758,
+        "p10": 0.5066590000000001,
+        "p50": 0.554676,
+        "p90": 0.555267,
+        "max": 0.555267
+      },
+      "mu_distinct": 336,
+      "safety_auc": 0.607518570568159,
+      "metrics": {
+        "mean": {
+          "MAE": 1.915020198310687,
+          "Bias": -1.4377524788835843
+        },
+        "base": {
+          "MAE": 1.9138450238707307,
+          "Bias": -1.4362835108336394
+        },
+        "core": {
+          "MAE": 1.9138450238707307,
+          "Bias": -1.4362835108336394
+        },
+        "final": {
+          "MAE": 1.9138450238707307,
+          "Bias": -1.4362835108336394
+        }
+      },
+      "loader_vs_runtime_risk_mismatch_count": {
+        "U_R": 15
+      },
+      "agent_evidence_routes": {
+        "BND": 395
+      }
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "glm": {
+    "n": 343,
+    "new_BND_missing_evidence": 43,
+    "new_BND_available_evidence": 83,
+    "old_BND_available_evidence": 134,
+    "evidence_confidences": {
+      "0.9": 26,
+      "0.55": 6,
+      "0.85": 25,
+      "0.8": 12,
+      "0.75": 9,
+      "0.72": 4,
+      "0.6": 11,
+      "0.62": 1,
+      "0.7": 22,
+      "0.82": 1,
+      "0.95": 12,
+      "0.78": 3,
+      "0.92": 2
+    },
+    "sum_raw_missed": 38.0,
+    "sum_allowed_missed": 37.0,
+    "sum_raw_over": 70.75,
+    "sum_allowed_over": 43.1875,
+    "nonempty_POS_empirical_safe_threshold_count": 0,
+    "max_empirically_safe_POS": null,
+    "top_score_tie": {
+      "alpha": 0.653611,
+      "n": 107,
+      "unsafe": 19,
+      "rate": 0.17757009345794392
+    },
+    "minimum_nonempty_POS_unsafe_rate": 0.14285714285714285,
+    "archived_cfg_vs_test_mu_max_abs_diff": 4.977210911194518e-07,
+    "all_auto_final_unsafe": {
+      "n": 2191,
+      "unsafe": 724
+    },
+    "constant_brier_reference": 0.239883060111,
+    "fitted_in_sample_brier": 0.222402
+  },
+  "deepseek": {
+    "n": 343,
+    "new_BND_missing_evidence": 5,
+    "new_BND_available_evidence": 27,
+    "old_BND_available_evidence": 92,
+    "evidence_confidences": {
+      "0.95": 33,
+      "0.72": 16,
+      "0.82": 10,
+      "0.85": 16,
+      "0.75": 2,
+      "0.78": 1,
+      "0.9": 10,
+      "0.7": 2,
+      "0.6": 1,
+      "0.92": 1
+    },
+    "sum_raw_missed": 0.0,
+    "sum_allowed_missed": 0.0,
+    "sum_raw_over": 1.0,
+    "sum_allowed_over": 0.0,
+    "nonempty_POS_empirical_safe_threshold_count": 0,
+    "max_empirically_safe_POS": null,
+    "top_score_tie": {
+      "alpha": 0.555267,
+      "n": 183,
+      "unsafe": 64,
+      "rate": 0.34972677595628415
+    },
+    "minimum_nonempty_POS_unsafe_rate": 0.34972677595628415,
+    "archived_cfg_vs_test_mu_max_abs_diff": 4.998680314116655e-07,
+    "all_auto_final_unsafe": {
+      "n": 2540,
+      "unsafe": 1137
+    },
+    "constant_brier_reference": 0.2479578639,
+    "fitted_in_sample_brier": 0.244895
+  }
+}

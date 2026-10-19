@@ -131,6 +131,22 @@ def priority_rank(value: str) -> int:
     return 99
 
 
+SUSPICION_LEVELS = (
+    {"id": "high", "label": "高度可疑", "description": "原人工初筛重点样本；需优先核对，不等于教师标签已确认错误。"},
+    {"id": "medium", "label": "中度可疑", "description": "未进入重点样本的 P1 统计候选：分差较大且已记录的混杂风险较低。"},
+    {"id": "low", "label": "轻度可疑", "description": "其余统计候选：存在分差或题内异常，也可能涉及模型、提取或规则问题。"},
+    {"id": "unflagged", "label": "未触发规则", "description": "未进入现有统计候选；不代表标签已验证正确，未覆盖的题目也在此层。"},
+)
+
+
+def suspicion_level(*, screened: bool, statistical_candidate: bool, priority: str) -> str:
+    if screened:
+        return "high"
+    if statistical_candidate:
+        return "medium" if priority == "P1" else "low"
+    return "unflagged"
+
+
 class TeacherLabelReviewStore:
     """Load candidates and persist one review decision per answer."""
 
@@ -143,6 +159,7 @@ class TeacherLabelReviewStore:
         screening_path: Path | None = None,
         screening_only: bool = False,
         grading_source_dir: Path | None = None,
+        all_answers: bool = False,
     ) -> None:
         self.prepared_dir = prepared_dir.expanduser().resolve()
         self.report_dir = report_dir.expanduser().resolve()
@@ -153,6 +170,11 @@ class TeacherLabelReviewStore:
             else None
         )
         self.screening_only = screening_only
+        self.all_answers = all_answers
+        self._image_roots = {
+            name: (self.prepared_dir / name).resolve()
+            for name in ("student_images", "original_student_images", "reference_images")
+        }
         self.grading_source_dir = (
             grading_source_dir.expanduser().resolve()
             if grading_source_dir
@@ -480,9 +502,23 @@ class TeacherLabelReviewStore:
                     if value:
                         current[name] = value
 
+        statistical_keys = set(merged)
+        if self.all_answers:
+            teacher_scores = read_json(self.prepared_dir / "teacher_scores.json")
+            for answer_id, metadata in self.metadata.items():
+                question_id = str(metadata.get("question_id") or "").upper()
+                key = (question_id, answer_id)
+                if key not in merged:
+                    merged[key] = {
+                        "question_id": question_id,
+                        "answer_id": answer_id,
+                        "teacher_score": (teacher_scores.get(answer_id) or {}).get(question_id),
+                        "review_priority": "P3",
+                        "candidate_type": "full_dataset_review",
+                    }
         candidates = []
         for key, row in merged.items():
-            if self.screening_only and key not in self.screening:
+            if self.screening_only and not self.all_answers and key not in self.screening:
                 continue
             metadata = self.metadata.get(row["answer_id"]) or {}
             if not row.get("raw_text"):
@@ -498,6 +534,15 @@ class TeacherLabelReviewStore:
                 or self.max_scores.get(row["question_id"])
             )
             screen = self.screening.get(key) or {}
+            row["suspicion_level"] = suspicion_level(
+                screened=key in self.screening,
+                statistical_candidate=key in statistical_keys,
+                priority=str(row.get("review_priority") or ""),
+            )
+            row["suspicion_reason"] = next(
+                level["description"] for level in SUSPICION_LEVELS
+                if level["id"] == row["suspicion_level"]
+            )
             row["initial_class"] = str(
                 screen.get("initial_class") or ""
             )
@@ -510,12 +555,13 @@ class TeacherLabelReviewStore:
             row["recommended_action"] = str(
                 screen.get("recommended_action") or ""
             )
-            row["image_available"] = bool(self.resolve_image_path(row))
+            row["image_available"] = bool(self.resolve_image_path(row, availability_only=True))
             candidates.append(row)
 
         return sorted(
             candidates,
             key=lambda row: (
+                next(i for i, level in enumerate(SUSPICION_LEVELS) if level["id"] == row["suspicion_level"]),
                 priority_rank(str(row.get("review_priority") or "")),
                 -float(row.get("absolute_difference") or 0.0),
                 row["question_id"],
@@ -550,15 +596,33 @@ class TeacherLabelReviewStore:
     def resolve_image_path(
         self,
         candidate: dict[str, Any],
+        original: bool = False,
+        availability_only: bool = False,
     ) -> Path | None:
+        # Listing availability needs no filesystem link resolution. The HTTP
+        # handler always uses the default and validates the resolved target
+        # before reading bytes, including symlinks/junctions outside the root.
+        if original:
+            root = self._image_roots["original_student_images"]
+            question_id = str(candidate.get("question_id") or "")
+            answer_id = str(candidate.get("answer_id") or "")
+            for suffix in (".jpg", ".jpeg", ".png", ".webp"):
+                path = Path(os.path.abspath(root / question_id / (answer_id + suffix)))
+                if not path.is_relative_to(root) or not path.is_file():
+                    continue
+                if not availability_only:
+                    path = path.resolve()
+                if path.is_relative_to(root) and path.is_file():
+                    return path
+            return None
         raw_path = str(candidate.get("student_image") or "").strip()
         if not raw_path:
             return None
         path = Path(raw_path)
         if not path.is_absolute():
             path = PROJECT_ROOT / path
-        path = path.resolve()
-        allowed_root = (self.prepared_dir / "student_images").resolve()
+        path = Path(os.path.abspath(path)) if availability_only else path.resolve()
+        allowed_root = self._image_roots["student_images"]
         if not path.is_relative_to(allowed_root) or not path.is_file():
             return None
         return path
@@ -568,7 +632,7 @@ class TeacherLabelReviewStore:
         if not question:
             return None
         path = self._resolve_dataset_path(question.get("question_image"))
-        allowed_root = (self.prepared_dir / "reference_images").resolve()
+        allowed_root = self._image_roots["reference_images"]
         if (
             path is None
             or not path.is_relative_to(allowed_root)
@@ -952,6 +1016,10 @@ class TeacherLabelReviewStore:
                 key = (row["question_id"], row["answer_id"])
                 candidate = dict(row)
                 candidate["decision"] = self.decisions.get(key)
+                candidate["original_image_url"] = (
+                    f"/api/image?question_id={row['question_id']}&answer_id={row['answer_id']}&variant=original"
+                    if self.resolve_image_path(row, original=True, availability_only=True) else None
+                )
                 candidate["image_url"] = (
                     "/api/image?"
                     f"question_id={row['question_id']}&"
@@ -975,6 +1043,8 @@ class TeacherLabelReviewStore:
                 "policy_path": str(policy_path),
                 "policy_active": policy_path.is_file(),
                 "screening_only": self.screening_only,
+                "all_answers": self.all_answers,
+                "suspicion_levels": list(SUSPICION_LEVELS),
                 "allowed_decisions": sorted(ALLOWED_DECISIONS),
                 "counts": {
                     "total": len(self.candidates),
@@ -1089,7 +1159,7 @@ class ReviewRequestHandler(BaseHTTPRequestHandler):
             )
             candidate = self.store.candidate_map.get(key)
             image = (
-                self.store.resolve_image_path(candidate)
+                self.store.resolve_image_path(candidate, original=(query.get("variant") == ["original"]))
                 if candidate
                 else None
             )
@@ -1261,7 +1331,8 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="Optional preliminary-screening CSV.",
     )
-    parser.add_argument(
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument(
         "--all-candidates",
         action="store_true",
         help=(
@@ -1278,6 +1349,8 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument("--host", default="127.0.0.1")
+    scope.add_argument("--all-answers", action="store_true", help="Review every prepared answer (default), retaining existing decisions.")
+    scope.add_argument("--screening-only", action="store_true", help="Load only preliminary-screening samples.")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument(
         "--no-browser",
@@ -1313,7 +1386,8 @@ def main() -> int:
         report_dir=report_dir,
         decisions_path=decisions_path,
         screening_path=screening_path,
-        screening_only=bool(screening_path and not args.all_candidates),
+        screening_only=bool(screening_path and args.screening_only),
+        all_answers=not args.all_candidates and not args.screening_only,
         grading_source_dir=args.grading_source_dir,
     )
     server = ReviewServer((args.host, args.port), store)

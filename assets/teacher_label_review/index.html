@@ -19,6 +19,7 @@
     [hidden] { display: none !important; }
     * { box-sizing: border-box; }
     body {
+      height: 100vh; display: flex; flex-direction: column;
       margin: 0;
       background: #eef1f4;
       color: var(--ink);
@@ -37,6 +38,7 @@
     .primary { color: #fff; border-color: var(--blue); background: var(--blue); }
     .danger { color: #fff; border-color: var(--red); background: var(--red); }
     header {
+      flex-shrink: 0;
       height: 64px;
       display: flex;
       align-items: center;
@@ -66,6 +68,7 @@
     .progress-bar span { display: block; width: 0; height: 100%; background: #2a7bb8; }
     .muted { color: var(--muted); font-size: 12px; font-weight: 400; }
     .toolbar {
+      flex-shrink: 0; flex-wrap: wrap;
       min-height: 54px;
       display: flex; align-items: center; gap: 10px;
       padding: 8px 24px;
@@ -76,12 +79,23 @@
     .toolbar .reviewer { width: 132px; min-width: 132px; }
     .toolbar .spacer { flex: 1; }
     main {
-      height: calc(100vh - 118px);
+      flex: 1; min-height: 0;
       display: grid;
       grid-template-columns: minmax(500px, 1.25fr) minmax(380px, .84fr) 330px;
       gap: 1px;
       background: var(--line);
     }
+    .suspicion-nav { display: flex; gap: 10px; padding: 12px 24px 8px; background: #f8fafb; flex-shrink: 0; }
+    .suspicion-card { flex: 1; text-align: left; border-top: 3px solid #83919d; padding: 9px 14px; }
+    .suspicion-card[data-level="high"] { border-top-color: #b9362d; }
+    .suspicion-card[data-level="medium"] { border-top-color: #c58116; }
+    .suspicion-card[data-level="low"] { border-top-color: #2875ab; }
+    .suspicion-card[aria-pressed="true"] { background: #e7f1f8; outline: 2px solid var(--blue); outline-offset: -2px; }
+    .suspicion-card strong { display: block; font-size: 16px; }
+    .suspicion-card span { color: var(--muted); font-size: 12px; }
+    .scope-note { padding: 0 24px 8px; background: #f8fafb; color: var(--muted); font-size: 12px; flex-shrink: 0; }
+    #filterSummary { width: 100%; text-align: right; white-space: nowrap; }
+    .navigation-actions { display: flex; gap: 8px; margin-left: auto; }
     section, aside { min-width: 0; overflow: auto; background: var(--panel); }
     .panel-title {
       position: sticky; top: 0; z-index: 2;
@@ -97,7 +111,7 @@
       position: relative;
       height: calc(100% - 48px);
       display: grid; place-items: center;
-      padding: 18px;
+      padding: 64px 18px 18px;
       overflow: auto;
       background: var(--canvas);
     }
@@ -300,8 +314,9 @@
     .toast.error { background: #9e2f28; }
     @media (max-width: 1180px) {
       main { grid-template-columns: 1.05fr .95fr; }
-      aside { position: fixed; right: 0; top: 118px; bottom: 0; width: 350px; box-shadow: -4px 0 12px rgba(0,0,0,.12); }
-      section:nth-of-type(2) { margin-right: 350px; }
+      main { grid-template-columns: minmax(300px, 1fr) minmax(300px, 1fr) 300px; overflow: auto; }
+      .suspicion-nav { flex-wrap: wrap; }
+      .suspicion-card { min-width: 150px; }
     }
   </style>
 </head>
@@ -321,26 +336,31 @@
     </div>
   </header>
 
+  <nav id="suspicionNav" class="suspicion-nav" aria-label="按可疑程度审核"></nav>
+  <div class="scope-note"><span id="suspicionDescription">分层用于安排复核顺序，不能代替人工判断。</span></div>
   <div class="toolbar">
     <select id="questionFilter" title="按题目筛选"><option value="">全部题目</option></select>
     <select id="priorityFilter" title="按优先级筛选">
-      <option value="">全部优先级</option><option>P1</option><option>P2</option>
+      <option value="">全部统计优先级</option><option>P1</option><option>P2</option><option>P3</option>
     </select>
     <select id="statusFilter" title="按审核状态筛选">
       <option value="pending">仅待审核</option><option value="reviewed">仅已审核</option><option value="">全部状态</option>
     </select>
     <select id="classFilter" title="按初筛类别筛选"><option value="">全部初筛类别</option></select>
     <select id="sortMode" title="候选排序">
-      <option value="default">按优先级与差值</option>
+      <option value="default">按可疑程度与优先级</option>
       <option value="question">按题目</option>
       <option value="difference">按差值降序</option>
     </select>
     <input id="reviewerInput" class="reviewer" placeholder="复核人" title="复核人姓名">
     <div class="spacer"></div>
-    <button id="activateButton" title="根据已保存决定生成并启用样本策略">生成并启用策略</button>
-    <button id="previousButton">← 上一份</button>
-    <button id="nextButton" class="primary">下一份 →</button>
+    <div class="navigation-actions">
+      <button id="activateButton" title="根据已保存决定生成并启用样本策略">生成并启用策略</button>
+      <button id="previousButton">← 上一份</button>
+      <button id="nextButton" class="primary">下一份 →</button>
+    </div>
   </div>
+  <div class="scope-note" id="filterSummary" role="status"></div>
 
   <main>
     <section class="image-panel">
@@ -350,6 +370,10 @@
       </div>
       <div id="imageWrap" class="image-wrap">
         <div class="image-tools">
+          <select id="imageVariant" aria-label="作答图片版本">
+            <option value="original">原图（含教师批改痕迹）</option>
+            <option value="cleaned">去噪图</option>
+          </select>
           <button id="zoomOut" title="缩小">−</button>
           <button id="zoomReset" title="恢复大小">1:1</button>
           <button id="zoomIn" title="放大">＋</button>
@@ -492,6 +516,7 @@
       zoom: 1,
       rotation: 0,
       activeEvidenceTab: "scorePanel",
+      suspicionFilter: "high",
     };
 
     const $ = (id) => document.getElementById(id);
@@ -541,6 +566,29 @@
       $("pendingText").textContent = `待审核 ${counts.pending}`;
       $("progressFill").style.width = counts.total ? `${counts.reviewed / counts.total * 100}%` : "0%";
       $("activateButton").disabled = counts.reviewed === 0;
+      renderSuspicionNav();
+    }
+
+    function renderSuspicionNav() {
+      const levels = [{id: "", label: "全部作答", description: "按可疑程度从高到低复核；未触发规则的样本也未必正确。"}, ...app.state.suspicion_levels];
+      $("suspicionNav").replaceChildren();
+      levels.forEach(level => {
+        const rows = app.state.candidates.filter(row => !level.id || row.suspicion_level === level.id);
+        const reviewed = rows.filter(row => row.decision).length;
+        const button = document.createElement("button");
+        button.className = "suspicion-card";
+        button.dataset.level = level.id;
+        button.setAttribute("aria-pressed", String(app.suspicionFilter === level.id));
+        button.title = level.description;
+        const title = document.createElement("strong");
+        title.textContent = `${level.label} · ${rows.length}`;
+        const detail = document.createElement("span");
+        detail.textContent = `已审 ${reviewed} / 待审 ${rows.length - reviewed}`;
+        button.append(title, detail);
+        button.onclick = () => { app.suspicionFilter = level.id; renderSuspicionNav(); applyFilters(); };
+        $("suspicionNav").appendChild(button);
+      });
+      $("suspicionDescription").textContent = levels.find(level => level.id === app.suspicionFilter)?.description || "";
     }
 
     function applyFilters(keepIdentity = null) {
@@ -548,13 +596,15 @@
       const priority = $("priorityFilter").value;
       const status = $("statusFilter").value;
       const initialClass = $("classFilter").value;
-      app.filtered = app.state.candidates.filter(row => {
-        const reviewed = Boolean(row.decision);
+      const scoped = app.state.candidates.filter(row => {
         return (!question || row.question_id === question)
+          && (!app.suspicionFilter || row.suspicion_level === app.suspicionFilter)
           && (!priority || row.review_priority === priority)
-          && (!initialClass || row.initial_class === initialClass)
-          && (!status || (status === "reviewed" ? reviewed : !reviewed));
+          && (!initialClass || row.initial_class === initialClass);
       });
+      app.filtered = scoped.filter(row => !status || (status === "reviewed" ? Boolean(row.decision) : !row.decision));
+      const reviewed = scoped.filter(row => row.decision).length;
+      $("filterSummary").textContent = `当前范围 ${scoped.length} 份 · 已审 ${reviewed} · 待审 ${scoped.length - reviewed} · 当前显示 ${app.filtered.length} 份`;
       const sortMode = $("sortMode").value;
       if (sortMode === "question") {
         app.filtered.sort((a, b) => a.question_id.localeCompare(b.question_id, undefined, {numeric:true}) || a.answer_id.localeCompare(b.answer_id, undefined, {numeric:true}));
@@ -846,6 +896,7 @@
       $("coreScore").textContent = fmt(row.three_way_core_score);
       $("finalScore").textContent = fmt(row.final_calibrated_score);
       $("tags").replaceChildren();
+      addTag(app.state.suspicion_levels.find(level => level.id === row.suspicion_level)?.label, row.suspicion_level === "high");
       addTag(row.review_priority, row.review_priority === "P1");
       addTag(row.route ? `路由 ${row.route}` : "");
       addTag(row.extraction_quality ? `提取质量 ${row.extraction_quality}` : "");
@@ -855,16 +906,25 @@
       setRisk("ur", row.U_R);
       $("rawText").textContent = row.raw_text || "候选报告中没有提取文本。";
       const screening = [row.initial_finding, row.recommended_action].filter(Boolean).join("\n建议：");
-      $("screeningFinding").textContent = screening || "暂无人工初筛提示；请结合原图、教师分和模型分独立判断。";
+      $("screeningFinding").textContent = [row.suspicion_reason, screening || "暂无人工初筛提示；请结合原图、教师分和模型分独立判断。"].filter(Boolean).join("\n\n");
       renderQuestionContext(row);
       loadGradingEvidence(row);
       setEvidenceTab(app.activeEvidenceTab);
 
       resetImageTransform();
-      $("answerImage").hidden = !row.image_url;
-      $("imageEmpty").hidden = Boolean(row.image_url);
-      if (row.image_url) {
-        $("answerImage").src = row.image_url;
+      const showAnswerImage = () => {
+        const original = $("imageVariant").value === "original";
+        const url = original ? row.original_image_url : row.image_url;
+        $("answerImage").hidden = !url;
+        $("imageEmpty").hidden = Boolean(url);
+        $("imageEmpty").textContent = original ? "未找到含批改痕迹的原图，请导入原图或切换去噪图。" : "当前候选没有可用的作答图片";
+        $("answerImage").removeAttribute("src");
+        if (url) $("answerImage").src = url;
+        resetImageTransform();
+      };
+      $("imageVariant").onchange = showAnswerImage;
+      showAnswerImage();
+      if (row.image_url || row.original_image_url) {
         $("answerImage").alt = `${row.question_id} ${row.answer_id} 学生作答`;
       }
 
@@ -919,6 +979,7 @@
         if ($("statusFilter").value === "pending") {
           applyFilters();
         } else {
+          applyFilters(`${row.question_id}/${row.answer_id}`);
           move(1);
           renderCurrent();
         }
@@ -936,7 +997,7 @@
         row.decision = null;
         app.state.counts = payload.counts;
         updateProgress();
-        renderCurrent();
+        applyFilters(`${row.question_id}/${row.answer_id}`);
         showToast("已撤销当前决定");
       } catch (error) {
         showToast(error.message, true);
@@ -962,9 +1023,12 @@
     async function load() {
       try {
         app.state = await request("/api/state");
-        const scope = app.state.screening_only ? "人工初筛候选" : "全部自动候选";
+        const scope = app.state.all_answers ? "全量学生作答复核" : (app.state.screening_only ? "人工初筛候选" : "全部自动候选");
         $("subtitle").textContent = `${app.state.report_run} · ${scope} · 原始数据只读${app.state.policy_active ? " · 当前已有活动策略" : ""}`;
         $("decisionPath").textContent = `决定文件：${app.state.decisions_path}`;
+        if (!app.state.candidates.some(row => row.suspicion_level === app.suspicionFilter)) {
+          app.suspicionFilter = app.state.candidates[0]?.suspicion_level || "";
+        }
         populateFilters();
         updateProgress();
         applyFilters();

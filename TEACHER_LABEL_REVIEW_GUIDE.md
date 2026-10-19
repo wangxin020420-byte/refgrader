@@ -51,10 +51,22 @@ cd "C:\Users\wx\Desktop\refgrader-main"
 .\venv\Scripts\python.exe scripts\review_teacher_labels.py
 ```
 
-当前全 43 题报告共有 1026 条宽召回统计候选，其中 P1 为 288 条、P2 为
-738 条。由于已存在同名 `_initial_screening.csv`，无参数启动时会默认显示
-73 条二次初筛候选：教师标签高可疑 24 条、模型或提取问题 20 条、评分规则歧义
-29 条。这些候选都不代表已经确认存在问题；任何样本都不会在未经人工决定的情况下自动排除。
+当前默认加载全部准备数据，在页面中按可疑程度分层，并默认选择“高度可疑”。当前数据为 45 题、3411 份；旧全 43 题报告包含 1026 条统计候选，按以下规则分类：
+
+| 层级 | 当前数量 | 划分依据 |
+| --- | ---: | --- |
+| 高度可疑 | 73 | 原人工初筛重点样本，固定按同批次 screening 文件成员判断 |
+| 中度可疑 | 215 | 除上述 73 份外的 P1 统计候选 |
+| 轻度可疑 | 738 | 其余统计候选（当前均为 P2） |
+| 未触发规则 | 2385 | 未进入原统计候选，包括原报告未覆盖的题目 |
+
+“高度可疑”是本次审核的优先层级，其中仍包含模型或提取问题 20 条、规则歧义 29 条、教师标签高可疑 24 条；不代表这 73 份教师标签都错了。各层成员不因保存人工决定而改变。未触发规则也不代表标签正确。顶部卡片显示各层总数、已审和待审，点击可切换；下方显示叠加题目等筛选后的范围进度。既有审核决定继续读取同一文件。
+
+只加载原 73 份时，可显式使用：
+
+```powershell
+.\venv\Scripts\python.exe scripts\review_teacher_labels.py --report-run teacher_label_audit_all43_20260727_160210 --screening-only
+```
 
 需要查看全部 1026 条统计候选时，增加 `--all-candidates`：
 
@@ -101,7 +113,7 @@ cd "C:\Users\wx\Desktop\refgrader-main"
 如果页面显示“候选报告加载失败”或 `fetch` 失败，先确认启动命令所在终端仍在运行，
 然后在浏览器按 `Ctrl+F5`；服务已经停止时，不要只刷新旧页面，应重新执行上述命令。
 
-如果存在同名的 `_initial_screening.csv`，界面默认只加载已经完成初筛的候选，避免把全部自动候选一次性推给人工。需要检查全部自动候选时，显式增加：
+界面默认加载全部作答并选中高度可疑层；若只需加载原报告的全部自动候选，显式增加：
 
 ```powershell
 .\venv\Scripts\python.exe scripts\review_teacher_labels.py `
@@ -132,7 +144,21 @@ cd "C:\Users\wx\Desktop\refgrader-main"
 
 ### 4.2 左侧学生图片
 
-左侧显示原始学生作答图片。右上角提供缩小、恢复、放大和旋转按钮。图片只读，界面不会修改原文件。
+左侧默认显示含教师批改痕迹的原图，可通过图片版本下拉框切换到去噪图。右上角提供缩小、恢复、放大和旋转按钮。图片只读，界面不会修改原文件。缺少原图时明确提示，不会把去噪图误标为原图。
+
+原图保存在 `data/csbench/original_student_images/<题号>/<答案ID>.<扩展名>`。换设备时可同步此目录，或从原始 CSBench 数据导入（只复制图片，不修改分数或审核决定）：
+
+```powershell
+.\venv\Scripts\python.exe scripts\import_teacher_review_originals.py --source-root "C:\Users\wx\Desktop\CSBench_new"
+```
+
+如果原图核对发现教师标签有系统性问题，可扩展到全部 3411 份作答（当前准备数据为 45 题；旧审计报告为 43 题）。`--all-candidates` 仅包括 1026 条统计候选，不能替代全量审核。以下命令保留同一批次的已有决定；在页面选择 CO_5 可复核全部 107 份，在审核状态选择“全部”可再次查看已审核记录：
+
+```powershell
+.\venv\Scripts\python.exe scripts\review_teacher_labels.py --report-run teacher_label_audit_all43_20260727_160210 --all-answers
+```
+
+全量模式新增样本的 P3 仅表示未经统计候选筛选，不代表已确认低风险。不要删除原审核决定来重审；修改已有决定会更新对应记录。教师原图分数与标签一致，仅证明录入对应，并不能证明原教师评分在学术上正确。
 
 ### 4.3 中间审核依据
 

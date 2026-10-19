@@ -2,16 +2,84 @@ import csv
 import json
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from sample_quality import default_policy_path
 from scripts.review_teacher_labels import (
     TeacherLabelReviewStore,
     find_report_dir,
+    suspicion_level,
+    build_parser,
 )
 
 
 class TeacherLabelReviewStoreTests(unittest.TestCase):
+    def test_image_listing_skips_resolution_but_serving_checks_target(self):
+        store = self.make_store()
+        row = store.candidates[0]
+        original = self.prepared / 'original_student_images' / row['question_id'] / (row['answer_id'] + '.jpg')
+        original.parent.mkdir(parents=True)
+        original.write_bytes(b'teacher marks')
+        with patch.object(Path, 'resolve', side_effect=AssertionError('expensive resolution during listing')):
+            self.assertTrue(store.resolve_image_path(row, availability_only=True))
+            self.assertTrue(store.resolve_image_path(row, original=True, availability_only=True))
+        # Simulate a symlink or Windows junction targeting an external file.
+        with patch.object(Path, 'resolve', return_value=self.root / 'outside.jpg'):
+            self.assertIsNone(store.resolve_image_path(row))
+            self.assertIsNone(store.resolve_image_path(row, original=True))
+
+    def test_suspicion_rules_preserve_screened_membership(self):
+        for screened, statistical, priority, expected in (
+            (True, True, 'P1', 'high'),
+            (True, True, 'P2', 'high'),
+            (True, False, 'P3', 'high'),
+            (False, True, 'P1', 'medium'),
+            (False, True, 'P2', 'low'),
+            (False, False, 'P3', 'unflagged'),
+        ):
+            with self.subTest(expected=expected, priority=priority):
+                self.assertEqual(suspicion_level(screened=screened, statistical_candidate=statistical, priority=priority), expected)
+
+    def test_screening_overrides_statistical_priority(self):
+        store = self.make_store()
+        self.assertEqual(store.candidates[0]['suspicion_level'], 'medium')
+        screening = self.root / 'screening.csv'
+        screening.write_text('question_id,answer_id\nCO_1,A\n', encoding='utf-8')
+        store = TeacherLabelReviewStore(prepared_dir=self.prepared, report_dir=self.report, decisions_path=self.decisions, screening_path=screening)
+        self.assertEqual(store.candidates[0]['suspicion_level'], 'high')
+        store.save_decision({'question_id': 'CO_1', 'answer_id': 'A', 'decision': 'retained_hard_case', 'reason_code': 'other', 'review_note': 'checked'})
+        self.assertEqual(store.state()['candidates'][0]['suspicion_level'], 'high')
+        self.assertIsNotNone(store.state()['candidates'][0]['decision'])
+
+    def test_scope_flags_parse(self):
+        parser = build_parser()
+        self.assertFalse(parser.parse_args([]).screening_only)
+        self.assertTrue(parser.parse_args(['--screening-only']).screening_only)
+        self.assertTrue(parser.parse_args(['--all-answers']).all_answers)
+
+    def test_original_image_is_distinct_and_confined(self):
+        store = self.make_store()
+        candidate = store.candidates[0]
+        self.assertIsNone(store.resolve_image_path(candidate, original=True))
+        original = self.prepared / 'original_student_images' / candidate['question_id'] / (candidate['answer_id'] + '.jpg')
+        original.parent.mkdir(parents=True)
+        original.write_bytes(b'original-with-marks')
+        self.assertEqual(store.resolve_image_path(candidate, original=True), original.resolve())
+        self.assertNotEqual(store.resolve_image_path(candidate), original.resolve())
+        self.assertIn('variant=original', store.state()['candidates'][0]['original_image_url'])
+        self.assertIsNone(store.resolve_image_path({'question_id': '../../', 'answer_id': '../escape'}, original=True))
+
+    def test_all_answers_includes_non_candidates(self):
+        metadata_path = self.prepared / 'answer_metadata.jsonl'
+        with metadata_path.open('a', encoding='utf-8') as handle:
+            handle.write('\n' + json.dumps({'answer_id': 'B', 'question_id': 'CO_1'}))
+        (self.prepared / 'teacher_scores.json').write_text(json.dumps({'A': {'CO_1': 5}, 'B': {'CO_1': 3}}), encoding='utf-8')
+        store = TeacherLabelReviewStore(prepared_dir=self.prepared, report_dir=self.report, decisions_path=self.decisions, all_answers=True)
+        self.assertIn(('CO_1', 'B'), store.candidate_map)
+        self.assertEqual(store.candidate_map[('CO_1', 'B')]['teacher_score'], 3)
+        self.assertEqual(store.candidate_map[('CO_1', 'B')]['suspicion_level'], 'unflagged')
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)

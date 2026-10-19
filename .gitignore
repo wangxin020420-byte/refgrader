@@ -33,3 +33,43 @@ outputs/csbench_*_summary.json
 /csbenchnew/
 /csbench_new/
 *.pid
+
+# Local maintenance backups and disposable document/presentation workspaces.
+/.local-maintenance/
+/.tmp/
+/.tmp_subjective_term_qa/
+/.codex_tmp/
+/.codex-build/
+/.academic-build-*/
+/.ppt-build-*/
+/.chart-data-*/
+/.zcodeignore
+node_modules/
+*.pptx
+*.ppt
+*.potx
+*.inspect.ndjson
+/*.docx
+/outputs/academic-report-*/
+/outputs/ppt*/
+/outputs/progress_ppt/
+/outputs/paper_results_20261015/
+/outputs/progress_20261014/
+/outputs/results_20261014/
+/outputs/scale-progress/
+
+# Rebuildable deployment copies, preparation smoke tests and downloaded weights.
+# Keep the source tools, manifests, research reports and review decisions tracked.
+/outputs/refgrader_scale4_20260930/
+/outputs/scale-preparation-check/
+/outputs/scale-preparation-compat-check/
+/outputs/scale-bert-offline/models/
+/outputs/**/*.zip
+/outputs/**/*.zip.sha256
+/data/csbench/quality_control/reviews/*.backup-*
+
+# Whitelist the pinned public source required by build_scale4_bundle.py.
+# Other tmp files remain local, including when .git/info/exclude ignores /tmp/.
+!/tmp/
+/tmp/*
+!/tmp/refgrader_scale4_source/

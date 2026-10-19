@@ -71,3 +71,6 @@
 {"question_id":"POC_3","answer_id":"ANS_POC_250","decision":"confirmed_noise","corrected_score":null,"reason_code":"","review_note":"","reviewer":"","reviewed_at":"2026-10-19T16:56:25"}
 {"question_id":"POC_3","answer_id":"ANS_POC_253","decision":"confirmed_noise","corrected_score":null,"reason_code":"","review_note":"","reviewer":"","reviewed_at":"2026-10-19T16:57:22"}
 {"question_id":"POC_3","answer_id":"ANS_POC_278","decision":"retained_hard_case","corrected_score":null,"reason_code":"","review_note":"","reviewer":"","reviewed_at":"2026-10-19T16:57:58"}
+{"question_id":"CO_12","answer_id":"ANS_CO_1333","decision":"confirmed_noise","corrected_score":null,"reason_code":"","review_note":"","reviewer":"","reviewed_at":"2026-10-19T19:29:39"}
+{"question_id":"CO_2","answer_id":"ANS_CO_585","decision":"confirmed_noise","corrected_score":null,"reason_code":"","review_note":"","reviewer":"","reviewed_at":"2026-10-19T19:30:11"}
+{"question_id":"CO_12","answer_id":"ANS_CO_1476","decision":"confirmed_noise","corrected_score":null,"reason_code":"","review_note":"","reviewer":"","reviewed_at":"2026-10-19T19:32:29"}

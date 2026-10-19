@@ -80,9 +80,9 @@ class ModelRuntimeTests(unittest.TestCase):
                 thinking_mode="disabled",
                 text_temperature_override=0,
             )
-        self.assertEqual(config["text_model"], "deepseek-v4.1-flash")
+        self.assertEqual(config["text_model"], "deepseek-flash")
         self.assertEqual(config["text_family"], "deepseek")
-        self.assertEqual(config["text_base_url"], "https://gpt-agent.cc/v1")
+        self.assertEqual(config["text_base_url"], "https://api.deepseek.com")
         self.assertEqual(config["text_thinking"], "disabled")
         self.assertTrue(config["text_thinking_control"])
         self.assertEqual(config["text_temperature_override"], 0.0)

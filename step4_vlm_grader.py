@@ -99,11 +99,12 @@ DEEPSEEK_MODEL_NAME = MODEL_RUNTIME_CONFIG.get("text_model", "deepseek-v4-flash"
 
 # 并发配置：provider -> (外层学生并发, 内层 Stage2 探测并发)
 MODEL_CONCURRENCY = {
+    "glm53":    (1, 1),  # Isolated long-timeout public-benchmark profile.
     "glm":      (3, 3),  # GLM-4.5-air 并发能力较强
     "glm5":     (2, 2),  # GLM-5.2 限流较严，保持较低并发
     "glm47":    (2, 2),  # GLM-4.7 采用保守并发，降低共享服务限流风险
     "deepseek": (2, 2),  # 第三方代理，保守并发
-    "deepseek_v41flash": (2, 2),  # 固定 V4.1 Flash，同样保守并发
+    "deepseek_v41flash": (2, 2),  # 官方 V4.1 Flash，保守并发
 }
 MAX_WORKERS_OUTER = MODEL_CONCURRENCY.get(TEXT_MODEL_PROVIDER, (3, 3))[0]
 MAX_WORKERS_STAGE2 = MODEL_CONCURRENCY.get(TEXT_MODEL_PROVIDER, (3, 3))[1]
@@ -142,9 +143,12 @@ def call_text_model(messages, temperature=0.2, timeout=120, response_format=None
     else:
         api_key, base_url = CODING_PLAN_API_KEY, CODING_PLAN_BASE_URL
         api_key = require_api_key(api_key, "ZHIPUAI_API_KEY")
-    for attempt in range(4):
+    attempts = 12 if TEXT_MODEL_PROVIDER == "glm53" else 4
+    if TEXT_MODEL_PROVIDER == "glm53":
+        timeout = max(timeout, 900)
+    for attempt in range(attempts):
         try:
-            client = OpenAI(api_key=api_key, base_url=base_url)
+            client = OpenAI(api_key=api_key, base_url=base_url, **({"max_retries": 0} if TEXT_MODEL_PROVIDER == "glm53" else {}))
             request = {
                 "model": TEXT_MODEL_NAME,
                 "messages": messages,
@@ -153,11 +157,15 @@ def call_text_model(messages, temperature=0.2, timeout=120, response_format=None
             }
             if response_format is not None:
                 request["response_format"] = response_format
+            if TEXT_MODEL_PROVIDER == "glm53":
+                request["max_tokens"] = 8192
             if TEXT_THINKING_CONTROL:
                 request["extra_body"] = thinking_extra_body(
                     TEXT_THINKING_MODE
                 )
             response = client.chat.completions.create(**request)
+            if TEXT_MODEL_PROVIDER == "glm53" and response.choices[0].finish_reason != "stop":
+                raise ValueError("Incomplete GLM-5.3 response")
             return response.choices[0].message.content.strip()
         except (AuthenticationError, PermissionDeniedError) as exc:
             raise RuntimeError(
@@ -167,11 +175,11 @@ def call_text_model(messages, temperature=0.2, timeout=120, response_format=None
         except Exception as exc:
             wait = 5 * (attempt + 1)
             print(
-                f"         [{TEXT_MODEL_NAME} retry {attempt + 1}/4] "
+                f"         [{TEXT_MODEL_NAME} retry {attempt + 1}/{attempts}] "
                 f"{type(exc).__name__}: {str(exc)[:80]}... wait {wait}s"
             )
             time.sleep(wait)
-    raise RuntimeError(f"{TEXT_MODEL_NAME} failed after 4 attempts")
+    raise RuntimeError(f"{TEXT_MODEL_NAME} failed after {attempts} attempts")
 
 
 def call_glm5_text(messages, temperature=0.1, timeout=180):

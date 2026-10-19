@@ -14,13 +14,14 @@ from typing import Any
 TEXT_MODEL_PROFILES = {
     "glm": {"model": "glm-4.5-air", "family": "glm"},
     "glm5": {"model": "glm-5.2", "family": "glm"},
+    "glm53": {"model": "glm-5.3", "family": "glm"},
     "glm47": {"model": "glm-4.7", "family": "glm"},
     "deepseek": {"model": "deepseek-v4-flash", "family": "deepseek"},
     "deepseek_v4pro": {"model": "deepseek-v4-pro", "family": "deepseek"},
     "deepseek_v41flash": {
-        "model": "deepseek-v4.1-flash",
+        "model": "deepseek-flash",
         "family": "deepseek",
-        "base_url": "https://gpt-agent.cc/v1",
+        "base_url": "https://api.deepseek.com",
         "thinking_control": True,
     },
 }

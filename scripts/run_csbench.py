@@ -2415,6 +2415,16 @@ def calibrate(args: argparse.Namespace) -> int:
             "--text-temperature-override",
             str(model_config["text_temperature_override"]),
         ])
+    if model_config.get("text_base_url"):
+        command.extend([
+            "--text-base-url",
+            str(model_config["text_base_url"]),
+        ])
+    if "text_thinking_control" in model_config:
+        command.extend([
+            "--text-thinking-control",
+            str(bool(model_config["text_thinking_control"])).lower(),
+        ])
     if getattr(args, "score_calibration", False):
         command.append("--score-calibration")
     if args.no_score_calibration:

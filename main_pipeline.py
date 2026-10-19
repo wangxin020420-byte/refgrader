@@ -1245,7 +1245,10 @@ def run_variance_optimization_process(
         logging.info(f"📈 发现进度点：已完成 {len(processed_files)}/{sample_size} 个样本。")
 
     # --- Step 3: 探测方差 ---
-    image_files = [f for f in os.listdir(images_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+    if extraction_backend == "text_only":
+        image_files = select_question_text_answers(q_data, None, "calibration")
+    else:
+        image_files = [f for f in os.listdir(images_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
     image_files.sort()
     calibration_ids = load_calibration_ids(q_data)
     if calibration_ids:

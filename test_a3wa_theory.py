@@ -2,6 +2,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from calibration_utils import (
@@ -20,6 +21,7 @@ from scripts.calibrate_a3wa import (
     build_deployment_gate,
     build_directional_signal_diagnostics,
     build_score_calibration,
+    calibrated_model_config,
     evaluate_params,
     fit_monotonic_membership,
     fit_score_uncertainty,
@@ -33,6 +35,32 @@ from scripts.replay_calibration import infer_question_id
 
 
 class A3WATheoryTests(unittest.TestCase):
+    def test_calibration_preserves_full_deepseek_model_contract(self):
+        args = SimpleNamespace(
+            text_provider="deepseek_v41flash",
+            text_model="deepseek-flash",
+            thinking_mode="disabled",
+            text_temperature_override=0.0,
+            text_base_url="https://api.deepseek.com",
+            text_thinking_control="true",
+            vlm_provider="glm4v",
+            vlm_model="glm-4.6v",
+        )
+        self.assertEqual(
+            calibrated_model_config(args),
+            {
+                "text_provider": "deepseek_v41flash",
+                "text_model": "deepseek-flash",
+                "text_family": "deepseek",
+                "text_thinking": "disabled",
+                "vlm_provider": "glm4v",
+                "vlm_model": "glm-4.6v",
+                "text_temperature_override": 0.0,
+                "text_base_url": "https://api.deepseek.com",
+                "text_thinking_control": True,
+            },
+        )
+
     def test_bidirectional_credit_risks_are_item_weighted_and_teacher_free(self):
         rubric = [{
             "id": "step_1",

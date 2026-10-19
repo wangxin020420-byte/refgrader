@@ -200,6 +200,19 @@ def extract_and_parse_json(text):
 
 def call_glm_vlm(content_list, max_retries=3):
     """封装 GLM-4.6v 调用逻辑，自带超时重试装甲和防JSON崩溃"""
+    # New text-only profile is opt-in; existing multimodal/default behavior stays unchanged.
+    if MODEL_RUNTIME_CONFIG["text_provider"] == "glm53" and all(
+        item.get("type") == "text" for item in content_list
+    ):
+        from step4_vlm_grader import call_text_model
+        for attempt in range(max_retries):
+            result = extract_and_parse_json(call_text_model(
+                [{"role": "user", "content": "\n".join(item["text"] for item in content_list)}],
+                temperature=0.1,
+            ))
+            if result is not None:
+                return result
+        return None
     for attempt in range(max_retries):
         try:
             response = require_client().chat.completions.create(
@@ -308,6 +321,8 @@ text, formula, table, diagram
 ]
 """
     init_content = [{"type": "text", "text": init_prompt}]
+    if MODEL_RUNTIME_CONFIG["text_provider"] == "glm53":
+        init_content[0]["text"] = init_prompt.replace("计算机专业课程", "当前题目所属学科")
     if q_img_path and os.path.exists(q_img_path):
         init_content.append({"type": "image_url", "image_url": {"url": f"data:{get_mime_type(q_img_path)};base64,{encode_image_to_base64(q_img_path)}"}})
     if ref_img_path and os.path.exists(ref_img_path):
@@ -570,14 +585,19 @@ text, formula, table, diagram
 
 重新输出完整 JSON 数组，不要解释。
 """
-            response = require_client().chat.completions.create(
-                model=LOGIC_MODEL_NAME, 
-                messages=[{"role": "user", "content": attempt_prompt}],
-                temperature=0.1,
-                timeout=240,
-                extra_body=thinking_extra_body(TEXT_THINKING_MODE),
-            )
-            result_text = response.choices[0].message.content.strip()
+            if MODEL_RUNTIME_CONFIG["text_provider"] == "glm53":
+                from step4_vlm_grader import call_text_model
+                attempt_prompt = attempt_prompt.replace("计算机相关课程", "当前题目所属学科").replace("其他计算机课程题目", "同学科的其他题目")
+                result_text = call_text_model([{"role": "user", "content": attempt_prompt}], temperature=0.1)
+            else:
+                response = require_client().chat.completions.create(
+                    model=LOGIC_MODEL_NAME,
+                    messages=[{"role": "user", "content": attempt_prompt}],
+                    temperature=0.1,
+                    timeout=240,
+                    extra_body=thinking_extra_body(TEXT_THINKING_MODE),
+                )
+                result_text = response.choices[0].message.content.strip()
             new_rubric = extract_and_parse_json(result_text)
             
             if not new_rubric:

@@ -1629,6 +1629,28 @@ def leave_one_question_out_validation(records, calibration_args):
     }
 
 
+def calibrated_model_config(args):
+    config = {
+        "text_provider": args.text_provider,
+        "text_model": args.text_model,
+        "text_family": (
+            "deepseek" if args.text_provider.startswith("deepseek") else "glm"
+        ),
+        "text_thinking": args.thinking_mode,
+        "vlm_provider": args.vlm_provider,
+        "vlm_model": args.vlm_model,
+    }
+    if args.text_temperature_override is not None:
+        config["text_temperature_override"] = args.text_temperature_override
+    if args.text_base_url:
+        config["text_base_url"] = args.text_base_url
+    if args.text_thinking_control is not None:
+        config["text_thinking_control"] = (
+            args.text_thinking_control == "true"
+        )
+    return config
+
+
 def main():
     default_model_config = runtime_model_config()
     parser = argparse.ArgumentParser(description="Calibrate A3WA loss parameters and risk weights.")
@@ -1687,6 +1709,19 @@ def main():
         "--text-temperature-override",
         type=resolve_text_temperature_override,
         default=default_model_config.get("text_temperature_override"),
+    )
+    parser.add_argument(
+        "--text-base-url",
+        default=default_model_config.get("text_base_url"),
+    )
+    parser.add_argument(
+        "--text-thinking-control",
+        choices=["true", "false"],
+        default=(
+            str(default_model_config["text_thinking_control"]).lower()
+            if "text_thinking_control" in default_model_config
+            else None
+        ),
     )
     parser.add_argument(
         "--vlm-provider", default=default_model_config["vlm_provider"]
@@ -1861,25 +1896,12 @@ def main():
     )
     alpha, beta = compute_a3wa_thresholds(**best["loss_params"])
 
-    calibrated_model_config = {
-        "text_provider": args.text_provider,
-        "text_model": args.text_model,
-        "text_family": (
-            "deepseek" if args.text_provider.startswith("deepseek") else "glm"
-        ),
-        "text_thinking": args.thinking_mode,
-        "vlm_provider": args.vlm_provider,
-        "vlm_model": args.vlm_model,
-    }
-    if args.text_temperature_override is not None:
-        calibrated_model_config["text_temperature_override"] = (
-            args.text_temperature_override
-        )
+    calibration_model_config = calibrated_model_config(args)
 
     config = {
         "version": 2,
         "source": "scripts/calibrate_a3wa.py",
-        "model_config": calibrated_model_config,
+        "model_config": calibration_model_config,
         "database_path": args.database_path,
         "teacher_db": args.teacher_db,
         "sample_quality_policy": sample_policy.descriptor(),

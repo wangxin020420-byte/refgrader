@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "Python syntax valid",
+    "Pinned ZIP SHA256 verified",
+    "All four datasets parsed with strict schemas",
+    "Train+test multiset equals original all file in all four datasets",
+    "Repeated preparation succeeds without changing existing outputs",
+    "Conflicting file write rejected and original preserved",
+    "Inventory command executes; local inventory is not server evidence"
+  ],
+  "execution_platform": "Windows local Python 3.11",
+  "server_execution": false,
+  "training_execution": false
+}

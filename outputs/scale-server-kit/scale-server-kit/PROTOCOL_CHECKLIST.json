@@ -1,0 +1,19 @@
+{
+  "paper": "Improving Low-Resource Short Answer Scoring Through Large Language Model-Based Data Augmentation",
+  "doi": "10.1109/TKDE.2026.3673734",
+  "status": "PREPARATION_ONLY",
+  "dataset_commit": "9e1a866d58edaa0d78af374d2f3529a10d72239a",
+  "training_started": false,
+  "unresolved_before_training": [
+    "Final paper PDF and supplements; record their SHA256",
+    "Author-confirmed SCALE implementation URL and commit, or clearly label independent reimplementation",
+    "Original encoder/tokenizer checkpoint identifiers and immutable revisions",
+    "LLM for augmentation, exact prompts, temperature, seeds, filtering and alignment parameters",
+    "Which reference answers and entities are used; prevent use of held-out student answers in generation",
+    "Official train/dev/test split, exact few-shot N/K and episode sampling",
+    "Dataset-specific label normalization, QWK label grid and rounding/clipping policy",
+    "Optimizer, batch size, learning rate, epochs, stopping and checkpoint selection",
+    "Original repeat seeds and aggregation rules",
+    "Server GPU allocation, driver, Python/framework versions and allowed execution location"
+  ]
+}

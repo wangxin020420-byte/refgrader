@@ -1,0 +1,218 @@
+{
+  "status": "SOURCE_CONTAMINATION_AND_PROXY_CHANGES_FOUND",
+  "review_pairs_sha256": "f158879a90c87f4f31348cb81b6e3debd55737d7839514ed42e2b1dcb975e3c0",
+  "proxy_records_sha256": "52b6ea35e844cfc7714a3fec0b72d7671948c5274d51c1e8d6f09926c8ea3462",
+  "coverage": "345 identity/hash checks and text-difference screening; focused full-text review of flagged pairs. Not blanket semantic approval.",
+  "records": 345,
+  "counts": {
+    "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED": 314,
+    "REJECT_PROXY_CHANGE": 6,
+    "REVIEW_SOURCE_OR_REWRITE": 9,
+    "BLANK_PASSTHROUGH": 5,
+    "EXACT_TEXT_MATCH": 5,
+    "SOURCE_SCORE_MARKING_PRESENT": 6
+  },
+  "source_marking_ids": [
+    "ANS_ML_09",
+    "ANS_ML_25",
+    "ANS_ML_28",
+    "ANS_ML_31",
+    "ANS_ML_37",
+    "ANS_ML_43"
+  ],
+  "semantic_accuracy_verified": false,
+  "ready_for_annotator_training": false,
+  "api_calls": 0,
+  "source_files_modified": false,
+  "findings": [
+    {
+      "sample_id": "ANS_CO_174",
+      "status": "REJECT_PROXY_CHANGE",
+      "reason": "新增“2y的补码为10101000的相反形式”解释，原文没有该数值和解释。",
+      "original_sha256": "b0a9366dacf7df22ed210cf56d019388930036f76a132a815fbc907d03d45f8a",
+      "proxy_sha256": "2a763b2f2c32877492c2d15a487b9f7c39ebdc987c708098db680082ec5bf9aa",
+      "original_answer": "x补=00110110 x原=00110110\ny补=01010100 y原=01010100\nz补=11010101 z原=10101011\n2y补=10101010\n[-2y]补=01011000\n∴x-2y:\n  00110110\n+ 01011000\n  10001110\n即8EH OF=1\n对（x÷4）+2z:\n4:2²\n∴x÷4为00001101\n2z为10101010\nx÷4+2z计为\n  00001101\n+10101010\n  10110111\n即B3H OF=0",
+      "proxy_answer": "x的补码为00110110，x的原码为00110110；\ny的补码为01010100，y的原码为01010100；\nz的补码为11010101，z的原码为10101011。\n2y的补码为10101000的相反形式，即2y补=10101010；\n[-2y]补=01011000。\n∴ 计算 x-2y：\n    00110110\n  + 01011000\n  ----------\n    10001110\n即结果为 8EH，OF=1。\n对于 (x÷4)+2z：\n由于 4=2²，\n∴ x÷4 为 00001101，\n2z 为 10101010，\nx÷4+2z 计算为：\n    00001101\n  + 10101010\n  ----------\n    10110111\n即结果为 B3H，OF=0。"
+    },
+    {
+      "sample_id": "ANS_CO_244",
+      "status": "REJECT_PROXY_CHANGE",
+      "reason": "将原文 $4H 改为 54H，并删除算式末尾右括号。可能涉及OCR纠正，不能作为纯表达改写通过。",
+      "original_sha256": "c57a7f0be204b0aafd5fd33287fb9836c8593e869653cae7f0cffc4ad3de67ab",
+      "proxy_sha256": "385ebc013597426593ed2a381ec790a0e61b8f9080e790d9e98148d6f72909d9",
+      "original_answer": "1. (10分)\n① x-2y ：\n[x]补 = 36H = 0011 0110 = [x]原\n[y]补 = $4H = 0101 0100 = [y]原\n[-y]原 = 11010100\n[-y]补 = 10101100 用双符号位参与运算判溢\n[x-2y]补 = [x]补 + [-y]补 + [-y]补.\n= 00011010 + 110101100 + 110101100\n= 110001110\nOF=0未溢出.\n且(1000 1110)₂ = 8E H.\n即 [x-2y]补 = 8EH\n且OF=0.\n\n② (x+4)+2.\n[2]补 = D5H = 11010101\n[x]原 = 00110110 = (54)D. x+4 = 13.\n[x+4]补 = 00001101\n用双符号位参与运算判溢.\n[x+4]补 + [2]补 + [2]补.\n= 00000101 + 111010101 + 11101010)\n= 11010111\nOF=0未溢出.\n且(10110111)₂ = B7 H\n即 [(x+4)+2]补 = B7H\n且OF=0.",
+      "proxy_answer": "1.（10分）\n① 计算 x−2y：\n[x]补 = 36H = 0011 0110 = [x]原\n[y]补 = 54H = 0101 0100 = [y]原\n[-y]原 = 1101 0100\n[-y]补 = 1010 1100\n采用双符号位参与运算来判断溢出：\n[x-2y]补 = [x]补 + [-y]补 + [-y]补\n= 00011010 + 110101100 + 110101100\n= 110001110\nOF = 0，未溢出。\n且 (1000 1110)₂ = 8EH，即 [x-2y]补 = 8EH，且 OF = 0。\n\n② 计算 (x+4)+2：\n[2]补 = D5H = 1101 0101\n[x]原 = 0011 0110 = (54)D，x+4 = 13\n[x+4]补 = 0000 1101\n采用双符号位参与运算来判断溢出：\n[x+4]补 + [2]补 + [2]补\n= 00000101 + 111010101 + 11101010\n= 11010111\nOF = 0，未溢出。\n且 (1011 0111)₂ = B7H，即 [(x+4)+2]补 = B7H，且 OF = 0。"
+    },
+    {
+      "sample_id": "ANS_CO_588",
+      "status": "REVIEW_SOURCE_OR_REWRITE",
+      "reason": "新增用户程序与坐标方向解释，需核对图示含义是否由原文本充分支持。",
+      "original_sha256": "9b4a5ce82e48c0fbf056818123293384a44e015085b87eb822957eca07153f7a",
+      "proxy_sha256": "001d1e38b29476c58ea965a7012753c24f9e10dd08b2253320d2a122b22810bc",
+      "original_answer": "2.（20分）\n(1) A>D>C>E>B\n中断源  A  B  C  D  E\nA      1  1  1  1  1\nB      0  1  0  0  0\nC      0  1  1  0  1\nD      0  1  1  1  1\nE      0  1  0  0  1\n屏蔽字\nA      11111\nB      01000\nC      01101\nD      01111\nE      01001\n(2) 如图所示\n服务程序\nE\nD\nC\nB\nA\nt\n中断源：A,B,C  D,E\n程序",
+      "proxy_answer": "2.（20分）\n（1）中断处理优先级的排列顺序为 A＞D＞C＞E＞B。各级中断源的中断屏蔽字如下：\n中断源  A  B  C  D  E\nA      1  1  1  1  1\nB      0  1  0  0  0\nC      0  1  1  0  1\nD      0  1  1  1  1\nE      0  1  0  0  1\n即各级中断源的屏蔽字分别为：\nA：11111\nB：01000\nC：01101\nD：01111\nE：01001\n（2）CPU执行程序和处理中断的顺序如图所示：\n服务程序↑（自上而下）：E、D、C、B、A\n用户程序→t\n中断源：A、B、C  D、E\n程序"
+    },
+    {
+      "sample_id": "ANS_CO_702",
+      "status": "REVIEW_SOURCE_OR_REWRITE",
+      "reason": "新增两个完整十六进制地址和明确Cache命中描述，原文排版/字段含义不明确。",
+      "original_sha256": "4e22cb8d5d7767f6aa7aef440df44d782ce9d5cff0be3fa0c94b0dee0162a1ad",
+      "proxy_sha256": "7526b29fc11a46ff6e7b1214ed3fef6054a9e57dc96fda0b9593988404442bc4",
+      "original_answer": "2. (20分)\n主存地址 组地址 块内偏移\n位 8 4 11\n121 2D 07 FFH\n0010 1101 0000 0111 1111 1111\n能访问块2.\n7F00 5711\n0111 1111 0000 0000 0101 0111\n能访问块3",
+      "proxy_answer": "2.（20分）\n主存地址划分为组地址和块内偏移字段，其位数分别为8位、4位、11位。\n当地址为2D07FFH时：121 2D 07 FFH，即0010 1101 0000 0111 1111 1111，能在Cache中访问到该单元的数据，能访问块2。\n当地址为7F0057H时：7F00 5711，即0111 1111 0000 0000 0101 0111，能在Cache中访问到该单元的数据，能访问块3。"
+    },
+    {
+      "sample_id": "ANS_OS_21",
+      "status": "REVIEW_SOURCE_OR_REWRITE",
+      "reason": "补全信号量声明、等号和分号，需区分伪代码排版与实质性代码修复。",
+      "original_sha256": "f762b56857f857a184fd66e190bd2fc17f83266e99f3a70dd475cb9a8da463bb",
+      "proxy_sha256": "0bc28fd3f270b786cc05129f45299c76ee39a301726180b1039162a8d7b29e4f",
+      "original_answer": "semaphore mbox N //N封邮件\nread 1 //读邮件\nsend 1 //发邮件\noperator 1 //一个操作邮箱\nreademail ( ) //邮箱主人读邮件\n{\n  P (operator);\n  while (mbox >= 0)\n  读邮件;\n  mbox = (mbox + 1) % N;\n  V (operator);\n}\nsendemail ( ) //其他用户发邮件\n{\n  P (operator);\n  while (mbox < N)\n  发邮件;\n  mbox = (mbox + 1) % N;\n  V (operator);\n}",
+      "proxy_answer": "semaphore mbox = N; // N封邮件\nsemaphore read = 1; // 读邮件\nsemaphore send = 1; // 发邮件\nsemaphore operator = 1; // 一个操作邮箱\n\nreademail() // 邮箱主人读邮件\n{\n    P(operator);\n    while (mbox >= 0)\n        读邮件;\n    mbox = (mbox + 1) % N;\n    V(operator);\n}\n\nsendemail() // 其他用户发邮件\n{\n    P(operator);\n    while (mbox < N)\n        发邮件;\n    mbox = (mbox + 1) % N;\n    V(operator);\n}"
+    },
+    {
+      "sample_id": "ANS_OS_49",
+      "status": "REJECT_PROXY_CHANGE",
+      "reason": "删除开头 others(){ 并补全语句分号和注释，改变原代码结构/语法。",
+      "original_sha256": "c51f47d83a99b3e917e5d63b133fa0ca369f58475dd1ade4a08ffd6516481fb7",
+      "proxy_sha256": "ec66b37a721188d1a33977a7a665684ee41118726a31b6f39287326672505715",
+      "original_answer": "局部操作互斥、读和送需同步，others() { //其他用户\nSemaphore mutex=1 ; //互斥用信箱\nsemaphore empty=10; //空信箱数\nsemaphore full=0 ; //已站用数\nitem mbox[N]; //信箱\nint in=0, out=0; //信箱队列的首尾，\nmaster() { //主人进程\nwhile(1) {\nP(full);\nP(mutex);\nread= mbox[out];\nout=(out+1)%N; //读信\nV(mutex);\nV(empty);\n}\n}\nothers() { //其他用户\nP(empty); 写信;\nP(empty);\nP(mutex);\nmbox[in]=put;\nput=(1+put)%N /送信\nV(mutex);\nV(full);\n}",
+      "proxy_answer": "局部操作互斥，读信与送信需要同步。算法设计如下：\n\nsemaphore mutex=1;   //互斥使用信箱\nsemaphore empty=10;  //空信箱数\nsemaphore full=0;    //已占用数\nitem mbox[N];        //信箱\nint in=0, out=0;     //信箱队列的首尾\n\nmaster() {  //主人进程\n    while(1) {\n        P(full);\n        P(mutex);\n        read = mbox[out];\n        out = (out+1)%N;  //读信\n        V(mutex);\n        V(empty);\n    }\n}\n\nothers() {  //其他用户进程\n    P(empty);\n    写信;\n    P(empty);\n    P(mutex);\n    mbox[in] = put;\n    put = (1+put)%N;  //送信\n    V(mutex);\n    V(full);\n}"
+    },
+    {
+      "sample_id": "ANS_CO_899",
+      "status": "REJECT_PROXY_CHANGE",
+      "reason": "将 1/25×10^4 改为 1/(25×10^4)，改变书面算式运算结合关系。",
+      "original_sha256": "35dcb01390aa609f533d59604ccf68ad15848cf2f92cd5226d09d085cdfacd13",
+      "proxy_sha256": "d893ad0d185e95064286d634204760e0b8c3382d09c0db639dad87ebfa7613ef",
+      "original_answer": "(1)32位=4B\n4B/1MB/s = 4B/1×10^6B/s = 1/25×10^4 S\n∴周期数= 1/(25×10^4 S)×50MHz = 200个·\n比率=100/200 = 1/2 = 50%\n\n(2) DMA预处理共1500+500=2000个\n4KB/1MB/s = 1/250 S·周期= 1/250×50MHz = 2×10^5个周期·\n比率= 2000 / (2×10^5×2000)×100% ≈1%",
+      "proxy_answer": "(1) 32位=4B。传输一个字所需时间为：4B/1MB/s = 4B/(1×10^6 B/s) = 1/(25×10^4) s。因此对应的周期数为：1/(25×10^4 s)×50MHz = 200个。CPU为I/O查询所花费的时间比率 = 100/200 = 1/2 = 50%。\n\n(2) DMA预处理共需1500+500 = 2000个时钟周期。传输4KB数据所需时间为：4KB/1MB/s = 1/250 s，对应的周期数 = 1/250×50MHz = 2×10^5个周期。时间比率 = 2000/(2×10^5×2000)×100% ≈ 1%。"
+    },
+    {
+      "sample_id": "ANS_CO_1178",
+      "status": "REJECT_PROXY_CHANGE",
+      "reason": "将“组相联按照每组直接映射”改为“组间按直接映射”，对原答案作了知识性修正。",
+      "original_sha256": "ed47346226ed8895ad49d24ff1d86046d2828b9b40524262786f44d56f7fbc39",
+      "proxy_sha256": "d922858de171de949251653ce83389f5e62d0e17e66b35369d6b80024ffcf65c",
+      "original_answer": "(1) 4=2² 块内地址2位 \n64k=2¹⁶ 主存地址16位 \n4k/4=2¹⁰ 2¹⁰/4=2⁸ 组号为8位. \n标记位 16-2-8=6位. 所以1位有效位 则Cache标记区总容量为2⁷=128字 =256B (2)需要4套这样的相等比较电路 由于按照4路组相联映像，组相联按照每组直接映射 组内全相联映射方式，每组4路，则需要配置4套这样的相等比较电路.",
+      "proxy_answer": "(1) 块大小为4个字，4=2²，故块内地址占2位；64K=2¹⁶，即主存地址为16位；Cache数据区容量为4KW，4K/4=2¹⁰，2¹⁰/4=2⁸，故组号占8位；标记位为16-2-8=6位，另有1位有效位，所以Cache标记区总容量为2⁷=128字=256B。\n(2) 需要4套这样的相等比较电路。因为该Cache采用4路组相联映像方式，组相联映像是组间按直接映射、组内按全相联映射的方式，每组有4路，所以需要配置4套这样的相等比较电路。"
+    },
+    {
+      "sample_id": "ANS_CO_1191",
+      "status": "REVIEW_SOURCE_OR_REWRITE",
+      "reason": "将“有效位是否制”解释为“有效位是否为1”，需要原图确认。",
+      "original_sha256": "e9ef0725b48e73cb2b9efeeb59df06ce613e90e33ea72c0f5c782d5c3d7378f2",
+      "proxy_sha256": "07a213b11b8477c5f23423a1d1b83cabb2c943c5636bd599d4eece908bf04249",
+      "original_answer": "解(1)块内地址 4×16=64=2⁶ 6位 \ncache 块 4×16=1k 块 =2¹⁰  \n组号 2¹⁰/4=2⁸ 8位 \n标记 64k×16=2²⁰ 20-6-8=6位 \ncache标记区总容量 2¹⁰×(6+1)=7k 位=896字节\n(2) 需配置2套 主存地址 tag字段共6位，\n需进行2⁶次比较\n再进行有效位是否制的检测，2⁶×2=2⁷\n\n表格：\n| 标记 | 组号 | 块内地址 |\n| ---- | ---- | ---- |\n| 6    | 8    | 6    |",
+      "proxy_answer": "解：\n(1) 块内地址：4×16=64=2⁶，共6位；\nCache块数：4×16=1K块=2¹⁰；\n组号：2¹⁰/4=2⁸，共8位；\n标记：64K×16=2²⁰，20-6-8=6位；\nCache标记区总容量为2¹⁰×(6+1)=7K位=896字节。\n\n(2) 需配置2套。主存地址tag字段共6位，需进行2⁶次比较；再进行有效位是否为1的检测，2⁶×2=2⁷。\n\n表格：\n| 标记 | 组号 | 块内地址 |\n| ---- | ---- | ---- |\n| 6    | 8    | 6    |"
+    },
+    {
+      "sample_id": "ANS_CO_1513",
+      "status": "REVIEW_SOURCE_OR_REWRITE",
+      "reason": "新增“横轴表示A、B、C、D同时到来”的解释，原文本没有明确说明。",
+      "original_sha256": "dfaaa9b5202de102c216e9739e8322571d2badef50f335aea90f5c6455fab555",
+      "proxy_sha256": "efe6b69e826913873afaaafb4907540364d0bbc9243f23bbd2c88b1cd60d0f46",
+      "original_answer": "(1)根据 中断请求及件优先级决定先处理哪个外设\n根据希望CPU处理中断顺序决定完成哪个外设的任务\n中断发生时 优先级响应等级高的 但优先级完成 希望完成\n等级高的 完成次序一定和希望完成次序一致的\n(2)如图所示\n\n2. D\nC\nB\nA\n用户\nA B C D\nA 1 O O O\nB 1 1 O 1\nC 1 1 1 1\nD 1 O O 1\nMA = 1000 MC = 1111\nMB = 1101 MD = 1001",
+      "proxy_answer": "（1）根据中断请求的硬件优先级决定先处理哪个外设；再根据希望CPU处理中断的顺序决定完成哪个外设的任务。中断发生时，按优先级先响应等级高的，但优先级的完成要按希望完成的顺序；等级高的，完成次序一定和希望完成次序一致。\n（2）如图所示，轨迹图中纵轴从下到上依次为：用户、A、B、C、D，横轴表示A、B、C、D同时到来。\n各中断源的屏蔽字如下：\n      A  B  C  D\nA     1  0  0  0\nB     1  1  0  1\nC     1  1  1  1\nD     1  0  0  1\n\n即 MA = 1000，MC = 1111，MB = 1101，MD = 1001。"
+    },
+    {
+      "sample_id": "ANS_CPL_407",
+      "status": "REVIEW_SOURCE_OR_REWRITE",
+      "reason": "将字符串内原始换行改为\\n，并移动注释。可能是转写序列化问题，不能直接确认等价。",
+      "original_sha256": "6afd844f1ab4f97d5004f649c4a202f0772df62d860599509fa1605aa7c297e6",
+      "proxy_sha256": "ca60882e621f935310df04d1b297dd80c02acc6557beed1358cb6882ecee580b",
+      "original_answer": "#include <stdio.h>\nint main()\n{\n    int a[5][5];\n    for(int i=0;i<5;i++)\n    {\n        for(int j=0;j<5;j++)\n        {\n            scanf(\"%d\",&a[i][j]);\n        }\n    }\n    //输入矩阵\n    for(int i=0;i<5;i++)\n    {\n        for(int j=4;j>i;j--)\n        {\n            int temp=a[i][j];\n            a[i][j]=a[j][i];\n            a[j][i]=temp;\n        }\n    }\n    //转置矩阵\n    for(int i=0;i<5;i++)\n    {\n        for(int j=0;j<5;j++)\n        {\n            printf(\"%d \",a[i][j]);\n        }\n        printf(\"\n\");\n    }\n    return 0;\n}\n//输出矩阵",
+      "proxy_answer": "#include <stdio.h>\nint main()\n{\n    int a[5][5];\n    // 输入矩阵\n    for(int i=0;i<5;i++)\n    {\n        for(int j=0;j<5;j++)\n        {\n            scanf(\"%d\",&a[i][j]);\n        }\n    }\n    // 转置矩阵\n    for(int i=0;i<5;i++)\n    {\n        for(int j=4;j>i;j--)\n        {\n            int temp=a[i][j];\n            a[i][j]=a[j][i];\n            a[j][i]=temp;\n        }\n    }\n    // 输出矩阵\n    for(int i=0;i<5;i++)\n    {\n        for(int j=0;j<5;j++)\n        {\n            printf(\"%d \",a[i][j]);\n        }\n        printf(\"\\n\");\n    }\n    return 0;\n}"
+    },
+    {
+      "sample_id": "ANS_ISC_56",
+      "status": "REVIEW_SOURCE_OR_REWRITE",
+      "reason": "改写成英文，并重排空格说明，偏离同语言润色且可能改变解码顺序表达。",
+      "original_sha256": "2dd4ef28825bb1c00f125b7ac2a65297f846624954ba27e74eee8b571ee6cd4c",
+      "proxy_sha256": "3e398d752c7fc3bb7434d8006cf4a9b5eda927fe624d6a747ccb3ea5eb74718f",
+      "original_answer": "解：\n(48 65 6c 6c 6F 2c 20 41 48 55 21)\n(72 101 108 108 111 44 32 65 72 85 33),\n\"H\" \"e\" \"l\" \"l\" \"o\" \",\" ↓ \"A\" \"H\" \"U\"\n\"SPACE\" \"!\"\n所以对应字母有：48.65.6c.6c.6F,41.48.55\n标点有：2c.21 数字：无",
+      "proxy_answer": "Solution:\nThe hexadecimal sequence is: 48 65 6C 6C 6F 2C 20 41 48 55 21,\ncorresponding to decimal in order: 72 101 108 108 111 44 32 65 72 85 33.\nDecoded characters in order: \"H\" \"e\" \"l\" \"l\" \"o\" \",\" \"A\" \"H\" \"U\" \"SPACE\" \"!\".\nSo the corresponding letters are: 48, 65, 6C, 6C, 6F, 41, 48, 55;\npunctuation includes: 2C, 21;\ndigits: none."
+    },
+    {
+      "sample_id": "ANS_ISC_81",
+      "status": "REVIEW_SOURCE_OR_REWRITE",
+      "reason": "把残缺运算过程补全为乘2取整步骤，新增1.250等中间结果。",
+      "original_sha256": "c349fd08662eb23827ebee82a2804114899c79bdcc71b9699f7c79eada78c8e0",
+      "proxy_sha256": "7c73b87f9acb6e00460ed20e7f1607c147e7f0053e4ac247e4c73506ad8cc068",
+      "original_answer": "小数部分转换：0.625 2 0.250……1 2 0.50……0 1 可得：101 整数部分为0.转换为00000000 整体为00000000.101",
+      "proxy_answer": "小数部分转换：将0.625乘以2得1.250……1，取出整数位1；再将0.250乘以2得0.50……0，取出整数位0；再将0.50乘以2得1，取出整数位1，可得小数部分为101。整数部分为0，转换为00000000，所以整体为00000000.101。"
+    },
+    {
+      "sample_id": "ANS_ML_09",
+      "status": "SOURCE_SCORE_MARKING_PRESENT",
+      "reason": "原转写含评卷员/评分文字，优先处理输入来源，不能直接回退到原文。",
+      "original_sha256": "fe9168832e6aeeeced9e4f9b0099a408c2bb186fda6f02a559cf5e841750a466",
+      "proxy_sha256": "9cf25a95008fa9e2cdcde43254c6c18a4e0550fddfe0efed1fc69c6aa00e0706",
+      "original_answer": "如图所示\n\n| A | B | C | D | F |\n|---|---|---|---|---|\n| 0 | 0 | 0 | 0 | o |\n| 0 | 0 | 0 | 1 | 3 |\n| 0 | 0 | 1 | 0 | 2 |\n| 0 | 0 | 1 | 1 | 2 |\n| 0 | 1 | 0 | 0 | 2 |\n| 0 | 1 | 0 | 1 | 2 |\n| 0 | 1 | 1 | 0 | 2 |\n| 0 | 1 | 1 | 1 | 1 |\n| 1 | 0 | 0 | 0 | 0 |\n| 1 | 0 | 0 | 1 | 1 |\n| 1 | 0 | 1 | 0 | 1 |\n| 1 | 0 | 1 | 1 | 1 |\n| 1 | 1 | 0 | 0 | 1 |\n| 1 | 1 | 0 | 1 | 1 |\n| 1 | 1 | 1 | 0 | 1 |\n| 1 | 1 | 1 | 1 | ( |\n\n评卷员：高湘萍（06043），评分：2",
+      "proxy_answer": "如图所示：\n\n| A | B | C | D | F |\n|---|---|---|---|---|\n| 0 | 0 | 0 | 0 | o |\n| 0 | 0 | 0 | 1 | 3 |\n| 0 | 0 | 1 | 0 | 2 |\n| 0 | 0 | 1 | 1 | 2 |\n| 0 | 1 | 0 | 0 | 2 |\n| 0 | 1 | 0 | 1 | 2 |\n| 0 | 1 | 1 | 0 | 2 |\n| 0 | 1 | 1 | 1 | 1 |\n| 1 | 0 | 0 | 0 | 0 |\n| 1 | 0 | 0 | 1 | 1 |\n| 1 | 0 | 1 | 0 | 1 |\n| 1 | 0 | 1 | 1 | 1 |\n| 1 | 1 | 0 | 0 | 1 |\n| 1 | 1 | 0 | 1 | 1 |\n| 1 | 1 | 1 | 0 | 1 |\n| 1 | 1 | 1 | 1 | ( |\n\n评卷员：高湘萍（06043），评分：2"
+    },
+    {
+      "sample_id": "ANS_ML_25",
+      "status": "SOURCE_SCORE_MARKING_PRESENT",
+      "reason": "原转写含评卷员/评分文字，优先处理输入来源，不能直接回退到原文。",
+      "original_sha256": "77ab1570e6c6e5c3399b028b9abbd38ac3ff8852fc8b5e8dc74d39f988e7677d",
+      "proxy_sha256": "7764ebe657f8faa3a703496b378c6ce7c06d711b271689ec1e96d097940caa48",
+      "original_answer": "如图所示\n\n表格内容：\n| A | B | C | D | F |\n|---|---|---|---|---|\n| 0 | 0 | 0 | 0 | 0 |\n| 0 | 0 | 0 | 1 | 0 |\n| 0 | 0 | 1 | 0 | 0 |\n| 0 | 0 | 1 | 1 | 0 |\n| 0 | 1 | 0 | 0 | 0 |\n| 0 | 1 | 0 | 1 | 0 |\n| 0 | 1 | 1 | 0 | 0 |\n| 0 | 1 | 1 | 1 | 1 |\n| 1 | 0 | 0 | 0 | 0 |\n| 1 | 0 | 0 | 1 | 1 |\n| 1 | 0 | 1 | 0 | 1 |\n| 1 | 0 | 1 | 1 | 1 |\n| 1 | 1 | 0 | 0 | 1 |\n| 1 | 1 | 0 | 1 | 1 |\n| 1 | 1 | 1 | 0 | 1 |\n| 1 | 1 | 1 | 1 | 1 |\n\n① A不登丽但 BCD 都登丽\n② A登丽时 B、C、D中一人登丽\n\n评卷员：高湘萍（06043）评分：2",
+      "proxy_answer": "如图所示。\n\n填好的真值表如下：\n| A | B | C | D | F |\n|---|---|---|---|---|\n| 0 | 0 | 0 | 0 | 0 |\n| 0 | 0 | 0 | 1 | 0 |\n| 0 | 0 | 1 | 0 | 0 |\n| 0 | 0 | 1 | 1 | 0 |\n| 0 | 1 | 0 | 0 | 0 |\n| 0 | 1 | 0 | 1 | 0 |\n| 0 | 1 | 1 | 0 | 0 |\n| 0 | 1 | 1 | 1 | 1 |\n| 1 | 0 | 0 | 0 | 0 |\n| 1 | 0 | 0 | 1 | 1 |\n| 1 | 0 | 1 | 0 | 1 |\n| 1 | 0 | 1 | 1 | 1 |\n| 1 | 1 | 0 | 0 | 1 |\n| 1 | 1 | 0 | 1 | 1 |\n| 1 | 1 | 1 | 0 | 1 |\n| 1 | 1 | 1 | 1 | 1 |\n\n① A不登丽，但B、C、D都登丽；\n② A登丽时，B、C、D中有一人登丽。\n\n评卷员：高湘萍（06043）评分：2"
+    },
+    {
+      "sample_id": "ANS_ML_28",
+      "status": "SOURCE_SCORE_MARKING_PRESENT",
+      "reason": "原转写含评卷员/评分文字，优先处理输入来源，不能直接回退到原文。",
+      "original_sha256": "3574f4d638ecbaa2d9e6307f6b5001766c721a9b7b2defad77ce4e134f368dfa",
+      "proxy_sha256": "fe46cae851204525708666a660b7149a0aa665831a6eae67f257422926e30657",
+      "original_answer": "如图所示\n5\nA B C D F\n0 0 0 0 0\n0 0 0 1 0\n0 0 1 0 0\n0 0 1 1 0\n0 1 0 0 0\n0 1 0 1 1\n0 1 1 0 0\n0 1 1 1 1\n1 0 0 0 0\n1 0 0 1 1\n1 0 1 0 1\n1 0 1 1 1\n1 1 0 0 1\n1 1 0 1 1\n1 1 1 0 1\n1 1 1 1 1\n评卷员：高翔萍（06043）评分：1.5",
+      "proxy_answer": "如图所示：\n\n| A | B | C | D | F |\n|---|---|---|---|---|\n| 0 | 0 | 0 | 0 | 0 |\n| 0 | 0 | 0 | 1 | 0 |\n| 0 | 0 | 1 | 0 | 0 |\n| 0 | 0 | 1 | 1 | 0 |\n| 0 | 1 | 0 | 0 | 0 |\n| 0 | 1 | 0 | 1 | 1 |\n| 0 | 1 | 1 | 0 | 0 |\n| 0 | 1 | 1 | 1 | 1 |\n| 1 | 0 | 0 | 0 | 0 |\n| 1 | 0 | 0 | 1 | 1 |\n| 1 | 0 | 1 | 0 | 1 |\n| 1 | 0 | 1 | 1 | 1 |\n| 1 | 1 | 0 | 0 | 1 |\n| 1 | 1 | 0 | 1 | 1 |\n| 1 | 1 | 1 | 0 | 1 |\n| 1 | 1 | 1 | 1 | 1 |\n\n评卷员：高翔萍（06043）评分：1.5"
+    },
+    {
+      "sample_id": "ANS_ML_31",
+      "status": "SOURCE_SCORE_MARKING_PRESENT",
+      "reason": "原转写含评卷员/评分文字，优先处理输入来源，不能直接回退到原文。",
+      "original_sha256": "84a9bd0c6685e3b59181b7b368a4f2937ba8ce42413f060d1df6bbd5825b7c83",
+      "proxy_sha256": "3db69fad7e1b48904e4781e0e519e6a4bfdbe249a37a4a1e999aa6f33ea84359",
+      "original_answer": "如图所示\n\n| A | B | C | D | F |\n|---|---|---|---|---|\n| 0 | 0 | 0 | 0 | O |\n| 0 | 0 | 0 | 1 | O |\n| 0 | 0 | 1 | 0 | O |\n| 0 | 0 | 1 | 1 | O |\n| 0 | 1 | 0 | 0 | O |\n| 0 | 1 | 0 | 1 | O |\n| 0 | 1 | 1 | 0 | O |\n| 0 | 1 | 1 | 1 | 1 |\n| 1 | 0 | 0 | 0 | O |\n| 1 | 0 | 0 | 1 | ) |\n| 1 | 0 | 1 | 0 | 1 |\n| 1 | 0 | 1 | 1 | 1 |\n| 1 | 1 | 0 | 0 | 1 |\n| 1 | 1 | 0 | 1 | 1 |\n| 1 | 1 | 1 | 0 | 1 |\n| 1 | 1 | 1 | 1 | 1 |\n\n评卷员：高细萍（06043）评分：2",
+      "proxy_answer": "真值表填写如下：\n\n| A | B | C | D | F |\n|---|---|---|---|---|\n| 0 | 0 | 0 | 0 | O |\n| 0 | 0 | 0 | 1 | O |\n| 0 | 0 | 1 | 0 | O |\n| 0 | 0 | 1 | 1 | O |\n| 0 | 1 | 0 | 0 | O |\n| 0 | 1 | 0 | 1 | O |\n| 0 | 1 | 1 | 0 | O |\n| 0 | 1 | 1 | 1 | 1 |\n| 1 | 0 | 0 | 0 | O |\n| 1 | 0 | 0 | 1 | ) |\n| 1 | 0 | 1 | 0 | 1 |\n| 1 | 0 | 1 | 1 | 1 |\n| 1 | 1 | 0 | 0 | 1 |\n| 1 | 1 | 0 | 1 | 1 |\n| 1 | 1 | 1 | 0 | 1 |\n| 1 | 1 | 1 | 1 | 1 |\n\n评卷员：高细萍（06043）评分：2"
+    },
+    {
+      "sample_id": "ANS_ML_37",
+      "status": "SOURCE_SCORE_MARKING_PRESENT",
+      "reason": "原转写含评卷员/评分文字，优先处理输入来源，不能直接回退到原文。",
+      "original_sha256": "8f8cfd8db158cbb0697f8c083416c26fc09ad8119b83e2f699685bcf0f1c0e24",
+      "proxy_sha256": "cd47fc42faf69996db0d166bef15404f160c149c29f17f26d610c4881d4fd7fb",
+      "original_answer": "如图所示\n\n| A | B | C | D | F |\n|---|---|---|---|---|\n| 0 | 0 | 0 | 0 | ○ |\n| 0 | 0 | 0 | 1 | ○ |\n| 0 | 0 | 1 | 0 | ○ |\n| 0 | 0 | 1 | 1 | ○ |\n| 0 | 1 | 0 | 0 | ○ |\n| 0 | 1 | 0 | 1 | ○ |\n| 0 | 1 | 1 | 0 | ○ |\n| 0 | 1 | 1 | 1 | 1 |\n| 1 | 0 | 0 | 0 | ○ |\n| 1 | 0 | 0 | 1 | 1 |\n| 1 | 0 | 1 | 0 | ( |\n| 1 | 0 | 1 | 1 | ( |\n| 1 | 1 | 0 | 0 | 1 |\n| 1 | 1 | 0 | 1 | 1 |\n| 1 | 1 | 1 | 0 | 1 |\n| 1 | 1 | 1 | 1 | 1 |\n\nF表现在卡诺图上：\n\n    AB\\CD  00  01  11  10\n      00  ○   ○   ○   ○\n      01  ○   ○   1   1\n      11  1   1   1   1\n      10  1   1   (   1\n\n即F=Σ(7,9,10,11,12,13,14,15).\n\n评卷员：高湘萍（06043）评分：2",
+      "proxy_answer": "如图所示：\n\n| A | B | C | D | F |\n|---|---|---|---|---|\n| 0 | 0 | 0 | 0 | ○ |\n| 0 | 0 | 0 | 1 | ○ |\n| 0 | 0 | 1 | 0 | ○ |\n| 0 | 0 | 1 | 1 | ○ |\n| 0 | 1 | 0 | 0 | ○ |\n| 0 | 1 | 0 | 1 | ○ |\n| 0 | 1 | 1 | 0 | ○ |\n| 0 | 1 | 1 | 1 | 1 |\n| 1 | 0 | 0 | 0 | ○ |\n| 1 | 0 | 0 | 1 | 1 |\n| 1 | 0 | 1 | 0 | ( |\n| 1 | 0 | 1 | 1 | ( |\n| 1 | 1 | 0 | 0 | 1 |\n| 1 | 1 | 0 | 1 | 1 |\n| 1 | 1 | 1 | 0 | 1 |\n| 1 | 1 | 1 | 1 | 1 |\n\n将 F 表示在卡诺图上：\n\n| AB\\CD | 00 | 01 | 11 | 10 |\n|---|---|---|---|---|\n| 00 | ○ | ○ | ○ | ○ |\n| 01 | ○ | ○ | 1 | 1 |\n| 11 | 1 | 1 | 1 | 1 |\n| 10 | 1 | 1 | ( | 1 |\n\n即 F = Σ(7, 9, 10, 11, 12, 13, 14, 15)。"
+    },
+    {
+      "sample_id": "ANS_ML_43",
+      "status": "SOURCE_SCORE_MARKING_PRESENT",
+      "reason": "原转写含评卷员/评分文字，优先处理输入来源，不能直接回退到原文。",
+      "original_sha256": "cf2d86b90ea1029d2240574244a5be46536b02431355a0e4298f23e604c2612b",
+      "proxy_sha256": "ae531d938f78c65c6b8ebdfde0b5ce6cbbd81ecbd8d7cb77d2ccb5da093df4ca",
+      "original_answer": "如图所示\n\n表格内容：\nA列：0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1\nB列：0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1\nC列：0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1\nD列：0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1\nF列：0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1\n\n评卷员：高细萍（06043）评分：2",
+      "proxy_answer": "如图所示，表格内容如下：\n\n| A | B | C | D | F |\n|---|---|---|---|---|\n| 0 | 0 | 0 | 0 | 0 |\n| 0 | 0 | 0 | 1 | 0 |\n| 0 | 0 | 1 | 0 | 0 |\n| 0 | 0 | 1 | 1 | 0 |\n| 0 | 1 | 0 | 0 | 0 |\n| 0 | 1 | 0 | 1 | 0 |\n| 0 | 1 | 1 | 0 | 0 |\n| 0 | 1 | 1 | 1 | 0 |\n| 1 | 0 | 0 | 0 | 0 |\n| 1 | 0 | 0 | 1 | 1 |\n| 1 | 0 | 1 | 0 | 1 |\n| 1 | 0 | 1 | 1 | 1 |\n| 1 | 1 | 0 | 0 | 1 |\n| 1 | 1 | 0 | 1 | 1 |\n| 1 | 1 | 1 | 0 | 1 |\n| 1 | 1 | 1 | 1 | 1 |\n\n评卷员：高细萍（06043）评分：2"
+    },
+    {
+      "sample_id": "ANS_POC_35",
+      "status": "REJECT_PROXY_CHANGE",
+      "reason": "两处删除 (b)：短语列表和直接短语列表均缺少原内容。",
+      "original_sha256": "6c8dde76c4f37917d6b7e8a2a24233cc05c529439d6c808a5e9790622157a07e",
+      "proxy_sha256": "9e7d51dbee2afe10d402505edb3803432da0deb9bf47d36726aaefd6f260bf07",
+      "original_answer": "2. 答：短语：(SaA)是A的短语，(b)是S的短语，((SaA)(b))是S的短语，(A((SaA)(b)))是S的短语 | 直接短语：(SaA)和(b) | 句柄：(SaA)",
+      "proxy_answer": "2. 答：短语：(SaA) 是 A 的短语， 是 S 的短语，((SaA)(b)) 是 S 的短语，(A((SaA)(b))) 是 S 的短语。直接短语：(SaA) 和。句柄：(SaA)。"
+    },
+    {
+      "sample_id": "ANS_POC_198",
+      "status": "REVIEW_SOURCE_OR_REWRITE",
+      "reason": "把排版含糊的ASCII树重构为明确三子节点树，父子关系需回看原图。",
+      "original_sha256": "61c8e68e1dc1eb44a98596c43e8e5e2ac54b7e1b3bdfe821dc13a32432c732ef",
+      "proxy_sha256": "75c2ad8f406db26ebd019e4a43508a72c18002e4716113619e8c565e684735eb",
+      "original_answer": "1.G5只有综合属性S.X.A.X ∴G5是S-属性文法.\n2.如图所示\n2.  S s.X=2\n    /   \\\n   a     b\n   A A.X=1\n   /   \\\n  A     S s.X=1\n  A.X=0 /   \\\n       a     b\n       A A.X=0\n       |\n       S s.X=0\n       |\n       C\n       S s.X=0\n       |\n       C",
+      "proxy_answer": "1. G5 中只有综合属性 S.X 和 A.X，因此 G5 是 S-属性文法。\n2. 如图所示：\nS  s.X=2\n├─ a\n├─ A  A.X=1\n│  ├─ A  A.X=0\n│  │  └─ S  s.X=0\n│  │     └─ C\n│  └─ S  s.X=1\n│     ├─ a\n│     ├─ A  A.X=0\n│     │  └─ S  s.X=0\n│     │     └─ C\n│     └─ b\n└─ b"
+    }
+  ]
+}

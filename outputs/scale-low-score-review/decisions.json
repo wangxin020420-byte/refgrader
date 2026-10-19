@@ -1,0 +1,341 @@
+{
+  "reviewer_type": "AI_ASSISTED_TEXT_REVIEW_NOT_INDEPENDENT_HUMAN_LABELING",
+  "decisions": [
+    {
+      "candidate_id": "01-1",
+      "sample_id": "ADS:9e1a866d58ed:train:581",
+      "decision": "EXCLUDE_THIS_PILOT",
+      "reason": "仅对极短判断句做标点或套语改动，本轮保守排除",
+      "generated_answer_sha256_stripped": "239631afd2a7f29ec9afaa3ccbf2a1c62e762812637450cca42732ac86d37e86"
+    },
+    {
+      "candidate_id": "01-2",
+      "sample_id": "ADS:9e1a866d58ed:train:581",
+      "decision": "EXCLUDE_THIS_PILOT",
+      "reason": "仅对极短判断句做标点或套语改动，本轮保守排除",
+      "generated_answer_sha256_stripped": "6f81cead959d9e80bde62f984fe88f0223e736eeffc639e5acf36966e274f1b3"
+    },
+    {
+      "candidate_id": "02-1",
+      "sample_id": "ADS:9e1a866d58ed:train:99",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "793dc20a5da93f806b5242b3f81d0cf271f748dd1fe89f463b66717409b08503"
+    },
+    {
+      "candidate_id": "02-2",
+      "sample_id": "ADS:9e1a866d58ed:train:99",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "a91ce33f6f121ef7e51d989eecddad7c4569a0832a2dd69b1372e5d3aa12f434"
+    },
+    {
+      "candidate_id": "03-1",
+      "sample_id": "ADS:9e1a866d58ed:train:40",
+      "decision": "HOLD",
+      "reason": "保留2^n-1但源表达/评分可能有歧义，暂不继承0分",
+      "generated_answer_sha256_stripped": "92f88250c08f77f949afee4445286d6085ba11ceb398eba88429a05e5e6efa83"
+    },
+    {
+      "candidate_id": "03-2",
+      "sample_id": "ADS:9e1a866d58ed:train:40",
+      "decision": "HOLD",
+      "reason": "保留2^n-1但源表达/评分可能有歧义，暂不继承0分",
+      "generated_answer_sha256_stripped": "2dacee9e93a5ecb9a032b570b0f918237b98ba544f995753fd5c608c1fbd6581"
+    },
+    {
+      "candidate_id": "04-1",
+      "sample_id": "ADS:9e1a866d58ed:train:516",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "7620757faf20bf95c8f74a0a2c9fdcdfa6fe365c9e6f78a6841021510595fd69"
+    },
+    {
+      "candidate_id": "04-2",
+      "sample_id": "ADS:9e1a866d58ed:train:516",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "8438674373b1f8740c24f5532fdfa8c9567daf822c99e08cd6bdbfcac1b1b456"
+    },
+    {
+      "candidate_id": "05-1",
+      "sample_id": "ADS:9e1a866d58ed:train:1077",
+      "decision": "HOLD",
+      "reason": "原答案判断与解释存在矛盾，保留矛盾不等于标签可靠",
+      "generated_answer_sha256_stripped": "71f6c5de6448476e351cf93989629137ea1a96a205249f63c093b5ab36f142b1"
+    },
+    {
+      "candidate_id": "05-2",
+      "sample_id": "ADS:9e1a866d58ed:train:1077",
+      "decision": "HOLD",
+      "reason": "原答案判断与解释存在矛盾，保留矛盾不等于标签可靠",
+      "generated_answer_sha256_stripped": "1ddbd1f7ff7be57258c305bdf341d205226e8b4a83635395c6c46d5ec607ebd7"
+    },
+    {
+      "candidate_id": "06-1",
+      "sample_id": "ADS:9e1a866d58ed:train:903",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "5c96aa1f473e36922352d1404be7bb615745a6328c25dd8e177fbe822e8211f6"
+    },
+    {
+      "candidate_id": "06-2",
+      "sample_id": "ADS:9e1a866d58ed:train:903",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "3636af30956dc9b302a39fb361022f4cab14d4b1b219dc7b020a7ad6e2be862f"
+    },
+    {
+      "candidate_id": "07-1",
+      "sample_id": "ADS:9e1a866d58ed:train:30",
+      "decision": "EXCLUDE_THIS_PILOT",
+      "reason": "只有入队标题，空白或标点变化，无实质改写",
+      "generated_answer_sha256_stripped": "f9e808222d939b1e85a138deac09b9c05657a169eee08577b3a4a06d5cbc005e"
+    },
+    {
+      "candidate_id": "07-2",
+      "sample_id": "ADS:9e1a866d58ed:train:30",
+      "decision": "EXCLUDE_THIS_PILOT",
+      "reason": "只有入队标题，空白或标点变化，无实质改写",
+      "generated_answer_sha256_stripped": "c51ebac5377ed17b194a10a0b64f1b7d6abeddfd1dcdbcbf903b6405b8dee784"
+    },
+    {
+      "candidate_id": "08-1",
+      "sample_id": "ADS:9e1a866d58ed:train:926",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "09180b8d0f2cfc8f74466d52f88d733981452b449a7abf4a6bcf35e14658ed22"
+    },
+    {
+      "candidate_id": "08-2",
+      "sample_id": "ADS:9e1a866d58ed:train:926",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "2bf065fa34845aee77e945b68bb89b3df4ba208551d0607f33a703823ebf9961"
+    },
+    {
+      "candidate_id": "09-1",
+      "sample_id": "ADS:9e1a866d58ed:train:913",
+      "decision": "HOLD",
+      "reason": "题目对进出栈是否交错的表述有歧义，09-2还加入均，暂不继承0分",
+      "generated_answer_sha256_stripped": "a2017b1ffbb7c2676ff7306cac5a92d733f798a6637bd7078269abb0137a59fb"
+    },
+    {
+      "candidate_id": "09-2",
+      "sample_id": "ADS:9e1a866d58ed:train:913",
+      "decision": "HOLD",
+      "reason": "题目对进出栈是否交错的表述有歧义，09-2还加入均，暂不继承0分",
+      "generated_answer_sha256_stripped": "6914b711e82995ccc4f09d5d63067bbf2e0418459f821fadbd65805eb51cca0d"
+    },
+    {
+      "candidate_id": "10-1",
+      "sample_id": "ADS:9e1a866d58ed:train:299",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "9e730d09576ee8aec48d459696050fabedf9a654b3ce14d87d42521035b43d1a"
+    },
+    {
+      "candidate_id": "10-2",
+      "sample_id": "ADS:9e1a866d58ed:train:299",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "139eac5d3231bcc18845b5808f25ddf47f14d7c8e55bbf3db5344ec739c091af"
+    },
+    {
+      "candidate_id": "11-1",
+      "sample_id": "ADS:9e1a866d58ed:train:561",
+      "decision": "EXCLUDE_THIS_PILOT",
+      "reason": "单个数值的单位或套语变化；11-1另有训练重复标记",
+      "generated_answer_sha256_stripped": "c083975a17ccdc9e675ddf0b07fe69e473951a97892182bc312080c02e8ffa66"
+    },
+    {
+      "candidate_id": "11-2",
+      "sample_id": "ADS:9e1a866d58ed:train:561",
+      "decision": "EXCLUDE_THIS_PILOT",
+      "reason": "单个数值的单位或套语变化；11-1另有训练重复标记",
+      "generated_answer_sha256_stripped": "436359e002ef76ae482c8084e93ffbc830d8006691f34c7d8692a4d5e96df2a1"
+    },
+    {
+      "candidate_id": "12-1",
+      "sample_id": "ADS:9e1a866d58ed:train:549",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "bd3828a7704749eb7a32cfbdcee7c96aae703f4886cc48e1e7e3e6154c60f29f"
+    },
+    {
+      "candidate_id": "12-2",
+      "sample_id": "ADS:9e1a866d58ed:train:549",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "26f9c7abfcc1ce7d227e226617aa2a7b19bb64ffc2fa641d49aad1cc8598f2dd"
+    },
+    {
+      "candidate_id": "13-1",
+      "sample_id": "ADS:9e1a866d58ed:train:263",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "0139d775a60a3a99b643805677de3e0cb4ca3bc0c6c929b84959b11c000a4c5d"
+    },
+    {
+      "candidate_id": "13-2",
+      "sample_id": "ADS:9e1a866d58ed:train:263",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "831b8468eb6e1979dfe158744bfa1c8e1556e244ff02a08dc64c005de271c0c6"
+    },
+    {
+      "candidate_id": "14-1",
+      "sample_id": "ADS:9e1a866d58ed:train:178",
+      "decision": "HOLD",
+      "reason": "伪代码出现全角分号、补调用等变化，需独立检查后再继承分数",
+      "generated_answer_sha256_stripped": "8451cbdc8d6d92f883484c27553d7b0198f964bb9d1ff6e6b77c25cb3c177935"
+    },
+    {
+      "candidate_id": "14-2",
+      "sample_id": "ADS:9e1a866d58ed:train:178",
+      "decision": "HOLD",
+      "reason": "伪代码出现全角分号、补调用等变化，需独立检查后再继承分数",
+      "generated_answer_sha256_stripped": "835a7da6f66e2c684bc298347270ceacb5a6c1f22a858fc939cd43b67ce22516"
+    },
+    {
+      "candidate_id": "15-1",
+      "sample_id": "ADS:9e1a866d58ed:train:497",
+      "decision": "EXCLUDE_THIS_PILOT",
+      "reason": "与13组源答案仅有标点差异，候选亦语义重复，本轮只保留13组",
+      "generated_answer_sha256_stripped": "08112f22422f4f688d35df3fc05cd404534e2e0248bf80fa93f26f679c97321d"
+    },
+    {
+      "candidate_id": "15-2",
+      "sample_id": "ADS:9e1a866d58ed:train:497",
+      "decision": "EXCLUDE_THIS_PILOT",
+      "reason": "与13组源答案仅有标点差异，候选亦语义重复，本轮只保留13组",
+      "generated_answer_sha256_stripped": "5551e4dc5f19e09a6c0d2859b8228421c8ca77fbcb43c86045ef662f50d19f95"
+    },
+    {
+      "candidate_id": "16-1",
+      "sample_id": "ADS:9e1a866d58ed:train:70",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "967f97b251399c93d8374ba15d57e1029226ea4137fab9170edea876eeee6939"
+    },
+    {
+      "candidate_id": "16-2",
+      "sample_id": "ADS:9e1a866d58ed:train:70",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "6fcf0d0469f2a909c39d5243b26aa52950cc2ba452c0bb914ee53d8344be9aac"
+    },
+    {
+      "candidate_id": "17-1",
+      "sample_id": "ADS:9e1a866d58ed:train:975",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "01f87df9f4cd1268b4f7db6293165ad64a027db76e8a088e5822e753f59d0666"
+    },
+    {
+      "candidate_id": "17-2",
+      "sample_id": "ADS:9e1a866d58ed:train:975",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "cc436336390da74f5c34512b91b35933461009627ac90bc4720be72ba5be80ca"
+    },
+    {
+      "candidate_id": "18-1",
+      "sample_id": "ADS:9e1a866d58ed:train:509",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "86bdcd5f95de0487f0b03c1cfe8c907debcb7bd587f7bf229534c42aecb19c7e"
+    },
+    {
+      "candidate_id": "18-2",
+      "sample_id": "ADS:9e1a866d58ed:train:509",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "13d2a62062f68699a218e3b032833c86f3dba714cbce05c9e80c2b630289b7e2"
+    },
+    {
+      "candidate_id": "19-1",
+      "sample_id": "ADS:9e1a866d58ed:train:209",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "581b444b944bcc3e6ad87f66cf4cc0100894d0d1bf4b497c8d514cd8cb172769"
+    },
+    {
+      "candidate_id": "19-2",
+      "sample_id": "ADS:9e1a866d58ed:train:209",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "c8b14987b1119bd2688def169f695a6251330c058ce5e60c05d02e4345608242"
+    },
+    {
+      "candidate_id": "20-1",
+      "sample_id": "ADS:9e1a866d58ed:train:474",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "07c40e3b9ca71a5271436d099cc1fd77758af72dea2599e6398fe9050f5c68f0"
+    },
+    {
+      "candidate_id": "20-2",
+      "sample_id": "ADS:9e1a866d58ed:train:474",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "4459e60c0fa1a30b8ce3a2118ea628b209b58197ca7096f2fe5febda68ebfd66"
+    },
+    {
+      "candidate_id": "21-1",
+      "sample_id": "ADS:9e1a866d58ed:train:944",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "c905e3415079309bf59fb47c0746ee489f90f210669bd559beed1703b116c861"
+    },
+    {
+      "candidate_id": "21-2",
+      "sample_id": "ADS:9e1a866d58ed:train:944",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "aaea9359cc66a6ec58bc8bf5129d31ba43a4aeffa79766f03c00c8157b7947a0"
+    },
+    {
+      "candidate_id": "22-1",
+      "sample_id": "ADS:9e1a866d58ed:train:262",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "8cd9aab8a28715ccc4d02935a545508304a7f3408205f6a8e80b3e3d143b778b"
+    },
+    {
+      "candidate_id": "22-2",
+      "sample_id": "ADS:9e1a866d58ed:train:262",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "c252b17eed35df3d0832b57d58702b81045799459194532a8ddf482aa3d0e5e1"
+    },
+    {
+      "candidate_id": "23-1",
+      "sample_id": "ADS:9e1a866d58ed:train:372",
+      "decision": "EXCLUDE_THIS_PILOT",
+      "reason": "只有否定词或标点变化，答题对象不明确，本轮排除",
+      "generated_answer_sha256_stripped": "635b1c833d711e1a2fd75ec64503b49a5084f2c3c82cdb98ab55407b1d0c2fd4"
+    },
+    {
+      "candidate_id": "23-2",
+      "sample_id": "ADS:9e1a866d58ed:train:372",
+      "decision": "EXCLUDE_THIS_PILOT",
+      "reason": "只有否定词或标点变化，答题对象不明确，本轮排除",
+      "generated_answer_sha256_stripped": "969e7bb7bf0a7e1dc1ab3ca8c58eeb6a8c115b81fa8586b3190e04635e20ef9d"
+    },
+    {
+      "candidate_id": "24-1",
+      "sample_id": "ADS:9e1a866d58ed:train:291",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "6599393331f07103c98441b3bb3b32892121b53583d40410efc057fa81b0d880"
+    },
+    {
+      "candidate_id": "24-2",
+      "sample_id": "ADS:9e1a866d58ed:train:291",
+      "decision": "PROVISIONAL_EXPERIMENT_ONLY",
+      "reason": "文本审查未发现明显纠错或补全；不代表源分数已独立验证",
+      "generated_answer_sha256_stripped": "0fb56e19cab9cd50806013651fe6bfcdf6a286a0ca873bd6d63e0e305557a7aa"
+    }
+  ]
+}

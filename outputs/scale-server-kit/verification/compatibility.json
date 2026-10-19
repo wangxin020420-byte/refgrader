@@ -1,0 +1,9 @@
+{
+  "local_python": "3.11.9",
+  "checks": [
+    "Python 3.7 syntax accepted",
+    "Preparation and repeated preparation passed with is_relative_to removed",
+    "Sibling path rejected by relative_to"
+  ],
+  "actual_server_python_tested": false
+}

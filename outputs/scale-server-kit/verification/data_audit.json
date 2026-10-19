@@ -1,0 +1,306 @@
+{
+  "commit": "9e1a866d58edaa0d78af374d2f3529a10d72239a",
+  "archive_sha256": "5194a3d89f2fbc37e4624b00b8bf946bc2907ac1a4ea59d132ad5bcb6a93bc66",
+  "normalization": "none; original labels retained",
+  "protocol_status": "upstream file audit, not confirmed paper protocol",
+  "datasets": {
+    "ADS": {
+      "all": {
+        "file": "ADS/all.jsonl",
+        "sha256": "1daf171715cb0e95d7a8a7d1c5a8123ab7cbd119475e11c031bdcdcdda253652",
+        "rows": 1582,
+        "group_ids": 15,
+        "score_min": 0.0,
+        "score_max": 10.0,
+        "score_values": [
+          0.0,
+          1.0,
+          2.0,
+          3.0,
+          4.0,
+          5.0,
+          6.0,
+          7.0,
+          8.0,
+          9.0,
+          10.0
+        ]
+      },
+      "train": {
+        "file": "ADS/train.jsonl",
+        "sha256": "6fcbcc2ee5f58f3ab558fdf623e81999a25f58fc122ab13a68a2c16191afaf84",
+        "rows": 1107,
+        "group_ids": 15,
+        "score_min": 0.0,
+        "score_max": 10.0,
+        "score_values": [
+          0.0,
+          1.0,
+          2.0,
+          3.0,
+          4.0,
+          5.0,
+          6.0,
+          7.0,
+          8.0,
+          9.0,
+          10.0
+        ]
+      },
+      "test": {
+        "file": "ADS/test.jsonl",
+        "sha256": "d4400a05768ccf936ee02fbcd3a5b7711defce323836d5cbceff0033066ee237",
+        "rows": 475,
+        "group_ids": 15,
+        "score_min": 0.0,
+        "score_max": 10.0,
+        "score_values": [
+          0.0,
+          1.0,
+          2.0,
+          3.0,
+          4.0,
+          5.0,
+          6.0,
+          7.0,
+          8.0,
+          9.0,
+          10.0
+        ]
+      },
+      "partition_matches_all": true,
+      "train_test_identical_record_overlap": 41,
+      "train_test_same_group_answer_overlap": 45
+    },
+    "ASAG": {
+      "all": {
+        "file": "ASAG/train_zh.csv",
+        "sha256": "1c9f2738a2be51abd93a4b8876871a89556c91975825bea0add1a483172f84bc",
+        "rows": 629,
+        "group_ids": 21,
+        "score_min": 0.0,
+        "score_max": 5.0,
+        "score_values": [
+          0.0,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ]
+      },
+      "train": {
+        "file": "ASAG/s_train_zh.csv",
+        "sha256": "969e564d7430fb3a5956e4080a1d867054173e32a07eed08a574536a8aa09481",
+        "rows": 440,
+        "group_ids": 21,
+        "score_min": 0.0,
+        "score_max": 5.0,
+        "score_values": [
+          0.0,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ]
+      },
+      "test": {
+        "file": "ASAG/s_eval_zh.csv",
+        "sha256": "08f40ce783e9f6529db118a2f61ba68affcc757ab615bbe757f0c4b35ed82803",
+        "rows": 189,
+        "group_ids": 21,
+        "score_min": 0.0,
+        "score_max": 5.0,
+        "score_values": [
+          0.0,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          3.5,
+          4.0,
+          4.5,
+          5.0
+        ]
+      },
+      "partition_matches_all": true,
+      "train_test_identical_record_overlap": 0,
+      "train_test_same_group_answer_overlap": 7
+    },
+    "LE": {
+      "all": {
+        "file": "LE/train.csv",
+        "sha256": "acbc8d60e45597df054a5b4fc2beacb47cbd0dcf954a08af4ab22a9a3136c8f3",
+        "rows": 585,
+        "group_ids": 100,
+        "score_min": 0.0,
+        "score_max": 1.0,
+        "score_values": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ]
+      },
+      "train": {
+        "file": "LE/s_train_zh.csv",
+        "sha256": "f00933b83c5abd161cb86e6b6f2222d5c33f4e69adc0523b83a563141c879f4a",
+        "rows": 409,
+        "group_ids": 100,
+        "score_min": 0.0,
+        "score_max": 1.0,
+        "score_values": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ]
+      },
+      "test": {
+        "file": "LE/s_eval_zh.csv",
+        "sha256": "dab05a6e275248fde508f735a225fb4ebce394d294a9a29b56ffc4a2df3110b1",
+        "rows": 176,
+        "group_ids": 89,
+        "score_min": 0.0,
+        "score_max": 1.0,
+        "score_values": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ]
+      },
+      "partition_matches_all": true,
+      "train_test_identical_record_overlap": 0,
+      "train_test_same_group_answer_overlap": 0
+    },
+    "SR": {
+      "all": {
+        "file": "SR/sentences-goldstandard.csv",
+        "sha256": "a102fcee661f4c1752ed074f7a418c9a22bd6c5a4ccd900c96e14de8f5847d87",
+        "rows": 331,
+        "group_ids": 34,
+        "score_min": 0.0,
+        "score_max": 1.0,
+        "score_values": [
+          0.0,
+          0.2,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ]
+      },
+      "train": {
+        "file": "SR/s_train_zh.csv",
+        "sha256": "4f518cab6d77266c6f526b8fdfd99a1661e1d7c14edbb6ad3b0c0f74d16e3b86",
+        "rows": 231,
+        "group_ids": 33,
+        "score_min": 0.0,
+        "score_max": 1.0,
+        "score_values": [
+          0.0,
+          0.2,
+          0.4,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ]
+      },
+      "test": {
+        "file": "SR/s_eval_zh.csv",
+        "sha256": "f0edd73ac34e76de54bfcd01e9d4179995d6ab9e32f0c5ad5a1a16238acb5786",
+        "rows": 100,
+        "group_ids": 33,
+        "score_min": 0.0,
+        "score_max": 1.0,
+        "score_values": [
+          0.0,
+          0.2,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ]
+      },
+      "partition_matches_all": true,
+      "train_test_identical_record_overlap": 0,
+      "train_test_same_group_answer_overlap": 1
+    }
+  },
+  "warnings": [
+    "ADS README says 80/20, actual files are 1107/475 (~70/30).",
+    "Root README says ADS scores normalized 0..1; actual labels are 0..10.",
+    "ASAG README says 630; this pinned version contains 629 records.",
+    "SCALE full training implementation and final paper protocol are unverified.",
+    "SR reference identifiers are not verified original question identifiers.",
+    "ADS: identical group/answer appears across splits; preserve upstream and review leakage separately.",
+    "ASAG: identical group/answer appears across splits; preserve upstream and review leakage separately.",
+    "SR: identical group/answer appears across splits; preserve upstream and review leakage separately."
+  ],
+  "files": {
+    "ADS/all.jsonl": "1daf171715cb0e95d7a8a7d1c5a8123ab7cbd119475e11c031bdcdcdda253652",
+    "ADS/process.py": "c2b25c33cd807e181d28616a10654e41bcf3face4d64842086872e5d644c0a4c",
+    "ADS/Readme.md": "473b706503210320de58f449c8a486fe696bb4dba575bec7f58896802c502475",
+    "ADS/test.jsonl": "d4400a05768ccf936ee02fbcd3a5b7711defce323836d5cbceff0033066ee237",
+    "ADS/train.jsonl": "6fcbcc2ee5f58f3ab558fdf623e81999a25f58fc122ab13a68a2c16191afaf84",
+    "ASAG/qa_zh.csv": "cb4b05913c42547353b4e1f42e996409a2032150ed3d5209097865dcb8c3a9e5",
+    "ASAG/s_eval_zh.csv": "08f40ce783e9f6529db118a2f61ba68affcc757ab615bbe757f0c4b35ed82803",
+    "ASAG/s_train_zh.csv": "969e564d7430fb3a5956e4080a1d867054173e32a07eed08a574536a8aa09481",
+    "ASAG/train_zh.csv": "1c9f2738a2be51abd93a4b8876871a89556c91975825bea0add1a483172f84bc",
+    "LE/entities.txt": "30de18a2d1ad84cc633e9e2c20d3331779d1f764c405f9381f9629652a9a92f6",
+    "LE/qa.csv": "e7b3839e2cb490402b77d047358ea3548b7097dc5142c025237cf35db057d551",
+    "LE/s_eval_zh.csv": "dab05a6e275248fde508f735a225fb4ebce394d294a9a29b56ffc4a2df3110b1",
+    "LE/s_train_zh.csv": "f00933b83c5abd161cb86e6b6f2222d5c33f4e69adc0523b83a563141c879f4a",
+    "LE/train.csv": "acbc8d60e45597df054a5b4fc2beacb47cbd0dcf954a08af4ab22a9a3136c8f3",
+    "LICENSE": "8b0b40bfcba53c34c3eb272d5c0d8cefaed4be8791a1a4cd9048d81b86a39367",
+    "README.md": "669c821a533cb0a799ac180aad7eb8a2d979de9b927e7690bca468522309e6bc",
+    "SR/entities.txt": "9b198410ee246c97ab6e933f72a148b79339b18383c95d71ed9442e57d11ceab",
+    "SR/gold_ans.csv": "967882ab4619419082846df5c2658ea756551d831de63746152150fb0960da60",
+    "SR/s_eval_zh.csv": "f0edd73ac34e76de54bfcd01e9d4179995d6ab9e32f0c5ad5a1a16238acb5786",
+    "SR/s_train_zh.csv": "4f518cab6d77266c6f526b8fdfd99a1661e1d7c14edbb6ad3b0c0f74d16e3b86",
+    "SR/sentences-goldstandard.csv": "a102fcee661f4c1752ed074f7a418c9a22bd6c5a4ccd900c96e14de8f5847d87",
+    "stsbenchmark/dev_zh.csv": "808a84e7361d3571c7a591758da4400a4ae00017ac5c18cd070eed4b7fce7add",
+    "stsbenchmark/test_zh.csv": "cea9c04cadf4bffd5d2a93ad4a603300a10a8b7eb222c3252e3854bc690e9483",
+    "stsbenchmark/train_zh.csv": "89e4606f3bae8f2ea8e2c59c56cc031193118d5d55f9b733ce8ae7cc453b41f2"
+  }
+}

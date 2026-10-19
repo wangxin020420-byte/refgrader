@@ -1,0 +1,54 @@
+{
+  "status": "PAPER_REVIEWED_IMPLEMENTATION_UNVERIFIED",
+  "paper_sha256": "c09451746af908d27ef4f317c1502a630bf7ed1bff0e1296b64f854e47c78a75",
+  "paper_pages": 13,
+  "confirmed": {
+    "generator": "Llama3.1-8B-Instruct",
+    "generated_per_response": 5,
+    "plm_lr": 5e-05,
+    "non_plm_lr": 0.001,
+    "original_batch_size": 16,
+    "synthetic_batch_size": 64,
+    "initial_budget": 5000,
+    "fine_filter_beta": 0.2,
+    "repeats": 5,
+    "validation_size": 50,
+    "validation_source_as_written": "test",
+    "selection_metric": "QWK",
+    "loss": "MSE"
+  },
+  "not_resolved": {
+    "exact_checkpoints": null,
+    "epochs": null,
+    "max_length": null,
+    "initial_filter_k": "a (undefined numeric value)",
+    "few_shot": "K=2 per question with three score ranges mentioned",
+    "validation_excluded_from_final_test": null,
+    "metric_normalization": null,
+    "author_training_repository": null
+  },
+  "paper_data": {
+    "ADS": {
+      "train": 1108,
+      "test": 476,
+      "language": "Chinese"
+    },
+    "LE": {
+      "train": 409,
+      "test": 176,
+      "language": "Chinese"
+    },
+    "ASAG": {
+      "train": 440,
+      "test": 189,
+      "language": "English"
+    },
+    "SR": {
+      "train": 231,
+      "test": 100,
+      "language": "Italian"
+    }
+  },
+  "training_started": false,
+  "server_status": "GPU busy; Slurm controller connection failed; allocation unconfirmed"
+}

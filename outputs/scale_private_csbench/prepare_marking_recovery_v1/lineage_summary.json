@@ -1,0 +1,140 @@
+{
+  "status": "MARKING_LINEAGE_AUDIT_COMPLETE",
+  "experiment_id": "csbench_scale_online_v1",
+  "known_training_source_ids": [
+    "ANS_ML_09",
+    "ANS_ML_25",
+    "ANS_ML_28",
+    "ANS_ML_31",
+    "ANS_ML_37",
+    "ANS_ML_43"
+  ],
+  "artifacts": [
+    {
+      "artifact": "visual_train",
+      "path": "/data0/E125221219/projects/scale-private/runs/online_experiments/csbench_scale_online_v1/visual/text_view/train.inputs.jsonl",
+      "sha256": "ad91d03db4fac18e4ef978dee6982d1c739fc6bcd7a7dd9c50fa05a717d80ce9",
+      "records": 345,
+      "records_with_explicit_marking": 6,
+      "records_from_known_sources": 6,
+      "scanned_fields_present": {
+        "answer": 345,
+        "question": 345,
+        "references": 345
+      }
+    },
+    {
+      "artifact": "visual_validation",
+      "path": "/data0/E125221219/projects/scale-private/runs/online_experiments/csbench_scale_online_v1/visual/text_view/validation.inputs.jsonl",
+      "sha256": "ca206b0a5b687e36cf4e26072d860bc93445b5805ef344186d7bb5d8a7e33dce",
+      "records": 343,
+      "records_with_explicit_marking": 6,
+      "records_from_known_sources": 0,
+      "scanned_fields_present": {
+        "answer": 343,
+        "question": 343,
+        "references": 343
+      }
+    },
+    {
+      "artifact": "visual_test",
+      "path": "/data0/E125221219/projects/scale-private/runs/online_experiments/csbench_scale_online_v1/visual/text_view/test.inputs.jsonl",
+      "sha256": "3dd4295b2a75a5075b0ec3917d07718e56c79f73414d7b07fbb9eaba2e15be96",
+      "records": 2723,
+      "records_with_explicit_marking": 41,
+      "records_from_known_sources": 0,
+      "scanned_fields_present": {
+        "answer": 2723,
+        "question": 2723,
+        "references": 2723
+      }
+    },
+    {
+      "artifact": "stage1_sources",
+      "path": "/data0/E125221219/projects/scale-private/runs/online_experiments/csbench_scale_online_v1/scale_stage1/training_sources.json",
+      "sha256": "4d410cd764b209f6771887176f1321b01cd3d33002912bf22b8879770abafbac",
+      "records": 345,
+      "records_with_explicit_marking": 6,
+      "records_from_known_sources": 6,
+      "scanned_fields_present": {
+        "a": 345,
+        "q": 345,
+        "r": 345
+      }
+    },
+    {
+      "artifact": "stage1_units",
+      "path": "/data0/E125221219/projects/scale-private/runs/online_experiments/csbench_scale_online_v1/scale_stage1/source_units.jsonl",
+      "sha256": "d0a2f52bf1ad7e648e6a330e7115831a96aea35bd61c74407272fca05468e596",
+      "records": 390,
+      "records_with_explicit_marking": 6,
+      "records_from_known_sources": 6,
+      "scanned_fields_present": {
+        "text": 390
+      }
+    },
+    {
+      "artifact": "stage1_extractions",
+      "path": "/data0/E125221219/projects/scale-private/runs/online_experiments/csbench_scale_online_v1/scale_stage1/extractions.jsonl",
+      "sha256": "43fde4a0b7abbd02659f16fae3dd2cd5009939703a6f31ea12c0957708c0189a",
+      "records": 390,
+      "records_with_explicit_marking": 5,
+      "records_from_known_sources": 6,
+      "scanned_fields_present": {
+        "triples": 390
+      }
+    },
+    {
+      "artifact": "stage3_requests",
+      "path": "/data0/E125221219/projects/scale-private/runs/online_experiments/csbench_scale_online_v1/scale_stage3/requests.jsonl",
+      "sha256": "d847db04a96d6e0a0a1c788ba472839e75eb16bc04e3e8a78534c4e71cbe013a",
+      "records": 1193,
+      "records_with_explicit_marking": 13,
+      "records_from_known_sources": 13,
+      "scanned_fields_present": {
+        "messages": 1193
+      }
+    },
+    {
+      "artifact": "stage3_candidates",
+      "path": "/data0/E125221219/projects/scale-private/runs/online_experiments/csbench_scale_online_v1/scale_stage3/candidates.jsonl",
+      "sha256": "7216b77657274a7a26f3547e96bcc2553728b58ee5ff01cb4e7edbfa04d51b75",
+      "records": 5965,
+      "records_with_explicit_marking": 34,
+      "records_from_known_sources": 65,
+      "scanned_fields_present": {
+        "answer": 5965
+      }
+    },
+    {
+      "artifact": "stage4_selected",
+      "path": "/data0/E125221219/projects/scale-private/runs/online_experiments/csbench_scale_online_v1/scale_stage4/layout/paper_method_v2/artifacts/initial_filter_k5_b5000_v1/selected_candidates.jsonl",
+      "sha256": "bf056a7d385f0be2458611d7a1282ef2b392d183b0725cb436fe7862b5faefc3",
+      "records": 5000,
+      "records_with_explicit_marking": 34,
+      "records_from_known_sources": 65,
+      "scanned_fields_present": {
+        "answer": 5000
+      }
+    },
+    {
+      "artifact": "stage5_proxies",
+      "path": "/data0/E125221219/projects/scale-private/runs/online_experiments/csbench_scale_online_v1/scale_stage5/proxy_records.jsonl",
+      "sha256": "52b6ea35e844cfc7714a3fec0b72d7671948c5274d51c1e8d6f09926c8ea3462",
+      "records": 345,
+      "records_with_explicit_marking": 6,
+      "records_from_known_sources": 6,
+      "scanned_fields_present": {
+        "original_answer": 345,
+        "proxy_answer": 345
+      }
+    }
+  ],
+  "missing_files": [],
+  "api_calls": 0,
+  "source_files_modified": false,
+  "label_files_read": false,
+  "validation_test_answer_texts_scanned": true,
+  "scope": "Explicit marking text only. Negative matches do not rule out bare handwritten scores or image-level leakage. No model evaluation or training.",
+  "ready_for_annotator_training": false
+}

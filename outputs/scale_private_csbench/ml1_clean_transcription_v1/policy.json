@@ -1,0 +1,798 @@
+[
+  {
+    "sample_id": "ANS_ML_09",
+    "split": "train",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_09.jpg",
+    "image_sha256": "e052a579a7bb1604c04e4cf959ea0ea6d48d2d52041c7deeaac5eb86b5d5d1e0",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_25",
+    "split": "train",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_25.jpg",
+    "image_sha256": "56e1668b156b2a3c8a26b54838bfffa807b55d6e591dede8ee997c0c72885005",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ],
+      [
+        445,
+        30,
+        955,
+        335
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_28",
+    "split": "train",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_28.jpg",
+    "image_sha256": "56f6b5e05700a3ef6d8fee3162c368344163d358fd5721a28171b24e0cdd0089",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_31",
+    "split": "train",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_31.jpg",
+    "image_sha256": "bbeb10043a11540eea29d993e84bf160c670b8ee767d30bb0aa9ac8516d34242",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_37",
+    "split": "train",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_37.jpg",
+    "image_sha256": "2bd9154c541e41531e0a269e15cc73edb097a909d1c83baa23770c04a8e345d1",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ],
+      [
+        445,
+        30,
+        955,
+        335
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_43",
+    "split": "train",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_43.jpg",
+    "image_sha256": "bbccf898c8c183d04e182267bccb4c9c10f53e68dbe15451185a819a2c511d0a",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_05",
+    "split": "validation",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_05.jpg",
+    "image_sha256": "344ff258a6e646e354099a044905a6ec274c075f47bc7f3828b387f5f0d3ab5d",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_24",
+    "split": "validation",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_24.jpg",
+    "image_sha256": "61ada7b5b219b9a8ff0d4b4feb44583a6535ccd8f6a04b6dcd3abf0335e89913",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_39",
+    "split": "validation",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_39.jpg",
+    "image_sha256": "0bf524d970df13f5f35fa5df761e9bf4fab8a20a7cf9806690362eaebcb346c4",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_45",
+    "split": "validation",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_45.jpg",
+    "image_sha256": "acc4c099a2b21504a9ed2b0f5b738f8476d92c016118e2a8b3fea1873670ab20",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_48",
+    "split": "validation",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_48.jpg",
+    "image_sha256": "bfa260314cf87c0cfa2ba0fc4b068a7fbcaec416c45ca9af657f9974047c46af",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_55",
+    "split": "validation",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_55.jpg",
+    "image_sha256": "334cd8dd9d8e1bb0df671f4fd5c301a3a24baa62bffcecf2879ff4eebf989c08",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_01",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_01.jpg",
+    "image_sha256": "aface893ee5fce73fa36df5c07f7148aaafc5f0c107af3dc64152320be480c2c",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_02",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_02.jpg",
+    "image_sha256": "13f06a08e6fe35945aad676ca9dedc7e32a02d98e9088b8897e4412c97d0c9fe",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_03",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_03.jpg",
+    "image_sha256": "a1e41ef7c7aeef5468c129658034a3a66995b669a9ee66ad78f32daca0cdd91e",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_04",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_04.jpg",
+    "image_sha256": "e558fb75414941b0c8caa9532d8fc183e142dea70d20dfbc8b01ea836377f172",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_06",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_06.jpg",
+    "image_sha256": "c21abc93e92b0611211b60c884f61ecacd30bc5f5fd7b5da0a9c2ca0f8a284ec",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_07",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_07.jpg",
+    "image_sha256": "4a72f80aba943af6d469ab9264cef0be4bfb29f413747e799c6e7d19263fa492",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_08",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_08.jpg",
+    "image_sha256": "bf59dd48611872d92364ba9d1def2a6ea392016fcb923daf8d20923bfea2e1de",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_10",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_10.jpg",
+    "image_sha256": "807b256358403d327716b76b8ddd36a7f5014ee46a8017fcf79e89e1767e2f8e",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_11",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_11.jpg",
+    "image_sha256": "912b2549e96ee696be183acbefc2a60d85ac7ca7c3d55f786eeba372b3913ae2",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_12",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_12.jpg",
+    "image_sha256": "44d732b9b714cd83d332ec28c0454f6b0e1c483f8c15adfbae010be376e8e539",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_13",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_13.jpg",
+    "image_sha256": "ed0f2817ce8f2ad6fe76c80a167f004fe446d90cff25c25d868c5e9d0906c338",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_14",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_14.jpg",
+    "image_sha256": "82cccc4584feb2fb53aa2c6c646e66d2b99be47ad35500ddaf623e86de866c97",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_15",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_15.jpg",
+    "image_sha256": "0a9bd9efbc8e1fbfacb9a57ceefcd8149bd4df710f51e39070b6d93a0e9e8dfa",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_16",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_16.jpg",
+    "image_sha256": "f24adc6c631bc40f27c8fd1c6a200417bf06c274c54190acd81d96487a1ad3d2",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_17",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_17.jpg",
+    "image_sha256": "f32c09e9e580250fcc56dd0e97b93f9d004376c5900a81d04fc9190ec4ca0a30",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_18",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_18.jpg",
+    "image_sha256": "048ca603aa93ff607e4dc2cd9e7936e7c412fd15aca464a44fc7aea925da2fc9",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_19",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_19.jpg",
+    "image_sha256": "f3b46f7f6eb9d53b084638280fa46d9f6ca84af746253a40f439e3bd9d7edac3",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_20",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_20.jpg",
+    "image_sha256": "4d8b9826ff7ccf7c4c631e768952ec8a442a2f59d96990f7b0f0bf70ad55f320",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_21",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_21.jpg",
+    "image_sha256": "e6e2a9bf2eedd4c869f8f773a083bca5f8e7669302ac6e14bcce4bce24d3751d",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_22",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_22.jpg",
+    "image_sha256": "f87e0525506c0f96a86188dd46458d4075239d6fe84c4aa1c841f72a1987e13c",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_23",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_23.jpg",
+    "image_sha256": "5276fb680239e3e3ebc2cf753ea8e16c3d5fe066f2b474dcdf67355553b69825",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_26",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_26.jpg",
+    "image_sha256": "173c7972f197b4ff824ab01b0ff2ad1d5aff1c5a4f6f05b544ecd76f4fad45c7",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_27",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_27.jpg",
+    "image_sha256": "7bcbf10ab24f19198c36dbf0c0c747a1376efba8aa61b5c7b7f638344b7d9254",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_29",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_29.jpg",
+    "image_sha256": "a1295d7c8401c9ace68a746315f8d5041fb5e48be8c8b072f87926bfa02a05df",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_30",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_30.jpg",
+    "image_sha256": "5eb0973d407dccddb8919cd43a082086cbd9299e5c2b03d59b32885af7a4367f",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_32",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_32.jpg",
+    "image_sha256": "2514fba66ea814de0d8c3b576a1c746fb117220e76c8f7fe23e1578e58a609d0",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_33",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_33.jpg",
+    "image_sha256": "8e65e0a5501aee98af60d74342be83f40b6bcb31f1a50e37d4b37aa0a062c651",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_34",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_34.jpg",
+    "image_sha256": "3c55f805b3c03c413214ee9c682f5cecd6bfaecef03710d096371763f5c8880d",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_35",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_35.jpg",
+    "image_sha256": "aa287cb01785cb34c917af1dc6f9fde9d98dea4ed2580bde52bc71690b528b20",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_36",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_36.jpg",
+    "image_sha256": "3770e4f3ac238b454c844caddad88a310788db7bdc3e66813c43a33726780d5e",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_38",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_38.jpg",
+    "image_sha256": "c93f93836b36076f43324f8592a3be28a76ec303c8b42eacb780b0f32e684a6a",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_40",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_40.jpg",
+    "image_sha256": "e6f0f17318b5d38efeed4fa00bce1c68d348ecf332380b1f7315cb34b146a97f",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_41",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_41.jpg",
+    "image_sha256": "c15b1eb080e0445563742d0448b976ed074cfbf13a29fec0ead76cee921f218e",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_42",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_42.jpg",
+    "image_sha256": "2d038fbcfba82e6214eca92ec10b4a2d4c584a240efa4585dd1983a826d870f6",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_44",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_44.jpg",
+    "image_sha256": "780c28f54763f7e1bdfcb11a866d7e2d62f7ee0e504063c5aef4995d16d1453d",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_46",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_46.jpg",
+    "image_sha256": "5b20f9fec225658ea984f8fc747e9e8978aa1caf83483e8e57d58aaaaef060ea",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_47",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_47.jpg",
+    "image_sha256": "a1ae605842159e7a018d7de4c0395219e35216cc5f83c7077894ebff8ad8c83b",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_49",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_49.jpg",
+    "image_sha256": "1f483dd27913e08c6ae9388450c9059ccfb6737a4ec9f4aabf558542d5318c0c",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_50",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_50.jpg",
+    "image_sha256": "4e2ba47b63901149db2baff48e171d08f6cd59e8e48eaf4895c02ba85be6bacd",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_51",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_51.jpg",
+    "image_sha256": "8ca2fc687171657d3f844e9fcb77e0f72fe437f5d6506e692c50465d0a8af702",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_52",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_52.jpg",
+    "image_sha256": "ae4299460e1ad4fd335435c573f7f10134846b66e1f8cb34720727acc112fd68",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_53",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_53.jpg",
+    "image_sha256": "c54718e60ccc290a723778a21cf29e16d57ce69fdaf53119c5e95361ea1847cb",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_54",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_54.jpg",
+    "image_sha256": "359114e48d7e1a4e578bada477b247ed7cc5abce8cf873fda848221591a6e713",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  },
+  {
+    "sample_id": "ANS_ML_56",
+    "split": "test",
+    "path": "/data0/E125221219/projects/refgrader/data/csbench/student_images/ML_1/ANS_ML_56.jpg",
+    "image_sha256": "e5921b6bffcb2144b78f40549bbee35dfcdf53a3f5806c43fc64ede60620a083",
+    "keep_rectangles": [
+      [
+        15,
+        38,
+        445,
+        590
+      ]
+    ]
+  }
+]

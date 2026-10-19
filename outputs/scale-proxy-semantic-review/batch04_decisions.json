@@ -1,0 +1,148 @@
+{
+  "batch": "additional_review_04",
+  "reviewer": "assistant_semantic_review",
+  "review_scope": "Only the 19 supplied pairs; not whole-dataset approval",
+  "counts": {
+    "PASS": 19,
+    "FAIL": 0,
+    "UNCERTAIN": 0
+  },
+  "attachment_sha256": "6e3f348e8272f2de88105f9ae18e15ad05a0fcfec2a75c4fc0ba287874665b1a",
+  "decisions": [
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:903",
+      "decision": "PASS",
+      "note": "保留给定序列、基准和交换描述；“进行划分”是对以3为基准的表达展开，未改变操作对象。",
+      "original_text_sha256": "aa858ed4eb3d12eb0c08754c05942ba3a8c8c5edefa0a529666670490aee59f4",
+      "proxy_text_sha256": "7c3c2f847a7195b8f00efd66203cdebfc8a6af77982bcdf18cfa5f807061ed28"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:904",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；原有判断、条件与遗漏保留，仅规范表达。",
+      "original_text_sha256": "5617d33700220f7d13c5fe954f3dcd2085b9204bfdf8a9e4d92efd616c0f2a80",
+      "proxy_text_sha256": "4aa8166e97e1b9213f6d88050dc300ff762de8355245e623f88b39da41578287"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:909",
+      "decision": "PASS",
+      "note": "原答案的小写 o(1)、o(n) 均保留，只规范括号与标点。",
+      "original_text_sha256": "ede6e9ebcb0f48b835a21939ef4638123d507e8e5b091e44967ee6fe377b4bfa",
+      "proxy_text_sha256": "a4fadd5cf833b284a02678e708f940b9f9322f186dfc089d311d0806e6641ddc"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:920",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；原有判断、条件与遗漏保留，仅规范表达。",
+      "original_text_sha256": "a8a44e4e190a0a531cf2185264d6e67abca8097b2389e32faeaa6102dbbfdb4f",
+      "proxy_text_sha256": "5740c984b8eca4117f218a7b089440d3128b29dc56a305dec231be039c9acc44"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:921",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；原有判断、条件与遗漏保留，仅规范表达。",
+      "original_text_sha256": "2cf27364d222833c3b3665506a3314ae56e7204d7ccc8bcceba9fab429caf75b",
+      "proxy_text_sha256": "5279412f6e31fc64c92e8f71bd9ad651fd549113316ce80a5c01d6c8b0b33ffc"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:931",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；原有判断、条件与遗漏保留，仅规范表达。",
+      "original_text_sha256": "ce9c84ff6556cd0efa6ac55856c064f2d04894b586f5f2dcce0642698074978a",
+      "proxy_text_sha256": "c7208cb8fd5a41cb0b25a7746b0419fdd395063a8b584fb7003e6040179f6357"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:933",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；原有判断、条件与遗漏保留，仅规范表达。",
+      "original_text_sha256": "ade0cd86d4bc47fe0588cea1c485fa15f7ea48af4ec8b555a9a67b3e34525c3e",
+      "proxy_text_sha256": "0bce49303fd2256a823e89e8ed49ca6a69af4ff7da877dce5a8f94616a7bcb96"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:937",
+      "decision": "PASS",
+      "note": "保留原答案“无法找到前驱和后继”的说法，未替学生纠正。",
+      "original_text_sha256": "a24cd25836d56c43b89d82fa437e2a621916439eaf19b53e26b9f36449754b66",
+      "proxy_text_sha256": "33e391b65d890d862bbf7bc3fca19af623691ba156d52f9fd913e0ee58dd841d"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:938",
+      "decision": "PASS",
+      "note": "保留原答案“没有头结点，无法从头遍历”的说法；P/p 在本段指同一题设指针，大小写统一未改变指代。",
+      "original_text_sha256": "61edb6fd557ae25246beb1e9bbb42b4d0da4fd7d2db6e714c29297b774f89cba",
+      "proxy_text_sha256": "91be5b06256b406334c5acf4438f17234c26a9d87ca0de239b85fa093a469e00"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:942",
+      "decision": "PASS",
+      "note": "排序序列、逆向移动的3及快速排序判断和理由均保留。",
+      "original_text_sha256": "e7c6895dbd8a05035c332e18d2cec7a6d4c855beeeea59a28706f63fb6cb2b13",
+      "proxy_text_sha256": "c0c61f06099856d4d8934bd502263e5da1ad9b0fe052fcf4643abef6a6bfed1d"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:947",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；原有判断、条件与遗漏保留，仅规范表达。",
+      "original_text_sha256": "310a26ea7df744d3748ec1cb2e3b43f066dfd2cfc1cbcde69a06477b55ed91c1",
+      "proxy_text_sha256": "af60d4ea935b388d6cebdb6de7a19c807ff5585bfd61080e9af2b1afb4f51f41"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:953",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；原有判断、条件与遗漏保留，仅规范表达。",
+      "original_text_sha256": "586ea32a923c6fc1caf5376fbe572c52261ee5006793d1ec41287fea3d0f353e",
+      "proxy_text_sha256": "47e87d65f390605fc240b659e24938bfee17df101ddde6ae2d8300d4d78550b7"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:956",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；原有判断、条件与遗漏保留，仅规范表达。",
+      "original_text_sha256": "c9c2a1b52f2a28fe8887e69b0831376ce7359b01eb7ee3b51f90990e8e8f277d",
+      "proxy_text_sha256": "21703b1b45e6ce9979fc6fbf62ec2096cc40bdb8ebf4910d71a894284a87578f"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:962",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；原有判断、条件与遗漏保留，仅规范表达。",
+      "original_text_sha256": "296b614d8b91b750ebf97beda79cd942056d6faf8f014f156ea3726c79a2aba0",
+      "proxy_text_sha256": "2948ea439e2a020e068bbfc09f0fe9c969d6adc67bc4be832a83459d66c36640"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:983",
+      "decision": "PASS",
+      "note": "保留“防止单链表为空”的原有断言，没有改成“避免空表带来的问题”。",
+      "original_text_sha256": "5ee855968910859628760cce0e4911087f2e642731feb88c84df62eace741553",
+      "proxy_text_sha256": "d9056d5837d511c767649359f3eb930cd0932d2e2e554d8a3d926b72011ec8b1"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:988",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；原有判断、条件与遗漏保留，仅规范表达。",
+      "original_text_sha256": "b1e267169d1005345db9f21ac52de6601b93493bc7c94e27c227480c9cfa3682",
+      "proxy_text_sha256": "707545a88959008f9590f048b370b719294e27fba878cbb99ca304f434cb1806"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:991",
+      "decision": "PASS",
+      "note": "保留“防止单链表为空”的原有断言，没有纠正。",
+      "original_text_sha256": "0bc00b89cbedab417b8c6eb99b55b5b519e0ee3707863dc4aa4af3137dc5bf0b",
+      "proxy_text_sha256": "60ebb43bf2508ce997a5105e2935cb574e97380aaad335ce3eb4f4d086a646fe"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:997",
+      "decision": "PASS",
+      "note": "P/p 在本段指同一题设指针，统一为 p 未改变指代；删除判断和复杂度保留。",
+      "original_text_sha256": "1fe6e72a954869d2ba68f7498bb12260b3169cd2887e4b12d2316937241d2649",
+      "proxy_text_sha256": "e3a7d9faeefdea59ad30033c35cfacc905ea37e6ba4021891a94e0d3e1095560"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:998",
+      "decision": "PASS",
+      "note": "保留原有判空条件，未改成检查 next 或补充正确判空算法。",
+      "original_text_sha256": "99abbd7a4f0a8993fe612296c1a8dc977fb21ff4a632df7e1508ae76aeec8c57",
+      "proxy_text_sha256": "3d8a7bbed4e0f3c1104d168296884e5cb8b91f59182f9eaef581417e167e5de4"
+    }
+  ],
+  "labels_assigned": 0,
+  "ready_for_annotator_training": false
+}

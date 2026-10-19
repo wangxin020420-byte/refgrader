@@ -1,0 +1,750 @@
+{
+  "reviewer": "assistant_semantic_review",
+  "scope": "105 supplied pairs only; not full-dataset approval",
+  "attachment_sha256": "006833e16231b470c0a252b11eec0ab2fd5eb970208ece8f15691e21fd6d569b",
+  "text_hash_normalization": "CRLF to LF then strip outer whitespace",
+  "counts": {
+    "PASS": 101,
+    "FAIL": 1,
+    "UNCERTAIN": 3
+  },
+  "decisions": [
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1000",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "116857679e1113faa33d498e3b88b01f8fe8b379cc70d3b5112cafbe12bb625d",
+      "proxy_text_sha256": "87fb797fac14a7e6290281bf862f81af638914d9686b02c9d13a855b8c06e925"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1010",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "6a235a79630d24e015032db691455778adac66ab13f17d2f847cb2b9dad7acd8",
+      "proxy_text_sha256": "cd280abb022cc8f8e78bc2f249b370f42cbd6b63e5c50290b63ea942c7b41771"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1059",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "3b4b1687a90e4f05f85922fe1dc868b71e141a12280dca82526f47bab02a78ef",
+      "proxy_text_sha256": "83bcc90935d5b5845359bd73c33aa85b5ef4404debe0024c888d6cd2410b29a9"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1062",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "91cec71c34d6ec757b96d610fb0288442b58181eb7f279a370d12a4c5a3e7d20",
+      "proxy_text_sha256": "4667a59c33085f658ad6c0faf232c9e61e27628ab45d2a32b7af1086ea4be630"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1068",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "16806825c939c048d7770dab53a4e256895b220b14efc55accc80f704d7d5f62",
+      "proxy_text_sha256": "aa59b2ceac386a2907b72749e31b3a540266b5735ff28f8d64a00ed2a1447448"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1079",
+      "decision": "PASS",
+      "note": "保留 ai=3i 与后文逆序序列的矛盾，未替学生纠错。",
+      "original_text_sha256": "d0f7e24b94243b6737094cdf41b0f696ec2a5f17bf7ba87efb8572d84499ab1c",
+      "proxy_text_sha256": "983dc2fa6523a1b812d6ddf2c6a803f7b74e3022df65ed94165cfe4dc4de39cd"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1081",
+      "decision": "PASS",
+      "note": "空间分配方式及后半段解释均来自原答案；引号修复未新增知识。",
+      "original_text_sha256": "4d1ad1493773e6d182d240cc00594a1f0828a16b964f8d8d28401a0423314852",
+      "proxy_text_sha256": "5c22d9b85cb35300d44f726e6922e6e5a37c281d8aa5549ccdc49fc46e88a1de"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:11",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "492280016bdd89811d9f4cf8b1c6b6356d047e134817a11c4270df93e166fd72",
+      "proxy_text_sha256": "082095e9a73d33b52e77b4faef15c8939ec291948e343113449b1cc6e6e3100a"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1102",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "33617d6ecde59ebaef5c4e79c3310bb0f0fbba9c46a7209d77cd36b85aecae5a",
+      "proxy_text_sha256": "e1b53d6780d70c1cbded51977a4163223d37987237b3f67e28d116c8084347e0"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:114",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "57a2a8575944b194a24280f82618faeda8573f8871245d4a41817186fc0cec5a",
+      "proxy_text_sha256": "c52cef9bdc349d63c6d03cc9983bb4f0e5393a87ae11dec0c4b1c9925ba0c114"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:132",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "a85e769067950528331750793e8ffdfb25625a7d16755e60e998b149dbe3df60",
+      "proxy_text_sha256": "57d76da5d8be4aa0a7cdf774f920e5f8fd61e717d4f8a5a25a1a3d1433711d7b"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:149",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "7ae1594bebbac34f09a766b85f645b38327712fd877367bf7cf39c3d4b1ce465",
+      "proxy_text_sha256": "18e6ffb005379eef3e3df6d8938d77e11a079a4df854023d2bd74220862e7e43"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:162",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "6c3718c6c33e3a4bddd82117141ad4a1142c8efa852eeeca76e4eadd47b9b4df",
+      "proxy_text_sha256": "155b14fccc038285d4827d3c44340b369a804861cb0c59993bf730a5d8865d06"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:168",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "7c8e0f7b2bb8cedb301b20bf623188a6af2de81022acc503fcc58ff32306a6db",
+      "proxy_text_sha256": "4f76532ef63c4f94521d72b08e53f94a23c62f248abcb2f4b8206c28002c469a"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:178",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "393e4fc314ec9994bfbbdeb79746b2a878fcab343031cdfc8f65a3c1210e5e3c",
+      "proxy_text_sha256": "39acbac35039593117fb77cf2341bd51e9e5bb4a409ad5a3a0a8087c4de727ec"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:185",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "a37060e646c51bfe5dfb1cd27df541f2c8574ff1a8956797141a1039eaf13542",
+      "proxy_text_sha256": "1667366ec17728b797b0f199601b20390bcf8262cf027cd1647c08567f0a7732"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:197",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "cd54f6227aea552450cb3e53628f62287b6020c21b26e36c6ad645a169218664",
+      "proxy_text_sha256": "3a999bf1e969494680088f0d9ecb084dd92e79e19afbeed720c4b07091ee1b6c"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:21",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "56a428ad39a8cf12c332e58ede1a6f2b7fc0f7dd37fa87ef21f36a175aff5294",
+      "proxy_text_sha256": "3a599aa4a1b2e5e90405a107aa867511a902cf764d7c0310726732483a0069d3"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:213",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "6e12aa7dd18c24fd6b514852c3c7a661d1771466843698c2e0a4657c71b8423a",
+      "proxy_text_sha256": "8af67cf9f7f9bf62394a2f1f06d428f0b3c7482e49fb97e95838513492499179"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:217",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "beb4a0de86090b08c800377d601f01e865d9be602c4d08b214a617cdb3748de8",
+      "proxy_text_sha256": "caef969b5c9b6dbced1ed893e89ab46ad990c07e5ffaccf1538c0b4dc83232ed"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:218",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "d2de8fdd4fd25c5780bf8384c8eaa669966a5e9000e750d7b4657422c94ad651",
+      "proxy_text_sha256": "d3c9e736c5181def6164da7877e7dd64e422e47c73c2663ed8eaf4812d2f374f"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:22",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "a817b8b731c0d2229d3730115516af6afb963aa29ec408f6366b08bb9c9c3554",
+      "proxy_text_sha256": "6cdb43bb3975a264dee091b17ffc10cd6cc8b49109429ba5ea4fb0cda3b3848b"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:24",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "352e1a1a294f8d6c8aed92ee3d8a346a524c327657529d5194a208f432d44b08",
+      "proxy_text_sha256": "13e20a7150ff76cda60a370b4ba801494e93ca36601971f5d6e22ab66bc8741e"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:240",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "5872f6722a899c4e7f8af7803d498b5ed69d8098b73a5f4abcd89c8628f9d52c",
+      "proxy_text_sha256": "b6be93668b7a7e49b1a48ed8f733da8d89da769fb8cf610e286c95438d7077c6"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:241",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "9985b7cbcebe6f214766172830d0185cf9ef1b54abb73c919298d2c78adc3269",
+      "proxy_text_sha256": "2f17dc676065eb33f1b30c7298fe35d9c5873d28df8d55e4b7cb5754f4dfa83d"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:243",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "cf4a7a1d79064aa30b3d92ef598c9f4be68fcb03b982da5089d2fc21b2cd4e52",
+      "proxy_text_sha256": "3a9a6c3b23b75fbb29cf3bc8feaf37f8895d7d1a6296f79775add75ac943414b"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:262",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "7ba832bdf31416363b4c5cc50311c3c3c3f396817e75ad71511a7cc0413c9213",
+      "proxy_text_sha256": "9155fdad813830e39a704130c08bda868a261444ce9090b7e48b8ae64363dbed"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:291",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "06c1d239907b770bacd6bb41f064a279931fdd22552b7a4c0bce17a1c51c1990",
+      "proxy_text_sha256": "dab5e9474fee68214169d79a7f46fc496f1be499470c66fe2b4070eb020e2290"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:298",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "2635cf69d732f65180bf932a6e1dbf087deca451978189f9702bcb3881cf136d",
+      "proxy_text_sha256": "ff622536cac167281883b14628e80f7d62d2b36929f68ba62410d82ccff5fc80"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:30",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "d261327c81bcd9fceb5fa41188eb4d0f188939a4f9a7c6f8225100dc4e0c0535",
+      "proxy_text_sha256": "f9e808222d939b1e85a138deac09b9c05657a169eee08577b3a4a06d5cbc005e"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:311",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "740d1f77334c44641665daab18e8c3c80b7389324b6619873b29ffd858e0ea78",
+      "proxy_text_sha256": "60ee2dfcecf39749bbc4fbe913020d5b05b3d485eadf0b8a9afc469caf41d3f0"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:32",
+      "decision": "PASS",
+      "note": "保留原公式中的 i，未替换为 n。",
+      "original_text_sha256": "0fb50e81260e47923da6405f2d213210ae8b053842a27aba456f0f69ca54d614",
+      "proxy_text_sha256": "7fa5d6ee52611bf3522cebc2ff6e1bab0bd6c40954fe3eb63699e6fbedc767e6"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:323",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "b25fd1c3d0a0cdf8b03d935187d3c7a641e9353fadade4f6def296a5824343db",
+      "proxy_text_sha256": "c910e153b1858bb9f766b090c840f1a2219a473594fa34d973dd2179264d7919"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:334",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "aee87b7f9369faacae868c31e8751b6304929cc250e465814abcd59095d53350",
+      "proxy_text_sha256": "0c95564061717fbe9aaf52c441d9f452adb71eaf9a7de711b623a50670b5468e"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:340",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "6b8c6a7fad36dd8b4174c39681ea9df33496c0b020bcfaa98da51ac7784dac76",
+      "proxy_text_sha256": "12fc80a9d80917e0d8a42c7b4a041f0f08d3d547cde2d7d7eb986733e40ea639"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:348",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "d1e1bbd1188aae86d4ac3f0235856ed9985f75edd30b6b2e61b1b41c4f8a1c65",
+      "proxy_text_sha256": "dbba90d0c71029826866eb66d364948e61f7a658f8ef55bbc373cb24c3cf5694"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:370",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "b22d9e13b9f005ea9f58a8c7270ea85e1819de0e2cbb7d813e30d51f054f82e5",
+      "proxy_text_sha256": "6b8de993f798d62caefbbff41eecfbd848616c4e22685efdb88c27cb849796c0"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:372",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "f127804b9227e152766662c76e1946d5272c70f34d5013261c524bab98b40c91",
+      "proxy_text_sha256": "635b1c833d711e1a2fd75ec64503b49a5084f2c3c82cdb98ab55407b1d0c2fd4"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:396",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "580e359b218db04c5abaca8a939599511889cb32748b2d62a093a4f83d1e8230",
+      "proxy_text_sha256": "af3c4088bbaaccf2d50e2859e95a64312776542d767e121b472e82ff4e74f834"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:400",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "9c03e9de823d436544315dcbd0796d3c65046251a92b4100a5f3ebbc62001d9d",
+      "proxy_text_sha256": "c23bcbcf309c9706a1f95edecb714281a9a1f488d0cc3aac5c92aee413853f06"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:416",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "5a3c1345d88f5fdbc1a3472e4cf6c41e9c83da71efac144188d82182d5b63ea6",
+      "proxy_text_sha256": "010a6f4c964265344c2a3d855db23176b0d1e50e4abfc384a69d332c9b55760c"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:423",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "cc407cc6eba4976f36b851354f24f8d3ee61c78ff1a7bf748b4d011b5eab182b",
+      "proxy_text_sha256": "fe30902ee28838a01f72b065a189cc8620c924d8672a35c8ea191ce44229aecc"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:426",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "b161065873ee2b350551660d698b6df9f686bb03ed5da365d0ec589f8301adb2",
+      "proxy_text_sha256": "0528b62d7c0b6e66cfeea605f696e35717dfb4b821563ca998f03ccb23f19f75"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:429",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "77b8e99c1d24a0de2fe8bc691e3b3a1cde07d3eae7dfaf7ba3ce4ec5590216e7",
+      "proxy_text_sha256": "db0922fb7056c54ae6510b33b414ce7cd70806e2a81fa5f434ae1414c6428b7f"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:441",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "b17e698174eae3fa9beb84ab39bb1bf8d37cd38e451b93f2d9664498d7cd55ce",
+      "proxy_text_sha256": "cc8c66ec83a9ccce1fb5314eb3fed2345ab64fdaff26f4c98874535c7f47aca1"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:449",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "proxy_text_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:474",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "19af527951eb881632fcdc649d1068e21056c704b4611b9e674b20f5e61e9cbd",
+      "proxy_text_sha256": "58b4ce0b087986674690147ce6f56bde95dffd0c2db290daf0148e29e82cb738"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:488",
+      "decision": "FAIL",
+      "note": "原答案“防止单链表是空的”被改为“避免单链表为空所带来的问题”；由防止空表变成处理空表问题，改变原有断言。不能直接认定原分数适用于代理答案。",
+      "original_text_sha256": "c475d114abbc622e27b96bf9511e0e37e3944980fdc76fbbaba1f68e2d0fd00e",
+      "proxy_text_sha256": "960aeaf16840466285c7c7fba35d09d443b05b1b3ffbfbb5f721089e99bfc96a"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:497",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "5fd2cd88ef50cd7a38e3906cf6a336cb1befa604e57d3a3ef092f894e983787d",
+      "proxy_text_sha256": "f7f85489caaf8b0d973e8cd656f3410f6f27f4bc38aca0e670e726d8761ee403"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:499",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "db0e42d75b1533d7200c1c215527bf339848726e84e9d469e15b9d6a470754d5",
+      "proxy_text_sha256": "d28725408f2edcd65bb2d86dabca6a0f509c3bfbc883e308a6991c82481763e4"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:5",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "f3de994fad6796a941164957a1e876df01cc0a9519f6943ab2aa67b8cf127611",
+      "proxy_text_sha256": "ada09769a1d3a2041c6beda357e7312fbe9a80de1f4d56718cbdb112693d6249"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:505",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "677ffa9d89ee448f933f764f789ad096821b55a26d052497a4360f1f735e390a",
+      "proxy_text_sha256": "0fc874e42de64d620076a614226ad2d775f87f8fb78ee6a9bb3dda2a44cbcc32"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:509",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "19f3d1db21d1df58c5916b4652e5cd139b8b683b9f87e756394f101d93a6afa6",
+      "proxy_text_sha256": "ef9d472ba474963bae6e0ad1da1a996111571e923d0e51c645977e6e14e8fc7d"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:510",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "64d91d3d7df250385dbeaec5c94249c633187f64cb8d725a2f0544500d950fcb",
+      "proxy_text_sha256": "929895047358fb1deda93ebdbc68704683493395cf05401479d885132d6a391b"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:515",
+      "decision": "PASS",
+      "note": "保留首元素增删及命名作用两项表述，换行修复未改变内容。",
+      "original_text_sha256": "bcc2e1b711b100365affce198e78aeda2da19e210eea87cad928e0eac0abab51",
+      "proxy_text_sha256": "5773fe9a31d6319226de0af7eee5f1d8d626b5983d774aa901109e80e3e73de4"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:523",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "62c29f28a6d13694eaf777b943a203b7a9d791009561b4aeb5451466fca83902",
+      "proxy_text_sha256": "b768ce24145e71cc32174ccc8665606a9cf2ab41bc2651a8c4c973df78d33965"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:533",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "8969fcdfebad0f274ea31f53510550e2b283687eb249687ac34ec63c3be35386",
+      "proxy_text_sha256": "56c623e554cba361036c4097e79b6f4efec5740de87f5fdada76102fde7f0dfe"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:535",
+      "decision": "UNCERTAIN",
+      "note": "原答案使用小写 o(1)、o(n)，代理改为大写 O(1)、O(n)。可能是输入习惯，也可能改变渐近符号的数学含义，不能自动认定等价；“多链表”则已保留。",
+      "original_text_sha256": "840a979541122577c3e08320f672ef05f56ab2c3ecfa2cf3ca2d726693f7f077",
+      "proxy_text_sha256": "bed060615126cfb70d30531ff7a54dbb52bd011cefb11b12b079f90860e44228"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:543",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "f7dd9d3d6a50e123d6a65ae2d967295e9d17d1ccda9edaf331be5031d88364b1",
+      "proxy_text_sha256": "d441516df983e26b6abacf21cca973e70763f9af29ec6eeb70c8407d81ccd668"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:545",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "1b4dd3ca490838cd97a7632c4ee5cf03a290c36b0df4f680dad9ad198bb862fe",
+      "proxy_text_sha256": "65e808703ae6b3cd7ce76c2f9455b4e72303f93b85ea998932c4c4f4f4d954b9"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:552",
+      "decision": "PASS",
+      "note": "空间分配方式及后半段解释均来自原答案；引号修复未新增知识。",
+      "original_text_sha256": "4d1ad1493773e6d182d240cc00594a1f0828a16b964f8d8d28401a0423314852",
+      "proxy_text_sha256": "bc455d9fbd989420f9800478f61e119517e64ef84b2e680d6180abeb4427b701"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:568",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "055df1e79c46011c9919720acfa4c7e2f3ac98e084014dfda92ccf2225e10a95",
+      "proxy_text_sha256": "ae28524225454f2113101d680be9823d91c8713af8c0a59354236ef9319ae34b"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:575",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "19d403d7b2d481884e381d0a71f8a8192e5817b6a5d44116b1a52a1a74e14327",
+      "proxy_text_sha256": "e1765a3ac47a151be9891fcbeb31fd1d912ad039d2690598f753aa8eb6594906"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:58",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "64b7939575192001f4dc10da2f7c0c5cf6a540f3f6ad3597bef2b09bd5988304",
+      "proxy_text_sha256": "d6b77ef2a54629e5ae34dd61a6e821baf421656f742fd3d0cf4fa348baa2ea24"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:580",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "cc73107648ac927ac4eb214fecfa79d82e4f4757d5e398310a063b446e0d0c4f",
+      "proxy_text_sha256": "be3f0d243b2e943d153442aff777fc71e46fe238887ffeb5220c7d617b0a9252"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:591",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "1e2d220880e108a018c8f03cc0696ef1d5908c0593a891d1361d1efbd0022c52",
+      "proxy_text_sha256": "71b80d7e9f4b6435b4f46db08e25bdeaf3be8544edee6fc0d8f0e6c22086dea5"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:596",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "bae77d69c372f011f30f8f23df31015e56e4cdf6c594614a56c97ed66815522c",
+      "proxy_text_sha256": "f9d62884555fd48c25649fcb2d806bcee8001cd7176f2183266bda754e33f0c5"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:611",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "43ff6bf9b698bf7f97aef1df1d5fe5a228a6904820e074ce04243346aae1d445",
+      "proxy_text_sha256": "43323d2b523fd4ae887f43dfa3aafc08422b8804defcef46cfbf022381c1b134"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:613",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "192699741f63459495ea628d5341005fa5a61351af245cf1e04d14c50ab6de1e",
+      "proxy_text_sha256": "24fb843fb0c48e73c8b66e2b60b5a2da2af773e21810758b0fd6a255551a6a06"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:62",
+      "decision": "PASS",
+      "note": "附注在原答案中已存在；主要判断、复杂度与附注均保留。",
+      "original_text_sha256": "c2e4bdccae433c9622a525a2ee88a0a0943bc91125734b5cfd37e646360893e2",
+      "proxy_text_sha256": "20c4edfacd46bb05f6f7165d9fe593816edc7baf41199736492e5f99c2c7ca0d"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:620",
+      "decision": "UNCERTAIN",
+      "note": "原答案第二处泛称“关键字”，代理改成“这些关键字”，可能把逆向移动的对象限定为前文位于后方且较小的关键字，收窄指代范围。",
+      "original_text_sha256": "c6d6e090af2c0bd003e9d86ec32c5c8f09691512f9879bb3138ef1b16345cbc5",
+      "proxy_text_sha256": "8c2c77380d601af79cfea2932e2ae9e9a82a4765467d371553147863ae85443e"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:625",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "eea4f04768237e69060d9db0deac99abc6b188d75bfd2be7aa7b3be6d90a829e",
+      "proxy_text_sha256": "028a3572138f0e3135a488a34810b693517540a49539a14071dcdc797d31e3ea"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:626",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "d6e1ed2f8271b81459e6ef9786b4b90f862c1e34d2fef07401f70a287edbb622",
+      "proxy_text_sha256": "40e1fe1dddee5436f7d53cbe79f47d804e2a9fd5f6ec80f5aba8eb17fc2bfc48"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:647",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "68fef109132f206e85693b7ebbc2fe129721c52422ca8ed04573543872841193",
+      "proxy_text_sha256": "7a824413b8da28e491bcb34b70478b3ca46ba6c588f754ad62cf01135b11b1c3"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:65",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "8c125bcd98c2afec9155912c59283a10380e812a1394232c8637ce4715e77a88",
+      "proxy_text_sha256": "25c64f6ce2200650aeaa90ce9ecab936f279b2ed033ded0e9827ed5a345fd352"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:678",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "a92ae93e83f7d9b7bce82a3e2d3bbb766351f508cfa4c768aeff4174be77eba9",
+      "proxy_text_sha256": "31d60ee2fbb145ee23c3197b3de46ed10c6a4194bbbb0d3ae125b641d7f60314"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:720",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "68ef5b9d1f043d11591490c5bdaa7eb4e7a9089e93276e5df45e9e5e7cb99f16",
+      "proxy_text_sha256": "6662fd03d8451b266e8f532966692913b4f6e6ce7a67ec81bc3f827170b76cb4"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:728",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "a8719310299b8b7b748785a6bb05b003dfaeed7f7e3a182d1879809b9c090eb9",
+      "proxy_text_sha256": "2ec0227304d3cad9a9edb29a0a2a4110ae1b420c3a7bb146893eed6a4044f656"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:737",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "109f1af287d1d936c832d6752784d58cd8fbb8ad778c0d4ccb0b2e670fa9385f",
+      "proxy_text_sha256": "6c53cd37e86591ea8fd23dfd95b00c818c469eedd2abba51eed91107d2374ca3"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:745",
+      "decision": "UNCERTAIN",
+      "note": "原答案“找到其删一个节点”表述含混，代理明确解释成“找到它的前一个结点”。解释可能合理，但不能确定原答案本来就表达了该知识点。",
+      "original_text_sha256": "7e9c216b25953dad43e684bbb878d657df19ad5fc8df2b4159902e1518fb80ba",
+      "proxy_text_sha256": "b1799f40d20d3a32f22ca4f9ec12b24689cfcf43203790e5ec98d51d49041fdc"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:759",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "abf23d2d248316a7caf84ca61be00c3c39a14c2913d76220f6d50b37a78c53af",
+      "proxy_text_sha256": "2a9fca059388730ae5166a1b41a15382c6608ffea216af028a8539b743b293bc"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:76",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "9d3d5f363a957af89d48a485425e631a94ebfdb03923e1b81859bfe3dd1c9e60",
+      "proxy_text_sha256": "62276fdeb943d4be852fe7f14c8f1a8f136b4966386bbf5e92fb4eccdb554c8e"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:772",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "b1b31f97588422686f7b3ec5ffc41aa04daeda7abb8c62873c141bfef4c0cbea",
+      "proxy_text_sha256": "271329b872279086ea21f75eaa4309868334ea32d91296eddbe140010fe972b4"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:778",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "5b2d12070f347e97a46f2e97ed00ca59a46f913ee636e605dbdcba4f568c8adc",
+      "proxy_text_sha256": "46b62815bcf7000c491c422746b7547df3114dece0ac4b7c04affd840e105e61"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:818",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "0c72991f9ee6741d13c5166c49df0364730a5d9512c1277adaac7a9ff44e3e37",
+      "proxy_text_sha256": "f11e0360c44dece1be6beb25bf6acb58979a8a1721538e85fe58032add60db5a"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:821",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "432e1ec0ad7eca617b7e5e9ed174380699ba3325ba0415c722076cb3512f706d",
+      "proxy_text_sha256": "81e3c08ff6fbf4a43ae71339a25f97c5894bcd0a2022417002cb85d0d2cb17b1"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:842",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "84977e58d5dae735877f8782f31a0ac1b8d05185104af182d5e120a351fe583a",
+      "proxy_text_sha256": "0f4279d54480a42a59b8fae7b3644e340e13cd38b2ad68b206c1fb3d5726392b"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:844",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "5821bdaa5bb0582b8a71c0c2da6d8ff7b8081cdc480ba2bcca24a0d8bd314feb",
+      "proxy_text_sha256": "44024ca89c20ce795d349f4bcd41dd0dea304640cefd206c7d8a4e3a71b696a6"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:85",
+      "decision": "PASS",
+      "note": "保留“栈是元素后进去的后出”的原有错误，未改成后进先出。",
+      "original_text_sha256": "74c3f7431a17277d9ad4121d65e5f78e94a9a24758107113c88a0a98e3958bad",
+      "proxy_text_sha256": "e00487b68757fdcbff7413483eaa165f267e29c4b092d5dada5847864a591415"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:852",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "77783a44d7eacae73531b93a2b0ec3c1a5b1c23c4e2434d0c0aa3acf1e03f693",
+      "proxy_text_sha256": "c65d7849f2fd36b25cc9a9818279ea6c086f8130af0117fd8ac132b4da2a78f8"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:855",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "6175c46c42c289b0f8f0feef16b781ea06e2c0ad3cbcf826869478df0d7c5ff3",
+      "proxy_text_sha256": "101471a2cb1dc30c9143c45da62cc03c5443745caf410dd8269c9d9cf5e38e83"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:891",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "7a94b6d09963bbb7e0153badc212577d210075e69d492f5232d9591231c385d2",
+      "proxy_text_sha256": "f1971153f0a5c3def387065f5b2b5262a73d05a369ad9089eee954fb223c036f"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:910",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "b853e981ea0bf847e1824865f710b469ccfe61f11ceb9da79620f37beaf1f710",
+      "proxy_text_sha256": "d3cdbe603590ac970402b62577c4d3678271203e74e525ba8616ee7970a66698"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:914",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "abb9bde8e646f1782e7fbf3b9ae6d3c2986782fc9309f6f17655d1c378f87869",
+      "proxy_text_sha256": "de6afb152f59af1bac4eaa0cffc9e1d56776e199eacbffddc8a74b2fbf99d148"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:917",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "62530d28e1d56d92b06472ad04d6130c874b0cc0dbf57e9031e08c9682ca8f62",
+      "proxy_text_sha256": "1199ca3f5c4381294d3c535f1b3cb5c0f599b087be902365cd7f050df90ed0c6"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:925",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "ef9a1272d570d16d7aaf583f3afcfc1cddbb22b591675c0c1560ec4d51784aad",
+      "proxy_text_sha256": "f2f788bc72e95cf99abd32adad4bd2cec211108b46fd294cd43752e24fe01027"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:926",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "71202ec177fb5f73b5a68432d14eb684ee283d4c160becdbafcde759eb2d2d58",
+      "proxy_text_sha256": "06494ef7740183569459dfd66aea6e6512cc213cdce0504d96892d110a74f53a"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:945",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "6dcbf3962bad6154714485e6305420593e40213b1be27ce75ca311ec0acf9883",
+      "proxy_text_sha256": "397f2c8a501a4c167c071a3a24c9a7fb87fadf902f441985356d2689523ce5f4"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:971",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "a964f59feb51190bad5b5d3a1b3c9e577bdcb9f68285e4ed1c2120bccd6419ac",
+      "proxy_text_sha256": "dc65eef175dbaccc7bee1eb5cb3184160236f2828dfdc7f0188355d6c93dd779"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:972",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "1c17207c9c835860e412a1b9a49b3983de59b5045b176df2ecf1ad3c02dbc5c2",
+      "proxy_text_sha256": "6c3d89796409a552144435491b3b4fc615e379b068ac82c406be623e32b909e0"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:975",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "53b9b345df817780a5909f678af03a912d7a0cb52a870f9668e29f32fa0f6dab",
+      "proxy_text_sha256": "1773c62a0b6a30a98ff6903e58bccf9d8f05cddbd4c7c98d27e5d9deaaad2218"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:987",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "6ef4cdbf66ae459c9e42b9c5fd47fa3d709ec5c809c3739054a9a896489f7239",
+      "proxy_text_sha256": "19f28561f03c27f4fd741e21694c726779dae53d707dee919260bb9317a3dc6e"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:989",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "390e28019e4fd57bc46d5dc33bf6e2bf54403b494ee1a9c32ec612836fc096a1",
+      "proxy_text_sha256": "7ed29c8d3757e07f62217e8a8cfde6543495b8386b4598f0a3b273e823fe768b"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:995",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "8fb51c971bda12c1fd4b2af70b4bc9b09bb63380558c1b967ef60cf06eb4b7c4",
+      "proxy_text_sha256": "d240ff105f5f4f635b5a2c6928c5450d0eebff95136727338b9cd0a8dc0bd671"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:999",
+      "decision": "PASS",
+      "note": "未发现实质性语义变化；表达规范化未明显新增或删除评分相关内容。",
+      "original_text_sha256": "a90df1845adb1cd33fe5dec92091c56e3574c0599aebbdfaa6d30ca8b1e51228",
+      "proxy_text_sha256": "95eca9dc28870fd637c6eadb8773e437e07b0d2454466cec7f1c357116cd897d"
+    }
+  ],
+  "labels_assigned": 0,
+  "ready_for_annotator_training": false
+}

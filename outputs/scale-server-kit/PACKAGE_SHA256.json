@@ -1,0 +1,17 @@
+{
+  "PLAN.md": "e2de983c496915a455563f417f71f821d9f925d584fc5f28475eda563f21d808",
+  "prepare_scale.py": "9e788e1ec6f95d202a04d99a3456e8576068a64d98cb7ee2be4b16d7356c9311",
+  "PROTOCOL_CHECKLIST.json": "3a4e8147d4b67b5a83ad18c892a777473e84fad310d2f4f924f8d5f600bc72a4",
+  "README.md": "307857520f21228c2485f0ecfcd1fa3311f2a97e072186c14a5c148d54241525",
+  "scale-server-kit/PLAN.md": "6b1fb985086d1cc2e42bd104423346add87379db6def2d5c01bc6579aa482f8e",
+  "scale-server-kit/prepare_scale.py": "60461de93eb50b168b662e48882a81f801d48e8d2894a0f62c69e1404c92e93f",
+  "scale-server-kit/PROTOCOL_CHECKLIST.json": "3a4e8147d4b67b5a83ad18c892a777473e84fad310d2f4f924f8d5f600bc72a4",
+  "scale-server-kit/README.md": "18e67ea6027af1fa5e6dab9526ead7583f0ed76114f98425c2a006191430f3f8",
+  "scale-server-kit/vendor/SAS-Datasets-9e1a866d.zip": "5194a3d89f2fbc37e4624b00b8bf946bc2907ac1a4ea59d132ad5bcb6a93bc66",
+  "scale-server-kit/verification/checks.json": "0c4f3f94a6125389622e65bcc18701bf6e1d2ba17d4b0ca809c9a8cf8194d7af",
+  "scale-server-kit/verification/data_audit.json": "995698385d716062663b571a47247cf8d1893db76ade50f4fe2260850d96575d",
+  "vendor/SAS-Datasets-9e1a866d.zip": "5194a3d89f2fbc37e4624b00b8bf946bc2907ac1a4ea59d132ad5bcb6a93bc66",
+  "verification/checks.json": "0c4f3f94a6125389622e65bcc18701bf6e1d2ba17d4b0ca809c9a8cf8194d7af",
+  "verification/compatibility.json": "1c7e2569de29a7e43d351c99450a17f3c3dc18db19104d5dbbcfc1606be24cbd",
+  "verification/data_audit.json": "995698385d716062663b571a47247cf8d1893db76ade50f4fe2260850d96575d"
+}

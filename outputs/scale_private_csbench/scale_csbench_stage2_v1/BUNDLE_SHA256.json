@@ -1,0 +1,8 @@
+{
+  "run_stage2.py": "c938e7c3053ef8ff8a1c1f35d054851488efbb1ace727857a767ef95bef505a9",
+  "retrieval_contract.py": "a794080f450a8be6bbe213c9a4bc5f7dbd64f30b13a2564673db4dad2b54ba12",
+  "embedding_contract.py": "5a507281fe6d5bd70398a9d290a30d02dfe7925ee9991d5c91f2abb0bcba7848",
+  "replacement_contract.py": "cbfc0d0b3248afb730cc5b43ab19f0de3e02491c010607055e6514754a0c2648",
+  "start.sh": "614beb97c179716fc5781dd76bccb7135265221c7edce320cbfd7f2b2e34cac6",
+  "test_stage2.py": "e5e5cd68e88f692a276bb1d6ec42c3b097c1138eb858c89340ec0e72d0e0a253"
+}

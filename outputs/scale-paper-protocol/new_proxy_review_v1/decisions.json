@@ -1,0 +1,2036 @@
+{
+  "reviewer": "Codex assistant; semantic comparison, not human certification",
+  "source_records_sha256": "ab2e840c049f6e1e8cfa818245983944c59985a0e60e415522a1d4f45a5f4d9a",
+  "normalization": "CRLF to LF; strip outer whitespace only",
+  "new_pairs": 222,
+  "pass": 216,
+  "fail": 1,
+  "review_required": 5,
+  "reused_unreviewed_generated_records": 636,
+  "sources": [
+    {
+      "review_file": "review_01.md",
+      "attachment_sha256": "fabeac467536f5cd080424b598d18f665ae543397c04fc10e8e51928e9dd6d76"
+    },
+    {
+      "review_file": "review_02.md",
+      "attachment_sha256": "86e16a44b2006895ae950c39e9e320bf4ecadab58929cd3167be6e3c727c6944"
+    },
+    {
+      "review_file": "review_03.md",
+      "attachment_sha256": "017aacdb4681fb12da1d1e1cbccd5d8ed9db0050e50446121010162eecb43a39"
+    },
+    {
+      "review_file": "review_04.md",
+      "attachment_sha256": "29261133c4c6068513e944d4c046b4e1320e03e69207a1200931f38e86bb0923"
+    },
+    {
+      "review_file": "review_05.md",
+      "attachment_sha256": "1fa50206adcaebfb2608bb6d12a3c379622aeaf152f8253aee2a02ff34992b8b"
+    },
+    {
+      "review_file": "review_06.md",
+      "attachment_sha256": "00dcda5c610c54f49307330cecf9688d3bef48370384fdef3f07607267bd0ce1"
+    }
+  ],
+  "decisions": [
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:20",
+      "review_file": "review_01.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "d941b6028d449aaa89a6cd99523c9e69e0c29a6f4b0eaa1ffc848a1cd943530a",
+      "proxy_sha256": "66e80d1b048804059cd741f4a40843d3be40de92ada4ca22f430e62e2304420f",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:23",
+      "review_file": "review_01.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "ae1dae2c07832665472723244c3b9f390ee051571106b77a0aba4c89e8bfcd3a",
+      "proxy_sha256": "7e1ead8704d83d7629111dace4abaf722652260bd9be0245851d0a133489dd0e",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:25",
+      "review_file": "review_01.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "6b30c16da1d4d30763b715647e73a27a28e6f5fd0697ede522e5f43e1b18f574",
+      "proxy_sha256": "b0e8cd2eee666cd548bc8626266b29bd6d9ddefcf9570b3b90a3ce112d117b48",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:28",
+      "review_file": "review_01.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "75328d732d69458a5aac45af496c40f515e4ef854d8c5a977576bf337a257797",
+      "proxy_sha256": "945a6a4de55691b554a91d9ab616ce47b13aea3bdcb595b6adab231033b77b14",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:34",
+      "review_file": "review_01.md",
+      "question_sha256": "0569c1f72c70de7532ddb23132b2ad4211bdc7ce1381c927391847954ad4b9c1",
+      "original_sha256": "6adcd860908a16c4ca4ea40a44226bbe6614b16b0067da4b329b8ae124608468",
+      "proxy_sha256": "7203625860d51d5cbc0d10d33844685cba4fb9feac6e4ac0be5a604e17f69a71",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:45",
+      "review_file": "review_01.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "ef783709ad38adf3a0da0bf84b3236b5899487bb216c4f3b10f43f5c2e9ae2fa",
+      "proxy_sha256": "a11bd519da9a4efd7cd3a07f4428424e874dd4ac4bfde4e455152c2bc97ffc65",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:61",
+      "review_file": "review_01.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "0852fcdb59dff3aaa23984e043e7aa845e9ef92b5bc3204aa85f9f4c57e1732f",
+      "proxy_sha256": "913b74d7e8b0ad9635552fb91e1d47242e70610c957656e4cac703080250a863",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:64",
+      "review_file": "review_01.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "2a7f6501464015dcbd990ae075e5a1dce8bf10f0d79bfd366ac72cb6a5fd0946",
+      "proxy_sha256": "d732ac7b27d5e5e981cb5cd1e5523c35d1d86afc5c7cb2c91b01aed4c0d50c9e",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:73",
+      "review_file": "review_01.md",
+      "question_sha256": "0569c1f72c70de7532ddb23132b2ad4211bdc7ce1381c927391847954ad4b9c1",
+      "original_sha256": "bba6d73d702321c69e7f085ab8c26175231c0e34bd35f000b0be00a1f3ee2bb2",
+      "proxy_sha256": "fa3c87ef9b0872c535cbfaf3f483af7b8fc30195d9bd3d6d8f2c2bb0b2974d41",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:74",
+      "review_file": "review_01.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "1f77bd63e3d9d4346f75e6558609bfae6118752e15eb1ad66a7e738b2e8a1b66",
+      "proxy_sha256": "6b5e5d10ffd5ba20e6d4f364f49b030e5a5e9678e1d17551fd1b7a026ad9ec9d",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:79",
+      "review_file": "review_01.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "dcb536f11857355bb867c611a50d1f463e66398a897b797819297e388dbb8846",
+      "proxy_sha256": "48fb6cabecea50ef3b8c68dd0c4c97142e54c3194d7388a0d52868c776b3e808",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:80",
+      "review_file": "review_01.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "45eef263a1ae973db464ee8381874200123399e3bf621102d3dfb6bced530c71",
+      "proxy_sha256": "61686ec6e767232301de3b7d6208a6c78b970c7ee44677e8f6b443a76887741a",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:81",
+      "review_file": "review_01.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "5058839476f7e8d6bb129b5a8124930ee8d542837f03644879ec07fbdf5f78d3",
+      "proxy_sha256": "f447c2be8f35bf70c40cc3852be5b2dde841deb91dabf6626ba19a547231d78e",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:88",
+      "review_file": "review_01.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "098fe14dfa6a797b08c7ef92d4c21058b8c21f2a2fdd881a117e2d054f33835f",
+      "proxy_sha256": "ee35c9f77cc0ef87787729213f80896187a092c2de739e3b90df21160ce1fb79",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:93",
+      "review_file": "review_01.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "3177091e07eb4affe5f08e218c001ad0c860641836fa49cbeb4689c701dcb146",
+      "proxy_sha256": "037d3aa79605e7eb78e701b249dc1b9777ccff2b87ca6bd04061d897dffcc52e",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:105",
+      "review_file": "review_01.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "proxy_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:107",
+      "review_file": "review_01.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "59ffb56652e2b3d244d9ed9852ba349ac40ab58fb31b507af3782b7469d7e36b",
+      "proxy_sha256": "47071892113e97b1b26dd6eb272150a2ca7d1ff07bb59aa545bbad8c2682baa6",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:108",
+      "review_file": "review_01.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "d5c28aa22953d72a0a95ba2361994287b1afe751a41879efdddbc9b943aaa864",
+      "proxy_sha256": "8fe66364d9bd4f3875d2669e5100deaef14a430dfdb6feb6be1299b57b59e34e",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:118",
+      "review_file": "review_01.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "57807533afdf3056ca1108d7166a0e68dfc0f509a96b55f850130278941d09ad",
+      "proxy_sha256": "c1a4ae790ace50059bcf04c1453f37e1d620212151610e16ffbe4030a6689280",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:122",
+      "review_file": "review_01.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "63170927753d3b3c2e03403698418d10d03b5ec5534285e7c7a9abf8343b39d6",
+      "proxy_sha256": "044a9d030a51ce35a34f8ba50393ddc1a40f559ab2fe174d84d491e50608c403",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:129",
+      "review_file": "review_01.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "5f031d17f9151a542db28233716b00448e157b57ff8c5cd63ee647f1c985ef55",
+      "proxy_sha256": "51af6a20584314c73c3dcd2258099555109bac4a279c1ae4b9c86dff25a70c2a",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:131",
+      "review_file": "review_01.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "e298402b740008fa926afaa024c197436f75d25298c376ac89f13a645245abb2",
+      "proxy_sha256": "b4a220c61280894e32b92894b3aebeae19f376b721415a93a147ccbee8273dad",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:137",
+      "review_file": "review_01.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "7c3d075e76429ee83ef7110d9f19c7073b6920e5ced6d3eeeefcc1941085e3c6",
+      "proxy_sha256": "61b651c66ab8c75e91ef3cb59813c67a2e29532c80bb929eb182cf199d161827",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:138",
+      "review_file": "review_01.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "976467eb9834f40d34ba532b926a4a7cd5c453016ff87715d83b225a0f849cc6",
+      "proxy_sha256": "d622e29f6ee7d381b91aadf3499609b84e80ea36f5b2625f05141e321429a275",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:143",
+      "review_file": "review_01.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "28946d1dc0ab2a0cee1a232fc98e1fb68890a8d80c27dedc3dd887f525f6df54",
+      "proxy_sha256": "1a3a9f81bc71fff44a289f1bfa2c6dd38e9ab256a03a55a0c8d582ce2ff6d2c3",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:147",
+      "review_file": "review_01.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "f7b0a15765885c79e729b52a71694b90b8e765007b34088c4fbc2df4a838bf22",
+      "proxy_sha256": "544a78ec6cb3828811aeac5f68d2cabdc054bdde9d47b4aedd9140fa524ab5aa",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:151",
+      "review_file": "review_01.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "e62562271684213a00304ef05a918b6f6de7d9d8305063b3ef9849b954d94dc0",
+      "proxy_sha256": "ae448e0cb429fc1387158d9bdbd14de9653cfcd845ce05b548c08be55240134f",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:152",
+      "review_file": "review_01.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "d5323d200fb7baf145662d20770a58f9e390243801cbd36815c8b8eb7eb2330d",
+      "proxy_sha256": "262a65d83c47cc2c84cb669ad9851721c9b07209166619957062e518bfae20b2",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:153",
+      "review_file": "review_01.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "65748724524890b74877f55f95f3d08fc0f875e55f74421355c1977e1d3f6145",
+      "proxy_sha256": "2b78e9ae3649339480d7e1d9bdf1f54ca62479bb2cbd953427710a0bab402ef1",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:160",
+      "review_file": "review_01.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "919003a19af73a2be09ab641f30936b1c06cf4e1b6557f35433b7e88d146e492",
+      "proxy_sha256": "410d2a0f040b27b3cc686df1e7acb0ceca4ee19581a64a6c49ad81c10614a16f",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:166",
+      "review_file": "review_01.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "066d95701bc378a7877e5d2a6351ed2e54dd4971c1fde7693187d353b9ce12f7",
+      "proxy_sha256": "9927e56a56309091be145e9256c02e23bf978055b408bad86cac34e4ca17c74d",
+      "decision": "REVIEW_REQUIRED",
+      "reason": "开头将“S1执行入队操作”改为“对S1执行入栈操作实现入队”，协调了原有操作术语；按保守的保留原文标准重试。代码中的错误判断与错置标题不得修正。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:179",
+      "review_file": "review_01.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "07c26afffbc28a601249ac0953cf0f6c146577d3ae9bd0a8353350d3c0915231",
+      "proxy_sha256": "ce3854e12f8b85310edc85bc505b70d040c3034e38baf2f9989d60ee91a8346c",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:181",
+      "review_file": "review_01.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "3bba709eb34d5814a67b7853489793146935e32ef4f0636250cceff50ac5fac1",
+      "proxy_sha256": "7c7bb59349ecd63f31fd84f2692e365c5c9d1eb1aba81222a4c84768484399e4",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:187",
+      "review_file": "review_01.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "94b2e5292bafabc80d17826cb8b03a9f6cf556b54863b71c9b688c439b313b48",
+      "proxy_sha256": "be87385a6cb5e0a20d857ed90b785214ae7f9fe13e1d144a82cf91fe44f147d0",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:188",
+      "review_file": "review_01.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "57807533afdf3056ca1108d7166a0e68dfc0f509a96b55f850130278941d09ad",
+      "proxy_sha256": "3b6f01d4811caeef8cf3c705b8612175928701ca2992966e2cace3a3efea1fd9",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:192",
+      "review_file": "review_01.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "55e84ca363a08fa149433d9dad8a2a0905c62c22c626bfc927def93b2c2abda9",
+      "proxy_sha256": "b5fe46f378e6e6877a139541e78c4967ae51f14c2e9cf63042a9ee20810f2308",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:196",
+      "review_file": "review_01.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "proxy_sha256": "ca7e542f674a74efd072d730e5a32cfb8c56fd04d6ccffde6e2694de19adcab3",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:198",
+      "review_file": "review_01.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "6648170707045aaad62f50560c39399fab437aa4bc35b9fa8a160baae5373975",
+      "proxy_sha256": "231b8492f3cd285ab440d05b7d72823fb5d17632176e323c6a5a60bcbc4f9ced",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:202",
+      "review_file": "review_01.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "1abbecb4b941470e9c23799ae6f388716b8010c0cd929e1f86b48bc51cfe527e",
+      "proxy_sha256": "88955e938bd2eb81a0282af6bc758218154d98d77d7d09d653bb638cc687ba2a",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:206",
+      "review_file": "review_01.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "57807533afdf3056ca1108d7166a0e68dfc0f509a96b55f850130278941d09ad",
+      "proxy_sha256": "58164edb0e370bfd184de7a214a592e3f777e856f6f67c78392c5a7f77bd21ea",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:208",
+      "review_file": "review_02.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "f01dd4b893bd1b29e0ddfd35f21d74b7baa9bce0d7b37a327d1492c7e464bdcd",
+      "proxy_sha256": "79d1bb933069976add55ebaf5a31e6880a9a8805fc5d0b6ba499cacb1711e9e1",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:211",
+      "review_file": "review_02.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "72f7207c26fb3a3005316a2fcfe584c866cbb8582839e8c829a301705f78464d",
+      "proxy_sha256": "70314017a81333da16a6b1b9a667e00263fc31d3d501b0b839fb1789c8de5e4f",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:212",
+      "review_file": "review_02.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "a8338f89e415e7be44a449923ed879a68ae6a6ed3536ac39b4f13d6a5005b314",
+      "proxy_sha256": "6b2e8aba9a37c5058340c57cac3e51dd5d145616befc5896252af271fc964ee1",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:215",
+      "review_file": "review_02.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "640f96d658e81fa88047c9f2509fee9c65f4f548c9c5635ff11efaea1b5f7043",
+      "proxy_sha256": "dcd19dfabff8ea38e1a4987810c4564511ddf0a53523b1ad3bd27baee0d984c0",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:222",
+      "review_file": "review_02.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "05120040b4ea4c1dca86fa9b021d0893a1e04bb1b4bfd0bfa12c3e4537c6dde4",
+      "proxy_sha256": "c219b11471be17cf826d11eac75ea80d189838111a2c1145c1edf93d0774b716",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:246",
+      "review_file": "review_02.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "6c18dd5f0a2010fa9039a6ba631b94d5e48e5e175a1f7caba51b06fb49866862",
+      "proxy_sha256": "0f97bf0289c269fefe718fc56332252471f06bbb6ed6dc794eddf7dbf7a68e91",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:248",
+      "review_file": "review_02.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "8b028fe1a4bae3dbeb59b8b9f45fad8f5e6b6ca7310a7210bdb78af7c50ce50e",
+      "proxy_sha256": "041d3de7b68ba8bd7725eba131c224a4c0f1a691d11d91124afb951c0babaee9",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:250",
+      "review_file": "review_02.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "bd5d7d6f10410d5aa71f5e6e63f2fc7ddeb94b07783315829263c11b9ada63d6",
+      "proxy_sha256": "1c035c27a32de850fe9ea2dcfa40d48509537f9e1223b55be801af1be5c49625",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:258",
+      "review_file": "review_02.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "5b45e5a5e388e276eb491ecc82c769c606d2f5d2109e102f1bf7db284bd5b4f0",
+      "proxy_sha256": "11049ff046c912a5e7b6655eceeb63f5084b79f45d5f71fcc6d6ea002e080500",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:261",
+      "review_file": "review_02.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "c9c87c592bb522f896f3505bfd66e0a08c8562ac6f2a4be830be4d25759c3a0d",
+      "proxy_sha256": "6f1d42ef65f50f49fe8542432a4ee4a158c52bf84fcd089ffe495bb524628de8",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:266",
+      "review_file": "review_02.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "4500ac1e4c2023efa73bc5dc015c4beb850221732ecb744027276fa55f298544",
+      "proxy_sha256": "51cd11537221a7ce4d8aaf57fab8cdfbfd2b857bfafc95ff5f85a621981056b4",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:276",
+      "review_file": "review_02.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "046d5a206f2b3c8e85d6ea7132a0c26ec60c21658a85e34a1b86f6125d298967",
+      "proxy_sha256": "3ac63be0c6b38f776b99a96e2547671a061f1de40c3ff61fd32dfcb34844edf4",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:278",
+      "review_file": "review_02.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "798c675c0afebe9df7205f0aabf4620b1e92800320cc0965782b1162e33044b0",
+      "proxy_sha256": "d02d523ae427d4ad095eb211a3b3c69ea00cd00b0781370a4b1dcadfa3a2660b",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:283",
+      "review_file": "review_02.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "39e63904cb29ad53cba0700e6ea789b38a73393bc8051a79c5a2f0447db66052",
+      "proxy_sha256": "0f1dda8269ffca7a625a72f9a00432b6caabe6330dd0ea0c6fe209a11726d441",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:284",
+      "review_file": "review_02.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "d7f25f93fe9eb3a5c1ebf4f1c0fa94146c5404e6e938c0d4f16f60ad37f6594b",
+      "proxy_sha256": "6fd94a85741b9502198f7a2286dbf4f1bf7b7e9745cfc89d4853456e94e68cf1",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:287",
+      "review_file": "review_02.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "d80a74457246c2e436aa968c676d3aa57a4411a4b156804ee687f0a86c458e10",
+      "proxy_sha256": "e2fc54f51103fa60099c5948da6ce64f1e65f4d501eac3bc12c8230da47baafd",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:292",
+      "review_file": "review_02.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "0e31a34784fb621031e6c473916bcb6fa65dec3921d0d0df033205fe5f29a3a9",
+      "proxy_sha256": "e98a9e2a954e012a8d23f58e3a6917fbac53530e2c01e1a8be358fe39c472c48",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:306",
+      "review_file": "review_02.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "d99ea6ef2861e9596e49e483fb5d716b271933541d3a25397cfdc4eb60ba7898",
+      "proxy_sha256": "3d45e89c6febd26f8b0133cd1b9de55211b1f08c10a541e30fd87b0221675c7a",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:307",
+      "review_file": "review_02.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "60cc1d49824a7ef78e198a8be5ba4bb9fbf483ed6214ef39cb1b19687bc84b09",
+      "proxy_sha256": "4a815617fc6496abc2aa031c8b18238dd90589ce027a8aec7d35ff4da01a6661",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:312",
+      "review_file": "review_02.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "6aaea19aafb67956cc89b0bb8b6e649c2d93be422a8069a6249d5184e951e6d1",
+      "proxy_sha256": "2c80cbf6cfd7f7db6c96a76fa906a946b8ba66ccb1bea68a5f973922d134986b",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:313",
+      "review_file": "review_02.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "25c5b22309f3d5801011679615014d9dc0e68c325490f4154eb7fc43dd61859a",
+      "proxy_sha256": "80f7abde851368a46456b4c91ac2945fbfae715e0e215a2c19e29f80df8681a0",
+      "decision": "REVIEW_REQUIRED",
+      "reason": "“平均移动指针域”改成“平均移动指针次数”，将原来不规范的技术表述解释为次数；需保留原表述，不代学生解释。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:314",
+      "review_file": "review_02.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "ba337fa86c7543e35681475b3370f20e1e773e15ea70995eb62b808949ccaa87",
+      "proxy_sha256": "482ee49ee3e8512303d6e3f2190e2ac304fb400bc18f7a28fada9ba269ba9ddb",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:317",
+      "review_file": "review_02.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "26a4f89cbc49ac697e0cf48145a5f27e7c4cceedb5e1412b68e811b28b628e19",
+      "proxy_sha256": "99e9edb570ead786887cfdfcf519c45072eda4e80dd85972465e9955f911d5f4",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:318",
+      "review_file": "review_02.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "4028f4c6a135c3440ac667a3bdbecb3d0696eef0dc1e2f6e676230e6f193825b",
+      "proxy_sha256": "a7e10976f7eb0c3c422546eca487750b6427a09cde0aa87708895668b3f7f0bb",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:322",
+      "review_file": "review_02.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "5f6efe036426f840f2741bc6e3e5a2aba1c5cc94b4f106209b601f74d31a71c0",
+      "proxy_sha256": "d01fd4f66f58a6824c2a4724f318af75b78f4c94b5517afb3917b190fe09a2dc",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:324",
+      "review_file": "review_02.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "429585a5fec6202934d1ae99f5192b0897499fea188f0ae65235ac28bf72b490",
+      "proxy_sha256": "052f7af99fc6417d385eb66b8062b7e78722b1ae9813bf8d7766a729cccde8c0",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:328",
+      "review_file": "review_02.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "669103e4043eb4c7f4cbed0b0550513819d597bc67b700d1aa1d9ca6413ccdd6",
+      "proxy_sha256": "3f8641211c9f7f5a3412a1f7592fb824fd58d7134dcdbead7ae9efb932fa5249",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:330",
+      "review_file": "review_02.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "f70dc4d9ad177a4731c99005cb9da803407afd8efaac9e38eb04c886464c3eac",
+      "proxy_sha256": "94af3fc9d95f0b234cc3f60e6308709e17de9cfe0e3ddd0d1dfc4ddbaabb9026",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:335",
+      "review_file": "review_02.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "a58668153b3b513094b9d4af4a783349909f2e9a761aa0d1037e7e273a48a74a",
+      "proxy_sha256": "a5e5a21001804cfc96122144af8520a314e114f81c70cbfecb68eea1d4a4d317",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:344",
+      "review_file": "review_02.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "5cc2b8290a7a3ad1f52263e4bec48cf921df2b950ebb90bdbbe19a8304422154",
+      "proxy_sha256": "4bf1df00adadf6d9c90aff0c662294e6c7072c2874337f9bf1db9e878f494a96",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:364",
+      "review_file": "review_02.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "d8bb2c83875f1e6ff9ab9e7b51bf2cdced00b573d457eba57bd682c0f49a19ae",
+      "proxy_sha256": "85e88129d5a9d0d99a8f9c6ee42aceb11c14fba5a9bccd9f513cc3bf197203cc",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:369",
+      "review_file": "review_02.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "8c8f5e764d52993efd4c58a4a0461917bd2bf14490933d6550f4d1bc4c8f08b8",
+      "proxy_sha256": "94e39e81d0968f9c871be3295a2782d3807212a52dcf781911799b3c40f11b7e",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:371",
+      "review_file": "review_02.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "9b5604b5497fbe15fbdfa907c41275951cb783ce1e94dd3f9f97d2e9c8e26548",
+      "proxy_sha256": "b90317cc3fb84bfa1bcd45231a5063c1f77953ea32ee8568edb3cb6d3505faba",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:373",
+      "review_file": "review_02.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "70bb2e86b1c3ce75c7f85f5c21e9369aa029de7f18f48ed3fbb17aa8a9f835df",
+      "proxy_sha256": "72a46432f64655a83888dd18a47d687e0bb923ac51e084ffbfc9351ec264c3a5",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:377",
+      "review_file": "review_02.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "3423185900236270fa5f3a160963692392c7719fb87dfef1c3d4c1b6eb81dc10",
+      "proxy_sha256": "886d58618996ff539d7018999eb8fd0aed975d9f9f255738e37cbb9c2e4fbd7b",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:390",
+      "review_file": "review_02.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "a2ba1682b9b028ccdffd84c28e6ac2aa00da43839b4424a425bc0a526f304461",
+      "proxy_sha256": "e99633cc22b4bab71402f8c4c24fe9bfd088497a4fdd7642e9f6b32e879a1f58",
+      "decision": "REVIEW_REQUIRED",
+      "reason": "原文“无需进行查找元素或者插入、删除元素”被展开为“不需要查找……或者不需要插入、删除”，改变了否定词的作用范围，不能确认等义。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:397",
+      "review_file": "review_02.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "d298ce821ea40c2aaa4391dd83fe4f71c947cc0337d6e20065230af074a11aef",
+      "proxy_sha256": "6ea768df32c02f3cfec9aef3b226fa4bddcc2cb8976efadfd49cf8033c932a32",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:398",
+      "review_file": "review_02.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "273de21694f732ef1fa4db0776e89d68bb88036412deec2b91499a57ad122446",
+      "proxy_sha256": "47152ae38461b019682c5c2bd33421577c4c4670238e5bc96d97960f43b7d9db",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:404",
+      "review_file": "review_02.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "ae75f1dff7323f5f73e2c6ae3b1f9e98643e1de7b7b565537d5fa72fdca5e86a",
+      "proxy_sha256": "8c8deb1a6bca789b9ec7972f07464ae34843908a3a76bdf077f8cbfcd004f8fd",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:414",
+      "review_file": "review_02.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "469d47624f213097e2214b7cf1c9c72780bca0d9f404470d88e30c442beaf9cb",
+      "proxy_sha256": "09672cb7a0b99a58826018ad8f70d448557710977af2cd0a91beeb14464c7394",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:417",
+      "review_file": "review_03.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "344a9478a30017342bc5bb5f4f27b1dcc089255370009863695109c7e250a0f9",
+      "proxy_sha256": "f7fb16a6cf7d1fe0c9c9fd8a725f79d6c3e8a5a4586c3cafce068137d31fa75c",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:431",
+      "review_file": "review_03.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "proxy_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:432",
+      "review_file": "review_03.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "9cc291949d6414163651ec6fffce2bf68d905a2948e8808a5d58f5a21d032b20",
+      "proxy_sha256": "4a3298d3bcaa4d48e3424bf1ae2ad1bbebba12d523260ced932b1626419f8710",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:433",
+      "review_file": "review_03.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "57ba3e7addfbcf83f35065186bfc8397649bc29e679958883af4fc0b56ef00ac",
+      "proxy_sha256": "7c1a44e2cb2d27417ade314156894fcb7ad4dd4e0fe982ed94f1a4bcfc05c97b",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:434",
+      "review_file": "review_03.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "6054f52c3754de8502a1e375734b30106a8c7b436c4586db762ec2e5693f6771",
+      "proxy_sha256": "809ef89959424ccf00660320341b4c57e9e62d8693dde4d16fa31974ab0402df",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:446",
+      "review_file": "review_03.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "bf34c6b95a5aa63f9ac1ac30236dc44c40969cd4e39afd11336df9e37020e5f2",
+      "proxy_sha256": "a384e9ca812a960c5f8ef0f4696fa90a377a0650e188f9d8684743add6d9b0e1",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:447",
+      "review_file": "review_03.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "e095f1ba2819ba0dd7193a99472cb423e2d8b4758aaa907d94f1f86679409d07",
+      "proxy_sha256": "6c1a2503eec91b347ff007ae29589d7407304b2684ffe3298a1399d8adb6d5fd",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:452",
+      "review_file": "review_03.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "57807533afdf3056ca1108d7166a0e68dfc0f509a96b55f850130278941d09ad",
+      "proxy_sha256": "6c66298cb96fbfbe5fcb876baeef12cc9427995faaf8880b16e61a46588fa25c",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:457",
+      "review_file": "review_03.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "cdda9715ff2cf4d00426f2d4ef1abbb0bb9bf789696379225b9609618fffdf6f",
+      "proxy_sha256": "c1b24c91af27fd18a7546fef53e60f50edf005b9a5b7de49861140d749e1480c",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:468",
+      "review_file": "review_03.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "fa7b78b17832aa456cd5a023272f9ec4190b01a8bdb025f8b118be08b759b1c9",
+      "proxy_sha256": "fdbfe68a64024f40e023a83cfbe3187b7bed8805b819092c442927c709a17e69",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:470",
+      "review_file": "review_03.md",
+      "question_sha256": "0569c1f72c70de7532ddb23132b2ad4211bdc7ce1381c927391847954ad4b9c1",
+      "original_sha256": "1112b00eebf68fa92394d47f968eb045ff88d50f98c9aeb54bb240e485ac837d",
+      "proxy_sha256": "be6bc8184056570467d79c6b2e624a79c2134a9d38a7a9dcec5ac903fa76c9a3",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:479",
+      "review_file": "review_03.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "99d9687e24f341e9599781b58dcf3779057c7fe899960db39ce89d7b37282c83",
+      "proxy_sha256": "6373dd7e515d08272ab3609c4778c49e3698f96bbcfcda798419396443d83d59",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:484",
+      "review_file": "review_03.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "c7a875dcecbda84b6b09518589815789b5d31eacd035e9717c52ad3e76805f2e",
+      "proxy_sha256": "1d6332a2e4c1dbbd966cff7b8a48494abaf46a9ae086e722ac62a484e841ee57",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:485",
+      "review_file": "review_03.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "f063a9092acb1b9f4e6c20ffd9f651801d6eabbe7710b80096570e367cf86354",
+      "proxy_sha256": "584b82af81e2a07bcb509ff633c5e447e61b9c7a7f3101d65d755f32698d7f4c",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:487",
+      "review_file": "review_03.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "ebb501e1c1ebe17370192db56445a1f7a466c12b1e613592358dd11db256892d",
+      "proxy_sha256": "373ba5dd057159699c16e19730a89a2d33f2d273f8b201e6d53db1f366b818cd",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:506",
+      "review_file": "review_03.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "dc9579078d4b57d2b3cee11fb06eb6315457cd4dff8567fd1c6ca9efdbb469cb",
+      "proxy_sha256": "d4a81eca8a02e59fab514e30e9407cbfd75553d2fcf98b74fc587e3af5f14af9",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:514",
+      "review_file": "review_03.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "84acfa653ca3ff9ba0026b4a27cee9216d7a75446747968d814349ce78dec302",
+      "proxy_sha256": "284a3879dd65dd69ad89a86555003a3f6f0ab4bdb84255a321bfc34c80afdaee",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:519",
+      "review_file": "review_03.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "100d871633380c25b193307f590243641a7b25114494bcfc5233f73a50600366",
+      "proxy_sha256": "a2599ca8aa7a6ea094395f0527327af5f9df6e1adfa8694fbed698d39c2efd0a",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:525",
+      "review_file": "review_03.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "31541a9d9c83f3406f91ad3639ad2912edd2e27f1c33fc5e2f93a2394eb20cba",
+      "proxy_sha256": "a70dd14811f496bbd00a1636847562854d8df287ece6c5ac8cf261104b07b673",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:537",
+      "review_file": "review_03.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "37dc3c47af1ea6d4c89a6e3e1daaf065e573547875f206b18bf2eb96b758c95d",
+      "proxy_sha256": "e2242500151c298d3e20902318ebd57cb6a5b8de22649b12f95322b8abbd79d4",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:542",
+      "review_file": "review_03.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "fcee2267784a7f9939bf5d965570666f520144c552babd384bb799007081593f",
+      "proxy_sha256": "fdd6355792787043e4b98bf76d222911d2ea8715f9984cf65972cae77a3ed5f8",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:547",
+      "review_file": "review_03.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "fc242e907177676f10960f2bd50448bf278e078587d56859c93aeb9c71312d8f",
+      "proxy_sha256": "553d748dd3a88172c131c39e896c5b48bee62f37f5a0399776e0e4cc3a66e350",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:557",
+      "review_file": "review_03.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "proxy_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:562",
+      "review_file": "review_03.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "e4fd1e7b1aa425b6343e102f653c7d1103b6c181cf35416310965d13029ba9ad",
+      "proxy_sha256": "e77633702d3e633a23418011da9424679630a3716afa58ae39035b26d0856410",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:567",
+      "review_file": "review_03.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "7d5eadbdb7c9e6c25adf731b4a8a97af5ae8bdd78e1dc320f4e773ad646453aa",
+      "proxy_sha256": "5c39b1092bf389b1af4276426617b31e2858361ce1c479e71c87d3afd1cf24e7",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:571",
+      "review_file": "review_03.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "5cbb4e718164f2d1948746b536a97343d957a9fd73584d61d15df2bc7724ad8c",
+      "proxy_sha256": "3c38c3896d64a3bd1a1292a9b2aed9d448c76c47b93a58afb218db3556ad64c0",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:574",
+      "review_file": "review_03.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "4f2d5b9816cd3828dd95b9caf546ea189044b26aa7507394ddbb849adc3e944b",
+      "proxy_sha256": "d153ad4ab1222aa51d2917c0f9cb9da40082d142885bd83b2a6905f715852f2d",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:579",
+      "review_file": "review_03.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "cac0547cc9a23885f921fc20d41b377bf46e30f5202fc7dd4094c83c15e5b378",
+      "proxy_sha256": "4b22474079a51e06467df833e157e674a94a529eccb1c063899b14883c000f3f",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:585",
+      "review_file": "review_03.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "proxy_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:587",
+      "review_file": "review_03.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "ca344f8d5957744856d686830778ee79055adf6e34228d2ca0d5cf288db581ea",
+      "proxy_sha256": "e672a00ecf821c1310d7075e526983805e8e57709217c8e6d6b14d77fdffda13",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:589",
+      "review_file": "review_03.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "9134bf480299af6e3ffe9198c8809680222b7367765e9695415570a312718f90",
+      "proxy_sha256": "5e4414d9090b9e7f92f6869c34c81b2752ee7b081b34ac4f4bc159fc2b232cb2",
+      "decision": "FAIL",
+      "reason": "“随机出栈”改成“随即出栈”，由随机操作变成紧接着操作。即使疑似错别字，也不能擅自改变操作含义。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:593",
+      "review_file": "review_03.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "1d8c3e3041a9bbef984f2ceb462a6354cff79be61b188464f08e418228b4c78d",
+      "proxy_sha256": "042b9174f17c21901570f3e6fc54e85e852f88188b39e1308010b7ab0f096f30",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:597",
+      "review_file": "review_03.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "ac18b31007f9aa20a7abacb67a5c456062d0e36234093e94f30443613f56cd24",
+      "proxy_sha256": "a132c03506008508e01ff326007fa46ae2c81786a15cd5b9cc0e049856fb6068",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:609",
+      "review_file": "review_03.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "a3c06bdd8ae12a75437ef3827109bd793b2bcc58689aa773bdbb73593406ec8b",
+      "proxy_sha256": "b478a9f50080c68003146248a8709f2cbfc833d77949ba960ab784974b92b552",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:636",
+      "review_file": "review_03.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "92c871f756799f5c94c79aefc8e8a11d5a5a68e51633020b50b66bacc18b72a7",
+      "proxy_sha256": "ec3c4b5fd7bc6c3858aaa8ab8bd181a1af385fd60961c44a57211f32a775930e",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:638",
+      "review_file": "review_03.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "9c1abde6a8b1fa79acfac78bacb234a75cdab88da8b5c6b91c4ee41eb56f4acd",
+      "proxy_sha256": "4933bb6337dbc28541e93f0bd69aa25930d165ddfb69dd10625af7b352e7970c",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:639",
+      "review_file": "review_03.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "1f3708ca74da398f51cf6ebaa173d97a65127d633641f32dcedb8dd604995e8d",
+      "proxy_sha256": "0d19bcfca4f6145ee5c8db9826f1f66b2300043db3927f04c2f59a1a8cca8822",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:653",
+      "review_file": "review_03.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "621c323037013fed59c4d83e12e937587aa36775419ff709d483f57288a51c74",
+      "proxy_sha256": "612ad9b84e345941e8a783ee67c98334e3ce532faeee02f0eb99577434c85368",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:655",
+      "review_file": "review_03.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "5cda5c68e791bb08a3ad01b20094364496e020987e9040266f187ba029249794",
+      "proxy_sha256": "a3d1d3868a55d201ee14ecab2253eada3010c1cab0c1a1d74148e8672156f6b4",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:659",
+      "review_file": "review_03.md",
+      "question_sha256": "0569c1f72c70de7532ddb23132b2ad4211bdc7ce1381c927391847954ad4b9c1",
+      "original_sha256": "5297684e3382a4cdabfdd5fa744ca55ae3ba0f44b7abf28df557e47eabba959e",
+      "proxy_sha256": "8176fa627fed93d8d76b9599d152b12551e24300fcfb90bb8a2b4c392100ff4b",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:660",
+      "review_file": "review_04.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "7c1fc6f565ebb75a9b57f3c7bf20e966a7d38d6a8a3d92763e8ca0c436cd2fca",
+      "proxy_sha256": "aa183547b6dcc12c2e4e47531013d56e73718ab8cb638812a095e3a756b736a2",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:680",
+      "review_file": "review_04.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "6b770875d3a4e7b2cbd5f4aecf32a8500f9f899f3d7e79dd8dba832bcc3ed4a4",
+      "proxy_sha256": "63c6c374ce8c260386e1ac10155dae986febe9ac8c7409bd4d44fd56305ce0ec",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:683",
+      "review_file": "review_04.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "ff094e3357fb3bd2ed8f3f27955eba56d050a27fb1c3d79f5daca1c0ecb007ae",
+      "proxy_sha256": "78cd203d011070dc90730e6eb730cef90ceecdddef1d1e296667ed3322fff3d8",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:693",
+      "review_file": "review_04.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "89ce517563eb4ffe0ce23b1fc8d16446bbd4e426c0ffda4815636c9311b587a9",
+      "proxy_sha256": "e4eba58a16acdbf5e8b9781b1f5269e99db43997e65d3464f8540c749fa819f9",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:694",
+      "review_file": "review_04.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "proxy_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:697",
+      "review_file": "review_04.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "33c0e194df219048ff862d011c9c6db55c8d157d5e78565ec0510996c7f6684c",
+      "proxy_sha256": "30927678b00222ed2cb87563d7e221d95f519da8849a7c595d72e15a13dbedc2",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:698",
+      "review_file": "review_04.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "cb8aee889c8ba868fff105524e67fb4f3d8c058034d9d965fb2a7fb4b95991f7",
+      "proxy_sha256": "9e099aff9003f31ba88ac8c629844fe365817bdbfa5b5990659b089abcaa260b",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:700",
+      "review_file": "review_04.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "e1f167dcdddf17bec4772ac890184e019b4579db4e14f168f198b9cf1387204f",
+      "proxy_sha256": "79cad1381be3463a19726fca9023335df66d2ef73d612f99616954675b98e350",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:701",
+      "review_file": "review_04.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "3483c017c6a08c9584fd20b1df97f01647c00135604d49a015207ee87820259c",
+      "proxy_sha256": "eed2a6c118529cf8c57878087da86d08ab7770041427d090514359958b37022a",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:703",
+      "review_file": "review_04.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "9d6b19125bc87d7995b72c357ff489faab5efd6285c6b908f8848ce065983e73",
+      "proxy_sha256": "17abbe718a0a30e2f47c36d7d72cc40578705826c17f0a77310b6bb0b8a49178",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:711",
+      "review_file": "review_04.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "51482791c7d127c5c7f3ac15f2bf872a9527846718f0bdd9b5ef1b491d4c8d3c",
+      "proxy_sha256": "70c22324826c4ef25274ffd3a4c9e9472ec39657293390eb8dfcf065aece826d",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:714",
+      "review_file": "review_04.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "577c2d9c0a913c371d395ad2fac2a039582c61960b86f072dace5cbd2313bcb1",
+      "proxy_sha256": "c4c9de9bbcbf8f92cd17ca58e77aad75bb819d2ffd544d0aef255ae4e74421d2",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:718",
+      "review_file": "review_04.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "84b7570a57d086ab155b2cb72406da3a68f0faa1ed2778d8bff7eb52e67548bd",
+      "proxy_sha256": "2a49a2fabf4a27e423d8360dd3ca633036e76973e3b92b2823d89b14672c8fb5",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:719",
+      "review_file": "review_04.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "c9b7ff00fd1a9e03491d6af1bfa1733501c2e8308d6bfcdcfb7244123339386d",
+      "proxy_sha256": "bbbf1c70655f427b09a36bac7cd3b4b0dbaac9e18ea9953daef0aeb555ac1df8",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:731",
+      "review_file": "review_04.md",
+      "question_sha256": "0569c1f72c70de7532ddb23132b2ad4211bdc7ce1381c927391847954ad4b9c1",
+      "original_sha256": "329bd9a5a0597b277c1c013421f304e18e76f37ba4a22b3aef3db2a9921fccd7",
+      "proxy_sha256": "e801312f750b43af4ef3acbcbbcae34b29fef041719588cf6b2b18faf482bf1d",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:734",
+      "review_file": "review_04.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "2567ebe2d1caa436c064ae92e43d2c8115e7499fade7502f0ff6e88b8df3b301",
+      "proxy_sha256": "25fee5bf83d515c54ef72c227e9f320e00061a8c778ec1a0fd34e287d56105fd",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:735",
+      "review_file": "review_04.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "a98bd74c2b7dc4f57239f337de085728dbf4cc0b6b6aa9c7e1cd7f9634722573",
+      "proxy_sha256": "abb97237d43797a5e2f678f22ce1a12dd6e31812bedd9e37cdfce626fbe2e9aa",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:740",
+      "review_file": "review_04.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "810a447ce8dd7ccdbe6de5492cfad893c6bddbf264616db73b3128fa10240c6e",
+      "proxy_sha256": "eda7d1ad857dba3fab7a3f3a7428e5d94922c693999d75565d7182be98eb2bd3",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:741",
+      "review_file": "review_04.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "5c4566b58f80f95ee24032bd335aa46c9a733ea17f293341f01548551230c770",
+      "proxy_sha256": "2117a1631a051420b66b13b7689d025acbc1f2ac30900ec36e989943260d8a9b",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:743",
+      "review_file": "review_04.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "0b19e4240a37588b550f82686559ed5790859a5fb3a50ddd97720e730b6d29e9",
+      "proxy_sha256": "4bf5285c158da243aad80f1dbd6f26482c4ae16f9fc648735836d52de9054fda",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:757",
+      "review_file": "review_04.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "fe18538c0f7c53eb3fee344aa6bbc2c0fe4d12f60fa85bdcaf5c37e4bdd973c8",
+      "proxy_sha256": "4df3d80b314eaeff515788a7b08dc5d57b05e40b880d0af06f910d93022eb9a4",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:762",
+      "review_file": "review_04.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "8533cd6fc3ba6e32f3b4fb1a6e8d8f1552c168cf73ee95368539bc14a842cbdb",
+      "proxy_sha256": "4e9b846e651db428374673ce656528fd43e9e4e0b4434a0464dbc4d96788b629",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:763",
+      "review_file": "review_04.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "169a8aecdb510c1e5d4846dec4a4848735b2dccd7995d0ca48c0b5c87363ffb7",
+      "proxy_sha256": "8606ba31c907c5c7bac300ea3d51ef989c7eac21ff39f0c46c5b6ad0ce640f52",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:774",
+      "review_file": "review_04.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "bd10aa1ac4379f26624f2a178066d858a39bffefbcc236995f9b3d81b7782b52",
+      "proxy_sha256": "1637a9492472b2ede1638ffd2e5ed4159d09db72a2bcd9d89d98f235912563e5",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:776",
+      "review_file": "review_04.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "2d207c799faf674cc20a1ef79d56294b25ad9094e9993e114ceb4fd7248d5502",
+      "proxy_sha256": "9d34acda24a57539896a4ecf6f7f11e94c775726eba25969265a20ee3daf3a15",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:790",
+      "review_file": "review_04.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "11e11d4dd7e22674adc8377631380d5b7989b0803b01eb6b40eee8875d206146",
+      "proxy_sha256": "ed210811ff54bbb1bb0bc78a744c45f6ce459097d0bd35ad6dc2647fc7ab0799",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:791",
+      "review_file": "review_04.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "04e3f4c01cc36fc8ce3b1175627c35cd8cf960aac0bb438b842a0234f368d8cc",
+      "proxy_sha256": "bc4f049512613f806bb43c3b1f71d86edefeaf29acf4d9e26452ce32ef6d85b8",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:794",
+      "review_file": "review_04.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "a46a5ecf23090a3541d84e361dba39d62788ce4c466b0af6e9a0a9307e35b42b",
+      "proxy_sha256": "1b56b9ea1aa76274155822c370280f3cab10659e85b080b27e7111856262d178",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:802",
+      "review_file": "review_04.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "b7396e272867c763c106f17ac74b2fb4232a6e402f74abbd7f8a484539eea33d",
+      "proxy_sha256": "f36e7e35c2ae13510f38066f0900607c9b647e2b9e5197cf8714dace0afe33ab",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:811",
+      "review_file": "review_04.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "e439ccf045a9a22a32ef85a2d4ac4dfe424465ab56ca658fd6e176b1a75d9d08",
+      "proxy_sha256": "5739f85245b0dd54db215ae7e16db235c8ba24162d6faf9e394a228e4416ced9",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:822",
+      "review_file": "review_04.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "c3dd4e43714bd3831ac6499b93f7733de6ed54515024a2047ca79bf35e24f9d4",
+      "proxy_sha256": "9290bfac5e848f4df801fddc8f95c06b763142758ee18b8d53645391df13d763",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:823",
+      "review_file": "review_04.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "a99914a08566e963e918d60451623b392c3c98ebdb2d6d4f3b9ecf493c1fc269",
+      "proxy_sha256": "05a3f535607a42d9d91bbc3b138a968673ecc945c73786e5f4764ef37d6e1e57",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:826",
+      "review_file": "review_04.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "3d8113310f2fd9ecf08425c7e18e6f8f543aeb7b6590c20122d6e9dee113c163",
+      "proxy_sha256": "ad293b40cdc9ee6574e94fe8ca531a3bee662cd1bb0164dad5432fe42bd55e27",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:832",
+      "review_file": "review_04.md",
+      "question_sha256": "0569c1f72c70de7532ddb23132b2ad4211bdc7ce1381c927391847954ad4b9c1",
+      "original_sha256": "e61691bd0dad8fd9c6bb6a3e2106d2ba0809d7ddcde3605a1869548217d2f342",
+      "proxy_sha256": "8948b742432f2351cb9a6b0de2092d7d3ed25c3170ec1d8ea467963a53668e09",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:833",
+      "review_file": "review_04.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "225b5d10e6ed5eb15358fd4a0e3865c7e634ec795ce33c87566731a76b00f079",
+      "proxy_sha256": "265ea340ad42ad04a5a513275bc400ad4fcad3779469960fd518ab5291f3079e",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:836",
+      "review_file": "review_04.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "df4c81c08b0b72b650cb75a12f20554cc3164b41319bb7322029a177ee286514",
+      "proxy_sha256": "a2bd41b2772dbaad2f4ca572beed9a30c256f483289aeb6d66972caeb782a87a",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:837",
+      "review_file": "review_04.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "86b7ca562b70cc6c00427e6559f060ad10cd33660fb2388a61a8e7195867cf28",
+      "proxy_sha256": "09b9d2c26810abf6cb6445e89cb534d3b4be3bf3144c42b3147f032dedbe92dc",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:847",
+      "review_file": "review_04.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "3435583dbd481ffe9578d56256fc1051ed0883112820d6b7f7b0b586ad9d1f75",
+      "proxy_sha256": "3f4b2501cfee05304145de2e20a4097e43c50edc42b878e3326eadad4fe4e53d",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:850",
+      "review_file": "review_04.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "fb1d32e834116f0f81fb935675db5058724590ba01ee548e08ccf0f2fa39b07c",
+      "proxy_sha256": "458f8d335725fdb824ef0249b6cd539f37eb2b59a4ffc9a560eeeef44d1ea196",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:856",
+      "review_file": "review_04.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "960f97a714968f9b3bf2b4c75887a53ae053f933772e8ca99e27fc2babe2a7c0",
+      "proxy_sha256": "fc262c9393c43a3f38444347a8f02b2e252db119034e81504eff132e766ab3a0",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:862",
+      "review_file": "review_05.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "eb6062e8c38f80e40d40747bbe2c1df545daa6a641724066788951c449389e86",
+      "proxy_sha256": "eaa6553a28d62e05e8fcc4dd706d50305719ffacb3ede8db63c64989f5cc3a6d",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:874",
+      "review_file": "review_05.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "e80c93ededd549fb6190f1d3adf688c3231c312ba4684ad33ce37f7e004f3210",
+      "proxy_sha256": "64eac9f5f6ea242e0ab212e0f2427b9de88f3968fdfbaa5396f02f70c9bf6c04",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:877",
+      "review_file": "review_05.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "84ac4b0aef0b59c8ec0b31b9f430eed295d440aee67f20d0b7ce34ef2722965a",
+      "proxy_sha256": "ffd8875e24509583913f76743ccb733418e7458fc24afd6300b15f2b3cb8f447",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:880",
+      "review_file": "review_05.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "7f601785eb406b0c43244bbd1308b7861318b9728758d0f93e8279a8f5224d3d",
+      "proxy_sha256": "7609689be476a829195e87a3ece4f622c5780b463a1c204656638d0dd030a26f",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:883",
+      "review_file": "review_05.md",
+      "question_sha256": "0569c1f72c70de7532ddb23132b2ad4211bdc7ce1381c927391847954ad4b9c1",
+      "original_sha256": "2b4f2995f08ba45662abd1778226f679907c603fc7ef1e90062179fc67352fff",
+      "proxy_sha256": "d828485c09e2eab1f1505547100ff8cf93527bf5167336093ccba59c710e7a31",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:884",
+      "review_file": "review_05.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "53c759d67dee41a6a1b516b0dfd3542eed93ebb6fdd6983b1ca22f6e05504bbb",
+      "proxy_sha256": "db1c79c2b48f7ded0a6339c11e3472a5ed93ead82739ceb62e862ee3cabdc6f0",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:886",
+      "review_file": "review_05.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "dac2684f5389db62adf469481760bbe4da91ddbdb1b3662e5014aa141ccc4a9e",
+      "proxy_sha256": "cf7b3b04119bc52c95aff262353daeb45aa24c7352b70d9af8200209fd5b2348",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:887",
+      "review_file": "review_05.md",
+      "question_sha256": "0569c1f72c70de7532ddb23132b2ad4211bdc7ce1381c927391847954ad4b9c1",
+      "original_sha256": "5bf20ab38233dd977b7ef8f9808f372e243f3e3ecf7293fa1634f53949450205",
+      "proxy_sha256": "1acab6a56bd48f6110d84018787442aa446913f9450e56d076c0e24d2b907fde",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:896",
+      "review_file": "review_05.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "175295ca92fcf76bfcbe8f59494df8a801e2cb23219633f2fdc6fba344501ecb",
+      "proxy_sha256": "9b3b28247de9b6354053ba96fa52ab57147b79a6cb32721ab38818d156626d0a",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:897",
+      "review_file": "review_05.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "798c675c0afebe9df7205f0aabf4620b1e92800320cc0965782b1162e33044b0",
+      "proxy_sha256": "3b5d47a9d29df3262a0e286f730773da70948d3dfc98e4965eb34193aacb9225",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:899",
+      "review_file": "review_05.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "f39a6cf411dc3c484c0bd51c72cad204a959682e005e03444810e6b223a88387",
+      "proxy_sha256": "a4f184d0a044c694eb25f9e2cf3a1715d7dda245ac8e0d31b9104bcca0cbbd79",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:900",
+      "review_file": "review_05.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "383e01fccdca840da7e9d99f89d2f862a1682a88a4898738617413ec40a4ff12",
+      "proxy_sha256": "8f8234b9c039e0f495162da34a17fd04203915516dc27724aab2c32695521e6e",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:902",
+      "review_file": "review_05.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "758ca5d1d81097d922000b6befcf12976e0b01b3b6cce77823e8c0ca432ced2d",
+      "proxy_sha256": "489b2dfd013940f359468418686d5426ed547b949e64e12db931c940f18d2c0b",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:905",
+      "review_file": "review_05.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "0c2858290343d9ff6b4483721a1cc82a9a9ebf89184c7533b3c6b813645e7fe9",
+      "proxy_sha256": "a50804f50821f80b643297d8cf2fc09339defb887dc4282143c6dbf7fbfbdd0b",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:906",
+      "review_file": "review_05.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "3f5cfffda8c5fd6ced4d8359cfd28bf50e47cb2f47194bdb0cbb4d55387ce8d4",
+      "proxy_sha256": "82c89fdd022262ae869b5672d399f1ed8fc7abf7d6fde2ae3640e50433d490c3",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:907",
+      "review_file": "review_05.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "ac71c1232b0089ca5af4ec12adc7a86362b64c8cb239c06e0ba7f624af725cad",
+      "proxy_sha256": "4139d85c89840e03298bf932949cb9ac86d2a0fa0fcbee15da8c44da8cbeda13",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:908",
+      "review_file": "review_05.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "d3748aaefe89aa44574e943456b527adb17a1212c2320bfef166efafdd29600f",
+      "proxy_sha256": "de7d23d82311301c14a6fd0cf5a9c93dcc4e205acf11903e8676eec05a7cbf6b",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:916",
+      "review_file": "review_05.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "4add3fa59156389d4e86078a2752a0c6c5b0da2728a5a85e5603372058c449e7",
+      "proxy_sha256": "329460a082501d2b47145c1414c801bc4e9ab4aae91dc953fcd75577cbfb9273",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:922",
+      "review_file": "review_05.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "6a836601e90f6bcc066f54556c94f1d2e0562cbdb1bc2f396d02dca187c1f59c",
+      "proxy_sha256": "9c8389c70e5f4f5a8a8e635d81262bd65dbfa17e5373bb8238ee636a821f5747",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:923",
+      "review_file": "review_05.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "622736c56b2119b3fa9db39624b413e1a3c6f6b1a694a760bb33d92dee6b996c",
+      "proxy_sha256": "bd473a05e75e897cc386ee73dcd5509eb0041f3e92fab6fdd7ad601cde264e0e",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:930",
+      "review_file": "review_05.md",
+      "question_sha256": "4941867ab6b717510de1517c501b7021b122be466579ce3048abaac7e3088c6f",
+      "original_sha256": "bbe396acb675087e77f597ef5da1bc56f42a6d643cbf35948038ac8ef90b8370",
+      "proxy_sha256": "8647f32ec74584a048efd039aa4b8037434fbb3375f1bc955ae93973c165bbd7",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:935",
+      "review_file": "review_05.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "0bf890dc68e3dd3dc6e4fee0383de51736a588a21948d7a34aa9b4ecd183623e",
+      "proxy_sha256": "6d99e83cf450bf865169f505af07ca5644a327606911225259cfcf2a1bff3fd0",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:936",
+      "review_file": "review_05.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "b4941b5a3f4a0a8aab8e3514d74ba10c40eb22c823431b243b4a17cac3a18050",
+      "proxy_sha256": "6e9ddc42f47122e6be68c896c576464922a5e0f495c51410a1428f24dfef4efe",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:939",
+      "review_file": "review_05.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "0ff537fb78faf3da2d5a0557dd15453929a2b35182ce74163fb7605dafae3b2d",
+      "proxy_sha256": "d95e5a888c5f75c6d41aa9aba4492ad1b92e463e0548a81a82c19f011074b233",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:946",
+      "review_file": "review_05.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "f58315bb7f1bda497b92bd900ec775706bd0cb25a78c1bc21bdb655b950a82b6",
+      "proxy_sha256": "358d05506ad5aad8c40d0875a5d93f9988fbd155505bd015cd0724c20fc0c34c",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:948",
+      "review_file": "review_05.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "c1b3f2f282b722146c17c234ea014053f1890dff5145edfc2d35f02ca3b11d67",
+      "proxy_sha256": "e35022e3cf2aae01d14d0b015b34d274073e3b446b16d47689d7dbfb8e0f393b",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:954",
+      "review_file": "review_05.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "f03ae8dea3a94e569ad99449152f38292351799267428bcdfdeb910cbf90b16a",
+      "proxy_sha256": "bbd921209bac21c522c559a8ffb877e4b17843e7949ccb58930514ad30d32337",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:958",
+      "review_file": "review_05.md",
+      "question_sha256": "0569c1f72c70de7532ddb23132b2ad4211bdc7ce1381c927391847954ad4b9c1",
+      "original_sha256": "76bda101d6a31b3ceec8ef0ac55238e61086d19c0096d84fdc0dce2be2077a0f",
+      "proxy_sha256": "2244bd28810227c63f05209a485676e870dccb5ef201f042028c9d4a97cb580f",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:960",
+      "review_file": "review_05.md",
+      "question_sha256": "0569c1f72c70de7532ddb23132b2ad4211bdc7ce1381c927391847954ad4b9c1",
+      "original_sha256": "9e6a6a425326a0cb711a52a80e6939990640ae8ab7f1498725c4a676ee32db7a",
+      "proxy_sha256": "1aedb3778439b6379c418391b92d3ec95cbbc9193259032f9c08bb982db0d821",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:964",
+      "review_file": "review_05.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "7494ca2fc2c89dd6816b52d23265ad51bf9442dcd740a8c2bc44ce8f25254675",
+      "proxy_sha256": "c24e210f79241ca58d2447c44e034849caaad61d1402b27cac38ae0be76a01bf",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:978",
+      "review_file": "review_05.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "e29af8f8c35b3e3091d586ff9a1b0a6bae093a54f6ab3fd7a67b7957f1580b48",
+      "proxy_sha256": "2adc7b50df3e061ebc90a3b656f1e163e034f01f6eab637207f5b56d2c5040b6",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:981",
+      "review_file": "review_05.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "98fdaadc3d826e3b6ebad1a7c2935d35bea044346e924769fcf9d71be80d90a1",
+      "proxy_sha256": "3c41ec3f48b9220ac26762018fa7946ff1321b0f1b179125a594ed22aaa04469",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:982",
+      "review_file": "review_05.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "18e149459bf78f9fc9193263efe9fb67c0707b3c4759ba7ad165c956212c035d",
+      "proxy_sha256": "6c31e2c108f610773f42848918a3353f46e1d5e5412e22ceeabafd22ec43f164",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:984",
+      "review_file": "review_05.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "530729d4e2b79cdd3fe5d45cda0a109d4635516857a3b08088f8c3ad1fb4b1f7",
+      "proxy_sha256": "0eb4ee5ebe87a3388e83f661de1a1676f1bbf59a389d4f058b872fe9429dece2",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:993",
+      "review_file": "review_05.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "4795ff25c995240ae8b4dd342fe13ff8c1bc5bb45e68a159ce726aa44b55a6d7",
+      "proxy_sha256": "6c77e79ed8532bc36b3d37bd402ceee34e3819dd5f1bab7ac88a00fbcea84db0",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1005",
+      "review_file": "review_05.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "bb7371df976177e5baaaaed9e963a80fa526dcc2cf46e92c167b58d356796282",
+      "proxy_sha256": "187430d6660c3270f448c6e6b32ddf0b2a3c5d3cb6c02ea9278b43f1de9a2511",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1009",
+      "review_file": "review_05.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "588beb5c88d11cf528e87e914c3ee603db0bba89d4e1c490e299134f6fa0adaf",
+      "proxy_sha256": "a928e8544070559ad04310ec4d38a9d43831d3b7f00268e62b3a9f10a4ba1185",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1016",
+      "review_file": "review_05.md",
+      "question_sha256": "0569c1f72c70de7532ddb23132b2ad4211bdc7ce1381c927391847954ad4b9c1",
+      "original_sha256": "91e4a87d562f4ad7680b746c4318addc034383a5972030f7a5e1e3d65b595ed7",
+      "proxy_sha256": "0590711c74880572474dcd40672754acbcc8a0aa936995d5ca74768773055092",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1020",
+      "review_file": "review_05.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "68b376f5f21d825865b650931970330367ff37ef30d03020b5871b654c404b92",
+      "proxy_sha256": "c60e68e0225e3cd1577646554be5bf83691dc15ab9fb3b4bf83c74e66eae22d4",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1027",
+      "review_file": "review_05.md",
+      "question_sha256": "f7b4bf24c7eb2cd3182da4a9be14adab0352e26ab251303ad6f5965020edd8a5",
+      "original_sha256": "348842d926e47b3a57474de9147a683c0917ca55328f96221b1997a2e79e336f",
+      "proxy_sha256": "a6860c8ca58a733d37bc062a8631cfd04be6d592f3b4615d4f86b3c5a2d97ef1",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1032",
+      "review_file": "review_06.md",
+      "question_sha256": "2ac7a0b2a04d4a8de55a6f3147a6fb7da74091ba422028574a24c05ede78138a",
+      "original_sha256": "071a7cb0934d3963e044a9c0e8cb6a97df968812ceb85b103557c4b012b8269a",
+      "proxy_sha256": "382147fbc2a0377662ef481eda17c81a179abf0bc1d98812ca70353a1a045743",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1036",
+      "review_file": "review_06.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "140b6d90128fce804a75db8a498e5950e3e928526eaab3f380270f6e17511976",
+      "proxy_sha256": "24a0b6b5a41a5125f067d4271fff9cd986628451cc33eb4e65dc4909086128f0",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1038",
+      "review_file": "review_06.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "c608542974036f9c3527b6df7c73942100ec2c9a864848b940d98012dbee037d",
+      "proxy_sha256": "9ab35d3b303880f845ff50cc0fc3d47c8c133fb792d2e2fe208f1692ebf2cc7e",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1043",
+      "review_file": "review_06.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "578a8d217a1b3c4316b7b2e5ae372509e1c432cf07650864cf08b3ddc363e447",
+      "proxy_sha256": "56cd1dc2da760120434b57779768615f3bea588b33b7dac7b42c05fe403d2cb5",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1045",
+      "review_file": "review_06.md",
+      "question_sha256": "c1374e27b1f9f761c02a18108843460257c0d206e9007da3ed69730466cb236e",
+      "original_sha256": "b853180a6ea102211822c1efe1c01d6cc6f800b0df48f27f6ea141921543b3a1",
+      "proxy_sha256": "1a2512394c3986dc5f9975d42292f7376b254bbf2b58539652ce04db7d02864a",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1048",
+      "review_file": "review_06.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "8dafdb4fbabd965936046469651c8b66561af7d84868c9ce459c769121ea5dba",
+      "proxy_sha256": "507f0daa88b04ebb7fe5573c2c0faaf245aa4a88eb2fca9989ef179b5d57369d",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1051",
+      "review_file": "review_06.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "9de41cc63579fc8351582bb67220560721fe49b28955a7ffb407d5771bd0f8c4",
+      "proxy_sha256": "ab351ff2526ac93a04904b25c0b37730eb8bec984c9d0f8460a2cc8ad15074f2",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1053",
+      "review_file": "review_06.md",
+      "question_sha256": "2f1320d54233e31ea0a79daa958b22104310bbe370c46c1dbc505c248830528a",
+      "original_sha256": "fdfb5c75f3766d6125807c86395f0b083835a08433d5d21d7ec412d119207298",
+      "proxy_sha256": "ef5d33b1cb7045368aa22e5fbdbd6400d06ebd62375d8a42537f26ea72b37aed",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1056",
+      "review_file": "review_06.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "b5576db4144c360ecb59e9224cdbb8aab4273cc3ad6ffc5c0c50ddb697c5c1c7",
+      "proxy_sha256": "763eaf7f36bfdb9ed715b639cc68fc25436fd0c641a4d53690eda2fd2f8c0344",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1070",
+      "review_file": "review_06.md",
+      "question_sha256": "2cad4f3fadab6f306e9c2ac1993fb667e8c214c7f628a359d840485fc72a592c",
+      "original_sha256": "a975a033d29901111c368fdf3a0909ae8fccd4df8a36e14b55d954bcc0fa9a45",
+      "proxy_sha256": "959f6c1bd91ee965a71a138528985a139c79e36ca622635faa969386925eec7c",
+      "decision": "REVIEW_REQUIRED",
+      "reason": "“s1模拟入栈”“s2模拟出栈”改成“模拟入队”“模拟出队”，并替换操作术语；需保留学生原来的说法。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1071",
+      "review_file": "review_06.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "de4054efcaa5523a55c8cccb254cf99911e14d3ffaa7d2fbf3e35eadbf6bb6cc",
+      "proxy_sha256": "6fab6648c515a8bc178b182351c27601d980b82ce24122f843744e9acb253660",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1073",
+      "review_file": "review_06.md",
+      "question_sha256": "b365894ce5915f4bb9c162e04e9eec03169b0439b77e72bac012cdc176565c76",
+      "original_sha256": "b4ef02998be0c39c136d223ed7eca468673b8d36f483e6a46e3d80b6a7aa2f8f",
+      "proxy_sha256": "388012988282ace579040e3c5d9e67edfc9a1c8173924f28e1aaa9ccd3b0c909",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1074",
+      "review_file": "review_06.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "eac6827e0b6056fc3a92ef39dd48c2007cfc5bbe8e56bd4749a1bf530e0bdfd9",
+      "proxy_sha256": "6859c99d9272e937e1620553ec4d2a652ab4d8eb684c5f361477f4240df7aef0",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1076",
+      "review_file": "review_06.md",
+      "question_sha256": "ed7488aeee6b78f84eda8bff3bf34a9448bf3a9cca86a0b69d5f66d251ce1a3f",
+      "original_sha256": "f712f4bd3adec00d8be0b79fcbd762883dceeec7c0f20172689673a8e8543ae7",
+      "proxy_sha256": "5ac498ce8eabc9b9c03ffc79d8bcfa77111b1c327c83369a06761d47bdb44e12",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1078",
+      "review_file": "review_06.md",
+      "question_sha256": "2beb16ec0b8be08fb5121748c9c2adcbc7543e631df9163c30af3df87bd49014",
+      "original_sha256": "1258bcc92f9c2b693599d08da3bbe74dad674fb9587768ecb7cf4e646cbff5fb",
+      "proxy_sha256": "88e942db281a208b5fba3729b6a42a0dc9e3e6b515eaeace3191d5ec797082e7",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1082",
+      "review_file": "review_06.md",
+      "question_sha256": "dd088862266a24385c9551a4322a3f9dcb6e510dfa9e7756c8e948d754665828",
+      "original_sha256": "13db102d6eb9a9f034775116eace0e7541531b36195dcb5bb3950195cd4db82c",
+      "proxy_sha256": "93f12e43f8895ae62b8f3300c74bf998cc485862619fbe5c4daecdf379eb51a4",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1089",
+      "review_file": "review_06.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "184e1f17287923c89ba7a8f6a05ebd27f2ba2129cd6b18d8f1e5ad76053bd4f1",
+      "proxy_sha256": "624b36aa2de42a306890e2b8f62f15ebd48564f8cf4bd255d0796f235c0122fd",
+      "decision": "REVIEW_REQUIRED",
+      "reason": "增加“p所指结点”，并把“可以根据该节点之前的结点和之后的节点”的不完整表述补成可找到前后结点的解释；不能确认只是措辞变化。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1090",
+      "review_file": "review_06.md",
+      "question_sha256": "0a352d1bcac57762e0ce53839b5ef42e0ff56fbc59dea954a9813273cefa90b9",
+      "original_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "proxy_sha256": "6d6901e8155edc2f19f77d1f0f50d9e1f83d9e2fefaf7cc1d1c1f422e60ab0e3",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1093",
+      "review_file": "review_06.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "91b5ceabf12347bc00b57f69dd0202d4ec6d07a57f9ba3e25f5d1c0b83c6da79",
+      "proxy_sha256": "002f6255cc649fdaaab0b7bb036ad1a53e81411538a9ce1d5db3ee2b6eee79d6",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1096",
+      "review_file": "review_06.md",
+      "question_sha256": "e148e223c9b01f053b7c84e2272673fb7df1ff6c985b052b2a9caf12fa86a172",
+      "original_sha256": "5b05aa33ae92eba053b0e4c9046047634f211cd068c7f53b716fb7da3d289968",
+      "proxy_sha256": "90f43cc9f44c67515ce66d96c9b24f41b4cd82ed031702889e9fc7230ba57d94",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1099",
+      "review_file": "review_06.md",
+      "question_sha256": "f2268fd2b9f97008ed61e12d4b455f0fdcc305df1c0b49269a7f965802609484",
+      "original_sha256": "14025d507cc56cd313b7bf29e794f73436c98ac5161ea8cae0a26ae15bc6dc79",
+      "proxy_sha256": "ae669d22c4e70f3bde88987164ae8654deae303b52869965a3fe90867a540c70",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1101",
+      "review_file": "review_06.md",
+      "question_sha256": "e2b153451eae4fb2ba1f030c8eb9734730e5b04d6a21cc9161e9b5629e9611d0",
+      "original_sha256": "137b088558849da59a943183dd356192cef9f53ee6750eebe28731932e4a63b1",
+      "proxy_sha256": "bfeaf540ea13fcecfde90e9574ade7650aaadba73ffd4f5ee2e99140e312229e",
+      "decision": "PASS",
+      "reason": "对照原答案，判断、知识内容、遗漏、数字及操作含义保留；仅措辞、标点、排版或上下文指代澄清。此结论不评价答案正确性。"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "records": 56,
+  "split_counts": {
+    "train": 6,
+    "validation": 6,
+    "test": 44
+  },
+  "model_reported_issues": [
+    "ANS_ML_31",
+    "ANS_ML_35",
+    "ANS_ML_38"
+  ],
+  "confirmed_all": false,
+  "api_calls": 0,
+  "training_started": false,
+  "metadata_markers_found": []
+}

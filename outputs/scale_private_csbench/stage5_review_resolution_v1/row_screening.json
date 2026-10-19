@@ -1,0 +1,2417 @@
+[
+  {
+    "sample_id": "ANS_CO_11",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "a3538933d9e5a5cfeb7b125f731ea61cdb54bc9e5ba8f541ca35dab6a2fb8db3",
+    "proxy_sha256": "c80646942913750ab9041255dcfac0b6f40fa77d98c59915e0a4c93ac252dcea"
+  },
+  {
+    "sample_id": "ANS_CO_14",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "84fca640f05fda353a52ebf357d2951fe764daea923b9b79598b2e74eb72bdf2",
+    "proxy_sha256": "aa582a8581698c65c83e68f90b674c6eff954200a31acaafaad18949dbde4bc1"
+  },
+  {
+    "sample_id": "ANS_CO_48",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f445b23b98ab8d4b4e167c58f6de53cbc7a76dd24ba2482eb0cdf8f207ad3d17",
+    "proxy_sha256": "4ef7942f040268b25b732a4cd92c49c59013b8d0d3ae0dfd3a2ada561ed15235"
+  },
+  {
+    "sample_id": "ANS_CO_49",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1c5fbbff5f1e3796a27f12771043c82ae5a8610363296bd1eece2473ea4f406c",
+    "proxy_sha256": "abd01a82bd8de1902e0a185d3c8ab501df82a85d9d6a25f079aef9a62a27cd88"
+  },
+  {
+    "sample_id": "ANS_CO_52",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "233dbba8ef2496d494890cec4c89aafa1d14f62d2a126f438ee75b4a119d771c",
+    "proxy_sha256": "fea4e936ea960c541b57836fb22252a1e0737ad60fe55bc145ecd392d7e345f7"
+  },
+  {
+    "sample_id": "ANS_CO_56",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "9cbac76755a1647d27f1897950c035c0af9271887353c24256805ac78c3bb075",
+    "proxy_sha256": "a1cd1b997586cb98f1a0aac4b5f8540609fd4582478be049a31eff0540df49d4"
+  },
+  {
+    "sample_id": "ANS_CO_67",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3a0bf9224c08ddd114cf7e5f0921512c429a0fa85bb6599fb308e8fc6d2b3ca7",
+    "proxy_sha256": "200db78626e2b1fab36e96ce75bb494772bf1b29fe226faa272802fb77c157ce"
+  },
+  {
+    "sample_id": "ANS_CO_68",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "fb921228e920e79b7e74c09bdaa94dc540fc3c61bd3542646cc2b83dc7824f06",
+    "proxy_sha256": "984c0540c7ec1e6ed7a5fa41a615e23faa73d6a44c75cfd9c9d16e5a1444bd1e"
+  },
+  {
+    "sample_id": "ANS_CO_78",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "854e66f3e121dab310a94abc99f839cd053135d060d443e491f78411f87e30cb",
+    "proxy_sha256": "17bc8989dfdf25ffc8862b4fe883810b4ab51c74a642d0d562d6614e692b1042"
+  },
+  {
+    "sample_id": "ANS_CO_91",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f92b129b180b8355a25f4fdbaac1a7fafe317fb664020d6c1b6518abd372f3ec",
+    "proxy_sha256": "0d2232a348335d131fd9ff72ee89ad0ca0acc90f64e5b5d675760133607a8508"
+  },
+  {
+    "sample_id": "ANS_CO_109",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "028cf9200473e7fbf4cecdeec28dd2579e28896235c41ff81fe6de80feb6f248",
+    "proxy_sha256": "39b630bfc5282996059af27ba5d381fe2a504eb837a3f3e92061e20efc387676"
+  },
+  {
+    "sample_id": "ANS_CO_119",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e64d60a0718aa3c4af5c57ce80d1403b069a9c0c52ce00ae4002aba5d173eae3",
+    "proxy_sha256": "8356070013016f7de6acfd8b1a5486334fb96ed7db93c0a5dd6d7f6ea0bceff1"
+  },
+  {
+    "sample_id": "ANS_CO_120",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "fbd248af8e5298b51d47f35192fe77286ee4b7cd164247ad553fa3aa6583fc2f",
+    "proxy_sha256": "29f0ad2d432f5d6bf17901cb1577af8371096af9d91bf6fcd46c4d00e8c12515"
+  },
+  {
+    "sample_id": "ANS_CO_140",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "de29cca80860b1b51854b61768032d751b06aa7c3ac8a9dac0bd06e669de8de2",
+    "proxy_sha256": "714fcd28692724a601b22a7261cd0ba6144c51aaf7496a37a87cca1c5afd8d9c"
+  },
+  {
+    "sample_id": "ANS_CO_154",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "36fb51967ff0e2ad209613b3ac1cdf42fa8480a8ec65fb7bdf9481f70d294e1b",
+    "proxy_sha256": "283b4515c98e46e3113623b0b1acfdccbeff63f4f133996d9d48f3477e063ae4"
+  },
+  {
+    "sample_id": "ANS_CO_173",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "554eda96cfaafd7b6b020facc961ccccb79b19e9039332cc384647ccf36bc2ea",
+    "proxy_sha256": "70c7daf73b7be7bbfc6a4da575e7b6b004480bcf164fe2e43c9855e461ec1fbf"
+  },
+  {
+    "sample_id": "ANS_CO_174",
+    "status": "REJECT_PROXY_CHANGE",
+    "reason": "新增“2y的补码为10101000的相反形式”解释，原文没有该数值和解释。",
+    "original_sha256": "b0a9366dacf7df22ed210cf56d019388930036f76a132a815fbc907d03d45f8a",
+    "proxy_sha256": "2a763b2f2c32877492c2d15a487b9f7c39ebdc987c708098db680082ec5bf9aa"
+  },
+  {
+    "sample_id": "ANS_CO_186",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "96a30ee0e142770501bfad5fc4d26b734c487050661ed149569d41a23ae03e0f",
+    "proxy_sha256": "c6d2d111cb8fe18d957e9c8f96c147a2410942a91f3b7b43e92fe9b4d8db557e"
+  },
+  {
+    "sample_id": "ANS_CO_200",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "403854d98c756b8c6915f52f1325d055c97c0d6cc62d2caa6c20900d8943437b",
+    "proxy_sha256": "c4c9cc100669bb78663dcdf709b301bde7a6902fda1935d8fb1f959987fcf22f"
+  },
+  {
+    "sample_id": "ANS_CO_202",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "7f89942426bab8d6dcac6a467ce2857f6acec567956d6f464f40b66077004cef",
+    "proxy_sha256": "71221993210082120e8d46d85b5ef903e2ae4a9e35b974e13c0d01765949c35c"
+  },
+  {
+    "sample_id": "ANS_CO_211",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "97fad8c12ac7e43420f9f6619180bb8bf8f509250471e44367351054b310e331",
+    "proxy_sha256": "e655450d5c89de00182136d880ab5d365afbbde7a8a090cdea85ea709eb5cb24"
+  },
+  {
+    "sample_id": "ANS_CO_218",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "60e8db5d253e9b3f0543c31bc23d3f7fc34b9eb4d1a651362df37b392132c2d7",
+    "proxy_sha256": "c45fdb5f8e8edcdf93dc48fcebef59f64ec9c259c37924f605b172d76c7c3022"
+  },
+  {
+    "sample_id": "ANS_CO_244",
+    "status": "REJECT_PROXY_CHANGE",
+    "reason": "将原文 $4H 改为 54H，并删除算式末尾右括号。可能涉及OCR纠正，不能作为纯表达改写通过。",
+    "original_sha256": "c57a7f0be204b0aafd5fd33287fb9836c8593e869653cae7f0cffc4ad3de67ab",
+    "proxy_sha256": "385ebc013597426593ed2a381ec790a0e61b8f9080e790d9e98148d6f72909d9"
+  },
+  {
+    "sample_id": "ANS_CO_268",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "df591dcb20bd3592172d39fbc23d77403572977e047c561f4333344bfbd0c8a3",
+    "proxy_sha256": "9b6c0cf41c4eb9bbf9a543611f57aa3752c3fb18d5def6b95c1e91b2e2e18188"
+  },
+  {
+    "sample_id": "ANS_CO_285",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "80e5770ace6b8a34479d22de624c37bed0e56b39bf542f1f4395bde36f927ea2",
+    "proxy_sha256": "f94012740126bdde12ddd95f88f5146b07fd20bced2a781b7bc8b127dbda2622"
+  },
+  {
+    "sample_id": "ANS_CO_289",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "bc8f0da84b34b28b3f716feec268f57c021c87bde341125d14c3c78fd94d4a02",
+    "proxy_sha256": "92bcff90f3d47988d062f622e65c1068766fa52c6d5aa5e83d15dd6238469716"
+  },
+  {
+    "sample_id": "ANS_CO_301",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1226e57aef16b76f71463bdebd459fab7502caf4af71a328c9c3bbd081d8ee5d",
+    "proxy_sha256": "b86eda6277542c1d02df4a53e0802eeda3ff10eebe12d26a7bb82a760fd24384"
+  },
+  {
+    "sample_id": "ANS_CO_302",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d9d831213bbf59eeafceb81732eca238b2546e5bdf39b7514f41ba54482e6a83",
+    "proxy_sha256": "c70bbb601f3f9d986d9baa23346bba3517ffeef493ab5a10adecb681fbe15cc7"
+  },
+  {
+    "sample_id": "ANS_CO_307",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "47ccd6693d70cb9563f8c86791b73179024f23b4d937726c08dd14ce2628b633",
+    "proxy_sha256": "73f006bbadf26645ecd12e13ecf288012ed395025494c7b91a3e11978dcadb35"
+  },
+  {
+    "sample_id": "ANS_CO_315",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "beab325600edcc01992385fe30fc27049bd3b492bb7dbcdbcfb311eef2479e73",
+    "proxy_sha256": "179b5babb7e802c83995d072add55616df109a804db4eadc9a8168f023f0be54"
+  },
+  {
+    "sample_id": "ANS_CO_317",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e4fdda576a07637aa8ad236399ada9a1bcb7e22703ac95882298988cabf5369f",
+    "proxy_sha256": "6d041ef0c80d52bf6c9ffb8ee8e10c5271655abe88828df27f199d6518290a51"
+  },
+  {
+    "sample_id": "ANS_CO_320",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "619309319e73e65f398f50c632728168f417705768e7da3a84193c2e01318664",
+    "proxy_sha256": "dd9a099a5ff614e2dcd03b7312d20ba50b6e17a471eb8638efb60fd2513c8d21"
+  },
+  {
+    "sample_id": "ANS_CO_337",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "4b02704550abbe0f4dd46ba19ae5887f49ee5a0546bd3e79bd302b2c3be94732",
+    "proxy_sha256": "92a7f60b1e155815932fe8568ea66db4b238296c57b292aa42feaad5ef224dc9"
+  },
+  {
+    "sample_id": "ANS_CO_350",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "4182fc6cd07d73e3bc6c98eb7897108bd73d258b9e151b0d2743e7309ff970da",
+    "proxy_sha256": "2d2665c900b0659d9181db18272dde2664d06495b8c3cdd07f3dd4713c9516b8"
+  },
+  {
+    "sample_id": "ANS_CO_382",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "7b9bab4c06439d1dc399865b16089d73212f8693c72aae150efd50ab2b8a3421",
+    "proxy_sha256": "0aadc016387805add9cf8675df309556de843453ab6357aad2471f4b77d86aa6"
+  },
+  {
+    "sample_id": "ANS_CO_383",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "c580ee58130066251b2a59a00b889c51cff88a47d59a87d5a0c5ad6e3c8e5961",
+    "proxy_sha256": "5c59c47014512b967b3b244ae87e9a237dac95dcf61f07a808be98f4791c29e6"
+  },
+  {
+    "sample_id": "ANS_CO_414",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d01292547449d0b1ac501844a41df93b634a9fe69112ebb916430afbc7510c6d",
+    "proxy_sha256": "bae7bfc03eefceec5471072f09cf237db19f4867dbc6d7e3f40c9200ffa65046"
+  },
+  {
+    "sample_id": "ANS_CO_419",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "b626c3c668bcba0124357c077c737e23b4a0e5c41e3bfd79217d56299270253d",
+    "proxy_sha256": "75c170d7fafa790597c1c431df3ff7e39790b2cd1c7f6a39e73a0a5833ade4fa"
+  },
+  {
+    "sample_id": "ANS_CO_424",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f26dbc7541c65d7c34352591b6f32b59bf561fd14a66fe0e72d140c46d233e46",
+    "proxy_sha256": "6a387aeff1dd4682e55eea9239af69dbb6b82d4979ea27045b342515c974f503"
+  },
+  {
+    "sample_id": "ANS_CO_425",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d526f0e4cd8dd45f961e3d75cc0d169a1de109931d4bf41593f69a02829dfa74",
+    "proxy_sha256": "b666fb31ae31fc05c2827831902861dd08f607bb1802e2bd82933343e9919afb"
+  },
+  {
+    "sample_id": "ANS_CO_471",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "beb9021bdea1c2b7d86ee10cd2c21085a776be7236b226948afeaf420ba61808",
+    "proxy_sha256": "ec8d3676b409fd068a7231ff42f2ba47fe7baa0bef92a8eb0f9306c8d200dcfc"
+  },
+  {
+    "sample_id": "ANS_CO_474",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "7888e3b950b7cb8a5d88d4b0b82b1da895a4aa03f31eaefea308a5cf5a8b877a",
+    "proxy_sha256": "74e8e1deb1688815c5ec6c72a3a7ea9a4fa1a6ec50a3ff2ef250793141de2a3a"
+  },
+  {
+    "sample_id": "ANS_CO_495",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e0c9e04f8d8a7439c0101c3cc344c9bfbe06c49803ad3cab89deccd6e47e0b7d",
+    "proxy_sha256": "02dd8a82e77b42ee40c4f9b7d2cc4d0bccc51000af789d3612ef7e973531ff63"
+  },
+  {
+    "sample_id": "ANS_CO_497",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "121e871ad98e34161093bd5f1fd361b1c54bf4c3599b719b2177768c362cf8b4",
+    "proxy_sha256": "1b7bf8bdf2f5bbb638388792ac867cb85f9b4096f0633a24832e744d8e63ae92"
+  },
+  {
+    "sample_id": "ANS_CO_500",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "da4253e0f82f37b912f05a9dd4bb0d1b2e4ef83ed3d571b4e0026bc27cd85119",
+    "proxy_sha256": "f49c46b6d17f414780ece7403dffc2a08c6c161ebd95b3d69712d76ba6fbdabb"
+  },
+  {
+    "sample_id": "ANS_CO_503",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "9dcc42a16539682f05ba258e2a9337701ceb44ec166fa4be9865519e5ce9b522",
+    "proxy_sha256": "0468768b838ab58e3d50751228ee5c6b8f88d6bfad13715ceb0c833bd91e3eec"
+  },
+  {
+    "sample_id": "ANS_CO_532",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "ac694b919c0b218c0ae72c2acccc1781115ffe19f0c26e11b575a4dce2763762",
+    "proxy_sha256": "ee69279b7d45508999752e3868bc1d6696b9a39c7d725cfb32abe159a15809b9"
+  },
+  {
+    "sample_id": "ANS_CO_535",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "14e7332e6b8fd15ea4c5ed9c714b90ecad52b5af7ff76aab682f4a8b02dd4dd6",
+    "proxy_sha256": "5df5c7a399536c165896e57af903672c9afd05e8d67ad9b72d27638c6ff71629"
+  },
+  {
+    "sample_id": "ANS_CO_537",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "14e96186b4d52b0eba5d96cd5fe450ad13ebd6d92164866ba7a16e0959ddb8fa",
+    "proxy_sha256": "cc32df97d307b424f27eafef017bb6fecfc333eae7f21c60f6b7445b81a8c4de"
+  },
+  {
+    "sample_id": "ANS_CO_538",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "349e3a41f2c05c21904294d9212bc35105693de22d189c5ebfed1cd88bd33b6f",
+    "proxy_sha256": "874215e68035e12b3c7156928ab185878844d654cb803e9d01ad4c6274880ba3"
+  },
+  {
+    "sample_id": "ANS_CO_540",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "dd4c3e2fbfef66da6a859caed53c7affd1b73d7c6cce56212aff2b9bb1880701",
+    "proxy_sha256": "80cdefb117b70fcf99b9372a8d6c5f805fd42b9ac46cce21f66d6de82fff77cd"
+  },
+  {
+    "sample_id": "ANS_CO_552",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "975cc58b17c5acc645855fb502b869583bead613993c8be9f7b2cb08afa2c7e2",
+    "proxy_sha256": "ab0bf933fef2dfff2d1741d3d455b7d0408134a4a91e9d1c8849a7deaf270aa8"
+  },
+  {
+    "sample_id": "ANS_CO_588",
+    "status": "REVIEW_SOURCE_OR_REWRITE",
+    "reason": "新增用户程序与坐标方向解释，需核对图示含义是否由原文本充分支持。",
+    "original_sha256": "9b4a5ce82e48c0fbf056818123293384a44e015085b87eb822957eca07153f7a",
+    "proxy_sha256": "001d1e38b29476c58ea965a7012753c24f9e10dd08b2253320d2a122b22810bc"
+  },
+  {
+    "sample_id": "ANS_CO_597",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "7885366809b32f2594730ba355b1e2545fbe06f2fae234f776c14234d02b218a",
+    "proxy_sha256": "0211b4e5d92f5aaada095456298a4768de7780e387b29c81fd607ca1eb92c588"
+  },
+  {
+    "sample_id": "ANS_CO_616",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "6a436981d3435d1f8ef8917d14137889d370ff4d80d415877a0765272d26ec4a",
+    "proxy_sha256": "56b175b83caafead7738e967797d34f2648eb01fc1442fb82c10725a4a92e372"
+  },
+  {
+    "sample_id": "ANS_CO_624",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "7328c781bf362081565340af53ce38ce2d29e9acc27536cd438ec096f6c637ab",
+    "proxy_sha256": "145cee48f68954f5932317548a53dcd19149cf691a8830d11916dcd23dd903eb"
+  },
+  {
+    "sample_id": "ANS_CO_647",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f77bec8211e7032af6156881ce43529551c4dbb2e631c59ac0c3ba0c4de0463d",
+    "proxy_sha256": "b8ac93b282ee9951d9570ab4cd92ea0e83861d49877cffafb6941a61a23d462c"
+  },
+  {
+    "sample_id": "ANS_CO_687",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "04e985f1a9b69d1111451e79c5d2e401d0ee5cb4a0f7656b63c6a7c310fa6571",
+    "proxy_sha256": "1d14630cb2c043f189184a26a5823b9e1e12300e0b33f3c3176cd0c9641f3c0c"
+  },
+  {
+    "sample_id": "ANS_CO_693",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "2a21bf510d74a4fdb59ef2d763ca827aa32ae263590861f32062d3875b7ad7a7",
+    "proxy_sha256": "8e99ce46796ed8c41446563563e52d2bedcb76d82ad5a2d60db2c7082e244bbf"
+  },
+  {
+    "sample_id": "ANS_CO_696",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "cd11f84dec72971f950781910d81a48997fccb037b3d56e8cea9e6514ec3c5ce",
+    "proxy_sha256": "953c4a0c443cca9584a0d3b6cecccad325e5a12e3c47fcbf2b3de6c643806697"
+  },
+  {
+    "sample_id": "ANS_CO_701",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "8cd9044b9f0bff0417b48d2135525f7c05a7e2e5d25508e9eabc7a4e2acc796c",
+    "proxy_sha256": "2300e7818c3ab7b334f905087a61c9c38c4d1b3d0322e76facfd3e07c902dd5b"
+  },
+  {
+    "sample_id": "ANS_CO_702",
+    "status": "REVIEW_SOURCE_OR_REWRITE",
+    "reason": "新增两个完整十六进制地址和明确Cache命中描述，原文排版/字段含义不明确。",
+    "original_sha256": "4e22cb8d5d7767f6aa7aef440df44d782ce9d5cff0be3fa0c94b0dee0162a1ad",
+    "proxy_sha256": "7526b29fc11a46ff6e7b1214ed3fef6054a9e57dc96fda0b9593988404442bc4"
+  },
+  {
+    "sample_id": "ANS_CO_706",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d11082ef716d578d3a26df5c131c7def6d0c799b04b3fa8e26671d4324ff9a15",
+    "proxy_sha256": "f6bc03b0f50e15c87967af09a90fd451eb525770c9281e29d6218ec9463c6d77"
+  },
+  {
+    "sample_id": "ANS_CO_711",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "46a68f399bd15823857043b20453a90c18a52e2eba280fa9d7f1a735acfbcd6c",
+    "proxy_sha256": "4a305d8cacc1a9a7e356537dd6965cbdb91a9d44f68b47b2d5bed3ad4b8cc0a8"
+  },
+  {
+    "sample_id": "ANS_CO_712",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d56870c83f18f31e53cea85e2d681a3a90b2ad247c9b76ff8ed4544c55c48676",
+    "proxy_sha256": "b5701d761263782d708778e99c85e14dd19dc8dd04eb72fb0bf5dea51399d7e5"
+  },
+  {
+    "sample_id": "ANS_OS_02",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "5c8d65211145e77298b839b8f16758a79709ead1c2940b5481b71eae0da04a8b",
+    "proxy_sha256": "413cfff2abae2dc6d92970205099d4a48a0304d7b17fa2757afedc9ce3d7501e"
+  },
+  {
+    "sample_id": "ANS_OS_06",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "55d51052f1ef89b63530e65e1f8f17a3afe1cedaef22797e232e7bec398c150f",
+    "proxy_sha256": "b96c3b95af0e792ad8cb3494f438bd1d69538d8c14b57e0514a3792437095a09"
+  },
+  {
+    "sample_id": "ANS_OS_21",
+    "status": "REVIEW_SOURCE_OR_REWRITE",
+    "reason": "补全信号量声明、等号和分号，需区分伪代码排版与实质性代码修复。",
+    "original_sha256": "f762b56857f857a184fd66e190bd2fc17f83266e99f3a70dd475cb9a8da463bb",
+    "proxy_sha256": "0bc28fd3f270b786cc05129f45299c76ee39a301726180b1039162a8d7b29e4f"
+  },
+  {
+    "sample_id": "ANS_OS_37",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e078ceff4d8d54310252b9f64736766a675c9e5736aba38e160c66e1b41661cc",
+    "proxy_sha256": "80210f65b993db9521b559aa8c9ba66a29d0392fbc8ef99502b3d60d4d2aae67"
+  },
+  {
+    "sample_id": "ANS_OS_49",
+    "status": "REJECT_PROXY_CHANGE",
+    "reason": "删除开头 others(){ 并补全语句分号和注释，改变原代码结构/语法。",
+    "original_sha256": "c51f47d83a99b3e917e5d63b133fa0ca369f58475dd1ade4a08ffd6516481fb7",
+    "proxy_sha256": "ec66b37a721188d1a33977a7a665684ee41118726a31b6f39287326672505715"
+  },
+  {
+    "sample_id": "ANS_OS_73",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f1028df7c52164c6c91984fe9f75a0bee8e758e354b5be5b0c860c4b2bceff53",
+    "proxy_sha256": "221a5c3bd170316e66f4b006b117f741fe537dabd0c40a52b2bfb31ecf085400"
+  },
+  {
+    "sample_id": "ANS_OS_79",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "5393a68c956287982141df9b5ebdf551912e664dcdbd7ab55555dfd17425d743",
+    "proxy_sha256": "842b8d017bb1d49975ab59695937a07a0e455b0bdfdc0bda3aac9cb8a16179f7"
+  },
+  {
+    "sample_id": "ANS_OS_91",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "620855dcb601d218f35045e3d9513116bd7e32e2131493ce3c12b0c8d18abdd3",
+    "proxy_sha256": "5471e747d9be4bf69594c3e480e0e6e168be587a1a58ef45e46d794599995296"
+  },
+  {
+    "sample_id": "ANS_OS_92",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "16b35a7471d6d73ce2eaf155813ed1e02a7b09e8d88196f7c2fba7fae327b789",
+    "proxy_sha256": "39fcc21f5ee928a0b7fa988c8dcdd4f5a7bd497b0254d9f308e6d53de5cc15bd"
+  },
+  {
+    "sample_id": "ANS_OS_116",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "42a07d6e92d8aacef40261874861acce0f2bd6ae50f2012540b27d399e40fe53",
+    "proxy_sha256": "6db3e267fe45a8d1af5f057cc649a657a60b17fd3b87abed6cbd9bc71b85b939"
+  },
+  {
+    "sample_id": "ANS_CO_784",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "eaf2ef2868030c9418af4cd70d3199549a870227de59291a4e1a8aea81a9b804",
+    "proxy_sha256": "d4957c7a0dbdb31c6faaf3c9897c1cca49249aef76dfd123c23b27fa68523523"
+  },
+  {
+    "sample_id": "ANS_CO_787",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "bced34b673a2e7e403835b34471ceb9a98f9599a789c028453cd7cb1e747efcc",
+    "proxy_sha256": "f4b843a792ce68c483810a861eddb085db165178da9a8e7c4366b07956eb5771"
+  },
+  {
+    "sample_id": "ANS_CO_792",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "159f300b2b4b11c65a271ac52b740095e7275377d8cea3430aa618138e575428",
+    "proxy_sha256": "11c59c4c50a268f5c78dbdedce8fd1b4f08ea04004afa868f91d383062da7cc9"
+  },
+  {
+    "sample_id": "ANS_CO_795",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "ad0d074c8bec9ca053d1f9fea58464522f24c37a8ce1f99235fa239f4b4d59ae",
+    "proxy_sha256": "ff4dc841ac71882926b4697f5cd4f558ed65cce2044cb9f3f576ab647c199f62"
+  },
+  {
+    "sample_id": "ANS_CO_808",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "6192cf0a5ea8295e87b05f2d0cc90e282eb055a4475917cb73ff268c831ea677",
+    "proxy_sha256": "65f9af48b17856592c1d3866a4370ead5246f2d35564c52f7ccfeeef842c4ec0"
+  },
+  {
+    "sample_id": "ANS_CO_823",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "ecbd2063d47533e8682e8b287074aea884605d41e76c9f5f2ad4adba4d17c2df",
+    "proxy_sha256": "e78c9cd727318db3340d20d9aa5b6025014f358673267dca8b2777f667ad3315"
+  },
+  {
+    "sample_id": "ANS_CO_832",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "b7a2917f9cc688af334d13079e90ec82e71381fc0d4a2f6b67f5c7a46bfce9ba",
+    "proxy_sha256": "ba50a5fda287662995d06aa9e24add96ab547d1fe5eb94cbe99d316611b1e38e"
+  },
+  {
+    "sample_id": "ANS_CO_836",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "efabc2fc98459dc6ed46d56d234d66348b8f8bf2a7af580da70773383b57fe95",
+    "proxy_sha256": "5389452949da57631517ad9d3b7a766dae97185bb7cf82e3fd87460736449bc6"
+  },
+  {
+    "sample_id": "ANS_CO_837",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f529a9da007d24268a612dd5708a655bb0835d612956c71534ca6acb8f1a62e5",
+    "proxy_sha256": "9d1087e4b5dd7046fb5b097ce94e2e222e84a72d7a1199270b038707b146863c"
+  },
+  {
+    "sample_id": "ANS_CO_838",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "35d5db0adac624c9c74fa01e8f79bd55fd630e859012d3a2789ef072caf3a224",
+    "proxy_sha256": "69eafc2b7558e28d3bde83266ea754584b98a162190644c81b90d1593b926741"
+  },
+  {
+    "sample_id": "ANS_CO_858",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "8c203bc69519b9c825dfd72dc18928cd8d098e957ca2edca63bbafdb269013f0",
+    "proxy_sha256": "1ca18c027b85ed3fa8d75faeaaa40a6b7f8fb456ec0acfd25eb4389eb74a44d9"
+  },
+  {
+    "sample_id": "ANS_CO_870",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e72e92dec1336b385b1a39f12d7bceef35395f8921324e285b66a9c198d2ca25",
+    "proxy_sha256": "446b5a31652d58a0d71f9e688d029b1fa5d9c38eb57324e8495ae9a2f1f3de4d"
+  },
+  {
+    "sample_id": "ANS_CO_897",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "ed87536b0c57113a8dbc78d5ce400f1628d74da07630ec2c3627d165107e8e41",
+    "proxy_sha256": "b183f70937582b6969bf50429bd2e78bec5af1e3515a8bcd49bcd4bb8f5896f0"
+  },
+  {
+    "sample_id": "ANS_CO_899",
+    "status": "REJECT_PROXY_CHANGE",
+    "reason": "将 1/25×10^4 改为 1/(25×10^4)，改变书面算式运算结合关系。",
+    "original_sha256": "35dcb01390aa609f533d59604ccf68ad15848cf2f92cd5226d09d085cdfacd13",
+    "proxy_sha256": "d893ad0d185e95064286d634204760e0b8c3382d09c0db639dad87ebfa7613ef"
+  },
+  {
+    "sample_id": "ANS_CO_914",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e9d3b174a3f61f63ee9540017524a048ecd7d6ae1cb671539d959e30ebafc04e",
+    "proxy_sha256": "42fead8aaa3a0daaa7e71c32cc1e9fc321480b3c3b9546621c19ad44dadc5022"
+  },
+  {
+    "sample_id": "ANS_CO_958",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "da8be9a4c7853bb8e55f3f3b331c6f960c24c6622f5a9fb77e710fea8d452207",
+    "proxy_sha256": "0b45849950b2abcc8d64c41f7c7eff92882d7c06dfd881849f7805db71819e62"
+  },
+  {
+    "sample_id": "ANS_CO_962",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "09cfdfb08aa93028f0624a11d97425ec4424da471b944d4a32f2ea4531d7123c",
+    "proxy_sha256": "efb64b5027da5ecea639aada33b02bf8ae0e6e6f335e2f2b543f883df96a3c8a"
+  },
+  {
+    "sample_id": "ANS_CO_968",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "92ef9fd390ed410f42e63ea37f3aaca5002230e63a7598d5efbe03300a66c307",
+    "proxy_sha256": "f8db9605c8bfab9e515c8f58a44c2e12f5bb165f8a71b1801b1eee1661e8ad51"
+  },
+  {
+    "sample_id": "ANS_CO_970",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3bc319ee1bec92eba247daf733d6330386b1ea9315b94b9a18c21869e74b9b4e",
+    "proxy_sha256": "44758835416e31a0dcab75ff08417323df5ee0d67f40d25ee28a573318ae4b2d"
+  },
+  {
+    "sample_id": "ANS_CO_976",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "44cbd3aa1900bdfdd916db187dd692bdc0945ed5b56209575993c539934f6e2c",
+    "proxy_sha256": "ac7e3b87e6f20e733dbcfcacb7c610350d6f9e3fc548d58a3146a38c3e05987e"
+  },
+  {
+    "sample_id": "ANS_CO_987",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "2d41a6ea587e6d04688a48f7729ea4ed1fc5bc91eb74257d49c62b3315683a1c",
+    "proxy_sha256": "0bed0dec56524dd373ed513e0f7edd939e90e644386bb7545614aa256239a4ac"
+  },
+  {
+    "sample_id": "ANS_CO_1000",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "c4d627af16de6d9a5b4aa6e6143331cc5a7382520a7ccffdb0ffd64b6aa2d200",
+    "proxy_sha256": "ae0ff4c10eaf16ef23c5f6a322cd8a689672361422dac271ce4074fcd5f00395"
+  },
+  {
+    "sample_id": "ANS_CO_1011",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1fcf6461b09abc923140e6e6b71f365a9c3a90912fdf20f3ec7affb96c4114a9",
+    "proxy_sha256": "0f25f3054c6c0e227e21c46af43ee97ca0efe7be5c39dfbb3356569e2ce07980"
+  },
+  {
+    "sample_id": "ANS_CO_1018",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "a9ea9a78da10e7c65d4516773415df3b0b1f54c7f2052bc3e5eb09874d168ac8",
+    "proxy_sha256": "0cf1e597b7e098988d51e56ab94e2bedfac46abbd2b942e557d8f4087b027294"
+  },
+  {
+    "sample_id": "ANS_CO_1027",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "92000c5587fa8079197eb98d287983dc6649ca4adb7e5568f0488a33bb505523",
+    "proxy_sha256": "cdad9549b034574f2af273e16de03b8c8c13db9183e38a53bd5eb30cc6488f71"
+  },
+  {
+    "sample_id": "ANS_CO_1041",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e8e2ca7fa5f5f4c41f1f98c942fa24e2f40c6be73fa936c7f037deb9ac32db26",
+    "proxy_sha256": "6bf2bc51fb0884a2ed8b141434bf24ef3c1b7b3b2ba10f2626d862f2456de9af"
+  },
+  {
+    "sample_id": "ANS_CO_1056",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "99dcd9982be8b2558f603e4636bef170b5f8455904264789af74d7d8186b0a67",
+    "proxy_sha256": "b0a17b733cefc15d45ef3279418fd4629d6268754c368304e35ef399c607f126"
+  },
+  {
+    "sample_id": "ANS_CO_1067",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f52c57e351663e7e376ada083ff120af255ed1221ac0183804af7cf8573bb3e4",
+    "proxy_sha256": "ab9563f1cfdea021cd864dcfcbd407dd97b900f9e6115b82de81c6f511eff51d"
+  },
+  {
+    "sample_id": "ANS_CO_1103",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3b59bb8953d3d7a3c0d1c564bc2ccbb12cb16e5dcc5c54b4178bb0e6a8628864",
+    "proxy_sha256": "6cc6ec0684a1c047d4b999d20a57e357dddbb71510fdf191846010abaa3c603b"
+  },
+  {
+    "sample_id": "ANS_CO_1104",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1c0085318a1009264935ad94bd486731aa6885c87d6f9a3901429678c064c284",
+    "proxy_sha256": "fa7e78c12abc51023bb3cefe422619ecc103677890feac6d4d57799efe2fec57"
+  },
+  {
+    "sample_id": "ANS_CO_1128",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "ad7d8c7601816d2d4fea2dec7494083698d3ed3baddf5ea0629155a6c9f3052b",
+    "proxy_sha256": "d58d4467aaae70b0c4c042149b9f151fd9d87d663aedec59778853b2490bfcdd"
+  },
+  {
+    "sample_id": "ANS_CO_1137",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "dbf809c7e1406e955cd78e4b1a092408fbe3f689135bc60fc82e134fa95e816f",
+    "proxy_sha256": "fdea5bc35a1e3964af03667c7a9d8430f95dcdf91dab0b2ebd3e7759b993b885"
+  },
+  {
+    "sample_id": "ANS_CO_1142",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d955697a5531920655e0372b1a50cf3e9484d0820545c28419346fb33e41db2b",
+    "proxy_sha256": "5e264000b96bfeb8e1fdad0377f8c6f299b693cd8db6c0cd96c95ad20c5d2ffe"
+  },
+  {
+    "sample_id": "ANS_CO_1160",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "582e48d531fef0f9e752707acb95cea65e88d4627065a46a9be9c515428bab07",
+    "proxy_sha256": "5ba84ce2248f701db55f48bb95c1b05e7026577b255bd5fec806bcb5b00cf4f9"
+  },
+  {
+    "sample_id": "ANS_CO_1171",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "be7d15d26734eaa79d87f101075df0a78e1e8e06e738f0764979684d9d2371c3",
+    "proxy_sha256": "527cf58b4ee1731320bf17f63c63da4a07eeeec94ff55024b2d1b0e594ed7719"
+  },
+  {
+    "sample_id": "ANS_CO_1178",
+    "status": "REJECT_PROXY_CHANGE",
+    "reason": "将“组相联按照每组直接映射”改为“组间按直接映射”，对原答案作了知识性修正。",
+    "original_sha256": "ed47346226ed8895ad49d24ff1d86046d2828b9b40524262786f44d56f7fbc39",
+    "proxy_sha256": "d922858de171de949251653ce83389f5e62d0e17e66b35369d6b80024ffcf65c"
+  },
+  {
+    "sample_id": "ANS_CO_1191",
+    "status": "REVIEW_SOURCE_OR_REWRITE",
+    "reason": "将“有效位是否制”解释为“有效位是否为1”，需要原图确认。",
+    "original_sha256": "e9ef0725b48e73cb2b9efeeb59df06ce613e90e33ea72c0f5c782d5c3d7378f2",
+    "proxy_sha256": "07a213b11b8477c5f23423a1d1b83cabb2c943c5636bd599d4eece908bf04249"
+  },
+  {
+    "sample_id": "ANS_CO_1199",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d8b3089595c5d19b3afb56834122707eb175efd82c687c2a0596236b2605d345",
+    "proxy_sha256": "b5e2962e48be9c30d3ed6443a8e97aced88a51ac4939b7d30276a46db263717a"
+  },
+  {
+    "sample_id": "ANS_CO_1205",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "fd524e0bf2861f6902241529ac3784e8f9f9ac985a95cf2cbede78c3e573a42f",
+    "proxy_sha256": "8fd39149c9ab3da899fc0256e97fa1c68aca9ec0916e9cf15b5938a61ab4fff6"
+  },
+  {
+    "sample_id": "ANS_CO_1226",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "572d14e07a321780b2bf10c38d6506cf7c59190ce3315916f642c6583d2fda90",
+    "proxy_sha256": "16b798a10662084aa602c69038ff30ddf6714139446409c6507bc39a0d46ffd6"
+  },
+  {
+    "sample_id": "ANS_CO_1245",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "254820e79033314458b4d1ad8f3d27b65a3b8841dd63cbfd78ecf59c2de5050f",
+    "proxy_sha256": "8ce8a32c2253a7d2ede2152563506ec6d358caf12a0062b46a8c4b58268c678f"
+  },
+  {
+    "sample_id": "ANS_CO_1265",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "229f91740a41b012ef8afd69b377c823582abc1b2d89ace2ce3b12f90427cbd8",
+    "proxy_sha256": "c28ab61608415010aef8df4c94fe990a223a254395f1ef28cd17e339a4fec9ed"
+  },
+  {
+    "sample_id": "ANS_CO_1268",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "273e9d6352adb6def5a994bf9f6c946fe3a931527b38a82be20ff29de3faf878",
+    "proxy_sha256": "7fe1aec97b3178ba371c9241354704e2293fcce42e7daaab48c1d34012951f82"
+  },
+  {
+    "sample_id": "ANS_CO_1271",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f6ef78a9c321dcef07efc26a553f5361f38495b110d823db34695266bf94c228",
+    "proxy_sha256": "c0e2747935d05038cdd4ecbbaced43baf44f1b4a2759b3a39754149cc45f53a4"
+  },
+  {
+    "sample_id": "ANS_CO_1273",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "9f7393a4884188324e5eaefe2fcb8a101f6679e3b99e7865b1f478b54596cc84",
+    "proxy_sha256": "9dc1f87f15f388196ec8aaebb4ea737bd09d9fff636101390ed7c66073d71b0d"
+  },
+  {
+    "sample_id": "ANS_CO_1274",
+    "status": "BLANK_PASSTHROUGH",
+    "reason": "空白原样保留。",
+    "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "proxy_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "sample_id": "ANS_CO_1279",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "4370791ebfba930112c443c6b9b2dc17ecf58c9589ed7a471ed81b7b81ed1a09",
+    "proxy_sha256": "4ef94124428863c3cda0d54bb15f6570a63ebea396b9843205d6e4f7cb81456a"
+  },
+  {
+    "sample_id": "ANS_CO_1307",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "94647b3558008015a0dc57bb10e6e321bcadf767cbfcb27f103eddfdd3d6249a",
+    "proxy_sha256": "08f1d4e229e94168fa120d545ddfa042f23b704dcb063d02598e8c1dc2815c19"
+  },
+  {
+    "sample_id": "ANS_CO_1328",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "55fb9ceaba157e21e57e8514499e5a7fb93e12025aa55ab31b6997ea05c7af7a",
+    "proxy_sha256": "e13fb3bfbce01d841b4cd1673760449d6b20e4a9c3721144eaf24b2f38d6f383"
+  },
+  {
+    "sample_id": "ANS_CO_1342",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d9cc75564009f44fb42860fcfe7a082b960052cbac689d4e7a0c5f4bce34c5d6",
+    "proxy_sha256": "757fb8585cb3ba35b26561181d4cc411e3b0b0dd0218235be9f1a791d8cdd1b8"
+  },
+  {
+    "sample_id": "ANS_CO_1364",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "de237f7a9c050baca8daea77bba3f038d9d756e9f2249c55820ac23270b463cf",
+    "proxy_sha256": "ce99f19f079a1869fb638579120f2d6fd2330acf12e0f2d6ca852c5c1e15f6a6"
+  },
+  {
+    "sample_id": "ANS_CO_1382",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "81d3fa2067d3a47ac61026a9da070ba03d167e58ff48efc3761101e8ccca5322",
+    "proxy_sha256": "11344b624e1fe98e795802f5f32f326e73a5f99595028a0271498190c1e4b951"
+  },
+  {
+    "sample_id": "ANS_CO_1392",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "117485fdd8713a4c4078403eb7f81dfb8447be5970143c2d2d4b8ad695750a11",
+    "proxy_sha256": "e854b30becb1e1428e676b226d901212ddac1208a98d00e21002b1c80e22cab0"
+  },
+  {
+    "sample_id": "ANS_CO_1398",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e706b9f82c0a6798c5820d3934bf0123c4c495de5d3d39a79fc937deb01e1641",
+    "proxy_sha256": "df75c61c142e534b5e63c57d067c8fbb4add43446953445b3d398c75989a0306"
+  },
+  {
+    "sample_id": "ANS_CO_1407",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "57889abd957dde6f23ab0fae72fe8b5f0c0a02377e1c7cf2f1e2c9c2b8d1dcee",
+    "proxy_sha256": "8a1a0979d7cd5b574d204f10bfe3b5e1d0d2484f8a8b2141d29ce84ac12e84e5"
+  },
+  {
+    "sample_id": "ANS_CO_1409",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "27259bfe6c715d1348db7d0f6effc638efda74e3d53356c2bf76ba35a51dad43",
+    "proxy_sha256": "190d296c43c370c6b3723c6a480b70abe23591ff0a6d046396928376adf82f2e"
+  },
+  {
+    "sample_id": "ANS_CO_1413",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "da4c02d175c68076c0b7c97242972df9ec26c645cdb487a4695c495515741f1a",
+    "proxy_sha256": "91985df1db2c28bc5e7651b05f7dc46c9e669411b060cb72da8ac46be0654986"
+  },
+  {
+    "sample_id": "ANS_CO_1422",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "caa8f90b0778e58594d678c93042071e96c3f55e17f6ef561d8d8d60b7eabe4b",
+    "proxy_sha256": "55e578c661e96c821bb02e85b122730d40c796cb563f6d54911acf7d3716fa8b"
+  },
+  {
+    "sample_id": "ANS_CO_1438",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "49b89b3593774bbefd94e7a3d17f972cec4daebff2520bfd8a6b4820d5accd1e",
+    "proxy_sha256": "17955d65eb35e5a2ab11970a21e6096617443d3e91b487fe349c16f51d1d6ae5"
+  },
+  {
+    "sample_id": "ANS_CO_1451",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "258207a84e48f577870b451b4e6821fa0ae1270d66f4b4d1d3f1a9787010b8ea",
+    "proxy_sha256": "6f932278fc1d7c4b79e800678a5e74857d1576407399797d6777a184f747adb7"
+  },
+  {
+    "sample_id": "ANS_CO_1477",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "63e5ebf776144a847afb30e2328f5a83e8a7588866c7348765d9df39339833fd",
+    "proxy_sha256": "a2b1046648b288ba132337591b71da1ba943c1ca65cfbe81c03f72972feafec3"
+  },
+  {
+    "sample_id": "ANS_CO_1482",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "65509a958239924561b2272387a3befd3aa8faa6f33b4632cd999d86186bed39",
+    "proxy_sha256": "20407283acc77f4f7b66400f54a60c62eb29484d0071a5384b36c4eddbff2237"
+  },
+  {
+    "sample_id": "ANS_CO_1500",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "20c1b1bafa76fc85fcd97372b9c11a5d4c3cf8b8973850a16db2e600eddc901f",
+    "proxy_sha256": "6c9fe864e5124857a218340bc007171ad781a4bf58a5ef8d7a9df3c16452ec57"
+  },
+  {
+    "sample_id": "ANS_CO_1510",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "9d92aae2f048d39fab852c2d1e52ed3c52a76ea339b37dd7effa6c39d214daf5",
+    "proxy_sha256": "b506b0c6863794bb402c295f483bcdab5fd193a30f0db0a236b8b08f75241218"
+  },
+  {
+    "sample_id": "ANS_CO_1513",
+    "status": "REVIEW_SOURCE_OR_REWRITE",
+    "reason": "新增“横轴表示A、B、C、D同时到来”的解释，原文本没有明确说明。",
+    "original_sha256": "dfaaa9b5202de102c216e9739e8322571d2badef50f335aea90f5c6455fab555",
+    "proxy_sha256": "efe6b69e826913873afaaafb4907540364d0bbc9243f23bbd2c88b1cd60d0f46"
+  },
+  {
+    "sample_id": "ANS_CO_1542",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1183531fe009893e5889e452ff3ef3af28d72ba1841f6c2e7bd5cdc832397bbe",
+    "proxy_sha256": "3e122ab19f93984690681880609cb77257e0731f2a3f14053834f1f621f0173d"
+  },
+  {
+    "sample_id": "ANS_CO_1546",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e623083153a6031e48c9a6b0ec6d48b12af342ecc3fde7fcf7354024009c06ae",
+    "proxy_sha256": "35c042b4d047877ad30ecea2b74e4ef39ed6f44f6f46eed43e4f2366b65a90e1"
+  },
+  {
+    "sample_id": "ANS_CO_1555",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "9d40a34f7afd01a6bfaa63ec4215abe7d4c691da9a6b9ab0308e407a1fbeacae",
+    "proxy_sha256": "8b1a403251856394083983275d558c7a7498fc38675ddd9ebf778ada8e06f01e"
+  },
+  {
+    "sample_id": "ANS_CO_1569",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1ec8c2b205ae2d8e4ab8504e292dd5ffaa8932e2ea36632cfbc9e51c38c97e14",
+    "proxy_sha256": "8640b113579eb99c72cd5434bad7fc526e4dab9a2efade72f9dda3e793c5466d"
+  },
+  {
+    "sample_id": "ANS_CO_1571",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3b656351e7058c7c2711fcedc4c639f0eb5c73b4310d7aa77f36e5ef505f6bd6",
+    "proxy_sha256": "94d3d0d7bd7ccf2b7bccefbc0cf6015c1dc913ec5d5844ac27756a0e87604f2f"
+  },
+  {
+    "sample_id": "ANS_CO_1596",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "b09b7c88a37557c1ed34a17ae7d33a9de7598022cae9d2f31e65892ced1aa878",
+    "proxy_sha256": "8502ff9e4096b597831e46ddb04dee5e91f66940156dceb1dcb1fae58911cecb"
+  },
+  {
+    "sample_id": "ANS_CO_1607",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "9c559458a45d06b05ed32b741a672e533d33f729881bc936b20b6075f7668fb3",
+    "proxy_sha256": "fa47ce9765cd7815094e02832a239fb4a8e35624856c7148132fdbda4906b863"
+  },
+  {
+    "sample_id": "ANS_CO_1608",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3bf55f71077b98ed1a71e444948ef7ff8a2e9eee0bca891d86ffd06d4ef0c646",
+    "proxy_sha256": "41abbcdf4b2fe5941736fecc377a197074717251b9133e96f1ddb975c3bf6d84"
+  },
+  {
+    "sample_id": "ANS_CO_1609",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "871a4c98eab0734899711a7f14fdcedbb15004647c6387b7bd0ef68e49962391",
+    "proxy_sha256": "10be68c08d63e55475d72299376e94ec2b8b28d92298fc67892e500ac079192c"
+  },
+  {
+    "sample_id": "ANS_CO_1653",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "a5940258383561c4f25a720f2bf5e71cdc7610e546ac4729ee388e67f2403239",
+    "proxy_sha256": "dcc0fd451b3c6f47e241f2965eb730e024f553cd1264c5f46642fe2755b1448e"
+  },
+  {
+    "sample_id": "ANS_CPL_01",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "c64e63623506cb0a212a90a9e29a5edec3525d988372504f8434dbfdf4e4130c",
+    "proxy_sha256": "403721196da05f0d60cdb7be1e3fcf42f56f920abe9693c56c9a39e13c31b183"
+  },
+  {
+    "sample_id": "ANS_CPL_20",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "5415c79fb166d13658bb1d9971ef2ab69eac362b48b172e477f80a84ed867cb3",
+    "proxy_sha256": "5993b5f2192a0ed8af67f24b60abf50388886ded8dc0f992cd05e7d5b543a271"
+  },
+  {
+    "sample_id": "ANS_CPL_21",
+    "status": "EXACT_TEXT_MATCH",
+    "reason": "逐字相同。",
+    "original_sha256": "1a61a13bf6f88f085f27e5848e5f95c31faa0dd86f8820cdce6d0bebb27556fa",
+    "proxy_sha256": "1a61a13bf6f88f085f27e5848e5f95c31faa0dd86f8820cdce6d0bebb27556fa"
+  },
+  {
+    "sample_id": "ANS_CPL_39",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "db9a11e72b2cd4cd93c3dbc49642b03b6adce6ba726f4636ff6768b259f47080",
+    "proxy_sha256": "3784a2cc1b016623322effde4fb228ee3427add8d5bc433022a9d5e37409d655"
+  },
+  {
+    "sample_id": "ANS_CPL_48",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "db9a11e72b2cd4cd93c3dbc49642b03b6adce6ba726f4636ff6768b259f47080",
+    "proxy_sha256": "bf12f4bd43383aff36d4023486418fd019b312c471732350c1edd202c84e3146"
+  },
+  {
+    "sample_id": "ANS_CPL_50",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "db9a11e72b2cd4cd93c3dbc49642b03b6adce6ba726f4636ff6768b259f47080",
+    "proxy_sha256": "beadd56e668320e47a028da3e7267eeb0b28d5e18735e8a35ba456ce1574f8d4"
+  },
+  {
+    "sample_id": "ANS_CPL_64",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "615bdd17c2556f82f384392ea8557f8cc88b03501c759e23093ab0b2a9b5cd48",
+    "proxy_sha256": "95be13c79a6a5153e1a941d3449075d2009b1980a25105c3b6173df099a477b8"
+  },
+  {
+    "sample_id": "ANS_CPL_70",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f5ca38f748a1d6eaf726b8a42fb575c3c71f1864a8143301782de13da2d9202b",
+    "proxy_sha256": "feb6f2822aac9cc3fe549c6284c0c4f80e9d0b17657455543f1be26fa5a94351"
+  },
+  {
+    "sample_id": "ANS_CPL_96",
+    "status": "EXACT_TEXT_MATCH",
+    "reason": "逐字相同。",
+    "original_sha256": "4523540f1504cd17100c4835e85b7eefd49911580f8efff0599a8f283be6b9e3",
+    "proxy_sha256": "4523540f1504cd17100c4835e85b7eefd49911580f8efff0599a8f283be6b9e3"
+  },
+  {
+    "sample_id": "ANS_CPL_97",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "4523540f1504cd17100c4835e85b7eefd49911580f8efff0599a8f283be6b9e3",
+    "proxy_sha256": "b0dc7361152430a76528f26e591b970bf93a2abaddea364819dda2add1e5e11b"
+  },
+  {
+    "sample_id": "ANS_CPL_109",
+    "status": "EXACT_TEXT_MATCH",
+    "reason": "逐字相同。",
+    "original_sha256": "4523540f1504cd17100c4835e85b7eefd49911580f8efff0599a8f283be6b9e3",
+    "proxy_sha256": "4523540f1504cd17100c4835e85b7eefd49911580f8efff0599a8f283be6b9e3"
+  },
+  {
+    "sample_id": "ANS_CPL_119",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "4523540f1504cd17100c4835e85b7eefd49911580f8efff0599a8f283be6b9e3",
+    "proxy_sha256": "21535f2bdac88c04ce1e5e7aade662133443982db9a6663c3d7f0c0623ddb634"
+  },
+  {
+    "sample_id": "ANS_CPL_123",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "7fb768a50a38c0a76609a9cce66486c0d23f3eac41e0009d67ad19963844c2e6",
+    "proxy_sha256": "7ac168ea71556f3638edf7b15ae87229462c0c44c151b68393cbc980a04211b9"
+  },
+  {
+    "sample_id": "ANS_CPL_126",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "5bdb21320cd51246144c792a1bf85ae8a48c0d64c9671597355391cc7f916b35",
+    "proxy_sha256": "a19d117f0c8e5cf2d4947cbba7a652107371f4d7433b32577dc99dd46995a405"
+  },
+  {
+    "sample_id": "ANS_CPL_137",
+    "status": "EXACT_TEXT_MATCH",
+    "reason": "逐字相同。",
+    "original_sha256": "7fb768a50a38c0a76609a9cce66486c0d23f3eac41e0009d67ad19963844c2e6",
+    "proxy_sha256": "7fb768a50a38c0a76609a9cce66486c0d23f3eac41e0009d67ad19963844c2e6"
+  },
+  {
+    "sample_id": "ANS_CPL_159",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "9340ffa4705bc3119e56b1caf04f5fce467b408cd4c6268699ab2f0e8c556d88",
+    "proxy_sha256": "7fb768a50a38c0a76609a9cce66486c0d23f3eac41e0009d67ad19963844c2e6"
+  },
+  {
+    "sample_id": "ANS_CPL_160",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "779a890c8defab01d1b1487ca86420e8ce949f2543a64bc078a7c62a8a8d5606",
+    "proxy_sha256": "89ce95fb187d3c7d979cdd0c050028061ec5d7b8becb1d40e84fa2b5a4dac165"
+  },
+  {
+    "sample_id": "ANS_CPL_169",
+    "status": "EXACT_TEXT_MATCH",
+    "reason": "逐字相同。",
+    "original_sha256": "784a2984cf56e29ff299869a252c6b3fcaed8c879a68965db5d3901314c68132",
+    "proxy_sha256": "784a2984cf56e29ff299869a252c6b3fcaed8c879a68965db5d3901314c68132"
+  },
+  {
+    "sample_id": "ANS_CPL_181",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "6276e69f2580cda6fcc5d3d9a8a7de921c1aa0db0bc99ae28e5e8b5383862294",
+    "proxy_sha256": "9a3272b281410db47b497a037e72a8621b0096fcf1cad302f1a7bec233afbd15"
+  },
+  {
+    "sample_id": "ANS_CPL_184",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "fee5606463c32fae6b4a2ea797d7c2ea0a1886571e1d278c9083b69aa51ff59d",
+    "proxy_sha256": "f40879fc9304c15285c1f1c74831e5bbdddc6bcdb916f5a6b70529077740495b"
+  },
+  {
+    "sample_id": "ANS_CPL_191",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "fc4542b6edb6388bbf6cfa5bd077da93b50ebb5e638bfeb69b66e5a817025aee",
+    "proxy_sha256": "3f7a36c02956f0a5234b033a0bc8c1fca71476384e3ed3056c89224b67d3fda9"
+  },
+  {
+    "sample_id": "ANS_CPL_212",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "6276e69f2580cda6fcc5d3d9a8a7de921c1aa0db0bc99ae28e5e8b5383862294",
+    "proxy_sha256": "a4f26ecae0d05dbc5a5b6e2e6075031c23744581a9359bcce2f1a89eadc5ee03"
+  },
+  {
+    "sample_id": "ANS_CPL_215",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "6276e69f2580cda6fcc5d3d9a8a7de921c1aa0db0bc99ae28e5e8b5383862294",
+    "proxy_sha256": "a4f26ecae0d05dbc5a5b6e2e6075031c23744581a9359bcce2f1a89eadc5ee03"
+  },
+  {
+    "sample_id": "ANS_CPL_233",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "fee5606463c32fae6b4a2ea797d7c2ea0a1886571e1d278c9083b69aa51ff59d",
+    "proxy_sha256": "f40879fc9304c15285c1f1c74831e5bbdddc6bcdb916f5a6b70529077740495b"
+  },
+  {
+    "sample_id": "ANS_CPL_249",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "45347285a8b8b2b4b5254081b6ff6d8653e47168d72507ebd6c6c89821aa6005",
+    "proxy_sha256": "52a543935c730fe3fc89616ffab5e156ac329a077783d3a58f51494c9d8ebc1b"
+  },
+  {
+    "sample_id": "ANS_CPL_254",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e490469afa63328989a438d4c9fea4cef237ca7646b17d0de9f411cf04674bc3",
+    "proxy_sha256": "03d68ea3689f40de061e147a0ad0e69728c5d0996145a267fdc66775d6869d4e"
+  },
+  {
+    "sample_id": "ANS_CPL_259",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "dc5e2b8c1b798d263a531ad23a323e8633327e200582e674154634ef8bd350d7",
+    "proxy_sha256": "f358ea4f42deb91c83546f89d84d9a79472dcb66a6c8815a385b0295cf577458"
+  },
+  {
+    "sample_id": "ANS_CPL_275",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "8e7ca3da4fb826b0081e61e49a54af83b91b297d45e405aa9735dbfd8d49a4c1",
+    "proxy_sha256": "d1d861fd31b06f2205c19e58cfe75b462af729ca4f710331cae2b2724d708e80"
+  },
+  {
+    "sample_id": "ANS_CPL_299",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "b7c90c921e491d394055c73581085a2ef10a59428258bbdf57d9b34c2c697407",
+    "proxy_sha256": "ab0a19d4912adcabb769ad376913c5e027412ad4e69c73d0c92a2177f047d785"
+  },
+  {
+    "sample_id": "ANS_CPL_301",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "6cd9761a0b86e52ea6f3278b86169224e94bdfce92b74b09c537a702bff135c6",
+    "proxy_sha256": "551f2d3baa8946246858923d5e5da1eb8868fbf61738bbb814210c9b26484e1b"
+  },
+  {
+    "sample_id": "ANS_CPL_303",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "a444d14eb2d9d6c66603f2643bd6affb520b6480742643fe5d187b24a31d8954",
+    "proxy_sha256": "54ad5e8c2b9f5596920f7a3c61a7b80f10edb6c5c772df53c850c1ea39343f90"
+  },
+  {
+    "sample_id": "ANS_CPL_324",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "59abb8486e3e0ec2ba2391b317e852ab007bdb2feac6987a046268846af6d456",
+    "proxy_sha256": "86bd4eb437b8e9d8c43883c6b6c56a6755a238fbc99469d8f226cd7fb79a92e5"
+  },
+  {
+    "sample_id": "ANS_CPL_328",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "86a903fb36b2a06dfdc25500c6f3df57dd07721acde2f6151f8fd46a9dc9aabc",
+    "proxy_sha256": "ddb86c43a966021af75dd19706c4206e89513842ff008432e97c54f15cf519ce"
+  },
+  {
+    "sample_id": "ANS_CPL_331",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "ecc7536cf43650314cf025945d0cd8629cda744223da23f45d239af780b44c8b",
+    "proxy_sha256": "f03008e702a4ca1422a94e314838cbe04c95e08a4f96e8e0a88bfc836af23231"
+  },
+  {
+    "sample_id": "ANS_CPL_340",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "c823b5f61bea830751a6b13dbc5821b82f52535675960f0e76621076ddf44ac9",
+    "proxy_sha256": "ca637a6ad84e31c696b4e8ca43a7b1dbce851fee0531bd190a50c92a699c99d2"
+  },
+  {
+    "sample_id": "ANS_CPL_405",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "defa4545e544c1dbcc76c22f7df0a671c80d7951c22fba76bdbf26ca4f48e9cd",
+    "proxy_sha256": "9f5da20bd7da24ba8fc7b9a01a405ee430c8ae2a13bffcde6bd8ae0c571c697d"
+  },
+  {
+    "sample_id": "ANS_CPL_407",
+    "status": "REVIEW_SOURCE_OR_REWRITE",
+    "reason": "将字符串内原始换行改为\\n，并移动注释。可能是转写序列化问题，不能直接确认等价。",
+    "original_sha256": "6afd844f1ab4f97d5004f649c4a202f0772df62d860599509fa1605aa7c297e6",
+    "proxy_sha256": "ca60882e621f935310df04d1b297dd80c02acc6557beed1358cb6882ecee580b"
+  },
+  {
+    "sample_id": "ANS_CPL_410",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "db305889ed31cf051cbf92ee15e6e4b2c9808133e9d3530d31aaec54be94c794",
+    "proxy_sha256": "822a018e5dfc637b8826c090b1a6a5641787d2df786a613b70e2d44b4444765a"
+  },
+  {
+    "sample_id": "ANS_CPL_413",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "38fbb3d79ba15e57ee55d2a22134c7521e52a116bc03ea2521ecf4e6483fa9a9",
+    "proxy_sha256": "39c8d16c9312d373da6bb86fec9315abc5cb08b18cf566378fcbd25dc2475d18"
+  },
+  {
+    "sample_id": "ANS_CPL_414",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "60f1f9be2f1bde5f1f9348474dd7cdfdf1f63e8506327aa9b383c8727628f37a",
+    "proxy_sha256": "3a46c6a016f717d6a64ac2f2719d4c6887aa0b8e853fcdd6cda81da6c04356a0"
+  },
+  {
+    "sample_id": "ANS_CPL_420",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "9cc19d8e0db0610a495a9fb4ad99461c16ab5036b9d429f888ffec66dd2ac3e2",
+    "proxy_sha256": "5ced18765d9581d1d42b8cb770c2a73b2a83101f5cf47e7235a74fd0d0621198"
+  },
+  {
+    "sample_id": "ANS_CPL_425",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "6ab44c536fd35fcf1dc073f188c961419a6b75e8195797b67d628241e67f8f13",
+    "proxy_sha256": "94f18044722282ed9e33f2b8e9306507727676430b51b1b3dd9e0fe4b12ce910"
+  },
+  {
+    "sample_id": "ANS_CPL_431",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1948c967c1df50e6f7899275400885a7f95ae6b36cd44e4dc06fbbb3331662ae",
+    "proxy_sha256": "bcf2f94a48abbfd85ee05bc5cbfb1c08c43d61f22804107e16d28ee170e28f30"
+  },
+  {
+    "sample_id": "ANS_CPL_456",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "b53835b9a408d2ead84840cfcddca741db662d24201d96b8c14261775fdbccb7",
+    "proxy_sha256": "768e1ab0bebd25b8501f65e2ca84f83fd0e70c68017398fbdc622c1433404eab"
+  },
+  {
+    "sample_id": "ANS_CPL_465",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3a96fa7feb79b437dfaaf3eaa80d259597def5f7f4cefe5537339b801fb46c56",
+    "proxy_sha256": "5d3f14cd27d722e81813282d158c67db460c10b6e0111b07c2ea78f296b0ef1c"
+  },
+  {
+    "sample_id": "ANS_CPL_470",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "71813ea729889edbf6a363b01368a927772b4d118f34e0dcc6a68eb78a75c52b",
+    "proxy_sha256": "093a0155ee586e9e4d6f39dca72528cae32294479cf52f1c1c58f76c3f253bab"
+  },
+  {
+    "sample_id": "ANS_CPL_471",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3b30d5641816bcabb7e491d1277478ae51d767da4cd5ca18c2802a3aa7401de7",
+    "proxy_sha256": "a5482db1d05fcd8b505665962abf9a403d9f4d361782acad151bbb1cf7fe3e18"
+  },
+  {
+    "sample_id": "ANS_DM_03",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "98dad52b13c97dda5b70ccbbe973198276d0b9c4a88eb9c5ce70dbc2cd861b0f",
+    "proxy_sha256": "0069a655f0d2ef2d813ec46d297ba0b224aad25b3e48cf32713f4335b351dcef"
+  },
+  {
+    "sample_id": "ANS_DM_11",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "b1c1be80b9bf47eebbc7c435c2fb0cc773f6ae30054c68e16411976af3fe1f64",
+    "proxy_sha256": "c968bf6f924c03670125cbdfc7f1734d2844f809c782998c7f9901dc3852048e"
+  },
+  {
+    "sample_id": "ANS_DM_19",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "aa8a7d7bf8db83b1baf80032c9c5ed63f93383eb7b0e6dd4a0206934e8345653",
+    "proxy_sha256": "be96fc646f94803a77e656cfbf0136f797a0dcf7081957f20e61d9d4db1dc3c2"
+  },
+  {
+    "sample_id": "ANS_DM_21",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "52e24e28c620fc386f01217db0cfa977f12e16aff64e39d5685a0e9b33368fda",
+    "proxy_sha256": "be2b2c9a8eea28a9ad3ec4b55692b9a5191d8c9436223452d719e847f6ba4e50"
+  },
+  {
+    "sample_id": "ANS_DM_41",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3020c38e50a3fdab7ad890ac3da4bcc097d627848d73232367379e311460f670",
+    "proxy_sha256": "c9d2e99cbaf4169871ffaf321dbbe1dedd879658e6486f2c2576a765d5549c2b"
+  },
+  {
+    "sample_id": "ANS_DM_47",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f889cd063e6ce24a4f83de0b6602825ce14af0809f8db343aaee427525b2ec52",
+    "proxy_sha256": "6a4207e285716f1b688953bee442dfe314a958ed35b4730e8a15018d56b88eb6"
+  },
+  {
+    "sample_id": "ANS_DM_71",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "ce4074046fd7a51545dd2cd84efe1362c1ee4b8f1794d9f89d4f4fceeb8661b2",
+    "proxy_sha256": "e9460ce0b16fd38bc0f300f1a0c5fe275347bdf193cdfd2d6d87ea771cf8b7e7"
+  },
+  {
+    "sample_id": "ANS_DM_79",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "18e4f572512cb09ab86eeb8c09a9c20e7be112c23c8def106f708a47f4642f44",
+    "proxy_sha256": "c08899be872dff429e9d7b1a3999acc1db6629d37d372b4386c8b8f83f414a8c"
+  },
+  {
+    "sample_id": "ANS_DM_80",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "5640bf63d1da788991c733da4293b6e6284240c98b80b4c0523fa908a1e328b3",
+    "proxy_sha256": "3bf791b9e30d00afe0c70cdd9c55c1f24c65c68271fc0104749d106ce5602024"
+  },
+  {
+    "sample_id": "ANS_DM_97",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "8f3d2f03bb977a258095e54b6bd51212dd7a32d4e4ecf056044b4da357c13b71",
+    "proxy_sha256": "b6ea9fd326a79c68b0f74d5ece9aa153cead9b58396adfa6fc42944d123f291f"
+  },
+  {
+    "sample_id": "ANS_DM_100",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "49b78927039797276b361b2448d0d89c6c4a4288b9562edcb612a17859b063be",
+    "proxy_sha256": "202b8c804b7539d12fdbdf227499bae6ff51ddcaf0db960f01739605b078efff"
+  },
+  {
+    "sample_id": "ANS_DM_104",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "8e2c14cc7a83f2780f781dc322a1e3d8b75593e595208777f002aa867fde0c9b",
+    "proxy_sha256": "c6f0b448a17dcaebd63d7001ca4cf58db27017040283cdd7bf24e76b973536d0"
+  },
+  {
+    "sample_id": "ANS_DM_107",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1ecca20cb8565c6e5bbf4b3ebb77e93b5d4bff9e2af50e33576ad346d272ca65",
+    "proxy_sha256": "231e9d50f497cb3ea2bbbad902dd306f3be027cff3ee673400da6a0013ff2b54"
+  },
+  {
+    "sample_id": "ANS_DM_112",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "7df4726e810a13a50f2e1c0a9074e350c80ea0fa2758d870a9fb2d8b363eaee9",
+    "proxy_sha256": "784a020d60bcaeab5e94df334cb3d21f3cbb6d02e35f76b8de998857124e3b74"
+  },
+  {
+    "sample_id": "ANS_DM_123",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "0431bb51a05305bce9baead59ca17746cec9255b5c3d24158804df664cc15817",
+    "proxy_sha256": "566bcba0f364633730bd97edd80f0c806dc66bdb3f42823c4da70c908c3f70c7"
+  },
+  {
+    "sample_id": "ANS_DM_126",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d1d0295b393ef86bf6f41a68e67af22bfbc47a0579e5e3e76da4043d56a8ab58",
+    "proxy_sha256": "6faf1cfeda76db9f4839dc1afb2e1733306e62e30c71ca743b37089b0f4d6862"
+  },
+  {
+    "sample_id": "ANS_DM_144",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f99cd0308eab1fcf7577276572a971eb554d91535781ceee00aa9fc799b7e28c",
+    "proxy_sha256": "bf0e27803dc419b61cc4e868a070f7ab60d055308f0965ad3a2e3c220a570172"
+  },
+  {
+    "sample_id": "ANS_DM_168",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "b1630ef01fe1cfa2f4b368a063782e6f2ae165dccef9aa3a2978b022e706ac05",
+    "proxy_sha256": "f43956024c84ee85522eaad6d1b61e2b5b74876959ace59ab177357030b0c4fe"
+  },
+  {
+    "sample_id": "ANS_DM_191",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "21a85ab893bbd364b5f0c417372d538ce9a49668fafb855f7c4e40c01d074969",
+    "proxy_sha256": "882c09f87b02bfaba33e552eb17234f4972fbdb2775a49cf7bc2a89177fe986c"
+  },
+  {
+    "sample_id": "ANS_DM_199",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d271e8d8e5f8da8b58d4fc41f2159e36ae406ab02965fa47afa5d6b93686ef0e",
+    "proxy_sha256": "1834d9919c53efa8039b81f520afed4626b8cc99223ffa7e1aef3cba44c058be"
+  },
+  {
+    "sample_id": "ANS_DM_238",
+    "status": "BLANK_PASSTHROUGH",
+    "reason": "空白原样保留。",
+    "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "proxy_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "sample_id": "ANS_DM_242",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "39b66c10d64b5b25c6f8cd982ad528884be3da0aa671d8aff3c8692e56dbd20b",
+    "proxy_sha256": "f34e1867693918f214319f24565fed4eff962b30a0e5c940150ad868d7d2931b"
+  },
+  {
+    "sample_id": "ANS_DM_250",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "9b446f6904045c0e9ffb93f3decc71eb5c6c8bf391b816aa2f61e34dc29dec34",
+    "proxy_sha256": "65733b55f7bf9b96dec3f92e821779bb3c6fd2ff88a58e4b7ba0c361bd0e79ff"
+  },
+  {
+    "sample_id": "ANS_DM_258",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "98588d4421c1b5f30062cfd8d86f1ee944c55afd1937bb390a264805c1919b11",
+    "proxy_sha256": "1fade8529816b3ade48654ddf484d9bbd9edc79686eb9300434c645b5c5083de"
+  },
+  {
+    "sample_id": "ANS_DM_268",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "8dc2b8fdb3528635b66a057c1ccdb363a29acedad9b6c3637c82c06c9c921e16",
+    "proxy_sha256": "4fc528015182fdff5a4b3e8d4e1baa12c1f1d82220370e885dfe1c39d5ee583f"
+  },
+  {
+    "sample_id": "ANS_DM_270",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "0b66f2fabd982c50b5ffd903f88b1c3f04908ab7581f4f724adbe0d0b9eb6c25",
+    "proxy_sha256": "8546d688b9be48b4ea260883aae684c9fb17eafe0a64619e6f52d0cd74cd9ac5"
+  },
+  {
+    "sample_id": "ANS_DM_275",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "6f3fabee6d094e4dced47f985c9ec4c926fa4d92d61dd9578460c835219cee22",
+    "proxy_sha256": "e9e869976bf0a565f48c9acebc223b0689a8af08506c86a5ef8692fca7d69040"
+  },
+  {
+    "sample_id": "ANS_ISC_24",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "6bee342fca8ed82ff3997afe2d2adc3ff1480d9afc9aa005bce37ac0fd18650d",
+    "proxy_sha256": "614252f59c61e6652141d7d3d5215a6848a01df6015b8f6ea3384c31b986c7e1"
+  },
+  {
+    "sample_id": "ANS_ISC_53",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "2062cc7dff45ab535628fbb052b962686c51202ac229e9b5d4e05b2806fb102d",
+    "proxy_sha256": "b0b763f08cef897ab46f3f402ff271ffa36531a6a89f5b0147b34440bedc5f9d"
+  },
+  {
+    "sample_id": "ANS_ISC_56",
+    "status": "REVIEW_SOURCE_OR_REWRITE",
+    "reason": "改写成英文，并重排空格说明，偏离同语言润色且可能改变解码顺序表达。",
+    "original_sha256": "2dd4ef28825bb1c00f125b7ac2a65297f846624954ba27e74eee8b571ee6cd4c",
+    "proxy_sha256": "3e398d752c7fc3bb7434d8006cf4a9b5eda927fe624d6a747ccb3ea5eb74718f"
+  },
+  {
+    "sample_id": "ANS_ISC_60",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1a53da179adbf50e60d24a9b9c1db00cb60d6216da05b1c827f6a43de69a425f",
+    "proxy_sha256": "f2d52249a0a5350a572645a1251f28fefc3ce0a54d86ce589ea457017e6191b5"
+  },
+  {
+    "sample_id": "ANS_ISC_68",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "b4f63590844686e4ebe18e6a45b50892132593a6e2536aeaa8816b62787300f1",
+    "proxy_sha256": "2e28f8ccc69d25b09d4c9446947d9f1d6d201a3be90b764ecd513499db2a9bf9"
+  },
+  {
+    "sample_id": "ANS_ISC_81",
+    "status": "REVIEW_SOURCE_OR_REWRITE",
+    "reason": "把残缺运算过程补全为乘2取整步骤，新增1.250等中间结果。",
+    "original_sha256": "c349fd08662eb23827ebee82a2804114899c79bdcc71b9699f7c79eada78c8e0",
+    "proxy_sha256": "7c73b87f9acb6e00460ed20e7f1607c147e7f0053e4ac247e4c73506ad8cc068"
+  },
+  {
+    "sample_id": "ANS_ISC_89",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "5619402e520e63dd220a2e54e27618a3504549c332da10cad83e7266ba4c2df2",
+    "proxy_sha256": "a6f8b53f7b8823d043379d42f0ec09978c36fd2dd0aeb8cc85dafb785971d55b"
+  },
+  {
+    "sample_id": "ANS_ISC_122",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "c1494b382d2718fe3b8e0c58be5111eddd05353c2b913c526ff14855d100d14e",
+    "proxy_sha256": "0d6b4042c58de3d831923cf020128259ea1c6692e6f1abeaf3e684aa50bc481d"
+  },
+  {
+    "sample_id": "ANS_ISC_135",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "9492de2967e0d5c8649288bfb33427b131ecb785d11f1e98b51b6507a31d8ec6",
+    "proxy_sha256": "25742dd8507ebf7009f5a0aee0ab00f5bce623e7e4e4d6f82905c14b2b33f7f7"
+  },
+  {
+    "sample_id": "ANS_ISC_145",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "449a115f9e94240023cb6d53d87f46394d5933ebfb1abac1a9b4e27e0a6f971f",
+    "proxy_sha256": "40bd14406ba8a64fe7140b8888eddf7f0219c0e575419c1f621d173ac117ed7a"
+  },
+  {
+    "sample_id": "ANS_ISC_150",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "35c7493eda064b5dc5f16446e71c15bbf018c9c32d0e7bc680cbe31be4c63bd6",
+    "proxy_sha256": "4533bfd4de1a3383f433e0c33cf39773db8a37c06f349fc624f4e3f93b0b2ecf"
+  },
+  {
+    "sample_id": "ANS_ISC_152",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1b63a4c7e6092429e87430f6817c073ae02308e50fc0b46539877d9f97fc679b",
+    "proxy_sha256": "775d70bf9cfa3e5a5483ee483c1bf24326bd5d64fce3a06a45f70392e493af18"
+  },
+  {
+    "sample_id": "ANS_ISC_156",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1d95531d0c1e844678574fe788d99f156214df89a664640de1577287c246fca6",
+    "proxy_sha256": "ef0ef3834061b1f01f06a12b3d1e7dfb5ded0ed145e1e66bfb4e20fb9f3c4cd7"
+  },
+  {
+    "sample_id": "ANS_ISC_169",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "9da878f3bea18049f26271670bb38c4106ef65245d206fea6e730bd4b5f3bab0",
+    "proxy_sha256": "e56acf6d764c223a42ead0461f7cad2c5b3fd3974c5bb1ca0e0eab0634270870"
+  },
+  {
+    "sample_id": "ANS_ISC_196",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "a9a6e8dc4b9cc17479148df651538ca6f021eee8dc4301eda09caf1af2e07b7e",
+    "proxy_sha256": "08b4fd1c0276a8661d0ab20aa3a5b82fbd5aaaf87a23fbce2d0cff6ad57354d1"
+  },
+  {
+    "sample_id": "ANS_ISC_198",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3a15ac761fc9cae4ae4a6443830f5984427479c3e2a563c78896166ecbc610f1",
+    "proxy_sha256": "179baa816824dbf733b5eb2cfa18eabea491c4624d7369f118b20941840cf672"
+  },
+  {
+    "sample_id": "ANS_ISC_209",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e1861c7c40981dd13df9b6a4d4faf556a7e0f2fc89913ad343b5a51ee4c4372d",
+    "proxy_sha256": "46a0411e36877e65735d8bce30c3fa4a23dc6bd4c23c77439ede8532ae9f16c5"
+  },
+  {
+    "sample_id": "ANS_ISC_215",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "8676d8acb0d751ad4b9ea208d1a03242bd2c90e8ddcf3743f8772be041f46b88",
+    "proxy_sha256": "068c3887724e1306c105412c5bf62a8001f562cdf1d38554d247a84f5d102122"
+  },
+  {
+    "sample_id": "ANS_ISC_222",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "fd46dcbd01bc61ad6fa3b339f183e34e79bbb06fe37a8974e82c231e37a34786",
+    "proxy_sha256": "c9e8bac5448a50b411c42b54abea565be64ca8ac44c11a854f59c46db4062522"
+  },
+  {
+    "sample_id": "ANS_ISC_238",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "0ad843ad7d8874539c438ba1a8707b18f9046806e4c52b7c854a9153ab6f14bd",
+    "proxy_sha256": "8134641a5223ac8630ef3d787da1af2b7e3dc799035a80a68e71527f3512977c"
+  },
+  {
+    "sample_id": "ANS_ISC_239",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f8d07c927b66a5c3e1ab9a0f6a589a28432a599e46e95c2cb7e87b040a5f3466",
+    "proxy_sha256": "9a0dd3a0b8bd1515644105b5c8f386572e423486246c8b005fd2419086d32807"
+  },
+  {
+    "sample_id": "ANS_ISC_241",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "271eb27a615236b5a52d222c0db326420008cb90e2fdbd18b19d143ee8418619",
+    "proxy_sha256": "2da64670b6fbfedd310258e6a902ac5e9a2925e50d1611b03295ace4face0b6a"
+  },
+  {
+    "sample_id": "ANS_ISC_250",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "5b4794a94cb9aab6415bffbbd45ec6c719bfc5da94f710dbfac3392727cf9ede",
+    "proxy_sha256": "60a236c420f6bacbd53ca3ffc79c21c6d22478a5073f6da0f2247d081f5e7698"
+  },
+  {
+    "sample_id": "ANS_ISC_264",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "a9c10be5ca96a899fb6601efa14ff64eaf4726beecdda2fdea2d182ab44212cf",
+    "proxy_sha256": "cfad93fd6e394c1ee5c02da50bb6224d95b04fe0422955ac0ffb6aa40e0ae1b2"
+  },
+  {
+    "sample_id": "ANS_ISC_268",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "4432e70b45731f024602324b53dd15dcee59ab6a778d6ab3ceea4cd4a6557cfb",
+    "proxy_sha256": "737db8fada6a3e4793234e26d160eedeebcbbf2992b9e719d495010d863d25c6"
+  },
+  {
+    "sample_id": "ANS_ISC_281",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "40f148e9235221c44e5fb0095b049f6060b56b65aa17af341454af07f8ba4d93",
+    "proxy_sha256": "7121dd7126ee64ccbfb1577e5a9d08fc68b2e04bd248be468680d597af97a43f"
+  },
+  {
+    "sample_id": "ANS_ISC_314",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f4815bd5063b618068b37dfce51f7f04464ce87c48e747a5258e8cc21e77b0a7",
+    "proxy_sha256": "89d97fa91d84928d2221372e615787fe084314a9adc17e88d39df43793c4e1e2"
+  },
+  {
+    "sample_id": "ANS_ISC_323",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "2382cdb1378fa8e98d7d3ab758071e2408ebf192024b01d552e99fc58ca55c7c",
+    "proxy_sha256": "87486103a198d3529da3fe06784db9b1592d00d86287f065337866d6489c0d5f"
+  },
+  {
+    "sample_id": "ANS_ISC_334",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "ca449853f31b9a032659c576fae2880ca3f5f4525f11a0f84e3c4a6eb8626b67",
+    "proxy_sha256": "1b6421415d7545f2a3c6728c0138a60b47d5c619b15a4d71619d1052ffa401f7"
+  },
+  {
+    "sample_id": "ANS_ISC_341",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "b97e0bb854f6b32e0422f2f2c31bc1f81bd2f0becf80959448018f3222613ae1",
+    "proxy_sha256": "a1084522f5acdd48d5442cb25edc9a484eaa7c8e12acc56449dd221b03a9409c"
+  },
+  {
+    "sample_id": "ANS_ISC_345",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1e9c8647db8a1f93667ef87378a13488bc7be2f66c3ea3143a3bf404c4847c59",
+    "proxy_sha256": "4b195fb77ae4a26d670ebe577f3ce9191069e3393d9b5d3480449fbdb194ea41"
+  },
+  {
+    "sample_id": "ANS_ISC_355",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "47f8f46c25ee415d88e15be0754b6a8f1447a8394b590d81ff70c30c16989bfc",
+    "proxy_sha256": "299b58cf712d5689b7fe01b20bcb376af44a81ccea576d5eb7045d2c9f4167b1"
+  },
+  {
+    "sample_id": "ANS_ISC_365",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "5631baa4cb312f43c6b0ba9f00daa7ee734b480a947167f98ff0f74cc7ca33b7",
+    "proxy_sha256": "3a5ab9a258478748c2cc0def1faf79e459631c2c0e00dc8c71c5950faf17c379"
+  },
+  {
+    "sample_id": "ANS_ISC_371",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "62b14265a5c270f188f5ab7fc437fdeed2f0e662ad70f92c182a8f5df30ad71b",
+    "proxy_sha256": "613fdd15f1fc68a0f6ed5726891641126b02c50b937ae15036d76576d54634a8"
+  },
+  {
+    "sample_id": "ANS_ISC_399",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d70d50ff7101669171687e97db540b66fe5fe924f76c5bd1802b99a157681b58",
+    "proxy_sha256": "19273e24af71dfb70fc315816f867fe55cbcda45acae366e98abfca23c874f19"
+  },
+  {
+    "sample_id": "ANS_ISC_406",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "5d33a654409bd47a7c3359ad33bbbeaf87ebd42e797053530bd02de152e1fe59",
+    "proxy_sha256": "3755252eccbd78640b92863baa2111d6866ff047b07278f8e3a72d5c68516073"
+  },
+  {
+    "sample_id": "ANS_ISC_408",
+    "status": "BLANK_PASSTHROUGH",
+    "reason": "空白原样保留。",
+    "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "proxy_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "sample_id": "ANS_ISC_428",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e4e9c9320f11f9d2186577a0d3d8821e7665940c8e09656da80ce84e53e7edc5",
+    "proxy_sha256": "0bb3e1bb11f6e555cc6ef197e0d0f041175d62314586244b78db0ebe76113df5"
+  },
+  {
+    "sample_id": "ANS_ISC_452",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "a6d6871096746c2acd1466e3c43269456256d4f519d8b9a6c82f9c1ef6c0a47b",
+    "proxy_sha256": "64923fb3118ec3221f0d06863ae6f0c143d84d18c117975e1592cfd3eb104224"
+  },
+  {
+    "sample_id": "ANS_ISC_453",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "2edf51ebff471ebd260f8bbd8e526d74ada72dc2817496ea9b7f36e96bdea3b3",
+    "proxy_sha256": "46efa15cb013f6396c610005c2ebd6b9bf69f0120e52fb41177a98daa7300020"
+  },
+  {
+    "sample_id": "ANS_ISC_454",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "7d3a65135b0e11499b1b5dd08e91aa6f75c1c475caf9f8937e837361c078f4ce",
+    "proxy_sha256": "be1a742699b4a72dcc208cbb8758462795bccc3b1fd62cd5234383ed6f412281"
+  },
+  {
+    "sample_id": "ANS_ISC_473",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e318e914aba68fd183262cab3a1a2b7ac2c46bcae12dcc492625ec200206c2e3",
+    "proxy_sha256": "5bdeb534bb44fed08a63170c030e72643df2b85d01859a7629e7c9b283d76b34"
+  },
+  {
+    "sample_id": "ANS_ISC_478",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f9772781c30b7db86380634af556bd5a438ed21eca82be0f5fd6b23aa5c32315",
+    "proxy_sha256": "e49449b3a55cf5ef19da26709c4cfb5f7f936d97c79ca9f0f294812012f7718d"
+  },
+  {
+    "sample_id": "ANS_ISC_485",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "07ea2acd580764b75b35b3d946fed7468b0d4c1fcc303226f12f958dab8a7e39",
+    "proxy_sha256": "229a163596dc05160fe689618231e4c4d3944d1ccd00e6018bea1e47a57d8a73"
+  },
+  {
+    "sample_id": "ANS_ISC_491",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "64ac8a9623220cfef061d418e53c8474409f9a372163ba1dab18cbe8d3e31399",
+    "proxy_sha256": "ccc1bceb59e727eed7a851e0d46f76bd20015e51e2d1ba62449a7db0e39f40de"
+  },
+  {
+    "sample_id": "ANS_ISC_509",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "f76b7621d0e9fbfc097465f9cc700631315b244ab58f9220b9811a610b758292",
+    "proxy_sha256": "f348a6fdbf9cd2a158e179e66866dc12de26b903b0d5f6086da14ea42133ebaa"
+  },
+  {
+    "sample_id": "ANS_ISC_527",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "c8f4b0ac611d6c2e51770b91a9f08a49ceb9d3d07e1c3f6ac8b621e9d592d99e",
+    "proxy_sha256": "ccffae25cb95490542213e8ab0dafab22abf8a3e55504cb5b03437ca9a892136"
+  },
+  {
+    "sample_id": "ANS_ISC_537",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "49d80ca4bc6ed21bf0928b9ab771ab515a0b6689decca0b610e27a9584438363",
+    "proxy_sha256": "b9d50b39fbf3c461f3dd6c4882127463699bd49a4096bcc00fd1833e56fcd31b"
+  },
+  {
+    "sample_id": "ANS_ISC_550",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "25120c25f72249a3a10b5ce2b1aabf8a88b771de8be0525f127f27f0f3231561",
+    "proxy_sha256": "8874252836009c27e184bc0a9a52ed35e5e1623afa12a16ee3a134b0a1d78d6a"
+  },
+  {
+    "sample_id": "ANS_ISC_551",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "efa31747b3d8c47bdfc2112d1e53eec93a45afd78837f844b6887fa2b182ce1d",
+    "proxy_sha256": "11fb355365305cd82562b661d281bfd297141af1de7677b2603f7ea6b494cce8"
+  },
+  {
+    "sample_id": "ANS_ISC_554",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "60ed350d004859ef08636b85c76e497ca722dddf36db814c064282282cf8f578",
+    "proxy_sha256": "7fad9beb3ba62836033249996a64f5fba1e6eb9f6cee51019bfe2601b3c86553"
+  },
+  {
+    "sample_id": "ANS_ISC_560",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "306bbabd130fa3b65cd2a17ead2e41e8a8ba576963e65961fb311c0adf3293c1",
+    "proxy_sha256": "889793576d9b03836d5325a95c04879e6d703e8267212f32ceebea22fc9faa63"
+  },
+  {
+    "sample_id": "ANS_ISC_564",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "5724c805021c9945196575dc7e1b8a9fe15467dd39f912da0d01f159372ab464",
+    "proxy_sha256": "df36d602f7615384628351f6c284360c02dea3f8a2f9721548c744dc851602cb"
+  },
+  {
+    "sample_id": "ANS_ISC_575",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "a5fe65a5e2f9ab8cb7e3a268712a659c0329d5676c3d5ea2887f8405bc64b3ce",
+    "proxy_sha256": "798fa03cba8209771940477b6f54df4c8edff3f9923c0a9c7b2f84119c4ba8af"
+  },
+  {
+    "sample_id": "ANS_ISC_616",
+    "status": "BLANK_PASSTHROUGH",
+    "reason": "空白原样保留。",
+    "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "proxy_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "sample_id": "ANS_ISC_617",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "edebc7e7eac52e726226bf197852a4b49ff71061d279bfb64ba9a1389def9f61",
+    "proxy_sha256": "7d7ae1b3d8eaf6d2217132e7f8b5a5cbee797ef334ca6849514a6b05349c1d6c"
+  },
+  {
+    "sample_id": "ANS_ISC_630",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d8418a4f3d7a4c5ede704ae22bd9b704a754f0b8477e8f897b5b374940dadaf5",
+    "proxy_sha256": "f85a8d8729de74eb248afdd8c4112632c9225f013fb67c0b9587dded4a994162"
+  },
+  {
+    "sample_id": "ANS_ISC_637",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "aad819f818400f01bb83310ba3a5f7cfd63c7d069213f2c04c582e0be004bcc9",
+    "proxy_sha256": "959b653f43922345012088b2d6f37255b1ac1a891b1c4f61cf495b3c73dcf05d"
+  },
+  {
+    "sample_id": "ANS_ISC_645",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "98f500231e11da7e6341f4c3db10daad9c90fa9a3e14e6fb3a8583f1152eedb7",
+    "proxy_sha256": "40fe69daf9380957b9d0758063f46dc5f0283e59b9a3832cfca19dcdd54264e7"
+  },
+  {
+    "sample_id": "ANS_ISC_652",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "cce34c0331009d9821e7aedd34b4e14e78c89859b1249b6ae42c80f5b61c4018",
+    "proxy_sha256": "fa80cfaccd13816e810176de062b644cdedf31402fb5a58a3b4685d187444226"
+  },
+  {
+    "sample_id": "ANS_ISC_663",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "4e7b284a3d9497396e4de885bb9c15d6cfa96d592df9785b6d33bf210dcfe33d",
+    "proxy_sha256": "791b38af772e5ad1c4a356c17622b3123de7d5d74abae218d365f6f98f84a624"
+  },
+  {
+    "sample_id": "ANS_ISC_689",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "aa7101d12a2fc26b922d1e07d2e5811bbd9027dbb8d588fd43aabe80d2d4515c",
+    "proxy_sha256": "ad8de3f7d07a3904fc74e7693d9cb60e7d83f1f29c4d21ead44658c95717409b"
+  },
+  {
+    "sample_id": "ANS_ML_09",
+    "status": "SOURCE_SCORE_MARKING_PRESENT",
+    "reason": "原转写含评卷员/评分文字，优先处理输入来源，不能直接回退到原文。",
+    "original_sha256": "fe9168832e6aeeeced9e4f9b0099a408c2bb186fda6f02a559cf5e841750a466",
+    "proxy_sha256": "9cf25a95008fa9e2cdcde43254c6c18a4e0550fddfe0efed1fc69c6aa00e0706"
+  },
+  {
+    "sample_id": "ANS_ML_25",
+    "status": "SOURCE_SCORE_MARKING_PRESENT",
+    "reason": "原转写含评卷员/评分文字，优先处理输入来源，不能直接回退到原文。",
+    "original_sha256": "77ab1570e6c6e5c3399b028b9abbd38ac3ff8852fc8b5e8dc74d39f988e7677d",
+    "proxy_sha256": "7764ebe657f8faa3a703496b378c6ce7c06d711b271689ec1e96d097940caa48"
+  },
+  {
+    "sample_id": "ANS_ML_28",
+    "status": "SOURCE_SCORE_MARKING_PRESENT",
+    "reason": "原转写含评卷员/评分文字，优先处理输入来源，不能直接回退到原文。",
+    "original_sha256": "3574f4d638ecbaa2d9e6307f6b5001766c721a9b7b2defad77ce4e134f368dfa",
+    "proxy_sha256": "fe46cae851204525708666a660b7149a0aa665831a6eae67f257422926e30657"
+  },
+  {
+    "sample_id": "ANS_ML_31",
+    "status": "SOURCE_SCORE_MARKING_PRESENT",
+    "reason": "原转写含评卷员/评分文字，优先处理输入来源，不能直接回退到原文。",
+    "original_sha256": "84a9bd0c6685e3b59181b7b368a4f2937ba8ce42413f060d1df6bbd5825b7c83",
+    "proxy_sha256": "3db69fad7e1b48904e4781e0e519e6a4bfdbe249a37a4a1e999aa6f33ea84359"
+  },
+  {
+    "sample_id": "ANS_ML_37",
+    "status": "SOURCE_SCORE_MARKING_PRESENT",
+    "reason": "原转写含评卷员/评分文字，优先处理输入来源，不能直接回退到原文。",
+    "original_sha256": "8f8cfd8db158cbb0697f8c083416c26fc09ad8119b83e2f699685bcf0f1c0e24",
+    "proxy_sha256": "cd47fc42faf69996db0d166bef15404f160c149c29f17f26d610c4881d4fd7fb"
+  },
+  {
+    "sample_id": "ANS_ML_43",
+    "status": "SOURCE_SCORE_MARKING_PRESENT",
+    "reason": "原转写含评卷员/评分文字，优先处理输入来源，不能直接回退到原文。",
+    "original_sha256": "cf2d86b90ea1029d2240574244a5be46536b02431355a0e4298f23e604c2612b",
+    "proxy_sha256": "ae531d938f78c65c6b8ebdfde0b5ce6cbbd81ecbd8d7cb77d2ccb5da093df4ca"
+  },
+  {
+    "sample_id": "ANS_ML_67",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "a5887a41512a2e341a33a3e5e63d73b262bee3165a67a48627fe133ca1fbdb08",
+    "proxy_sha256": "c779f34c5ea99db190ee7e36bb4692720b59284adfed759912b97b45d467f65f"
+  },
+  {
+    "sample_id": "ANS_ML_70",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "7cf60c4a251de9aa158bafa9791e776103a7b3ba5d61909724a18f8c0c351cd6",
+    "proxy_sha256": "6235b781a7d72a57845d826e6dcfc91813b6789e231166716839aa874c1e350e"
+  },
+  {
+    "sample_id": "ANS_ML_87",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1f00bda1fc002800b249dab1d812824d425b3f90a744520e7ba860dab6e7dbce",
+    "proxy_sha256": "e642178ded3727d8c33ab8c61eb56a919af474dae3f532fb5bc60b94a82afca1"
+  },
+  {
+    "sample_id": "ANS_ML_103",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d6cfdc4e83343bc33343dc7d6dd6fa04e6b6c4e569b9e415a8837a37dd7bddca",
+    "proxy_sha256": "2e1514326094e572b08e151f7f6687d1cd4632c38ada41de2ce1aa6fbad4c5a7"
+  },
+  {
+    "sample_id": "ANS_ML_108",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1e15a4fbccb82aec666fc07c8b5a09f1b28b301b76d1a3e5e2f8a210566ca6ad",
+    "proxy_sha256": "fcb6ec278f14d897e90adad4026c97aae0f1b1be446bb378618df3c35dbd4ded"
+  },
+  {
+    "sample_id": "ANS_ML_112",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "0d6bf49dbcd4d9a2274d7b364ec31c8086d05beb01ff96193721205f4b852720",
+    "proxy_sha256": "ee2908db7cdd2244bde12671780ff039729cd19cd47576a50bc5d3bd92086adc"
+  },
+  {
+    "sample_id": "ANS_ML_117",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3266fa4ed8171a0ed449bea49111c25152ce9b4d59078b4b19cc96fbc8913e60",
+    "proxy_sha256": "440222c83b05994e3df6b43a812eb3135a8388f5c5c60d95ee2d62b7d8809c78"
+  },
+  {
+    "sample_id": "ANS_ML_125",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "6d027d793b58d4689ef6b5b0b55d9e54920d1ceed59a3c8dd2a437f887714498",
+    "proxy_sha256": "e674aed4e9b2abc74339618e2bf3c5c8a1be2325e641608d541ece2abde88f61"
+  },
+  {
+    "sample_id": "ANS_ML_127",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "2119887a0671838687c2e396c685b76c6bfcf497a0b0cfbe92483f6589c82e33",
+    "proxy_sha256": "147e22651caa1f8642966d82bacd2dd5be26f65ca79305b6e79cdc4b745a3a6e"
+  },
+  {
+    "sample_id": "ANS_ML_129",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "285d1e865998cc85a509bda7770efe6a28fce3c7042c43125b17798fa66c787b",
+    "proxy_sha256": "75f3c43eee2628973ff200b303ac89381b8af568ef8d0c6424cbbd6075e702ef"
+  },
+  {
+    "sample_id": "ANS_ML_159",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "9b3f896f8619ef6e0040840ed3c45b9f0a50c7ca0aebec2504d654459c33c9df",
+    "proxy_sha256": "de851fee09a90c70677b9f224fa4470dae2c1b4f1e3924d80e0b5236c6ef5540"
+  },
+  {
+    "sample_id": "ANS_ML_168",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "5f7616bf6cbcd3b362ccfefc6f91ade8b619a43e378eafd2ee9e197897d3e8c7",
+    "proxy_sha256": "f1b64c8e209aa5621460d0028c3b4658fb5f1563cbc32e9a6426c4d196a277dd"
+  },
+  {
+    "sample_id": "ANS_ML_171",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "814696015883e7ffbe2d92a4a5d5755f585442e6f4f38453b679dbb487e5cdb3",
+    "proxy_sha256": "a96542c80125e50dbbe865ccf5afadc26f09cd70cdd994220233d3265b49eacb"
+  },
+  {
+    "sample_id": "ANS_ML_189",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "d39f649a9aeb4b101e65aeb68575bb0d47f1a125f5b8d9698c559bbb7bc373dc",
+    "proxy_sha256": "a3f83c3d2990673ed5ffcb4a18a952028def8290a690c9242c3c2714db531cb8"
+  },
+  {
+    "sample_id": "ANS_ML_199",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e62489fd68610b9d5ca367df52fe9cfba08664a7dcdc82eef6480e9768a4da6a",
+    "proxy_sha256": "5c9382b6a9b73ee3eafbb62ec3f896bd9c1b6bbf9e51063757574ea63e48abe0"
+  },
+  {
+    "sample_id": "ANS_ML_201",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "7af3a2dfbfbbfa9afd2da627a39da02eb1ed0d539fb920b31f8bc83c3f4f9865",
+    "proxy_sha256": "64512ef7c63115a164e2e37b3a27cd7d87b12a9f8407e7977c0b3d323c994d54"
+  },
+  {
+    "sample_id": "ANS_ML_205",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "0fa6707c453f0ebfd3fdf4526c0a837661bdcce6b2ffbf18afcf9dc8fd0fa2e8",
+    "proxy_sha256": "7b81dc4fd2b194639375df2664ea796721e5aee23ad880e56d4fc63b327b4624"
+  },
+  {
+    "sample_id": "ANS_ML_221",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1551d63f94d3e470ac388a888ad53ef41e18d6cc9a8c633c9fc28649df8cc9d8",
+    "proxy_sha256": "8a83ef671f06243014479aa4a5de2081b1b332335bcaeceb81eeff80b86fb380"
+  },
+  {
+    "sample_id": "ANS_POC_2",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "dde84204400a6e8dbd9ae44126a2d06a1e813910852ba96d855f20be0c7d2002",
+    "proxy_sha256": "dd3fd6fe9b8be1da3a7d48de0c4c9ceb07262cda606ecc45787fa4b8000f20c1"
+  },
+  {
+    "sample_id": "ANS_POC_5",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "2a1e4a1768778a1183cde2a300aa96c45592304ef2ccac141121baa02f6ad1cb",
+    "proxy_sha256": "468a4defa359b7f93ba283d826c1e155f573c497a692b5b0dcbc098dd626dbc3"
+  },
+  {
+    "sample_id": "ANS_POC_7",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "32b91a659b4b720d6830cba06b130aa8633415f8f6120c19a72d123924223d7d",
+    "proxy_sha256": "a9a14a00dcf7d2dafb7b6a5da69b2af3a36eb044c8be32bcd3ddd19596ffdf9a"
+  },
+  {
+    "sample_id": "ANS_POC_12",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "27dad26e25d2e2f2ca2edaa38b45f82afa1d5eccab32cca6ffadd186a634d9a8",
+    "proxy_sha256": "ff2e297db83655e1d5ab47ca7d5a1e369c2db8f21faa568656da8a7be3eac053"
+  },
+  {
+    "sample_id": "ANS_POC_17",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "ee0f71adcf9959d029a37321c6abd4cbde2fb504e727f0be812459d3e5573d19",
+    "proxy_sha256": "1cb088f40883d11342549fcd5f6b8cbda8a235515294d6dc470ad627a954dfb0"
+  },
+  {
+    "sample_id": "ANS_POC_35",
+    "status": "REJECT_PROXY_CHANGE",
+    "reason": "两处删除 (b)：短语列表和直接短语列表均缺少原内容。",
+    "original_sha256": "6c8dde76c4f37917d6b7e8a2a24233cc05c529439d6c808a5e9790622157a07e",
+    "proxy_sha256": "9e7d51dbee2afe10d402505edb3803432da0deb9bf47d36726aaefd6f260bf07"
+  },
+  {
+    "sample_id": "ANS_POC_73",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "a23e7583d829b16824e3e50f81842e30a4016e9790b0ab88a146ce937055e8a2",
+    "proxy_sha256": "701f31f39ef183d8f31586e83e14664c4343c253a2fa0988f50a40d735773a0b"
+  },
+  {
+    "sample_id": "ANS_POC_84",
+    "status": "BLANK_PASSTHROUGH",
+    "reason": "空白原样保留。",
+    "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "proxy_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "sample_id": "ANS_POC_95",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "bc6de3a7fe8c2c92f521866ae42cadb9f54f6e4e77923d730397a23af61fee82",
+    "proxy_sha256": "0b5411425f0acf141f0ab6a025ed9bebdac90b721a99abfd353e843efed14ac6"
+  },
+  {
+    "sample_id": "ANS_POC_106",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3a3ad97576363e5b45be2b22223b5379b481b56b9e48eb5fe58e70711da8562d",
+    "proxy_sha256": "7a7ded51365128e31bc9fae7d97f0a35a042dec195787770839229f206a333a0"
+  },
+  {
+    "sample_id": "ANS_POC_111",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "c7ea48f3d02870aa8dca4e0c803751f5f013d4a08f3ac96ad3481bc3cbc686b2",
+    "proxy_sha256": "7c0e849105bb56674a814ee60a506c367b4e7d30274249ba9334effabbc0ee00"
+  },
+  {
+    "sample_id": "ANS_POC_116",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1e3a1d557030ce0bfdb6a0f3a354d29d5123bc11215bde09f7ce6698af05f466",
+    "proxy_sha256": "6599430ebc3c674f4f8007d7735537720168b5b020436c9c4243dba0c89063fe"
+  },
+  {
+    "sample_id": "ANS_POC_126",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "7534651d4fd30a7033ed4f77d1de69e6903900f85e46399f2d53a61d78d9df9c",
+    "proxy_sha256": "4ed28d3d9cf6188cfeccf6b7afcb3b4284713236fde997a705c7c1a41eb23524"
+  },
+  {
+    "sample_id": "ANS_POC_134",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3815a1a101d4e547db25a4a3cece84d30248b3c11eb9b05d7fa3cc6ee5ecdde7",
+    "proxy_sha256": "1f28bcb9867ab35908ca1c62f8f99d979fa9bc1450648bc7ac988f24851a1508"
+  },
+  {
+    "sample_id": "ANS_POC_139",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "c714650f63029ef3c2623051d8128eee9dc60ee9d4c698c1ce7e8f3d3b341df9",
+    "proxy_sha256": "a38f4c6528e805d9f40d5af1ca528eb1014670d19868bec33ce8f75ad1a81402"
+  },
+  {
+    "sample_id": "ANS_POC_146",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "bbab4c13da64dbc3bcc5f7d3b0c197474b7bb97f03fd15a8b47040897811c840",
+    "proxy_sha256": "6a3d615945e68277cbe9ced40e0e3e932766746aa4e65211003631a233f5f97a"
+  },
+  {
+    "sample_id": "ANS_POC_160",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "03fe866d39755c75b6a79d88330573685a856e516ab2cdb3864169606413f16c",
+    "proxy_sha256": "ffc48a6ac0392c64fd2773b016071a52e39763e84c78d0e6d58c1dab6e642c1a"
+  },
+  {
+    "sample_id": "ANS_POC_180",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "62c03622eff5ca26030fb5fa2a89a31d22847743078483e32b8944038c7fd7db",
+    "proxy_sha256": "2dd269057820297f3f9e20af536ba98e92a3f664fc77165409b65500d4048656"
+  },
+  {
+    "sample_id": "ANS_POC_192",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "b553c312e8362db319ade16d3a720cb3525bccd3a7e934bcfc4969688740a3f2",
+    "proxy_sha256": "366c5e8efb66dbe869ff85988b79198582234e3ddf3a9a4ad501faacc0e5bc5a"
+  },
+  {
+    "sample_id": "ANS_POC_198",
+    "status": "REVIEW_SOURCE_OR_REWRITE",
+    "reason": "把排版含糊的ASCII树重构为明确三子节点树，父子关系需回看原图。",
+    "original_sha256": "61c8e68e1dc1eb44a98596c43e8e5e2ac54b7e1b3bdfe821dc13a32432c732ef",
+    "proxy_sha256": "75c2ad8f406db26ebd019e4a43508a72c18002e4716113619e8c565e684735eb"
+  },
+  {
+    "sample_id": "ANS_POC_202",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e17eee3150c3f2cdad1dc679cf34249d80f26caa50793b71385874e9a30ac3ab",
+    "proxy_sha256": "862a26d790ebfc65dd1e7ff480e3597e5c1a25c91f7e1ca52cae512c9ece8c98"
+  },
+  {
+    "sample_id": "ANS_POC_204",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "ccea0158bca8d5611d7a5c22364fc60dedb33ceca60dc43579a9f8efab168d75",
+    "proxy_sha256": "ecb26b391d0beaf3041b9337bff996361be4c946eda17d44f1fea70f51c73819"
+  },
+  {
+    "sample_id": "ANS_POC_205",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "1e6c26419147f7a5fe05fe34ecb8a674b313201043e6d29b48d062412aa76e89",
+    "proxy_sha256": "a214ad7c6ec18a22064430eb7e26d9d80adc46e83c90a618a7e3835c4788b056"
+  },
+  {
+    "sample_id": "ANS_POC_226",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "78cc9ae5d27db3581f57fb55cbdf4a719b2a7d57f59f0e2f920dabd2876ebcb4",
+    "proxy_sha256": "4bc69b1906b714fade8d78d3f9411a61d1e2c4e90ab089fc92fd3836e6ee2ed7"
+  },
+  {
+    "sample_id": "ANS_POC_236",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "4277ed012e2c9c74e3dbee096e4c1764d61d7720fed68918aa41b15dd7870045",
+    "proxy_sha256": "02bba320d74133a48b87b07daa83e25350cdb1bf6156bcb173f4a4372cfc97ed"
+  },
+  {
+    "sample_id": "ANS_POC_238",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "6375ba09a17e75c28988b103c6da823ef4be0b3e9abdc79ec8802259b6918c35",
+    "proxy_sha256": "fd45ddb2455b9024306506c2221b1f6c3ab3cc814212da20cbfe97370ae2796c"
+  },
+  {
+    "sample_id": "ANS_POC_241",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "7957c519c2778258c86a94790be00cfa12313fdbaeec5a42f3d20b8e15a23ab0",
+    "proxy_sha256": "d59420e478ad5c849c1679453a903ea94d6d0a7dc712603c3c6061c0dc733622"
+  },
+  {
+    "sample_id": "ANS_POC_256",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "8befbd9d926a80e1bc170ebe1d1254086b120d58d78b7216c9de71e824232692",
+    "proxy_sha256": "96091d4a2d95f286790aae3edd6ba286dc399aa4186930f8cdb24d4c834bcc6f"
+  },
+  {
+    "sample_id": "ANS_POC_273",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "e56558c471ac8a342cee1f83c4aa8086443b0555cbe7055ff356cea8f19242ef",
+    "proxy_sha256": "4df941fdf774859d09d60db2dbf13ba84ddd6d031179f188908cf95b1fac2277"
+  },
+  {
+    "sample_id": "ANS_POC_274",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "80b49ffddb3fbeefee409ae96f21415809d3edc82855f3bb94c88d2519801c8a",
+    "proxy_sha256": "176e5cbec81c74844e90b6d2bcd3fc4bc1aa148f27dfe58f80592529da0081a1"
+  },
+  {
+    "sample_id": "ANS_POC_293",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "b2de6ef45148fc5272ed6730a8f3c68ebd03ea92492550bd7b8b2e57c5e172ec",
+    "proxy_sha256": "f475d1f7d804d339b44e73f7d1d7978edeb674102697a013ed79dcbc452a32ed"
+  },
+  {
+    "sample_id": "ANS_POC_297",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "fab559869130d43aa68bda00a485210037a31d2a63ff103a6babf7fcf5a469eb",
+    "proxy_sha256": "f370096ed77a0237a43f9f7775f3e6d2c3487082afaa94f0fd2bb4c0e9335c8f"
+  },
+  {
+    "sample_id": "ANS_POC_306",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "00eea5d281994b74905e225b78be3ba5c19e15ab284d066d4e2437336199b81d",
+    "proxy_sha256": "355abc31a4640872faa5b70e36b154cb20df0d66b4375756325e4e9dedb43611"
+  },
+  {
+    "sample_id": "ANS_POC_318",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "4bf5b86d0c978e3870d37f3f9fadfdd7b8c2596e4b7494b261d975ec618df404",
+    "proxy_sha256": "a3b793ce36f21764feeb8cf24721b45e2a36b2e885bd22875d2938190ded72a1"
+  },
+  {
+    "sample_id": "ANS_POC_336",
+    "status": "DIFF_SCREENED_NOT_SEMANTICALLY_CERTIFIED",
+    "reason": "字符差异筛查不等于完整语义认证。",
+    "original_sha256": "3a187b1d75cb0ff3598f5a43b0b02fa4307f41e334006d71e103e4d2d229d0c6",
+    "proxy_sha256": "505a7a68c7b5af04381b5291ce2f2d5eb8f11d626f589be42548c27f904c2057"
+  }
+]

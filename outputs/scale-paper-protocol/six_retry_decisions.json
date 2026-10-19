@@ -1,0 +1,48 @@
+{
+  "reviewer": "Codex assistant; semantic preservation review, not answer grading or human certification",
+  "attachment_sha256": "d639f50d85362af2958a7276e912e3fb892ecd6aa1ef8c51dc81d37115384786",
+  "decisions": [
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:166",
+      "decision": "PASS",
+      "original_sha256": "066d95701bc378a7877e5d2a6351ed2e54dd4971c1fde7693187d353b9ce12f7",
+      "previous_proxy_sha256": "9927e56a56309091be145e9256c02e23bf978055b408bad86cac34e4ca17c74d",
+      "retry_proxy_sha256": "bd4c5397e0d150802a9277350d6889cefdcd8e7ac087524959ee3c13f3d81071"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:313",
+      "decision": "PASS",
+      "original_sha256": "25c5b22309f3d5801011679615014d9dc0e68c325490f4154eb7fc43dd61859a",
+      "previous_proxy_sha256": "80f7abde851368a46456b4c91ac2945fbfae715e0e215a2c19e29f80df8681a0",
+      "retry_proxy_sha256": "e225fd6bc6dbf7bb1febebf94e9c2e5936cab18ff587bdac3338afa58e205c2a"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:390",
+      "decision": "PASS",
+      "original_sha256": "a2ba1682b9b028ccdffd84c28e6ac2aa00da43839b4424a425bc0a526f304461",
+      "previous_proxy_sha256": "e99633cc22b4bab71402f8c4c24fe9bfd088497a4fdd7642e9f6b32e879a1f58",
+      "retry_proxy_sha256": "95fd3ce5a1939994b5c06592040c09054eebec39e13e12db3b8d074ce7eb6f42"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:589",
+      "decision": "PASS",
+      "original_sha256": "9134bf480299af6e3ffe9198c8809680222b7367765e9695415570a312718f90",
+      "previous_proxy_sha256": "5e4414d9090b9e7f92f6869c34c81b2752ee7b081b34ac4f4bc159fc2b232cb2",
+      "retry_proxy_sha256": "b195d5cfc4a7773b978751494c69c723a6668ab4cd72a7907a79fd83a2994761"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1070",
+      "decision": "PASS",
+      "original_sha256": "a975a033d29901111c368fdf3a0909ae8fccd4df8a36e14b55d954bcc0fa9a45",
+      "previous_proxy_sha256": "959f6c1bd91ee965a71a138528985a139c79e36ca622635faa969386925eec7c",
+      "retry_proxy_sha256": "b319d3b945d8fd5c2d01b4d8c2faacbf2beb40851543274365290e505c0e4324"
+    },
+    {
+      "sample_id": "ADS:9e1a866d58ed:train:1089",
+      "decision": "PASS",
+      "original_sha256": "184e1f17287923c89ba7a8f6a05ebd27f2ba2129cd6b18d8f1e5ad76053bd4f1",
+      "previous_proxy_sha256": "624b36aa2de42a306890e2b8f62f15ebd48564f8cf4bd255d0796f235c0122fd",
+      "retry_proxy_sha256": "7d435659718b22761693a5884c7448984b16c5845626f7286e2ce40558d8015f"
+    }
+  ]
+}

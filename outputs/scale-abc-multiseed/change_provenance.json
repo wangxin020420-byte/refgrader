@@ -1,0 +1,14 @@
+{
+  "base_script_sha256": "472469ab35239f7aff683f34c48e8f9056e7579741a0171ef6fb7d418794503c",
+  "changes": {
+    "'group': args.group, 'seed': 42,": "'group': args.group, 'seed': args.seed,",
+    "root / 'runs/abc_pilot_v1' / (args.group + '_seed42')": "root / 'runs/abc_followup_v1' / (args.group + '_seed%d' % args.seed)",
+    "torch.manual_seed(42)": "torch.manual_seed(args.seed)",
+    "batch_indices(42, step, len(training))": "batch_indices(args.seed, step, len(training))",
+    "    parser.add_argument('--check', action='store_true')": "    parser.add_argument('--check', action='store_true')\n    parser.add_argument('--seed', type=int, choices=[43, 44, 45, 46], required=True)"
+  },
+  "training_settings_changed": [
+    "random_seed"
+  ],
+  "existing_seed42_runs_reused": true
+}

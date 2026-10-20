@@ -95,3 +95,23 @@ Before every final response, verify:
 4. Are commands minimal, parser-compatible, and tied to the correct run ID?
 5. Did I separate verified facts from inference?
 6. Did I avoid promising empirical improvement without experiment results?
+
+## 7. Zhipu Endpoint Requirement
+
+- User requires Coding Plan only for every Zhipu model call, including vision,
+  rubric generation, scoring, extraction, and benchmark adapters. For OpenAI
+  Chat Completions use exactly
+  `https://open.bigmodel.cn/api/coding/paas/v4` (a final slash is equivalent).
+- Never use the SDK default endpoint, the ordinary `/api/paas/v4` endpoint,
+  a third-party proxy, or a fallback to balance billing for a Zhipu call.
+- Before a new live Zhipu test or unattended experiment, verify the final
+  request URL offline for both text and vision paths. Never treat key presence
+  or a successful model response as evidence of the request destination.
+- On 2026-10-19 the user confirmed that the reported balance deductions were
+  caused by another service, not this experiment. The user explicitly removed
+  the billing-investigation hold and requires correct endpoint routing only.
+  Do not require official support confirmation, a billing receipt, or another
+  billing approval before otherwise authorized experiments. Do not launch a
+  paid test or resume an experiment merely to verify the URL.
+- Preserve run IDs and saved outputs. Do not rewrite input fingerprints or
+  silently change models to bypass resume validation.

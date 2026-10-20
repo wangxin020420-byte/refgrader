@@ -1,0 +1,979 @@
+{
+  "questions": [
+    "CO_1",
+    "CO_10",
+    "CO_11",
+    "CO_12",
+    "CO_13",
+    "CO_2",
+    "CO_3",
+    "CO_4",
+    "CO_5",
+    "CO_6",
+    "CO_7",
+    "CO_8",
+    "CO_9",
+    "CPL_1",
+    "CPL_2",
+    "CPL_3",
+    "CPL_4",
+    "CPL_5",
+    "CPL_6",
+    "CPL_7",
+    "CPL_8",
+    "DM_1",
+    "DM_2",
+    "DM_3",
+    "ISC_1",
+    "ISC_2",
+    "ISC_3",
+    "ISC_4",
+    "ISC_5",
+    "ISC_6",
+    "ISC_7",
+    "ISC_8",
+    "ISC_9",
+    "ML_1",
+    "ML_2",
+    "ML_3",
+    "ML_4",
+    "OS_1",
+    "OS_2",
+    "POC_1",
+    "POC_2",
+    "POC_3",
+    "POC_4",
+    "POC_5",
+    "POC_6"
+  ],
+  "raw_answers": 3411,
+  "reviewed_answers": 85,
+  "not_reviewed_answers": 3326,
+  "all_answers_reviewed": false,
+  "splits": {
+    "calibration": {
+      "raw": 345,
+      "excluded": 5,
+      "effective": 340,
+      "corrected": 1
+    },
+    "validation": {
+      "raw": 343,
+      "excluded": 4,
+      "effective": 339,
+      "corrected": 0
+    },
+    "test": {
+      "raw": 2723,
+      "excluded": 48,
+      "effective": 2675,
+      "corrected": 14
+    }
+  },
+  "per_question": {
+    "CO_1": {
+      "calibration": {
+        "raw": 13,
+        "excluded": 0,
+        "effective": 13,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 13,
+        "excluded": 1,
+        "effective": 12,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 104,
+        "excluded": 0,
+        "effective": 104,
+        "corrected": 1
+      }
+    },
+    "CO_10": {
+      "calibration": {
+        "raw": 10,
+        "excluded": 0,
+        "effective": 10,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 10,
+        "excluded": 0,
+        "effective": 10,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 83,
+        "excluded": 0,
+        "effective": 83,
+        "corrected": 0
+      }
+    },
+    "CO_11": {
+      "calibration": {
+        "raw": 10,
+        "excluded": 0,
+        "effective": 10,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 10,
+        "excluded": 0,
+        "effective": 10,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 78,
+        "excluded": 0,
+        "effective": 78,
+        "corrected": 0
+      }
+    },
+    "CO_12": {
+      "calibration": {
+        "raw": 14,
+        "excluded": 0,
+        "effective": 14,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 14,
+        "excluded": 0,
+        "effective": 14,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 116,
+        "excluded": 5,
+        "effective": 111,
+        "corrected": 1
+      }
+    },
+    "CO_13": {
+      "calibration": {
+        "raw": 13,
+        "excluded": 0,
+        "effective": 13,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 13,
+        "excluded": 0,
+        "effective": 13,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 100,
+        "excluded": 3,
+        "effective": 97,
+        "corrected": 0
+      }
+    },
+    "CO_2": {
+      "calibration": {
+        "raw": 10,
+        "excluded": 0,
+        "effective": 10,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 10,
+        "excluded": 0,
+        "effective": 10,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 84,
+        "excluded": 3,
+        "effective": 81,
+        "corrected": 0
+      }
+    },
+    "CO_3": {
+      "calibration": {
+        "raw": 10,
+        "excluded": 0,
+        "effective": 10,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 10,
+        "excluded": 0,
+        "effective": 10,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 79,
+        "excluded": 0,
+        "effective": 79,
+        "corrected": 0
+      }
+    },
+    "CO_4": {
+      "calibration": {
+        "raw": 9,
+        "excluded": 0,
+        "effective": 9,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 9,
+        "excluded": 0,
+        "effective": 9,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 68,
+        "excluded": 1,
+        "effective": 67,
+        "corrected": 1
+      }
+    },
+    "CO_5": {
+      "calibration": {
+        "raw": 11,
+        "excluded": 2,
+        "effective": 9,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 11,
+        "excluded": 0,
+        "effective": 11,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 85,
+        "excluded": 10,
+        "effective": 75,
+        "corrected": 0
+      }
+    },
+    "CO_6": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 47,
+        "excluded": 1,
+        "effective": 46,
+        "corrected": 1
+      }
+    },
+    "CO_7": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 53,
+        "excluded": 1,
+        "effective": 52,
+        "corrected": 1
+      }
+    },
+    "CO_8": {
+      "calibration": {
+        "raw": 15,
+        "excluded": 0,
+        "effective": 15,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 15,
+        "excluded": 0,
+        "effective": 15,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 118,
+        "excluded": 4,
+        "effective": 114,
+        "corrected": 1
+      }
+    },
+    "CO_9": {
+      "calibration": {
+        "raw": 13,
+        "excluded": 0,
+        "effective": 13,
+        "corrected": 1
+      },
+      "validation": {
+        "raw": 13,
+        "excluded": 0,
+        "effective": 13,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 106,
+        "excluded": 5,
+        "effective": 101,
+        "corrected": 0
+      }
+    },
+    "CPL_1": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 48,
+        "excluded": 0,
+        "effective": 48,
+        "corrected": 0
+      }
+    },
+    "CPL_2": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 47,
+        "excluded": 0,
+        "effective": 47,
+        "corrected": 0
+      }
+    },
+    "CPL_3": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 47,
+        "excluded": 0,
+        "effective": 47,
+        "corrected": 0
+      }
+    },
+    "CPL_4": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 47,
+        "excluded": 0,
+        "effective": 47,
+        "corrected": 0
+      }
+    },
+    "CPL_5": {
+      "calibration": {
+        "raw": 5,
+        "excluded": 0,
+        "effective": 5,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 5,
+        "excluded": 0,
+        "effective": 5,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 42,
+        "excluded": 0,
+        "effective": 42,
+        "corrected": 0
+      }
+    },
+    "CPL_6": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 47,
+        "excluded": 2,
+        "effective": 45,
+        "corrected": 0
+      }
+    },
+    "CPL_7": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 46,
+        "excluded": 0,
+        "effective": 46,
+        "corrected": 0
+      }
+    },
+    "CPL_8": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 1,
+        "effective": 5,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 47,
+        "excluded": 0,
+        "effective": 47,
+        "corrected": 0
+      }
+    },
+    "DM_1": {
+      "calibration": {
+        "raw": 9,
+        "excluded": 0,
+        "effective": 9,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 9,
+        "excluded": 0,
+        "effective": 9,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 70,
+        "excluded": 1,
+        "effective": 69,
+        "corrected": 0
+      }
+    },
+    "DM_2": {
+      "calibration": {
+        "raw": 9,
+        "excluded": 0,
+        "effective": 9,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 9,
+        "excluded": 0,
+        "effective": 9,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 72,
+        "excluded": 0,
+        "effective": 72,
+        "corrected": 0
+      }
+    },
+    "DM_3": {
+      "calibration": {
+        "raw": 9,
+        "excluded": 0,
+        "effective": 9,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 9,
+        "excluded": 0,
+        "effective": 9,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 71,
+        "excluded": 3,
+        "effective": 68,
+        "corrected": 0
+      }
+    },
+    "ISC_1": {
+      "calibration": {
+        "raw": 7,
+        "excluded": 0,
+        "effective": 7,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 7,
+        "excluded": 0,
+        "effective": 7,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 56,
+        "excluded": 0,
+        "effective": 56,
+        "corrected": 0
+      }
+    },
+    "ISC_2": {
+      "calibration": {
+        "raw": 7,
+        "excluded": 0,
+        "effective": 7,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 7,
+        "excluded": 0,
+        "effective": 7,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 58,
+        "excluded": 0,
+        "effective": 58,
+        "corrected": 0
+      }
+    },
+    "ISC_3": {
+      "calibration": {
+        "raw": 7,
+        "excluded": 0,
+        "effective": 7,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 7,
+        "excluded": 0,
+        "effective": 7,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 57,
+        "excluded": 0,
+        "effective": 57,
+        "corrected": 0
+      }
+    },
+    "ISC_4": {
+      "calibration": {
+        "raw": 7,
+        "excluded": 1,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 7,
+        "excluded": 0,
+        "effective": 7,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 56,
+        "excluded": 2,
+        "effective": 54,
+        "corrected": 0
+      }
+    },
+    "ISC_5": {
+      "calibration": {
+        "raw": 5,
+        "excluded": 0,
+        "effective": 5,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 5,
+        "excluded": 1,
+        "effective": 4,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 43,
+        "excluded": 2,
+        "effective": 41,
+        "corrected": 0
+      }
+    },
+    "ISC_6": {
+      "calibration": {
+        "raw": 7,
+        "excluded": 0,
+        "effective": 7,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 7,
+        "excluded": 0,
+        "effective": 7,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 59,
+        "excluded": 0,
+        "effective": 59,
+        "corrected": 0
+      }
+    },
+    "ISC_7": {
+      "calibration": {
+        "raw": 7,
+        "excluded": 1,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 7,
+        "excluded": 0,
+        "effective": 7,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 56,
+        "excluded": 0,
+        "effective": 56,
+        "corrected": 8
+      }
+    },
+    "ISC_8": {
+      "calibration": {
+        "raw": 7,
+        "excluded": 0,
+        "effective": 7,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 7,
+        "excluded": 0,
+        "effective": 7,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 55,
+        "excluded": 0,
+        "effective": 55,
+        "corrected": 0
+      }
+    },
+    "ISC_9": {
+      "calibration": {
+        "raw": 8,
+        "excluded": 0,
+        "effective": 8,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 8,
+        "excluded": 0,
+        "effective": 8,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 60,
+        "excluded": 2,
+        "effective": 58,
+        "corrected": 0
+      }
+    },
+    "ML_1": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 44,
+        "excluded": 0,
+        "effective": 44,
+        "corrected": 0
+      }
+    },
+    "ML_2": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 1,
+        "effective": 5,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 44,
+        "excluded": 0,
+        "effective": 44,
+        "corrected": 0
+      }
+    },
+    "ML_3": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 44,
+        "excluded": 1,
+        "effective": 43,
+        "corrected": 0
+      }
+    },
+    "ML_4": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 43,
+        "excluded": 0,
+        "effective": 43,
+        "corrected": 0
+      }
+    },
+    "OS_1": {
+      "calibration": {
+        "raw": 5,
+        "excluded": 0,
+        "effective": 5,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 5,
+        "excluded": 0,
+        "effective": 5,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 41,
+        "excluded": 0,
+        "effective": 41,
+        "corrected": 0
+      }
+    },
+    "OS_2": {
+      "calibration": {
+        "raw": 5,
+        "excluded": 0,
+        "effective": 5,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 3,
+        "excluded": 0,
+        "effective": 3,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 26,
+        "excluded": 0,
+        "effective": 26,
+        "corrected": 0
+      }
+    },
+    "POC_1": {
+      "calibration": {
+        "raw": 5,
+        "excluded": 0,
+        "effective": 5,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 5,
+        "excluded": 0,
+        "effective": 5,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 44,
+        "excluded": 0,
+        "effective": 44,
+        "corrected": 0
+      }
+    },
+    "POC_2": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 49,
+        "excluded": 0,
+        "effective": 49,
+        "corrected": 0
+      }
+    },
+    "POC_3": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 1,
+        "effective": 5,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 45,
+        "excluded": 2,
+        "effective": 43,
+        "corrected": 0
+      }
+    },
+    "POC_4": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 49,
+        "excluded": 0,
+        "effective": 49,
+        "corrected": 0
+      }
+    },
+    "POC_5": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 46,
+        "excluded": 0,
+        "effective": 46,
+        "corrected": 0
+      }
+    },
+    "POC_6": {
+      "calibration": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "validation": {
+        "raw": 6,
+        "excluded": 0,
+        "effective": 6,
+        "corrected": 0
+      },
+      "test": {
+        "raw": 43,
+        "excluded": 0,
+        "effective": 43,
+        "corrected": 0
+      }
+    }
+  },
+  "warnings": [
+    "71 corrections/exclusions lack a written reason; retain this limitation in reporting."
+  ],
+  "selection_rule": "Only confirmed_noise samples are excluded. Corrected labels overlay raw teacher scores. Ambiguous and retained hard cases remain in the dataset."
+}

@@ -1997,6 +1997,8 @@ def grade(args: argparse.Namespace) -> int:
         "--mode",
         "FULL",
         *main_pipeline_base(contexts),
+        "--teacher-db",
+        str(contexts[0].teacher_db),
         "--answer-split",
         args.split,
         "--results-dir",

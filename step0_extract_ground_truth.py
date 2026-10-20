@@ -3,11 +3,15 @@ import json
 import base64
 import time
 import re
-from zhipuai import ZhipuAI
+from openai import OpenAI
 
 # ==================== 配置区 ====================
 API_KEY = os.getenv("ZHIPUAI_API_KEY") or os.getenv("ZHIPU_API_KEY")
-client = ZhipuAI(api_key=API_KEY) if API_KEY else None
+CODING_PLAN_BASE_URL = "https://open.bigmodel.cn/api/coding/paas/v4"
+client = (
+    OpenAI(api_key=API_KEY, base_url=CODING_PLAN_BASE_URL)
+    if API_KEY else None
+)
 VLM_MODEL_NAME = "glm-4.6v"
 
 

@@ -1,0 +1,15 @@
+﻿question_id,student_id,old_teacher,reviewed_teacher,single_first_score_old_error_reduction,model_avg_score_old_error_reduction,selected_baseline_score_old_error_reduction,three_way_core_score_old_error_reduction,final_calibrated_score_old_error_reduction
+CO_1,ANS_CO_60,1.0,5.0,4.0,4.0,4.0,4.0,4.0
+CO_12,ANS_CO_1467,25.0,21.0,4.0,4.0,4.0,4.0,4.0
+CO_4,ANS_CO_756,17.0,12.0,5.0,5.0,5.0,5.0,5.0
+CO_6,ANS_CO_385,16.0,9.0,7.0,4.600000000000001,1.0,-7.0,-7.0
+CO_7,ANS_CO_514,8.0,6.0,2.0,2.0,2.0,2.0,2.0
+CO_8,ANS_CO_867,8.0,6.0,2.0,2.0,2.0,2.0,2.0
+ISC_7,ANS_ISC_155,2.0,0.0,2.0,2.0,2.0,2.0,2.0
+ISC_7,ANS_ISC_157,2.0,0.0,2.0,1.4,1.4,1.4,1.4
+ISC_7,ANS_ISC_174,2.0,0.0,2.0,2.0,2.0,2.0,2.0
+ISC_7,ANS_ISC_188,2.0,0.0,0.0,0.0,0.0,0.0,0.0
+ISC_7,ANS_ISC_203,2.0,0.0,2.0,2.0,2.0,2.0,2.0
+ISC_7,ANS_ISC_211,2.0,0.0,2.0,2.0,2.0,2.0,2.0
+ISC_7,ANS_ISC_218,2.0,0.0,2.0,2.0,2.0,2.0,2.0
+ISC_7,ANS_ISC_230,2.0,0.0,2.0,2.0,2.0,2.0,2.0

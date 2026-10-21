@@ -1,0 +1,433 @@
+{
+  "counts": {
+    "old_test": 2723,
+    "retained_test": 2675,
+    "excluded_test": 48,
+    "relabelled_test": 14
+  },
+  "scenarios": {
+    "old_raw_all": {
+      "single_first_score": {
+        "n": 2723,
+        "questions": 45,
+        "macro_qwk": 0.6581035219607345,
+        "weighted_qwk": 0.6676114268494678,
+        "qwk_valid_questions": 45,
+        "mae": 1.4728057289753946,
+        "rmse": 2.478528618578075,
+        "nmae": 0.13867364426490392,
+        "bias": -0.883308850532501,
+        "tar2": 0.779654792508263
+      },
+      "model_avg_score": {
+        "n": 2723,
+        "questions": 45,
+        "macro_qwk": 0.6774443918488232,
+        "weighted_qwk": 0.6877024252005739,
+        "qwk_valid_questions": 45,
+        "mae": 1.4003305178112377,
+        "rmse": 2.3362123958296697,
+        "nmae": 0.1323909903292937,
+        "bias": -0.8486595666544251,
+        "tar2": 0.7734116782959971
+      },
+      "selected_baseline_score": {
+        "n": 2723,
+        "questions": 45,
+        "macro_qwk": 0.6791525545828069,
+        "weighted_qwk": 0.6892047665594346,
+        "qwk_valid_questions": 45,
+        "mae": 1.3922511935365405,
+        "rmse": 2.328139034178987,
+        "nmae": 0.131689558085445,
+        "bias": -0.8405802423797281,
+        "tar2": 0.774880646345942
+      },
+      "three_way_core_score": {
+        "n": 2723,
+        "questions": 45,
+        "macro_qwk": 0.6850268169201205,
+        "weighted_qwk": 0.6950387085936457,
+        "qwk_valid_questions": 45,
+        "mae": 1.3481454278369447,
+        "rmse": 2.278706361264367,
+        "nmae": 0.12772493573264782,
+        "bias": -0.7170914432611091,
+        "tar2": 0.7811237605582079
+      },
+      "final_calibrated_score": {
+        "n": 2723,
+        "questions": 45,
+        "macro_qwk": 0.7113350882565088,
+        "weighted_qwk": 0.7188906594328377,
+        "qwk_valid_questions": 45,
+        "mae": 1.2540470069775982,
+        "rmse": 2.190494865584328,
+        "nmae": 0.11500385604113111,
+        "bias": -0.4623393316195373,
+        "tar2": 0.7936099889827396
+      }
+    },
+    "old_retained_raw_labels": {
+      "single_first_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.6633526493064343,
+        "weighted_qwk": 0.6740325493369769,
+        "qwk_valid_questions": 45,
+        "mae": 1.414766355140187,
+        "rmse": 2.3642682770746024,
+        "nmae": 0.1352392523364486,
+        "bias": -0.8352523364485982,
+        "tar2": 0.7869158878504673
+      },
+      "model_avg_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.6824854510174797,
+        "weighted_qwk": 0.694009761608766,
+        "qwk_valid_questions": 45,
+        "mae": 1.3460934579439252,
+        "rmse": 2.2240890185909423,
+        "nmae": 0.12919744548286605,
+        "bias": -0.8024672897196261,
+        "tar2": 0.7801869158878505
+      },
+      "selected_baseline_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.6842695708157103,
+        "weighted_qwk": 0.6955889626562866,
+        "qwk_valid_questions": 45,
+        "mae": 1.3378691588785048,
+        "rmse": 2.2154546378421855,
+        "nmae": 0.12848342679127728,
+        "bias": -0.7942429906542058,
+        "tar2": 0.7816822429906543
+      },
+      "three_way_core_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.6909830125301372,
+        "weighted_qwk": 0.7023630768104885,
+        "qwk_valid_questions": 45,
+        "mae": 1.2933457943925233,
+        "rmse": 2.1642667101176243,
+        "nmae": 0.12444766355140188,
+        "bias": -0.6715289719626168,
+        "tar2": 0.7880373831775701
+      },
+      "final_calibrated_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.7182499535558312,
+        "weighted_qwk": 0.7271431798280837,
+        "qwk_valid_questions": 45,
+        "mae": 1.1996822429906542,
+        "rmse": 2.070697196237217,
+        "nmae": 0.11168816199376946,
+        "bias": -0.41625794392523363,
+        "tar2": 0.8007476635514019
+      }
+    },
+    "old_retained_reviewed_labels": {
+      "single_first_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.66754561660187,
+        "weighted_qwk": 0.678311264710779,
+        "qwk_valid_questions": 45,
+        "mae": 1.4005607476635513,
+        "rmse": 2.349676454163921,
+        "nmae": 0.13319813084112153,
+        "bias": -0.8232897196261683,
+        "tar2": 0.7891588785046729
+      },
+      "model_avg_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.6863081004047138,
+        "weighted_qwk": 0.6980199797352912,
+        "qwk_valid_questions": 45,
+        "mae": 1.3330093457943926,
+        "rmse": 2.211666602107674,
+        "nmae": 0.1272572585669782,
+        "bias": -0.7905046728971964,
+        "tar2": 0.782429906542056
+      },
+      "selected_baseline_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.6878482953255668,
+        "weighted_qwk": 0.6994104239618131,
+        "qwk_valid_questions": 45,
+        "mae": 1.3261308411214954,
+        "rmse": 2.205120633739976,
+        "nmae": 0.1266105295950156,
+        "bias": -0.7822803738317758,
+        "tar2": 0.7835514018691588
+      },
+      "three_way_core_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.6941562991189759,
+        "weighted_qwk": 0.7058802880552322,
+        "qwk_valid_questions": 45,
+        "mae": 1.2845981308411216,
+        "rmse": 2.158541806167294,
+        "nmae": 0.12272429906542057,
+        "bias": -0.659566355140187,
+        "tar2": 0.7895327102803739
+      },
+      "final_calibrated_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.7212062195961372,
+        "weighted_qwk": 0.7304432304738753,
+        "qwk_valid_questions": 45,
+        "mae": 1.1909345794392523,
+        "rmse": 2.0660667313322088,
+        "nmae": 0.10996479750778815,
+        "bias": -0.40429532710280375,
+        "tar2": 0.8022429906542056
+      }
+    },
+    "new_retained_reviewed_labels": {
+      "single_first_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.6803109308352256,
+        "weighted_qwk": 0.688050906318176,
+        "qwk_valid_questions": 45,
+        "mae": 1.3975252336448598,
+        "rmse": 2.3422330905499753,
+        "nmae": 0.13163806853582555,
+        "bias": -0.7576373831775701,
+        "tar2": 0.7872897196261682
+      },
+      "model_avg_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.6946345051607958,
+        "weighted_qwk": 0.70274502083286,
+        "qwk_valid_questions": 45,
+        "mae": 1.3341682242990656,
+        "rmse": 2.201189992521675,
+        "nmae": 0.12670598130841124,
+        "bias": -0.750766355140187,
+        "tar2": 0.7790654205607477
+      },
+      "selected_baseline_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.697796254458837,
+        "weighted_qwk": 0.7057378364003405,
+        "qwk_valid_questions": 45,
+        "mae": 1.3274392523364487,
+        "rmse": 2.199030372559518,
+        "nmae": 0.12540785046728972,
+        "bias": -0.7489719626168224,
+        "tar2": 0.7790654205607477
+      },
+      "three_way_core_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.7068225025945575,
+        "weighted_qwk": 0.7142131001882456,
+        "qwk_valid_questions": 45,
+        "mae": 1.2924373831775702,
+        "rmse": 2.1565412512224986,
+        "nmae": 0.12170411214953271,
+        "bias": -0.636848598130841,
+        "tar2": 0.788411214953271
+      },
+      "final_calibrated_score": {
+        "n": 2675,
+        "questions": 45,
+        "macro_qwk": 0.7307756383708901,
+        "weighted_qwk": 0.7381778344588469,
+        "qwk_valid_questions": 45,
+        "mae": 1.2010915887850468,
+        "rmse": 2.057741852786758,
+        "nmae": 0.10971781931464177,
+        "bias": -0.3813308411214953,
+        "tar2": 0.8029906542056074
+      }
+    }
+  },
+  "effects": {
+    "single_first_score": [
+      {
+        "transition": "sample_removal",
+        "mae_reduction": 0.05803937383520763,
+        "macro_qwk_change": 0.005249127345699822
+      },
+      {
+        "transition": "label_correction",
+        "mae_reduction": 0.014205607476635684,
+        "macro_qwk_change": 0.004192967295435612
+      },
+      {
+        "transition": "rerun_and_other_changes",
+        "mae_reduction": 0.0030355140186915097,
+        "macro_qwk_change": 0.012765314233355696
+      }
+    ],
+    "model_avg_score": [
+      {
+        "transition": "sample_removal",
+        "mae_reduction": 0.05423705986731253,
+        "macro_qwk_change": 0.005041059168656492
+      },
+      {
+        "transition": "label_correction",
+        "mae_reduction": 0.013084112149532645,
+        "macro_qwk_change": 0.0038226493872340894
+      },
+      {
+        "transition": "rerun_and_other_changes",
+        "mae_reduction": -0.001158878504673,
+        "macro_qwk_change": 0.00832640475608204
+      }
+    ],
+    "selected_baseline_score": [
+      {
+        "transition": "sample_removal",
+        "mae_reduction": 0.054382034658035705,
+        "macro_qwk_change": 0.005117016232903393
+      },
+      {
+        "transition": "label_correction",
+        "mae_reduction": 0.011738317757009398,
+        "macro_qwk_change": 0.0035787245098565235
+      },
+      {
+        "transition": "rerun_and_other_changes",
+        "mae_reduction": -0.0013084112149532867,
+        "macro_qwk_change": 0.009947959133270179
+      }
+    ],
+    "three_way_core_score": [
+      {
+        "transition": "sample_removal",
+        "mae_reduction": 0.0547996334444214,
+        "macro_qwk_change": 0.005956195610016701
+      },
+      {
+        "transition": "label_correction",
+        "mae_reduction": 0.008747663551401663,
+        "macro_qwk_change": 0.003173286588838753
+      },
+      {
+        "transition": "rerun_and_other_changes",
+        "mae_reduction": -0.007839252336448554,
+        "macro_qwk_change": 0.012666203475581561
+      }
+    ],
+    "final_calibrated_score": [
+      {
+        "transition": "sample_removal",
+        "mae_reduction": 0.05436476398694401,
+        "macro_qwk_change": 0.0069148652993223925
+      },
+      {
+        "transition": "label_correction",
+        "mae_reduction": 0.008747663551401885,
+        "macro_qwk_change": 0.002956266040305966
+      },
+      {
+        "transition": "rerun_and_other_changes",
+        "mae_reduction": -0.010157009345794554,
+        "macro_qwk_change": 0.009569418774752925
+      }
+    ]
+  },
+  "bootstrap": {
+    "method": "paired question-cluster percentile bootstrap",
+    "iterations": 2000,
+    "seed": 20261021,
+    "interpretation": "Descriptive uncertainty across questions; not a causal estimate of review benefit.",
+    "scores": {
+      "single_first_score": {
+        "mae_reduction": 0.0030355140186915427,
+        "mae_reduction_ci95": [
+          -0.051336589347216195,
+          0.06586869258102548
+        ],
+        "macro_qwk_change": 0.0127653142333556,
+        "macro_qwk_change_ci95": [
+          -0.01829367944541469,
+          0.04307042747605102
+        ]
+      },
+      "model_avg_score": {
+        "mae_reduction": -0.0011588785046729522,
+        "mae_reduction_ci95": [
+          -0.05552230148570952,
+          0.05836928117579497
+        ],
+        "macro_qwk_change": 0.0083264047560819,
+        "macro_qwk_change_ci95": [
+          -0.023847592010249285,
+          0.04028300412838349
+        ]
+      },
+      "selected_baseline_score": {
+        "mae_reduction": -0.001308411214953315,
+        "mae_reduction_ci95": [
+          -0.055786393513010374,
+          0.057573798661262
+        ],
+        "macro_qwk_change": 0.009947959133270031,
+        "macro_qwk_change_ci95": [
+          -0.021569918651367946,
+          0.041278045445252994
+        ]
+      },
+      "three_way_core_score": {
+        "mae_reduction": -0.0078392523364486,
+        "mae_reduction_ci95": [
+          -0.057177766350842256,
+          0.04688378605699228
+        ],
+        "macro_qwk_change": 0.01266620347558147,
+        "macro_qwk_change_ci95": [
+          -0.01640972119861152,
+          0.041670366093904565
+        ]
+      },
+      "final_calibrated_score": {
+        "mae_reduction": -0.010157009345794433,
+        "mae_reduction_ci95": [
+          -0.054084110431417025,
+          0.03825372740467073
+        ],
+        "macro_qwk_change": 0.009569418774753017,
+        "macro_qwk_change_ci95": [
+          -0.015481969296577858,
+          0.03411256633266274
+        ]
+      }
+    }
+  },
+  "runs": {
+    "historical": "csbench45_full_experimental_glm52_20260825_163432",
+    "reviewed": "reviewed45_glm52_20261019_221414_317274",
+    "reviewed_policy_id": "reviewed45_glm52_20261019_221414_317274"
+  },
+  "limitations": [
+    "Historical and reviewed runs are not a controlled causal ablation of label review.",
+    "Sample removal changes the evaluation population; a better metric does not prove labels were wrong.",
+    "Corrected labels need independent evidence; no assumption that they must favor model predictions.",
+    "The rerun term combines changed inference, rubric optimization, calibration and code/version effects.",
+    "TAR2 uses the historical fixed two-point threshold for comparability, not the routing safety tolerance."
+  ],
+  "input_sha256": {
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_q45_12039bfe25ca4168_full\\runs\\csbench45_full_experimental_glm52_20260825_163432\\evaluation\\compare.csv": "5bc446fee6daa6607fefab415f29aa6f1a41853fed112db3e6b42b088c49343a",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_q45_12039bfe25ca4168_full\\runs\\csbench45_full_experimental_glm52_20260825_163432\\evaluation\\summary.json": "6589c21be04fb709e3c3b07c08494ca8493a82c9f10805b67f5ca1606156bbd3",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_q45_12039bfe25ca4168_full\\runs\\reviewed45_glm52_20261019_221414_317274_test\\evaluation\\compare.csv": "35d01a81f5da69014a86e077caad5ec8e878a77f1b26d22c5502ad68cc10fb0b",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_q45_12039bfe25ca4168_full\\runs\\reviewed45_glm52_20261019_221414_317274_test\\evaluation\\summary.json": "74b046b32ffe7778979b5afddd3c2986581a6b5c004e0710b1f190a0f21e55c6",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\reviewed_csbench45_glm52\\reviewed45_glm52_20261019_221414_317274\\sample_policy.json": "23fad74f3297625c35499efadf0ed08dccacc30dbdcadfcc9c211cf9195d8b43",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\reviewed_csbench45_glm52\\reviewed45_glm52_20261019_221414_317274\\selection.json": "9d86c558b727dedaa0e4b0180c813ab6182d406c73c68d1764bd25afe136048c"
+  }
+}

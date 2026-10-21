@@ -25,9 +25,9 @@
   "question_total_score": 15.0,
   "initial_total_score": 15.0,
   "optimized_total_score": 15.0,
-  "average_score_variance": 0.7888888888888888,
-  "average_item_variance": 0.11111111111111112,
-  "maximum_item_variance": 0.38888888888888884,
+  "average_score_variance": 0.611111111111111,
+  "average_item_variance": 0.1361111111111111,
+  "maximum_item_variance": 0.6666666666666666,
   "high_value_split_threshold": 4.0,
   "mandatory_split_targets": [
     {
@@ -59,42 +59,42 @@
     "severe_regression_margin": 3.0,
     "accepted": true,
     "reason": "accepted_noninferior",
-    "baseline_mae": 2.766667,
+    "baseline_mae": 1.866667,
     "candidate_mae": 2.15,
-    "mae_delta": -0.616667,
-    "improved": 2,
-    "unchanged": 2,
-    "worsened": 1,
+    "mae_delta": 0.283333,
+    "improved": 1,
+    "unchanged": 1,
+    "worsened": 3,
     "severe_regressions": 0,
     "records": [
       {
         "answer_id": "ANS_CO_1000",
-        "baseline_score": 12.5,
-        "candidate_score": 13.5,
+        "baseline_score": 13.833333333333334,
+        "candidate_score": 15.0,
         "teacher_score": 14.0
       },
       {
         "answer_id": "ANS_CO_1011",
-        "baseline_score": 7.333333333333333,
+        "baseline_score": 7.666666666666667,
         "candidate_score": 6.0,
         "teacher_score": 11.0
       },
       {
         "answer_id": "ANS_CO_1018",
-        "baseline_score": 13.0,
-        "candidate_score": 13.0,
+        "baseline_score": 12.833333333333334,
+        "candidate_score": 13.5,
         "teacher_score": 13.0
       },
       {
         "answer_id": "ANS_CO_1027",
         "baseline_score": 15.0,
         "candidate_score": 15.0,
-        "teacher_score": 11.0
+        "teacher_score": 15.0
       },
       {
         "answer_id": "ANS_CO_1041",
-        "baseline_score": 6.333333333333333,
-        "candidate_score": 9.75,
+        "baseline_score": 5.333333333333333,
+        "candidate_score": 6.75,
         "teacher_score": 11.0
       }
     ]
@@ -105,10 +105,10 @@
   ],
   "source_sha256": "aab22da2711e430172b2fb76cf1f53410778751365569b66f9f63bbcf398ed48",
   "initial_sha256": "3b5f4a23cd43367eeba6806ce13f8eaa9af1c26f85b4cdd6960a725592a1ad67",
-  "optimized_sha256": "834af39d9c75a85ae58758849dcca087530cf8e942e1b8ccad8ebc3f03574e7c",
-  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt",
-  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt/CO_9_variance_checkpoint.json",
-  "variance_checkpoint_sha256": "dbfe686213d86d5f762a697448092816bcf335be75075f668333067fada2838c",
-  "created_at": "2026-08-22T00:03:56",
+  "optimized_sha256": "5e30fae2cbab5a3b71838fff6fd15783caf9e50200555ad1b4280f944e432952",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/reviewed_csbench45_glm52/reviewed45_glm52_20261019_221414_317274/rubric_work/CO_9",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/reviewed_csbench45_glm52/reviewed45_glm52_20261019_221414_317274/rubric_work/CO_9/CO_9_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "a5af3f0dc8e9fa343b2980657f33a9b078b5580290437071a16c7df55775a905",
+  "created_at": "2026-10-20T00:46:51",
   "path_format": "refgrader_placeholders_v1"
 }

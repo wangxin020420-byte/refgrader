@@ -10,8 +10,8 @@
     "ANS_ISC_156",
     "ANS_ISC_169",
     "ANS_ISC_196",
-    "ANS_ISC_198",
-    "ANS_ISC_209"
+    "ANS_ISC_209",
+    "ANS_ISC_215"
   ],
   "requested_sample_size": 5,
   "completed_sample_size": 5,
@@ -25,9 +25,9 @@
   "question_total_score": 4.0,
   "initial_total_score": 4.0,
   "optimized_total_score": 4.0,
-  "average_score_variance": 0.044444444444444446,
-  "average_item_variance": 0.022222222222222223,
-  "maximum_item_variance": 0.22222222222222224,
+  "average_score_variance": 0.0,
+  "average_item_variance": 0.0,
+  "maximum_item_variance": 0.0,
   "high_value_split_threshold": 4.0,
   "mandatory_split_targets": [],
   "refinement_attempted": false,
@@ -55,9 +55,9 @@
   "source_sha256": "c4401f9c0949894e63aaf0bc6611b38aa4fbc5eae08d2b8da9fbd502446ef3ea",
   "initial_sha256": "4a099edcf5532129eb5cffda5b2d1f79cc9b580dec3e1d07f46a94910dc4316a",
   "optimized_sha256": "8629bca7f351a212168798f750a9fc7b4fc2f4ab538d035f80ad9fd2500d47a6",
-  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt",
-  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/csbench_q45_12039bfe25ca4168_rubric_opt/ISC_7_variance_checkpoint.json",
-  "variance_checkpoint_sha256": "54e32ac46e75852e49e96356eca0bd50e6e6225a5f73eed67f985cba8da20120",
-  "created_at": "2026-08-22T01:56:02",
+  "optimization_results_dir": "${REFGRADER_ROOT}/results_runs/reviewed_csbench45_glm52/reviewed45_glm52_20261019_221414_317274/rubric_work/ISC_7",
+  "variance_checkpoint": "${REFGRADER_ROOT}/results_runs/reviewed_csbench45_glm52/reviewed45_glm52_20261019_221414_317274/rubric_work/ISC_7/ISC_7_variance_checkpoint.json",
+  "variance_checkpoint_sha256": "174f5bbc727cf19db5d442b8721830887326601b33a3df0c2224652a7df737c0",
+  "created_at": "2026-10-20T02:30:31",
   "path_format": "refgrader_placeholders_v1"
 }

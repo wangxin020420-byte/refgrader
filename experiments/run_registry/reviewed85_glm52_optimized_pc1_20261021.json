@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "experiment_id": "reviewed85_glm52_optimized_pc1_20261021",
+  "display_name": "PC1 / reviewed85 / optimized rubric / GLM-5.2",
+  "arm": "optimized_rubric_full_method",
+  "computer_role": "pc1_local_main_experiment",
+  "source_hostname": "LAPTOP-54QEFJU1",
+  "run_id": "reviewed45_glm52_20261019_221414_317274",
+  "status": "completed",
+  "result_class": "experimental",
+  "deployment_gate_passed": false,
+  "model_config": {
+    "text_provider": "glm5",
+    "text_model": "glm-5.2",
+    "text_family": "glm",
+    "text_thinking": "disabled",
+    "vlm_provider": "glm4v",
+    "vlm_model": "glm-4.6v"
+  },
+  "api_base_url": "https://open.bigmodel.cn/api/coding/paas/v4",
+  "run_code_commit": "1a927bdd45360e1d1c801d929685c74d7ca16325",
+  "frozen_input_manifest_sha256": "66e2a1254dba5097c435f6195d8210a133d19eb6209780f9d8d66c86a82a25ad",
+  "sample_policy_sha256": "23fad74f3297625c35499efadf0ed08dccacc30dbdcadfcc9c211cf9195d8b43",
+  "review_snapshot_records": 85,
+  "splits": {
+    "calibration": {
+      "raw": 345,
+      "excluded": 5,
+      "effective": 340,
+      "corrected": 1
+    },
+    "validation": {
+      "raw": 343,
+      "excluded": 4,
+      "effective": 339,
+      "corrected": 0
+    },
+    "test": {
+      "raw": 2723,
+      "excluded": 48,
+      "effective": 2675,
+      "corrected": 14
+    }
+  },
+  "artifacts_repository": "refgrader-artifacts",
+  "artifact_bundle_path": "csbench/experiments/reviewed85_glm52_optimized_pc1_20261021",
+  "artifact_workflow_path": "csbench/workflows/reviewed45_glm52_20261019_221414_317274",
+  "artifact_run_ids": {
+    "rubric": "reviewed45_glm52_20261019_221414_317274_rubric",
+    "validation": "reviewed45_glm52_20261019_221414_317274_validation",
+    "calibrated_validation": "reviewed45_glm52_20261019_221414_317274_calibrated",
+    "test": "reviewed45_glm52_20261019_221414_317274_test"
+  },
+  "comparison_peer": {
+    "computer_role": "pc2_initial_rubric_ablation",
+    "run_id": "initial85_glm52_20261020_pc2",
+    "arm": "initial_rubric_without_optimization",
+    "status": "not_verified_on_this_host",
+    "note": "Do not merge PC2 results into this PC1 archive."
+  },
+  "historical_comparison": {
+    "run_id": "csbench45_full_experimental_glm52_20260825_163432",
+    "code_commit": "18c9399a3f9705a55d5fc5bd44bcaac779aac3ab",
+    "model_contract_matches_all_45_questions": true,
+    "changed_initial_rubric_files": 0,
+    "changed_optimized_rubric_files": 26,
+    "causal_ablation_of_review": false
+  },
+  "created_at": "2026-10-21T11:02:02",
+  "archive_network_actions": "none; local copies and local Git commits only",
+  "artifact_archive_commit": "e04cdb59e8479f54605e66995707ce3a8d678785",
+  "archive_branch": "codex/reviewed85-optimized-pc1-20261021"
+}

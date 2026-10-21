@@ -1,15 +1,15 @@
 [
     {
         "id": "step_1_a",
-        "item": "写出一地址指令的可用操作码前缀数量：2^4=16，16-12=4",
+        "item": "计算出16位指令中主操作码位数及二地址指令占用的操作码名额（2^4=16，16-12=4）",
         "points": 2.5,
-        "answer_type": "derived_numeric",
+        "answer_type": "formula",
         "role": "parameter",
         "score_layer": "support",
-        "canonicalization": "接受等价表达：4、2^2、16-12；二进制/十进制等价；写作“剩余4个操作码组合/前缀”均可。注意 2^6-12=52 为错误路径，不得给分。",
+        "canonicalization": "formula",
         "evidence_source": "formula",
-        "standard_answer_text": "4位操作码共 2^4=16 个组合，二地址指令占12条，剩余 16-12=4 个操作码组合可用于扩展为一地址格式。",
-        "source_text": "计算出主操作码及一地址总名额",
+        "standard_answer_text": "操作码4位，主操作码总数 2^4=16；二地址指令占用12个操作码编码，剩余 16-12=4 个操作码编码可用于扩展。",
+        "source_text": "主操作码总数 2^4=16，剩给一/零地址操作码数16-12=4",
         "parent_official_item": "计算出主操作码及一地址总名额",
         "parent_id": "step_1",
         "parent_points": 5.0,
@@ -22,7 +22,8 @@
         "decomposition_required": true,
         "minimum_scoring_children": 2,
         "diagnostic_evidence": [
-            "学生使用 2^6-12=52 之类错误基数（误用地址码位数参与操作码计数）"
+            "正确写出操作码为4位但未计算剩余编码数",
+            "将地址码位数误当作操作码位数"
         ],
         "metadata_source": "explicit",
         "metadata_hard_enabled": true,
@@ -31,15 +32,15 @@
     },
     {
         "id": "step_1_b",
-        "item": "写出一地址指令的总名额：4×2^6=256",
+        "item": "由剩余扩展编码数计算一地址指令的总名额（4×2^6=256）",
         "points": 2.5,
         "answer_type": "derived_numeric",
-        "role": "parameter",
+        "role": "intermediate",
         "score_layer": "support",
-        "canonicalization": "接受 256、2^8、4×2^6、4×64 等等价写法；上游数值错误但乘以 2^6 的扩展关系正确时可按上游错误后的正确方法给分。",
+        "canonicalization": "numeric",
         "evidence_source": "formula",
-        "standard_answer_text": "一地址指令总名额 = 剩余操作码组合数 × 每个组合扩展的地址码空间 = 4×2^6 = 256 条。",
-        "source_text": "计算出主操作码及一地址总名额",
+        "standard_answer_text": "一地址指令总名额 = 4×2^6 = 256 条。等价表示：写作 4×64=256、二进制展开计数（如 2^7+2^6+…+1=255+1 的名额总量表达）等均可接受；核心核验量为数值 256（或等价表示剩余编码数 4 与扩展位数 6 的乘积）。",
+        "source_text": "一地址总名额 = 4×2^6 = 256",
         "parent_official_item": "计算出主操作码及一地址总名额",
         "parent_id": "step_1",
         "parent_points": 5.0,
@@ -51,6 +52,10 @@
         "full_credit_trigger": false,
         "decomposition_required": true,
         "minimum_scoring_children": 2,
+        "diagnostic_evidence": [
+            "仅写出剩余编码数4而未乘以2^6",
+            "误用2^4而非2^6作扩展基数"
+        ],
         "metadata_source": "explicit",
         "metadata_hard_enabled": true,
         "metadata_confidence": 1.0,

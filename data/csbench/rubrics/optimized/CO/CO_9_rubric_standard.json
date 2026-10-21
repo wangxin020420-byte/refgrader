@@ -53,37 +53,45 @@
     },
     {
         "id": "step_3",
-        "item": "给出ROM1与ROM2各自覆盖的地址范围或对应的高位地址编码（ROM1为最低4KW，ROM2为次低4KW）",
+        "item": "给出ROM1、ROM2片选信号的逻辑表达式或对应3-8译码器低有效输出",
         "points": 3.0,
         "answer_type": "structured_fields",
         "role": "final",
+        "score_layer": "core",
         "canonicalization": {
             "type": "structured_fields",
-            "ordered": true,
+            "ordered": false,
             "fields": [
                 {
-                    "name": "ROM1_address_range",
+                    "name": "ROM1片选",
                     "aliases": [
-                        "ROM1范围",
-                        "CS1范围"
+                        "CS1",
+                        "ROM1 CS",
+                        "Y0"
                     ],
                     "required": true
                 },
                 {
-                    "name": "ROM2_address_range",
+                    "name": "ROM2片选",
                     "aliases": [
-                        "ROM2范围",
-                        "CS2范围"
+                        "CS2",
+                        "ROM2 CS",
+                        "Y1"
                     ],
                     "required": true
                 }
             ]
         },
-        "equivalence_note": "地址范围可用十六进制、二进制或十进制表示，等价；只给出最高4位地址编码（ROM1对应0000，ROM2对应0001）亦视为等价；片选表达式写成低电平有效的或式（如含A15、A14、A13、A12及其反变量的组合）或译码器输出Y0、Y1均等价。",
-        "evidence_source": "table",
+        "equivalent_note": "接受以下等价表示且不扣分：ROM1对应地址A15A14A13A12=0000、ROM2=0001；或写为CS1=A15+A14+A13+A12（低有效或门形式）；或写为译码器输出Y0、Y1分别接ROM1、ROM2；正逻辑与非门表达式等价亦接受。",
+        "standard_answer_text": "ROM1对应高位地址A15A14A13A12=0000（低4KW），ROM2对应0001（次低4KW）；片选低电平有效，可写为CS1=A15+A14+A13+A12，CS2=A15+A14+A13+非A12，或等价地Y0、Y1分别选通ROM1、ROM2。",
+        "standard_answer_image": null,
         "source_text": "给出ROM区片选信号或对应译码输出",
         "parent_official_item": "给出ROM区片选信号或对应译码输出",
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
         "parent_id": "step_3",
+        "semantic_contract_version": 6,
         "parent_points": 3.0,
         "task_semantics": "orthogonal_additive",
         "scoring_policy": "additive_split",
@@ -91,144 +99,130 @@
         "weighting_policy": "equal_atomic",
         "decomposition_required": false,
         "full_credit_trigger": false,
-        "standard_answer_text": "ROM1对应主存最低4KW（最高4位地址为0000），ROM2对应次低4KW（最高4位地址为0001）；等价表述包括：译码器输出Y0选通ROM1、Y1选通ROM2，或写出对应的低有效片选逻辑表达式。",
-        "standard_answer_image": "data/csbench/reference_images/standard_answers/CO_9.png",
-        "diagnostic_evidence": [
-            "若仅给出片选表达式而无地址范围，记录表达式涉及的高位地址变量集合",
-            "若地址范围连续但起点错误，记录学生使用的起始地址"
-        ],
-        "score_layer": "core",
-        "metadata_source": "explicit",
-        "metadata_hard_enabled": true,
-        "metadata_confidence": 1.0,
-        "semantic_contract_version": 6
+        "evidence_source": "table"
     },
     {
-        "id": "step_4a",
-        "item": "给出RAM1～RAM4各自的地址段或对应的3-8译码器输出编号（RAM1对应Y1，RAM2对应Y2，RAM3对应Y3，RAM4对应Y4）",
+        "id": "step_4_1",
+        "item": "给出RAM1-RAM4中每一片的地址范围或对应译码器输出（3-8译码器输出Y1-Y4，8KW一段）",
         "points": 3.0,
         "answer_type": "structured_fields",
         "role": "final",
+        "score_layer": "core",
         "canonicalization": {
             "type": "structured_fields",
             "ordered": true,
             "fields": [
                 {
-                    "name": "RAM1_mapping",
+                    "name": "RAM1",
                     "aliases": [
-                        "RAM1地址段",
-                        "RAM1译码输出"
+                        "CS3",
+                        "Y1"
                     ],
                     "required": true
                 },
                 {
-                    "name": "RAM2_mapping",
+                    "name": "RAM2",
                     "aliases": [
-                        "RAM2地址段",
-                        "RAM2译码输出"
+                        "CS4",
+                        "Y2"
                     ],
                     "required": true
                 },
                 {
-                    "name": "RAM3_mapping",
+                    "name": "RAM3",
                     "aliases": [
-                        "RAM3地址段",
-                        "RAM3译码输出"
+                        "CS5",
+                        "Y3"
                     ],
                     "required": true
                 },
                 {
-                    "name": "RAM4_mapping",
+                    "name": "RAM4",
                     "aliases": [
-                        "RAM4地址段",
-                        "RAM4译码输出"
+                        "CS6",
+                        "Y4"
                     ],
                     "required": true
                 }
             ]
         },
-        "equivalence_note": "每个RAM段的映射可用以下任一等价形式：十六进制/二进制地址范围、最高3位地址编码（RAM1~RAM7依次为001~111）、译码器输出编号Y1~Y7、或对应的低有效片选逻辑表达式。编号下标从0或1起算均接受，只要映射顺序正确。",
-        "evidence_source": "table",
+        "equivalent_note": "每片RAM可等价地表示为：译码器输出Yi（低有效）接该片片选；或高三位地址A15A14A13取值001/010/011/100分别选通RAM1-RAM4；或写成低有效或门表达式（如RAM1对应A15+A14+非A13）。三种表示任一即可得分。",
+        "standard_answer_text": "RAM1-RAM4分别对应高位地址A15A14A13=001、010、011、100（每片8KW），即译码器输出Y1、Y2、Y3、Y4分别接RAM1-RAM4的片选；等价表达式如RAM1片选=A15+A14+非A13。",
+        "standard_answer_image": null,
         "source_text": "给出RAM区片选信号或对应译码输出",
         "parent_official_item": "给出RAM区片选信号或对应译码输出",
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
         "parent_id": "step_4",
+        "semantic_contract_version": 6,
         "parent_points": 6.0,
         "task_semantics": "orthogonal_additive",
         "scoring_policy": "additive_split",
         "split_policy": "allow_semantic_split",
         "weighting_policy": "equal_atomic",
+        "scoring_role": "component",
         "decomposition_required": true,
         "minimum_scoring_children": 2,
         "full_credit_trigger": false,
-        "standard_answer_text": "RAM1~RAM7自低地址向高地址依次排列，每片占8KW，分别对应3-8译码器输出Y1~Y7。本子项核验RAM1~RAM4：RAM1对应Y1、RAM2对应Y2、RAM3对应Y3、RAM4对应Y4，或给出等价的地址范围/片选表达式。",
-        "standard_answer_image": "data/csbench/reference_images/standard_answers/CO_9.png",
-        "diagnostic_evidence": [
-            "记录学生给出的RAM段数量是否为7"
-        ],
-        "score_layer": "core",
-        "metadata_source": "explicit",
-        "metadata_hard_enabled": true,
-        "metadata_confidence": 1.0,
-        "semantic_contract_version": 6
+        "evidence_source": "table"
     },
     {
-        "id": "step_4b",
-        "item": "给出RAM5～RAM7各自的地址段或对应的3-8译码器输出编号（RAM5对应Y5，RAM6对应Y6，RAM7对应Y7）",
+        "id": "step_4_2",
+        "item": "给出RAM5-RAM7中每一片的地址范围或对应译码器输出（3-8译码器输出Y5-Y7，8KW一段）",
         "points": 3.0,
         "answer_type": "structured_fields",
         "role": "final",
+        "score_layer": "core",
         "canonicalization": {
             "type": "structured_fields",
             "ordered": true,
             "fields": [
                 {
-                    "name": "RAM5_mapping",
+                    "name": "RAM5",
                     "aliases": [
-                        "RAM5地址段",
-                        "RAM5译码输出"
+                        "CS7",
+                        "Y5"
                     ],
                     "required": true
                 },
                 {
-                    "name": "RAM6_mapping",
+                    "name": "RAM6",
                     "aliases": [
-                        "RAM6地址段",
-                        "RAM6译码输出"
+                        "CS8",
+                        "Y6"
                     ],
                     "required": true
                 },
                 {
-                    "name": "RAM7_mapping",
+                    "name": "RAM7",
                     "aliases": [
-                        "RAM7地址段",
-                        "RAM7译码输出"
+                        "CS9",
+                        "Y7"
                     ],
                     "required": true
                 }
             ]
         },
-        "equivalence_note": "同step_4a：地址范围（任意进制）、译码器输出编号、最高3位地址编码或低有效片选表达式均为等价表示。上游芯片数量算错但映射顺序与方法正确时，本子项仍按内容核验。",
-        "evidence_source": "table",
+        "equivalent_note": "每片RAM可等价地表示为：译码器输出Yi（低有效）接该片片选；或高三位地址A15A14A13取值101/110/111分别选通RAM5-RAM7；或写成低有效或门表达式（如RAM7对应非A15+非A14+非A13）。三种表示任一即可得分。",
+        "standard_answer_text": "RAM5-RAM7分别对应高位地址A15A14A13=101、110、111（每片8KW），即译码器输出Y5、Y6、Y7分别接RAM5-RAM7的片选；等价表达式如RAM7片选=非A15+非A14+非A13。",
+        "standard_answer_image": null,
         "source_text": "给出RAM区片选信号或对应译码输出",
         "parent_official_item": "给出RAM区片选信号或对应译码输出",
+        "metadata_source": "csbench",
+        "metadata_hard_enabled": true,
+        "metadata_confidence": 1.0,
         "parent_id": "step_4",
+        "semantic_contract_version": 6,
         "parent_points": 6.0,
         "task_semantics": "orthogonal_additive",
         "scoring_policy": "additive_split",
         "split_policy": "allow_semantic_split",
         "weighting_policy": "equal_atomic",
+        "scoring_role": "component",
         "decomposition_required": true,
         "minimum_scoring_children": 2,
         "full_credit_trigger": false,
-        "standard_answer_text": "本子项核验RAM5~RAM7：RAM5对应Y5、RAM6对应Y6、RAM7对应Y7（RAM7覆盖主存最高8KW），或给出等价的地址范围/片选表达式。",
-        "standard_answer_image": "data/csbench/reference_images/standard_answers/CO_9.png",
-        "diagnostic_evidence": [
-            "若学生给出片选表达式使用的高位地址变量个数与8KW分段不符，记录变量集合"
-        ],
-        "score_layer": "core",
-        "metadata_source": "explicit",
-        "metadata_hard_enabled": true,
-        "metadata_confidence": 1.0,
-        "semantic_contract_version": 6
+        "evidence_source": "table"
     }
 ]

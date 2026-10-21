@@ -1,14 +1,14 @@
 [
     {
-        "id": "step_1_segment_1",
-        "item": "正确解码前半段十六进制序列 48 65 6C 6C 6F 2C 20 为字符串片段：Hello 后接逗号和空格（即 \"Hello, \"）",
+        "id": "step_1a",
+        "item": "正确解码出前5个字母对应的字符串片段 Hello",
         "points": 1.5,
         "answer_type": "sequence",
         "role": "final",
         "score_layer": "core",
-        "canonicalization": "sequence; 接受逐字符列出（H, e, l, l, o, ',', 空格）或连续字符串两种表示；字符顺序必须正确；不因大小写书写差异、是否加引号、是否标注十六进制前缀扣分",
+        "canonicalization": "case_sensitive_exact；忽略首尾引号与空白；不允许把十六进制码或音标写法（如 6C）当作字母内容；大小写需与标准答案一致",
         "evidence_source": "text",
-        "standard_answer_text": "Hello, （含逗号与一个空格）",
+        "standard_answer_text": "Hello",
         "source_text": "写出解码后的字符串",
         "parent_official_item": "写出解码后的字符串",
         "parent_id": "step_1",
@@ -20,22 +20,21 @@
         "scoring_role": "component",
         "full_credit_trigger": false,
         "decomposition_required": false,
-        "standard_answer_image": null,
         "metadata_source": "explicit",
         "metadata_hard_enabled": true,
         "metadata_confidence": 1.0,
         "semantic_contract_version": 6
     },
     {
-        "id": "step_1_segment_2",
-        "item": "正确解码后半段十六进制序列 41 48 55 21 为字符串片段：AHU 后接感叹号（即 \"AHU!\"）",
+        "id": "step_1b",
+        "item": "正确解码出后半部分字符串片段（含逗号、空格与叹号）: 逗号+空格+AHU!",
         "points": 1.5,
         "answer_type": "sequence",
         "role": "final",
         "score_layer": "core",
-        "canonicalization": "sequence; 接受逐字符列出（A, H, U, '!'）或连续字符串两种表示；字符顺序必须正确；不因是否加引号或标注十六进制前缀扣分；若学生将空格用文字（如 SPACE 或 空格）显式标出且位置正确，视为等价表示",
+        "canonicalization": "case_sensitive_exact；逗号(2C)、空格(20)、字母AHU、叹号(21)按序出现即可；空格可由学生以一个空格字符或等价标记（如 SPACE）表示，不得因空格写法不同扣分；不得把空格误译为可见字母",
         "evidence_source": "text",
-        "standard_answer_text": "AHU!",
+        "standard_answer_text": ", AHU!",
         "source_text": "写出解码后的字符串",
         "parent_official_item": "写出解码后的字符串",
         "parent_id": "step_1",
@@ -47,20 +46,19 @@
         "scoring_role": "component",
         "full_credit_trigger": false,
         "decomposition_required": false,
-        "standard_answer_image": null,
         "metadata_source": "explicit",
         "metadata_hard_enabled": true,
         "metadata_confidence": 1.0,
         "semantic_contract_version": 6
     },
     {
-        "id": "step_2_letters_class",
-        "item": "正确列出字符串中的全部字母字符：H, e, l, l, o, A, H, U",
+        "id": "step_2a",
+        "item": "正确指出字符串中出现的全部字母字符（H, e, l, o, A, H, U），且未把空格或标点列为字母",
         "points": 1.5,
         "answer_type": "set",
         "role": "final",
         "score_layer": "core",
-        "canonicalization": "set; 字母集合不计顺序，不因重复列出或去重列出扣分；大小写必须与解码结果一致；接受以明文字符或以对应十六进制值（如 48 对应 H）逐个说明并正确映射的等价写法",
+        "canonicalization": "set等价：字母列举顺序无关，重复字母（l、H）可列出一次或多次；大小写需区分保留；不得把空格(20)或标点(2C、21)的十六进制码值当作字母或数字答案",
         "evidence_source": "text",
         "standard_answer_text": "字母：H, e, l, l, o, A, H, U",
         "source_text": "指出字母、标点和数字字符",
@@ -74,52 +72,25 @@
         "scoring_role": "component",
         "full_credit_trigger": false,
         "decomposition_required": false,
-        "standard_answer_image": null,
+        "diagnostic_evidence": [
+            "学生以字符的十六进制码值（如 48、65）代替字符本身作答，属表示错误，不计分",
+            "学生把空格字符 SPACE 误列为字母，属分类错误"
+        ],
         "metadata_source": "explicit",
         "metadata_hard_enabled": true,
         "metadata_confidence": 1.0,
         "semantic_contract_version": 6
     },
     {
-        "id": "step_2_symbols_digits_class",
-        "item": "正确分类非字母字符：标点为逗号和感叹号，空格为分隔字符，并明确指出字符串中不含数字字符",
+        "id": "step_2b",
+        "item": "正确指出标点字符（逗号、叹号）与空格，并明确说明不存在数字字符",
         "points": 1.5,
-        "answer_type": "structured_fields",
+        "answer_type": "set",
         "role": "final",
         "score_layer": "core",
-        "canonicalization": {
-            "type": "structured_fields",
-            "ordered": false,
-            "fields": [
-                {
-                    "name": "标点字符",
-                    "aliases": [
-                        "标点符号",
-                        "标点"
-                    ],
-                    "required": true
-                },
-                {
-                    "name": "空格说明",
-                    "aliases": [
-                        "空格字符",
-                        "空白符"
-                    ],
-                    "required": true
-                },
-                {
-                    "name": "数字字符",
-                    "aliases": [
-                        "数字",
-                        "数字符"
-                    ],
-                    "required": true
-                }
-            ],
-            "notes": "标点字段接受以字符（逗号、感叹号）或对应十六进制值并注明映射的方式呈现；空格字段接受文字说明；数字字段必须明确为\"无\"或\"不存在数字字符\"；空格归为分隔字符而非标点或数字"
-        },
+        "canonicalization": "set等价：列举顺序无关；逗号与叹号可写为半角 , ! 或等价中文名称；空格可写为一个空格、SPACE 或‘空格’；必须明确给出数字：无（或等价表述），未提及数字类别不扣分但断言存在数字则计0",
         "evidence_source": "text",
-        "standard_answer_text": "标点字符：, 和 !；空格说明：一个空格（分隔字符，非标点非数字）；数字字符：无",
+        "standard_answer_text": "标点符号：, !；空格；数字：无",
         "source_text": "指出字母、标点和数字字符",
         "parent_official_item": "指出字母、标点和数字字符",
         "parent_id": "step_2",
@@ -131,7 +102,9 @@
         "scoring_role": "component",
         "full_credit_trigger": false,
         "decomposition_required": false,
-        "standard_answer_image": null,
+        "diagnostic_evidence": [
+            "把十六进制 2C 或 21 归类为数字字符，属分类错误"
+        ],
         "metadata_source": "explicit",
         "metadata_hard_enabled": true,
         "metadata_confidence": 1.0,

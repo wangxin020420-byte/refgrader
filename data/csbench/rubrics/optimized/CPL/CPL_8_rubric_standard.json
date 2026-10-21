@@ -1,14 +1,15 @@
 [
     {
         "id": "step_1",
-        "item": "填写空白处(6)：对当前元素累加求和，写为 sum += *(score+i) 或 sum = sum + score[i] 等等价形式均可（复合赋值与展开写法等价，仅一处空格差异不扣分）",
+        "item": "填写空白处(6)：在 Average 函数循环中累加各评委成绩，形如 sum += score[i]（不使用复合赋值运算符亦可）",
         "points": 2.0,
         "answer_type": "formula",
         "role": "method",
         "score_layer": "support",
-        "canonicalization": "formula：等价形式包括 sum += *(score+i)、sum += score[i]、sum = sum + *(score+i)、sum = sum + score[i]；score+i 不得写成 score 或 *score（前者不取值，后者类型不符）；书写中的多余空格（如 sum + = 与 sum+=）不构成语义差异，按公式语义归一化后匹配",
+        "canonicalization": "formula",
         "evidence_source": "formula",
-        "standard_answer_text": "sum += *(score+i) 或 sum = sum + score[i]",
+        "standard_answer_text": "sum += *(score+i) 或 sum+=score[i] 或 sum = sum + score[i]",
+        "standard_answer_image": null,
         "source_text": "填写空白处(6)（注：不使用复合赋值运算符亦可）",
         "parent_official_item": "填写空白处(6)（注：不使用复合赋值运算符亦可）",
         "metadata_source": "csbench",
@@ -21,42 +22,52 @@
         "scoring_policy": "additive_split",
         "split_policy": "allow_semantic_split",
         "weighting_policy": "equal_atomic",
-        "decomposition_required": false
+        "decomposition_required": false,
+        "diagnostic_evidence": [
+            "等价形式判定：sum += *(score+i)、sum+=score[i]、sum=sum+*(score+i) 均判满分；仅复合/普通赋值书写差异不扣分",
+            "若累加表达式缺少下标（如 sum += *score）或未使用循环变量 i 索引，属于遗漏索引错误，判 1.0 分（PARTIAL_MATCH），不因书写格式再扣分"
+        ]
     },
     {
         "id": "step_2",
-        "item": "填写空白处(7)：求最小值下标的比较条件，写为 *(*(score+i)+j)<*(*(score+i)+min) 或 score[i][j]<score[i][min] 等指针/下标等价形式均可",
+        "item": "填写空白处(7)：求最小值下标的比较条件，形如 score[i][j] < score[i][min]",
         "points": 2.0,
         "answer_type": "formula",
         "role": "method",
         "score_layer": "support",
-        "canonicalization": "formula：指针形式 *(*(score+i)+j)<*(*(score+i)+min) 与下标形式 score[i][j]<score[i][min] 等价，混用（如 *(*(score+i)+j)<score[i][min]）亦等价；全角/半角括号与多余空格按符号归一化后匹配；min 出现在比较右侧且比较方向为小于（<= 亦视为等价，因初始化 j=0 不影响结果）",
+        "canonicalization": "formula",
         "evidence_source": "formula",
         "standard_answer_text": "*(*(score+i)+j)<*(*(score+i)+min) 或 score[i][j]<score[i][min]",
+        "standard_answer_image": null,
         "source_text": "填写空白处(7)",
         "parent_official_item": "填写空白处(7)",
+        "parent_id": "step_2",
         "metadata_source": "csbench",
         "metadata_hard_enabled": true,
         "metadata_confidence": 1.0,
-        "parent_id": "step_2",
         "semantic_contract_version": 6,
         "parent_points": 2.0,
         "task_semantics": "orthogonal_additive",
         "scoring_policy": "additive_split",
         "split_policy": "allow_semantic_split",
         "weighting_policy": "equal_atomic",
-        "decomposition_required": false
+        "decomposition_required": false,
+        "diagnostic_evidence": [
+            "等价形式判定：下标形式 score[i][j]<score[i][min] 与指针形式 *(*(score+i)+j)<*(*(score+i)+min) 完全等价，均判满分；括号/空格书写差异不扣分",
+            "若比较关系方向正确（<）但存在多余的解引用或括号错位等局部书写错误，语义仍为求最小值比较，判 1.0 分；比较方向写反（> 或 <=）判 0 分"
+        ]
     },
     {
         "id": "step_3",
-        "item": "填写空白处(8)：向 Average 函数传入第 i 行的首地址与元素个数，两个实参缺一不可，写为 *(score+i), 5 或 score[i], 5 或 &score[i][0], 5 均可；不得多写 &，不得遗漏第二个实参",
+        "item": "填写空白处(8)：调用 Average 时传入第 i 行首地址和评委数 5，形如 Average(score[i], 5)",
         "points": 2.0,
         "answer_type": "formula",
         "role": "method",
         "score_layer": "support",
-        "canonicalization": "formula：第一实参等价形式：*(score+i)、score[i]、&score[i][0]；第二实参必须为 5（写为常量 5 即可）；多写 &（如 &*(score+i) 或 &(score[i]) 导致类型不符）扣0.5分；仅写一个实参（缺第二实参）或第一实参为 score（类型 float(*)[5] 而非 float*）不给分；本处填写的变量名须与函数内一致使用 score，误用其他变量名（如 player+i）不给分",
+        "canonicalization": "formula",
         "evidence_source": "formula",
         "standard_answer_text": "*(score+i), 5 或 score[i], 5",
+        "standard_answer_image": null,
         "source_text": "填写空白处(8)（注：此时多写&扣0.5分）",
         "parent_official_item": "填写空白处(8)（注：此时多写&扣0.5分）",
         "metadata_source": "csbench",
@@ -69,18 +80,25 @@
         "scoring_policy": "additive_split",
         "split_policy": "allow_semantic_split",
         "weighting_policy": "equal_atomic",
-        "decomposition_required": false
+        "decomposition_required": false,
+        "diagnostic_evidence": [
+            "等价形式判定：*(score+i),5 与 score[i],5 完全等价，均判满分",
+            "写成 score,5：数组名 score 的类型为 float(*)[5]，未做行解引用，与形参 float* 类型不符，判 1.0 分（PARTIAL_MATCH），不再判 SEMANTIC_FATAL",
+            "按原准则多写 &（如 &score[i], 5）扣 0.5 分，即得 1.5 分",
+            "第二个实参必须为 5（或等价常量表达式）；写成其他数值或遗漏第二个实参，本项至多得 0 分"
+        ]
     },
     {
         "id": "step_4",
-        "item": "填写空白处(9)：malloc 申请的字节数必须覆盖 100×5 个 float，写为 100*5*sizeof(float)、100*5*4、2000、100*sizeof(float[5]) 等结果为 2000 的表达式均可；仅写出覆盖部分元素的字节数（如 100*sizeof(float) 或 5*sizeof(float)）扣0.5-1分",
+        "item": "填写空白处(9)：malloc 申请 100 名选手×5 个评委的 float 存储空间，字节数为 100*5*sizeof(float)",
         "points": 2.0,
         "answer_type": "formula",
         "role": "method",
         "score_layer": "support",
-        "canonicalization": "formula：任何求值结果等于 2000 字节的表达式均满分（100*5*sizeof(float)、100*5*4、2000、100*sizeof(float[5])、sizeof(float)*500 等）；结果为 400（100*sizeof(float) 或 500*4/5 等）或 20（5*sizeof(float)）的按官方注酌情扣0.5-1分；结果无法覆盖全部 100×5 元素的其他值（如单个 5 或 sizeof(float)）为错误表达式，不给分",
+        "canonicalization": "formula",
         "evidence_source": "formula",
         "standard_answer_text": "100*5*sizeof(float)、100*5*4 或 2000 均正确",
+        "standard_answer_image": null,
         "source_text": "填写空白处(9)（注：其它情况如100*sizeof(float)、5*sizeof(float)等，可酌情扣0.5-1分）",
         "parent_official_item": "填写空白处(9)（注：其它情况如100*sizeof(float)、5*sizeof(float)等，可酌情扣0.5-1分）",
         "metadata_source": "csbench",
@@ -93,30 +111,42 @@
         "scoring_policy": "additive_split",
         "split_policy": "allow_semantic_split",
         "weighting_policy": "equal_atomic",
-        "decomposition_required": false
+        "decomposition_required": false,
+        "diagnostic_evidence": [
+            "等价形式判定：100*5*sizeof(float)、500*sizeof(float)、100*5*4、2000 均判满分；乘法因式顺序、是否加空格不影响判定",
+            "只分配一维容量（如 100*sizeof(float) 或 5*sizeof(float)）属于容量不足，统一判 1.0 分（不再酌情浮动 0.5-1）",
+            "仅写字节数常量而缺 sizeof（如 100*5）判 1.0 分；仅写元素个数表达式（如 5 或 player[100]）未表达字节计算，判 0 分"
+        ]
     },
     {
         "id": "step_5",
-        "item": "填写空白处(10)：scanf 的地址实参，须指向 player 第 i 行第 j 个元素，写为 *(player+i)+j、&player[i][j] 或 player[i]+j 均等价；缺少取地址（如仅写 player+i 或 player[i][j]）扣0.5分",
+        "item": "填写空白处(10)：scanf 的地址实参，指向 player 第 i 行第 j 个元素，形如 *(player+i)+j",
         "points": 2.0,
         "answer_type": "formula",
         "role": "method",
         "score_layer": "support",
-        "canonicalization": "formula：等价形式：*(player+i)+j、player[i]+j、&player[i][j]、&*(*(player+i)+j)；按表达式求值后的指针类型（float*，指向第 i 行第 j 个元素）判定等价性；写成 player+i（类型 float(*)[5]）或 player（仅数组名首地址，不含 j 偏移）均未定位到具体元素，不属于等价形式，按缺少 &/偏移处理；全角括号与空格按符号归一化后匹配",
+        "canonicalization": "formula",
         "evidence_source": "formula",
         "standard_answer_text": "*(player+i)+j 或 &player[i][j]",
+        "standard_answer_image": null,
         "source_text": "填写空白处(10)（注：此时缺少&扣0.5分）",
         "parent_official_item": "填写空白处(10)（注：此时缺少&扣0.5分）",
+        "parent_id": "step_5",
         "metadata_source": "csbench",
         "metadata_hard_enabled": true,
         "metadata_confidence": 1.0,
-        "parent_id": "step_5",
         "semantic_contract_version": 6,
         "parent_points": 2.0,
         "task_semantics": "orthogonal_additive",
         "scoring_policy": "additive_split",
         "split_policy": "allow_semantic_split",
         "weighting_policy": "equal_atomic",
-        "decomposition_required": false
+        "decomposition_required": false,
+        "diagnostic_evidence": [
+            "等价形式判定：*(player+i)+j 与 &player[i][j] 完全等价，均判满分",
+            "仅写 player：类型为 float(*)[5]，未定位到具体 float 元素地址，判 1.0 分（PARTIAL_MATCH）",
+            "括号优先级错误形式 *(player+i)[j]：因 [] 优先级高于 *，实际为 *( ((player+i)[j]) )，语义错误，判 0.5 分",
+            "按原准则写 player[i][j] 缺少取地址 &，扣 0.5 分，即得 1.5 分"
+        ]
     }
 ]

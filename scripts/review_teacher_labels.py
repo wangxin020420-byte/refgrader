@@ -40,6 +40,7 @@ from scripts.compile_sample_quality_policy import (  # noqa: E402
     sha256_file,
 )
 from sample_quality import default_policy_path  # noqa: E402
+from scripts.assisted_label_results import REVIEW_BUCKETS, compact_result, load_assisted_results, review_bucket  # noqa: E402
 
 
 def read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -218,6 +219,7 @@ class TeacherLabelReviewStore:
             for row in self.candidates
         }
         self.decisions = self._load_normalized_decisions()
+        self.assisted_dir = self.prepared_dir / 'quality_control' / 'reviews' / (self.run_id + '_evidence_review')
 
     def _load_report_summary(self) -> dict[str, Any]:
         path = self.report_dir / "summary.json"
@@ -1011,11 +1013,15 @@ class TeacherLabelReviewStore:
     def state(self) -> dict[str, Any]:
         with self.lock:
             self.decisions = self._load_normalized_decisions()
+            assisted, assisted_summary, _ = load_assisted_results(self.assisted_dir)
             candidates = []
             for row in self.candidates:
                 key = (row["question_id"], row["answer_id"])
                 candidate = dict(row)
                 candidate["decision"] = self.decisions.get(key)
+                auto = assisted.get(key)
+                candidate['assisted_review'] = compact_result(auto) if auto else None
+                candidate['review_bucket'] = review_bucket(row, candidate['decision'], auto)
                 candidate["original_image_url"] = (
                     f"/api/image?question_id={row['question_id']}&answer_id={row['answer_id']}&variant=original"
                     if self.resolve_image_path(row, original=True, availability_only=True) else None
@@ -1045,6 +1051,8 @@ class TeacherLabelReviewStore:
                 "screening_only": self.screening_only,
                 "all_answers": self.all_answers,
                 "suspicion_levels": list(SUSPICION_LEVELS),
+                "review_buckets": list(REVIEW_BUCKETS),
+                "assisted_summary": assisted_summary,
                 "allowed_decisions": sorted(ALLOWED_DECISIONS),
                 "counts": {
                     "total": len(self.candidates),

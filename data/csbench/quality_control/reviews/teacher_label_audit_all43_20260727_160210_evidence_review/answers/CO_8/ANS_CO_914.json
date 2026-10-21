@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_914",
+  "category": "model_or_extraction_issue",
+  "summary": "查询通过每字200周期与100周期开销得1:2，表达简略但推导及结果正确，教师给5分；DMA空白给0，总5合理。",
+  "teacher_issue": "",
+  "model_issue": "模型把带宽与频率的比值当概念错误，忽略它实际求每字对应CPU周期；又称1:2缺推导语境，原图已有200周期。",
+  "original_image_observations": "页眉总5、1:5、2:0。写1秒5×10^7时钟周期、1MB/(5×10^7)约每50周期1B，然后‘1个单位(4B)是200个周期’，时间比率1:2；下半页空白。",
+  "evidence": [
+    "1MB/s配50MHz得到每B50周期，每字4B200周期，100/200=1/2。",
+    "有对应过程，不是裸猜50%。",
+    "DMA未书写，教师没有误给第二问分数。"
+  ],
+  "uncertainties": [
+    "中间单位写成hz不规范，但周期意义由后文明确，无实质结果错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "02409576cd4fd34c9e52a18def131d92f575828574ced9094fb88bcf4cb4eac9",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:59:03.588897+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_104",
+  "category": "model_or_extraction_issue",
+  "summary": "上方0.625答案被漏读，两个正确结果的前导零不影响数值。",
+  "teacher_issue": "",
+  "model_issue": "历史称第一数空白，与原图首行改后0000.101相反。",
+  "original_image_observations": "原图6；首行旧式划去后为0000.101；下列2=0010、0.125=0.001，合为0010.001。",
+  "evidence": [
+    "0000.101与0.101等值。",
+    "0010.001与10.001等值，正整数前导零不是额外计算错误。"
+  ],
+  "uncertainties": [
+    "首数未展开乘2算法，但原始评分仅列转换，不能据拆分字段自动清空整个首问。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "66fc5b1f852f0e05bdd228fc589db9240e35e7f423543869b4eea3fa91760b3f",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.372120+00:00"
+}

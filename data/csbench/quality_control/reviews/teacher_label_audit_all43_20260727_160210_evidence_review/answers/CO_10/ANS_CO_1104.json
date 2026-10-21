@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1104",
+  "category": "label_supported",
+  "summary": "首地址/容量多错得4分，次明确4路需4套比较得5分，教师9可解释；模型不应要求逐字共享或把偏移1位当正确。",
+  "teacher_issue": "",
+  "model_issue": "块4字按字编址应2位，1位绝不等价‘两个字节’；第二4套且以4路4次比较说明基本对应关系，可按简答接受。",
+  "original_image_observations": "教师9红勾叉，1:4、2:5。旧容量式大叉去；保留64K=2^16、16位字=2B、4路r2，Cache布局10/2/1，最后2^13=8K字节。次4套，因4路组相联需4次比较确定位置。",
+  "evidence": [
+    "首有正确主存地址位与路选择位2，但忽略块大小造成偏移/组号错误，容量也不是标记区公式，应扣。",
+    "次简要原因虽未明说每路并行，数量与四路对应已有实质内容。",
+    "教师9不因旧模型4.5至6就自动异常，首4可为准备与部分字段。"
+  ],
+  "uncertainties": [
+    "若严格区分四次串行与四套并行可扣少量第二说明分，但原文并未明确只用一套串行。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "65082b88930da131e97a2d77fea9c3d9f807d4aecf6ef1f98daba1b501e2a583",
+  "teacher_score": 9.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:42:30.108881+00:00"
+}

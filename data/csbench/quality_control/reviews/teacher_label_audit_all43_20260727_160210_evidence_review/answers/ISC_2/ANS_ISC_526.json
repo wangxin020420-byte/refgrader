@@ -1,0 +1,33 @@
+{
+  "question_id": "ISC_2",
+  "answer_id": "ANS_ISC_526",
+  "category": "model_or_extraction_issue",
+  "summary": "原图上方完整列五类主要功能，模型转录全部漏掉；教师4可解释为功能充分、调度说明较粗，旧模型0至1.5不可靠。",
+  "teacher_issue": "",
+  "model_issue": "首轮声称主要功能完全遗漏，与原图处理器、存储器、设备、文件、网络通信五项相冲突；‘低级’或作业调度末字也被不稳定转录。",
+  "original_image_observations": "教师4红勾叉。顶两行主要功能列处理器管理、存储器管理、设备管理、文件管理、网络与通信管理；下方讲内外存交换、高级/中级及作业调度实现多任务。",
+  "evidence": [
+    "主要功能五项均可见，不能仅据下半段转录评分。",
+    "调度部分提到进程调度与交换，但缺时间片/优先级细节，可扣部分分。",
+    "4分有实际内容支撑，不因抽取漏整段而疑教师高给。"
+  ],
+  "uncertainties": [
+    "末种调度名词字迹有歧义，但不影响确认上方五功能被全部漏读。"
+  ],
+  "transcript_conflicts": [
+    "转录遗漏整段‘主要功能’五项列表，造成核心事实缺失。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ff6280c432775de4057a7462ad9e65194a81075f078c975a3b85be9d3c4c2250",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:14:58.752594+00:00"
+}

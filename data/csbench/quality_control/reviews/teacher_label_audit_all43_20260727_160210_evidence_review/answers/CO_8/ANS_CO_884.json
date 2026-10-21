@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_884",
+  "category": "label_supported",
+  "summary": "查询32bit换成8B造成25%，其余时间关系正确；DMA完整正确为1%。教师4+5=9可理解为只扣字长转换错误对应分。",
+  "teacher_issue": "",
+  "model_issue": "模型把查询单次时间法本身判为概念错误而非定位字长多乘2，部分轮次还严重低估正确DMA。",
+  "original_image_observations": "教师1:4、2:5。查询T=2×10^-8、100T=2×10^-6，但32/8又×2=8B，字间隔8×10^-6，比率25%；DMA3×10^-5+10^-5=4×10^-5，4KB/1MB=.004s，最终1%。",
+  "evidence": [
+    "查询错误集中在一个上游字节换算，之后按错误8B的比率计算一致，应保留相应方法分。",
+    "DMA中8B单位的旁述不参与最终4KB间隔的正确计算，不应再次抹掉已完成过程。",
+    "教师扣1分体现错误来源扣分，而不是将25%认作正确满分。"
+  ],
+  "uncertainties": [
+    "字长换算错误扣1分的精确权重属政策选择，当前没有足够证据列为优先错标。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "eda7ea874dc6f012fa43ae0384aac470779a39b1dd2a6aa3f43fd4314f5703b7",
+  "teacher_score": 9.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:00:36.303535+00:00"
+}

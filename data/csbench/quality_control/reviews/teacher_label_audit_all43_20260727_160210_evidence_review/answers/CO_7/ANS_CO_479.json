@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_479",
+  "category": "label_supported",
+  "summary": "将GHz写作10^12Hz，但T=1/F、乘CPI及乘指令数的完整过程存在；教师各4分已扣结果分，未见确定标签错误。",
+  "teacher_issue": "",
+  "model_issue": "原模型5/3/0分，一次完全抹去正确公式过程。",
+  "original_image_observations": "n=10^5、F1=4GHz/F2=6GHz；T1=1/(4×10^12)、T2=1/(6×10^12)；随后乘CPI及n，最终5×10^-8和(1/6)×10^-7s；各+4。",
+  "evidence": [
+    "错误由主频单位指数传播，公式结构正确。",
+    "教师扣2分与保留过程分政策一致。",
+    "指数错误的大小不能单独决定所有方法分归零。"
+  ],
+  "uncertainties": [
+    "官方未单列频率换算和结果权重。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "92fcc5664496ea59f19de2ebb755be3c2656fda61c94a0a0994c63fb5583566f",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:17:36.438853+00:00"
+}

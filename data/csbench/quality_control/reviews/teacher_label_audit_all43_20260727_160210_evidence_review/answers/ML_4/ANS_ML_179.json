@@ -1,0 +1,27 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_179",
+  "category": "model_or_extraction_issue",
+  "summary": "原图A在1输入输出0且状态图存在，模型两项扣分前提均不成立。",
+  "teacher_issue": "",
+  "model_issue": "把A/0读成A/1，同时误称状态图遗漏。",
+  "original_image_observations": "左下完整六节点图，右下六行状态表，A行X=1明确A/0；E行F/1、A/0，F行B/0、E/0；教师6并红勾。",
+  "evidence": [
+    "表各行可对应参考S0至S5，A自环图标也是1/0。",
+    "历史三次3分的关键理由与原图不符。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9c2c771835772b4d83e9ee37df1e9445d6126d86aea228dbabf0c319677433d3",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:31:22.517521+00:00"
+}

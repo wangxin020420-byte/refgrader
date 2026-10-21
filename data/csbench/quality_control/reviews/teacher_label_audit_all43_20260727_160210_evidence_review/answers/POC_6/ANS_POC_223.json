@@ -1,0 +1,33 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_223",
+  "category": "model_or_extraction_issue",
+  "summary": "树与全部数值正确，综合类型是简写；主要问题是模型漏边和父子重复计分。",
+  "teacher_issue": "",
+  "model_issue": "把综合类型机械当最终结论错误，漏读图中a、b，并同时输出父项汇总与子项。",
+  "original_image_observations": "左写综合类型；右完整树根S.x=2，A1，左A1下标节点值0及S0到c，右S1及A0/S0到c，a、b两层都存在，教师7。",
+  "evidence": [
+    "第二问完整正确，支持其5分，第一问术语简写可能给部分分，现有总7无明确错误证据。",
+    "不能用历史10或6直接认定教师错误，需先排除汇总重复。"
+  ],
+  "uncertainties": [
+    "综合类型简写第一问给多少应统一；暂不因此自动补教师满分。"
+  ],
+  "historical_score_contract_issue": {
+    "finding": "首轮step_1=1与子项1、0、0并存，step_2=4与子项1.5、2.5并存，汇总10包含父子重复。",
+    "action": "保留原始历史，不能将10视为有效独立满分证据。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ee12574683fa5d7399eca1a3b21c8da704370991fa2e16f8e2636f8ef7888892",
+  "teacher_score": 7.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:46:45.612832+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1256",
+  "category": "label_supported",
+  "summary": "R1、I乘2^16、J乘2^9混淆操作种类和操作数编码，但保留短码非前缀及30/4因子，教师1+3+2=6可解释为部分分。",
+  "teacher_issue": "",
+  "model_issue": "2^5−2是正确I操作码数量，不能说应只减1；R1也不能凭想象兼容成2^5正确方法。应保留明确前缀互斥与J2^2局部，不凭空补证据。",
+  "original_image_observations": "页眉6，1:1、2:3、3:2。说明R/J最少、Opcode不同且短码不为长码前缀。大片旧计算划去，最终I(2^5−2)×2^16、R1、J2^2×2^9=2^11。",
+  "evidence": [
+    "有效I的30前缀因子和前缀约束是正确准备，不因额外乘2^16全清。",
+    "额外立即数编码取值不是指令操作种类，J2048和I大数均错误。",
+    "教师只给局部6，未对错结果满分，旧3至7.5不能决定标签错。"
+  ],
+  "uncertainties": [
+    "多行划改只使用底部有效公式，不用作废式额外增加错误数。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4e2bc37e675831a5680493aa3fa933bf7d492440e7be5ef335f0f13d142d4a97",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:50:54.638948+00:00"
+}

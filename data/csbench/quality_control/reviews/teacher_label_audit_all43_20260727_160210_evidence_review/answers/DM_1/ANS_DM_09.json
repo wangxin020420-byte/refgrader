@@ -1,0 +1,31 @@
+{
+  "question_id": "DM_1",
+  "answer_id": "ANS_DM_09",
+  "category": "teacher_suspect",
+  "summary": "哈斯图虽线交叉但八节点和覆盖关系齐全，另有极小1、无最大元两正确结论，教师3疑似少给部分独立正确项，需复核图形得分。",
+  "teacher_issue": "完整图应2分，正确极小1和无最大元各有独立分；即不计漏24的极大部分分，也可有至少4分依据，原3需核对。",
+  "model_issue": "模型4～4.5并非决定依据；图实际节点位置交换不改变关系，不能按几何位置与参考不一扣分。",
+  "original_image_observations": "教师3红叉。顶层54在左、24在右，线交叉但4接24、9接54、6分别接24/54，底部1-2/3及中间四边齐全；第二只极大54、极小1；第三最大最小都不存在；第四未答。",
+  "evidence": [
+    "图覆盖边与直接枚举整除关系所得10边一致，不因24/54左右交换而错。",
+    "极大漏24、最小元不存在及第四空白应扣，不能全题满分。",
+    "疑点限定图和两独立正确结论是否漏分，不自动采用模型4.5为新标签。"
+  ],
+  "uncertainties": [
+    "交叉线较多，需要人工确认是否以交点作节点；原图交点无独立编号，通常不改变图结构。"
+  ],
+  "evidence_strength": "possible_undercredit_correct_Hasse_and_independent_conclusions",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e399fa718253b4c0dcdf61caf20d58cc837999acb1ee3534a37f9ace7eedcbb1",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T11:00:24.029136+00:00"
+}

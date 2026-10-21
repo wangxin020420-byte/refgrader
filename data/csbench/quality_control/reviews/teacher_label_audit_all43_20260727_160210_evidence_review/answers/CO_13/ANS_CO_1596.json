@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1596",
+  "category": "model_or_extraction_issue",
+  "summary": "首请求与响应时机少量1，表两行正确及其余局部位得5，轨迹虽省略多处状态仍有主要路径得5；教师11有部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "A与C两行若各2分已4，不能说两行全对却仅2/8；原图确有轨迹，模型因无法解析给0不成立。首‘时钟周期后’也不宜无条件等同完整指令执行结束。",
+  "original_image_observations": "页眉11，1:1、2:5、3:5。首中断请求、CPU完成当前命令的时钟周期后响应，无保存等。表头MDMCMBMA且1屏蔽，A0001/B0111/C1111/D0011，B/D红圈。图用户直接上C、回B、上D、回A，末返回用户表达不清，多处短状态缺失有红圈。",
+  "evidence": [
+    "表A/C正确，其余B/D不是正确屏蔽字，5可按逐位或部分行给分，不应8也不该只2。",
+    "图主要服务完成顺序存在，缺初始A/B及B后回A需扣，教师给5而非满7。",
+    "首1与简略/时机不严谨相符，总11不是对错误答案无依据满分。"
+  ],
+  "uncertainties": [
+    "图末返回线和最后红圈不清，不据此断定完全未返回；表逐位部分分的1分需原政策确认。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f3ec5fdad2c241b00a23ee8aa419e5af22a3f490684c91a9448b9ee30560162a",
+  "teacher_score": 11.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:07:47.906772+00:00"
+}

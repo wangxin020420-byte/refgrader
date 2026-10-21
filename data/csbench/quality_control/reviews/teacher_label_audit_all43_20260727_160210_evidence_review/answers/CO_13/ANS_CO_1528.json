@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1528",
+  "category": "model_or_extraction_issue",
+  "summary": "屏蔽字完全正确，先响应A符合硬件优先级；图少初始B和B后A短段，教师3+8+5=16可解释，模型反把正确A响应当致命错误。",
+  "teacher_issue": "",
+  "model_issue": "必须区分响应优先级ABCD与处理优先级CBDA；A先被硬件响应是标准轨迹的起点，不是错误。四行正确不能从整体位向量解析错误推出A最高服务优先级。",
+  "original_image_observations": "页眉16，1:3、2:8、3:5。首允许响应→置屏蔽字→保有现场→关响应→依次处理→开响应，顺序略乱。写服务优先级C>B>D>A，C1111/B1011/D1001/A0001。图用户短A→C→B→D→A→用户，入C与B上D红圈。",
+  "evidence": [
+    "屏蔽设计源间关系正确，8合理。",
+    "短A初次响应不仅允许且是题设硬件优先级所要求，不能据此图0。",
+    "图真实问题在缺B初始和B完成返回A，教师5已有局部扣；首过程乱只给3。"
+  ],
+  "uncertainties": [
+    "首保护现场在关中断前的顺序有问题，原教师具体3分权重未列，不确认16唯一。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "38084b186a4cf0a790db5d58ce3f06091c0972b181f244b47f4eab98e150daf4",
+  "teacher_score": 16.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:15:25.128455+00:00"
+}

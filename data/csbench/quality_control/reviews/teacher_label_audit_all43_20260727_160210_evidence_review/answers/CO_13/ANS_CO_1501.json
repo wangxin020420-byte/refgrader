@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1501",
+  "category": "model_or_extraction_issue",
+  "summary": "屏蔽表明确按ABCD列、换序后四行全对；轨迹有返回层级错误且教师已扣，15分可由2+8+5解释。模型未按列标题读表且漏掉轨迹实线。",
+  "teacher_issue": "",
+  "model_issue": "A1000/B1101是在MA MB MC MD列下的正确表，不应对照反向位序判错；B、D两行若仅判两行正确也应4/8，不是2/8。不能把纵轴标签当执行顺序。",
+  "original_image_observations": "页眉15，1:2、2:8、3:5。首只谈响应优先级。表头MA MB MC MD，A1000、B1101、C1111、D1001。轨迹用户→A→B→C后跌到用户附近，再短暂上D下B、B后又到D，末回A与用户，三处红圈。",
+  "evidence": [
+    "按列标题换成MDMCMBMA得到0001/1011/1111/1001，全表正确。",
+    "图不是空白，A/B/C起始嵌套及D/A末段存在，但C后返回和D重复位置不符标准，教师只给5/7可保留局部。",
+    "首2为优先级说明的少量分，缺响应具体步骤不宜满5；教师未给首满。"
+  ],
+  "uncertainties": [
+    "轨迹5的具体扣分权重未公布，不能确认15唯一，但没有模型5至9所暗示的大量表格错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d77351c5b7068e74d3052773dd3e65a584fe93ac596fdfb31dad6f2e539bae55",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:07:47.889564+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_3",
+  "answer_id": "ANS_POC_249",
+  "category": "label_supported",
+  "summary": "只列两非空短语，后两类错答ac，教师1有部分分支持。",
+  "teacher_issue": "",
+  "model_issue": "某轮给满5忽视直接短语与句柄错误，不能用宽松政策把ε缺失取消。",
+  "original_image_observations": "短语aacb、ac，后面少量旧墨团；直接短语ac、句柄ac，教师1。",
+  "evidence": [
+    "正确短语两项有分，内层ε归约未识别。",
+    "ac不是任何单条S产生式的右部，因此不是该树直接短语或句柄。"
+  ],
+  "uncertainties": [
+    "旧墨团无法补出保留的ε，不用猜测补答案；部分分权重未细化。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "65383ed9e817da7d5e96140f7b7d865f6b61689cf27744a71210cc13e0335db0",
+  "teacher_score": 1.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:53:29.789530+00:00"
+}

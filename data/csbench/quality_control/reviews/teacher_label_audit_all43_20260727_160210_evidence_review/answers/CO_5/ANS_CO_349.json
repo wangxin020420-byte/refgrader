@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_349",
+  "category": "uncertain",
+  "summary": "保留的末答案256、1024错误，但原图比转录多出大量划掉的扩展计算尝试，不能按无过程直接零分；教师8是否过给需核查草稿计分政策。",
+  "teacher_issue": "最终用3位操作码、1位间址码的方案不符合题设扩展计数，且两结果错；8分可能来自划掉的256名额尝试，但具体依据不清。",
+  "model_issue": "三轮0均基于仅剩两句的转录，没有核查原图前半多条2^4-12及2^6关系的尝试，证据覆盖不全。",
+  "original_image_observations": "教师8红叉。上半多条公式被划掉，能见2^6×(2^4-12)=256等尝试、不同预留数及改写；下半保留‘3位操作码，1位间址码’、一地址256位、零地址1024位。",
+  "evidence": [
+    "有相关扩展计算草稿，不能称整份完全未作答。",
+    "有效最终结果不是255和128，且条数用位表示，不能满分。",
+    "是否对被明确划去但正确的中间名额计算保留过程分，决定8分是否合理。"
+  ],
+  "uncertainties": [
+    "缺教师对涂改草稿的计分规则；部分上方数字重叠，不可靠重建完整推导。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6c74731da370691900f5aa7e524e1a5afc78faeeac4c6f96ec53652ed41b7404",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:24:51.892381+00:00"
+}

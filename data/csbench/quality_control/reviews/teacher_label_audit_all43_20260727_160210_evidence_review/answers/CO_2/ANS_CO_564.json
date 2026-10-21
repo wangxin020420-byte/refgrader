@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_564",
+  "category": "model_or_extraction_issue",
+  "summary": "表经涂改后总体与标准一致，有效上图包含D返C及E返B，教师20可支持；模型第三轮8主要是提取不稳。",
+  "teacher_issue": "",
+  "model_issue": "首轮证据把D写01110却声称匹配01111，理由自身矛盾；原图末E位是1，旧图被斜划掉应忽略。",
+  "original_image_observations": "教师20红勾。ABCDE表A/B/C/E涂改后为标准值，D行第四位有涂改、末位1；左下旧图划去，右上有效图A-B-C-D-C-B短过渡-E-B后用户，ABC/DE到达标记。",
+  "evidence": [
+    "应优先保留新图，不能混用旧图未完成段。",
+    "D末位原图1而非提取0，不能据01110作确定错误。",
+    "有效图关键抢占和恢复关系与标准相符。"
+  ],
+  "uncertainties": [
+    "D第四位墨迹重，可由人工再确认；目前无稳定读出错误字的证据，不按旧8分怀疑总20。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e3a85f46ed19057b99dfb27364f0e3f50ed2c143ec6c71ca2ff902dda6126fb9",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:37:34.031289+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_4",
+  "answer_id": "ANS_POC_118",
+  "category": "label_supported",
+  "summary": "首非0、任意中间串、末偶数正确，但至少三位，教师4作为漏短数扣分有支持。",
+  "teacher_issue": "",
+  "model_issue": "凭空说T可推E产生前导零，原图T仅1至9；E→EE可生成任意非空数字串，是合法CFG。",
+  "original_image_observations": "旧S规则划掉后S→TED，T→1至9，E→EE|0|1|…|9，D偶数字含0。教师4。",
+  "evidence": [
+    "T、E、D均至少一个数字，最短三位，漏所有一位和两位正偶数。",
+    "长度三以上的首位和尾位都正确，也不产生前导零，不能全0。"
+  ],
+  "uncertainties": [
+    "缺短数的部分分权重未给，不认定4为唯一标准。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "491ed21b0428b221201ba681680bc1d3b0ceab15c7ddb9b1c60ea1ff0a9d5f61",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:05:35.717512+00:00"
+}

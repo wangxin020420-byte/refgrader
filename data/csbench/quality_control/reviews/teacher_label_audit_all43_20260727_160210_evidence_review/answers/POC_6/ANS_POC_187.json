@@ -1,0 +1,27 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_187",
+  "category": "model_or_extraction_issue",
+  "summary": "S属性判断与完整正确标注树有据，根2被模型错读为1。",
+  "teacher_issue": "",
+  "model_issue": "把根2读1并将A→S→c误读成A同时连S和c。",
+  "original_image_observations": "左写所有属性为S属性、故S型属性文法；右树根x=2、A1、左A/S0、右S1及A/S0，教师10。",
+  "evidence": [
+    "S属性在本上下文指综合属性，结论与理由一致。",
+    "图中各S到c之间单独竖边清楚，树形及数值正确。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6adfae931c914f1a0261f044331d940d0053b9babe700ae2a0c0f95d55c84352",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:46:45.603376+00:00"
+}

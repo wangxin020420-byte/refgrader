@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_3",
+  "answer_id": "ANS_CPL_169",
+  "category": "teacher_suspect",
+  "summary": "只答正确第五行，按每行2分最多2，原图教师3需复核。",
+  "teacher_issue": "前四行均未答，唯一第五行虽正确也只有2分，当前3超过该项分值。",
+  "model_issue": "有时把21读2l导致多扣；原图为数字21，至少该行内容正确。",
+  "original_image_observations": "仅一行5,row:21,col:17，其他作答区域空白；页眉及大得分均3。",
+  "evidence": [
+    "原始五行各2分总10，没有其他正确过程可补第3分。",
+    "prepared标签3与原图3一致，这是实际给分边界问题而非分数来源错配。"
+  ],
+  "uncertainties": [
+    "如教师有另行整体输出结构加分政策需提供依据，当前原始规则未体现。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4f89af4df634c737fd2009a9de9e57af834b9eb63e196ddef67675a6760f3c9f",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:37:05.310819+00:00"
+}

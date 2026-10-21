@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_8",
+  "answer_id": "ANS_ISC_304",
+  "category": "model_or_extraction_issue",
+  "summary": "码表和减法方法正确，原图和式明显不同于转录11110111，不能据转录错位认定教师满分错。",
+  "teacher_issue": "",
+  "model_issue": "原图第四位是0，转录11110111的第四位1不可靠；取消的推导和原码也须区分最终修改，不能只按转录错误值扣整结果项。",
+  "original_image_observations": "原图4；X/Y及-10码表正确（Y反码划改为00001010）；右式负15补加负10补，和式写11100?11有墨迹，后原码修改为10011001、真值-25。",
+  "evidence": [
+    "放大右侧和式可见前五位11100，不能直接沿用转录11110。",
+    "正确操作数、公式及末尾-25互相支持计算意图；没有证据把真实二进制错误精确定位为转录所述值。"
+  ],
+  "uncertainties": [
+    "和式第六位被重描，若要据该位改分需人工核原扫描；本次不宣称全部八位均已清晰确认。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "23f651becc08f9ff23dd611b680dc560b06cae4ee836e3f50e5a00407539d5c5",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:53:01.548112+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_4",
+  "answer_id": "ANS_POC_115",
+  "category": "uncertain",
+  "summary": "可辨C只递归不终止，若无被涂改的ε则语言为空，教师4需先确认笔迹。",
+  "teacher_issue": "若最终只有C→0C|AC，S→ACB永远保留C而无法产生完整数字串，4可能明显偏高。",
+  "model_issue": "C→AC不是左递归，CFG允许递归；真正该核的是有无终止分支，不是递归方向。",
+  "original_image_observations": "S→ACB，A非零数字，B偶数字；C行箭头后旧符号重涂，可辨0C|AC，没有清晰保留的ε或其他终止规则。教师4。",
+  "evidence": [
+    "没有C的基例时所有推导都剩一个C，无法输出终结串。",
+    "若涂改处实际上保留ε，则多位生成成立，但仍没有独立一位偶数分支；不能在未辨清前直接判教师错。"
+  ],
+  "uncertainties": [
+    "必须人工核对C行首部旧符号是否ε及删除范围，当前留uncertain。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9597d550b3c5a4c07e01b307db44e6ee2ee83c4a0467ba20323c8db80e887455",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:05:35.716511+00:00"
+}

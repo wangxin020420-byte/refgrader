@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_6",
+  "answer_id": "ANS_CO_442",
+  "category": "model_or_extraction_issue",
+  "summary": "原图有BCF3、BAF9及按165位一致的容量结果，教师6分有可解释的局部及部分分；模型三轮把所有内容当空白，不能据0分指教师过给。",
+  "teacher_issue": "",
+  "model_issue": "已有转录与原图都非空，模型却将六项全部BLANK，是证据提取或映射失败。",
+  "original_image_observations": "教师6红叉。控制字段改为153，BCF3、BAF9，总长改165；容量涂改下重写84480位，字节10560，均清楚可辨。",
+  "evidence": [
+    "BCF及BAF明确正确，至少不应六项全空。",
+    "84480=512×165，10560=84480/8，与自身错误字长一致，但原图未写公式，不能凭数值恢复全部过程分。",
+    "教师6可理解为正确字段4分及少量容量部分分，无明确标签错误。"
+  ],
+  "uncertainties": [
+    "未写公式时可给多少传播错误部分分需统一政策，不能据此自动升分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ed452c6f4183676caf9530c295f8f8c68f86956911bb6e245761b541f9b9db41",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:48:58.095031+00:00"
+}

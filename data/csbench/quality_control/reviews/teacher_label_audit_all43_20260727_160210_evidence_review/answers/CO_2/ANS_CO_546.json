@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_546",
+  "category": "model_or_extraction_issue",
+  "summary": "原图五行掩码完整正确，执行图也含所需嵌套返回，教师20可支持；旧模型漏表并错把A返回用户边界当整体图致命错误。",
+  "teacher_issue": "",
+  "model_issue": "‘如图所示’不代表无掩码，原图有完整表；不能要求实际执行按静态ADC EB排序，或将短返回边界替代整体结构判断。",
+  "original_image_observations": "教师20红勾。ABCDE表五行11111/01000/01101/01111/01001；图A小峰回底，随后B-C-D-C-B-E-B回用户，D/E到达在C段。",
+  "evidence": [
+    "表每行均有明确0和1，原提取不足是模型问题。",
+    "B开始可被C抢占，D打断C后返C，C结束后E再返B，关键关系均正确。",
+    "与标准图不同的短B/用户过渡可按中断返回及重响应边界理解，不能由此把整个8分清零。"
+  ],
+  "uncertainties": [
+    "如果要求 pending 中断期间不得画有宽度用户段，可有轻微形式扣分讨论，不支持旧模型2分总评。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "11122caccba2989a9c10f8017e492b4521c4f2fb22d0b0548826131400351b70",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:21:22.923162+00:00"
+}

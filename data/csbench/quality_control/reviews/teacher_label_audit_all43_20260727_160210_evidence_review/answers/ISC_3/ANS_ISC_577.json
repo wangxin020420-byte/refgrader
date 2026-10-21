@@ -1,0 +1,35 @@
+{
+  "question_id": "ISC_3",
+  "answer_id": "ANS_ISC_577",
+  "category": "teacher_suspect",
+  "summary": "标签5与原图4直接冲突；内容上的组成层次错误也已被原教师扣分。",
+  "teacher_issue": "teacher_scores.json为5，原图页眉与右上均4，应先核标签来源，而非把教师原判描述为满分。",
+  "model_issue": "历史3有组成偏差依据，但无权用其替代原教师4；重要性与SQL的大量正确内容应完整保留。",
+  "original_image_observations": "页眉评分4、右上得分4；组成编译/运行/维护，重要性冗余共享独立，SQL非过程、一体、两用、集合，末有红叉。",
+  "evidence": [
+    "直接读取准备标签ANS_ISC_577对应ISC_3为5。",
+    "原图两个独立教师分数字段均4，与准备值不一致。"
+  ],
+  "uncertainties": [
+    "可能存在后续调分版本，需核出处，不覆盖现标签。"
+  ],
+  "score_source_conflict": {
+    "prepared_teacher_score": 5,
+    "visible_original_teacher_score": 4,
+    "prepared_source": "data/csbench/teacher_scores.json",
+    "action": "人工核对原卷及后续调分来源，保留当前文件"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6035518ff84f436387ffa5e438b48d5b01639822dde79a3cf121c5d44d8edbe9",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:42:52.055272+00:00"
+}

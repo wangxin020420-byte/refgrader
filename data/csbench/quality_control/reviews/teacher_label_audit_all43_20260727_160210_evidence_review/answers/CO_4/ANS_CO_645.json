@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_645",
+  "category": "uncertain",
+  "summary": "地址格式推导确有问题，但两个访问结论及二进制展开有部分依据，教师2+2+3+3=10与模型2～3分差距主要为过程/结论权重；缺少原部分分细则，不直接判教师错。",
+  "teacher_issue": "第一问错误目标计算各给2分是否过宽，需对照课程原方法分政策。",
+  "model_issue": "旧模型把原图二进制转换笼统说成不正确，未逐项核验；正确未命中/命中结论只给很低结论分。",
+  "original_image_observations": "8MB/32=2^18与2×2KB=2^12各标+2，随后字段位置18、位数12；两地址各展开二进制，写不在/在块标记内，结论不能/能，各+3。",
+  "evidence": [
+    "两式算术本身成立，但不构成要求的主存23位与Cache4/1/11格式。",
+    "命中结论均正确，但没有明确set/tag分离及组0比较。",
+    "教师没有将第一问或第二问给满分，无法仅用优化后的细权重证明总10分必错。"
+  ],
+  "uncertainties": [
+    "是否认可错误目标的容量计算为过程分，以及结论分占比，需统一政策。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "01180b9e9394723cc83e6a14064840be00039ff9d7e75e621b5c7d8f4467afa6",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:42:55.749545+00:00"
+}

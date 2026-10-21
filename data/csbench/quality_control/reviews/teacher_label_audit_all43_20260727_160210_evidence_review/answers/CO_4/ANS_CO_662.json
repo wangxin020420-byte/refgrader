@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_662",
+  "category": "model_or_extraction_issue",
+  "summary": "主存格式正确，但Cache地址格式未给；第一地址二进制转换还有错误。教师扣至14分有依据；旧模型18～20分存在过度给分，不宜把模型高分当教师少给。",
+  "teacher_issue": "",
+  "model_issue": "把2D07FF写成0001 1101的错误二进制称为转换正确；有两次对缺失Cache格式仍将整题给满分。",
+  "original_image_observations": "第一问只有主存8/4/11和32÷2等推导，教师+5/+1合6；第二问2D07FF转为0001 1101开头，写不能+3；7F0057指11111110可找到写能+5，总14。",
+  "evidence": [
+    "2D的二进制为0010 1101而不是0001 1101。",
+    "未单独写Cache的4/1/11格式，原模型补出缺失内容不可靠。",
+    "教师分别6+3+5并非毫无理由少给，保留标签。"
+  ],
+  "uncertainties": [
+    "正确字段的父项分配按教师原标记解释，不根据优化规则重评分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "55dddc42c854a4e148bf1de217d7f89bd57447decad4e0230231d470dd28e893",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:40:57.341949+00:00"
+}

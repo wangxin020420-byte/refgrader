@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_4",
+  "answer_id": "ANS_ISC_617",
+  "category": "model_or_extraction_issue",
+  "summary": "信息传递的规范已等价表达协议概念，模型以缺固定同义词扣半分不合理。",
+  "teacher_issue": "",
+  "model_issue": "规范就是规则/标准类表达，互联网信息传递也已给出数据通信场景；不需要规则、标准、约定三个同义词齐备。",
+  "original_image_observations": "原图3；协议是互联网信息传递规范；后说HTTP规定传输方式、发包方式和频率，未写报文四段。",
+  "evidence": [
+    "协议概念应按语义认可完整，不是只给1.25至1.5的鼓励分。",
+    "后半解释宏观方式/时序仍较泛，不能补成具体HTTP报文结构；教师3可支持部分分。"
+  ],
+  "uncertainties": [
+    "题干基本构成是否专指报文四段未明确，原题图缺失；不据此补整题满5。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b4da726367421a9ac3d1ee0ec93d3e290c8f2ece4d48b39aaa17165c048f5941",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:46:52.945542+00:00"
+}

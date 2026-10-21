@@ -1,0 +1,27 @@
+{
+  "question_id": "POC_2",
+  "answer_id": "ANS_POC_52",
+  "category": "label_supported",
+  "summary": "短语四项正确，另两类明确答无，教师2有据；模型跨类别补分错误。",
+  "teacher_issue": "",
+  "model_issue": "学生写无不是空白，更不能把短语栏的(SaA)自动搬到直接短语或句柄栏奖励分。",
+  "original_image_observations": "短语完整四项；下面明确直接短语无、句柄无，教师2。",
+  "evidence": [
+    "短语总2可给满，直接短语及句柄总3均未正确回答。",
+    "语法对象即使同为子串，分类关系也须分别判断，正确短语不等价知道它是直接短语或句柄。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "731d258ee204adecabd36feedde851059ff31c22bb23e8c5966e9a0002bb01a1",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:48:58.314586+00:00"
+}

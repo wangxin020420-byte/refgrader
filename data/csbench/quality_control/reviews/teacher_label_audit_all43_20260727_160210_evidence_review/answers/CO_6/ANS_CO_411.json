@@ -1,0 +1,34 @@
+{
+  "question_id": "CO_6",
+  "answer_id": "ANS_CO_411",
+  "category": "teacher_suspect",
+  "summary": "多次改写后控制字段最终156正确，仅BCF4有源错误；总169及两容量表达式后续正确，教师12疑似重复扣分，尤其未化简的2^6×169B应保留方法分。",
+  "teacher_issue": "第一四组与最终控制156正确，BAF9正确；在BCF错误之外再扣到12，需要核对是否将传播结果和未化简容量再次作为错误扣分。",
+  "model_issue": "模型称132+16与140+16等价显然不对，应看原图132上方已改140；又在长度及字节项写‘给方法分’但实际给0，证据与分数不一致。",
+  "original_image_observations": "教师12红叉。四组4/4/5/3清楚；早期140被改132，后来又将控制和式上改回140、末值156，汇总控制字段也改156；BCF4，BAF9，9+4+156=169；容量2^9×169bits、m1/8=2^6×169B。",
+  "evidence": [
+    "最终有效值156在多处确认，不能只抓被修改的132/148当学生最后答案。",
+    "169之后的容量和单位换算表达式精确，与错误BCF一致，没有新增错误。",
+    "分数不是必须写十进制才成立，2^6×169B是完整可核验结果。"
+  ],
+  "uncertainties": [
+    "草稿修改较多，但最终汇总156及169清楚；BCF具体扣分权重待人工确认。"
+  ],
+  "transcript_conflicts": [
+    "原图132已改140，转录仍保留132+16=156的假算术矛盾。"
+  ],
+  "evidence_strength": "possible_repeated_deduction_correct_formula_fallback",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5f65cbf737b4a48052557829668900d638a8e36fb61fdd8263fa13a25a749e25",
+  "teacher_score": 12.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:48:58.106022+00:00"
+}

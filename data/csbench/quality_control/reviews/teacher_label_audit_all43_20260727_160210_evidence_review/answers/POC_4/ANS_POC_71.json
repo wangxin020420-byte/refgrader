@@ -1,0 +1,27 @@
+{
+  "question_id": "POC_4",
+  "answer_id": "ANS_POC_71",
+  "category": "model_or_extraction_issue",
+  "summary": "规则完整正确，原图注释是一位数而非奇数，教师5有据。",
+  "teacher_issue": "",
+  "model_issue": "把S1为个位数/一位数读成奇数后据注释否定全部正确产生式；即便注释笔误也应核实际生成语言。",
+  "original_image_observations": "S→S1|S2，S1→2|4|6|8；S2→ABC，A非零数字，B→DB|ε，C偶数字含0，D全数字；注释S1为个位数，S2为多位数。教师5。",
+  "evidence": [
+    "一位与两位以上分支完整，B递归含0及任意数字，首尾限制正确。",
+    "原图没有要求S1生成奇数，模型0的矛盾来自误读。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7520ea27105b76818ed19fe09ce0c465fcae1ea8fe3de02bf8f32bb27e3df806",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:06:56.567208+00:00"
+}

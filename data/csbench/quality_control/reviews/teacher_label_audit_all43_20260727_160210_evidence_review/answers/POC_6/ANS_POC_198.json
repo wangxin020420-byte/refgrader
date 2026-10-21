@@ -1,0 +1,27 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_198",
+  "category": "model_or_extraction_issue",
+  "summary": "仅综合属性理由和完整正确树均有据，模型漏读右S1造成低估。",
+  "teacher_issue": "",
+  "model_issue": "原图右S.x=1清晰，却称缺失，并把正确树按边重合率低打折。",
+  "original_image_observations": "左写只有综合属性S.x、A.x因此S属性；右完整树根2、A1、左A/S0、右S1及A/S0，两层a,b与两个c齐全，教师10。",
+  "evidence": [
+    "原图右S1及中A1均明确，所有值满足给定规则。",
+    "原有一句只含综合已提供分类依据，不需按同义拆分项重复扣。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9c858f5daa137db9e9264348cb5fc62dc54368221038e5a74f57cd2d4c84be37",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:46:45.597025+00:00"
+}

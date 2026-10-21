@@ -1,0 +1,27 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_211",
+  "category": "model_or_extraction_issue",
+  "summary": "综合属性的手写字及正确树均可识别，模型误读术语造成低分。",
+  "teacher_issue": "",
+  "model_issue": "将综合属性读成符号属性，错误扣掉第一问主体分。",
+  "original_image_observations": "左写A.x、S.x为综合属性、G5为S属性文法；右完整树根2、中A1、两底层A/S0、右S1，教师10。",
+  "evidence": [
+    "原图术语结合上下文支持综合属性，不是模型所说符号属性。",
+    "第二问完整结构与全部值对应标准，教师满分有据。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "92a560f4579bc4a06b4dbe9352f6e58bc0868f1629a4b0e0ee678cc9a210e25b",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:41:34.377994+00:00"
+}

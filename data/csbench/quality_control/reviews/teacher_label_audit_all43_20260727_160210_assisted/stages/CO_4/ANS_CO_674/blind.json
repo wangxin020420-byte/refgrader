@@ -1,0 +1,96 @@
+{
+  "version": "assisted-label-review-v1",
+  "stage_sha256": "0cccdaeef682f48f5ea5cbe51b5d7278f803fb20299e0925ed2e37d358d52239",
+  "input_sha256": "3415700f304af70195f2b7ca296c30f761debf76e55ad453f0279f49c9c95db0",
+  "created_at": "2026-10-20T08:09:18.477271+00:00",
+  "request_url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+  "model": "glm-4.6v",
+  "response_id": "20261020160843c2aa6fc4fbd2468d",
+  "usage": {
+    "completion_tokens": 995,
+    "prompt_tokens": 2746,
+    "total_tokens": 3741,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 5
+    }
+  },
+  "review": {
+    "observed_answer": "解：(1)32÷2=8组。主存单元按字节编址则8MB/2KB 标记 组地址 块内地址 8位 4位 11位 (2) 2D07FFH=0010 1101 0000 010101 1111 1111B 时能在Cache中访问到该单元数据 7F0057H=0111 1111 0000 0000 0101 0111时能在Cache中访问到该单元的数据",
+    "transcript_conflicts": [
+      "图像中2D07FFH二进制转换存在涂改痕迹（0010 1101 0000 010101 1111 1111B中‘010101’部分有修改痕迹），7F0057H二进制表示为‘0111 1111 0000 0000 0101 0111’（与转录一致）"
+    ],
+    "checks": [
+      {
+        "criterion": "明确指出物理地址总位数",
+        "student_evidence": "未明确写出物理地址总位数，但通过‘8MB/2KB’计算标记位数时隐含23位物理地址（8MB=2^23，2KB=2^11，23-11=12？此处学生计算有误）",
+        "expected": "物理地址为23位",
+        "assessment": "未明确写出物理地址总位数，存在概念缺失",
+        "score_min": 0,
+        "score_max": 1
+      },
+      {
+        "criterion": "明确指出块内偏移位数",
+        "student_evidence": "块内地址标注为11位",
+        "expected": "块内偏移为11位",
+        "assessment": "正确",
+        "score_min": 2,
+        "score_max": 2
+      },
+      {
+        "criterion": "明确指出Cache组号位数",
+        "student_evidence": "32÷2=8组，组地址标注为4位",
+        "expected": "Cache组号需要4位",
+        "assessment": "正确",
+        "score_min": 2,
+        "score_max": 2
+      },
+      {
+        "criterion": "得出正确的主存地址格式",
+        "student_evidence": "主存地址格式标注为‘标记8位|组地址4位|块内地址11位’",
+        "expected": "字块标记8位|Cache组号4位|块内偏移11位",
+        "assessment": "格式正确但未明确说明主存地址各字段名称（如‘字块标记’）",
+        "score_min": 1,
+        "score_max": 2
+      },
+      {
+        "criterion": "得出正确的Cache地址格式",
+        "student_evidence": "未明确写出Cache地址格式",
+        "expected": "Cache组号4位|组内块号1位|块内偏移11位",
+        "assessment": "未回答Cache地址格式设计",
+        "score_min": 0,
+        "score_max": 0
+      },
+      {
+        "criterion": "正确判断2D07FFH是否命中并说明理由",
+        "student_evidence": "2D07FFH=0010 1101 0000 010101 1111 1111B 时能在Cache中访问到该单元数据",
+        "expected": "地址2D07FFH未命中",
+        "assessment": "判断错误（与参考答案矛盾），且未说明理由",
+        "score_min": 0,
+        "score_max": 1
+      },
+      {
+        "criterion": "正确判断7F0057H是否命中并说明理由",
+        "student_evidence": "7F0057H=0111 1111 0000 0000 0101 0111时能在Cache中访问到该单元的数据",
+        "expected": "地址7F0057H命中",
+        "assessment": "判断正确但未说明理由",
+        "score_min": 2,
+        "score_max": 3
+      }
+    ],
+    "score_min": 7,
+    "score_max": 11,
+    "confidence": 0.7,
+    "uncertainties": [
+      "2D07FFH二进制转换存在涂改痕迹，可能影响判断准确性",
+      "学生未明确写出物理地址总位数和Cache地址格式，存在表述不完整"
+    ],
+    "summary": "学生正确计算了块内偏移位数（11位）和Cache组号位数（4位），并给出了主存地址格式（标记8位|组地址4位|块内地址11位），但未明确写出物理地址总位数和Cache地址格式。对于地址命中判断，2D07FFH判断错误（应为未命中），7F0057H判断正确但未说明理由。整体得分约7-11分。"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_1",
+  "answer_id": "ANS_POC_340",
+  "category": "model_or_extraction_issue",
+  "summary": "自然语言中的一半和另一半已经表达等长，模型称未给数量关系不成立。",
+  "teacher_issue": "",
+  "model_issue": "把一半为a、一半为b/c混合错误视为未表达两部分等长，并额外苛求数学集合形式。",
+  "original_image_observations": "写G1描述一个一半为a、一半为c与b混合而成的符号串，教师5。",
+  "evidence": [
+    "一半与另一半在两块描述语境下明确同长，b/c混合不限制次序。",
+    "官方允许自然语言等价表述，不要求必须写n的集合式。"
+  ],
+  "uncertainties": [
+    "未明确写前半、后半及空串，但结合两块叙述和题意可理解；不据这种简写机械扣一半。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "524fdc0f127f27b4fc81347f9657c98264b63a770753a2fae28e737ab4a0ceb2",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:54:14.511878+00:00"
+}

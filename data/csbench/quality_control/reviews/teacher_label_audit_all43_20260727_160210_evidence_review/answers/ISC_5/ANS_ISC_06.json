@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_5",
+  "answer_id": "ANS_ISC_06",
+  "category": "label_supported",
+  "summary": "解码末U错为E，其余字母及标点分类有支持，教师扣1给5合理。",
+  "teacher_issue": "",
+  "model_issue": "一个字母错不应使整个3分解码项归零；分类以十六进制代码标识同样可判，不能因未重复l、H就全扣。",
+  "original_image_observations": "Hello,AHE!；48、65、6C、6F、41、55为字母，2C、21为标点，教师5。",
+  "evidence": [
+    "0x55应U，E是实际解码错误，应扣该处。",
+    "列字母对应代码使用唯一字符集合，不要求重列每个重复出现；大部分解码和分类正确应保留。"
+  ],
+  "uncertainties": [
+    "未单列空格和无数字的扣分口径未明，5是可支持的部分分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7fdd8f3a897c03237726bf7fc0bbd5a2ce76f8b40ba0b00ea66e515c05e61f7b",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:18:11.996341+00:00"
+}

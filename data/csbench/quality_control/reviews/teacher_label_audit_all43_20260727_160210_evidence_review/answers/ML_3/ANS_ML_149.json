@@ -1,0 +1,28 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_149",
+  "category": "model_or_extraction_issue",
+  "summary": "原图激励及输出函数全部正确，教师6分保留；转录将连续的y下标与乘积误成冒号等字符。",
+  "teacher_issue": "",
+  "model_issue": "将清楚的J2/K2=xy1识别成xy，并将z=xy1y2识别成xy:y后按概念错误扣分。",
+  "original_image_observations": "J1=x、K1=x，J2=xy1、K2=xy1，z=xy1y2；教师6。",
+  "evidence": [
+    "图像中x为普通手写x，不是另定义的χ。",
+    "第二组和输出的下标1、2均可辨。",
+    "旧模型2/6/3分中6分与图像证据一致。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "664a7f0bda9dbac03e48647f6ff01104fe9ab932f64ee7dcfe9a5d1e67599536",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:34:40.501945+00:00"
+}

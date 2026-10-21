@@ -1,0 +1,8 @@
+{
+ "question_id":"POC_5","basis":"existing_experiment_only","new_experiment":false,
+ "verified_initial_items":["S'→·S,#","S→·AaA,#","S→·bBa,#","A→·,a"],
+ "verified_key_items":["I1含S→b·Ba,#及B→·a,a","I2为S'→S·,#接受项","I5为B→a·,a","I6含S→Aa·A,#和A→·,#"],
+ "template_source_conflict":"原图中I0至I8框、编号和全部8条边及字符标签均为预印题面；ANS_POC_139九框全空但骨架完整且教师0，是直接证据。当前题干丢失填框模板信息，评分说明又为学生完整标转移另设1分，不能将该1分自动奖励给未作答者。",
+ "review_rules":["只把手写项目作为完成证据，印刷边不是学生工作。","空白框不能凭模型输出补出项目，ANS_POC_139历史文本含不存在内容。","LR1展望符不可统一大小写或将所有#当正确；I0的A空项应a，I6应#，B项目应a。","状态编号可在对应关系一致时改名，但点位置和集合中的额外项目不能忽略。","A→·ε可表示空产生式项目的书写习惯，不要求沿ε另移进；需核其展望符和出现状态。","缺拓广初始或将接受态写A空归约是实际错误，正确其他状态仍可保留部分分。"],
+ "teacher_suspect_ids":[],"uncertain_ids":["ANS_POC_159"],"automatic_policy_change":false
+}

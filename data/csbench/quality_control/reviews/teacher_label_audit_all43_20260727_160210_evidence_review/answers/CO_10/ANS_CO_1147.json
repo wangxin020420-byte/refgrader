@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1147",
+  "category": "label_supported",
+  "summary": "字节与字坐标混用导致tag5，容量混入数据项，第二按组数答250；教师4+1=5可为局部方法分，模型6.5至8反而放过错结果。",
+  "teacher_issue": "",
+  "model_issue": "最终8960既非896等价，也不能仅因学生自洽就给结果分；错误tag5只能保留相减关系的部分分，不能视完整正确主存推导。+5+1确有加有效位概念，不应因混在错式就视为没写。",
+  "original_image_observations": "页眉5，1:4、2:1。主存64K=2^16，Cache4KW=8KB=2^13，块4字8B偏移3、四路r2，组13−3−2=8；主存却用16−8−3=5。容量2^10×(一个2的幂×8+5+1)/8=8960字节。第二1K块除4称250组，需250个相同组。",
+  "evidence": [
+    "Cache字节坐标正确的8组位与3偏移搭配主存字地址16，导致tag少1，不能当合法统一坐标。",
+    "容量多加数据内容是独立方法错误，最终8960应失结果分；即便算术自洽也不改变题目目标。",
+    "第二正确每组四块和求组数的关系可给少量1，但硬件总数按组数错。"
+  ],
+  "uncertainties": [
+    "容量括号内幂指数笔迹较小，不据其算术一致性追加错误判断；无论指数为何，混入数据项与8960都不正确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ad7ae24946df30035d30aa6de87546a2a3a828ff3fccd7ecabf31dba8e265e16",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:00:16.611481+00:00"
+}

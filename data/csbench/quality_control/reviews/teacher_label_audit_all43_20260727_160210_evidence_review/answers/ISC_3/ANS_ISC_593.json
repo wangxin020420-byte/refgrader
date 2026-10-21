@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_3",
+  "answer_id": "ANS_ISC_593",
+  "category": "model_or_extraction_issue",
+  "summary": "DBMS已在首句明确出现，模型仍称缺失；教师满分有核心内容支持。",
+  "teacher_issue": "",
+  "model_issue": "定义中DB、DBMS及应用软件和重要性、DDL/DML/DCL不能因写成连贯句而漏掉；三等分截断也无原始依据。",
+  "original_image_observations": "原图5；以数据库为核心、在数据库管理系统支持下的应用软件系统；降低冗余冲突、提高共享；SQL集DDL/DML/DCL并举模式、对象与记录操作。",
+  "evidence": [
+    "历史有判理由称缺DBMS，与原图及转录的明文相冲突。",
+    "SQL操作及控制的综合说明与参考核心相合，不要求抄全参考句。"
+  ],
+  "uncertainties": [
+    "不据历史自行等分后的3分推定教师评分错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "98f93eaaf2781dc86d47fe88cd3b3cea9371780f5f2db30cb508a610fb8f449f",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:42:52.044299+00:00"
+}

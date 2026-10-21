@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_551",
+  "category": "teacher_suspect",
+  "summary": "优先级正确但整张作答没有五行屏蔽字，教师18超出已呈现两项的最高10分，疑似标签或阅卷来源问题。",
+  "teacher_issue": "第一问要求的五个屏蔽字共10分完全缺失；即使图全8、优先级2，也至多10，18需优先核对是否漏裁作答或错贴标签。",
+  "model_issue": "图实际能看出B、C、D、C、E、B，旧模型提成重复A且漏E不实；不能因此否认图可有较多分，但缺表事实仍明确。",
+  "original_image_observations": "教师18红勾叉。上方只有A>D>C>E>B，剩余为服务图A后回底、B-C-D-C后回底、E后B返回用户；没有屏蔽表或屏蔽集合。",
+  "evidence": [
+    "全图上下左右均未见11111等任何五行掩码。",
+    "五掩码是独立评分项，优先级或图正确不能替代其10分。",
+    "疑点也可能来自题内裁图漏页或标签关联，尚不宣称教师原始卷必多给8。"
+  ],
+  "uncertainties": [
+    "需原始整卷确认有无同题另页掩码未被裁入；当前审核图证据无法支持18。"
+  ],
+  "evidence_strength": "strong_score_evidence_gap_missing_ten_point_mask_table",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f3c99c86a6881794f4dd18871cee17dc6fc9f1e63beb7a8ed3646cdba14de4e2",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:21:22.924627+00:00"
+}

@@ -1,0 +1,31 @@
+{
+  "question_id": "ML_2",
+  "answer_id": "ANS_ML_106",
+  "category": "model_or_extraction_issue",
+  "summary": "原图下半保留的有效解答是正确电路表达式及AB+AC+AD+BCD，教师4分成立；模型把取反横线读成减号并混合划掉草稿。",
+  "teacher_issue": "",
+  "model_issue": "转录F=(A+B+C+D)-A+...并非原图有效式；模型据虚构-A和OR项错判0～1分。",
+  "original_image_observations": "教师4分红勾。上行解答有划线作废；下行重新写F，A的反相与B+C+D反相经或门后、与BCD反相相与再整体取反，等号后AB+AC+AD+BCD清楚。",
+  "evidence": [
+    "有效最后一行已直接写出完整参考答案。",
+    "上方划掉的草稿不能覆盖下方重写结果。",
+    "‘-A’不是学生的最终单独否定结论，而是横线和取反范围被错误转录。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "上下行、划掉内容和取反线被拼为无效转录。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "cac7a2b44bba411f0b593e1d77a6deb0d90269d0f1006e86e1b2611db4227160",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:09:06.463893+00:00"
+}

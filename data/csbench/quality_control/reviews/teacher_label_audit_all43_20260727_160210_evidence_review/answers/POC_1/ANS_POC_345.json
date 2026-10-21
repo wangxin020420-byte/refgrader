@@ -1,0 +1,27 @@
+{
+  "question_id": "POC_1",
+  "answer_id": "ANS_POC_345",
+  "category": "model_or_extraction_issue",
+  "summary": "最终表达式和附加数量条件完整等价，教师5有支持，模型三次0错误。",
+  "teacher_issue": "",
+  "model_issue": "将正则形状与文字计数约束割裂，错误称a=b+c不符合要求；还可能混入已划掉的b*c*答案。",
+  "original_image_observations": "上行a^m b^n c^p及条件整段划掉；下方最终a*(b|c)*，并写a、b、c数量非负且a数为b和c数量之和。教师5。",
+  "evidence": [
+    "形状约束保证所有a在前，b/c后缀可任意混排。",
+    "补充等式保证两部分等长，正好描述标准语言且允许空串。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f81fe9905b87db1f80316f042203d41631e1df8ab40c090aaf5d93dd9be2a589",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:54:14.486135+00:00"
+}

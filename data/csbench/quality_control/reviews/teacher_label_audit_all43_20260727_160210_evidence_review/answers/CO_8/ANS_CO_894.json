@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_894",
+  "category": "uncertain",
+  "summary": "教师2+3=5，但原图有频率与时钟周期数量级错误、查询比率取反、DMA带宽用4MB/s及最终关系错误；有效关系有限，是否部分分过多需统一细则确认。",
+  "teacher_issue": "尤其DMA3/5涉及多处错误，不是仅末步算术失误；需要确认教师是否只按时钟周期错值传播而保留大量过程分。",
+  "model_issue": "原模型说比率分母必须1秒而不能用单次时间，理由不正确；应定位学生实际的倒置比例、错误周期和错误带宽。",
+  "original_image_observations": "教师5分、1:2、2:3。100/(5×10^7)写2×10^-4、时钟周期写2×10^-6；4B/1MB=4×10^-6后取传输/查询=2%。DMA1500、500分别乘2×10^-6得3ms、1ms，传输4KB/4MB=1ms，再1/(3+1)=25%。",
+  "evidence": [
+    "查询虽代入100/f，但算错100倍并倒置CPU占用比，应区分原始和新增错误。",
+    "DMA开销乘周期的形式可保留传播错误过程分，但传输带宽和最终比例另有独立错误。",
+    "不宜照搬模型1～3.75或教师5作唯一标准，需要人工统一多个独立错误的分值。"
+  ],
+  "uncertainties": [
+    "缺少教师逐项权重，无法确认5分应保留还是降低。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f537842970e6310f6c96b480f09ee0628f5d1d97103e62ee9b4338deaff94bab",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:07:06.926918+00:00"
+}

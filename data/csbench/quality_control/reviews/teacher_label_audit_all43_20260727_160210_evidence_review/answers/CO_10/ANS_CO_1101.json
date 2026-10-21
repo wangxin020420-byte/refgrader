@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1101",
+  "category": "model_or_extraction_issue",
+  "summary": "首问块数及乘法换算有过程，但漏计有效位得到768B；次问四路四套已有对应解释，教师7+5=12可作局部扣分，模型对第二苛求额外关键词。",
+  "teacher_issue": "",
+  "model_issue": "6×4×2^8中的6是每块标记位而非‘总块数6K’；旧理由误读公式角色。第二四路需四套判断目标tag已表达对应关系，缺‘共享、并行’字样不能自动只给部分。",
+  "original_image_observations": "页眉12，1:7、2:5。主存16地址线，块4字=64位并取log64=6，Cache12位、2^12/4=1024；写6×4×2^8=6K、6K/8=768B，旁注标记有tag和一位有效但计算未加。第二4套、四路组相联，用4套判断目标tag。",
+  "evidence": [
+    "768来自6×1024/8，不是完全没有容量乘法；漏有效位是可定位的源错。",
+    "log块位容量得6并非正确tag推导，即使数字相同也不能反推推导正确，应保留首题扣分。",
+    "第二结果及四路对应均正确；教师总12不能因模型2.5至7.5就认作标签异常。"
+  ],
+  "uncertainties": [
+    "首7的具体过程权重未提供；tag推导错误与漏有效位可分别扣，但不能把其他正确块数也清零。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4a87f7571979bdf2b51dd6372a9ab2f12c07fb827b32f478863c58d8b28cde38",
+  "teacher_score": 12.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:53:59.187042+00:00"
+}

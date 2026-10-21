@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_569",
+  "category": "teacher_suspect",
+  "summary": "五掩码正确，但未列优先级，改画后的图最高只到D且首次峰在C，未表达D/C/E正确层级，教师19疑似少扣图形实质错误。",
+  "teacher_issue": "有效下图平台按本图标签读为A-B-C-B-D-B后用户，而非标准A-C-D-C-E-B；19仅扣1对这些独立层级/返回错误可能过宽。",
+  "model_issue": "上图大叉已作废，应只看下图；五行掩码逐位正确，首轮每行仅给1并编造位差也错误。",
+  "original_image_observations": "教师19红勾叉。左表五行标准正确，无独立ADC EB句；上图大叉作废。下图左轴从底A/B/C/D/E，第一高峰对C、回B，第二高峰对D、再B，未达E层。",
+  "evidence": [
+    "不是拿旧废图扣分，层级问题在新保留图也存在。",
+    "可由表隐含正确优先级关系，不能单以没写句就判错，但图标签不能忽略。",
+    "图轮廓近标准却各峰相对所标轴错一层，不只是整体绘图高度不同。"
+  ],
+  "uncertainties": [
+    "若学生纵轴标签整体错移而教师只按一种系统性标注错扣1，可解释宽松19；需人工确认，而非自动定新分。"
+  ],
+  "evidence_strength": "possible_overcredit_wrong_levels_in_retained_diagram",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a054a476ba8b28b32335e8905dc129a1c34cf9bec5ce5de01bc66180583c6dc3",
+  "teacher_score": 19.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:29:03.391814+00:00"
+}

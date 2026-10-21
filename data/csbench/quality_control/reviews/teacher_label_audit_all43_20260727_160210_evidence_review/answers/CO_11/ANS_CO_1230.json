@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1230",
+  "category": "model_or_extraction_issue",
+  "summary": "原图R为2^5=32、J7−5=2且2^2=4，I留码得30，教师15合理；转录漏掉1或2造成假位数和结果错误。",
+  "teacher_issue": "",
+  "model_issue": "原R结果32不是3，J7−5=2是明确参数识别而非未写。不能将丢1后的四位范围解释成16种再与30混同，应回图核五位前缀。",
+  "original_image_observations": "页眉15，三项各5。I五位Opcode从00001至11111，留11111给J前缀，共30；J剩条数/位数写7−5=2位，故2^2=4；R2^5=32条，红勾。",
+  "evidence": [
+    "I分配00001至11110实际30，末前缀留给J，逻辑完整。",
+    "J差值2与R5位均有具体式，缺少重复文字不能额外扣。",
+    "教师满分依据真实过程与结果，非模型擅自把错误3补成32；原图32本已存在。"
+  ],
+  "uncertainties": [
+    "顶部前缀靠页眉较密，按可辨五位串和30及留前缀上下文核对，不单用转录四位范围定错。"
+  ],
+  "transcript_conflicts": [
+    "原图R为32，转录只3；J7−5=2位及I/J五位前缀部分1在旧转录中漏失。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "81afebca676f7f825d8ab97877d39db04f40829091ccf95e54331d3d4c3d75a4",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:50:54.630913+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_201",
+  "category": "label_supported",
+  "summary": "五状态主链与检测输出正确，但0输入回退错误，教师3有部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "模型称最后两个有效状态间循环缺失并不准确，原表E0到D/1正是合法合并后的检测回退。",
+  "original_image_observations": "左图A至E五状态，右表A:B/0,A/0；B:A/0,C/0；C:D/0,A/0；D:A/0,E/0；E:D/1,A/0。教师3及红叉。",
+  "evidence": [
+    "E的0输入回D并输出1，相当于合并参考S5与S3，重叠主链得以保留。",
+    "B、D在0输入应回B，原答回A，仍有真实失配回退错误，不能满分。"
+  ],
+  "uncertainties": [
+    "同类回退错误的统一部分分权重未给。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "868fdc1310e0b1b32ea78cd463352c1c394ebb6ba695c58f7832e6f2f7c3e977",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:35:33.869966+00:00"
+}

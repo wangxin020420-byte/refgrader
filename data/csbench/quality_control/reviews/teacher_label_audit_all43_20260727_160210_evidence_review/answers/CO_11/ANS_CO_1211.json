@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1211",
+  "category": "uncertain",
+  "summary": "I30明确正确且J四倍扩展关系正确但优化目标错，模型三次0无据；教师分项R3/I5/J0也存在方法分归属疑问，总8是否应改未定。",
+  "teacher_issue": "R29仅由I须最多而来，方法依据少却给3；J虽最终24错，但4(31−x)资源式有正确局部却0。需核分项是否错位或政策不同。",
+  "model_issue": "原图I最多30明确，不应判其最终结果未写；4(31−x)=a是正确扩展资源式，不是应4×I_count，更不是未知变量出现就方法错。",
+  "original_image_observations": "页眉8，1:3、2:5、3:0。先I最多且J只有1条时I30；R因I最多写R29；J设a、I x，4(32−1−x)=a且a<x，解a<24.8取24。",
+  "evidence": [
+    "J把最大化I误作I条数大于J，24不满足I最大30，应扣最终结果。",
+    "正确I结果可至少保留整项口径5，J乘4/留R1仍是局部过程，模型0不合理。",
+    "教师总8可能相容于I5加部分方法3，但页眉将3记R、J0，不能确定总分一定错。"
+  ],
+  "uncertainties": [
+    "需核R3与J0的分项分配及是否保留错优化目标下的正确资源式，暂不自动改8。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5e71dc53f4392ddeaba0c9ec3d6c94962a925a13428831fbf8a25568b028326c",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:37:26.863427+00:00"
+}

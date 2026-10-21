@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_3",
+  "answer_id": "ANS_ISC_572",
+  "category": "teacher_suspect",
+  "summary": "最终组成列一般应用软件类别，与数据库系统组成明显不符，却给满5。",
+  "teacher_issue": "首项实质错误而非等价术语，需复核教师满分是否误录或题干错配。",
+  "model_issue": "重要性和SQL减负/独立安全回答正确，应保留相关部分分，历史1.5至2.5不能当唯一标准。",
+  "original_image_observations": "原图5；首行旧内容划去，最终写开发环境、办公/医疗/多媒体/网页/通信/工具软件等；后两部分低冗余共享独立及SQL便利安全。",
+  "evidence": [
+    "这些是软件用途类别，没有数据库、DBMS等系统核心组成清单。",
+    "原图满5清晰，且与准备标签一致，问题是当前题干下内容与满分不符。"
+  ],
+  "uncertainties": [
+    "需核原卷题干及教师是否另有课程组成定义，不直接改分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c0fdfd8c981dd0f95a9837041a10d245e364544ed74ced09fcfc3c4395c83e36",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:42:52.053395+00:00"
+}

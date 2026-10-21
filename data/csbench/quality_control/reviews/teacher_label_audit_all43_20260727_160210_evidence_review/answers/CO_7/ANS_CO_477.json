@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_477",
+  "category": "label_supported",
+  "summary": "有完整的周期数及运行时间公式，错误主要为主频换算；教师4+4可解释为保留正确过程并扣结果分，不列明确教师错例。",
+  "teacher_issue": "",
+  "model_issue": "旧判决对M2周期数的转写矛盾过度扣分，有一次第二问给0；不能据此反推教师8分有错。",
+  "original_image_observations": "IC=10^5；m1=IC×CPI1=2×10^5，t1=m1/F1分母4×10^6；m2行末指数书写疑似6，后续分子10^5，分母6×10^6；最终0.05s与0.0167s；教师两处+4。",
+  "evidence": [
+    "M1周期数正确；两问都有m=IC×CPI和t=m/F关系。",
+    "学生最终数量级不正确，教师已扣2分。",
+    "原模型5/4.5/2分属于相同过程的权重及字迹解释差异。"
+  ],
+  "uncertainties": [
+    "M2周期数行的指数与代入存在书写不一致；精确部分分应按统一政策。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "eb38737556dd0d1c2845cfd0d12b7b23e3532bde377d414b68e7c8fbc49e291f",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:17:36.433856+00:00"
+}

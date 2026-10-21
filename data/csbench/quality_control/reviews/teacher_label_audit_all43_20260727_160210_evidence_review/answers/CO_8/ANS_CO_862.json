@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_862",
+  "category": "teacher_suspect",
+  "summary": "只完成查询，未建立字长及100周期开销关系，直接带宽除主频得2%，教师仍给3/5，疑似部分分过高；DMA空白0分正确。",
+  "teacher_issue": "有效未划掉内容主要是频率、带宽和二者直接相除，没有正确查询次数或开销推导，3分超过该问一半，建议核查具体给分依据。",
+  "model_issue": "转录把原图50MHz和Hz写成MB/B，夸大单位书写问题；真正缺失是4B与100周期的计算关系。",
+  "original_image_observations": "教师总3、1:3、2:0。原图f=50MHz=5×10^7Hz，1MB=10^6B/s；写过的10^6×100=10^8一行已划掉，最终10^6/(5×10^7)×100%=2%，第二问仅题号。",
+  "evidence": [
+    "未划掉最终比例不是有效CPU占用模型，非正确过程后的单步算术错误。",
+    "划掉的开销尝试也未按32bit=4B算实际查询次数，不能当完整正确过程。",
+    "疑点限定查询3分，并不要求把已显示的参数换算一律归零。"
+  ],
+  "uncertainties": [
+    "教师是否对被划掉尝试另给方法分及其权重未说明，因此列可疑而非确认改分。"
+  ],
+  "evidence_strength": "possible_overcredit_without_valid_query_relation",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "daed42e38d047a79afbcc38d28b67dd47cc28f3c8622e4b2929d4b38dfa1bd72",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:04:57.963493+00:00"
+}

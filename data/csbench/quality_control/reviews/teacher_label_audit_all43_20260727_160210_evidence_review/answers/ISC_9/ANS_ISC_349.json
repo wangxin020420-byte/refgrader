@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_9",
+  "answer_id": "ANS_ISC_349",
+  "category": "uncertain",
+  "summary": "参考真彩色图大小本身正确，但后续灰度换算缺少有效推导，教师5的依据需核。",
+  "teacher_issue": "只有1024平方24位图3MB的基准正确，最终375/128 MB严重错误；半分总量的分配不清。",
+  "model_issue": "不应把使用3MB基准比例法本身视为错；应核对像素比例与位深比例。",
+  "original_image_observations": "写1024×1024真彩色为3MB；中间比例式整段划掉；最终称1000张2048×2048、4096灰级图片为375/128MB。教师5。",
+  "evidence": [
+    "正确比例应像素数乘4、位深12/24乘1/2，再乘1000，得6000MB。",
+    "保留式只有错误最终量，无法证明已正确采用这两个比例。"
+  ],
+  "uncertainties": [
+    "删除比例草稿是否仍获方法分及其权重需人工确认，不能直接用模型0替换5。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1d56a5907034dc390f6fca074d60f3f98120fef137d35ad5ef1c889580609170",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:43:52.350291+00:00"
+}

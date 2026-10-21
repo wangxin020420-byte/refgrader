@@ -1,0 +1,27 @@
+{
+  "question_id": "CPL_5",
+  "answer_id": "ANS_CPL_294",
+  "category": "model_or_extraction_issue",
+  "summary": "初始化和读模式两项明确正确，教师4有据；模型给模式仅半分没有依据。",
+  "teacher_issue": "",
+  "model_issue": "把单独完整的w改r与另一项优先级修复合并要求，错误只给1而非2。",
+  "original_image_observations": "第1条加无关头文件；第2条result0改1；第3条空；第4条fopen(argv[1],w)改fopen(argv[1],r)；第5条空。教师4。",
+  "evidence": [
+    "两个独立正确修复各2，未答的其他项不应削减这两项。",
+    "按学生表格顺序对齐而不是错误内容对齐会漏分。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6be597b63b99163b8dbc446c6bc8a6e3ce531a1057be10481b31b3bf119ce5d9",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:17:28.215315+00:00"
+}

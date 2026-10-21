@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1489",
+  "category": "model_or_extraction_issue",
+  "summary": "明确ABCD列表全对、虚线转换的嵌套轨迹完整正确，首保护断点等3，教师18合理；模型因格式/图提取低给。",
+  "teacher_issue": "",
+  "model_issue": "列标题A B C D允许合法反序，不能把1000/1101判优先关系错。轨迹采用虚线竖段但所有短响应/返回存在，不是仅最终完成顺序。",
+  "original_image_observations": "页眉18，1:3、2:8、3:7。首IF1检查、CS/IP/PSW入栈保护断点、服务及高优先嵌套、返回断点，没有明确关/开流程。表ABCD四行1000/1101/1111/1001。图用户→A→B→C→B→A→D→A→用户，水平实线/竖虚线与完成标记一致。",
+  "evidence": [
+    "图的短A/B和B结束后A都清楚，虚实线风格不扣正确性。",
+    "表8完全匹配换序标准，不存在整体逻辑反向。",
+    "首虽有实际寄存器入栈，但少关/开与入口细节，教师3不因模型首5而必低。"
+  ],
+  "uncertainties": [
+    "首3与5的具体权重需官方细项，但整卷主要分差是模型错误的表0和图3.5。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "504705cba33c3a0d264de97183cfb45e8c2c47f581e859d02b73214ba51f45b1",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:27:13.222020+00:00"
+}

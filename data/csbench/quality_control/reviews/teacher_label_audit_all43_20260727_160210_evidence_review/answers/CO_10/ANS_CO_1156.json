@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1156",
+  "category": "label_supported",
+  "summary": "首正确块/组/偏移，tag错用Cache总地址位但减法结构存在；容量与比较器数量错，教师5+1=6可作局部方法分。",
+  "teacher_issue": "",
+  "model_issue": "不能因用12代16把已正确1024块、256组和偏移2重扣；第二64是每组可能主存块数而非比较器，少量前提分可保留。",
+  "original_image_observations": "教师6红勾叉，1:5、2:1。1024块、256组、Cache12位，偏移2与组8；tag12−8−2=2，容量2^2×2=8字节。第二主存2^14块除256组得64，答64套。",
+  "evidence": [
+    "首正确结构参数可覆盖地址部分，tag公式减已知组/偏移也体现方法但基数用错。",
+    "容量公式独立错误未体现(tag+1)×总块数，结果分不能给。",
+    "第二计算每组主存块候选数正确但把它当硬件套数错误，给少量1而不全5有依据。"
+  ],
+  "uncertainties": [
+    "教师方法分细项未列，不确认6唯一，但总分与可见局部正确内容相容。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e2dad1f2ff9616adbefd5b93376888588d660d57b1d68b359282bcaca653c273",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:42:30.111111+00:00"
+}

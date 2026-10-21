@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1107",
+  "category": "label_supported",
+  "summary": "Cache4KW误成4KB造成512块、组/Tag7，容量结构仍正确；第二有四块比较但总512套错，教师4+2=6可作局部评分。",
+  "teacher_issue": "",
+  "model_issue": "主存表明确tag7/组7/偏移2，不能称完全未推tag；容量(7+1)仍体现有效位，应按源错传播保留方法。第二并非仅漏共享关键词，而是最终明确把全块数512当电路数。",
+  "original_image_observations": "页眉6，1:4、2:2。Cache布局上方涂改，主存7/7/2，Cache4KB/8B=2^9块；(2^9×(7+1))/8，结果512B为最后修改。第二四路、组内与四个Cache块比较，末有2^2个/一组块文字，最终共2^9个相等比较电路。",
+  "evidence": [
+    "若错误Cache容量4KB，512块、128组及tag7有可追溯链；正确(tag+1)×块数/8可保留。",
+    "实际题目Cache为4KW，正确总1024块及容量896，512B不能给结果分。",
+    "第二局部组内四块正确，但最终512套表明未掌握按选中组配置，教师2而非满5有依据。"
+  ],
+  "uncertainties": [
+    "上方Cache字段涂改及右侧组块指数不够清楚，不以转录‘一个组块为2个’作为额外确定错误；最终512套清楚。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a658ead857618f477e03881e917c81a9674a563b002612fb0d6d327ef00fbfe2",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:00:16.613482+00:00"
+}

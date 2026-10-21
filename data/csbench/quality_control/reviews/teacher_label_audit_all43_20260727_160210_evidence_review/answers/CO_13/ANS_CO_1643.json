@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1643",
+  "category": "model_or_extraction_issue",
+  "summary": "表全对，图漏B初始嵌套且C先回A，教师图6已部分扣；首排队请求概述2，16可解释。模型有一次按轴标签给图7也不成立。",
+  "teacher_issue": "",
+  "model_issue": "原图存在实际A/C/A/B/A/D/A阶梯，不是‘B、A同时到来’的文字顺序；需指出B嵌套缺失，不能依轴层级给满或全清。",
+  "original_image_observations": "页眉16，1:2、2:8、3:6。首外设请求经过排队按优先级进入CPU。表MDMCMBMA四行正确。图用户→A→C→A→B→A→D→A→用户，入C及C回A红圈。",
+  "evidence": [
+    "表8有完整数值支持。",
+    "图服务完成顺序CBD A与主要返回存在，B本应先入并承接C返回，学生该处错。",
+    "教师图6可作一处B层级源错扣分，首2非满，16不是明显无据高给。"
+  ],
+  "uncertainties": [
+    "B嵌套源错扣1是否足够需统一口径，不根据模型16偶然相同就认其图理由正确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d979cff46346d11eefb1e9a3679698f7fdc0285f5a1060332fd01bd49c14f710",
+  "teacher_score": 16.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:21:17.237219+00:00"
+}

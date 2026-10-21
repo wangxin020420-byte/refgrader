@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_287",
+  "category": "teacher_suspect",
+  "summary": "两问仅复述题设后写71和6，没有有效计算过程，教师8分缺少可见支持，属于优先核对的标签问题。",
+  "teacher_issue": "没有正确主码空间、扩展关系或正确末值，8/15不能用已完成有效过程解释。",
+  "model_issue": "三轮0与原图有效证据基本一致；是否给少量题设理解分不影响8分可疑这一结论。",
+  "original_image_observations": "教师页眉8红叉。第一问抄12条、至少1条零地址、地址6位后写一地址最多71；第二问抄12、254及6位后写零地址最多6。全页无计算式或图。",
+  "evidence": [
+    "71与6均不等于255与128。",
+    "复述题目参数不能自动获得完整计算过程分。",
+    "图片标注也是8，当前是原始给分合理性疑点，不是数字导入不一致。"
+  ],
+  "uncertainties": [
+    "最终复核可确认是否有卷外另附作答，当前保存图中没有。"
+  ],
+  "evidence_strength": "strong_no_valid_process_or_correct_result",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "8f787c900a21a90de201c01259e1f01809b4affe4ea7e02ab4c44d7f075e43d5",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:22:35.218181+00:00"
+}

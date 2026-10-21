@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_1",
+  "answer_id": "ANS_ISC_396",
+  "category": "uncertain",
+  "summary": "性能影响、物理极限与三类新方向都相关，教师2可能偏低，但概括程度与权重待定。",
+  "teacher_issue": "多核、3D堆叠、量子计算均明确，应核是否充分给了技术方向分。",
+  "model_issue": "不必为每个参考例子单独补齐所有细节才承认正确方向；模型三等分也不是原始硬权重。",
+  "original_image_observations": "性能飞升；现面临物理极限；多核、3D堆叠、量子计算突破瓶颈，教师2。",
+  "evidence": [
+    "具体方向与参考开放范围直接相符。",
+    "未解释功耗/经济挑战及小型化/成本影响，不能直接视作完整满分。"
+  ],
+  "uncertainties": [
+    "需确认主要问点是挑战及技术还是三部分等权，才能确定2是否低给；原题图不可用。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "143042fe113ca0ebc0847ecc4783d208b2dbea8bf0973250f3f1b3a40f609cd7",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:24:18.658445+00:00"
+}

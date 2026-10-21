@@ -1,0 +1,30 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_124",
+  "category": "model_or_extraction_issue",
+  "summary": "三组函数正确，教师6分保留。旧模型一方面承认xy代表y1x，一方面虚构参考答案含反相，另将y1下标读成逗号。",
+  "teacher_issue": "",
+  "model_issue": "旧理由称xy1与y1x矛盾并声称标准是~y1x；题图和官方标准均为正相y1x。",
+  "original_image_observations": "J1=x、K1=x；J2=xy1、K2=xy1；z=y1y2x，字符下标清楚；教师6。",
+  "evidence": [
+    "电路AND输入来自正相y1输出，不含反相。",
+    "乘法次序可交换；学生三个右端与官方一致。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "y1的手写下标被转录成逗号。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2b5c320e55283035524a2b2c0a3787b65ddae695caf0e7943f2a7da6b73f7e1a",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:34:40.075559+00:00"
+}

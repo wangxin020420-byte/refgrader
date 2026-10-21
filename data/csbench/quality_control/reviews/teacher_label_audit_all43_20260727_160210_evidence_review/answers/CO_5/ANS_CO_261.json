@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_261",
+  "category": "teacher_suspect",
+  "summary": "仅有6位可表示64种地址的局部换算，第一答案51错误、第二空白，教师8分明显缺少有效过程支持。",
+  "teacher_issue": "没有计算4个剩主码、256名额或255，第二问未答，8/15需优先核对。",
+  "model_issue": "原模型保留1.25～2.5的局部换算分有依据；不能把6位可表示64种地址直接当整个扩展题做对。",
+  "original_image_observations": "教师8红叉。写地址码6位共2^6=64个地址、二地址12条、一地址最多51条；第二问仅题号。",
+  "evidence": [
+    "64只是地址字段组合数，尚未和剩余4个主码建立关系。",
+    "51非255，第二问128及过程均不存在。",
+    "原图页眉也是8，疑点在评分内容而非当前导入分数不一致。"
+  ],
+  "uncertainties": [
+    "可保留局部换算分，精确替代分不自动指定。"
+  ],
+  "evidence_strength": "strong_partial_parameter_only_and_blank_second",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0d60cf33b26ba1dd5a108499c02b0b982240a21453ee5855d0cdee75eeb6abc5",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:28:21.518243+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_3",
+  "answer_id": "ANS_ISC_542",
+  "category": "uncertain",
+  "summary": "重要性和SQL有效，但首行定义被划改，最终组成列表含重复数据库概念，满5需核接受口径。",
+  "teacher_issue": "最终列数据库、数据库管理系统及关系数据库，后者可能只是DB子类；不能把被划去的应用软件定义补成第三组件。",
+  "model_issue": "数据独立性、降低冗余、共享及集合操作等均有证据，历史2.5至3不能当唯一标准。",
+  "original_image_observations": "原图5；首行以数据库为核心等定义横线划改，右侧重列数据库、数据库管理系统、关系数据库；后列两级映射/独立性及SQL特征。",
+  "evidence": [
+    "放大首行确认存在删除线，应区分最终文本与被删内容。",
+    "重要性和SQL作用有具体正确点，组成是否足够取决于是否认可该分类，而非硬要求全六项。"
+  ],
+  "uncertainties": [
+    "首行右端字迹及教师采用的组成分类需人工确认，暂不据删除内容判满。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7cccd57b0da0be1038d961868d091eacd30c087043ff78fba765e76ab775ca1a",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:42:52.024335+00:00"
+}

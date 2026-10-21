@@ -12,3 +12,7 @@ outputs/scale-*/** -text
 outputs/scale4_recovery/** -text
 outputs/scale_private_csbench/** -text
 tmp/refgrader_scale4_source/** -text
+
+# Review evidence packets contain frozen raw-byte input fingerprints.
+data/csbench/quality_control/reviews/teacher_label_audit_all43_20260727_160210_assisted/** -text
+data/csbench/quality_control/reviews/teacher_label_audit_all43_20260727_160210_evidence_review/** -text

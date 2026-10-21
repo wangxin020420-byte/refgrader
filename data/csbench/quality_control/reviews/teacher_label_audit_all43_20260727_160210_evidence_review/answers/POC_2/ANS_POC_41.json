@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_2",
+  "answer_id": "ANS_POC_41",
+  "category": "teacher_suspect",
+  "summary": "句柄错误且直接短语只写(b)，教师4可能只扣句柄、漏扣直接短语缺项。",
+  "teacher_issue": "完整短语最多2、句柄(b)应0；直接短语漏(SaA)，若仍满2则未评价集合完整性，总4需复核。",
+  "model_issue": "模型有时称次外层短语缺失，原图已列；应只扣真实漏项，不能扩大扣分。",
+  "original_image_observations": "短语行列四项整体与嵌套串、(SaA)、(b)；直接短语只写(b)，句柄也写(b)，教师4及红叉。",
+  "evidence": [
+    "(SaA)由A→(SaA)一步推出，是明确应列的另一直接短语。",
+    "句柄应(SaA)，该独立1分错误之外还有集合漏项，不能只按总扣1处理。"
+  ],
+  "uncertainties": [
+    "无小项分，需确认教师是否对直接短语采用只列一项也给满分的特殊口径；当前原规则未给此豁免。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1eab8a9294ffb74e1d5b357e3c62314fedf495920b890b2a1aa3837399d402e3",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:48:58.311585+00:00"
+}

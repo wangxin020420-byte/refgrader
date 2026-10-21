@@ -1,0 +1,37 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1233",
+  "category": "model_or_extraction_issue",
+  "summary": "R32、I扣R及J前缀得30、J1×2^(7−5)=4完整正确，教师15合理；旧28超15，T型文字是识别问题而非新指令类别。",
+  "teacher_issue": "",
+  "model_issue": "不能把潦草I/J读成T再虚构第四种类型；7−5是正确自由位数。历史第三次28越分值上限，应标评分输出异常。",
+  "original_image_observations": "页眉15，三项各5。对I有2^5=32、00000已占需再留一条扩J，得30；R2^5=32；J1×2^(7−5)=4，红勾，I/J笔画有连写。",
+  "evidence": [
+    "两个预留前缀与J后两位都明确，全部方法与数值一致。",
+    "幂差表达式等价4，不必额外再写2位独立文本。",
+    "两次历史15与教师一致，第三28为越界成绩，不能据分差怀疑教师。"
+  ],
+  "uncertainties": [],
+  "historical_score_contract_issue": {
+    "max_score": 15,
+    "recorded_scores": [
+      15,
+      15,
+      28
+    ],
+    "observation": "第三次历史模型总分28超过15。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "dc2545f62dc908583bbaecb0c63964ce3a3b41214936b5377f4f51f5c0c9e420",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:50:54.633943+00:00"
+}

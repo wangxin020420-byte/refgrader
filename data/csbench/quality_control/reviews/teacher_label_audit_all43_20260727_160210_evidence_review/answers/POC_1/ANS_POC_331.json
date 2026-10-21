@@ -1,0 +1,27 @@
+{
+  "question_id": "POC_1",
+  "answer_id": "ANS_POC_331",
+  "category": "model_or_extraction_issue",
+  "summary": "形状及数量等式都正确，模型错误要求交替配对和显式n，教师5有据。",
+  "teacher_issue": "",
+  "model_issue": "将联合条件割裂，并捏造标准需1对1严格交替，原文法实际是全部a在前。",
+  "original_image_observations": "写G1形如a*(b|c)*，其中a的数量等于b和c的数量之和，教师5。",
+  "evidence": [
+    "任意合法描述串有a^n前缀、长度n的b/c后缀，反之可由文法生成。",
+    "星允许0次，已包含空串，不需另写n≥0才成立。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e21af99ba8cf9e368d615eb16e2dde8c8785fe5fc7b66bb88ea6741c7645b0ad",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:54:14.518879+00:00"
+}

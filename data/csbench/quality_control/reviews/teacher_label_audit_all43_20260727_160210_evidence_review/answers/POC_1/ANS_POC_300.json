@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_1",
+  "answer_id": "ANS_POC_300",
+  "category": "uncertain",
+  "summary": "前后计数独立且x固定取b或c，语言描述不完整；教师4需确认部分分口径。",
+  "teacher_issue": "4分只扣1可能没有覆盖后缀混排和等长两种缺陷，需核权重。",
+  "model_issue": "模型指出缺m=n成立，但未讨论x=b或c固定取值还限制混排，也未保留正确a前缀。",
+  "original_image_observations": "写L(G)={a^n x^m |n≥0,m≥0,x=b或c}，未写m=n；教师4。",
+  "evidence": [
+    "n与m独立允许a，违反等长。",
+    "若x是单一固定字符，x^m只能全b或全c，无法表示aabc等混排后缀。"
+  ],
+  "uncertainties": [
+    "x是否意在每个位置独立选b/c记号不严谨；具体权重未给，不自动判分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b5d2652b37acaed639a534f6d0eeec4a5f4b875e87bf77f61e006c629acf242e",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:54:14.498781+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1496",
+  "category": "uncertain",
+  "summary": "表全对8、图有B后及末返回高度问题获5；第一明确关中断和记录断点却仅1，教师14是否少给过程分需核细项。",
+  "teacher_issue": "首关中断目的和保存断点返回目的均具体写出，只给1与同题部分样本相较偏严，但无分点权重不能确定应加多少。",
+  "model_issue": "首未完整写条件、入口、实际服务恢复，模型满5也过度；图不能仅凭CBD A标签给7，B完成和A结束竖线下探时间轴有表达错误。",
+  "original_image_observations": "页眉14，1:1、2:8、3:5。首说明关中断防再次打断、记录断点便于返回，先响应后置屏蔽字。MDMCMBMA四行正确。图初始A/B/C清楚，C回B，B后下探横轴再转A上D，D回A，A结束又下横轴，两个红圈。",
+  "evidence": [
+    "图主要阶段存在但返回状态混画，教师5并非明显无据扣分。",
+    "首内容多于只有请求服务一句，1分需核是否漏评保存断点知识点。",
+    "官方首仅总5，未公开两知识点各占多少，不能由模型17至20反推教师14必错。"
+  ],
+  "uncertainties": [
+    "需教师响应过程的细项权重与一致性；现有证据只足以保留首低给疑问，不能确认标签错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e93de52809040959e460f0f83c8cfad3e85886044e2ce85886d40dcfc1f33d85",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:27:13.227028+00:00"
+}

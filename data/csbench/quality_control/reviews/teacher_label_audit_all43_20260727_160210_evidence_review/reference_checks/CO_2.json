@@ -1,0 +1,38 @@
+{
+  "question_id": "CO_2",
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reference_image": "data/csbench/reference_images/standard_answers/CO_2.png",
+  "reference_image_sha256": "c5b20d22cbd052853bf40bb63d850fd8696a9b3d64652192396ebc96755194ea",
+  "visual_observations": [
+    "参考图实际存在，纵轴服务程序从低至高A/B/C/D/E，横轴时间。",
+    "主要非零服务段为用户、A、C、D、C、E、B、用户；D进入前及结束后的两个C段均需保留。",
+    "ABC同时到达标在A入口附近，DE到达标在C服务期间/D开始处。",
+    "处理优先级A>D>C>E>B不同于时间执行序列；不可要求图按该静态优先级依次执行。"
+  ],
+  "canonical_masks": {
+    "column_order": ["A", "B", "C", "D", "E"],
+    "one_means": "masked",
+    "A": "11111",
+    "B": "01000",
+    "C": "01101",
+    "D": "01111",
+    "E": "01001"
+  },
+  "interpretation_limits": [
+    "屏蔽对象集合可与位向量等价；应以对象关系而非字符串外观判断。",
+    "有明确位列名时按该列名读表；无列名时统一列置换能成立只能证明存在等价解释，不能证明学生确实声明该约定。",
+    "五行统一反相可能表达允许位，必须区分一致编码与独立错误；自身屏蔽隐含政策需人工统一确认。",
+    "短B响应/恢复过渡、分立服务块、回用户边界的图示形式应核实际抢占与恢复含义，不能一律替学生补齐，也不能一律整图清零。",
+    "缺掩码表的样本仍需核原始整卷有无同题另页被漏裁；当前教师标签可疑不等于已确认原教师阅卷错误。"
+  ],
+  "target_review_count": 62,
+  "category_counts": {
+    "teacher_suspect": 16,
+    "label_supported": 6,
+    "model_or_extraction_issue": 24,
+    "uncertain": 16
+  },
+  "review_batches": ["CO_2_001.json", "CO_2_002.json", "CO_2_003.json", "CO_2_004.json", "CO_2_005.json"],
+  "automatic_score_change": false
+}

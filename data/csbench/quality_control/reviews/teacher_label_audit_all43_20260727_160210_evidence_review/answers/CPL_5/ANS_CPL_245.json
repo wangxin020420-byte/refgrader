@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_5",
+  "answer_id": "ANS_CPL_245",
+  "category": "label_supported",
+  "summary": "初始化与去&正确，循环定位正确但修复仍错，教师5作为两项满分加定位过程分有依据。",
+  "teacher_issue": "",
+  "model_issue": "模型漏认第3条去&的实质，只因列在第3项就拒绝对应第5评分项。",
+  "original_image_observations": "第1条第4行result=1.0；第2条空；第3条第24行polynomial(x,c)；第4条第22行i=N;i>0；第5条fclose(argtxt)。教师5。",
+  "evidence": [
+    "float初始化1.0会转换存入float，不会把变量类型改成double，初始化正确。",
+    "循环仍首访越界且遗漏0，不可给完整修复分，但指出实际错误行可按原口径给部分分。"
+  ],
+  "uncertainties": [
+    "定位但未修对的部分分权重未明，不认为5是唯一分值。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c9b835d0a46892a433f6fc418e4ebf4b929d584d3ea36780a682440ce79046a4",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:17:28.208473+00:00"
+}

@@ -1,0 +1,27 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_106",
+  "category": "model_or_extraction_issue",
+  "summary": "原图第二数有整数除2和小数乘2，转录只留第一数。",
+  "teacher_issue": "",
+  "model_issue": "右边整数10及001小数完整，三轮3均漏掉一半作答。",
+  "original_image_observations": "原图6；左只看小数部分、三次乘2得0.101；右除2及乘2得10.001。",
+  "evidence": [
+    "首数小于1，整数自然为0，不必重复冗长除法才承认。",
+    "第二数最后10.001及两种转换过程同图可见。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "54b59e13624b9ae95a266350ada0196a61a82736c11b54cb1dc558b9e30d3789",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.374161+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_185",
+  "category": "model_or_extraction_issue",
+  "summary": "完整正确标注树，模型只因文本下标及布局差异扣结构分不成立。",
+  "teacher_issue": "",
+  "model_issue": "把相邻A.x=0与b合并为一个节点，未按原图连接关系验证。",
+  "original_image_observations": "左答S属性，右图S.x=2展开a,A1,b；A1分A0和S1，两支分别经S0到c及a,A0,b再到S0,c，教师10。",
+  "evidence": [
+    "标准A1只是区分两个A的标记，学生用同名A仍合法。",
+    "所有局部值与根值正确，图结构完整。"
+  ],
+  "uncertainties": [
+    "类型理由详略的统一要求待确认。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "92a7f903075340411a9575a2f49ff4bc07e88eb3ac09730c4723bc5e98a9d628",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:41:34.409326+00:00"
+}

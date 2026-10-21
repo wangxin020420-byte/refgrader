@@ -1,0 +1,27 @@
+{
+  "question_id": "ISC_8",
+  "answer_id": "ANS_ISC_262",
+  "category": "model_or_extraction_issue",
+  "summary": "原图补码11100111及后续原码/真值都正确，教师满4有支持，转录漏位造成低给。",
+  "teacher_issue": "",
+  "model_issue": "转录1110111漏掉中间0；模型基于错读把正确过程判核心算术错误，还把漏位称漏符号位，均未对照原图。",
+  "original_image_observations": "原图4；X、Y三种码正确，-Y补11110110；右上(X-Y)补=11100111，反11100110、原10011001、-25，最后给原码表示。",
+  "evidence": [
+    "原图八位11100111清楚，和离线(-25)&255的值一致。",
+    "同时列补码和原码并不自相矛盾，末式原码不应覆盖前文明标正确补码。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d7705a38839347f8a1dfb087a81cc583af7093629bd3ac6a5bd1feff14ce415b",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:53:01.546980+00:00"
+}

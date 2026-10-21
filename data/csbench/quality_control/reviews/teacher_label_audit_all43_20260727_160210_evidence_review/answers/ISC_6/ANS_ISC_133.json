@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_133",
+  "category": "model_or_extraction_issue",
+  "summary": "最终带前导和末尾零的两数正确，模型局部字符串解释有误。",
+  "teacher_issue": "",
+  "model_issue": "1010是小数位串，.1010与.101相等；001在小数字段是.001，不能当整数1扣分。",
+  "original_image_observations": "原图6；最后0000000.1010及0000010.001正确；左过程首积疑写1.35，后0.35、0.7、1.4，右小数过程也有不规范中间值。",
+  "evidence": [
+    "最终0.1010和10.001均与目标精确等值，且有转换过程。",
+    "历史3主要因小数字符串及尾0误解释而扣，不是针对已核的中间算术笔误给出明确细分。"
+  ],
+  "uncertainties": [
+    "过程若干中间数有笔误；按用户正确结果且有相应过程的原则不再机械拆掉整项，若另要求过程逐行无误应统一说明。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1e9fd2d8ec68d1118f712ffab3bde20d09b22e04d1ec30bc01f036afa87557c4",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.388950+00:00"
+}

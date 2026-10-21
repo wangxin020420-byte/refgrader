@@ -1,0 +1,27 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_173",
+  "category": "model_or_extraction_issue",
+  "summary": "原图包含正确六状态图表，低分主要来自图表漏读与下标误识别。",
+  "teacher_issue": "",
+  "model_issue": "把S4、S5的修订下标识别成S34、S45，并声称图表缺失。",
+  "original_image_observations": "左下六状态图，右上完整六行表，S1、S2处旧行划掉后有新值；最终S4输入0为S5/1，S5输入0、1分别S1/0、S4/0。教师6。",
+  "evidence": [
+    "保留的转移表逐行符合参考，不能依据被划掉内容或OCR拼接下标判错。",
+    "历史1、0.6、0分与原图实际图表不符。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "13b534cd0aec1ea2c6ed96e6997e24451fdda857d45cb4baaa0a54fb73bf6778",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:29:16.611638+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_556",
+  "category": "model_or_extraction_issue",
+  "summary": "第一问全对，图主体正确但未标请求时点，教师19可因小额图示信息扣分；旧模型12全扣图过严。",
+  "teacher_issue": "",
+  "model_issue": "图实际含D返C和E返B，不是只有ABCDE上升；不能因标准未被模型解析判图absent。",
+  "original_image_observations": "教师19红勾叉。ADC EB和五掩码正确，E旧字改01001；图A小峰后B-C-D-C-B过渡-E-B回用户，未明确ABC、DE到达箭头。",
+  "evidence": [
+    "不能仅见两轮20就认教师少给1，图请求时点信息未明确，可解释扣1。",
+    "图核心关系完整，应保留大部分或全部8分，旧12缺视觉支持。",
+    "旧修改无效值不计，E改写结果正确。"
+  ],
+  "uncertainties": [
+    "未获教师扣1依据，只判断19与实际缺标注相容，不宣称必须19。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3f54eef9b32028c03f46722aa1e010276ee98b9afd60768cb2995180f9c6b6e8",
+  "teacher_score": 19.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:42:24.732474+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_642",
+  "category": "uncertain",
+  "summary": "他级集合多数正确，C的D/改写B字形有歧义，图为两条泛化上升线且无恢复关系；教师15依赖局部部分分，需人工确认。",
+  "teacher_issue": "若C已改成B/E且自身隐含，第一问可较高分，图设置/尝试再给部分分可解释15；若C仍D/E则偏宽可能增加。",
+  "model_issue": "把‘B不屏蔽’当未答不妥，它是明确其它级空集；首轮图给8却只有两条线，无任何完整执行序可支持。",
+  "original_image_observations": "教师15红勾叉。排序A/D/C/E/B；A屏蔽B/C/E/D、B不屏蔽、C屏蔽D/E且D下方小B似改写、D屏蔽B/C/E、E屏蔽B。图两条从用户上升的折线并标CPU程序/处理中断，无分级服务平台、下降或结束。",
+  "evidence": [
+    "排序及多数屏蔽他级对象正确，不能仅据C含糊把第一问全判错。",
+    "图有轴和过程尝试，但缺D返C、E返B及最终返回，不能满8。",
+    "是否15过宽要结合C有效字及自屏蔽约定，不主张按模型17认少给。"
+  ],
+  "uncertainties": [
+    "需人工确认C中的D是否被下方B替换及此题图形方法分；现有图字形不能可靠消歧。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9079a3d8c866f07ed20144b4bf96876a3bd6ee186695ea09d232612e386496aa",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:54:02.799103+00:00"
+}

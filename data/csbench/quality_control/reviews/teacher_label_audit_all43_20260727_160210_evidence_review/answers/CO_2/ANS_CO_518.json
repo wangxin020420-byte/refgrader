@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_518",
+  "category": "model_or_extraction_issue",
+  "summary": "有效B/C/E集合已改正，模型误判多项；D仍多含A且图不规范，教师15可为部分分，不应根据旧8认明显高给。",
+  "teacher_issue": "",
+  "model_issue": "原图E保留B/E非仅E，C为B/C/E恰正确却被说成11101；B/C/E涂改前旧集应剔除，D原图反而仍含A被转录漏。",
+  "original_image_observations": "教师15红勾叉。排序正确；A末列全集；B划去旧集后B、C划去A/D后B/C/E、E划去A/D后B/E；D仍写A/B/C/D/E。左旧图斜划去，右新折线图多峰但无清楚最后用户返回。",
+  "evidence": [
+    "C集合B/C/E对应01101，模型称其漏A或不该含B是逻辑错误。",
+    "D应不屏蔽A，原图此处应扣，不能把整个第一问都判正确。",
+    "可按排序和多数正确集合给分，再对D和图扣，教师15有解释空间。"
+  ],
+  "uncertainties": [
+    "右图斜边和重复峰影响图部分分，现有官方未列细项，不确认15唯一。"
+  ],
+  "transcript_conflicts": [
+    "E有效集为B/E，不是E；D原图仍有A；C正确集被错误归一。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "996ca6cb74f9f43f57369d83044b7af1799a4b5fd5602f915d4e2f024e423fc5",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:42:24.729469+00:00"
+}

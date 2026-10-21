@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_871",
+  "category": "model_or_extraction_issue",
+  "summary": "两问原图代入与最终值.5和.01正确，教师满分有依据；转录把等号旁涂改误作不等号、DMA指数2误作3，模型据此误判。",
+  "teacher_issue": "",
+  "model_issue": "旧模型以转录≠.5和2500否定结果，且解释声称正确DMA应.001，实际题目正确为.01，存在二次算术错误。",
+  "original_image_observations": "教师10分、各5。查询8×10^6/32=2.5×10^5，再乘100除50×10^6，最终有清楚‘=.5’，前有小涂改；DMA1500+500=2000，1MB/4KB=2.5×10^2，后式仍×10^2，末改为.01。",
+  "evidence": [
+    "DMA两个指数原图均2，并非转录的3。",
+    "查询涂改后有效结果为.5，不能按转录不等号视为学生否定正确值。",
+    "完整过程支持两问满分，旧模型1.25～3.75不能证明教师多给。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "查询等号附近墨迹被转为≠；DMA250的指数两次均被写成3。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e3f3d02a951f3a23b7c937a2a513a068e53ac747989ff368dd69c9a24f4b2e7c",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:59:03.585898+00:00"
+}

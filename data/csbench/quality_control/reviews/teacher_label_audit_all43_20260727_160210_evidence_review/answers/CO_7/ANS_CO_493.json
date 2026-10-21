@@ -1,0 +1,29 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_493",
+  "category": "label_supported",
+  "summary": "学生两问结果严重错误，但含CPI乘某总量再除频率的尝试，教师各1分、共2分是少量方法分，不属于可确认错误标签。",
+  "teacher_issue": "",
+  "model_issue": "三次均给0，未考虑关系式尝试的少量过程分；CP符号意义未明，不能仅因未写IC就必判全零。",
+  "original_image_observations": "顶部写1/GHz=1ms；两行t=CPI×CP/F，结果800ms及600ms；教师各+1，总2。",
+  "evidence": [
+    "最终值与正确的50μs/16.7μs不符，教师并未认为答案正确。",
+    "2分仅占20%，可以由公式框架尝试解释；没有官方规则要求必须零分。"
+  ],
+  "uncertainties": [
+    "CP变量未定义，不据此额外恢复高分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1c3a31036c185aea30cf3e710fcf4ad3a9e28dfbe2c30c7628a0155743f8ec81",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:19:06.692502+00:00"
+}

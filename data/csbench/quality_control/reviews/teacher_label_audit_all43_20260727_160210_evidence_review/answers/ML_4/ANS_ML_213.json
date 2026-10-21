@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_213",
+  "category": "model_or_extraction_issue",
+  "summary": "五状态合并实现功能正确，不能因没有S5和图表漏读否定教师满分。",
+  "teacher_issue": "",
+  "model_issue": "只据前缀定义认定未完成，忽略最终五状态图表及等价合并。",
+  "original_image_observations": "左侧旧图涂改，中部保留S0至S4五状态图，右侧五行转移表；S4输入0为S3/1，输入1为S0/0，S3输入0为S1/0、1为S4/0。教师6。",
+  "evidence": [
+    "参考S5与S3后继及输出完全相同，可以合并；S4的0输入转向S3并输出1。",
+    "输入0101010会在第5和第7位检测成功，保留重叠检测。"
+  ],
+  "uncertainties": [
+    "题目称原始状态，是否另设未合并形式的格式分需统一口径；功能本身正确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1dbd5f596682faa89f8b39a37a72529eeee634705d718853b3e5e4225ca865da",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:29:16.625880+00:00"
+}

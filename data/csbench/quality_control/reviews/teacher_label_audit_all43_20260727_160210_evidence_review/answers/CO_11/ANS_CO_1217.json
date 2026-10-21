@@ -1,0 +1,37 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1217",
+  "category": "model_or_extraction_issue",
+  "summary": "前缀互不覆盖的说明与32/30/4及三式正确，教师15合理；历史27/24越上限，不能认教师与模型分差为标签问题。",
+  "teacher_issue": "",
+  "model_issue": "1×2^5和1×2^2已明确可用编码位宽及一个前缀，不必再以没写参数标签扣分。后两probe超15，需按输出契约异常理解。",
+  "original_image_observations": "页眉15，三项各5。说明R后5位可任意、前缀00000不可覆盖；J后两位也不能与R/I前缀冲突。要求I最多，R1×2^5=32、I2^5−2=30、J1×2^2=4，红勾。",
+  "evidence": [
+    "前缀互斥与一个R/一个J前缀条件有明确说明。",
+    "各算式与结果一致，三项方法齐备不需扩写成标准逐句描述。",
+    "历史15/27/24至少两次越满分，不能拿该分差指认教师。"
+  ],
+  "uncertainties": [],
+  "historical_score_contract_issue": {
+    "max_score": 15,
+    "recorded_scores": [
+      15,
+      27,
+      24
+    ],
+    "observation": "后两次历史输出超过15，探针存在额外推导/父项覆盖明细，原结果保留。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e1b2a9622196103f602a8c8ff76d90782402df6d47c2ff7962354edff13fa221",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:44:41.017381+00:00"
+}

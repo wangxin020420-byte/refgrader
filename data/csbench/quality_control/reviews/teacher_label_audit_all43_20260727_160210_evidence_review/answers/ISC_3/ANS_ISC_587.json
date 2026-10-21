@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_3",
+  "answer_id": "ANS_ISC_587",
+  "category": "uncertain",
+  "summary": "DBMS和应用软件、SQL查询有部分分，重要性较泛，教师4是否偏宽需核。",
+  "teacher_issue": "缺DB核心实体及具体冗余/共享等优势，只有查询功能，4的给分依据需说明。",
+  "model_issue": "应用系统也是有效软件实体，不应只承认DBMS一个词；但不能替学生补DB及全部SQL功能。",
+  "original_image_observations": "原图4；组成DBMS、数据库应用系统；重要性有效组织存储和高效信息处理；SQL简洁易学、结构化查询。",
+  "evidence": [
+    "多个部分有正确相关内容，并非整题无答。",
+    "回答较概括，活动准则不完整，但不能以活动后来2.5/2.5硬反推原分。"
+  ],
+  "uncertainties": [
+    "原题图与细分权重不可用，部分分宽松程度需统一。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "422e0a20b2362ac175c66c7680231ade0b42b39ee547e730d28fe70b866f9318",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:42:52.057363+00:00"
+}

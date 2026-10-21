@@ -1,0 +1,27 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_142",
+  "category": "model_or_extraction_issue",
+  "summary": "所有函数正确，教师6分保留；输出中y1的小下标被当作逗号，造成旧模型不必要的部分分。",
+  "teacher_issue": "",
+  "model_issue": "声称z=xy,y2引入结构歧义，而原图为普通逻辑乘积xy1y2。",
+  "original_image_observations": "首行J1=x、K1=x；第二行J2=xy1、K2=xy1；第三行z=xy1y2；教师6。",
+  "evidence": [
+    "与题目电路正相y1、y2及x的AND关系完全一致。",
+    "原模型5/6/3的低分并无图像支持。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "eda3dd442d8d7538814e3d03258760d99dff3a83ed88f4c00c4aa61a5e485955",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:35:54.989308+00:00"
+}

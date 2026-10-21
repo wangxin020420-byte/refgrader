@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_1",
+  "answer_id": "ANS_POC_342",
+  "category": "uncertain",
+  "summary": "开头a星、结尾b/c星及空串描述缺等长关系，教师4需统一权重。",
+  "teacher_issue": "只扣1是否符合数量约束的重要程度，需要原始部分分政策。",
+  "model_issue": "模型部分轮次全0未保留已表达的前后字符形状及空串。",
+  "original_image_observations": "写开头为a*、结尾为(b,c)*的符号串或直接为空串，教师4。",
+  "evidence": [
+    "空串正确但不能弥补所有非空串的等长条件缺失。",
+    "例如aab符合其描述但不能由原文法生成。"
+  ],
+  "uncertainties": [
+    "原评分只给总5，没有分配给形状与数量的具体值。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "48545ce8d3b1304e05ffd6fda956ff1b4bf533e65ccbdec5a152aa8baaafb0d5",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:54:14.514879+00:00"
+}

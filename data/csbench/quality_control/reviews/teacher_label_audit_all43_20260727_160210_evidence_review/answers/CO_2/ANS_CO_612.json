@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_612",
+  "category": "uncertain",
+  "summary": "集合一致只写屏蔽其它级对象，排序正确，图仅点连线且漏D返C；教师15依赖隐含自屏蔽及图方法分，需人工确认。",
+  "teacher_issue": "若接受本级自屏蔽隐含，第一问可12，图给3可到15；若要求完整五位，或图轴仅少量分，15可能偏高，不能先定错。",
+  "model_issue": "同样省自身却对B/C/E自动补、对A/D判错，归一规则不一致；图D与E之间确无回C，但不可因缺机器图就无条件判0。",
+  "original_image_observations": "教师15红勾叉。A:B/C/D/E、B无、C:B/E、D:B/C/E、E:B，各自都不列自身；图从用户连A(t1)、C(t2)、D(t3)、E(t4)、B(t5)，无水平服务段和回C。",
+  "evidence": [
+    "同一自屏蔽约定应统一处理五行，不能任选某几行补齐。",
+    "图A-C-D-E-B只有首次到达顺序，没有D返回C和服务段，不能满8。",
+    "教师15可包含允许等价集合下的第一问分及部分图分，需原规则核实。"
+  ],
+  "uncertainties": [
+    "自屏蔽是否隐含、点线图部分分各多少均未规定。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "10152ad44e24ef80bef3805fd90fe22567452175fe774cbdd7aa373084069d3a",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:42:24.735479+00:00"
+}

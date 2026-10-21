@@ -1,0 +1,7 @@
+{
+ "question_id":"CPL_5","basis":"existing_experiment_only","new_experiment":false,
+ "source_conflicts":["冻结题干将return 1放在if之前且第17行赋值已经有括号，与参考所谓优先级待修复不一致，原题图不可用，不能把转录代码当精确原始程序。","源准则data/csbench/rubrics/source/CPL/CPL_5.json已经将argc!=2 && fopen失败列为可接受，活动准则又继承该错误；&&并不能替代参数错误或打开失败任一即返回的||。"],
+ "offline_semantic_checks":["argc=2时以argc!=2&&...为条件，会短路跳过fopen，pf仍NULL；参数错误时反而可能访问无效argv[1]，不成立。","float result=1.0会将字面量精确转换为float1，不会改变变量类型。","在乘法循环体内每次result=1会使n>1时仅返回x，n=0仍保留原0；初始化应在循环前。","按学生列举次序与评分项序号绑定会漏认正确修改，必须按实际修复目标匹配且同一修复不能重复给分。","循环N改N-1、去&、读模式和初始化是独立目标，其他未修对项不应抹除这些正确项。"],
+ "teacher_suspect_ids":["ANS_CPL_297"],"uncertain_ids":["ANS_CPL_258","ANS_CPL_267","ANS_CPL_254"],
+ "automatic_policy_change":false
+}

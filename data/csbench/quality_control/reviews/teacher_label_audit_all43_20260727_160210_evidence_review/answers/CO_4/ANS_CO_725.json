@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_725",
+  "category": "model_or_extraction_issue",
+  "summary": "原图完整给出主存8/4/11及Cache4/1/11两图，两个命中结论正确但没有展开理由；教师10+3+3=16可保留，模型漏评两张图。",
+  "teacher_issue": "",
+  "model_issue": "原模型三次均8分，将两张明确有字段和位数的图当作不可提取的‘如图’，造成第一问少计。",
+  "original_image_observations": "上方容量、16组及11位偏移推导；主存表8/4/11，Cache表4/1/11，分别+5；下方2D07FF无法命中、7F0057可命中，各+3。",
+  "evidence": [
+    "原图两格式完整正确，不是仅说如图但未作答。",
+    "教师已对无细致比较的两个正确结论各扣2分，没有无依据给整题满分。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "转录把两张格式图替代为‘如图所示’，没有记录字段具体内容。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "afefa20f03ab15cd59ae6a14ec3f593b189c60e77453c7d0c4a85e9d69cc9eba",
+  "teacher_score": 16.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:42:55.748546+00:00"
+}

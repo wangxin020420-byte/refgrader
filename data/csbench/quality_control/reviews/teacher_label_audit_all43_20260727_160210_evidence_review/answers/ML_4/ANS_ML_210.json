@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_210",
+  "category": "label_supported",
+  "summary": "有检测主链和图表尝试，但缺乏独立失配状态并有回退错误，教师2为部分分有依据。",
+  "teacher_issue": "",
+  "model_issue": "模型三次0以识别失败为由，未承认原图可见的主链和检测输出。",
+  "original_image_observations": "上图用0、01、010、0101、01010作状态名，下表五行；0101遇0到01010/1，完成态遇1回0101/0，但遇0回0，其他失配也多回0；初始空前缀状态未单列。教师2及红叉。",
+  "evidence": [
+    "主链按01010递进且关键0/1检测边正确。",
+    "状态0同时承载无匹配与已有末尾0，初始输入1也会被当作01，导致错误匹配；不是纯状态命名差异。"
+  ],
+  "uncertainties": [
+    "图中部分失配边拥挤，但无法完整区分初态的核心问题清楚。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5f169ba37e169294363d9280969fdc7dee898fb511990f8d78b8167a6c0f9964",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:33:45.582287+00:00"
+}

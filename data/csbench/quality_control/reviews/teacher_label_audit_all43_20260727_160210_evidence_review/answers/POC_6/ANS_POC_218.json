@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_218",
+  "category": "teacher_suspect",
+  "summary": "综合属性判断及大部分标注正确，但根的右侧b分支未见，教师满分需核查。",
+  "teacher_issue": "可见树根S只向a、A展开，没有根的b，叶子串不足acacbb，满分可能漏掉结构缺项。",
+  "model_issue": "把边集拆开表示误当单子节点产生式，不能据此将全部树结构给0；第一问已有综合属性理由。",
+  "original_image_observations": "左写S.x、A.x均综合属性，因此S属性文法；右根S.x=2，下有a和A，A分A0和S1，右S下a,A0,b，底层S0到c。根右侧未见b及连线，中A属性有重笔。教师10。",
+  "evidence": [
+    "参考外层S→aAb必须有根的b；现有图可见内层b而缺外层b。",
+    "局部底层0与右S1正确，不应因该缺项取消其余过程分。"
+  ],
+  "uncertainties": [
+    "根附近有红色得分字覆盖，需人工确认是否遮挡了极浅的b；中A标值也需核笔迹。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a5d90f249d75f15b294d0286b37cea47e189fadb50cae5725f196282b3deb10c",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:41:34.389772+00:00"
+}

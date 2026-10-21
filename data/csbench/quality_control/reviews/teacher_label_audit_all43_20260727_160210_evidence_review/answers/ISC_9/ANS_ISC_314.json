@@ -1,0 +1,27 @@
+{
+  "question_id": "ISC_9",
+  "answer_id": "ANS_ISC_314",
+  "category": "label_supported",
+  "summary": "只写错误分数且无过程，教师0有支持，模型三次把分数算错而给5。",
+  "teacher_issue": "",
+  "model_issue": "375/256实际1.46484375，仅正确值的四分之一，不等于5.859375。",
+  "original_image_observations": "仅375/256 GB，教师0及红叉，无其他推导。",
+  "evidence": [
+    "正确是375/64 GB，分母差4倍。",
+    "裸错误结果无法确认哪些步骤正确，不据模型幻算补过程分。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ae1ac8e3f4cbbe63f6abe18974f4118d65537ca69afd8adb79f11048940c1441",
+  "teacher_score": 0.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:43:52.339854+00:00"
+}

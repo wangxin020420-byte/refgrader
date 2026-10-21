@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_945",
+  "category": "teacher_suspect",
+  "summary": "芯片数正确，但最终使用乘积而非所需低有效或式，ROM文字还有取反不一致；教师第二问7/9疑似低估这一核心逻辑错误。",
+  "teacher_issue": "以A15A14¬A13等乘积接低有效CS，会在大量非目标地址也为0，不能唯一选片；7分需核对是否只按变量排列而忽略运算和极性。",
+  "model_issue": "首轮把ROM公式64K/4K称等价合理，实际上原图已划掉64K并改8K；又臆测‘倒序对称映射’给RAM满分，题设低8K ROM不允许随意倒序。",
+  "original_image_observations": "教师13，1:6、2:7。ROM计数旧64K划掉，改8K/4K=2；各CS由地址变量紧挨乘积组成，RAM1为A15A14¬A13，RAM7为三位全反乘积，没有或符号或整体反相。",
+  "evidence": [
+    "低有效CS应在自己的段为0、其它段为1，不是仅列一组看起来相似的正反变量。",
+    "正确对应001的低有效最大项为A15∨A14∨¬A13；改成乘积不是同一函数。",
+    "保留选择高位及组合列举的过程分，但不能自动视为RAM全部正确。"
+  ],
+  "uncertainties": [
+    "若学生省略的连接符本意为或需本人解释，常规代数紧邻表示乘积，原图无其它约定。"
+  ],
+  "evidence_strength": "possible_overcredit_wrong_boolean_operator_for_active_low",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9359ece1880a397a212a14bda8f5acaef7ae65076852dc9f61297b7291149a09",
+  "teacher_score": 13.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:06:04.623252+00:00"
+}

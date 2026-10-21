@@ -1,0 +1,34 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_598",
+  "category": "teacher_suspect",
+  "summary": "图只有上升下降折线未表达各中断平台，掩码又有自屏蔽缺失和C位/说明不一致，教师15疑似对未完成内容高给。",
+  "teacher_issue": "第一问有A/D等正确项，但B/E遗漏自身、C位串与屏蔽BE说明不一致；第二问无可辨A-C-D-C-E-B关系，15需复核图和错误掩码的给分。",
+  "model_issue": "A原图五1不是四1；不能以标准机器图未解析给图全0，但也不能把无平台斜线补成完整图。",
+  "original_image_observations": "教师15红勾叉。优先级正确；A11111、B00000、C01010并注屏蔽BE、D01111、E01000并注屏蔽B。图仅用户起一条折线上升到E附近后下降到B附近，无服务平台、请求时点和完整返回。",
+  "evidence": [
+    "C文字能支持正确屏蔽他级思路，但位串在ABCDE下屏蔽B/D，不是B/E；不能把文字和位错同时视全对。",
+    "B/E自屏蔽未表达，即便给他级关系部分分也非所有掩码全对。",
+    "图轴可给少量设置分，缺核心程序执行关系，不能将轮廓当完成大部分8分。"
+  ],
+  "uncertainties": [
+    "无教师图形细分；疑似高给需人工确定具体分，不自动用模型6至10替换。"
+  ],
+  "transcript_conflicts": [
+    "A有五个1，非转录四个。"
+  ],
+  "evidence_strength": "possible_overcredit_incomplete_diagram_and_multiple_mask_errors",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "01a0ba77229c8d340b02b070321c3cc0b07b47d45386c7adf50834f6a8769e07",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:29:03.385304+00:00"
+}

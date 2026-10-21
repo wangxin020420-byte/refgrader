@@ -1,0 +1,37 @@
+{
+  "question_id": "CO_1",
+  "answer_id": "ANS_CO_23",
+  "category": "model_or_extraction_issue",
+  "summary": "唯一答案37H正确，教师5满分合理；三轮0把最终结果错误放进有效地址项。",
+  "teacher_issue": "",
+  "model_issue": "事实角色错配：把裸37H当中间地址，与34H比较判错，再将最终项置空，未触发结果充分。",
+  "original_image_observations": "教师5红勾。作答区仅清楚写37 H，没有过程或其它数字。",
+  "evidence": [
+    "题目问操作数内容，唯一裸答案应优先映射最终结果。",
+    "现行官方项与优化契约允许最终正确得父项5分，不要求补写过程。",
+    "不能按缺中间项把正确结果判零。"
+  ],
+  "uncertainties": [
+    "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+  ],
+  "question_source_conflict": {
+    "question_id": "CO_1",
+    "text_source": "data/csbench/exam_database.json",
+    "question_image": "data/csbench/reference_images/questions/CO_1.png",
+    "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+    "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "fe0e2529f0c73558f979488cda1da22cb96e806cdb9e96c2d51c3120a8308ff8",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:08:38.210011+00:00"
+}

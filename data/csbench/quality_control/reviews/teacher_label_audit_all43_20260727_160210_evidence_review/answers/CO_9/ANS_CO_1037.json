@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_1037",
+  "category": "model_or_extraction_issue",
+  "summary": "芯片数及Y0配A12分两ROM、Y1～Y7选七RAM均正确，教师15合理；一轮12分不支持教师过给。",
+  "teacher_issue": "",
+  "model_issue": "应将Ȳ0等理解为题设低有效译码器引脚的记号，配合或门正确选ROM；不能把横线机械当对已低有效输出再反相而拒绝此标准写法。",
+  "original_image_observations": "教师15，1:6、2:9红勾。ROM8K×16/(4K×16)=2，RAM56K×16/(8K×16)=7；CSROM1=Ȳ0+A12、CSROM2=Ȳ0+Ā12；RAM各为Ȳ1至Ȳ7。",
+  "evidence": [
+    "Y0低有效负责最低8K，A12=0选第一ROM、A12=1选第二ROM，或门保证另一片无效。",
+    "RAM各接对应低有效输出，与参考允许实现一致。",
+    "无额外错误内容，旧模型15/12/15波动归为评分问题。"
+  ],
+  "uncertainties": [
+    "原图未另画译码输入连接，但按常规地址高三位顺序可确定，评分准则允许直接对应输出。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ecbf0d64e027642ab624b20a16ceee6a024b1df3dfa6a41a441b0d06c78cb667",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:10:40.636125+00:00"
+}

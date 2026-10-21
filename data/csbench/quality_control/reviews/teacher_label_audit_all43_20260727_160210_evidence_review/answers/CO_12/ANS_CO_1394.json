@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1394",
+  "category": "teacher_suspect",
+  "summary": "取指、读写、ADD及控制格式容量均有完整关键关系，教师19疑似少给多个数据通路项，需复核是否因总线表示或ALU字形误扣。",
+  "teacher_issue": "第二至四问各2分左右与已写的DR/IR/控制器、AC→DR→DB及DB→DR→ALU→AC、加法回AC不相称，建议重点核对扣分理由。",
+  "model_issue": "模型24～25不能单独证明少给；本分类基于原图实际通路，含总线端点语境而非要求机械逐字M箭头。",
+  "original_image_observations": "教师19红叉。首问四名正确；取指含主存读命令和DB→DR→IR、IR.OPC至控制器；存AC→DR→DB，取DB→DR→ALU→AC；ADD DR与AC进ALU、+、ALU→AC；字段3/4/4/2/3/8及2^8×24。",
+  "evidence": [
+    "AC/ALU的L写法近似C，但箭头和加法语境清楚，不能当不存在的ACU导致扣半。",
+    "存取控制明说内存读写，数据总线与主存的连接由题图给定，可作为完整传输语境。",
+    "第五将控制加测试合称16位不改变最终13+3+8正确划分，末格式图也分别标清。"
+  ],
+  "uncertainties": [
+    "若教师按某个R/W控制约定扣小量细节，应说明；当前没有足以解释总扣6分的明确错误。"
+  ],
+  "evidence_strength": "possible_undercredit_equivalent_bus_datapaths",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7c6ecb8bfea03a30023e45af45236b94104916d204c1ac57192e016d849da08b",
+  "teacher_score": 19.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:39:38.660987+00:00"
+}

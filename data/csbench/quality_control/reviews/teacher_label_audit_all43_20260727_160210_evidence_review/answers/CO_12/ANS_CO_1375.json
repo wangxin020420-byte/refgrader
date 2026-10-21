@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1375",
+  "category": "label_supported",
+  "summary": "寄存器与最终格式正确，取指缺控制器末端、读路径缺AC、ADD缺显式加法，容量2^13错误；教师18总体可由正确项和部分分解释。",
+  "teacher_issue": "",
+  "model_issue": "模型称在存路径前加ALU→AC是错误不成立，存AC→DR→M仍完整；高分轮次23也可能忽略容量目标错误和若干缺边，不能用任一轮直接判教师。",
+  "original_image_observations": "教师18红叉。首四名正确；取指PC/AR找M→DR→IR，未到CU；存ALU→AC→DR→M、取M→DR→ALU；ADD M→DR→ALU、AX→ALU→AC，无+；第五四组位数正确但容量2^13B/b混写；第六3/4/4/2/3/8完整24。",
+  "evidence": [
+    "前置地址发送步骤合法，不应扣；取指真正缺失在IR→控制器。",
+    "容量将13位操作字段当地址宽度，非仅等价单位差异，应扣相应部分。",
+    "格式5分完整，有效寄存器和路径部分分合计可支持18，未发现明显错标。"
+  ],
+  "uncertainties": [
+    "取指给1分可能偏严，但其它路径也有缺失，需统一尺度，当前不据总分差单独列教师问题。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "64ebe4beeba8e59e7fed4911edddfad820df7281ccb56b4961c951bc67a389f2",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:49:20.241273+00:00"
+}

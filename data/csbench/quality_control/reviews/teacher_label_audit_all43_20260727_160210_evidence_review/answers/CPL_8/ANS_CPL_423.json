@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_8",
+  "answer_id": "ANS_CPL_423",
+  "category": "uncertain",
+  "summary": "第9空写正确2000但带非表达式文字，教师0是否应给数值过程分需明确。",
+  "teacher_issue": "若unsigned size是说明文字而非实填代码，2000符合官方允许值，给0可能低给；需统一解释。",
+  "model_issue": "将max错用当变量笔误、将*score当score[i]，再因看见2000忽略附加文字，模型10明显过宽。",
+  "original_image_observations": "(6)最终sum=sum+*(score+i)红2，旧草稿未完全清理；(7)比较右部为max红0；(8)*score,5红0；(9)unsigned size 2000红0；(10)*(player+i)+j红2，总4。",
+  "evidence": [
+    "最小值比较用max会改变逻辑，不能视为无害改名。",
+    "第9空数值2000正确，但直接填unsigned size 2000不能构成malloc参数，是否视为注释影响部分分。"
+  ],
+  "uncertainties": [
+    "需人工确认第9空非代码文字的阅卷规则及可保留数值分；不直接用模型10替换。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3f34ac954b37d6f2a2aa494dd8f144ebcca52a1f229d9f5e2726d416304aa4c9",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T02:02:59.101542+00:00"
+}

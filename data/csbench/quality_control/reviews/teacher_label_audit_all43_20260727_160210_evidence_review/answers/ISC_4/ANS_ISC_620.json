@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_4",
+  "answer_id": "ANS_ISC_620",
+  "category": "uncertain",
+  "summary": "把协议说成网络行为守则，教师2的概念部分分需核。",
+  "teacher_issue": "规则制度虽相关，但目的成维护稳定、不破坏，未体现数据交换技术规则，2可能偏宽。",
+  "model_issue": "有规则表述可讨论部分理解，不能只看到关键词就满；历史0与1.25分歧也缺统一细则。",
+  "original_image_observations": "原图2；各方遵守制度、共同维护网络稳定不破坏；构成答正确使用网络应守规则，无HTTP例子。",
+  "evidence": [
+    "题意要求技术通信协议，网络礼仪式回答不构成等价概念。",
+    "仍提规则的局部认识，原始总5无该类概念不全的部分分分配。"
+  ],
+  "uncertainties": [
+    "需教师说明是否把规则关键词作为可计部分分，而非直接改为模型0。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "268b270a8fcf36d09123375e6583e12f88140c4f3ac45df353792856354f2621",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:46:52.946541+00:00"
+}

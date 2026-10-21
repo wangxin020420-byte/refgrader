@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_762",
+  "category": "uncertain",
+  "summary": "教师2+3=5，但查询式量纲不对，DMA也把时钟周期放入错误位置；确有2000周期和.004s中间结果，部分分有依据，现有资料不足判定给分是否过高。",
+  "teacher_issue": "查询2/5是否仅因参数识别而给得过多，需要统一部分分细则后确认，不能直接认定错标。",
+  "model_issue": "模型把正确的4KB/(1MB/s)=.004本身说成传输率处理错误，且用步骤中无250作为主要扣分理由，分析不够准确。",
+  "original_image_observations": "教师总5、1:2、2:3。第一问100除以1/50MHz并得.005；第二问.004s、1500+500=2000写出，最终2000/[.004×(1/50MHz)]=.04，原图与转录的最终错误结构相符。",
+  "evidence": [
+    "查询既无字传输间隔，也无每秒查询数，最终比率错误。",
+    "DMA正确算开销周期和传输间隔，但正确应2000/(50MHz×.004)，实际分母写了时钟周期，不能因参数正确给满分。",
+    "教师3分可解释为中间关系分，查询2分的依据较弱；仅有总分差不足确定替代分数。"
+  ],
+  "uncertainties": [
+    "缺少教师逐步骤说明及针对错误量纲式的统一部分分权重。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a571d9b8f75cbcf1e927538031d59877600d3fc910b3a952fd73bb57902c2962",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:56:39.927498+00:00"
+}

@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_704",
+  "category": "teacher_suspect",
+  "summary": "原图第一问只是抄题，第二问第一地址还答错；教师分别给抄题1分、错误命中1分，另正确命中3分，合5。疑似存在无作答证据的加分，应人工确认。",
+  "teacher_issue": "对原题条件逐字复述而无字段计算给1分；对无任何计算且结论错误的第一访问给1分，缺少可对应的正确评分要素。",
+  "model_issue": "旧模型把第二个正确能访问结论也给0过严；不能用其0分替代教师5分。",
+  "original_image_observations": "第一问抄主存8MB、Cache32块、2路、每块2KB后‘则…’，教师+1；第二问两地址均写能访问，第一处+1、第二处+3；无二进制或比较过程。",
+  "evidence": [
+    "第一问没有主存或Cache地址格式及计算结果。",
+    "2D07FF不能命中，原图第一访问没有正确过程可支撑给分。",
+    "7F0057确能命中，其3分可成立；可疑限于另外2分，不推断整份应零分。"
+  ],
+  "uncertainties": [
+    "若教师采用统一参与/尝试分政策需说明；原官方评分说明未记录这种加分。"
+  ],
+  "evidence_strength": "unsupported_credit",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "77dd5ebc83c0c2ec8bcd7d3504a37a320889e09b42dc60d1577a616685abd43e",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:45:30.451896+00:00"
+}

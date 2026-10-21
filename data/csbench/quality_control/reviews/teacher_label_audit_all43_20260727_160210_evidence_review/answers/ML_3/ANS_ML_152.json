@@ -1,0 +1,33 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_152",
+  "category": "label_supported",
+  "summary": "两组激励函数正确，输出却对y1加了反相；教师5分可解释为激励4分加输出部分分1分，不认定标签错误。",
+  "teacher_issue": "",
+  "model_issue": "转录遗漏输出y1上的横线，首项还把J1写成重复K1；旧模型以缺下标而不是实际反相错误给部分分，理由不可靠。",
+  "original_image_observations": "J1=X、K1=X、J2=X·y1、K2=X·y1；输出z=X·ȳ1·y2，y1上有短横线，教师5分并打叉。",
+  "evidence": [
+    "题图输出应为x·y1·y2，原图多了一处反相，教师已扣分。",
+    "三组各2分的细化下，教师5分可由两组正确加输出部分正确解释。",
+    "不能因旧模型4/5/2均分较低就判教师错。"
+  ],
+  "uncertainties": [
+    "输出部分分给1分的具体规则未由官方单列，但无必须整项归零的规定。"
+  ],
+  "transcript_conflicts": [
+    "raw_text输出缺失反相横线，第一行J1被写成K1。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1f14db637d442790f733ea333ad2d91f41b414d4e171da910e2701c05de40e7f",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:35:55.000235+00:00"
+}

@@ -1,0 +1,33 @@
+{
+  "question_id": "CPL_7",
+  "answer_id": "ANS_CPL_368",
+  "category": "uncertain",
+  "summary": "输入时交换下标已表达转置，模型称无转置不成立；但未分配矩阵空间且写文件错误，教师3的过程分需核。",
+  "teacher_issue": "已有双层输入循环、输入即转置及正确开关文件，3分是否漏掉过程分需确认；不能因b未分配就抹去所有正确思路。",
+  "model_issue": "把证据摘要里的省略号当原图空白；未认出scanf到b[j][i]已经交换行列。第二次又重复step_2计分。",
+  "original_image_observations": "声明int(*b)[5]无分配，双循环scanf到*(b+j)+i；fopen(matrix.txt,w)正确，单循环fwirte((*b)+i,5,fp)参数及行指针错误，fputc用字符串，fclose正确，教师3。",
+  "evidence": [
+    "以行序输入到b[j][i]可直接获得转置，不必另有b[i][j]=a[j][i]语句。",
+    "未初始化b使访问不合法，fwrite缺参数且原始二进制也不等于文本数字输出，不能认可模型高分12。"
+  ],
+  "uncertainties": [
+    "开关文件、输入转置及空间错误的部分分权重未细化，3可能偏低但暂不直接认定。"
+  ],
+  "historical_score_contract_issue": {
+    "finding": "第二次判读details重复step_2各2.5，合计12含同一文件操作证据重复给分。",
+    "action": "保留历史，不用于重评分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "72cb1e39bc43a23190cadbeedd0125ed83631df60487e08e0484c350b5cbb73f",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:25:01.991342+00:00"
+}

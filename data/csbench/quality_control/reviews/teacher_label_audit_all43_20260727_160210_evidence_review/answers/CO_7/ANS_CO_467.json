@@ -1,0 +1,27 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_467",
+  "category": "label_supported",
+  "summary": "秒表示的两个数值正确，但末步错换成50ms和16.7ms；教师各扣1分给8分有依据，不按一次模型给10分反推教师少给。",
+  "teacher_issue": "",
+  "model_issue": "旧模型7/10/8分，对最终单位矛盾处理不一致；应保留正确方法并单独处理单位错误。",
+  "original_image_observations": "第一行2×10^5/(4×10^9)=0.5×10^-4s=50ms，第二行10^5/(6×10^9)=0.167×10^-4s=16.7ms；教师各+4。",
+  "evidence": [
+    "秒值分别等于50μs、16.7μs，但保留的最终ms值不等价。",
+    "原图确为ms，不是转录误把μ写成m；每问扣1分可解释。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "8ff7ed79ec57087b861414268888d389f376ba3e3c3d21679e68883912f79b5a",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:21:02.638672+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_6",
+  "answer_id": "ANS_CO_444",
+  "category": "model_or_extraction_issue",
+  "summary": "原图明确有BCF3、BAF9和其它数值，教师5分可覆盖正确字段及少量部分分；模型三轮全空白0分属于证据失败。",
+  "teacher_issue": "",
+  "model_issue": "把已写的BCF、BAF及容量全部标未书写，与原图和已有转录直接矛盾。",
+  "original_image_observations": "教师5红叉。BCF3、BAF9、每条微指令52位；第二问26624位、3328字节，无展开式。",
+  "evidence": [
+    "BCF/BAF两字段正确，应得其对应分。",
+    "26624=512×52，3328=26624/8，但无显式过程，只能谨慎保留部分分，不恢复整题满分。",
+    "教师5合理于有限证据，不能按模型全空白怀疑标签。"
+  ],
+  "uncertainties": [
+    "正确字段外的1分具体来源需教师细则，但不是主要错标证据。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0d4c4dcac4831a9c4517ef16bcf311b4e1fe1a6e0164990705466ee6489c7e25",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:48:58.103022+00:00"
+}

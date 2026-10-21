@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_571",
+  "category": "label_supported",
+  "summary": "五个屏蔽集合和优先级全对，图只给各级柱形初次处理次序，缺C恢复等，教师15可解释为12加图方法3分。",
+  "teacher_issue": "",
+  "model_issue": "C的B/C/E与D的B/C/D/E本来正确，理由说不该含B、应该含A违反题意；模型8把正确集合全抹错。",
+  "original_image_observations": "教师15红勾叉。A全集、B自身、C涂改后B/C/E、D:B/C/D/E、E:B/E；图五窄柱大致A、C、D、E、B高度，均从基线起，没有D后的第二个C段。",
+  "evidence": [
+    "集合与标准掩码一一等价，应保留第一问12。",
+    "柱形图有各级和时间排列尝试，图可有局部分，但嵌套没有画清。",
+    "15与实有正确内容及图缺陷相容，不能据旧8认高给7。"
+  ],
+  "uncertainties": [
+    "无图分细则，不确认方法分一定3，但未有明显标签错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7dc91c630c9a349a50e9b50e382a509b545216f0314724663be54f0759e5218a",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:54:02.776718+00:00"
+}

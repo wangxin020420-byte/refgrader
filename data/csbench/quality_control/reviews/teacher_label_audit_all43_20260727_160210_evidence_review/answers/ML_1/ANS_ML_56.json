@@ -1,0 +1,35 @@
+{
+  "question_id": "ML_1",
+  "answer_id": "ANS_ML_56",
+  "category": "label_supported",
+  "summary": "F列16格正确，教师4与模型满分一致。",
+  "teacher_issue": "",
+  "model_issue": "历史三次4正确，但一属于提取转写而非原图真的写中文横一；17项串不应取代16格行定位。",
+  "original_image_observations": "原图4；F首七圈0、0111竖1、1000圈0、最后七竖1清楚。",
+  "evidence": [
+    "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+    "与冻结参考逐格核对：正确16/16；不同输入：无。"
+  ],
+  "uncertainties": [],
+  "verified_truth_table": {
+    "input_order": "0000..1111",
+    "manually_read_F": "0000000101111111",
+    "frozen_reference_F": "0000000101111111",
+    "matching_cells": 16,
+    "mismatching_inputs": [],
+    "method": "manual_original_image_inspection_then_offline_count"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b1ea7260e1266b37cba1c7945dba95f6359f623c1b8828ef509692d00d80cdb9",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:31:21.027599+00:00"
+}

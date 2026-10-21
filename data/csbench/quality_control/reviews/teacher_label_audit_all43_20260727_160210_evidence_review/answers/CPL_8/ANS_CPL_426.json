@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_8",
+  "answer_id": "ANS_CPL_426",
+  "category": "label_supported",
+  "summary": "前两空正确，其余值/地址与作用域不符，教师4有支持。",
+  "teacher_issue": "",
+  "model_issue": "把(*score)[5]读作下标0的正确当前行，并容忍main中不存在的score，导致明显高估。",
+  "original_image_observations": "(6)sum+=*(score+i)、(7)比较各2；(8)(*score)[5],5有改写，(9)player，(10)*(score+i)+j各0，总4。",
+  "evidence": [
+    "(*score)[5]是首行边界外元素的值，不是第i行地址。",
+    "malloc需字节数，不能传尚未初始化的player；main中也没有score变量。"
+  ],
+  "uncertainties": [
+    "第8空首部涂改不清，但最终缺i且有[5]，不支持满2。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d071d6512b15926d6fcfa9b619b0f30be3cc73890985e80e857fa6a62ee3b49d",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T02:02:59.098542+00:00"
+}

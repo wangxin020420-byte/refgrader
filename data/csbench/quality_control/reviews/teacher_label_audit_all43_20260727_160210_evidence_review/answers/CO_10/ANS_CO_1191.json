@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1191",
+  "category": "label_supported",
+  "summary": "以位而非字作为坐标同时扩展主存及块内地址，tag仍正确、容量896正确；第二比较器原理错误获少量分，教师10+2=12可解释。",
+  "teacher_issue": "",
+  "model_issue": "20位总位地址配6位块内位偏移与8位组号是一致的位坐标展开，不能仅因未写16/2认第一问只对少量字段；应核最终tag与容量。",
+  "original_image_observations": "教师12红勾叉，1:10、2:2。块4×16=64位、组数256，主存64K×16=2^20位，20−6−8=6，图6/8/6，2^10×7位=896字节。第二涂改后近2^6套/2^6次比较，由tag6位决定数量。",
+  "evidence": [
+    "把字地址统一转位地址仅增加字内4位，tag不变，896计算正确。",
+    "这不是byte/word随机混用；总容量与块大小都乘16，块数1024不变。",
+    "比较器数量应取组内4路，不是64种tag模式；第二非满分合理，可保留知道比较tag的局部内容。"
+  ],
+  "uncertainties": [
+    "位坐标没有明确声明，严格表示规范可讨论；第二2分属宽松方法分，未获细项分配。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "8a698845e8149fb5fe4f9bdf55bc5f19b973953f8d85d6f9f9ee6cbf38e5c246",
+  "teacher_score": 12.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:42:30.095076+00:00"
+}

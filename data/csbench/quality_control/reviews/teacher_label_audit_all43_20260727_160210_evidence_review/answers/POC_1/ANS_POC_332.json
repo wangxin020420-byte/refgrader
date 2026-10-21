@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_1",
+  "answer_id": "ANS_POC_332",
+  "category": "label_supported",
+  "summary": "计数正确但后缀强制b块再c块，教师少量部分分有依据，模型满分错误。",
+  "teacher_issue": "",
+  "model_issue": "只检查a数=b数+c数，漏查字符次序限制，三次5均错误认可真子集。",
+  "original_image_observations": "写{a^n b^m c^k |n≥0,m+k=n}，教师1。",
+  "evidence": [
+    "合法aacb不能写成所有b在所有c之前，学生漏掉该类串。",
+    "数量关系及a前缀正确可得部分分，但不能满分。"
+  ],
+  "uncertainties": [
+    "具体应给1还是其他部分分，原说明未细化，不自动更改。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d6151308f5c733c1987577e892c81b8419151de98dbfd0e62a182462bf600a41",
+  "teacher_score": 1.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:54:14.506856+00:00"
+}

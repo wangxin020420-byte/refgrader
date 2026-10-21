@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_1041",
+  "category": "label_supported",
+  "summary": "把64KW误读64KB导致总地址少1位及仅3RAM，但有正确ROM数和低区译码、A12分两ROM的过程，教师4+7=11可解释为保留传播错误下的方法。",
+  "teacher_issue": "",
+  "model_issue": "模型把部分左侧地址条件与括号中的低有效输出拼成相乘式，转录又把CS3/CS5地址条件错抄，低估图示和ROM分选过程。",
+  "original_image_observations": "教师11，1:4、2:7。64K=2^16字节=2^15字、15位地址；ROM2、RAM3。图示3-8输入A14/A13及固定第三输入，ROM括号内Ȳ0+A12、Ȳ0+Ā12，RAM对应Ȳ1/Ȳ2/Ȳ3。",
+  "evidence": [
+    "源错误是按字编址容量误减半，RAM3和缺后四片可视为该源错误传播。",
+    "A12分两个4K ROM及每8K一译码输出的关系有实质证据，不应全归零。",
+    "左侧高有效地址条件与右侧低有效CS有记法混用，可扣局部分；11不是对正确总容量的满分。"
+  ],
+  "uncertainties": [
+    "需明确左侧条件是译码条件说明还是片选方程的一部分；当前不将其全部判为最终硬件逻辑正确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "aeef961b9c9d1e621d6dea01755418b4f5a6658346bd5165cd0748d295063d97",
+  "teacher_score": 11.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:56:13.453452+00:00"
+}

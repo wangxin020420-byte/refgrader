@@ -1,0 +1,7 @@
+{
+ "question_id":"CPL_3","basis":"existing_experiment_only","new_experiment":false,
+ "matrix":[[8,11,9,2,10],[3,5,17,3,2],[2,8,6,7,2],[5,7,3,12,3],[12,9,0,0,0]],
+ "verified_rows":[40,30,25,30,21],"verified_columns":[30,40,35,24,17],
+ "review_rules":["二维数组最后一行未列的三个元素按0初始化。","循环每次清零row、column，按每行、列独立求和，不累积到第6行。","行号6虽错，row21、col17仍可对应第五行核对，不应将全部数值标成未书写。","每行2分是原始明确分值，只写完整第五行不能据现有规则给3分。","已划掉的151和最终21、17需区分，不能拼接成117等错误值。"],
+ "teacher_suspect_ids":["ANS_CPL_169"],"automatic_policy_change":false
+}

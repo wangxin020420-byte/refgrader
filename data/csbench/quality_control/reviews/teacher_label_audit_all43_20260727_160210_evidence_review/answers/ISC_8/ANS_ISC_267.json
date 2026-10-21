@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_8",
+  "answer_id": "ANS_ISC_267",
+  "category": "teacher_suspect",
+  "summary": "当前原图与转录均空白，却有教师满4，优先核图像与分数匹配。",
+  "teacher_issue": "没有可见作答支持满分，可能是错配、缺页或评分来源问题，不能据空图直接改0。",
+  "model_issue": "本张图模型判空白与可见内容一致，但无法证明其他页或源卷没有答案。",
+  "original_image_observations": "原图题号4下大面积空白，只有教师红对勾；页眉评分4、右上得分4，未见二进制或计算。",
+  "evidence": [
+    "原图与空转录相符，三次模型0也非单纯OCR漏了密集文字。",
+    "teacher_scores.json中ANS_ISC_267的ISC_8为4，与图中教师数字一致，但内容证据缺失。"
+  ],
+  "uncertainties": [
+    "需查完整原卷、图像匹配及是否答案在其他页，不能认定教师真的给空卷满分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "02822dc91b266440b5eeb68c0a87bf1b263486e2b6af76103cb98bd669020ab5",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:53:01.528971+00:00"
+}

@@ -1,0 +1,33 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_230",
+  "category": "model_or_extraction_issue",
+  "summary": "原图根2和完整树被模型错读，低分不支持否定教师满分。",
+  "teacher_issue": "",
+  "model_issue": "把根x=2读1，并漏掉两条S→c支路，父子计分项还被同时输出。",
+  "original_image_observations": "左答S属性；右树根x=2，中A的x=1写在右侧邻近b处，左A0/S0，右S1与A0/S0，两c齐全。教师10。",
+  "evidence": [
+    "实际完整拓扑与标准一致，不能依低边重合指标否定。",
+    "根结果正确，下层值也正确。"
+  ],
+  "uncertainties": [
+    "中A标注位置靠近b，但结合A→AS及数值1可定位；类型理由详略需统一。"
+  ],
+  "historical_score_contract_issue": {
+    "finding": "首轮details同时输出step_1=2及其子项1、0、1，并输出step_2=0.5及子项0.5、0，存在父子重复累加风险。",
+    "action": "保留历史输出，不把汇总分用于教师重评分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f28466fb99e50981c5f8d042c2706ae1f27497c8ba2700f7cfc17cf91163a3ad",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:41:34.403818+00:00"
+}

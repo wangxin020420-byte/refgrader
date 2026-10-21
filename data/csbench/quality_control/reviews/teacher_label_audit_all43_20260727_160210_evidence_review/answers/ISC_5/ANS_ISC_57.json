@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_5",
+  "answer_id": "ANS_ISC_57",
+  "category": "teacher_suspect",
+  "summary": "原图两处均写Gello而非Hello，教师满6需核0x48对应首字母。",
+  "teacher_issue": "0x48明确为H，原图解码和字母栏均保留G，若确为G则不能满分。",
+  "model_issue": "一个字母错不应将整个解码3分和字母分类全零，剩余字母及符号分类应保留。",
+  "original_image_observations": "解码Gello,AHU!；字母Gello,AHU；标点逗号、SPACE、叹号，教师6及红勾。",
+  "evidence": [
+    "G与H是不同ASCII字符，不能靠忽略大小写或字符串近似放行。",
+    "字母栏的G仍是字母，属于上游解码传递，不应作为另一独立致命分类错误再扣全项。"
+  ],
+  "uncertainties": [
+    "需人工确认手写首字母是否特殊H笔体；两处均呈G形，列优先核对而不自动改分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e1b2ac58caf240cf4fb6a40711ba6ba3f23a3f7ad4029b1e63bae4895344e827",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:18:12.017947+00:00"
+}

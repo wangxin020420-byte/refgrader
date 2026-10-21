@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "version": "assisted-label-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_assisted",
+  "report_run": "teacher_label_audit_all43_20260727_160210",
+  "created_at": "2026-10-20T08:08:09.775792+00:00",
+  "status": "superseded_excluded_from_active_review",
+  "target_count": 909,
+  "scope": "pending_medium_and_all_low",
+  "levels": {
+    "medium": 171,
+    "low": 738
+  },
+  "human_decisions_sha256": "f57a0523a6ad636aec1977e124c7d23ebbe2779c6e12994ed376e2f2e03916d8",
+  "tasks_sha256": "fcb8c6e5832809b6ab9127d8e5f5ab3feb808a80a7e3f5669f8410aaf0d71b40",
+  "text_model": "glm-5.2",
+  "vision_model": "glm-4.6v",
+  "request_url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+  "prompt_sha256": "6be8654a4dd13805751c0abc7f634b66f0b233e5a5fad7befe27d9c7df8b9535",
+  "reason": "User clarified existing experimental evidence only; four model-pilot outputs are excluded."
+}

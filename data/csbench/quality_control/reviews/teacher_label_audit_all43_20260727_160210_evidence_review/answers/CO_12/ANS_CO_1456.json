@@ -1,0 +1,45 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1456",
+  "category": "model_or_extraction_issue",
+  "summary": "原图格式图及控存2^8×24=6144bit正确，主要轻微缺失为读数据路径未单独写最后ALU→AC；教师24合理，模型漏图及错读24导致扣到16～19。",
+  "teacher_issue": "",
+  "model_issue": "容量式原图乘24而非16；第六问3/4/4/2/3/8框图真实存在却被当泛泛如图、BLANK，重复遗漏5分。",
+  "original_image_observations": "教师总24清楚，页眉分项靠近正文，未据此确定具体扣1分位置。寄存器和取指完整，写ALU→AC→DR→M、读M→DR→ALU；ADD执行两输入、加法、ALU→AC齐全；右下容量2^8×24=6144bit，底框六段3/4/4/2/3/8。",
+  "evidence": [
+    "六段位数和总24完整，不可当未书写。",
+    "原图容量和6144均精确正确。",
+    "即使对读路径末边或格式标注扣少量分，也不能解释旧模型漏图式大幅低分；教师24有支持。"
+  ],
+  "uncertainties": [
+    "教师扣1分的具体分项未可靠辨清；读路径末边或格式细节可人工复核，不自动要求改25。"
+  ],
+  "transcript_conflicts": [
+    "容量乘数原图24，转录16；第六问图未转写。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "28e844d819185a5ab43edc6bc43e935a29d3016e4df49ccd5311337fa24c4648",
+  "teacher_score": 24.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:26:08.481795+00:00",
+  "review_amendments": [
+    {
+      "at": "2026-10-20T10:27:23.900916+00:00",
+      "reason": "撤回未可靠辨认的教师逐项分数，保留总24及作答证据；分类不变",
+      "previous_fields": {
+        "original_image_observations": "教师24，前四问分项均4、容量4、格式4。寄存器和取指完整，写ALU→AC→DR→M、读M→DR→ALU；ADD执行两输入、加法、ALU→AC齐全；右下容量2^8×24=6144bit，底框六段3/4/4/2/3/8。",
+        "uncertainties": [
+          "教师实际1分扣在格式项，可能要求更明确分字段命名；不据此要求自动改25。"
+        ]
+      }
+    }
+  ]
+}

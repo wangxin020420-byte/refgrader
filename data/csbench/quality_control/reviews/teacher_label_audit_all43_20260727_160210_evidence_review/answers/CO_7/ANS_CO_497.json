@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_497",
+  "category": "teacher_suspect",
+  "summary": "原图可确认将10万条误作10×10^5=10^6，两问结果均大10倍，但教师分别标+5、总分10；满分标签存在明确问题，应优先复核。",
+  "teacher_issue": "参数IC及两个最终结果均错，仍给两问满分。",
+  "model_issue": "旧模型保留方法分方向成立，但30%～40%的权重无官方细则支持，不将其3～4分直接当新标签。",
+  "original_image_observations": "IC行写10×10^5=1×10^6；末两行分别5×10^-4 s、1.667×10^-4 s；右侧各+5。",
+  "evidence": [
+    "题目IC=10^5，频率4×10^9/6×10^9，正确结果为5×10^-5 s和约1.667×10^-5 s。",
+    "图像中IC和最终指数与错误结果相互一致，不能解释成只缺化简。",
+    "原模型三次3.5/4/3分均指出IC数量级错误。"
+  ],
+  "uncertainties": [
+    "官方未规定该参数错误应扣多少分，需人工确定更正分值，但不影响满分标签可疑的判断。"
+  ],
+  "transcript_conflicts": [
+    "转录将顶部GHz换算写为10^-9；图像实际为10^9。该转录问题不消除末两行真实的十倍误差。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2d28eac3fc8ac96361a8b6b0d1fcdcbdf14077defee504b452441e7210211f72",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:16:19.419282+00:00"
+}

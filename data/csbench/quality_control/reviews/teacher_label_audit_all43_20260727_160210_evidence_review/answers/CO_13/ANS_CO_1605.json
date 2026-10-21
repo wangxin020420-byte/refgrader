@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1605",
+  "category": "teacher_suspect",
+  "summary": "明确MDMCMBMA表将A1001、D0001互换，破坏D对A的高优先关系，教师仍表满8，需复核16分。",
+  "teacher_issue": "A服务时屏蔽D，D服务时却未屏蔽自身D；A最低应允许D抢占，当前表不能实现CBDA。B/C虽对，A/D不应全表满8。",
+  "model_issue": "不能把全表清0，B1011/C1111正确应保留；模型说D0001使C不能屏蔽D也误解行角色。图不是未画，应按缺A/B初始与B后A局部扣。",
+  "original_image_observations": "页眉16，1:3、2:8、3:5。首封存程序、响应后返回。表头MD MC MB MA，A1001、B1011、C1111、D0001，行值清楚无涂改。图用户直接C→B→D→A→用户，初始与B上D红圈。",
+  "evidence": [
+    "明确列序不能按个别行换位修复，A/D是实质源间屏蔽关系错误。",
+    "这不是仅自身位漏写的约定差异，A屏蔽D直接改变所需服务优先级。",
+    "教师图5与局部轨迹错误相符，独立疑点在表整8。"
+  ],
+  "uncertainties": [
+    "需确认A/D是否笔误漏扣，但不能将错误屏蔽关系当全对；不自动用模型3至11替换。"
+  ],
+  "evidence_strength": "full_eight_with_A_D_masks_swapped_under_explicit_order",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "39864cea57ffacd847360c4c44391e718ce56d66b81f7f0543eda9cd21857a57",
+  "teacher_score": 16.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:15:25.142227+00:00"
+}

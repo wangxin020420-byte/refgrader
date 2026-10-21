@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1334",
+  "category": "model_or_extraction_issue",
+  "summary": "教师16可由寄存器部分分、正确a/b图号取指通路、读写部分分及正确格式构成；模型把图中a/b标签当错误寄存器名，大幅低估。",
+  "teacher_issue": "",
+  "model_issue": "取指M→a→b→控制器按题图就是M→DR→IR→CU，不应仅给1分；容量虽未算出，但格式3/4/4/2、3、8完整。",
+  "original_image_observations": "教师16，分项约3/4/3/0/1/5。a缩写似DR、bIR、cDB、d草写PC；第二问主存经a再b到控制器；第三问M→a→ALU→AC→a；第四空；后面推13+3+8并画格式。",
+  "evidence": [
+    "题图a、b本是合法引用，第二问路径完整，不受第一问缩写辨字连带全扣。",
+    "第三问读路径已完整，写仅到a缺M，可合理保留部分分。",
+    "下址8推导正确但未写256×24，教师只给容量1分、格式5分有依据。"
+  ],
+  "uncertainties": [
+    "a及d缩写字形接近DB/PL，但结合图号和后续路径可理解，不能只按转录三项错得1分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "8ff569b66abcf940e4aa13132ee6b228a08e3151bc671d818a0b441a59ba55a2",
+  "teacher_score": 16.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:26:08.479794+00:00"
+}

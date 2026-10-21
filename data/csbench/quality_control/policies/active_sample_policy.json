@@ -1,0 +1,462 @@
+{
+  "schema_version": 1,
+  "policy_id": "reviewed45_glm52_20261019_221414_317274",
+  "created_at": "2026-10-19T22:14:14",
+  "source_decisions": "review_decisions.jsonl",
+  "selection_rule": "Only confirmed_noise samples are excluded. Corrected labels overlay raw teacher scores. Ambiguous and retained hard cases remain in the dataset.",
+  "excluded": {
+    "CO_5": {
+      "ANS_CO_258": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-13T16:10:21"
+      },
+      "ANS_CO_271": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-13T16:11:44"
+      },
+      "ANS_CO_273": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-13T16:11:07"
+      },
+      "ANS_CO_277": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-13T16:13:03"
+      },
+      "ANS_CO_280": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-13T16:13:24"
+      },
+      "ANS_CO_289": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-13T16:13:45"
+      },
+      "ANS_CO_294": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-13T16:13:57"
+      },
+      "ANS_CO_295": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-13T16:14:16"
+      },
+      "ANS_CO_299": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-13T16:16:43"
+      },
+      "ANS_CO_304": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-13T16:21:49"
+      },
+      "ANS_CO_337": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-14T22:48:51"
+      },
+      "ANS_CO_339": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-14T22:49:05"
+      }
+    },
+    "CO_6": {
+      "ANS_CO_387": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-14T22:55:05"
+      }
+    },
+    "CO_9": {
+      "ANS_CO_943": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T10:20:35"
+      },
+      "ANS_CO_1009": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T10:54:26"
+      },
+      "ANS_CO_1030": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T10:55:50"
+      },
+      "ANS_CO_931": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T10:58:03"
+      },
+      "ANS_CO_969": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T11:02:09"
+      }
+    },
+    "CO_7": {
+      "ANS_CO_483": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T14:21:33"
+      }
+    },
+    "CO_8": {
+      "ANS_CO_818": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T14:23:29"
+      },
+      "ANS_CO_817": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:39:47"
+      },
+      "ANS_CO_860": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:39:58"
+      },
+      "ANS_CO_859": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:41:12"
+      }
+    },
+    "CPL_6": {
+      "ANS_CPL_353": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T14:35:13"
+      },
+      "ANS_CPL_339": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:42:46"
+      }
+    },
+    "ML_3": {
+      "ANS_ML_140": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:10:19"
+      }
+    },
+    "CPL_8": {
+      "ANS_CPL_456": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T15:51:18"
+      }
+    },
+    "ISC_5": {
+      "ANS_ISC_29": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T15:52:06"
+      },
+      "ANS_ISC_51": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:48:41"
+      },
+      "ANS_ISC_58": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:50:02"
+      }
+    },
+    "CO_1": {
+      "ANS_CO_132": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T15:53:23"
+      }
+    },
+    "DM_3": {
+      "ANS_DM_203": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:26:54"
+      },
+      "ANS_DM_261": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:28:52"
+      },
+      "ANS_DM_272": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:29:49"
+      }
+    },
+    "ISC_9": {
+      "ANS_ISC_352": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:31:29"
+      },
+      "ANS_ISC_376": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:31:44"
+      }
+    },
+    "ML_2": {
+      "ANS_ML_58": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:32:00"
+      }
+    },
+    "ISC_4": {
+      "ANS_ISC_637": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:45:11"
+      },
+      "ANS_ISC_629": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:49:22"
+      },
+      "ANS_ISC_662": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:49:41"
+      }
+    },
+    "ISC_7": {
+      "ANS_ISC_198": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:45:31"
+      }
+    },
+    "DM_1": {
+      "ANS_DM_32": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:49:06"
+      }
+    },
+    "POC_3": {
+      "ANS_POC_242": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:56:10"
+      },
+      "ANS_POC_250": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:56:25"
+      },
+      "ANS_POC_253": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T16:57:22"
+      }
+    },
+    "CO_12": {
+      "ANS_CO_1333": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T19:29:39"
+      },
+      "ANS_CO_1476": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T19:32:29"
+      },
+      "ANS_CO_1460": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T19:37:56"
+      },
+      "ANS_CO_1419": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T20:03:25"
+      },
+      "ANS_CO_1344": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T20:04:43"
+      }
+    },
+    "CO_2": {
+      "ANS_CO_585": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T19:30:11"
+      },
+      "ANS_CO_562": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T19:38:03"
+      },
+      "ANS_CO_594": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T20:11:33"
+      }
+    },
+    "CO_13": {
+      "ANS_CO_1602": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T19:40:17"
+      },
+      "ANS_CO_1539": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T19:43:38"
+      },
+      "ANS_CO_1529": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T20:03:14"
+      }
+    },
+    "CO_4": {
+      "ANS_CO_698": {
+        "reason_code": "",
+        "review_note": "",
+        "reviewer": "",
+        "reviewed_at": "2026-10-19T20:23:33"
+      }
+    }
+  },
+  "corrected_scores": {
+    "CO_12": {
+      "ANS_CO_1467": 21.0
+    },
+    "CO_6": {
+      "ANS_CO_385": 9.0
+    },
+    "CO_4": {
+      "ANS_CO_756": 12.0
+    },
+    "CO_1": {
+      "ANS_CO_60": 5.0
+    },
+    "CO_9": {
+      "ANS_CO_1027": 15.0
+    },
+    "CO_7": {
+      "ANS_CO_514": 6.0
+    },
+    "CO_8": {
+      "ANS_CO_867": 6.0
+    },
+    "ISC_7": {
+      "ANS_ISC_155": 0.0,
+      "ANS_ISC_157": 0.0,
+      "ANS_ISC_174": 0.0,
+      "ANS_ISC_188": 0.0,
+      "ANS_ISC_203": 0.0,
+      "ANS_ISC_211": 0.0,
+      "ANS_ISC_218": 0.0,
+      "ANS_ISC_230": 0.0
+    }
+  },
+  "retained_hard_cases": {
+    "CO_4": [
+      "ANS_CO_700"
+    ],
+    "CO_7": [
+      "ANS_CO_513"
+    ],
+    "CO_8": [
+      "ANS_CO_835",
+      "ANS_CO_842",
+      "ANS_CO_854"
+    ],
+    "DM_2": [
+      "ANS_DM_114",
+      "ANS_DM_169"
+    ],
+    "DM_3": [
+      "ANS_DM_239"
+    ],
+    "ISC_6": [
+      "ANS_ISC_132"
+    ],
+    "ML_2": [
+      "ANS_ML_110",
+      "ANS_ML_74",
+      "ANS_ML_81"
+    ],
+    "POC_3": [
+      "ANS_POC_278"
+    ]
+  },
+  "ambiguous_pending_review": {},
+  "dataset_sha256": {
+    "teacher_scores.json": "bc3090de26a99f51d74b1fea7335418ced13de3fe95bc3bb9ba63ee610ccc504",
+    "answer_metadata.jsonl": "af3a20bc8558e3762bce5d5b64e1c9c9115e0b534f5c4b63a9e2b5dd21e60acd"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_232",
+  "category": "model_or_extraction_issue",
+  "summary": "类型理由和完整标注树均正确，模型错误拆分树边并额外苛求推导措辞。",
+  "teacher_issue": "",
+  "model_issue": "将A→S→c串行展开读为A同时到S、c，捏造结构错误。",
+  "original_image_observations": "左写两属性综合、无继承，因此S属性；右树根2、中A1、左A0/S0、右S1及A0/S0到c，完整a和b分支。教师10。",
+  "evidence": [
+    "原图A与c间确有独立S节点和竖边，非A→Sc。",
+    "全部核心属性值和结构正确，模型7至8.5的扣分前提不成立。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2f4cfddeed539855e64f86610ed74f51152ae9a735a0e1f78143ee39ff19c7e1",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:41:34.394819+00:00"
+}

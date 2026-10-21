@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_4",
+  "answer_id": "ANS_POC_97",
+  "category": "model_or_extraction_issue",
+  "summary": "转录漏掉保留的C→DC，实际存在完整递归，教师5有核心逻辑支持。",
+  "teacher_issue": "",
+  "model_issue": "将C仅读0|B导致误认为最多两位，漏读删除旧规则右侧未删除的新C→DC。",
+  "original_image_observations": "S→+AC|+B；第二行左旧规则划掉，右清楚保留C→DC；B为2/4/6/8，C→0|B，A非零数字，D→0|A。教师5。",
+  "evidence": [
+    "C→DC可反复添加任意数字D，最终由0或B结束，故支持任意多位偶数。",
+    "一位由+B覆盖，不能把未删除的递归与左侧删除范围混同。"
+  ],
+  "uncertainties": [
+    "与ANS_POC_101相同，强制+符号是否纳入目标表示需统一，暂不凭符号约定判教师错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "93e21c6be9e4bc6b9bc1d9c5c4a5662e41c57b916b0929d3a8732983bbeef4a7",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:05:35.713511+00:00"
+}

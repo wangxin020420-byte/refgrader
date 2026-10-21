@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_286",
+  "category": "model_or_extraction_issue",
+  "summary": "原图二进制编码图完整表达255个一地址及剩两个窗口扩展128个零地址，教师15分合理；模型忽略图示并把‘留一位’术语当根本错误。",
+  "teacher_issue": "",
+  "model_issue": "模型要求独立写16-12和256，却没按图计1100到1111四个前缀；对2^7=128也无故以概念错误扣半分。",
+  "original_image_observations": "教师15红勾。格式4/6/6；第一问二地址0000至1011，1100000000至1111111110为255个一地址，预留末编码；第二问一地址到1111111101为254，零地址从1111111110+6位0到全1，标128、2^7=128。",
+  "evidence": [
+    "第一问10位操作码区间恰为768～1022，共255条，合法保留最后一窗口。",
+    "第二问10位前缀1022、1023各扩展6位，共2×64=128条。",
+    "‘留一位’用语不严谨，但原图实际预留的是完整码字，不能以术语替代图示事实。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9690efcfc8bcc3fafea078bd032e8cec70b51ad574084becc5aefd11b1da3e8b",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:24:51.899129+00:00"
+}

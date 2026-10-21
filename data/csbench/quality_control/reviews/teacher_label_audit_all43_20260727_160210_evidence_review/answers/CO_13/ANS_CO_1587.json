@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1587",
+  "category": "label_supported",
+  "summary": "首宏观流程1、表全对8、图缺B嵌套且起止用户状态混到时间轴仅4，教师13有依据；模型按纵轴节点将图判满7过度。",
+  "teacher_issue": "",
+  "model_issue": "D/C/B/A的上下空间排列并非时间路径；图有C回A再上B、起始与末回横轴等错误，不能判为完整嵌套。",
+  "original_image_observations": "页眉13，1:1、2:8、3:4。首接收、判优、中断主程序、进入处理、恢复主程序，无具体断点等。MDMCMBMA四行正确。图从横轴附近上短A再C，C下A后上B、回A上D、D回A后下横轴，四红圈。",
+  "evidence": [
+    "表8正确且与图分独立。",
+    "图主要CBD A阶段存在但响应与C返回错误，起止也不在用户程序层，应部分而非满7。",
+    "首1对只有总流程的回答可解释，模型14至17.5不证明教师13低给。"
+  ],
+  "uncertainties": [
+    "图每处扣分未单列，不确认13唯一，但看得到教师扣分针对的错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1baae05537f7931ee3979d5e8acbced36751bfbba065bebf6df62f11b18654a2",
+  "teacher_score": 13.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:27:13.230136+00:00"
+}

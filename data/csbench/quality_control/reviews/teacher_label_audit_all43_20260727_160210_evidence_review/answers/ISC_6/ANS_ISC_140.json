@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_140",
+  "category": "label_supported",
+  "summary": "第一数和第二整数正确，第二小数误写000，教师5有合理部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "三轮6都把000直接称等于.001，宽容不能改变数值；应仅扣该小数错误。",
+  "original_image_observations": "原图5；0.625整数8位全0、小数3位101；2.125整数00000010、小数3位000。",
+  "evidence": [
+    ".000=0，与.001=.125不同。",
+    "正确首数和第二整数保留，教师仅扣1与局部错误方向相符。"
+  ],
+  "uncertainties": [
+    "原始每数3未细分字段权重，不指定唯一扣1。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0f8c9338cb3577116c7e63c22824aca2f3e103fb3a09080edcae01f5650f548e",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.412368+00:00"
+}

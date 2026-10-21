@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1245",
+  "category": "model_or_extraction_issue",
+  "summary": "原图J式指数为2、保留一个前缀的意思明确，R32/I30/J4及方法正确，教师满15合理；转录第1位/2^1造成假矛盾。",
+  "teacher_issue": "",
+  "model_issue": "原文是预留1个编码位置的意思，不是改第1位的位级操作；J手写2^2=4，不应据转录2^1=4扣整个J。",
+  "original_image_observations": "页眉15，三项各5。说明R占00000、I/J共享前5位并预留1位置给J；I2^5−2=30，J2^2=4，R最后5位Opcode2^5=32，红勾。",
+  "evidence": [
+    "三个结果和R/I的具体编码说明一致。",
+    "J指数与4相符，题图Opcode从5扩至7，差2位，非学生一位扩展的确定错误。",
+    "不因学生未照标准逐句写出‘后续2位’否定已有公式。"
+  ],
+  "uncertainties": [
+    "‘预留1位’措辞可被理解成一位，但结合J2^2与I减2应优先读作一个操作码位置；不据此自动认教师满分错误。"
+  ],
+  "transcript_conflicts": [
+    "原图预留1位置被改述成改第1位，J指数2被旧转录读成1。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "be30533b8022465d511c0028d230f22c97a59bd55c20159d27d65495db9173ce",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:37:26.847427+00:00"
+}

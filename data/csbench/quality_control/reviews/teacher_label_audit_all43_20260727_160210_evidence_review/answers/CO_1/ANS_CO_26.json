@@ -1,0 +1,38 @@
+{
+  "question_id": "CO_1",
+  "answer_id": "ANS_CO_26",
+  "category": "uncertain",
+  "summary": "补零地址00110111和37正确，最终08H错误；教师1是否少给过程需权重与题面来源确认。",
+  "teacher_issue": "现行地址项2有依据，但原单项5未细分，不能直接按模型2改教师1。",
+  "model_issue": "把单独A=37当错误有效地址再次罚不当，学生仅列字段值，真正缺的是间接链；应区分缺失与写错。",
+  "original_image_observations": "教师1红勾叉。旧式划掉，DE二进制正确，A补零00110111，中有一处涂改，I=1，A=37，内容(08)H。",
+  "evidence": [
+    "补前导0不改变六位字段数值55。",
+    "08不是当前参考37，不能全分。",
+    "08出现在题图小表，不足以据此重建正确的37地址访存过程。"
+  ],
+  "uncertainties": [
+    "原过程分权重和原题存储表版本待核。",
+    "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+  ],
+  "question_source_conflict": {
+    "question_id": "CO_1",
+    "text_source": "data/csbench/exam_database.json",
+    "question_image": "data/csbench/reference_images/questions/CO_1.png",
+    "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+    "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1b7a358364b0ec86317bf976fbd75dad65cce4cd2b66cc717e5bef115b86cbf1",
+  "teacher_score": 1.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:08:38.247182+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "DM_2",
+  "answer_id": "ANS_DM_178",
+  "category": "label_supported",
+  "summary": "自反、传递只讨论对角有序对，对称只交换单个有序对坐标，三个一般性证明均未完成；教师3分作为部分分有依据，不能按模型高分认定少给。",
+  "teacher_issue": "",
+  "model_issue": "首轮把对角自反当一般自反、坐标交换当关系对称，前两项各给3；限制条件下的等式链也不能替代任意三个有序对的传递证明。",
+  "original_image_observations": "教师3红叉。上方一般自反尝试划掉；保留(a,a)R(a,a)，对称(a,b)R(b,a)，传递(a,a)R(b,b)、(b,b)R(c,c)推出(a,a)R(c,c)。",
+  "evidence": [
+    "R的元素是A×A中的有序对，自反必须覆盖(a,b)而非仅(a,a)。",
+    "正确的加法交换和受限等式链可体现局部思路，但不构成完整证明。",
+    "历史8/6.5/7.5混入模型过度补全，非教师3错的独立证据。"
+  ],
+  "uncertainties": [
+    "没有教师细项记录，3分仅判断为可解释部分分，不确认具体分配。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "be62270cc962b0c026834838071d5f77f649584109fe600afe6709153558b679",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:42:06.376866+00:00"
+}

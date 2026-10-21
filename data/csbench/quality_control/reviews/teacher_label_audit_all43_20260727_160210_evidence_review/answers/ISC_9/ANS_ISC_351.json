@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_9",
+  "answer_id": "ANS_ISC_351",
+  "category": "uncertain",
+  "summary": "正确完整公式与精确分数存在，但最终近似写5GB，教师满分取决于如何处理相互冲突的表达。",
+  "teacher_issue": "若以最终5GB为容量，少于实际5.859375且并非正常四舍五入；但原图也保留正确等值分数，不能直接判教师必错。",
+  "model_issue": "把5.86四舍五入为5称正确不成立；首轮重复step_1_1编号也掩盖过程与结果应分别审核。",
+  "original_image_observations": "顶部灰度级数旧推导划掉；左下正确2048×2048×12×1000/8及48000/(1024×8)=375/(8×8)，末尾近似5G；右侧正确得到6000MB后又写≈5GB。教师10。",
+  "evidence": [
+    "375/(8×8)是正确精确结果，不能要求必须化小数。",
+    "近似5与精确值有约14.7%差异，常规整数四舍五入应6，不能用2%容差说5正确。"
+  ],
+  "uncertainties": [
+    "需统一正确未化简结果后接错误粗略近似是否扣少量结果分；当前不自动修改满分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "dac0ec87a097ee35243a9a72cc2b4ae2af8113e09d46187a5a525a64a1db3079",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:43:52.354293+00:00"
+}

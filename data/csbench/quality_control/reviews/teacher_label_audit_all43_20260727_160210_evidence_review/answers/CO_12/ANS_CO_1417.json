@@ -1,0 +1,36 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1417",
+  "category": "teacher_suspect",
+  "summary": "准备标签25与原图明确12分不一致；前3问正确、后面未完成，属于优先核查的标签来源冲突，不能把25当原教师实际满分。",
+  "teacher_issue": "data/csbench/teacher_scores.json记录25，原图页眉‘评分12’及大号得分12清楚，需核对分数导入或样本关联。保留现有文件，不自动覆盖为12。",
+  "model_issue": "模型把中文程序计数器当缺PC而扣1分也不合理，前三问实际完整；但它指出后两问空白有原图支持。",
+  "original_image_observations": "原图教师12红叉，前3问各4、后面0。aDR、bIR、cAR、d程序计数器PC；取指及存取两路径齐全；ADD仅标题和划掉句子，容量草稿划掉后只剩AX进缓冲器叙述，未给容量和格式。",
+  "evidence": [
+    "前三问4+4+4=12与原图总分相符。",
+    "后两问并非提取漏掉完整图，而是原图确未完成。",
+    "已有标签25与原图12构成直接数值冲突，应列标签问题并追溯来源，而非直接指控教师满给。"
+  ],
+  "uncertainties": [
+    "尚未确认冲突源于上游原始评分字段、数据关联还是人工修改历史；本次不改原始标签。"
+  ],
+  "evidence_strength": "confirmed_prepared_25_vs_image_12",
+  "source_score_observation": {
+    "prepared_teacher_score": 25,
+    "image_total": 12,
+    "visible_partial_marks": true
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "862bc7fba9590f5dccdc8e9d2543fa29f99f92ae570689c50b3753270648cc73",
+  "teacher_score": 25.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:26:08.494651+00:00"
+}

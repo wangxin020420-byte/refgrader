@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1465",
+  "category": "teacher_suspect",
+  "summary": "格式位数正确，但寄存器三处错配、取指缺DR、存取无具体通路、ADD不完整且容量仅256B，教师22/25疑似多项过给。",
+  "teacher_issue": "仅首问aGR/bAR/cIR就有三处映射错误，另外数据通路和容量均未完成，22分无法仅按少量表述差异解释，需优先核查。",
+  "model_issue": "首轮理由称对了3寄存器但实际给1分，自相矛盾；不过原图对应关系可独立确认，不能以此否认教师22的实质疑点。",
+  "original_image_observations": "教师22红叉。aGR、bAR、cIR、dPC；取指M直接IR再地址生成/译码；存取只说数据线进GR；ADD有取指控制及OD→GR、ALU(+)、ALU→AX，无两输入完整路线；下址8但容量2^8B；格式3/4/4/2/3/8。",
+  "evidence": [
+    "题图实际aDR/bIR/cAR/dPC，前三个不是可互换名称。",
+    "按8位下址可有256条24bit微指令，容量应768B，不是256B。",
+    "格式5分有完整依据，应保留；其余多项错误不能仅扣3分。"
+  ],
+  "uncertainties": [
+    "ADD用AX/GR与AC的对应可给一定部分分，具体替代总分不自动指定。"
+  ],
+  "evidence_strength": "high_score_despite_multiple_independent_missing_requirements",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f9c9e5f21c8ccad4a3fa8e24dcb390740c512d0c3450c4757c7be0e92ad4e4d4",
+  "teacher_score": 22.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:30:46.036927+00:00"
+}

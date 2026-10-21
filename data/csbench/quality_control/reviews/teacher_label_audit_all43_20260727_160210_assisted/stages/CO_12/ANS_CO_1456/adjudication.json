@@ -1,0 +1,43 @@
+{
+  "version": "assisted-label-review-v1",
+  "stage_sha256": "cd978c49d1b96452c9efe9bcca485ea7e8f7893fe2b55518bb1f2ff7023c8032",
+  "input_sha256": "28e844d819185a5ab43edc6bc43e935a29d3016e4df49ccd5311337fa24c4648",
+  "created_at": "2026-10-20T08:11:08.945034+00:00",
+  "request_url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+  "model": "glm-5.2",
+  "response_id": "202610201610517fb3049d66984f45",
+  "usage": {
+    "completion_tokens": 854,
+    "prompt_tokens": 6977,
+    "total_tokens": 7831,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 293,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 448
+    }
+  },
+  "review": {
+    "category": "label_supported",
+    "score_min": 23,
+    "score_max": 24,
+    "confidence": 0.7,
+    "teacher_issue": "",
+    "model_issue": "多次评分中第6问被记为0分，依据仅为'图如图所示'的文本提取，忽略了学生在第(5)问中已写出全部字段位数（3+4+4+2=13位、外部条件3位、下址8位）且图像中画有格式图；转录无法捕捉图像内容不应判定为未作答，导致基线17.7分明显偏低。此外部分评分将第(3)问写路径ALU→AC→DR→M误判为缺ALU→AC。",
+    "evidence": [
+      "第(5)问文本明确给出各组字段位数'3+4+4+2=13位、外部条件3位、24-13-3=8位'，即已包含第(6)问所需的完整字段分配，仅格式图在图像中转录缺失",
+      "第(3)问写路径学生写为ALU→AC→DR→M，读路径止于DR→ALU（缺ALU→AC），与参考答案M→DR→ALU→AC相比读路径末步缺失，扣约1分合理",
+      "教师总分24（=25-1）与扣分点（第3问读路径缺AC一步或第5问容量笔误，若图像实为2^8×24则第5问无误）相容，处于合理区间23-24",
+      "第1、2、4问学生作答与参考答案完全一致，应各得满分"
+    ],
+    "uncertainties": [
+      "第(5)问容量'2^8×16'与'2^8×24'存在转录冲突，独立图像审核认为原图为24；若原图确为24则第5问应满分，教师扣的1分应落在第3问",
+      "第(6)问格式图内容无法从转录核实，若图像中格式图标注有误，分数区间下探至23以下"
+    ],
+    "summary": "教师24分在合理区间内：第1、2、4问满分明确，第(5)问字段推导正确但容量算式存在转录疑点，第(6)问字段位数在文字中已给出且附图，第(3)问读路径缺ALU→AC可扣1分。旧模型轨迹因转录遗漏图像内容将第6问记0分，严重低估（17.7分），属转录/模型问题而非教师标分问题。"
+  }
+}

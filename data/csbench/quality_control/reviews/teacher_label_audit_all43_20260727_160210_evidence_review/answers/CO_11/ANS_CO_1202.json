@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1202",
+  "category": "uncertain",
+  "summary": "R14/I29/J20均非正确最大值，仍有操作码预留和乘4扩展尝试；教师1+2+4=7中J4偏宽疑问待核，模型0也未保留正确局部关系。",
+  "teacher_issue": "J按I必须大于J而非I取最大、资源式又多减前缀，结果20却得4/5；应核是否仅按乘4与代数结构给了过多方法分。",
+  "model_issue": "变量M并非无关，写变量不构成方法错误；I式2^5−1−1本身等于30，算成29可保留方法。作废上半推导不能混入最终答案。",
+  "original_image_observations": "页眉7，1:1、2:2、3:4。上半整段斜线划去。下半R设M，I30−M并要求I>R得R14；I2^5−1−1=29；J(2^5−2−M)×4，要求I>J后选I25、J(32−25−1−1)×4=20。",
+  "evidence": [
+    "将I最多读成I大于其他类，R/J目标有根本偏差，不可按正确数值满分。",
+    "I漏算一个数但减R/J两个前缀的方法正确，教师少量2不应被模型全0取代。",
+    "J乘4有正确字段扩展成分，但错误目标与额外扣码使4/5是否合理需要明确权重。"
+  ],
+  "uncertainties": [
+    "原J五分的结果/建模/扩展权重未知，不能给出严格替换总分；暂列需人工确认。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0c59ec39d3f24334e7f93edbf31b6e0b29f4d0de36e86ec51a2a93c736856ddf",
+  "teacher_score": 7.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:44:41.024326+00:00"
+}

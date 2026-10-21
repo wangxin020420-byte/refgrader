@@ -1,0 +1,30 @@
+{
+  "question_id": "DM_1",
+  "answer_id": "ANS_DM_41",
+  "category": "label_supported",
+  "summary": "哈斯图和前两组极值正确，最后把上下界集合及名称混淆；教师6分可对应前三问全对、第四问不得分，模型8分过于替学生修正。",
+  "teacher_issue": "",
+  "model_issue": "模型将‘最大上界无、最小上界1’改成最小上界无和最大下界1，忽略原图还写上界24/54、下界1/2/3的实质错误。",
+  "original_image_observations": "教师6红叉。图包含1、2、3、4、6、9、24、54及正确覆盖边；极大24/54、极小1、最大不存在、最小1；第四列上界24/54、下界1/2/3，末写最大上界无、最小上界1。",
+  "evidence": [
+    "B含4和9，24不被9整除、54不被4整除，均非共同上界；2和3也并非所有B元素公因子。",
+    "前三问共6分有依据；第四不是简单标点差异或等价表述。",
+    "不能把相近名称及数字自动归入参考答案正确字段。"
+  ],
+  "uncertainties": [
+    "若最后‘最小上界’本意是最大下界，至多可讨论少量部分分；现有错误集合不支持第四问全对。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9fe27b5316001bfd2245d5aeade234d82e6f0d9b3298ae0767e5e3460a8ec78d",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T11:00:24.011208+00:00"
+}

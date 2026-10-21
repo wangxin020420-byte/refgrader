@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1128",
+  "category": "model_or_extraction_issue",
+  "summary": "tag10、容量指数化和11套比较器确实错，但正确1024块、256组、主存16384块被模型全部当未写；教师5+2=7有局部过程依据。",
+  "teacher_issue": "",
+  "model_issue": "历史0/0.5/0没有保留显式块数与组数计算，也把有效位加1因错误tag连带清零，属于漏提取和重复扣源错。",
+  "original_image_observations": "页眉7，1:5、2:2。首行旧分组文字划掉；有效部分Cache2^10块、2^8组、主存2^14块；tag10位、加有效位11位，总容量2^11bit=2^8B。第二11套，因为tag每一位及有效位各需一套。",
+  "evidence": [
+    "正确块/组数和(tag+1)结构是实际书写，不可标BLANK。",
+    "2^11把每块位数指数化且漏1024块，11套又把整组比较电路误当逐位电路，结果分应扣。",
+    "教师给第二2而非满5可能保留比较tag/有效位的局部知识；不足以仅按总分差认标签错误。"
+  ],
+  "uncertainties": [
+    "首5、次2的局部方法权重未明确，7非唯一可证分数；原卷无四路比较器正确解释。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "784ecffaba6bebe32f55a5cd06e00bd466bd59f67881fcb30263396b4cfdaf31",
+  "teacher_score": 7.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:53:59.193182+00:00"
+}

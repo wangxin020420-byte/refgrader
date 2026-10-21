@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_4",
+  "answer_id": "ANS_POC_85",
+  "category": "uncertain",
+  "summary": "单符号自循环不能增加数字，文法最多三位，教师4的扣分尺度需确认。",
+  "teacher_issue": "遗漏全部四位及以上偶数，4是否偏宽取决于生成机制部分分。",
+  "model_issue": "D第一项原图为1，不是ε；B→B、C→C、D→D虽然冗余但不使CFG非法，也不会自动产生前导零。",
+  "original_image_observations": "旧S规则划掉，保留S→B|DA|DCA；A为偶数字，B非零偶数字或B，C数字或C，D非零数字或D。教师4。",
+  "evidence": [
+    "单符号自循环只停留当前非终结符，不能拼接出任意长度，最长DCA三位。",
+    "首位和末位约束正确，一至三位有完整覆盖，应保留部分分。"
+  ],
+  "uncertainties": [
+    "长度递归缺失的权重未明，无法据模型0直接判教师错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ed7ab3400f92e9a8103c18124dc42e65b766897c0a23342210cfb9ac99b1783b",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:05:35.693604+00:00"
+}

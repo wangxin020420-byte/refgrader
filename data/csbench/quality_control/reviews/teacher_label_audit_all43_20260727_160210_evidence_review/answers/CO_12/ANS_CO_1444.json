@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1444",
+  "category": "model_or_extraction_issue",
+  "summary": "原图前两问并非空白，四寄存器名称完整且有取指控制/数据流程；教师13可解释为前部与ADD部分分，模型漏读前两问导致大幅低估。",
+  "teacher_issue": "",
+  "model_issue": "转录从第三问才开始，模型将第一第二问BLANK；原图左上a数据缓冲、b指令、c地址、d程序计数器清楚，第二问也有多步描述。",
+  "original_image_observations": "教师13红叉。首问四中文名称完整；第二PC→AR、AR→M、控制器命令、数据经总线送IR、PC+1，缺DR；第三多处涂改但有数据到DR/ALU/GR；ADD两输入相加回GR；容量2^24错误；格式多组位数及16/3/5错误。",
+  "evidence": [
+    "第一问至少4分实际证据，模型0不是可接受读取。",
+    "第二有相关流程但缺DR，适合部分分，不能说未作答。",
+    "容量与格式确错，不因此恢复满分；13可由正确名称、部分路径、ADD及格式部分关系构成。"
+  ],
+  "uncertainties": [
+    "原图部分涂改影响第三问具体路径，保留其不完整性，不脑补成完整读写。"
+  ],
+  "transcript_conflicts": [
+    "第一第二问整段漏转录。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "403e43f3bbb90cfc87e0d465b067ee8f75b94f28c4a1121947e4556659b9c40c",
+  "teacher_score": 13.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:39:38.650986+00:00"
+}

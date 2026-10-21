@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1537",
+  "category": "model_or_extraction_issue",
+  "summary": "明确ABCD列左表正确，图缺B初始和C回B被扣至5，首简链1，教师14有依据；模型漏图且未结合表头。",
+  "teacher_issue": "",
+  "model_issue": "不能因右侧文本摘要/格式解析不稳否定左侧明确列标题的正确表；原图轨迹存在，应对C后先回A再上B局部扣而不是0。",
+  "original_image_observations": "页眉14，1:1、2:8、3:5。首接收、保护原操作、服务、恢复一句。左表列A B C D，A1000/B1101/C1111/D1001；右侧另列各行反序摘要，B笔迹较密。图用户→A→C→A→B→A→D→A→用户，初始与C后转折三红圈。",
+  "evidence": [
+    "左表有明确位列和正确关系，表8具备可核实依据。",
+    "首有保护恢复宏观概念但未展开关中断等，只1未满。",
+    "图主要阶段和返回正确但B嵌套错误，教师5可为部分分，模型图0不符实际。"
+  ],
+  "uncertainties": [
+    "右侧B摘要较密，若读成1001则与左表B1101存在冲突，需人工以明确左表及原笔迹确认，不能直接将涂写认概念错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a80fb0584989592fe08bd9a74ea2e4413f226ddbbb98b1d491241bb6ffa03747",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:21:17.240215+00:00"
+}

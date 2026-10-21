@@ -1,0 +1,2411 @@
+[
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_234",
+    "category": "uncertain",
+    "summary": "部分输出正确但外侧有实错，教师5的局部分配需确认。",
+    "teacher_issue": "外侧三对都未正确换，教师5比明确正确中部的分数可能偏宽，需解释额外部分分。",
+    "model_issue": "历史把倒数位置算错，且将正确中部配成24/15；不能用2.5直接定原分。",
+    "original_image_observations": "原图5；一行十数，首两16/19、末两16/19，中间24/5/22/24正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：16 19 15 24 5 22 24 20 16 19。",
+      "对照程序实际输出，差异位置（1起算）：1, 2, 3, 8, 9, 10。"
+    ],
+    "uncertainties": [
+      "原外对各2，但余下分分配和未完整互换的部分分未详，暂不指定新分。"
+    ],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        16,
+        19,
+        15,
+        24,
+        5,
+        22,
+        24,
+        20,
+        16,
+        19
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        1,
+        2,
+        3,
+        8,
+        9,
+        10
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_189",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "三轮都判空白，原图与转录均有完整输出；外侧不能随中心错误清零。",
+    "original_image_observations": "原图9；十数一行完整，只有位置5/6写22、5。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_196",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "完整答案被判全空白；分隔记号不是缺答，原说明此类只扣1。",
+    "original_image_observations": "原图9；十数之间画空格记号，位置5/6为22、5，其余正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_230",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "历史三次空白错误；应按原始只扣1的例外而非重复扣两个中间项。",
+    "original_image_observations": "原图9；19至16十数完整，中间22和5交换。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_187",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "因中心错扣首尾等其他正确对，还称倒数第2为15，位置映射错误。",
+    "original_image_observations": "原图9；第2为28、第8为15、第9为23，只有中央22/5反序。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_229",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "按错倒数索引扣第三四对，中心仅应扣1而不是多对连带丢分。",
+    "original_image_observations": "原图9；十数清楚，第3为20、第8为15、两24仍在4/7。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_192",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "模型在0和6间波动，中心反序不应使最后一对或所有对失分。",
+    "original_image_observations": "原图9；完整十数，首尾19/16，第二对28/23，第三对20/15。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_190",
+    "category": "model_or_extraction_issue",
+    "summary": "首尾一对换对、中部正确，教师6可支持，模型错误清零。",
+    "teacher_issue": "",
+    "model_issue": "首尾明确换对却说末16并非预期16、原本即16，既自相矛盾又读错输入末19。",
+    "original_image_observations": "原图6；仅首尾换成19/16，第二第三对仍23/28及15/20，中间四数正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 23 15 24 5 22 24 20 28 16。",
+      "对照程序实际输出，差异位置（1起算）：2, 3, 8, 9。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        23,
+        15,
+        24,
+        5,
+        22,
+        24,
+        20,
+        28,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        2,
+        3,
+        8,
+        9
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_184",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "三次10/0/0既忽略中心扣1又把完整答案判错；教师9符合源扣分说明。",
+    "original_image_observations": "原图9；十个输出清楚，中心22、5，其他与目标一致。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_197",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "历史10漏明确扣1，0与6又多扣；不能仅按一次模型值认教师有错。",
+    "original_image_observations": "原图9；十数位置齐全，中间22在5前。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_204",
+    "category": "teacher_suspect",
+    "summary": "倒数第二写13却给满10，需复核教师是否误看。",
+    "teacher_issue": "位置9应23却为13，独立输出实错仍给满10，需复核是否误看或过度忽略抄写错误。",
+    "model_issue": "历史把倒数第2/3/4位置混为15/24/13，错误理由不能代替正确定位；实错是位置9。",
+    "original_image_observations": "原图10；倒数第二数为13，放大可见笔画1后3，其余九个位置正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 13 16。",
+      "对照程序实际输出，差异位置（1起算）：9。"
+    ],
+    "uncertainties": [
+      "13/23可由原扫描再确认；本次保留教师分，不自动扣2。"
+    ],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        13,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        9
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_205",
+    "category": "uncertain",
+    "summary": "部分输出正确但外侧有实错，教师5的局部分配需确认。",
+    "teacher_issue": "首尾也非交换目标，三外对均未完整正确；5的额外部分分需解释。",
+    "model_issue": "三次空白与整行数字相反，应评价真实错误和正确中部。",
+    "original_image_observations": "原图5；首18末17，中间四值24、5、22、24正确，外两对仍原位。",
+    "evidence": [
+      "按原图最终有效行手工读取：18 23 15 24 5 22 24 20 28 17。",
+      "对照程序实际输出，差异位置（1起算）：1, 2, 3, 8, 9, 10。"
+    ],
+    "uncertainties": [
+      "原始未细化错误数值/部分互换与剩余分的分配，不用模型0自动改分。"
+    ],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        18,
+        23,
+        15,
+        24,
+        5,
+        22,
+        24,
+        20,
+        28,
+        17
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        1,
+        2,
+        3,
+        8,
+        9,
+        10
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_210",
+    "category": "uncertain",
+    "summary": "部分输出正确但外侧有实错，教师5的局部分配需确认。",
+    "teacher_issue": "外侧三对均未正确互换，5可能偏宽，但正确中部应保留。",
+    "model_issue": "历史混淆第4及倒数第4位置且忽略中部正确项。",
+    "original_image_observations": "原图5；题号4后输出16起19终共十数，不把题号算入数组。",
+    "evidence": [
+      "按原图最终有效行手工读取：16 19 15 24 5 22 24 20 16 19。",
+      "对照程序实际输出，差异位置（1起算）：1, 2, 3, 8, 9, 10。"
+    ],
+    "uncertainties": [
+      "原始分值未细到此种不完整互换的部分分，暂需教师说明。"
+    ],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        16,
+        19,
+        15,
+        24,
+        5,
+        22,
+        24,
+        20,
+        16,
+        19
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        1,
+        2,
+        3,
+        8,
+        9,
+        10
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_214",
+    "category": "uncertain",
+    "summary": "部分输出正确但外侧有实错，教师5的局部分配需确认。",
+    "teacher_issue": "中部正确但三外对未正确交换，5的部分分依据需核。",
+    "model_issue": "转录漏改后首20成九数，三轮全空白更不符原图；改写须归属首末位置。",
+    "original_image_observations": "原图5；首旧数划去下改20，末旧数划去下改15，中间23 15 24 5 22 24 20 28共八数。",
+    "evidence": [
+      "按原图最终有效行手工读取：20 23 15 24 5 22 24 20 28 15。",
+      "对照程序实际输出，差异位置（1起算）：1, 2, 3, 8, 9, 10。"
+    ],
+    "uncertainties": [
+      "划改后20/15相对清楚；原始错误互换的局部分值未明，不直接定0。"
+    ],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        20,
+        23,
+        15,
+        24,
+        5,
+        22,
+        24,
+        20,
+        28,
+        15
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        1,
+        2,
+        3,
+        8,
+        9,
+        10
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_231",
+    "category": "uncertain",
+    "summary": "部分输出正确但外侧有实错，教师5的局部分配需确认。",
+    "teacher_issue": "正确三对应保留，教师5可能偏低；但原说明余下2分分配未展开，不能直接设唯一7。",
+    "model_issue": "三次空白错，第一二及24/24对明确正确；应只评第三数和中心错误。",
+    "original_image_observations": "原图5；上方旧行整条划掉，下方最终第三数28而非20，且中心22/5反序。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 28 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：3, 5, 6。"
+    ],
+    "uncertainties": [
+      "若按满10扣第三对2再扣中心1会得7，需教师核采用何种局部扣分政策。"
+    ],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        28,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        3,
+        5,
+        6
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_238",
+    "category": "teacher_suspect",
+    "summary": "仅第二数错为18，三组明示各2的外对正确，教师5可能低给。",
+    "teacher_issue": "至少19/16、20/15、24/24三对正确，各2已达6，且中部无交换；教师5低于这部分明示分，应复核低给。",
+    "model_issue": "三次全空白不符原图；第二数错误不能清掉三组正确外对。",
+    "original_image_observations": "原图5；第二数清楚为18，其他九位置与参考一致。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 18 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：2。",
+      "位置1/10、3/8、4/7三对均正确，原说明各2，已至少6；无中心交换扣分。"
+    ],
+    "uncertainties": [
+      "需核第二数字迹或原题版本，不自动把5改8或9。"
+    ],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        18,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        2
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_218",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "转录18造成第二对失分，又把中心错传播至首尾等，原图支持外侧全对及仅扣1。",
+    "original_image_observations": "原图9；第二数为带弯笔的28，并非转录18；仅中心22/5反序。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_225",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "理由称23而非23也错，且把20/15对反解释；同值判断自相矛盾，中心应仅扣1。",
+    "original_image_observations": "原图9；首19末16、第二28/23、第三20/15、两24及中心22/5清楚。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_233",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "历史把倒数第3第4索引错位并漏掉源扣1，不能以4或8认教师高给。",
+    "original_image_observations": "原图9；十数后有空格记号，输出本身无额外数，中央22/5反序。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_182",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "首尾因中心错少1分及其他错索引均是连带扣；此类源说明总9。",
+    "original_image_observations": "原图9；紧凑一行十数，中心22和5反序，外侧正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_227",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "模型称等于原输入未交换，原输入16开头19结尾，与图中相反；不应清零。",
+    "original_image_observations": "原图9；19 28 20开头、15 23 16结尾，中心22/5。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_240",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "把实际交换5/22误称未交换，又将正确外侧位置混乱对应，不能多扣对。",
+    "original_image_observations": "原图9；完整十数及红对叉，中间22、5是唯一两处差异。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_203",
+    "category": "model_or_extraction_issue",
+    "summary": "中间四数正确，外侧错位，教师4有部分分依据。",
+    "teacher_issue": "",
+    "model_issue": "历史0忽略四个正确中部位置，并按倒数第4为15的错误期望扣；部分分应保留。",
+    "original_image_observations": "原图4；前三28/19/15及末20/16/23错位，中间24/5/22/24保留正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：28 19 15 24 5 22 24 20 16 23。",
+      "对照程序实际输出，差异位置（1起算）：1, 2, 3, 8, 9, 10。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        28,
+        19,
+        15,
+        24,
+        5,
+        22,
+        24,
+        20,
+        16,
+        23
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        1,
+        2,
+        3,
+        8,
+        9,
+        10
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_209",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "历史10漏中央扣1、5及6又错判倒数位置，应统一按源9。",
+    "original_image_observations": "原图9；十数逐个清楚，中间22/5，外四对与正确输出一致。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_191",
+    "category": "uncertain",
+    "summary": "部分输出正确但外侧有实错，教师5的局部分配需确认。",
+    "teacher_issue": "三外对都不符合，5的额外局部分需确认。",
+    "model_issue": "历史错把倒数第二预期15且忽略正确中部，不能按模型0认教师应0。",
+    "original_image_observations": "原图5；首16末19，第二19倒数第二16，中部四数正确，缺28/23目标。",
+    "evidence": [
+      "按原图最终有效行手工读取：16 19 15 24 5 22 24 20 16 19。",
+      "对照程序实际输出，差异位置（1起算）：1, 2, 3, 8, 9, 10。"
+    ],
+    "uncertainties": [
+      "原总10的未明确余分及不完整互换得分待统一，暂不认5已确认错误。"
+    ],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        16,
+        19,
+        15,
+        24,
+        5,
+        22,
+        24,
+        20,
+        16,
+        19
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        1,
+        2,
+        3,
+        8,
+        9,
+        10
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_186",
+    "category": "uncertain",
+    "summary": "部分输出正确但外侧有实错，教师5的局部分配需确认。",
+    "teacher_issue": "外侧三对未正确，5是否偏宽需额外部分分依据。",
+    "model_issue": "部分探针将完整行判空白或把正确24/24配成24/15，不能用0解释原教师。",
+    "original_image_observations": "原图5；外六值18、27、19、16、24、17不符目标，中间24/5/22/24正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：18 27 19 24 5 22 24 16 24 17。",
+      "对照程序实际输出，差异位置（1起算）：1, 2, 3, 8, 9, 10。"
+    ],
+    "uncertainties": [
+      "未给按单个端点及对一般过程认识的细分，暂只列需核。"
+    ],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        18,
+        27,
+        19,
+        24,
+        5,
+        22,
+        24,
+        16,
+        24,
+        17
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        1,
+        2,
+        3,
+        8,
+        9,
+        10
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_220",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "首尾明说正确却给0，第二倒数又错写15；仅中心一错不能多处连扣。",
+    "original_image_observations": "原图9；正确外侧十数位置齐全，只中央22/5反序。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_185",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "另两轮4.5把中心错连扣每对并误认倒数，不能覆盖遵守原说明的9。",
+    "original_image_observations": "原图9；中央22、5，其他目标数清楚，原分与一轮9一致。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_211",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "历史将倒数位置错为15/24/15，第三四对误扣，原图实际外侧正确。",
+    "original_image_observations": "原图9；全行完整，第二尾为23、第三尾15、第四尾24，中心反序。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_222",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "模型把倒数第三写5、倒数第四预期15，既错索引又漏中央只扣1，7/8/10均不代表原标准。",
+    "original_image_observations": "原图9；位置5/6为22、5，其余八位置正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_188",
+    "category": "model_or_extraction_issue",
+    "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+    "teacher_issue": "",
+    "model_issue": "首轮10忽略明确中央扣1，其他轮又按错索引大扣；教师9有源约定。",
+    "original_image_observations": "原图9；十数完整，第4/7同24，5/22反序。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：5, 6。",
+      "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        22,
+        5,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        5,
+        6
+      ],
+      "only_middle_swap": true,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_181",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮总10正确；理由倒数口头举例偶有错位，不影响原图整序列全对。",
+    "original_image_observations": "原图10；答字后正确十数，一行输出，中心5在22前。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_183",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "最终序列与三轮总10一致，不把被删前缀加入输出。",
+    "original_image_observations": "原图10；左有被划去小片文字，右侧最终十数完整正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_195",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10与原图一致，无需据差异为零的样本怀疑教师。",
+    "original_image_observations": "原图10；细笔十数，中央5/22及末15/23/16清楚。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_199",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10总分有整序列支持，倒数位置理由不严谨不改变全对结果。",
+    "original_image_observations": "原图10；十数紧凑一行，前19/28/20，后24/15/23/16及中心5/22正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_200",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10正确，按完整值核对不需要引用有错位的口头索引。",
+    "original_image_observations": "原图10；各输出有空隔，两个24分别在4/7，5和22未换。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_201",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10与完整正确序列一致。",
+    "original_image_observations": "原图10；十数顺序完整，首19末16，中央5/22保持。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_207",
+    "category": "label_supported",
+    "summary": "仅孤立24无位置对应，教师0有支持。",
+    "teacher_issue": "",
+    "model_issue": "模型称未提供所需序列有依据；单24无法建立任何一对端点匹配，不擅自安到正确位置给分。",
+    "original_image_observations": "原图0；仅单独写24，其余大片空白，无序列或位置说明。",
+    "evidence": [
+      "按原图最终有效行手工读取：24。",
+      "对照程序实际输出，差异位置（1起算）：1, 2, 3, 4, 5, 6, 7, 8, 9, 10。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        24
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_212",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10有整行正确结果支持。",
+    "original_image_observations": "原图10；十个输出紧凑但可分，中央5/22及尾15/23/16清楚。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_213",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "按下方最终改写评价，三轮10正确，删除内容不加入序列。",
+    "original_image_observations": "原图10；上行旧式划掉，下行重新写完整正确十数，末有空格记号。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_215",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "间距不改变顺序与数量，三轮10与原图一致。",
+    "original_image_observations": "原图10；十数横向展开，第7个24与第8个15间有较大间隔，无遗漏。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_216",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10正确，不将有错索引的理由替代原图全序列。",
+    "original_image_observations": "原图10；十数紧凑，正确中央5 22及后24 15 23 16。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_217",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "空格符号是表示打印分隔，不算额外数据，三轮10可支持。",
+    "original_image_observations": "原图10；数间画空格记号，十数19至16正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_221",
+    "category": "label_supported",
+    "summary": "把程序当排序而输出升序，教师0有支持。",
+    "teacher_issue": "",
+    "model_issue": "模型0与错误排序方向一致，不能因第6个22偶合就补整对得分。",
+    "original_image_observations": "原图0；十数升序排列，从5到28，无目标对称交换结果。",
+    "evidence": [
+      "按原图最终有效行手工读取：5 15 16 19 20 22 23 24 24 28。",
+      "对照程序实际输出，差异位置（1起算）：1, 2, 3, 4, 5, 7, 8, 9, 10。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        5,
+        15,
+        16,
+        19,
+        20,
+        22,
+        23,
+        24,
+        24,
+        28
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10
+      ],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_223",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10对应完整正确结果。",
+    "original_image_observations": "原图10；十数宽间距书写，两个24和中央5/22均正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_224",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10与原图整序列相符。",
+    "original_image_observations": "原图10；大字一行十数，19起16终，中央5/22正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_226",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10合理，正确最终输出不要求额外程序跟踪才给满。",
+    "original_image_observations": "原图10；十数一行，5与22间距较大但相邻且顺序正确。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_228",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10有原图支持；以整序列核对而非错误倒数称谓。",
+    "original_image_observations": "原图10；粗笔十数，中央5、22，末24、15、23、16完整。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_232",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10与全部十数一致。",
+    "original_image_observations": "原图10；前19/28/20、中央24/5/22/24、尾15/23/16齐全。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_235",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10正确，不添加参考未要求的过程门槛。",
+    "original_image_observations": "原图10；细笔但十数可辨，5/22未反序，末16清楚。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_237",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "三轮10对应最终输出，划去的小片不能当多余数。",
+    "original_image_observations": "原图10；左上小片旧字被划掉，下方最终十数正确一行。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  },
+  {
+    "question_id": "CPL_4",
+    "answer_id": "ANS_CPL_239",
+    "category": "label_supported",
+    "summary": "最终十数全部正确，教师满10与历史结果一致。",
+    "teacher_issue": "",
+    "model_issue": "删除原首数后的十数完整正确，三轮10有支持。",
+    "original_image_observations": "原图10；行首旧16划掉，随后最终19 28 20 24 5 22 24 15 23 16。",
+    "evidence": [
+      "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+      "对照程序实际输出，差异位置（1起算）：无。"
+    ],
+    "uncertainties": [],
+    "verified_output": {
+      "manually_read_final_sequence": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "program_output": [
+        19,
+        28,
+        20,
+        24,
+        5,
+        22,
+        24,
+        15,
+        23,
+        16
+      ],
+      "mismatching_positions_1_based": [],
+      "only_middle_swap": false,
+      "method": "manual_original_image_inspection_then_offline_position_check"
+    }
+  }
+]

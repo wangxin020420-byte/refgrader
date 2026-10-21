@@ -1,0 +1,47 @@
+{
+  "version": "assisted-label-review-v1",
+  "stage_sha256": "edc4281e45651f9ceeeee98d8dd7a8684cc5e6154ba039111a08dfeaf1edd132",
+  "input_sha256": "8ff569b66abcf940e4aa13132ee6b228a08e3151bc671d818a0b441a59ba55a2",
+  "created_at": "2026-10-20T08:11:33.727477+00:00",
+  "request_url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+  "model": "glm-4.6v",
+  "response_id": "20261020161115de4378bf87b54a08",
+  "usage": {
+    "completion_tokens": 959,
+    "prompt_tokens": 9764,
+    "total_tokens": 10723,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 1261
+    }
+  },
+  "review": {
+    "category": "label_supported",
+    "score_min": 12,
+    "score_max": 16,
+    "confidence": 0.8,
+    "original_image_observations": "学生作答手写内容：(1) a:DB b:IR c:DB d:PL；(2) 主存经过A寄存器,再经过B寄存器到控制器；(3) 主存经过A寄存器到ALU,再经AC回到a寄存器；(4) 空白；(5) m=2^n -1, 3+4+4+2=13位, 微指令：位数 5：3 8：4 14：4 3：2, 外部部件3个采用直接控制故有3位, 下地址:24-3-13=8位；(6) 微指令格式框内显示控制字段13位、判别字段3位、下地址字段8位。教师批改痕迹：左上角红色印字“钱付兰(05049)评分：16。1：3；4：4；3：3；4：4；6：5；”，右上角红色印字“得分：16 满分：25”。图中寄存器标注：a、b、c、d四个寄存器框体清晰，连线箭头明确，c寄存器连接主存地址线，d寄存器有+1输入（程序计数器特征），b寄存器连接操作控制器（指令寄存器特征），a寄存器连接主存数据线（数据寄存器特征）。",
+    "teacher_issue": "教师评分16分（小问得分1:3；4:4；3:3；4:4；6:5）在合理宽松评分范围内成立，未发现教师批改错误。",
+    "model_issue": "旧模型对第2问评分过严（三次探测分别给1/1/0分）：学生写“主存经过A寄存器，再经过B寄存器到控制器”，即M→a→b→控制器，与标准通路M→DR(a)→IR(b)→操作控制器的节点顺序完全一致（a即DR位置、b即IR位置，且学生第1问中b确标为IR），属于结构正确的通路描述，仅寄存器名称用字母指代，应给2-3分；旧模型三次给0-1分明显低估。第1问中a标“DB”（数据缓冲寄存器）与DR语义基本等价，模型一律不给分，偏严。最终基线9.7分整体低估。",
+    "evidence": [
+      "step_2学生作答“主存经过A寄存器，再经过B寄存器到控制器”与参考“主存M→DR(a)→IR(b)→操作控制器”节点顺序完全吻合，旧模型三次探测仅给1/1/0分",
+      "step_1学生标注a:DB(数据缓冲)、b:IR，b正确无疑，DB与DR语义近同，至少可得1-2分",
+      "step_3学生仅写读通路(M→a→ALU→AC)漏写通路(AC→a→M)，2-3分合理",
+      "step_5学生正确推出下址8位(24-3-13=8)但未写出256×24位最终结果，2-3分合理",
+      "step_6各字段位数3/4/4/2、判别3位、下址8位全对，5分合理，旧模型一致",
+      "教师16分（如2+3+3+0+3+5）在合理宽松部分分范围内"
+    ],
+    "uncertainties": [
+      "step_2中“A寄存器/B寄存器”的字母指代是否按阅卷惯例接受存在歧义",
+      "step_5未写出最终容量结果扣分幅度（1-2分）无细则权重",
+      "step_3漏写存储过程的扣分幅度无细则权重"
+    ],
+    "summary": "学生第6问全对(5分)、第4问空白(0分)；第2问通路结构与参考一致仅名称用字母指代，旧模型给0-1分明显低估；教师16分（如2+3+3+0+3+5）在合理宽松评分范围内成立，属可支持标签；合理总分区间约12-16分，旧模型基线9.7分偏低。"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1630",
+  "category": "teacher_suspect",
+  "summary": "屏蔽表在明确MDMCMBMA位序下多行改变源间优先关系，却获满8；教师总11疑点集中屏蔽设计。",
+  "teacher_issue": "B0110屏蔽C却允许较低D/A，C0100允许较低A/B/D，D1110又允许较低A，不能实现CBDA；不只是自身位约定差异，满8需优先复核。",
+  "model_issue": "图有平行线和C/B/D/A时间标记，应给少量结构分；但不能因表错就推定所有图节点必错。首仍有状态切换尝试，教师只1。",
+  "original_image_observations": "页眉11，1:1、2:8、3:2。首将屏蔽字、电平与重联混为响应过程。下方明确屏蔽字MD MC MB MA，A行左有涂改0且有效部分近1111，B0110、C0100、D1110清楚。上图以多条同时水平线表示各程序持续、横轴标C/B/D/A结束，三红圈。",
+  "evidence": [
+    "仅B/C/D已足以证实与目标源间屏蔽关系不符，不依赖A行模糊数字。",
+    "列序已声明，无法通过统一换序或只补对角线修复这些错误；题设1为屏蔽亦不能擅自取反。",
+    "图只有2、首1可解释为尝试分；第二整8是独立可疑点。"
+  ],
+  "uncertainties": [
+    "A行有涂改不追加五位/多位处罚，不据此判断抄写位数；标签暂不自动改。"
+  ],
+  "evidence_strength": "full_eight_masks_contradict_explicit_columns_and_service_priority",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "02c50188d6b95d1828478606bc505d241a2816d5ea31a6855a89bde1d79dceae",
+  "teacher_score": 11.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:15:25.126447+00:00"
+}

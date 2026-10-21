@@ -1,0 +1,29 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_511",
+  "category": "label_supported",
+  "summary": "完整推导及总周期数正确，错把GHz取为MHz，后续算术一致；教师每问4分已扣结果分，8分可保留。",
+  "teacher_issue": "",
+  "model_issue": "旧模型7/6/6分对已完整正确的方法部分扣得较多，但没有官方细分权重证明教师8分错。",
+  "original_image_observations": "写Te=mT=CPI×IC/F；M1代入2×10^5/(4×10^6)=1/20=0.05s；M2代入10^5/(6×10^6)=1/60约0.0167s；各+4。",
+  "evidence": [
+    "公式链和周期数均是具体可观察的过程证据。",
+    "错误可定位到同一主频换算步骤，不应再将后续一致计算全判错。"
+  ],
+  "uncertainties": [
+    "具体方法分权重无官方细则。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "90688bfa783f75556f6abcb68dfdea34bcbe66588d980be74fa41ce376e02df7",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:21:02.643673+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_5",
+  "answer_id": "ANS_ISC_64",
+  "category": "label_supported",
+  "summary": "逐码正确解码，但未明确完成字母标点数字分类，教师4有部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "把解码中存在字母标点自动当已回答分类，再默认无数字，三次6高估任务完成度。",
+  "original_image_observations": "11个代码各画箭头到H,e,l,l,o,逗号、空格标space、A,H,U,!，没有字母/标点/数字各栏，教师4。",
+  "evidence": [
+    "完整字符串3分及空格识别等内容有分。",
+    "仅能解出字符不等于明确分类，对分类遗漏的扣分应保留，不能自动补满3。"
+  ],
+  "uncertainties": [
+    "分类部分可从箭头形式获得多少隐含分未细化，4作为部分分可支持。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f462e25dcd951d498ad2e46d7d6376781d7cf534beda422e3dfc89bbdc37e012",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:18:12.001570+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_1",
+  "answer_id": "ANS_CPL_01",
+  "category": "teacher_suspect",
+  "summary": "数值全部正确，但分两行写且教师满5，与原始明确多换行扣0.5规则不一致。",
+  "teacher_issue": "原说明明确3与454分两行扣0.5，此答正为该形式，建议核对是否执行该格式规则。",
+  "model_issue": "模型称第一个输出未写，实际第一行清楚3，属于漏读，不能据此扣2.5。",
+  "original_image_observations": "答字后第一行3，第二行4 5 4，教师5及红勾。",
+  "evidence": [
+    "数值求值正确，不是计算逻辑或教师核心内容评分问题。",
+    "唯一明确争议是原始格式备注，按其字面应4.5而非5。"
+  ],
+  "uncertainties": [
+    "需确认教师是否将分行视为答案布局而非实际换行，或统一豁免了此备注；属0.5分格式口径低优先事项。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f22ab322da0c99d2dda6d3185ec75f1012caaf10ff9ba2ae0f3ac4dc800c9703",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:32:41.088977+00:00"
+}

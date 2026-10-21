@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1273",
+  "category": "label_supported",
+  "summary": "正确识别I操作码范围30及J四个前缀，但把寄存器/立即数取值一起乘作指令种数，R1/I3720/J7936错；教师2+2+1=5可作局部准备分。",
+  "teacher_issue": "",
+  "model_issue": "2^5−2是正确I可用操作码数量，不是应31；学生错在额外乘地址/寄存器字段。不能因最终数错误把明确范围也清0。",
+  "original_image_observations": "页眉5，1:2、2:2、3:1。I Opcode范围00001~11110，imm范围0000001~1111111；I(2^5−2)×2^2×(2^5−1)=3720，R1条，J2^2乘若干字段并得7936。",
+  "evidence": [
+    "I30个前缀的范围正确，但有多少操作种类不应乘操作数取值。",
+    "J含2^2扩展局部正确，末额外乘立即数等造成错目标，不能给最终结果分。",
+    "教师各项仅局部而非满，5相容于范围/字段准备，不因旧模型0直接认低给。"
+  ],
+  "uncertainties": [
+    "J乘积中间指数较小，不依据其算术是否等于7936追加独立错误；主要对象混淆已足够确定。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0e7cdd3f5b7044a562393fd578f86dac1cfe29ae4ebac7dc71fe55cfec492ef4",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:50:54.635945+00:00"
+}

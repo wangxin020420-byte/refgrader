@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_526",
+  "category": "model_or_extraction_issue",
+  "summary": "有效矩阵以空白表示0、1的位置正确，图与标准相符，教师20可支持；模型把稀疏位矩阵规范成00001并错误要求D先于C。",
+  "teacher_issue": "",
+  "model_issue": "带ABCDE列名的稀疏表应按列位置读取，不能只数‘1’或将空格抹去后当数字1；图无需按静态优先级排序。",
+  "original_image_observations": "教师20红勾。左旧表划掉，右有效表有ABCDE列；A全1，B仅B1，C的B/C/E1，D的B/C/D/E1，E的B/E1；图A-C-D-C-E-B返用户。",
+  "evidence": [
+    "每列对应中断源，空位可作未屏蔽0，矩阵的关系表示与五位串等价。",
+    "A明明有五个1，旧模型同条证据又说归一为00001自相矛盾。",
+    "图明确D插在C段后返回C，不存在‘缺A与C之间的D’错误。"
+  ],
+  "uncertainties": [
+    "若要求必须显式补0可有格式讨论，不支持抹去全部10分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "bfc3c8723ba94cf92b1f456bf6fa780f9ac50ff7e46fc11c689ffe1640a9dfd1",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:21:22.929632+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1087",
+  "category": "model_or_extraction_issue",
+  "summary": "首题tag少算及位/字节换算错误，但容量乘法结构和第二题按组四块比较正确；教师7+5=12可为局部扣源错，模型重复扣上游并苛求关键词。",
+  "teacher_issue": "",
+  "model_issue": "第二已说明先按组号定位组、每块一套共4套，含不同组复用的操作含义，不必再机械要求‘共享’二字；首错tag应与其传播分开。",
+  "original_image_observations": "教师12红勾叉，页眉记1:7、2:5。首有16位主存、12位Cache、1024块及偏移2，tag错16−12=4，容量(4+1)×1K=5K bit却称5120字节。第二4路每组4块、先组号定位再比tag、每块一套。",
+  "evidence": [
+    "正确块数与每块(tag+有效位)乘法在错误tag下仍成立，不能连带全扣。",
+    "bit到字节漏除8是另一个独立错误，应单独扣。",
+    "两个主要源错后保留第一问7有宽松部分分依据；第二解释已支持4套。"
+  ],
+  "uncertainties": [
+    "首7的具体扣分权重未公开，不认12为唯一标准，但旧5至7.5不足以指认标签问题。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b37fd475f97ca789643ca20257feebd755ef77d7ff53a7b302a4242b2b5557ab",
+  "teacher_score": 12.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:42:30.093068+00:00"
+}

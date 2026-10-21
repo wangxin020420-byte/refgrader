@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_3",
+  "answer_id": "ANS_CPL_133",
+  "category": "model_or_extraction_issue",
+  "summary": "末行两和正确但行号错，教师2有部分内容支持，模型按标号匹配漏答。",
+  "teacher_issue": "",
+  "model_issue": "将6,row21,col17全部判成所有标准行均空白，未做内容与位置对应。",
+  "original_image_observations": "仅写6,row:21,col:17，教师2及红叉。",
+  "evidence": [
+    "21和17是第五行及第五列的正确总和，不是无答案。",
+    "即使行号应5，正确计算结果也应保留分，不等价整题空白。"
+  ],
+  "uncertainties": [
+    "是否对错误行标扣小分需原始口径，不自动改教师2。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5e5d8c1b58e997780538edc9500d970f48a81542f037884ca19e1bd3aa69ff96",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:37:05.300953+00:00"
+}

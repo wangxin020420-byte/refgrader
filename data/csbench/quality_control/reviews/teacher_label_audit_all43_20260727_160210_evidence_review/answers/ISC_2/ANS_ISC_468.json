@@ -1,0 +1,31 @@
+{
+  "question_id": "ISC_2",
+  "answer_id": "ANS_ISC_468",
+  "category": "teacher_suspect",
+  "summary": "仅有操作系统宏观定位和多线程并发概念，缺主要功能与多任务调度机制，教师3/5疑似给分偏宽。",
+  "teacher_issue": "未列处理器、存储器、设备、文件等功能，也未说明时间片、优先级或切换调度；并发概念只覆盖进程管理的一小部分，3分需核对来源。",
+  "model_issue": "模型0至1可能忽略多线程并发的相关思路，不宜全零；但对主要缺失的定位得到原图支持。",
+  "original_image_observations": "教师3红勾叉。两段分别写操作系统是其它软件有效运行基础、一个进程创建多个线程并发执行多个部分；整个有效区无功能列表或调度算法。",
+  "evidence": [
+    "说明多线程并发不等于说明操作系统怎样分配CPU实现多任务调度。",
+    "宏观定位不能代替具体主要功能列表。",
+    "疑点是给3是否过宽，承认局部相关内容值得部分分，不自动采用模型1。"
+  ],
+  "uncertainties": [
+    "原官方一项5分没有细分概念/功能/调度权重，需核对教师是否采用宽松方法分。"
+  ],
+  "evidence_strength": "possible_overcredit_missing_two_main_requirements",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9fd35cb490611cd694d867cc2409277974978f2f2b7de68948059b48b4d51bea",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:14:58.749712+00:00"
+}

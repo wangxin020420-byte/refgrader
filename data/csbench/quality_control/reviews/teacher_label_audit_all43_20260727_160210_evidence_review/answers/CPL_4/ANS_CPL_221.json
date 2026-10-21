@@ -1,0 +1,66 @@
+{
+  "question_id": "CPL_4",
+  "answer_id": "ANS_CPL_221",
+  "category": "label_supported",
+  "summary": "把程序当排序而输出升序，教师0有支持。",
+  "teacher_issue": "",
+  "model_issue": "模型0与错误排序方向一致，不能因第6个22偶合就补整对得分。",
+  "original_image_observations": "原图0；十数升序排列，从5到28，无目标对称交换结果。",
+  "evidence": [
+    "按原图最终有效行手工读取：5 15 16 19 20 22 23 24 24 28。",
+    "对照程序实际输出，差异位置（1起算）：1, 2, 3, 4, 5, 7, 8, 9, 10。"
+  ],
+  "uncertainties": [],
+  "verified_output": {
+    "manually_read_final_sequence": [
+      5,
+      15,
+      16,
+      19,
+      20,
+      22,
+      23,
+      24,
+      24,
+      28
+    ],
+    "program_output": [
+      19,
+      28,
+      20,
+      24,
+      5,
+      22,
+      24,
+      15,
+      23,
+      16
+    ],
+    "mismatching_positions_1_based": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      7,
+      8,
+      9,
+      10
+    ],
+    "only_middle_swap": false,
+    "method": "manual_original_image_inspection_then_offline_position_check"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2bc974090c9291460fd331b4cc704245a68070b3c1093c36808bda7b991b856d",
+  "teacher_score": 0.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:51:59.206627+00:00"
+}

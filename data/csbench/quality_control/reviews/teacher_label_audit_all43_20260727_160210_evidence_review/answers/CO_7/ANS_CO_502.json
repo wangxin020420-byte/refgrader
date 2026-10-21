@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_502",
+  "category": "label_supported",
+  "summary": "文字写20万/10万周期且公式正确，转科学计数法时少一位导致两个最终值小10倍；教师各4分体现只扣结果/转换分，8分可保留。",
+  "teacher_issue": "",
+  "model_issue": "旧模型5/7/6分对科学计数法转换错误扣分较重，但不能据此判定教师部分分错误。",
+  "original_image_observations": "前文写周期数=CPI×指令数，M1/M2为20万和10万；后续分子写2×10^4、10^4，结果0.50×10^-5、0.17×10^-5s；教师各+4。",
+  "evidence": [
+    "正确的上一级周期数在原图文字中存在。",
+    "错误在换算及后续结果，不否定正确计算关系。",
+    "教师并未给予满分，无细则证明其扣1分/问违反官方标准。"
+  ],
+  "uncertainties": [
+    "部分分具体权重需统一。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "8ca028d668075cc8a22624a919bb611413193ed60d942dca592ce2fb9ffc904b",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:17:36.437853+00:00"
+}

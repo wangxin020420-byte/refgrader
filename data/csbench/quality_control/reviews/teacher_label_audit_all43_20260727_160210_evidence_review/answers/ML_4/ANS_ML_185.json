@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_185",
+  "category": "label_supported",
+  "summary": "有图表和正确的目标检测链，但多处回退和重叠处理错误，教师4分作为部分分有依据。",
+  "teacher_issue": "",
+  "model_issue": "模型三次0仅因五状态不同于参考六状态，忽略正确主链及已有图表。",
+  "original_image_observations": "原图左侧五节点图，右表A:B/0,A/0；B:A/0,C/0；C:D/0,A/0；D:A/0,E/0；E:A/1,A/0。教师4并红叉。",
+  "evidence": [
+    "01010主链可输出1，但00后错误回A，0100及检测后都没有保留后缀。",
+    "这是具体回退错误，不是五状态数量本身有错；部分分优于模型全零。"
+  ],
+  "uncertainties": [
+    "原始评分说明未给各转移权重，不能确定唯一精确分值。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6ffcedc4309d494977d70ce794349eb2ab4abf1fa2268eea0dae2adeee6edd48",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:31:22.513188+00:00"
+}

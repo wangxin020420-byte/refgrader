@@ -1,0 +1,27 @@
+{
+  "question_id": "CPL_1",
+  "answer_id": "ANS_CPL_02",
+  "category": "model_or_extraction_issue",
+  "summary": "最终保留一行3454正确，模型误将首3当第二项多余数字。",
+  "teacher_issue": "",
+  "model_issue": "未结合原图把整题输出按语句顺序分配，凭空标首项空白。",
+  "original_image_observations": "左侧旧3454整段划掉，右侧保留一行3 4 5 4，教师5。",
+  "evidence": [
+    "只评最终右侧答案，没有实际换行。",
+    "首3是首printf正确结果，后454是更新后的i、j、k，均需计分。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "87bfdbaa84a6577587e95bab3477446ffec9cf41dc17d64893e12debd3746b84",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:32:41.090498+00:00"
+}

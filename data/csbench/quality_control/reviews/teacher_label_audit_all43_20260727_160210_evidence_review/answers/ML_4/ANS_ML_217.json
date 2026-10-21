@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_217",
+  "category": "label_supported",
+  "summary": "图中检测和回退基本正确，表中漏写输出，教师扣1作为形式缺项有依据。",
+  "teacher_issue": "",
+  "model_issue": "将图表漏读成乱码并给三次0，未保留正确转移。",
+  "original_image_observations": "中部六状态图各边有输入/输出；右侧六行表只写次态S1、S0等，没有各列的/0或/1输出。左侧定义完整，教师5及红叉。",
+  "evidence": [
+    "右表次态与参考六状态表相符，图中S4到S5边标0/1。",
+    "题目要求状态表，表缺输出是实际可扣的部分，不能整题当空白。"
+  ],
+  "uncertainties": [
+    "输出可由图补足时表格式扣1的统一口径未给出。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9494cb147bdd12ff3191f91f97d37ffb2e3f1ac46d9b9a482393cb6ad780963b",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:31:22.529492+00:00"
+}

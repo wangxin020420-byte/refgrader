@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_5",
+  "answer_id": "ANS_ISC_59",
+  "category": "uncertain",
+  "summary": "解码多数错误，部分字符类别判断相对其错误串成立；教师3的过程与连带错误分配需确认。",
+  "teacher_issue": "最终并非目标ASCII串，3是否过宽需核给了哪些解码或分类过程分。",
+  "model_issue": "MA与目标字母集合并非零重合；应区分解码错误与对自己所得M、A为字母、反斜线/括号为符号的条件正确分类。",
+  "original_image_observations": "写HT反斜线MM}ANULDLEHTLFDC4一串，标点列反斜线和右花括号等，字母M A，数字字符DC4。教师3。",
+  "evidence": [
+    "DC4是控制字符名，不是数字字符，属于新增类别错误而非仅上游影响。",
+    "其他分类有局部方法正确，不能因整串错误全部判零。"
+  ],
+  "uncertainties": [
+    "3分缺少小项依据；原始两项各3，错误译码过程与条件分类的权重未明。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "66cbd06a65d3d7c8fe1f50b3d9e3d4de8e5686f00155f3da4fcda1267c826a6d",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:18:11.999572+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_208",
+  "category": "model_or_extraction_issue",
+  "summary": "清晰五状态表实现等价检测，模型错行抽取后给低分。",
+  "teacher_issue": "",
+  "model_issue": "遗漏表的一行并将后续行错位，误判S1、S2转移及状态图缺失。",
+  "original_image_observations": "上方五状态图，左侧状态定义，下面完整S0至S4表；S1为S1/0,S2/0，S2为S3/0,S0/0，S3为S1/0,S4/0，S4为S3/1,S0/0。教师6。",
+  "evidence": [
+    "S3合并了参考S5，最终检测边仍输出1并保持010后缀。",
+    "模型证据的四行表与原图五行表不一致。"
+  ],
+  "uncertainties": [
+    "原始状态与等价合并形式的格式要求需统一，不能当功能错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c46f10e527ab75fb1ca6ffa4ddcf9bd0eb2a3ff6dcfd718c2d80db292e7ffe7c",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:29:16.632886+00:00"
+}

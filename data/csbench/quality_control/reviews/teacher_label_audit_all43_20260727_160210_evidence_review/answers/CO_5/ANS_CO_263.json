@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_263",
+  "category": "teacher_suspect",
+  "summary": "原图两问均有正确扩展公式及等价正确结果2^8-1、2^7，教师仅8/15疑似明显少给；省略16-12的单独展开不应导致大幅扣分。",
+  "teacher_issue": "第一问4×2^6-a=1推出a=2^8-1，第二问(2^8-254)×2^6=2^7，过程结果均正确，8分需要优先核对扣分依据。",
+  "model_issue": "模型将正确方程4×2^6-a=1判成致命概念错误，只因没单独写16-12；但仍给两结果满分，已有12.5～13.75也提示教师分差。",
+  "original_image_observations": "教师总8红叉。设一地址最多a，4×2^6-a=1；a旁原涂改后保留2^8-1。第二问划掉草稿下重新写(2^8-254)·2^6=2^7，未划掉。",
+  "evidence": [
+    "2^8-1=255与2^7=128都是准确结果，不需再写十进制。",
+    "首式4已与6位扩展建立正确关系，非裸猜答案。",
+    "即使要求补充4来自16-12，扣到8也无法仅由该一个省略合理解释。"
+  ],
+  "uncertainties": [
+    "原评分未给分项；是否对未展现主操作码来源扣少量过程分可人工确认。"
+  ],
+  "evidence_strength": "correct_process_and_equivalent_results_undercredited",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4ef61f0e1236d09d7bbdf224c6296465c534d5dc3d14c54824af9ba844e8eca5",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:18:17.541058+00:00"
+}

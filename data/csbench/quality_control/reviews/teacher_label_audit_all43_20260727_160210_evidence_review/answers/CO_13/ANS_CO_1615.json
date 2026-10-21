@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1615",
+  "category": "model_or_extraction_issue",
+  "summary": "ABCD列表全对，轨迹缺B初始及B后A但主要完成/返回存在获6，首概述2，教师16可解释；模型混乱引用位序与标准。",
+  "teacher_issue": "",
+  "model_issue": "明确MA MB MC MD列下A1000/B1101正确；不是A与D反了，且标准MDMCMBMA也不应被模型写成1000/1101。首原文没有指令结束响应，不能凭空补上。",
+  "original_image_observations": "页眉16，1:2、2:8、3:6。首比较中断与指令优先级，称暂停指令执行中断源指令，无断点/开关。表头MA MB MC MD，四行1000/1101/1111/1001。图用户短A→C→B→D→A→用户，入C与B上D红圈。",
+  "evidence": [
+    "表8有明确列顺序，所有源间屏蔽关系正确。",
+    "图包含各服务阶段与返回用户，缺两处短状态需扣，教师6非图满分。",
+    "首概念不完整仅2，模型4至10主要漏读表图，不构成教师16错误依据。"
+  ],
+  "uncertainties": [
+    "短状态缺失扣1的政策需同题统一，不主张16是唯一分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "505b94504b706fa7ec04fee682dbdd6a3628c50b030dae1409c7a94a54f7f106",
+  "teacher_score": 16.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:27:13.219557+00:00"
+}

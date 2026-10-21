@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_8",
+  "answer_id": "ANS_ISC_302",
+  "category": "teacher_suspect",
+  "summary": "所求码制和明确标注的减法补码均正确，教师3可能低给，需核扣分理由。",
+  "teacher_issue": "已有正确补码11100111及补码减法式，末行10011001可解释为原码；若据末行覆盖前文扣整1分需说明。",
+  "model_issue": "历史三次4对核心值有依据，但不应把学生真实写出的末行一概称提取笔误；需区分码制标注缺失与数值错误。",
+  "original_image_observations": "原图3；X/Y六个码值正确；(X)补-(Y)补=11100111=(X-Y)补；末行X-Y=10011001未标原码，红对叉。",
+  "evidence": [
+    "补码数值运算0xf1-0x0a=0xe7正确，题目未要求必须改写为加负数才可得分。",
+    "10011001恰为-25原码，与明确标注的补码可共存，不应机械以最后一行忽略正确目标结果。"
+  ],
+  "uncertainties": [
+    "末行缺码制名称可能是原教师扣分点，需确认表达扣分政策；本次不自动将3改4。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e5c6eb8ffd7de5afb22b56c62dba9b00a8ef68feac805f96c7f1517d908eb112",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:53:01.558118+00:00"
+}

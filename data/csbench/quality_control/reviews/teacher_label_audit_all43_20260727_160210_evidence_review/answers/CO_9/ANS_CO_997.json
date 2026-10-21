@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_997",
+  "category": "label_supported",
+  "summary": "完整正确地址表与数量均有，但最终NOR式为选中输出1，且ROM1重复地址位，教师6+5=11可作为保留映射方法、扣实际片选错误。",
+  "teacher_issue": "",
+  "model_issue": "原模型两轮15把NOR称低有效且忽略重复CS15；一基地址编号CS1～CS16本身不是错误，问题在极性及ROM缺位。",
+  "original_image_observations": "教师11，1:6、2:5。声明16根地址线CS1～CS16、CS16最高；表中RAM高三位001～111及七段地址全正确。各片式在OR和外又加整条反相；ROM1括号CS15+CS14+CS15+CS16缺CS13。",
+  "evidence": [
+    "例如RAM1的NOT(CS16+CS15+NOT CS14)在001为1而非低有效0，最终信号极性确错。",
+    "ROM1重复CS15而少最低分片位，不能限定4K。",
+    "正确表格及地址顺序值得部分分，教师11有依据，不据模型高分自动升为15。"
+  ],
+  "uncertainties": [
+    "如外层反相本意表示选中条件而非实际片选，应另补输出低有效实现；当前图直接称片选信号。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "eca461d7df859fd77a1fbacbda94dc413a5ba8158ad900e7b70dabbaa6850d12",
+  "teacher_score": 11.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:17:15.787698+00:00"
+}

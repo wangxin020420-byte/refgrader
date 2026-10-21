@@ -1,0 +1,27 @@
+{
+  "question_id": "CPL_8",
+  "answer_id": "ANS_CPL_439",
+  "category": "label_supported",
+  "summary": "仅申请空间少100维度扣1，教师9符合原始细则；模型错读加号造成额外扣分。",
+  "teacher_issue": "",
+  "model_issue": "把score+i识别成scoreti，捏造变量拼写错误。",
+  "original_image_observations": "(6)正确累加、(7)正确比较、(8)*(score+i),5、(10)&player[i][j]各2；(9)5*sizeof(float)红1，总9。",
+  "evidence": [
+    "原图第7空左部清楚为score+i，不是新变量scoreti。",
+    "第9空缺100，官方明确可酌扣0.5至1，教师扣1有据。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d5daf4125587b47ef7e14324d1b2063699e00020b11c468f759f940885ef2dae",
+  "teacher_score": 9.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T02:02:59.105565+00:00"
+}

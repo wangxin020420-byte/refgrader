@@ -1,0 +1,62 @@
+{
+  "question_id": "CPL_4",
+  "answer_id": "ANS_CPL_231",
+  "category": "uncertain",
+  "summary": "部分输出正确但外侧有实错，教师5的局部分配需确认。",
+  "teacher_issue": "正确三对应保留，教师5可能偏低；但原说明余下2分分配未展开，不能直接设唯一7。",
+  "model_issue": "三次空白错，第一二及24/24对明确正确；应只评第三数和中心错误。",
+  "original_image_observations": "原图5；上方旧行整条划掉，下方最终第三数28而非20，且中心22/5反序。",
+  "evidence": [
+    "按原图最终有效行手工读取：19 28 28 24 22 5 24 15 23 16。",
+    "对照程序实际输出，差异位置（1起算）：3, 5, 6。"
+  ],
+  "uncertainties": [
+    "若按满10扣第三对2再扣中心1会得7，需教师核采用何种局部扣分政策。"
+  ],
+  "verified_output": {
+    "manually_read_final_sequence": [
+      19,
+      28,
+      28,
+      24,
+      22,
+      5,
+      24,
+      15,
+      23,
+      16
+    ],
+    "program_output": [
+      19,
+      28,
+      20,
+      24,
+      5,
+      22,
+      24,
+      15,
+      23,
+      16
+    ],
+    "mismatching_positions_1_based": [
+      3,
+      5,
+      6
+    ],
+    "only_middle_swap": false,
+    "method": "manual_original_image_inspection_then_offline_position_check"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f6de8c0a2e1d2e71f32850d57a518110acf2b7394388ad805b9fbf1d701e5b3f",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:51:59.157034+00:00"
+}

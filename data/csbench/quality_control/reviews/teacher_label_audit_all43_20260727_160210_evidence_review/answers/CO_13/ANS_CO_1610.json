@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1610",
+  "category": "model_or_extraction_issue",
+  "summary": "首保护断点及现场等4、表全对8、图漏B后回A获6，教师18可解释；模型只读轴标签漏掉完整主要阶梯。",
+  "teacher_issue": "",
+  "model_issue": "原图清楚A/B/C/B/D/A与返回用户，不是只列D/C/A/B；正确表亦不能在不同独立判决因解析问题大幅失分。",
+  "original_image_observations": "页眉18，1:4、2:8、3:6。首关中断、保护断点现场、比较优先级、开中断、服务、回主断点。表按D/C/B/A行列1001/1111/1011/0001，MDMCMBMA列。图用户→A→B→C→B→D→A→用户，仅B上D处红圈，没有回A短段。",
+  "evidence": [
+    "首有具体断点与保护现场，不应说无任何恢复内容；缺入口和响应条件可扣1。",
+    "图初始A/B短段完整，只在B完成后A返回未画，教师6有局部扣分依据。",
+    "原18与模型3.5至13差距来自读图/评分不稳，不能据此认教师错。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "271bc59693ceb6027d220ccbb1fcd0da6e2eb6533ac0bcde44268e1cd14bf6a6",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:15:25.144516+00:00"
+}

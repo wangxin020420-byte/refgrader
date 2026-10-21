@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_524",
+  "category": "uncertain",
+  "summary": "原图主要掩码正确，B及E缺自屏蔽位，图主体正确；教师18可能各扣1，模型错提五行并几乎全部清零。",
+  "teacher_issue": "严格按当前每字原子2分则B/E两项需扣4；若原教师每缺一个自屏蔽位扣1，总18可解释，需确认。",
+  "model_issue": "A实际11111、C01101、D01111，首轮却提成10011/01111/01110；图D打断C本来合法，不能说D不可能中断C。",
+  "original_image_observations": "教师18红勾叉。ABCDE表A11111、B00000、C01101、D01111、E01000；图也在B/E平台标对应缺自身位，轨迹A-B-C-D-C-E-B回底。",
+  "evidence": [
+    "真实缺陷集中自屏蔽B/E，不能把本来正确其它三字都判错。",
+    "图里的重复标错掩码是同一错误传播，不应因标在图上再次全扣图。",
+    "教师可作每位局部部分分，当前严格原子策略与原教师不同不必意味着标签错误。"
+  ],
+  "uncertainties": [
+    "需原教师逐位部分分政策，18暂保留人工确认。"
+  ],
+  "transcript_conflicts": [
+    "A/C/D三行评分所提位串与原图不符。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "12cc8dd245664fb43280589be47f80b9835b7bbc49370b997ff9228087e1771c",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:29:03.381405+00:00"
+}

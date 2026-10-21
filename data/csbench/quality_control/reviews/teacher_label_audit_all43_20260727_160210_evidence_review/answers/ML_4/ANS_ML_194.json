@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_194",
+  "category": "teacher_suspect",
+  "summary": "主体六状态图表完整，但完成态遇1回退到C而非E，教师满分需复核。",
+  "teacher_issue": "表中F的1输入为C/0，应为E/0；输入0101010将漏掉第二次重叠检测。",
+  "model_issue": "把E、F误读为Z，并将D行B/0读为B/1，不能据错误转录精确判3分。",
+  "original_image_observations": "顶部定义A初态、B0、C01、D010、E0101、F01010。右表前五行基本对应参考，末行F:B/0,C/0；左图也有完成态的长回退连线。教师6。",
+  "evidence": [
+    "完成01010后再输入1，最长有效后缀应0101即E，不是01即C。",
+    "除该回退外，图表和主链实际存在，应保留正确部分分。"
+  ],
+  "uncertainties": [
+    "图中长连线终点较拥挤；表中末行C可见，建议人工核对是否笔误或图表不一致。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "440630af5f16613663393ba46d3ec866e262157709e9ffe2e823667dc91acd2e",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:31:22.519525+00:00"
+}

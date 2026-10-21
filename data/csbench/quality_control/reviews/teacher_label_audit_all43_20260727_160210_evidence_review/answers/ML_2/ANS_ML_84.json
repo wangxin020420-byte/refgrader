@@ -1,0 +1,31 @@
+{
+  "question_id": "ML_2",
+  "answer_id": "ANS_ML_84",
+  "category": "label_supported",
+  "summary": "学生中间已得到正确四项表达式，最后却将BCD错误化为BD，教师3分合理保留过程、扣末步结果；模型仅按最终项缺D等机械扣2分。",
+  "teacher_issue": "",
+  "model_issue": "转录把原图最终BD写成BC，且模型忽略前行完整BCD及正确推导，不能将过程分一概抹去。",
+  "original_image_observations": "教师3分红叉。第一行由电路式推到A·(B+C+D)+BCD，随后AB+AC+AD+BCD，末行AB+AC+AD+BD，最后一乘积项中间C缺失。",
+  "evidence": [
+    "中间正确函数及展开真实存在，后续错误不使这些过程空白。",
+    "最终BD比BCD多出错误输入情况，结果确实有误，不能直接满4。",
+    "3分符合只对最后化简错误扣相应结果分的政策。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "最终原图BD，转录BC；两者都不同于BCD，但错误变量定位不同。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "77f8993444b12aee33e030387a7be807e1a72c8a41cf6c8ade37527c93f2dbf2",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:13:37.693771+00:00"
+}

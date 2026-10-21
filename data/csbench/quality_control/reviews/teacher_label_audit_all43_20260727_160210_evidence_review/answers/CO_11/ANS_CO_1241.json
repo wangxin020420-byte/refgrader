@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1241",
+  "category": "model_or_extraction_issue",
+  "summary": "R32、J4及各自编码范围正确，I范围1至30正确但数错成29，教师5+4+5=14正好局部扣结果，模型误把范围方法全判错。",
+  "teacher_issue": "",
+  "model_issue": "00001至11110含首尾30，已排除R00000并为J11111留前缀，不会导致J无处扩展；J1111100至1111111就是后两位扩展的等价表示。",
+  "original_image_observations": "页眉14，1:5、2:4、3:5。R Opcode与I/J不重叠，2^5=32；I存在R/J且最多，范围00001~11110却写29条；J范围1111100~1111111写4；最终32/29/4。",
+  "evidence": [
+    "I只有含首尾计数差1，资源分配与范围正确，保留方法4只扣结果1合理。",
+    "J具体范围已展示固定11111前缀和2位自由字段，无需再写2^2才算方法。",
+    "模型有一次15放过29错误、另两次6左右清空正确方法，教师14有更贴实际的部分分依据。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "83d3cc23e5b9815e2de35bba8aa1c8d1fa7bb9807ccff0558f4994eb8f76a6fd",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:37:26.864427+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_1",
+  "answer_id": "ANS_ISC_452",
+  "category": "uncertain",
+  "summary": "专家系统困难偏题，但提到容错通用量子计算，教师3的相关内容分需核。",
+  "teacher_issue": "若大部分分给知识库/推理挑战则不适合当前题干；量子路线及目标又有部分相关性。",
+  "model_issue": "不应只因量子计算写在挑战段，就忽略学生已经提及该潜在方向；但也不能把它补成完整解释。",
+  "original_image_observations": "知识获取与知识库问题、高效推理难实现；容错通用量子计算机实际问题严峻；后写速度、精度、存储、判断能力目标，教师3。",
+  "evidence": [
+    "前两项属于AI专家系统，非传统器件缩放瓶颈。",
+    "量子计算虽在原文中作为困难提出，但说明相关范式认知，可有部分分。"
+  ],
+  "uncertainties": [
+    "跨段语义证据及泛泛目标的权重未知，不能仅依模型0断言教师错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c28b832325d7fa8b36e7ae8ba4f36ee4cb8cb52f4cf7b919fdfff89185eca4d7",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:24:18.643949+00:00"
+}

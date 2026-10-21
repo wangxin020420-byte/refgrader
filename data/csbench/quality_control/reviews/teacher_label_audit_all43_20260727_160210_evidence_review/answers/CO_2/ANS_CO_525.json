@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_525",
+  "category": "model_or_extraction_issue",
+  "summary": "B行改正后为01000，其余表与图正确，教师20可支持；模型将涂改痕读成C位多1误扣2。",
+  "teacher_issue": "",
+  "model_issue": "B行B列前的墨团是被修改笔画，不是独立C位；按ABCDE列对齐只有B=1，C=0。",
+  "original_image_observations": "教师20红勾。优先级正确；五行表标准值，B第二位涂改后1、第三位0；图A后短B-C-D-C-B过渡-E-B回用户，并标完成节点。",
+  "evidence": [
+    "必须依表头列对齐读位，不能按墨团数量多生成一位。",
+    "实际B不屏蔽C，图也明确C抢占B，与标准一致。",
+    "所有关键得分点有图证据，旧18主要是识别假错误。"
+  ],
+  "uncertainties": [
+    "B涂改较重，可人工按列再确认，不应直接从01100转录定错。"
+  ],
+  "transcript_conflicts": [
+    "模型B01100与原图按列对齐的01000不符。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "bf8a73fbf48290936a1b1e32ae92dce6c9ea1dd5198f033bae2f18a4853bae0a",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:37:34.028283+00:00"
+}

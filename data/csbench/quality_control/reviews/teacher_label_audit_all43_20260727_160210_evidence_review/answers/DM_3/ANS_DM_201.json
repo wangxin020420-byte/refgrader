@@ -1,0 +1,33 @@
+{
+  "question_id": "DM_3",
+  "answer_id": "ANS_DM_201",
+  "category": "model_or_extraction_issue",
+  "summary": "教师7可对应主体正确、末尾谓词错写等扣分；旧转录误留作废¬A并漏掉第7行¬B，放大了中段错误。",
+  "teacher_issue": "",
+  "model_issue": "原图第4行已划掉旧¬D并改A(a)，不是¬A(a)；第7行有¬B，模型据误转录声称核心德摩根错；末尾F问题仍应单独保留。",
+  "original_image_observations": "教师7红叉。¬∀(A→D)正确转存在A且¬D；3实例、4改A(a)、5=¬D；7=¬A∨¬B∨D；9第一句重新抄写为A→B且C，10却恢复¬A∨B∨C；末12/13确写F且C。",
+  "evidence": [
+    "第3至8行有正确ES、否定后件思路和所需属性，不应按误读¬A否定其全部。",
+    "第9行且/或不一致及最终F未定义是真实缺陷，教师非满分有依据。",
+    "原先第一全称句写对，可据完整答案判断下游第9行是否笔误；不自动补成全对。"
+  ],
+  "uncertainties": [
+    "F是否误写A需结合课程记号确认；目前保留为结果符号缺陷。"
+  ],
+  "transcript_conflicts": [
+    "第4行有效答案是A(a)，旧文字作废；第7行B前有否定符号。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0d5902ec06cdf91ec90a6bc0540eb8fa4c53a29f901be9bd80167d0741a8cd2a",
+  "teacher_score": 7.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:52:46.944479+00:00"
+}

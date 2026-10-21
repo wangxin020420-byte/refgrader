@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1538",
+  "category": "model_or_extraction_issue",
+  "summary": "首简述少量1、无表0，轨迹缺B初始短段但有C后回B及后续返回，教师6分图形部分有依据；模型因OCR不清把整图清零。",
+  "teacher_issue": "",
+  "model_issue": "图像中A/C/B/A/D/A阶梯清楚，不能将‘无法提取’说成未作答；应局部扣漏B初始嵌套而非0。",
+  "original_image_observations": "页眉7，1:1、2:0、3:6。首外设请求、CPU暂停处理I/O，未写断点细节；无屏蔽表。图用户→A→C→B→短A→D→A→用户，入C与回B附近两红圈，横轴标C/B/D/A结束。",
+  "evidence": [
+    "主要处理顺序与D/A返回存在，图不空白。",
+    "按硬件优先级B应先被响应再嵌套C，图初始A直接上C不完全正确。",
+    "教师只扣图一分可将其视同一初始嵌套源错，原总7不是从错表上虚给分。"
+  ],
+  "uncertainties": [
+    "起始B短段的缺失是否扣1或更多需原图评分口径；不主张图必须满7。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e63b92e6fe1691658e6d5c17f6d2d5d23aac9fd72605a857101af8c59f1c0b97",
+  "teacher_score": 7.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:07:47.898269+00:00"
+}

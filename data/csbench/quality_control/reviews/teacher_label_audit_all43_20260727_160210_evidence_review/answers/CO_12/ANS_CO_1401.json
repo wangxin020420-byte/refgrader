@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1401",
+  "category": "model_or_extraction_issue",
+  "summary": "取指、存取及格式图完整，ADD有部分有效通路，容量展开128×24有错但2^8×24及地址推导正确；教师21有部分分依据，模型漏图、错扣路径导致偏低。",
+  "teacher_issue": "",
+  "model_issue": "将写路径前加ALU→AC视为写路径错误，实际AC→DR→M仍完整；格式六字段图确实存在，不能仅按如图少给。",
+  "original_image_observations": "教师21红叉。aDR、bIR、c中文地址寄存器但缩写IR、dPC；M→DR→IR→CU及读写链正确；ADD含AC→ALU、DR→ALU，ALU→AC一段被划掉；容量2^8×24后写128×24；格式图13/3/8并展开3/4/4/2。",
+  "evidence": [
+    "c中文地址寄存器含义正确，缩写不一致可扣局部而非整个控制器理解。",
+    "正确格式图及在第五问写出的位数相互印证，应完整评估。",
+    "容量仅算术展开错误，可保留8位下址和容量公式过程，不能以128否定全部。"
+  ],
+  "uncertainties": [
+    "ALU→AC被划去，ADD不应仅凭第三问已有该边恢复整项满分；教师21仍可由其它已完成项及部分分解释。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1007476ab2e7879f54a52fd9e54165ce8c5269e1a88f788f817ab28234bfbde4",
+  "teacher_score": 21.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:30:46.038927+00:00"
+}

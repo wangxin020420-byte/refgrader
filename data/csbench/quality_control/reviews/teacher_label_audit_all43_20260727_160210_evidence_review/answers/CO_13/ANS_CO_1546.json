@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1546",
+  "category": "label_supported",
+  "summary": "A屏蔽字多屏蔽D一位，教师表给7已局部扣分；图少B嵌套及B后A给6、首2，合15可解释。",
+  "teacher_issue": "",
+  "model_issue": "B/C/D三行正确不应因A错清全表；教师按错一位扣1与模型按错一行扣2属部分分口径。图有实线轨迹，不能只按纵轴标签给1。",
+  "original_image_observations": "页眉15，1:2、2:7、3:6。首说明未屏蔽、高优先嵌套、完成恢复低优先，缺断点等。A1001、B1011、C1111、D1001，A额外1红圈，D旁重复确认1001。图用户短A→C→B→D→A→用户，入C与B上D红圈。",
+  "evidence": [
+    "A最低应允许D，MD额外1是实质位错，原教师已从8扣为7。",
+    "图主要完成顺序对但短响应/返回不全，6是部分给分。",
+    "首2为优先级机制概述，原15没有对错表或错图判全对。"
+  ],
+  "uncertainties": [
+    "图与表具体按位/按关系扣分未列，不要求15为唯一，但不能因未整行扣2认教师异常。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "46ecf4141f8d5d1a4bfb8c05bf9ea055e9477bf4a7369960624593129e24799f",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:21:17.234217+00:00"
+}

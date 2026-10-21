@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_207",
+  "category": "model_or_extraction_issue",
+  "summary": "根值实际2、树结构正确，模型把2读1并错误比较节点名称造成低分。",
+  "teacher_issue": "",
+  "model_issue": "原图S.x=2被读为1；A1是同一产生式右部A的区分名，不应要求根S直接到A1。",
+  "original_image_observations": "左S属性结论，右完整树，根旁x=2、中A旁x=1，左A及S为0、右S1、底A/S0，教师10。",
+  "evidence": [
+    "树所有分支和属性值可对应标准。",
+    "模型理由S→A应为S→A1混淆了节点局部命名。"
+  ],
+  "uncertainties": [
+    "第一问理由详略的统一要求待确认。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "24aa635f9826cc3949e28d91b2e10474ea2cf3900ea03c701b17eadbfe12b2e9",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:41:34.399818+00:00"
+}

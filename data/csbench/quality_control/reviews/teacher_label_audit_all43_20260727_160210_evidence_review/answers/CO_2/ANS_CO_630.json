@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_630",
+  "category": "model_or_extraction_issue",
+  "summary": "五掩码全对，图正确；未单列处理顺序可扣2而得18，教师分合理，模型误将表头ABCDE当错误顺序。",
+  "teacher_issue": "",
+  "model_issue": "表头不是优先级声明，不能判成写错ABCDE；五行标准值不应被规范化成0或1；D打断C符合题意而非概念矛盾。",
+  "original_image_observations": "教师18红勾叉。仅ABCDE表、无独立排序句；五行标准正确。图A-短B-C-D-C-短B-E-B后回用户，ABC与DE到达标记。",
+  "evidence": [
+    "即使不认可表内隐含排序，表10和图8足以解释18。",
+    "参考图的D抢占C、D返C、E返B均可直接看出。",
+    "模型4/15/16不足以推断教师多给，正确内容本就支持18。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3ad379f208aa495f930148b4cf351a362034215471316691f9358af95f84a728",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:42:24.722454+00:00"
+}

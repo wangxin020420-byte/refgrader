@@ -1,0 +1,27 @@
+{
+  "question_id": "CPL_8",
+  "answer_id": "ANS_CPL_437",
+  "category": "label_supported",
+  "summary": "正确三空各2，传行地址和申请空间错误，教师6有据。",
+  "teacher_issue": "",
+  "model_issue": "把Calculate里的score直接当当前行float*，还声称sizeof(player)动态得到总空间，均为类型或对象错误。",
+  "original_image_observations": "(6)sum=sum+score[i]、(7)比较、(10)*(player+i)+j各红2；(8)score,5及(9)sizeof(player)各0，总6。",
+  "evidence": [
+    "Calculate中score类型float(*)[5]且不随循环i移动，不能替代score[i]。",
+    "player是指针，sizeof(player)为指针大小，不是100×5个float大小。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9a81e3ee29e33a307783e946c391c8215fbe558ac4afcb9a00a53ca1382ac0bc",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T02:02:59.092543+00:00"
+}

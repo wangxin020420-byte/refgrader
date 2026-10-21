@@ -1,0 +1,10 @@
+{
+ "question_id":"POC_4","basis":"existing_experiment_only","new_experiment":false,
+ "target":"十进制无前导零正偶数：一位为2/4/6/8，多位为非零首数字、任意中间数字串、含0的偶数末数字。",
+ "structural_validation":["左递归、右递归、ε基例、二分递归均可合法产生目标语言，不能以递归方向不同于参考判错。","A..9的非零首位与含0偶数末位之间可由任意数字星闭包连接；需同时验证可靠终止及任意长度。","单符号自循环X→X不会增加长度，缺基例的X→dX则无法终结；两种问题不能混同。","递归非终结符每次可独立选择产生式，不要求重复同一个数字。","允许空串作为中间基例不等于整个S可以产生空串；必须按全部开始式推导判断。","完整规则需检查没有生成0、ε、前导零和奇数，也要检查不漏一位、两位、含中间0和任意长度的目标数。"],
+ "bounded_validation":"POC_4_bounded_checks.json记录长度至4的集合核验；109、121、73、71的全部4999个目标串精确匹配，结合任意数字递归结构支持一般长度的等价判断。97、101先去掉固定+才做数值结构比较，未声称原字符语言与无符号目标相同。",
+ "specific_counterexamples":{"ANS_POC_107":"无递归，最长3位，1234不可生成；即使A末不清重笔视ε仍不能生成1234。","ANS_POC_62":"S→AB最短2位，缺2、4、6、8；长度至4实际生成4995个目标串。","ANS_POC_85":"仅单符号自循环，不增加数字，S最长DCA三位。","ANS_POC_115":"若最终仅C→0C|AC且无基例，则所有推导保留C，空语言；涂改处是否ε未定，列uncertain。"},
+ "source_reading_corrections":["ANS_POC_97被删旧式右侧保留C→DC，转录漏掉；放大检查图inspections/POC_4_ANS_POC_97_detail.png。","ANS_POC_119页眉遮挡的开始式右部DME可辨，不能说完全无开始式。","ANS_POC_71注释是个位数/一位数，模型读成奇数后判零。"],
+ "sign_convention_limitation":"97和101强制+号；正偶数是否允许显式正号是表示约定，题干未明示，教师均接受。记录该限制，不自行删除+声称字符集合完全等价，也不只因+判教师错误。",
+ "teacher_suspect_ids":["ANS_POC_107","ANS_POC_62"],"uncertain_ids":["ANS_POC_85","ANS_POC_115"],"automatic_policy_change":false
+}

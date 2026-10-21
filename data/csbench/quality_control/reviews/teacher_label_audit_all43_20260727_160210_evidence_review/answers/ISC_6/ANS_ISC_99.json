@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_99",
+  "category": "model_or_extraction_issue",
+  "summary": "原图第二组分开转换清楚，转录遗漏后半。",
+  "teacher_issue": "",
+  "model_issue": "把0.625整数小数计满3后，不能因右侧/下方漏提取把另3全判空白。",
+  "original_image_observations": "原图6；上0.625整0、小数101、0.101；下2.125整10、小数001、10.001。",
+  "evidence": [
+    "各小数位串有小数部分标题，不能脱离上下文当整数。",
+    "末两完整数值与参考一致，教师6有直接原图支持。"
+  ],
+  "uncertainties": [
+    "基数下标标在原十进制数附近不规范，不据此否定明确转换结果。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e4a921922a0ca8f51039b4394ced85336ac73acf7894d4b62bae8b9f64cdf1c8",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.380643+00:00"
+}

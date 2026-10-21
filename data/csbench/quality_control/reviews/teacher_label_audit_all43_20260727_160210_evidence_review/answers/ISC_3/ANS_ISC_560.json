@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_3",
+  "answer_id": "ANS_ISC_560",
+  "category": "uncertain",
+  "summary": "组成定义和重要性正确，SQL夹有多维分析及含糊措辞，教师满5暂不能确认。",
+  "teacher_issue": "SQL第一项偏分析数据集，第二项疑似面向过程，与SQL非过程性可能冲突；需核手写词后再判断满分。",
+  "model_issue": "以DB为核心、DBMS支持的应用软件系统已含三类核心实体，不必另列全部硬件人员才给组成分。",
+  "original_image_observations": "原图5；低冗余、高共享、独立性明确；SQL写构造分析多维数据集、减轻负担/独立安全、功能一体和两用，第二项关键词字迹不清。",
+  "evidence": [
+    "放大原图仍不将面向程附近文字武断校正成非过程或过程。",
+    "SQL存在正确内容也有范围偏差，应逐点核实，不能整题清零或直接补满。"
+  ],
+  "uncertainties": [
+    "第二项原手写具体词需教师确认；原总5无各问细分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a691e04984d75e9aff7b1dd9a4f04807daaf202406adff2c370ccfb290e43a0b",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:42:52.025330+00:00"
+}

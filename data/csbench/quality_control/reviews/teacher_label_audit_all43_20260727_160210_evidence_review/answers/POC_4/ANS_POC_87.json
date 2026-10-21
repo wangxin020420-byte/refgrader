@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_4",
+  "answer_id": "ANS_POC_87",
+  "category": "label_supported",
+  "summary": "只允许偶数字首位的三位以上数及一位偶数，覆盖明显不足，教师2有支持。",
+  "teacher_issue": "",
+  "model_issue": "应明确缺奇数首位和两位数，不能只称结构不匹配或因包含正确部分就满5。",
+  "original_image_observations": "S为(2|4|6|8)AB或C；A由数字或ε前缀递归到至少一个数字，B偶数字含0，C非零偶数字，局部括号重涂。教师2。",
+  "evidence": [
+    "多位路径首位被限2/4/6/8，10、1234等奇数首位目标缺失。",
+    "A终止分支是单数字而非ε，主路径最短三位，两位数也漏。"
+  ],
+  "uncertainties": [
+    "A重复宏处有墨点，若视作星号仍有最右A必须终止为一位数字；不影响主要覆盖错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "723444e2e5ac7f129059b8bebbd4db6c5f9e9e2a4f715e5550483c46704419dd",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:06:56.580215+00:00"
+}

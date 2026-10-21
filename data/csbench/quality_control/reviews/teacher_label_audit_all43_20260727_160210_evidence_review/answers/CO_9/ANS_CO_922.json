@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_922",
+  "category": "uncertain",
+  "summary": "原图正确写2ROM但RAM写6且第二问空白，教师第一问5/6是否给错RAM过多待确认；模型把整份当空白也明显不对。",
+  "teacher_issue": "仅有两芯片数量末值，无RAM计算过程，给5分意味着RAM仍得2/3；若只是裸错数是否应保留这些分需核对。",
+  "model_issue": "三轮0标所有内容未书写，漏读明确正确的2ROM，不能据其总0将教师5全部判错。",
+  "original_image_observations": "教师5，1:5、2:0红叉。抄主存和芯片规格后仅‘需要2个ROM，6个RAM’，无公式或片选图。",
+  "evidence": [
+    "正确ROM数至少是有效答案，不应视BLANK。",
+    "RAM应7，原图确为6；未见可验证的错误传播或正确计算关系。",
+    "教师已把空白第二问给0，争议仅第一问错误RAM的部分分。"
+  ],
+  "uncertainties": [
+    "缺少教师对接近数值但无过程的部分分政策，当前不指定新总分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "aec6042125cfcb66db2a0600cc2e847360b2e59d000764e205e8b406531c9e0c",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:10:40.632118+00:00"
+}

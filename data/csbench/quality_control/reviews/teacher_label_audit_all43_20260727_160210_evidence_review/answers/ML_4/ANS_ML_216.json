@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_216",
+  "category": "label_supported",
+  "summary": "转移主体合理，但图用状态输出表示成Moore形式，教师4作为Mealy形式缺项的部分分有依据。",
+  "teacher_issue": "",
+  "model_issue": "原图并非缺失；转录还把D到E、E到F等字母混读。",
+  "original_image_observations": "定义A0、B1、C01、D010、E0101、F01010；左图输出写在节点A/0至F/1，边仅标输入。右表按B为失配初态：A:A/0,C/0；B:A/0,B/0；C:D/0,B/0；D:A/0,E/0；E:F/1,B/0；F:A/0,E/0。教师4及红叉。",
+  "evidence": [
+    "右表主体等价参考的状态改名。",
+    "题目指定Mealy，图却按状态标输出，形式及时刻约定需核实，不能把图称未书写。"
+  ],
+  "uncertainties": [
+    "Moore图配Mealy表是否扣2需统一；没有据此判教师标签错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "18d95045a2259210ea5dbcb2a26b09652b1fdff8a430ebab7c41776605212eca",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:33:45.572187+00:00"
+}

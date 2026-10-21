@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1141",
+  "category": "teacher_suspect",
+  "summary": "第一问标记区公式6×16=96完全缺块数、有效位和单位换算，却获8/10；第二又错按组数配置，教师总10疑似给分偏宽。",
+  "teacher_issue": "原官方容量4分要求每块(tag+1)乘总块数并换字节，当前96式无此结构；即便地址两项全6，首8仍需至少2容量分，需复核其依据。",
+  "model_issue": "不能因参数错误将后续正确减法全部抹去；tag6虽由错误偏移4和组6相消得到，仍有计算尝试，保留部分分。",
+  "original_image_observations": "教师10红勾叉，1:8、2:2。块大小4字却当偏移4位，组号12−4−2=6，tag16−4−6=6；容量6×16=96字节。第二2^6组、每组一套，答64套。",
+  "evidence": [
+    "首有一个偏移位数错误传播到组号，不能当两次独立源错重复扣。",
+    "容量另有独立公式概念错误，没有+1有效位或1024块，不是只错结果。",
+    "第二以组数代比较器数错，少量思路分不支持近满总10。"
+  ],
+  "uncertainties": [
+    "若教师为任意容量尝试给较多方法分需核一致性，不自动用模型3.5至5改标签。"
+  ],
+  "evidence_strength": "possible_overcredit_invalid_capacity_formula_eight_of_ten",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a87f55dc1cf144f55d14e0ea45a939c68fc3c56cc66b46f090ad9423bf546b6b",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:42:30.096144+00:00"
+}

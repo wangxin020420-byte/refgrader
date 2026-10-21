@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_882",
+  "category": "model_or_extraction_issue",
+  "summary": "查询时间法完整正确，教师5分；DMA虽然开销合计写对2000，却用4000当CPU周期导致2%，教师3分是部分过程分，总8有依据。",
+  "teacher_issue": "",
+  "model_issue": "转录将原图2000写为2200；模型又遗漏查询的两时间式并称未用输入速率，错误压低第一问。",
+  "original_image_observations": "教师1:5、2:3。查询100/(50×10^6)=2×10^-6，4/10^6=4×10^-6，比值50%；DMA1500+500=2000清楚，但后面t=4×10^3/(50×10^6)=8×10^-5，结果2%。",
+  "evidence": [
+    "查询已经通过4/10^6使用了1MB/s，无需额外计算每秒次数。",
+    "DMA开销与传输字节混用是真实错误，教师未给满分合理。",
+    "原模型重复使用step_1子项ID描述DMA，步骤归属也混乱，不以其总分直接审判标签。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "1500+500原图2000，转录2200。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "166ffeeeabcac3ab78ee3b20d8bb65e70648b3988ef28cca51db19739779f600",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:59:03.583899+00:00"
+}

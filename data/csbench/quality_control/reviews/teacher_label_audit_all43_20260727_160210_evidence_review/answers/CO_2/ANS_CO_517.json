@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_517",
+  "category": "label_supported",
+  "summary": "五屏蔽集合正确，图有层级和抢占尝试但连接重叠、缺末B及用户返回，教师15可对应12加图部分分。",
+  "teacher_issue": "",
+  "model_issue": "B行旧墨团作废后保留B，不能读成@B判无法归一；图确有D返C趋势，应给局部过程而非凭机器缺参考全0。",
+  "original_image_observations": "教师15红勾叉。排序ADC EB；五集合含各自和正确低级对象，B改写保留B；图A/B/C/D/E平台重叠双线，D后回C，E平台后未有B与用户返回。",
+  "evidence": [
+    "集合是位向量等价表示，第一问应保留完整分。",
+    "图未清楚完成返回关系，不能因前问全对给图满8。",
+    "教师15可解释为第一问12与图的层级、局部抢占3，未发现可靠标签错误。"
+  ],
+  "uncertainties": [
+    "图形细分未给，不声称15唯一正确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9e3e2c64843e753baf42b4e3d4372dd3c604485e2bbffe496bd522f007a60d65",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:42:24.719272+00:00"
+}

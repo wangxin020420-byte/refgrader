@@ -1,0 +1,200 @@
+{
+  "validated_at": "2026-10-21T08:10:26.202602+00:00",
+  "frozen_targets": 909,
+  "unique_completed": 909,
+  "pending": 0,
+  "questions_with_frozen_targets": 42,
+  "categories": {
+    "teacher_suspect": 146,
+    "label_supported": 252,
+    "model_or_extraction_issue": 357,
+    "uncertain": 154
+  },
+  "by_question": {
+    "CO_7": 23,
+    "CO_4": 21,
+    "CO_12": 22,
+    "CO_13": 63,
+    "CO_10": 41,
+    "CO_2": 62,
+    "CO_9": 22,
+    "ML_4": 44,
+    "CO_5": 28,
+    "CO_3": 44,
+    "CO_6": 13,
+    "DM_3": 15,
+    "POC_6": 32,
+    "CO_8": 34,
+    "POC_1": 17,
+    "CO_11": 38,
+    "CPL_8": 16,
+    "CPL_5": 10,
+    "ISC_9": 16,
+    "ML_2": 12,
+    "POC_4": 26,
+    "CPL_6": 10,
+    "DM_2": 13,
+    "ISC_5": 17,
+    "CPL_4": 52,
+    "CO_1": 24,
+    "ML_1": 33,
+    "ISC_2": 2,
+    "ISC_1": 17,
+    "DM_1": 6,
+    "ISC_3": 19,
+    "CPL_7": 6,
+    "ISC_6": 34,
+    "ML_3": 21,
+    "CPL_1": 8,
+    "POC_3": 7,
+    "ISC_8": 12,
+    "CPL_3": 4,
+    "POC_2": 8,
+    "POC_5": 5,
+    "ISC_4": 10,
+    "ISC_7": 2
+  },
+  "scope_levels": {
+    "medium": 171,
+    "low": 738
+  },
+  "all_input_fingerprints_match": true,
+  "all_review_files_match_publication": true,
+  "all_original_cleaned_and_question_image_hashes_match": true,
+  "unique_image_files_verified": 1836,
+  "current_checkpoint_hashes_for_archive": {
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json": "05eca6e1735468d1905a15f8f1d900cf96d01a3d3d3338d4cc851c1740d5533f",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json": "94967b1438806f5be5f1232d8a557744e85e5b273a8375a838bef59b36abd115",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json": "2781cc52dbb08c6dad680ef9490954f728c2aecdfa8c4bab6ee6b0e622b794f1",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json": "0b4d5b68e0b98b08d93bb74f723a373c05f185aba563166af44758bc4191ce46",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json": "6640e6c3e40198dfb7241c79b3dc106cf5a6924f8d5db196ca0dd8f6b9be5ef2",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json": "efb521a62cdee0461027be4ea7f388012d54f3b9df64a36d0f4d68061ad8bd93",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json": "4c1c6e13d9a8b4d17a10dadee91445a87d2042259ef0312e4fcd5dd43f2ce5ef",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json": "3d183c8c0236c1bd4250e39a2b7678a4789b8477727500f1b6a04fe9633278c8",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json": "f76931a108a8998115ba0f146286638801478cf4707aa795dd89788b9f37498c",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_3_grading_checkpoint.json": "8f6c1d8b7dd705381e6c89ad312212a3bd22ed9f7e38f5b29e634fd851cf6804",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_6_grading_checkpoint.json": "1c940c8b590036c631d72197b0ceb409cec7f1d478887135cb981940f90b3701",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_3_grading_checkpoint.json": "c6945384db605b81dc15bb07a1384433899cedc7abb3c9c66bcdb7b411619ccd",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json": "616903aaf9fa8248c3aa4ae80cafdc274e8c6e7b63933f20761c3d0964473820",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json": "f9edaee185ff2a2858a1aea29783312d2f013731acfe27e0c79280032e10a3f6",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_1_grading_checkpoint.json": "75eff1b8f78e24fbe94487609097ec574b64525ce5075ca55ab6fd9ed1da772f",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json": "0c0ec20239f8572e380711ba2f7666b85c2c8f5b4dcc5e3808f87dd129beaa90",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json": "e379474b96385164bcc59ffadae16a3cc3dfd135e4b66b06a461e21fdc9545b2",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_5_grading_checkpoint.json": "abf7cbc6762821a7f1cdbca2c070c481539b62d7622a93ad31d606159474f679",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_9_grading_checkpoint.json": "3f71f53175a79b85903c846190f5b4c662fffbb025eaeb011c9d567ba5f4fb5a",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_2_grading_checkpoint.json": "d84059d096a72168a3312e69c3c01bac19e8620a5867e31a9153388c2ec9a52c",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_4_grading_checkpoint.json": "a2235fc40f8e9f0424938eeee2a2028818a14e4b6d2591d2b6608b13b540daba",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_6_grading_checkpoint.json": "c0936a012983f80df35f0852e58c0a6058b2e5f225c2d99df2b98b5d5499860d",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_2_grading_checkpoint.json": "99451b9e5bcdf21bcf7808595c9a198104878061d315587c48ea791439b8f7c2",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_5_grading_checkpoint.json": "a8b108945f26eec4b55b8ab065f73efda16498f41276d1d1f7def0bd9048abd5",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_4_grading_checkpoint.json": "f90cd6c387978b6b22ef191dac176307815a522624db5cdb2c64b3e15dd8efe0",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json": "1aea9f8829d7653b00f3b670a9dba669fba7505f1d1f14114d06e19172450d01",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_1_grading_checkpoint.json": "978655a0442801aa4547ec8c03253c43809003673cbafc233aaa1c68d58930b3",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_2_grading_checkpoint.json": "22620f99a58e7b59f2de7351d3cb75a037ecdb5cf6faab3527a0479dcd308a82",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_1_grading_checkpoint.json": "d133bf63c9f2aa528ed06d97526253eacea672846e40d59e293d6160b3c33c84",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_1_grading_checkpoint.json": "08cc63b42ed2de86e8f566e588f946e075e457739b0a12d1d199d74d23611fd7",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json": "4ee78ba68cc66859b066e8385b0d21d064c433dd812fa5ef3fe305b0a0dcb9f5",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_7_grading_checkpoint.json": "31373d46b7cb9e08496a4183e67c5cc1c2b8841c02325a940e66b04abb6d815f",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json": "0c9c10cd61e9440632b7b026ecc3cbe730cc1aa7fb6451e9792d3d75d832735d",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json": "60799fd934f20387996eb98c9999f0431a1c2c91bb7192829a815de59ff96abe",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_1_grading_checkpoint.json": "0e4766631e836b3e70be62c4d7fc27710e1759d10b6730c3871867b68ae2c312",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_3_grading_checkpoint.json": "79f62eb6c94a30459cbea9e6990214e49db4017208eb43fd0c06420c89ae1881",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_8_grading_checkpoint.json": "dae7f53ed4268e7aadfa1521aa26e6069fb377de3f320cf40b3815b8b2a009bb",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_3_grading_checkpoint.json": "a668339e9662abe2dca4e096b4daf5f78a1418c5b4fa7b1f0a5105c3a7486261",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_2_grading_checkpoint.json": "39a24d62d42b49aa641ae1e7ff17fc2a69cb2e25d27f2596d3ca6f833b3d4e0a",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_5_grading_checkpoint.json": "b13449f254936bb0370c95611466e2e19141be22a4dcaa03c42e4fbb24c225ee",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_4_grading_checkpoint.json": "39a29e3980788806c6ccdfcb211f832af6ca575625c83522a1c2480e6d0cf6f9",
+    "C:\\Users\\wx\\Desktop\\refgrader-main\\results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_7_grading_checkpoint.json": "e076dd214c0355f5e1f41a5d9dbb175c5aa19e138286288193536f7a9bdc6cb6"
+  },
+  "prepared_teacher_scores_match_frozen_inputs": true,
+  "human_decisions_preserved": 119,
+  "human_decisions_sha256": "f57a0523a6ad636aec1977e124c7d23ebbe2779c6e12994ed376e2f2e03916d8",
+  "result_sha256": "57012cb99df3c8d14603a58bb7bc7ae405d5672e2fb6ffeaf10218ad0887b4ad",
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "automatic_policy_change": false,
+  "live_ui": {
+    "verified_at": "2026-10-21T08:16:26.772664+00:00",
+    "url": "http://127.0.0.1:8780/",
+    "candidate_count": 3411,
+    "all_909_payloads_match": true,
+    "all_3411_bucket_mappings_match": true,
+    "all_119_human_decisions_match": true,
+    "buckets": {
+      "human_reviewed": 119,
+      "teacher_suspect": 145,
+      "auto_reviewed": 608,
+      "needs_review": 154,
+      "unflagged": 2385
+    },
+    "human_priority_overlaps": [
+      {
+        "question_id": "CO_2",
+        "answer_id": "ANS_CO_546",
+        "assisted_category": "model_or_extraction_issue"
+      },
+      {
+        "question_id": "CO_2",
+        "answer_id": "ANS_CO_551",
+        "assisted_category": "teacher_suspect"
+      }
+    ],
+    "served_image_checks": [
+      {
+        "question_id": "ISC_3",
+        "answer_id": "ANS_ISC_562",
+        "variant": "original",
+        "matches_frozen_image": true
+      },
+      {
+        "question_id": "ISC_3",
+        "answer_id": "ANS_ISC_562",
+        "variant": "cleaned",
+        "matches_frozen_image": true
+      },
+      {
+        "question_id": "ISC_6",
+        "answer_id": "ANS_ISC_97",
+        "variant": "original",
+        "matches_frozen_image": true
+      },
+      {
+        "question_id": "ISC_6",
+        "answer_id": "ANS_ISC_97",
+        "variant": "cleaned",
+        "matches_frozen_image": true
+      },
+      {
+        "question_id": "CPL_4",
+        "answer_id": "ANS_CPL_204",
+        "variant": "original",
+        "matches_frozen_image": true
+      },
+      {
+        "question_id": "CPL_4",
+        "answer_id": "ANS_CPL_204",
+        "variant": "cleaned",
+        "matches_frozen_image": true
+      },
+      {
+        "question_id": "ML_1",
+        "answer_id": "ANS_ML_35",
+        "variant": "original",
+        "matches_frozen_image": true
+      },
+      {
+        "question_id": "ML_1",
+        "answer_id": "ANS_ML_35",
+        "variant": "cleaned",
+        "matches_frozen_image": true
+      }
+    ],
+    "rendered_page_verified": true,
+    "rendered_checks": [
+      "六类队列及909/909完成计数",
+      "CPL_4 ANS_CPL_204逐份结论、证据、不确定性及来源",
+      "去噪图显示后切回含教师痕迹原图",
+      "保留全部题目及教师标签可疑队列，未保存决定或启用策略"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_622",
+  "category": "label_supported",
+  "summary": "五字更正后正确，图D前后都返回B而没有D返C，教师18可对应这一核心局部扣分；模型两轮20漏判。",
+  "teacher_issue": "",
+  "model_issue": "按首次出现A/C/D/E/B顺序就认图全对，忽略平台C在D前已落B，D结束也直接落B而非C。",
+  "original_image_observations": "教师18红勾叉。ADC EB和五字标准，C旧字划改01101；图A-短B-C后回B，再D回B，再E回B后用户；DE箭头接近D开始，C恢复段缺。",
+  "evidence": [
+    "正确掩码不保证图推导自动正确，应分项核图。",
+    "D/E题设在处理C时到达，标准要求D结束恢复C完成，原图没有该段。",
+    "扣图2能解释18，无教师标签明显问题。"
+  ],
+  "uncertainties": [
+    "图中请求箭头位置与C段也不完全一致，可按同一嵌套错误而非重复扣。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a11cee14d2893c51f9ecebaa87c274d7fc8b1dcb24d8f8193af9159260034471",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:54:02.797452+00:00"
+}

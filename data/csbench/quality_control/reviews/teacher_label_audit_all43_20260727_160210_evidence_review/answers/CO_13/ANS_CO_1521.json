@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1521",
+  "category": "model_or_extraction_issue",
+  "summary": "屏蔽表全对，图缺初始B、B后回A及末返回用户层级，教师2+8+5=15可解释；模型三次差异大，存在把图全给或全清的证据问题。",
+  "teacher_issue": "",
+  "model_issue": "不能从正确表推定轨迹满7，更不能将纵轴D/C/B/A当完整执行顺序；原图已有轨迹也不应清成0。",
+  "original_image_observations": "页眉15，1:2、2:8、3:5。首CPU暂停、依屏蔽优先级服务，无断点细节。表MDMCMBMA，A0001、B1011、C1111、D1001。图用户起始线未完整，A短段后C→B→D→A，末下到时间轴，入C及B上D红圈。",
+  "evidence": [
+    "表8有直接证据，正确数值修改后清楚。",
+    "缺初始B与B后A，结束用户层高度也表达不准，不能因主要完成顺序对就图7。",
+    "教师图5保留主要路径，首2为简略概念，15可作部分分，模型16.5/1/12都不能直接指认标签错误。"
+  ],
+  "uncertainties": [
+    "图最后下降到横轴是否只是用户高度作图偏差需原口径，不据一条线否定整图。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2ecc42f5d396e3bad43c90627b850f7ad7fc076b9727007eec5fc2097697949b",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:11:46.604762+00:00"
+}

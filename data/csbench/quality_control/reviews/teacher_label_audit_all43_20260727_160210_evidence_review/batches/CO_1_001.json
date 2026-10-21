@@ -1,0 +1,625 @@
+[
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_134",
+    "category": "model_or_extraction_issue",
+    "summary": "最终写操作数内容37，满足现行结果充分满分条件；教师5可支持，模型漏掉最终文字只给地址2分。",
+    "teacher_issue": "",
+    "model_issue": "明确‘内容为37’被映射成最终未书写；中间36换算和查表有错，但不能在结果充分规则下忽略实际最终37。",
+    "original_image_observations": "教师5红勾。第一行00110111=36，第二行‘由图可知当地址号为36时内容为37’，没有另一个有效最终答案。",
+    "evidence": [
+      "00110111等于37H，写36确错；本文不把错误过程改成正确。",
+      "最终操作数37与现行参考37H一致，题目要求十六进制语境可确定其进制。",
+      "全分依据是明确结果充分契约，而非称全部过程正确。"
+    ],
+    "uncertainties": [
+      "如果将来规定显式矛盾过程可阻止结果充分，应另行制定规则，不能倒用未规定条件指责原教师。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_23",
+    "category": "model_or_extraction_issue",
+    "summary": "唯一答案37H正确，教师5满分合理；三轮0把最终结果错误放进有效地址项。",
+    "teacher_issue": "",
+    "model_issue": "事实角色错配：把裸37H当中间地址，与34H比较判错，再将最终项置空，未触发结果充分。",
+    "original_image_observations": "教师5红勾。作答区仅清楚写37 H，没有过程或其它数字。",
+    "evidence": [
+      "题目问操作数内容，唯一裸答案应优先映射最终结果。",
+      "现行官方项与优化契约允许最终正确得父项5分，不要求补写过程。",
+      "不能按缺中间项把正确结果判零。"
+    ],
+    "uncertainties": [
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_67",
+    "category": "model_or_extraction_issue",
+    "summary": "字段拆分与37→34→37完整，末写37H，教师5合理；模型既读错H又误用十进制解释上下文。",
+    "teacher_issue": "",
+    "model_issue": "原图37H被读37A；明示查表链34被忽略；理由称最终满足却仍给0，事实角色与计分自相矛盾。",
+    "original_image_observations": "教师5红勾。旧A字段划掉，保留110111=37，I=1、OP=0；中37→34→37；右上‘故而操作数为37H’。",
+    "evidence": [
+      "完整链明确进制与间接查两次，不是37十进制。",
+      "作废内容不计，最终H可辨，实际没有37A。",
+      "支持5不依赖三个历史0/1/2中的任一个。"
+    ],
+    "uncertainties": [
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "transcript_conflicts": [
+      "末尾是37H而非37A。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_126",
+    "category": "model_or_extraction_issue",
+    "summary": "高六位、间接寻址和37→34→37齐全，教师5合理；模型把中间34当最终，理由又把参考写成34。",
+    "teacher_issue": "",
+    "model_issue": "最终37H和明确两次访问链未正确归位；首轮声称34是标准最终并给0，与真实标准37H冲突。",
+    "original_image_observations": "教师5红勾。11011110、I=1间接寻址；7至2位下写110111与37H；右边37→34→37、即37。",
+    "evidence": [
+      "原图字段六位齐全，不是转录的五位10111。",
+      "查表链及最后37直接支持有效地址34、内容37。",
+      "无需为省略重复H或重复字段再扣分。"
+    ],
+    "uncertainties": [
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "transcript_conflicts": [
+      "地址字段原图110111，转录漏一个1；最终37被评分映射为中间34。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_63",
+    "category": "uncertain",
+    "summary": "仅答34，教师2可能按一次取址给部分分，但无过程不能确认其理解；暂不据模型0认定教师高给。",
+    "teacher_issue": "裸34与现行有效地址相同、与最终37不同；是否可按中间结果给2分需原教师部分分政策。",
+    "model_issue": "正确指出最终错，但把34的中间含义完全排除也过于绝对，不能从无过程反推学生一定未作第一次查表。",
+    "original_image_observations": "教师2红勾叉。解后旧字涂掉，唯一有效数字34，无字段或查表链。",
+    "evidence": [
+      "不能满分，未给所问最终内容。",
+      "34可能是把有效地址当内容的停步错误，不是可自动赋全套上游分的证据。",
+      "原官方仅5分结果项未给细分，不能机械把新1.5分等同于旧教师必须给1.5。"
+    ],
+    "uncertainties": [
+      "是否允许从中间数值推认步骤、旧部分分是否取整未明。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_79",
+    "category": "teacher_suspect",
+    "summary": "六位地址及二/十六进制换算正确，I=1正确，最终38H错误；教师0疑似漏给独立过程分。",
+    "teacher_issue": "原图有未作废的110111₂=55、37H=55，不受未知存储表影响，现行地址项2分有直接证据，零分需复核。",
+    "model_issue": "后两轮3.5可能对有效地址补分过多，不能将37H换算当得到34H；本次只确认字段过程值得部分分。",
+    "original_image_observations": "教师0红叉。上方旧式划掉；保留(110111)₂=55、(37)H=55、I=1，末内容38H。",
+    "evidence": [
+      "二进制110111确为十进制55、十六进制37。",
+      "38H不等于参考37H，不能全分；中间34未写不能补出。",
+      "疑点限定零分漏过程，不采用旧模型3.5自动改标签。"
+    ],
+    "uncertainties": [
+      "原官方未规定地址过程分具体权重，需复核应给多少。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "evidence_strength": "possible_undercredit_correct_address_parse_zero_total",
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_127",
+    "category": "label_supported",
+    "summary": "地址字段与37H正确，末把有效地址34写作内容，教师2可对应地址过程分；模型误读字段并错称34等于37H。",
+    "teacher_issue": "",
+    "model_issue": "首轮把原图六位地址当空白，却称34数值52等于37H，是错误数值等价；不能据其0至1分否认教师2。",
+    "original_image_observations": "教师2红勾叉。11011110后保留110111=37H，最后内容34，没有第二次取数。",
+    "evidence": [
+      "字段解析提供独立2分依据。",
+      "最终34不等于37H，题目问内容，应扣结果部分。",
+      "没有明确‘有效地址’标注，教师可按地址步骤而未完成取数给2。"
+    ],
+    "uncertainties": [
+      "若采用现行更宽松的中间34给分可讨论追加过程分，但不能证明旧教师2错误。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "transcript_conflicts": [
+      "第二行实际110111，不是转录五位11011。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_128",
+    "category": "label_supported",
+    "summary": "I位虽识别为1，但字段抽取、换算和最终36均错；教师0未发现有力标签异常，历史模型5反而显著不可信。",
+    "teacher_issue": "",
+    "model_issue": "首轮用‘游离数字’否定35/36可比较性不准确，按题设十六进制即可判错；另一轮给5不能因出现数字就触发充分满分。",
+    "original_image_observations": "教师0红叉。写11011110、I=1间接寻址；地址字段011110=35；操作数36。",
+    "evidence": [
+      "011110₂为1EH而非35H，且不等于正确高六位110111。",
+      "35与36均非现行中间34及最终37，缺少正确查表链。",
+      "仅识别I=1尚无单列官方分，不能据此必判零分错误。"
+    ],
+    "uncertainties": [
+      "若教师为寻址类型单设小额分可再讨论，现有评分说明未列。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_130",
+    "category": "teacher_suspect",
+    "summary": "改正后的地址字段110111=37H与I=1正确，最终58H错；教师0疑似漏给有效过程，模型某轮5也属明显误判。",
+    "teacher_issue": "正确字段换算清楚保留，零分可能遗漏现行地址项的独立过程分。",
+    "model_issue": "转录把有效六位110111读成101111；首轮以88、55、ASCII等无关关系把58H认成37H触发满分，数学错误。",
+    "original_image_observations": "教师0红叉。顶端旧式划掉，下一行保留110111=37(十六进制)，I=1；末内容58(十六进制)。",
+    "evidence": [
+      "58H为88十进制，37H为55十进制，二者不等价。",
+      "不能全分但正确字段步骤仍在；不因最终错把过程一并清零。",
+      "疑点是教师漏过程，不依据模型5给最终加分。"
+    ],
+    "uncertainties": [
+      "地址项具体部分分应按教师实际政策复核。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "transcript_conflicts": [
+      "原图有效地址位为110111，而非转录101111。"
+    ],
+    "evidence_strength": "possible_undercredit_correct_corrected_address_zero_total",
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_118",
+    "category": "label_supported",
+    "summary": "字段110111与I=1正确，最终误称34H为内容，教师2可作字段过程分；模型3.5额外把错结果当有效地址。",
+    "teacher_issue": "",
+    "model_issue": "转录还把末句‘操作数内容’读成‘十进制数’，旧模型判最后空白忽略了学生实际给错最终答案。",
+    "original_image_observations": "教师2红勾叉。写I=1、A=110111为操作数的存储地址，下一行‘操作数内容为34H’，无明确有效地址34的独立步骤。",
+    "evidence": [
+      "字段2分有证据；称A本身是真正存储地址反映间接含义仍混淆。",
+      "34仅出现作最终内容，不能同时当一个明示正确有效地址而完全忽略错误角色。",
+      "较宽松的上游推断政策可另给部分分，不足以认定教师2少给。"
+    ],
+    "uncertainties": [
+      "现行拆分1.5额外给分与旧教师未公开细分可能不同。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "transcript_conflicts": [
+      "末行文字是操作数内容，非十进制数。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_15",
+    "category": "model_or_extraction_issue",
+    "summary": "原图写十六进制，最终改正保留37，完整间接寻址正确；教师5合理，模型把‘十六’读成‘十’后误扣。",
+    "teacher_issue": "",
+    "model_issue": "两处‘十六进制’被读‘十进制’，据此制造明确进制冲突；不能对OCR漏字作致命语义判决。",
+    "original_image_observations": "教师5红勾。A=110111=37(十六进制)，内存34(十六进制)为真正地址；末行旧数划掉，下方有效37，右侧仍注明十六进制。",
+    "evidence": [
+      "字段、有效地址及结果均与现行参考链一致。",
+      "最终作废数不计，下方改写37清楚。",
+      "旧三轮3.5均沿用了错进制文本，重复一致不代表教师高给。"
+    ],
+    "uncertainties": [
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "transcript_conflicts": [
+      "原图‘十六进制’漏识别六；末尾改写37为有效结果。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_24",
+    "category": "uncertain",
+    "summary": "字段37H和第一次查表34H均正确，但末仍把34H当内容；教师2与现行过程3.5有差异，是否漏过程需确认旧分配。",
+    "teacher_issue": "原图明确写37H中存储内容34H，正确上游比仅裸答34更充分，若按当前步骤权重应不只2；旧官方未公开细分，保留待核。",
+    "model_issue": "三轮3.5的依据能对应正确上游，但不能直接把优化后拆分权重当原教师唯一分配。",
+    "original_image_observations": "教师2红勾叉。I=1、地址字段110111=37H；第二句将旧数划掉改其地址内存内容34H；末访问的操作数内容34H。",
+    "evidence": [
+      "第一次访问M[37H]=34H在文字题面下正确。",
+      "少最后访问M[34H]，不能满分；上游已有证据不应随错误最终一并抹去。",
+      "2是否少给1.5取决于原评分部分分规则，需区分新准则与历史教师标签。"
+    ],
+    "uncertainties": [
+      "旧官方只有一个5分结果项，未规定字段和有效地址的精确分配。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_28",
+    "category": "model_or_extraction_issue",
+    "summary": "原图最后明确37，字段37、有效地址34及二次查表思想齐全，教师5合理；转录把最终37读34导致扣1.5。",
+    "teacher_issue": "",
+    "model_issue": "全部三轮3.5依赖错转录的最后34，实际学生最后写操作数内容37。",
+    "original_image_observations": "教师5红勾。按110111|1|0分字段，I=1间接，37地址存操作数地址34；最后一行‘所以操作数内容为37’。",
+    "evidence": [
+      "中间34和最终37在原图两行分明，不能混作同一数。",
+      "过程和结果都支持现行正确链，最终省H有题目语境。",
+      "教师满分应保留。"
+    ],
+    "uncertainties": [
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "transcript_conflicts": [
+      "最终有效答案是37，不是转录34。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_77",
+    "category": "uncertain",
+    "summary": "已从37H指向34H，但末又把34H作为内容，教师2是否少给第一次查表分需核实。",
+    "teacher_issue": "正确字段和第一次查表都有独立证据，现行3.5与教师2有分配差异；暂不认定教师错误。",
+    "model_issue": "模型3.5可解释当前步骤分，但转录对字段抄写和‘访问操作数内容’不清，不能机械等同旧教师标准。",
+    "original_image_observations": "教师2红勾叉。I=1间址，A=110111B=37H；指向内存34H；末行旧数划掉改34H并称访问操作数内容。",
+    "evidence": [
+      "正确字段与第一次间接取址值得保留，不因最终漏访问重扣。",
+      "最后34H是有效地址非所问内容37H，结果分不能给。",
+      "差异主要是上游部分分权重，需按原政策核对。"
+    ],
+    "uncertainties": [
+      "原官方单项5分未说明是否第一次查表单独给1.5。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_42",
+    "category": "uncertain",
+    "summary": "仅裸答34而教师2，与另一裸答34样本一致；可能按有效地址给部分分，但无法确认推理，保留人工判断。",
+    "teacher_issue": "如要求部分分必须过程可见，2缺直接步骤依据；如承认中间数值即可给分，则可解释。",
+    "model_issue": "首轮把唯一答案放地址字段判错，再说最终空白，属于角色映射问题；不能据0断言学生完全无相应中间认识。",
+    "original_image_observations": "教师2红勾叉。作答区只有34，无过程、单位、其它候选。",
+    "evidence": [
+      "34非最终37，不能全分。",
+      "同题63也是裸34教师2，提示可能有一致的停步部分分政策。",
+      "重复给分模式可解释标签，但不证明学生实际完成所有上游。"
+    ],
+    "uncertainties": [
+      "需确认可否对无过程的正确有效地址数值给分，不能自动把模型0替换教师。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_03",
+    "category": "uncertain",
+    "summary": "原图字段110111、I和OP均正确，最终06错误；教师1比现行字段2少，但旧过程权重未明且题图表格存在冲突。",
+    "teacher_issue": "正确字段实际存在，若现行字段2适用则教师1疑少给；原官方未列细分，暂不直接定异常。",
+    "model_issue": "将A=110111提成0，并凭空出现05有效地址，三轮0不能支持教师高给。",
+    "original_image_observations": "教师1红勾叉。左上A=110111，I=1，OP=0，右下所求=06；未有05或明确查表链。",
+    "evidence": [
+      "字段六位完整可辨，并非转录的竖线乱码。",
+      "06确非当前参考37，不应全分。",
+      "未知题图表仅04至07，使06可能来自可见小表，但原图未说明其访存链。"
+    ],
+    "uncertainties": [
+      "需要原始完整题表及旧部分分权重；不从当前拆分自动推新标签。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "transcript_conflicts": [
+      "原图A=110111，评分提取为0错误；原图无05。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_06",
+    "category": "uncertain",
+    "summary": "字段和I位正确，后续指向04H并答05H，教师1的部分分幅度待核；不能以题面有冲突时强行认定所有访存错误来自学生。",
+    "teacher_issue": "当前字段项应2但教师1；未获原部分分说明，且图文存储表不一致，暂留人工复核。",
+    "model_issue": "模型正确看出字段，但不能用改写文字表独断原图04/05思路完全无来源；仍不能给最终满分。",
+    "original_image_observations": "教师1红勾叉。机器码二进制、地址110111、I=1和OP=0；后说指向地址04H间接寻址，最终内容05H。",
+    "evidence": [
+      "高六位正确是独立事实，不依赖存储表。",
+      "指向04H没有从37H到04H的现有依据，且若再间接也应解释第二次访存。",
+      "当前参考链与原题图不同，不宜据单个1分差自动纠正教师。"
+    ],
+    "uncertainties": [
+      "旧字段过程权重、题图完整性均未确定。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_07",
+    "category": "label_supported",
+    "summary": "字段110111=37H正确，最终停在34，教师2可按字段步骤给分；模型3.5部分理由混淆37与34。",
+    "teacher_issue": "",
+    "model_issue": "把原图六位读五位后以笔误容忍，再把37称有效地址、34称正确最终，错认角色；不能凭理由错误的3.5推断教师少给。",
+    "original_image_observations": "教师2红勾叉。A=110111、I=1、OP=0，明确间接；下方(110111)₂=(37)₁₆，最后内容34，未单列34为有效地址。",
+    "evidence": [
+      "正确字段可解释2；最后34不等于参考37。",
+      "转录漏1不是真实学生地址缺位。",
+      "有较宽松中间分政策时可讨论额外部分分，但旧2有可解释依据。"
+    ],
+    "uncertainties": [
+      "优化后中间34能否按隐式步骤额外给分不等于原教师必须采用同权重。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "transcript_conflicts": [
+      "两处地址字段均六位110111，不是五位11011或10111。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_121",
+    "category": "uncertain",
+    "summary": "地址110111、I=1及间接含义有方法分，最后38错；教师1与模型2主要是过程权重差，暂不自动归教师异常。",
+    "teacher_issue": "若当前字段2适用则1疑偏低，缺原细分不能确定。",
+    "model_issue": "模型2只支持正确字段存在，不能证明原教师的过程权重必为2。",
+    "original_image_observations": "教师1红勾叉。地址字段A:110111；I=1、A中为操作数地址；操作数38，未写有效地址34。",
+    "evidence": [
+      "地址和寻址类型可独立核实为正确。",
+      "最后38不等于37，不能满分；未写第二级查表不可推全分。",
+      "差异1分须结合原过程分政策，当前不足以可靠更正。"
+    ],
+    "uncertainties": [
+      "教师是否按正确字段1分而优化后改为2分未知。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_26",
+    "category": "uncertain",
+    "summary": "补零地址00110111和37正确，最终08H错误；教师1是否少给过程需权重与题面来源确认。",
+    "teacher_issue": "现行地址项2有依据，但原单项5未细分，不能直接按模型2改教师1。",
+    "model_issue": "把单独A=37当错误有效地址再次罚不当，学生仅列字段值，真正缺的是间接链；应区分缺失与写错。",
+    "original_image_observations": "教师1红勾叉。旧式划掉，DE二进制正确，A补零00110111，中有一处涂改，I=1，A=37，内容(08)H。",
+    "evidence": [
+      "补前导0不改变六位字段数值55。",
+      "08不是当前参考37，不能全分。",
+      "08出现在题图小表，不足以据此重建正确的37地址访存过程。"
+    ],
+    "uncertainties": [
+      "原过程分权重和原题存储表版本待核。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_80",
+    "category": "label_supported",
+    "summary": "字段位型正确但错换算为36H，最终35H也错；教师1可为部分方法分，模型2忽略换算矛盾。",
+    "teacher_issue": "",
+    "model_issue": "抽出110111给字段全2，却把同一步错误36H当独立有效地址错误，未呈现解析正确、换算错误这一实际结构。",
+    "original_image_observations": "教师1红勾叉。OP=0、I=1、A旧位型划掉后110111；右上110111=36H；最终旧数划掉改35H。",
+    "evidence": [
+      "字段位选对但数值换算错，同一过程项给部分分合理。",
+      "35H非现行最终37，不应因有正确位型给满分。",
+      "教师1可解释为地址项未全对，区别于完全正确字段换算样本。"
+    ],
+    "uncertainties": [
+      "具体半分比例未给，但无明显教师标签异常。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_93",
+    "category": "label_supported",
+    "summary": "有效作答字段仍多一位、最终05H错，但I=1间接正确，教师1可为方法尝试分；模型0遗漏这种局部内容。",
+    "teacher_issue": "",
+    "model_issue": "上方旧过程全作废应剔除；模型称字段空白也不准确，下面有‘去除后两位’尝试，只是未得到正确六位。",
+    "original_image_observations": "教师1红勾叉。上半三行都划掉；有效下半11011110去除后两位后得1101110，I=1间接寻址，末A指定地址内容05H。",
+    "evidence": [
+      "去低两位的方向正确，实际写出的位串仍不对，应给局部而非全字段分。",
+      "I=1对应间接识别正确，非完全空白。",
+      "最终05H无正确访存链，不给最终分合理。"
+    ],
+    "uncertainties": [
+      "末位有涂改，但不能清楚认成正确六位；不借作废上文补齐。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_95",
+    "category": "uncertain",
+    "summary": "地址字段与37H正确，但把它称真正地址并答08H，教师1的少量部分分与现行2有权重差，暂不直接认定。",
+    "teacher_issue": "正确字段应保留分；1是否不足须核实原字段权重，不自动用优化后2替换。",
+    "model_issue": "37H是字段值同时被学生误称真正地址，可指出概念错，但不能为同一次混淆反复扣已正确字段。",
+    "original_image_observations": "教师1红勾叉。DE16=11011110₂，I=1间址，110111为真正操作数地址37H；对应内容08H，没有34H。",
+    "evidence": [
+      "正确二进制拆分与换算不受最终错牵连。",
+      "将37H当真正地址说明未正确执行间接链。",
+      "08H与题图小表相关而当前文字表不同，不能忽略该源冲突强判标签。"
+    ],
+    "uncertainties": [
+      "原始完整存储表及教师细分未明确。",
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  },
+  {
+    "question_id": "CO_1",
+    "answer_id": "ANS_CO_98",
+    "category": "model_or_extraction_issue",
+    "summary": "字段37、有效地址34、最终37十六进制完整，教师5合理；两轮3.5未认可显式最终结果。",
+    "teacher_issue": "",
+    "model_issue": "虽有一轮正确5，后两轮未对‘37(十六进制)’作等价归一或事实映射，错误少给最终1.5；有效改写应优先于划掉内容。",
+    "original_image_observations": "教师5红勾。先I=1间接，字段改为110111=37；中说明真正操作地址34；下方按34地址得37内容，最终箭头操作数内容37(十六进制)。",
+    "evidence": [
+      "最终文字明确十六进制，不是无单位的歧义数字。",
+      "完整两级访问与当前文字题表一致，过程和结果都正确。",
+      "保留教师5，不因历史模型波动把正确标签归为可疑。"
+    ],
+    "uncertainties": [
+      "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+    ],
+    "question_source_conflict": {
+      "question_id": "CO_1",
+      "text_source": "data/csbench/exam_database.json",
+      "question_image": "data/csbench/reference_images/questions/CO_1.png",
+      "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+      "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+    }
+  }
+]

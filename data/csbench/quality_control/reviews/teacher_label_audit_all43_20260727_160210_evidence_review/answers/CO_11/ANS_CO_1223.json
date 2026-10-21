@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1223",
+  "category": "model_or_extraction_issue",
+  "summary": "I与J完整编码范围和预留逻辑、R末尾Opcode及32正确，教师15合理；模型把J方法归到I后又判J空白，重复漏分。",
+  "teacher_issue": "",
+  "model_issue": "11111 00至11111 11直接表明J两位扩展，不能只认2^2公式。R说明末尾Opcode结合正确32不应机械仅给结果1。",
+  "original_image_observations": "页眉15，三项各5。I Opcode5位共32、00000属R且需扩J，I2^5−2，范围00001~11110，11111用作扩展；J11111 00~11111 11共4，最后明确I30/J4，R Opcode在末尾有32条。",
+  "evidence": [
+    "I/J范围互斥且完整，包含J四种00/01/10/11的等价计数方法。",
+    "同一说明可为相关小问提供证据，不能因提取归属I就把J判未写。",
+    "R32和末Opcode含义相符，原题求数量未要求额外写5位算式，教师满15有依据。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4d5f886058435b31e46efc4059887e07ab076f63dae4e106b5a78bc2845eb5d2",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:50:54.631943+00:00"
+}

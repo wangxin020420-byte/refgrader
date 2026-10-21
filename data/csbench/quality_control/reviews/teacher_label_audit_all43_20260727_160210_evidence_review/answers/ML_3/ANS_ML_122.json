@@ -1,0 +1,30 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_122",
+  "category": "model_or_extraction_issue",
+  "summary": "原图J2、y1下标均可识别，三式正确，教师6分成立。转录误把J2变为T2、y1变为y加逗号。",
+  "teacher_issue": "",
+  "model_issue": "以T2变量错误和逗号断裂为由给后两项0，但这些不是原图答案。",
+  "original_image_observations": "J1=x、K1=x、J2=xy1、K2=xy1，下一行z=xy1y2；教师6。",
+  "evidence": [
+    "y右下的小1是下标，不是表达式分隔逗号。",
+    "旧模型2/1/6分中已有一次识别满分；原图支持满分解释。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "T₂、xy,、Z=xy,y₂应分别为J₂、xy₁、Z=xy₁y₂。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2f6ec6f2b162a4e6648dfa93a163ea62a290008e1cb5bcaf2c965634d953c8d7",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:34:40.065258+00:00"
+}

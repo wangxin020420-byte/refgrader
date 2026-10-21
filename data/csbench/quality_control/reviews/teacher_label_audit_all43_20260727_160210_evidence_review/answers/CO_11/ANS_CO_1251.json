@@ -1,0 +1,42 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1251",
+  "category": "uncertain",
+  "summary": "R32/I30正确，但原图先称J数量31−n、末又写J4，少乘4的公式与结果不一致；教师15是否接受前缀计数省略需核。",
+  "teacher_issue": "J满5建立在正确4的裸结果上，前文‘则J型指令有2^5−n−1条’实际只是可用前缀数量，未写扩2位；需确认是否将此前式视为省略表述而接受。",
+  "model_issue": "原文第二句是J型而非转录I型，n最初定义I数量，不是R码数；2^5−n−1准确描述剩余前缀，不能误称扣R n和留J1。历史父子累计16.5超上限也不能用。",
+  "original_image_observations": "页眉15，三项各5。开头一行划去，设I n条；则J型指令有2^5−n−1条；00000为R，故I最多2^5−2=30，下面J4条、R2^5=32。未见J乘2^2算式。",
+  "evidence": [
+    "I30及R32有公式和解释，可保留满分。",
+    "n30代入前文J式为1，与末J4不同；若把该式理解为J前缀数可修复，但学生没明确这一名称。",
+    "不能因最终三数正确就认所有过程一致，也不能以旧拆项全清J4；需原评分口径确认。"
+  ],
+  "uncertainties": [
+    "‘J型指令’是否实际指前缀位置的简写、裸4是否足以满5需人工确认；暂不认15已验证正确或必错。"
+  ],
+  "transcript_conflicts": [
+    "第二句原图为则J型指令有31−n条，汇总转录误成I；末J4也被误写为I4。"
+  ],
+  "historical_score_contract_issue": {
+    "max_score": 15,
+    "recorded_scores": [
+      16.5,
+      8.25,
+      8.5
+    ],
+    "observation": "首probe含父项与子项并存，历史16.5超过15。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d7ebd889a86517b664ace22001393466bb2bb17bd5522eaafa25789a6de04ef8",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:50:54.650895+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_876",
+  "category": "label_supported",
+  "summary": "查询把单次100周期开销除每秒总周期，遗漏实际查询次数；DMA已算正确传输间隔周期但求传输占比并算成98%。教师2+3=5有部分过程依据。",
+  "teacher_issue": "",
+  "model_issue": "模型把DMA中的2×10^5跨问补到查询项，并称它等价于查询次数，数量和含义都不对；正确的DMA间隔周期也被误称开销计算失败。",
+  "original_image_observations": "教师5分、1:2、2:3。查询50MHz×1s=5×10^7，100/(5×10^7)=.00025%；DMA4KB/1MB=.004s，乘频率2×10^5，最终2×10^5/(1500+500+2×10^5)≈98%。",
+  "evidence": [
+    "查询没有从1MB/s和4B求实际次数，结果确错。",
+    "DMA分母含正确1500+500，间隔周期正确，应保留部分分；分子及分母的最终关系不正确。",
+    "两问错误并非只有最后算术，但教师未给满，低模型分和其跨项补分不能证明标签错。"
+  ],
+  "uncertainties": [
+    "参数与部分关系的精确权重需统一，当前5分尚可解释。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5433a02da0c7e211025a9425c9316d232677df65f43491bc91f996ef9e49617c",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:07:06.925919+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "DM_3",
+  "answer_id": "ANS_DM_274",
+  "category": "uncertain",
+  "summary": "核心拒取与析取链正确，但US先留x、后直接改用a，缺少显式同一个体代入；教师7的扣分原因需核对，暂不认定标签错误。",
+  "teacher_issue": "若第4、5行自由x代表任意实例并可继续代a，则扣3可能偏重；若要求严格列出代入，原文确有形式断点。",
+  "model_issue": "首轮直接称US正确，未区分原图第4、5行是x而第9、10行引用a，三轮高分不能替代形式规则审查。",
+  "original_image_observations": "教师7红叉。前三前提、末结论正确；4=A(x)→B(x)∨C(x)，5=A(x)且B(x)→D(x)；6引a后7/8提取A(a)、¬D(a)，9/10直接用4/5推a的公式，11至15链正确。",
+  "evidence": [
+    "由全称前提补代a即可完成，数学论证方向正确。",
+    "题目要求严格自然推理，已有编号形式中实例不统一是可指认的缺陷。",
+    "不能把缺失显式实例化一概算致命，也不能在无形式标准时自动判满分。"
+  ],
+  "uncertainties": [
+    "需教师确认是否允许自由变量模式的再次替换及其分值。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4048f812f886d8905ea6d4fe9a25d256bfdd900f4d0b46a000487f9d31514b8e",
+  "teacher_score": 7.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:52:46.923764+00:00"
+}

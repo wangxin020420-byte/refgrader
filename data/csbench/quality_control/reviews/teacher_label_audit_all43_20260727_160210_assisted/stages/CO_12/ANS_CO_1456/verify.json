@@ -1,0 +1,45 @@
+{
+  "version": "assisted-label-review-v1",
+  "stage_sha256": "903f2df7903a6600b76217b6e7ad023850cbfcbd91358384fa3ec55cbb6e5833",
+  "input_sha256": "28e844d819185a5ab43edc6bc43e935a29d3016e4df49ccd5311337fa24c4648",
+  "created_at": "2026-10-20T08:11:22.815145+00:00",
+  "request_url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+  "model": "glm-4.6v",
+  "response_id": "202610201611094a76d494c2e14aee",
+  "usage": {
+    "completion_tokens": 665,
+    "prompt_tokens": 9839,
+    "total_tokens": 10504,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 445
+    }
+  },
+  "review": {
+    "category": "label_supported",
+    "score_min": 24,
+    "score_max": 24,
+    "confidence": 0.95,
+    "original_image_observations": "学生原始作答中：1) 寄存器名称标注为a:数据缓冲寄存器(DR)、b:指令寄存器(IR)、c:地址寄存器(AR)、d:程序计数器(PC)，与图中位置对应；2) 数据通路描述清晰，如取指令路径M→DR→IR→控制器、存取路径包含ALU→AC→DR→M等；3) 第(5)问计算显示'容量为2^8×24'，虽有红叉标记但计算式正确；4) 第(6)问绘制了微指令格式图，包含3位、4位、4位、2位、3位、8位字段标注；教师痕迹显示总分24分，各小问分数为4、4、4、4、3、4，红叉标记位于第(5)问容量计算处。",
+    "teacher_issue": "教师对第(5)问容量计算的红叉标记可能源于对计算过程的过度关注，但学生实际计算式'2^8×24'正确，红叉标记不影响最终得分合理性",
+    "model_issue": "旧模型因转录遗漏图像内容将第(6)问判定为未作答（仅提取'图如图所示'文本），忽略学生已写出完整字段位数（3+4+4+2=13位、外部条件3位、下址8位）及格式图，导致严重低估分数",
+    "evidence": [
+      "学生第(1)问寄存器名称标注与图中位置完全对应，得4分合理",
+      "第(2)问取指令数据通路M→DR→IR→控制器与参考答案一致，得4分合理",
+      "第(3)问存取路径中写路径ALU→AC→DR→M完整，读路径M→DR→ALU（缺ALU→AC）与参考答案差异小，得4分合理",
+      "第(4)问ADD指令执行过程包含取指、取数、执行三阶段，数据通路描述完整，得4分合理",
+      "第(5)问计算式'2^8×24'正确，红叉标记不影响结果正确性，得3分合理",
+      "第(6)问字段位数分配（3+4+4+2=13位、外部条件3位、下址8位）及格式图完整，得4分合理"
+    ],
+    "uncertainties": [
+      "第(5)问红叉标记是否影响教师实际评分需确认，但学生计算式正确，最终得分24分无矛盾"
+    ],
+    "summary": "学生作答完整且正确，第(1)-(4)问与参考答案一致，第(5)问计算式正确（2^8×24），第(6)问字段分配及格式图完整。教师评分24分合理，旧模型因转录遗漏图像内容导致第(6)问误判为未作答，属模型问题。"
+  }
+}

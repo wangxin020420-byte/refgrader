@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_260",
+  "category": "teacher_suspect",
+  "summary": "只答第一问，编码把扩展方向倒置，结果62，第二问完全空白，教师8/15疑似明显过给。",
+  "teacher_issue": "第一问缺正确16-12及256名额关系，且把二地址放到一地址长前缀下扩展；在第二问空白情况下仍8分，需核对评分依据。",
+  "model_issue": "模型0分漏掉一地址10位OP及用4位容纳12种的局部知识，不应当所有内容不存在；但这些局部信息不足支持8分。",
+  "original_image_observations": "教师8红叉。写12指令需4位后缀、一地址OP16-6=10位；画6位零地址与一地址前缀、二地址再加4位后缀，写2^6-2=62条；第二问只有题号。",
+  "evidence": [
+    "地址字段减少才可延长操作码，原图把二地址延长而不是零地址，核心扩展方向错误。",
+    "62非255，且无第二问128或任何推导。",
+    "原图教师页眉也为8，不能将该样本8分仅当导入默认值。"
+  ],
+  "uncertainties": [
+    "可保留少量位数知识分，但教师未写8分的分项来源，不自动定新总分。"
+  ],
+  "evidence_strength": "overcredit_wrong_first_answer_and_blank_second",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a596f2a6a0086668502b35d250975c30425aa9fcacc8a26f8048f59f7bd3c5c3",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:22:35.217180+00:00"
+}

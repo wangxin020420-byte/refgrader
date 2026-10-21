@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_820",
+  "category": "uncertain",
+  "summary": "两问公式的量纲和开销放置均错误，但教师1+2=3可能为极少量参数和换算分；DMA2分依据较弱，缺少统一细则，保留待确认。",
+  "teacher_issue": "DMA只有4KB换算及2000开销数字，核心关系写4K/(2000×50M)，给2/5是否过多需核对；不把模型0分直接当正确标签。",
+  "model_issue": "旧模型凭‘备选视角’将错误查询式称正确组装，理由与式子不符；但指出两比例错误有原图支持。",
+  "original_image_observations": "教师3分、1:1、2:2。查询10^6/(50×10^6×100)=1/(5×10^3)；DMA4K/(2000×50M)=4×10^3/(2×10^3×50×10^6)=4/(10^8)，无其他过程。",
+  "evidence": [
+    "查询把100周期放分母且缺4B换算，不是仅最后算术失误。",
+    "DMA把块长与单次开销放反，未出现每秒传输250次关系。",
+    "2000与4×10^3可支持少量部分分，是否足2分需有明确分项政策。"
+  ],
+  "uncertainties": [
+    "原评分未细分参数换算分，无法可靠给出替代分数。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a366137b96c81c5bd523ca3ac151bcb3feec34bba6b999f5fd89920e2ac6a54c",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:04:57.962482+00:00"
+}

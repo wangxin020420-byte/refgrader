@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "report_run": "teacher_label_audit_all43_20260727_160210",
+  "created_at": "2026-10-20T08:14:39.439423+00:00",
+  "target_count": 909,
+  "tasks_sha256": "fcb8c6e5832809b6ab9127d8e5f5ab3feb808a80a7e3f5669f8410aaf0d71b40",
+  "scope": "pending_medium_and_all_low",
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "levels": {
+    "medium": 171,
+    "low": 738
+  },
+  "human_decisions_sha256": "f57a0523a6ad636aec1977e124c7d23ebbe2779c6e12994ed376e2f2e03916d8"
+}

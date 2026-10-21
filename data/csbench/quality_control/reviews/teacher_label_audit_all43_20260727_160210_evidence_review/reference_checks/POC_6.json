@@ -1,0 +1,15 @@
+{
+ "question_id":"POC_6",
+ "basis":"existing_experiment_only",
+ "new_experiment":false,
+ "standard_image_sha256":"197a6751c7d1c6e118f46fc539000029eef8d7d3abf046b07abfe512cd4a7c14",
+ "source_limitation":"冻结题干、参考文字和活动准则有U+FFFD编码损坏，未修改冻结源；产生式、语义动作、数字、acacbb仍可读，标准答案图另行目视核对。题干第一问仅可辨认判断类型，评分说明增加说明理由，理由展开的要求需要统一。",
+ "grammar":["S→aAb; S.x=A.x+1","S→c; S.x=0","A→A1 S; A.x=A1.x+S.x","A→S; A.x=S.x"],
+ "verified_tree":"S[2](a,A[1](A[0](S[0](c)),S[1](a,A[0](S[0](c)),b)),b)",
+ "verified_values":{"left_A_and_S":0,"right_lowest_A_and_S":0,"right_S":1,"middle_A":1,"root_S":2,"leaf_sequence":"acacbb"},
+ "review_rules":["全部属性由子节点或常量计算父节点，是S属性文法；综合属性文法、所有属性为S属性的上下文同义表达应识别。","只含综合属性已给出分类的核心理由，不应将同义说明重复拆分为多次缺失扣分。","结论S正确但明确写只有继承没有综合，是实际概念矛盾，不能按简洁表达处理。","A1只区分同一产生式中的两个A，不强制每个图节点都使用同一局部下标。","父子边清单不是产生式串，不能把S→a、S→A、S→b三条边解释为错误的单子节点展开。","属性公式、方框数值和自底向上箭头可合法表示计算，不以未生成规范图结构或边重合率低直接判错。","正确图形结构和局部值应保留部分分；错误根值不抹除正确子树，缺标数值也不等于没画树。","图形正确不代表属性正确，根结果正确不代表所有分支和局部值正确，需分别验证。","未标任何属性值的树与完整标注树应区分；原始细分权重缺失时不机械自动重评分。"],
+ "teacher_suspect_ids":["ANS_POC_218","ANS_POC_206","ANS_POC_203"],
+ "uncertain_ids":["ANS_POC_195","ANS_POC_219","ANS_POC_188","ANS_POC_216"],
+ "historical_parent_child_contract_issue_ids":["ANS_POC_206","ANS_POC_230","ANS_POC_223"],
+ "automatic_policy_change":false
+}

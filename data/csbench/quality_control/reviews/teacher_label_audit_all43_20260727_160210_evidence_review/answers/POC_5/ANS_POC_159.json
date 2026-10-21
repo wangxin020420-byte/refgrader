@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_5",
+  "answer_id": "ANS_POC_159",
+  "category": "uncertain",
+  "summary": "多数LR0核正确，但缺拓广初始项、接受态错误及B展望符不对，教师4的部分分需确认。",
+  "teacher_issue": "只有扣1是否覆盖初始闭包、接受态和多处展望符错误，需核原始逐框分值；不直接定教师错。",
+  "model_issue": "称完全没有展望符不准确，原图多数写#但部分应a；另不应奖励预印边，点位置多次还被重复或移位识别。",
+  "original_image_observations": "I0无S'→·S，额外B→·a,#、A→·ε,#；I2写A→ε·,#代替接受项；I1/I5 B项展望#，应a；其余S核及I6空项展望#基本正确。教师4。",
+  "evidence": [
+    "LR1的展望符是内容本体，不能当无关格式；接受项也不等于空产生式归约。",
+    "I3、I4、I6至I8主体核有正确部分，不应因前面错误全部归零。"
+  ],
+  "uncertainties": [
+    "题面已给边而准则额外给边1分的合同不一致；需统一实际填框内容权重后再判断4是否偏宽。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "33f081a9bf5401727eb71da80089df35669216b4ac1b8d329c1a29b2e47ff050",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:58:52.952210+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_603",
+  "category": "model_or_extraction_issue",
+  "summary": "排序、两次书写的掩码一致正确，图A-C-D-C-E-B及请求时点齐全，教师20合理；旧末轮14漏图分。",
+  "teacher_issue": "",
+  "model_issue": "首轮理由说A>C>D>E是处理优先级不准确，实际图有合法时序且含返回；不能因图转录漏B或回C扣分。",
+  "original_image_observations": "教师20红勾。上表与下方五字都为标准值；图A后回底边界，B-C-D-C-E-B后用户，ABC与DE到达箭头标在对应时点。",
+  "evidence": [
+    "两份掩码书写互相支持，不是某处更正造成歧义。",
+    "D先抢占C、D后回C、E后B恢复，关键关系正确。",
+    "旧模型图描述省略返回段属于提取限制，不是学生缺失。"
+  ],
+  "uncertainties": [
+    "A后的短用户边界如按严格连续图可作轻微形式讨论，不支持扣6图分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b6add69e21654bdc46de093c4390cc6cff3d5bb070140cd0c47c07c82b82a24f",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:42:24.728467+00:00"
+}

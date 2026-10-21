@@ -1,0 +1,8 @@
+{
+ "question_id":"ISC_5","basis":"existing_experiment_only","new_experiment":false,
+ "verified_ascii":"48 65 6c 6c 6f 2c 20 41 48 55 21 -> Hello, AHU!",
+ "review_rules":["原始译码3分及分类3分独立；不能把错误译码下仍正确的字母或标点分类再次判错。","ASCII区分大小写；20十六进制是空格，30至39才是十进制数字字符。控制符名不等于数字。","SPACE或括号说明通常是在标注空格，不能自动当五个额外解码字母；但明确把S/P/A/C/E另列字母时需区分。","字母类别可列不同字母或代码，不强制重列重复l/H；下划线、括号及箭头能建立分类证据。","空格归广义特殊符号/标点的课程口径未明确时不新增硬扣分。","原图分值和关键末字符优先于转录；原图也不清楚的o/x、G/H、U/V及百分号/叹号保持不确定。"],
+ "teacher_suspect_ids":["ANS_ISC_57","ANS_ISC_35","ANS_ISC_36","ANS_ISC_76"],
+ "review_queue_caveats":"57、35、76涉及手写字符确认；36缺分类且译码错误，教师3.5超过仅译码部分原始上限3，应优先核依据。",
+ "automatic_policy_change":false
+}

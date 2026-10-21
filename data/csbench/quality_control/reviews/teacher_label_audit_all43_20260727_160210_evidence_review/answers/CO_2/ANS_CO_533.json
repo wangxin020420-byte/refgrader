@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_533",
+  "category": "model_or_extraction_issue",
+  "summary": "表改正后五行标准值，图完整，教师20可支持；旧第三轮2是严重提取/归一问题。",
+  "teacher_issue": "",
+  "model_issue": "B/C/E涂改后各自身位1仍可辨；实际图A-C-D-C-E-B，首轮按静态优先级给图8的理由不严谨但结果可由原图独立支持。",
+  "original_image_observations": "教师20红勾。排序ADC EB，ABCDE表五行正确；B自身位、C自身位、E自身位有涂改墨团。图A-C-D-C-E-B并返用户，ABC/DE标记齐全。",
+  "evidence": [
+    "D结束后C平台明确，E结束回B也明确，不只简单ADC EB。",
+    "有墨迹不表示整行或整图不可比，需按列定位有效改写。",
+    "全题正确内容有证据，保留原满分。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b0166fd08f1ab950f5d37374558bb1c9cf374f8bce7f34b6625631167e4c4739",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:42:24.724468+00:00"
+}

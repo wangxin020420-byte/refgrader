@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1280",
+  "category": "label_supported",
+  "summary": "错误地把R/I/J当五位起逐层扩6位、5位，得到1/1983/31，教师仅1准备分有依据；模型截取2^5就给R公式分过宽。",
+  "teacher_issue": "",
+  "model_issue": "(2^5−x)中的2^5是错误资源层的一部分，不是R2^5=32的有效独立解答；父项与子项重复列2.5也不应累加成5。",
+  "original_image_observations": "页眉1，1:1、2:0、3:0。设R x/I y/J z，x≥1，(32−x)×2^6−y≥1，再乘2^5给z；取x1、y1983、z31，最终1/1983/31。",
+  "evidence": [
+    "I操作码只有5位，不允许1983个独立I操作码；R也不是仅给一个短码的1条。",
+    "J实际只在5位前缀后再扩2位，原式扩6再5不匹配格式。",
+    "只有五位编码空间及预留存在的泛化尝试可少量1，模型4至8不能证明教师低给。"
+  ],
+  "uncertainties": [
+    "泛化扩展公式是否额外给准备分需原政策，不将某个匹配2^5子串当整项正确方法。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f3139a9a23ac9db0ad7a01cd41e21332de3d78c1589ef83afb7fc40e16bf6ea3",
+  "teacher_score": 1.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:50:54.629571+00:00"
+}

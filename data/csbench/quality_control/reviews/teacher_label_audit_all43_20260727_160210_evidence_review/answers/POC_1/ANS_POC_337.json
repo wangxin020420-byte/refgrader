@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_1",
+  "answer_id": "ANS_POC_337",
+  "category": "uncertain",
+  "summary": "上方计数相关草稿被划掉，最终仅a*(b|c)*，教师4需部分分尺度核对。",
+  "teacher_issue": "最终缺数量约束，扣1是否足够不能由总分说明确定。",
+  "model_issue": "未保留最终式中正确形状的部分分；不可把删除条件补进最终答案。",
+  "original_image_observations": "上行旧集合及m等式、非负条件整行划掉，下行最终a*(b|c)*；教师4。",
+  "evidence": [
+    "最终保留式仍允许单独a或b。",
+    "删除草稿与最终式应区分，避免人为拼成正确答案。"
+  ],
+  "uncertainties": [
+    "划线范围覆盖整段旧条件；若教师允许草稿作为过程分需另明。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "bf943795847172bae1d1c263a9b7916b8b583579fdd738c08876fbcc2979b837",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:54:14.508856+00:00"
+}

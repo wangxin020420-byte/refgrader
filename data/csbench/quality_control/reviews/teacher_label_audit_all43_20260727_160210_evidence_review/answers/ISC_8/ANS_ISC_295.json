@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_8",
+  "answer_id": "ANS_ISC_295",
+  "category": "teacher_suspect",
+  "summary": "减法补码正确，但独立的X码制符号位错误仍在，整题满4需复核。",
+  "teacher_issue": "X反补均以0开头且-Y亦同类错误，不能用第二问正确最终补码豁免第一问的独立码制要求。",
+  "model_issue": "不能称01110001与11110001严格一致，也不能因附加原数值表达含糊把正确11100111结果全判零；两问应分开。",
+  "original_image_observations": "原图4；X原10001111正确，反01110000补01110001；Y三码正确；-Y反01110101补01110110；末补11100111，二进制00011001未带负号。",
+  "evidence": [
+    "X反补符号位应保持1，原图0不是空格或排版差异。",
+    "第二问已给正确补码，后附25的模值/符号解释需核，但第一问错误是独立扣分点。"
+  ],
+  "uncertainties": [
+    "各字段具体扣分未明，保留正确过程和结果分，不自动按历史2或2.5定新分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "01b7fa01329bebc2caaeed86b9febcd4a4313d1b14c18974954095f8748a6f6f",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:53:01.554119+00:00"
+}

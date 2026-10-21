@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1620",
+  "category": "model_or_extraction_issue",
+  "summary": "原图A屏蔽字是修改后的0001，全表与完整轨迹正确；第一叙述有响应信号和时机问题获2，教师17可解释，模型4.5与20两端均不稳。",
+  "teacher_issue": "",
+  "model_issue": "A不是转录0011，B/D本来应允许C抢占，模型理由反向理解屏蔽关系。完整图不能说仅列C/B/D/A的屏蔽值；首虽有PC压栈和向量，也不是无条件全5。",
+  "original_image_observations": "页眉17，1:2、2:8、3:7。首INRA传0/1决定允许、正在执行指令中断、地址入栈、向量、读断点地址返回，词有改写。表MDMCMBMA四行0001/1011/1111/1001。图用户→A→B→C→B→短A→D→A→用户，连线采用实横/点竖且标各段屏蔽字。",
+  "evidence": [
+    "表和图都完整正确，应保留8+7；点线是合法转换表达，不是没轨迹。",
+    "首允许/响应信号及指令中途打断表述不严谨、未写入中断关中断，教师扣分有理由。",
+    "模型一次只4.5漏表图，另两次20又可能高估首题，不能任选一端替换17。"
+  ],
+  "uncertainties": [
+    "首已有保存PC/向量/返回而只2可能较严，原细项未知，保留该权重疑问而不确认教师17必低。"
+  ],
+  "transcript_conflicts": [
+    "表A原图有效值0001；模型提取0011不是确定学生答案。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3412cfa434be20643815f5a5654cbf1afede67a03753066eac096432f0559faa",
+  "teacher_score": 17.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:21:17.235218+00:00"
+}

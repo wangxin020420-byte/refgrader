@@ -1,0 +1,33 @@
+{
+  "question_id": "DM_3",
+  "answer_id": "ANS_DM_221",
+  "category": "model_or_extraction_issue",
+  "summary": "原图存在前提与第2行均有¬D，析取也没有额外全称量词；教师10有完整推导支持，模型因转录造错扣分。",
+  "teacher_issue": "",
+  "model_issue": "把¬D漏成D再指责第4行无来源，把∨后的C笔画读成∀C并追究虚构量词范围；x作为统一的新参数不应仅因不用c清零。",
+  "original_image_observations": "教师10红勾。顶端和第1/2行均为A且¬D；第4取¬D，第5/6与11写B∨C；8=A且B→D，9=¬(A且B)，10=¬B，12=C，13合取，14存在推广。",
+  "evidence": [
+    "不存在从正D变负D的原图错误，负号明确。",
+    "所有实例行统一x作为参数，最后EG回到绑定x；没有混用不同见证者或作不合法全称推广。",
+    "三前提、见证属性、拒取、析取消去、目标合取齐全，符合实际证明内容。"
+  ],
+  "uncertainties": [
+    "若课程严格指定新常量字母，可有格式讨论，但不能据此声称数学不等价或额外∀C存在。"
+  ],
+  "transcript_conflicts": [
+    "存在前提及实例合取的¬D漏否定号；B∨C被识别成B∨∀C。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c51f4d7fad8532cca440c09e294ac1e865f045542251503643377ef3c36930f1",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:52:46.940479+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_101",
+  "category": "label_supported",
+  "summary": "分开整数和小数正确，最终漏整数0成1.001，教师仅扣0.5可支持。",
+  "teacher_issue": "",
+  "model_issue": "历史满6忽略最终1.001；正确过程应保留，但不能声称最终整式也正确。",
+  "original_image_observations": "原图5.5；左整数0与乘2得0.101；右除2得10、乘2取001；最右最后写(1.001)₂，少了整数位0。",
+  "evidence": [
+    "第二整数的正确转换过程在前，不能因合并笔误全部清零。",
+    "最终1.001=1.125确非目标，因此小幅结果扣分有依据。"
+  ],
+  "uncertainties": [
+    "合并结果笔误扣0.5的具体权重由教师确定，当前支持其局部扣分逻辑。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f779ce793320e294ebe4e23a2523f7bd84f32b36940f64ac2ea162e6b88a08db",
+  "teacher_score": 5.5,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.413975+00:00"
+}

@@ -1,0 +1,28 @@
+{
+  "question_id": "DM_2",
+  "answer_id": "ANS_DM_98",
+  "category": "label_supported",
+  "summary": "仅传递推导完整，误称封闭性，自反和对称未证；教师4可对应传递4分，模型3分因术语扣结论不必据此怀疑标签。",
+  "teacher_issue": "",
+  "model_issue": "证明的双前提、和式链与关系结论已完整，应优先看数学内容；术语‘封闭’不必使正确传递结论失分。",
+  "original_image_observations": "教师4红叉。列16个有序对后，设任意三对，用(a,b)R(c,d)、(c,d)R(e,f)推得(a,b)R(e,f)，末说R封闭；再设幺元(e,e)没有完成其它性质。",
+  "evidence": [
+    "作废横线处不计，保留的两关系和传递结论仍清楚。",
+    "未提供一般自反、对称；列A×A及设幺元不能补其6分。",
+    "教师4有直接的正确内容对应，不因错误性质标题重复扣已证传递。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5365dc1b92da21bdcfee8cf8903e3a9e03366d14d0434da163daf88ac3360927",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:42:06.401389+00:00"
+}

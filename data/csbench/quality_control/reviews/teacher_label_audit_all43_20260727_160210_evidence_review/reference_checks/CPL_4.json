@@ -1,0 +1,12 @@
+{
+ "question_id":"CPL_4","basis":"existing_experiment_only","new_experiment":false,
+ "offline_execution_trace":[{"p":0,"q":9,"before":[16,19]},{"p":1,"q":8,"before":[23,28]},{"p":2,"q":7,"before":[15,20]}],
+ "stop":"p=3,q=6，24<24为假，停止，不交换5和22。",
+ "verified_output":[19,28,20,24,5,22,24,15,23,16],
+ "individual_manual_sequences":"batches/CPL_4_001.json的verified_output；inspections/CPL_4_review_ledger.py只序列化手工逐图读数并核位置，不做OCR或自动分类。",
+ "review_rules":["程序只交换前三对，第四对24相等使while停止；后缀自增作用指针，不给元素数值加1。","原始明示5和22互换只扣1；其余位置全对的全反转输出是9，不能活动两中间项重复扣至6。","原始外四对各2共8，剩余2具体分配未完全展开，不对杂乱局部输出自行设唯一分数。","正确输出可满10，不要求额外跟踪过程；错误输出仍保留正确独立对/中部，不因一处错全零。","倒数第二是位置9=23，倒数第三是位置8=15，倒数第四是位置7=24，历史许多理由索引错误。","原图数字、涂改与空格记号优先，214改后首20末15、218第二28被转录18、231只取下方最终行。","204位置9为13仍满10需核；238仅位置2=18，三组正确外对明示已有6而教师5，需核低给。","单写24无对应位置不补成完整一对；升序排序不是目标输出。"],
+ "teacher_suspect_ids":["ANS_CPL_204","ANS_CPL_238"],
+ "uncertain_ids":["ANS_CPL_234","ANS_CPL_205","ANS_CPL_210","ANS_CPL_214","ANS_CPL_231","ANS_CPL_191","ANS_CPL_186"],
+ "active_rubric_contract_issue":"三个外对各2加两个中间项各2，丢失源5/22互换只扣1的约定；本次仅记录问题，没有修改活动评分配置或运行新实验。",
+ "automatic_policy_change":false
+}

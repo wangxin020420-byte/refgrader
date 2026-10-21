@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1616",
+  "category": "model_or_extraction_issue",
+  "summary": "第一确未答0，屏蔽表全对8，图仅缺B后回A获6，教师14合理；模型使用了错误参考值并漏读图。",
+  "teacher_issue": "",
+  "model_issue": "标准A0001/B1011，不能凭空改成A0011/B1111后判学生错。原图轨迹用户/A/B/C/B/D/A/用户明确，缺的只是B后A短段。",
+  "original_image_observations": "页眉14，1:0、2:8、3:6。首空白。表MDMCMBMA，A0001/B1011/C1111/D1001。图用户→A→B→C→B→D→A→用户，初始A/B短段可见，B上D红圈。",
+  "evidence": [
+    "首空白必须0，不因表图正确倒推过程。",
+    "表8精确符合参考，不是只有C/D两行正确。",
+    "图主要嵌套返回对、缺B完成后A，教师6体现单处扣分，总14有完整分项依据。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f1a6192d7f8417201036b01f14feef7b3c5b906b67e8d13b95b866f164c9937b",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:21:17.245215+00:00"
+}

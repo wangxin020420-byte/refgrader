@@ -1,0 +1,28 @@
+{
+  "question_id": "DM_1",
+  "answer_id": "ANS_DM_36",
+  "category": "model_or_extraction_issue",
+  "summary": "原图完整含24、54及正确覆盖边，文字结论也全对，教师8分合理；模型漏读24又在证据写24/54的同时声称漏24，理由矛盾。",
+  "teacher_issue": "",
+  "model_issue": "模型要求2-24、3-24作为覆盖边也错，已有2-4-24和3-6-24应作传递约简；不能以不存在的边要求扣分。",
+  "original_image_observations": "教师8红勾。顶层24/54、中央6、两侧4/9、底部2/3/1均在，十条覆盖边齐全；第二24和54、极小1；第三无最大最小1；第四改写后最大下界1、无最小上界。",
+  "evidence": [
+    "24标在图左顶，与4和6相接，不是缺点。",
+    "文字‘24和54’本已完整，模型同一条理由说漏24与其证据冲突。",
+    "最后涂改保留正确无最小上界，不能混入作废文字。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "91b95e6982ef0e3e1578c5dd4d89c179038912ab5b31d3bc18fc28b92fe78eda",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T11:00:24.015816+00:00"
+}

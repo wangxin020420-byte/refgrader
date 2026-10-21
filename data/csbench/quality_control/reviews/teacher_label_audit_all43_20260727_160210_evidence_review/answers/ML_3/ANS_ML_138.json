@@ -1,0 +1,30 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_138",
+  "category": "model_or_extraction_issue",
+  "summary": "原图用等式链清楚写出三组正确函数，涂改星状黑迹不改变保留答案；教师6分可保留。",
+  "teacher_issue": "",
+  "model_issue": "转录中的★、◆、☒来自删除痕迹；不能作为额外布尔运算符解释。",
+  "original_image_observations": "左列J1=K1=x、J2=K2=xy1、z=xy1y2；等号附近有删除黑迹；右侧是额外次态推导；教师6。",
+  "evidence": [
+    "直接要求的激励和输出在左列完整正确。",
+    "原模型6/3/6分中低分与符号噪声解读有关；无需再要求学生证明已正确的函数。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "涂改痕迹被转录成星形、菱形、方框等非作答内容。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "753f1df62d52f7fe32b2e5eff819b962b6b4f7a1f00243c947d98f58e7026d4a",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:35:55.003729+00:00"
+}

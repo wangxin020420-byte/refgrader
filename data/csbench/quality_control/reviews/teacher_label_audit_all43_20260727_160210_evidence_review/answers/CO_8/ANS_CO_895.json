@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_895",
+  "category": "uncertain",
+  "summary": "两问关键关系及50%、1%结果齐全，教师满分总体有支持；但DMA周期数手写指数较小且与转录冲突，保留待确认，不依据含糊指数认定教师多给。",
+  "teacher_issue": "需确认DMA总周期数和最终比率分子指数是否写4；若为50×10^4则正确，若确写6则有过程笔误或计算矛盾，当前不自动改教师分。",
+  "model_issue": "原模型首轮直接接受转录50×10^6/50×10^6=1%，明显未检查算术；后两轮7.5也不能解决原图指数识别。",
+  "original_image_observations": "教师10分、各5。查询10^6/4×100=25×10^6、除50×10^6=50%。DMA10^6/(4×10^3附近小指数)=250，(1500+500)×250、末1%清楚；两处分子50×10的指数更接近4，字迹较小。",
+  "evidence": [
+    "250×2000应为5×10^5即50×10^4，而转录两次50×10^6与其不一致。",
+    "原图每秒250次及CPU开销关系正确，不能把模糊指数当确定概念错误。",
+    "查询部分完全正确，任何复核应限定DMA小指数，不应全题归零。"
+  ],
+  "uncertainties": [
+    "原图DMA小指数需人工放大确认或提供更清晰扫描，现有转录不足定案。"
+  ],
+  "transcript_conflicts": [
+    "转录DMA分母4×10^4与250次数不一致，原图更接近3；周期数指数转录6亦可疑。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9de2df2a76273965c74e866867b5e286de84d1e0ef7029294aaf630874b1b70d",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:02:45.181022+00:00"
+}

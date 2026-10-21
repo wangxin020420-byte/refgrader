@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1603",
+  "category": "model_or_extraction_issue",
+  "summary": "屏蔽字和完整标准轨迹及文字推演正确，首关中断顺序/响应时机不全获3，教师18可解释；模型虚构D错并误读文字。",
+  "teacher_issue": "",
+  "model_issue": "D1001不等于A0001，二者都正确，不能扣表2。原图文字B置1011、C未被屏蔽，转录0101/被屏蔽相反；图完整不应因虚构D错扣图1。",
+  "original_image_observations": "页眉18，1:3、2:8、3:7。首INTR1、MASK0，先保存断点/现场再关中断、服务后恢复开中断返回。表MDMCMBMA四行正确。图用户→A→B→C→B→短A→D→A→用户。下文明确B置1011、C未被屏蔽先入C、C后回B、B屏蔽D、B后回A再D。",
+  "evidence": [
+    "表与图以及逐段说明相互印证，8+7有完整依据。",
+    "首缺指令结束响应且保存先于关中断，教师3可以局部扣分；不主张模型20首满必对。",
+    "历史16中的D错和轨迹因此偏差均是模型捏造，不能认教师18错误。"
+  ],
+  "uncertainties": [
+    "首具体3/5权重未公开，18非唯一可证明数值，但主要分差可确定来自模型错误。"
+  ],
+  "transcript_conflicts": [
+    "文字推演有效B屏蔽字1011、C未被屏蔽；汇总转录曾写0101、C被屏蔽，与原图不符。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ffcd63f0eaf476ee3b44b59d9a226a90cd89ac8805c5cccecac31dace6eea642",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:27:13.236284+00:00"
+}

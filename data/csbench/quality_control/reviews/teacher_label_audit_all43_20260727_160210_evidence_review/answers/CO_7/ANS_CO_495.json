@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_495",
+  "category": "teacher_suspect",
+  "summary": "第一问完整代入正确但最终写50ns，教师仍给该问5分；疑似漏扣最终单位错误，需优先确认。第二问正确，不应扣分。",
+  "teacher_issue": "M1最终50ns与正确50μs差1000倍，原图教师第一问仍+5；按结果错误扣结果分的审核政策，该满分标记需复核。",
+  "model_issue": "首轮又因M2未单列周期数而只给2.5分，该扣分不成立；其他两轮已识别第一问单位错并保留第二问满分。",
+  "original_image_observations": "M1写2×10^5×1/(4×10^9)=50ns；M2写10^5×1/(6×10^9)约16.67us；两处教师均+5。",
+  "evidence": [
+    "图像第一问单位首字母形似n，与第二问u写法不同；转录和旧判决也均读作ns。",
+    "第一问公式正确，不应抹去方法分，但最终单位值与代入式不一致。",
+    "教师10分的疑点局限于M1结果分，不能据模型5分直接更正到5分。"
+  ],
+  "uncertainties": [
+    "需人工最后确认手写n是否确为ns、以及该课程是否对这种单位笔误不扣分；不自动改标签。"
+  ],
+  "evidence_strength": "conditional_unit_notation",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4828262dc9162094c11056a6e40761aedde8d9348bba57143dbaf0da9c6d5992",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:21:02.641672+00:00"
+}

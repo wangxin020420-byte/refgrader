@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_141",
+  "category": "model_or_extraction_issue",
+  "summary": "学生第一排已写出两组激励关系与正确输出，第二组触发器下标疑似沿用1，但公式及位置表达目标明确；不能如旧模型直接判第二组未书写。教师6分可按非实质下标笔误保留。",
+  "teacher_issue": "",
+  "model_issue": "提取将第二组整项标为未书写，忽略原图xy1的激励关系；下方额外次态推导不是本问必需给分项。",
+  "original_image_observations": "第一排K1=x、J1=x，后排一组K/J=xy1，z=xy1y2；下面另写两条y^(n+1)展开式；教师6。",
+  "evidence": [
+    "必需的三个表达式的右端均在原图。",
+    "原模型第二组空白判断不能由图像支持。"
+  ],
+  "uncertainties": [
+    "第二组K/J下标书写像1而非2；若课程严格扣此笔误，应人工统一，不按缺答扣整组。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "14a91dc28e8f43d4cbcf73cb2905c4790a24b28cc1752d92fe8e535e7c4a996a",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:34:40.064260+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_5",
+  "answer_id": "ANS_POC_180",
+  "category": "label_supported",
+  "summary": "已写多个正确核但混入大量不属闭包的项目，教师2作为部分分有支持。",
+  "teacher_issue": "",
+  "model_issue": "自动给预印转移1分并过度按包含正确核就满分，忽略每个状态额外项目和I6缺空项。",
+  "original_image_observations": "外写拓广S'→S；I0主体及A空项展望有修订；I1/I5有正确B核但周围旧项划掉与新项混杂；I3、I4、I5、I6额外写其他状态S/B项目，I6无A→·,#；I7/I8核心完成项正确。教师2。",
+  "evidence": [
+    "项目集合不能仅含正确核即可，错误新增项目会改变解析动作与闭包。",
+    "本答有实质正确过程，可得部分分；不能因节点骨架打印完整就额外给图分。"
+  ],
+  "uncertainties": [
+    "部分删除范围与重写项目位置拥挤，精确逐框给分需人工确认，但没有明确证据否定教师2。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5ac3cd0286eaea5c033de95144b227dd1cabe6063f3caa9337b7e476bcf816b3",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:58:52.953207+00:00"
+}

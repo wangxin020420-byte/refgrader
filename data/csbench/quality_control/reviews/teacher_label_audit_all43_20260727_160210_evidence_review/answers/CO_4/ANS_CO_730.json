@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_730",
+  "category": "teacher_suspect",
+  "summary": "两种格式名称与拆分有问题，但第二问已逐地址正确取tag、组索引、对照表和给出未命中/命中，教师各只给2分、总8分疑似过扣，应优先确认第二问给分。",
+  "teacher_issue": "第二问两个核心判断及映射分析在图中完整存在，各只有2/5分；按有相关过程且结果正确的审核原则，可能少给过程/结果分。",
+  "model_issue": "原模型也有过给：把错误的主存/Cache格式当全对，甚至给整题20；不采用其14～20分直接替代教师标签。",
+  "original_image_observations": "主存图12位tag+11偏移+2，Cache图8tag/4组/11偏移+2；2D07FF解析tag5A、set0000，表tag在块2对应set0001，所以不能访问+2；7F0057解析FE、0000并找块1/3，能访问+2。",
+  "evidence": [
+    "第一访问的set不匹配理由与官方一致，不能仅按裸结论处理。",
+    "第二访问已指出块1/3分别set0000/0001，CPU组为0000，存在匹配，命中结论正确。",
+    "教师总8低于两个5分访问题的满分合计10；疑点可独立于第一问错误格式成立。"
+  ],
+  "uncertainties": [
+    "第二地址分析未明确只选块1，若课程对该表述另扣分需确认；不把旧模型高分当正确标签。"
+  ],
+  "evidence_strength": "possible_undercredit_mapping_process",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a8c0aae161236074d992186bd4978c058512b366169164c5bd8dbb8865f55e43",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:45:30.444732+00:00"
+}

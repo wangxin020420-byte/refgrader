@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_579",
+  "category": "uncertain",
+  "summary": "排序与掩码全对，图主链也正确但C结束后直接回用户再进E；教师18是否因返回方式扣2需人工核实。",
+  "teacher_issue": "若该回底仅分段边界，整体内容可接近满分，18可能偏严；若表示未恢复B即回用户，则扣2有依据，暂不判教师问题。",
+  "model_issue": "三轮20不能消除图里的回用户细节；应核实际线而非只看结束事件的文字序列。",
+  "original_image_observations": "教师18红勾叉。五字与ADC EB正确；图A后回底、短B-C-D-C，然后C结束处下到底再直接上E，E后B再用户；请求和结束标记齐。",
+  "evidence": [
+    "D返C、E返B核心均正确，没有初次服务顺序错误。",
+    "C结束时B未完成，严格嵌套应回B上下文再处理E，画到底可作为局部形式/返回问题。",
+    "不能把所有回底都一概全错或全忽略，需要统一图形表示规则。"
+  ],
+  "uncertainties": [
+    "当前参考与其它满分样本可能容忍短边界过渡，教师扣2的具体原因未知。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f81d3b5a734e4ee4b80ca1a504e5be03e103001237a82ec898cc6ceb5cd3ad6b",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:54:02.782721+00:00"
+}

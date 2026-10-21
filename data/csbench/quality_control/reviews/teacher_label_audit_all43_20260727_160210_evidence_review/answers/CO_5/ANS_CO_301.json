@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_301",
+  "category": "teacher_suspect",
+  "summary": "把指令条数乘地址位数当作编码空间，两问均无正确扩展关系或结果，教师8/15疑似过给。",
+  "teacher_issue": "12×6、6×16、254×6均不能计算可用操作码空间，第一结果4、第二未完成，缺少支持8分的方法证据。",
+  "model_issue": "一轮3.75可能对错误关系过度给分，另两轮0；模型分数仅作辅助，主要依据原图的维度错误和未完成结果。",
+  "original_image_observations": "教师8红叉。二地址12×6=72，零地址0×1=0，一地址6×16-72=24，24÷6=4；第二问仅12×6=72、254×6=1524。",
+  "evidence": [
+    "没有2^4、2^6或等价合法前缀编码计数。",
+    "结果4错误，第二问未得128也无有效推导。",
+    "虽有算术计算，但不是题目所需扩展方法，不能将有算式等同于有正确过程。"
+  ],
+  "uncertainties": [
+    "教师未说明是否存在其它得分证据，需人工确认；本记录不直接改原始分数。"
+  ],
+  "evidence_strength": "strong_wrong_counting_model_no_correct_outcome",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "de5eed90ccdcc2279102960bf6a61731a1686e7d5c04a79b84646efeafe06762",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:22:35.220409+00:00"
+}

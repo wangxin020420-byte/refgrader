@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_186",
+  "category": "label_supported",
+  "summary": "主检测链可得分，但回退一律清零导致错误，教师3有依据。",
+  "teacher_issue": "",
+  "model_issue": "把五状态数量当必须错误，并漏看右上实际图，不是可靠扣分理由。",
+  "original_image_observations": "右上五节点图，左下表A:B/0,A/0；B:A/0,C/0；C:D/0,A/0；D:A/0,E/0；E:A/1,A/0。教师3及红叉。",
+  "evidence": [
+    "01010路径存在，正确检测输出1，具备实质方法分。",
+    "连续0及重叠检测后的回退不正确，问题在具体映射而非节点数量。"
+  ],
+  "uncertainties": [
+    "与同类答卷分差是否符合统一部分分口径待确认。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2ce6f8c07542b0648a8c3f978c9e9bda1d263cf459fe8804950d3fdb6f8a5349",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:33:45.575155+00:00"
+}

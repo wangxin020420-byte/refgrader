@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_3",
+  "answer_id": "ANS_ISC_588",
+  "category": "uncertain",
+  "summary": "分布式组件与SQL访问有部分内容，重要性缺失，教师3需核相关性及权重。",
+  "teacher_issue": "局部/全局DBMS和数据字典不能直接替代通用完整组成，且未答重要性，3可能偏宽。",
+  "model_issue": "分布式DBMS、字典及通信管理并非无关概念；SQL访问关系库亦有效，历史0不给任何部分分过严。",
+  "original_image_observations": "原图3；组成仅本地/全局DBMS、全局字典、通信管理；SQL构造出来访问关系数据库，余白。",
+  "evidence": [
+    "系统组成只给了特定分布式软件层次，应部分评价而非自动满或零。",
+    "重要性确无实质回答，不能据SQL作用补成已回答。"
+  ],
+  "uncertainties": [
+    "需教师确认是否接受课程分布式组成分类及SQL一句话描述的部分分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e8b26a67baa9e24ee79c332278b4dbf8368bb32d535c2aef7e09ae6473fce914",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:42:52.059364+00:00"
+}

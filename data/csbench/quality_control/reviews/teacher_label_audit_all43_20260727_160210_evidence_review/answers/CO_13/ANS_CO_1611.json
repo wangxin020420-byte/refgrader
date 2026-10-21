@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1611",
+  "category": "uncertain",
+  "summary": "A/C/D屏蔽字正确，但B关键位被涂写，不能确认1001还是1011；教师表满8需原笔迹复核，图5与首2有部分分依据。",
+  "teacher_issue": "若B确为1001则少自身屏蔽位，表8需核；若涂改后为1011则全对。当前无法依据墨团确认教师漏扣。",
+  "model_issue": "即使B错，其他三行全对也不应只2/8；轨迹有主CBD服务但多次跌回用户，不能说完全无连线。首把有服务就等待忽略嵌套，不宜评价为响应条件完全正确。",
+  "original_image_observations": "页眉15，1:2、2:8、3:5。首其他中断已响应则等待至完成。屏蔽字C1111、B10(涂黑位)1、D1001、A000(作废笔)1，B第三位不够清楚。图用户直接C、下探用户再上B、B后再下探用户上D、D直接回用户，无完整A服务，三处红圈。",
+  "evidence": [
+    "B第三位墨团是决定表是否全对的关键，不能仅据OCR0定教师错。",
+    "图CBD主阶段存在但少A/嵌套返回，教师5为较宽部分分，不是图全对。",
+    "首2与概括性等待说明相容，原15主要需核表的一个模糊位。"
+  ],
+  "uncertainties": [
+    "需更清晰原卷确认B第三位及改写；未确定前不自动替换15或把表判0。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3c73ee698daa732e75c5bc6855d692e9424a3a865ff43dc086178370091026a9",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:21:17.242215+00:00"
+}

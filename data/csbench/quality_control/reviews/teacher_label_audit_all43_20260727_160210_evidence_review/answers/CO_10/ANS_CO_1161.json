@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1161",
+  "category": "model_or_extraction_issue",
+  "summary": "块数、组数、tag6、7×2^7字节及四路选组比较均正确，教师满15合理；模型把等价896表达式判0并漏记Cache计算。",
+  "teacher_issue": "",
+  "model_issue": "7×2^7B就是896B，7×2^10bit除8得7×2^7B无所谓系数自消错误；模型理由自称等价正确却score_given为0。1024块/256组也不能标未书写。",
+  "original_image_observations": "页眉15，1:10、2:5，红勾。Cache4KW/4W=1K=2^10，组数2^8，主存64K=2^16、m+b=16、b2、m14、tag14−8=6；容量2^10×7bit，末行7×2^7字节。第二旧段落划去，保留定位目标组并选其4块tag比较、4套。",
+  "evidence": [
+    "容量保留幂乘积没有未化简扣分理由，数值和字节单位一致。",
+    "完整块/组数和主存布局关系已支持所问容量，无需再画独立Cache布局图才算写方法。",
+    "第二同时说明按主存地址定位组、只与该组四块比较；教师满分有完整内容支撑。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "容量中间手写bit记号较密，但最终7×2^7字节清楚；划去的第二问旧段落不属于有效答复。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "aac51a7e7f1854eb4c8dbded439de5cdcd7609650632b16eec8c889ab653a38d",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:57:52.313394+00:00"
+}

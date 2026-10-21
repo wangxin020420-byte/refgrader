@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1576",
+  "category": "uncertain",
+  "summary": "屏蔽字按ABCD位序可全对但未声明列序，题设默认反序下A/B错；教师表满8需确认位序政策，图5及首2可解释。",
+  "teacher_issue": "无表头MD1001/MC1111/MB1101/MA1000若按题设MDMCMBMA读，A/B错误；若实际ABCD则一致，不能直接确认教师表8正确或错误。",
+  "model_issue": "反序差异不是‘最低位错误’，A1000与0001、B1101与1011均涉及两位交换；图也实际存在，不能因OCR碎片给0。",
+  "original_image_observations": "页眉15，1:2、2:8、3:5。首请求→检验中断点→进行中断→返回。屏蔽字四行按D/C/B/A排列1001/1111/1101/1000，没有位列标题；旧C格划去。图用户→A→C→A→B，B后向时间轴竖线再到A上D，D后A，末下横轴，多红圈。",
+  "evidence": [
+    "存在统一ABCD位序能解释全部数值，不是各行独立改序。",
+    "题设指定MDMCMBMA，无表头不能反推作者已声明ABCD，需人工统一接受规则。",
+    "图已有服务阶段但C回A及初始B等错，教师5属部分分，不应模型0。"
+  ],
+  "uncertainties": [
+    "位序是否默认为题设、能否容许统一反序是决定表8的关键，保持待核而非自动改15。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "8def41b995513a06ae8919d9582441505b49ba864ac1aab8c8acaaad3a5a2b6b",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:15:25.131457+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_1",
+  "answer_id": "ANS_POC_312",
+  "category": "uncertain",
+  "summary": "括号差异不影响含义，实际仍缺等长条件；教师4需权重核对。",
+  "teacher_issue": "对漏计数关系仅扣1的政策未提供。",
+  "model_issue": "三次0未保留正确形状部分分，不能直接据此替换教师分。",
+  "original_image_observations": "只写(a)*(b|c)*，教师4，无其他补充文字。",
+  "evidence": [
+    "两颗星独立允许空a前缀配b，例如b，不可由原文法生成。",
+    "前后块次序及后缀字符集合正确。"
+  ],
+  "uncertainties": [
+    "统一部分分权重未知。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d4c6ecb95ee956acbc941f6dc5317877933028eed58f5eaead25d9a69c4a35ba",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:54:14.503827+00:00"
+}

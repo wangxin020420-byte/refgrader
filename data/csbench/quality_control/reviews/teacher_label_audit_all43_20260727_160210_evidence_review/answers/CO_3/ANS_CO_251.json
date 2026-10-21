@@ -1,0 +1,60 @@
+{
+  "question_id": "CO_3",
+  "answer_id": "ANS_CO_251",
+  "category": "label_supported",
+  "summary": "正数原补转换错了x/y，但后续按其74和44的值计算自洽，第二商与负数加法也自洽，教师各扣源转换1分得8可解释。",
+  "teacher_issue": "",
+  "model_issue": "不能把后续正确的负数原码运算称‘直接相加必错’；正确符号数值运算可得−68并求补BC，错误主要来自前面的正数原码转写。",
+  "original_image_observations": "教师8红勾叉，各+4。初补码36/54/D5，随后x原01001010=74、y原00101100=44、z原10101011=−43；2y原01011000=88，74−88=−14原码10001110，补F2；次74÷4取18，2z原11010110=−86，和原11000100=−68，补BC，OF0。",
+  "evidence": [
+    "首−14求补F2正确，不能因期望8E把整个负数表示过程抹去。",
+    "次18−86=−68对应BC正确，商18也是对误写74的正确截断。",
+    "正数原补不应改变位串是真实源错误，局部扣分同时保留后续方法合理。"
+  ],
+  "uncertainties": [
+    "首OF1对错误输入不成立，但与本题教师口径匹配，具体判断给分应先统一，暂不据此额外定教师错。",
+    "共同参考口径冲突：原式真值-114、低8位8E；先8位求2y再减的中间及末指令OF可为1，而连减x-y-y最终OF为0。题图、文字参考和活动准则未统一求值/溢出范围，不能仅凭首问OF差异改教师标签。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6d0bb3ba18fd28862bc0f2c639b0f1534e377bfd4fbf58885550fcdd3d74d539",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:29:15.096647+00:00",
+  "question_reference_conflict": {
+    "question_id": "CO_3",
+    "question_image": "data/csbench/reference_images/questions/CO_3.png",
+    "question_image_sha256": "4a56942fac9b1359df1b7a2996bf83a00a441268c8406d847a467b1f4ff67496",
+    "active_rubric": "data/csbench/rubrics/optimized/CO/CO_3_rubric_standard.json",
+    "active_rubric_sha256": "8badc61da616930290902670c48f1bb3938e226f299af9f92ca1892c52c37b41",
+    "observation": "题图要求判断结果OF；文字参考指定先在8位计算2y并将中间溢出计入。活动准则又将已截断的2y=-88用于54-(-88)=142的说明，未明确区分原式真值、中间值与最后机器指令的OF。",
+    "verified_values": {
+      "x": 54,
+      "y": 84,
+      "z": -43,
+      "exact_x_minus_2y": -114,
+      "low8_x_minus_2y": "8E",
+      "trunc_x_over_4": 13,
+      "two_z": -86,
+      "second_expression": -73,
+      "low8_second_expression": "B7"
+    },
+    "verified_paths": [
+      "完整真值54-2*84=-114，在[-128,127]内；不能说原y=-88或原式真值142。",
+      "若先用8位计算84+84，结果168越界、低8位A8表示-88，中间OF=1；再执行8位54-(-88)=142，低8位8E而该减法指令OF也为1。",
+      "若使用(x-y)-y等价求值路径，54-84=-30，-30-84=-114，两步都不越界，最后OF=0；9位扩展最终双符号11同样可表示-114。",
+      "第二题向0取整54/4为13，2z=-86，和-73=B7，所述路径无8位带符号溢出。"
+    ],
+    "review_policy": "数值/算术/表示错误逐份独立审查；只因首问OF=0与口径=1不一致不直接归教师已错，不自动改题面、准则或教师分。",
+    "basis": "existing_experiment_only",
+    "new_experiment": false,
+    "automatic_score_change": false
+  }
+}

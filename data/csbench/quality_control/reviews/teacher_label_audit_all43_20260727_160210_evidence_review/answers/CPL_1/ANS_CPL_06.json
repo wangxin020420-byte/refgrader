@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_1",
+  "answer_id": "ANS_CPL_06",
+  "category": "uncertain",
+  "summary": "原图为3 3 4 5，仅首表达式正确，教师4是否过宽需确认原始部分分分配。",
+  "teacher_issue": "后续变量仍写旧值3、4、5，教师只扣1可能将三处更新错误合按一类处理，需明确。",
+  "model_issue": "转录将末45连为45可误导序列结构；优化准则两半各2.5是新拆分，不能当原始硬性分值判教师错。",
+  "original_image_observations": "一行3、3、4、5，后两数靠近但可分辨，教师4及红叉。",
+  "evidence": [
+    "首3正确，后续应4、5、4，原答均是更新前的变量值。",
+    "错误共同来源于忽略自增自减副作用，是否只扣一类分需要统一。"
+  ],
+  "uncertainties": [
+    "原始只给总5，无每值权重；不直接把模型2.5当标准改分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3ebfb972d3713ab0a5a78fb002760cef22a20f6a6d9daa0eb9f2ae5fe802987c",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:32:41.102076+00:00"
+}

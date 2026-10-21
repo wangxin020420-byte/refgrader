@@ -1,0 +1,28 @@
+{
+  "question_id": "ML_2",
+  "answer_id": "ANS_ML_92",
+  "category": "label_supported",
+  "summary": "中间A(B+C+D)+BCD正确，最后展开遗漏BCD，教师3分保留正确推导并扣最后结果，合理；模型认为BCD未书写与原图不符。",
+  "teacher_issue": "",
+  "model_issue": "原模型三轮2分只评最终式，把中间明确出现的BCD记为空白，未按过程给部分分。",
+  "original_image_observations": "教师3分红叉。第一行正确电路反相结构；第二行A(B+C+D)+BCD清楚，末行仅AB+AC+AD，没有BCD。",
+  "evidence": [
+    "最后漏项确使函数错误，不能只因前面出现过正确答案忽略末次变化。",
+    "正确中间关系可支持过程分，不应将BCD部分全当未作答。",
+    "教师仅扣1分符合末步遗漏而非全过程错误的情况。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e04603c53a9ee51a8a1eb79e8aebfe47758888d51d9e34d43a56d4ab6f755285",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:13:37.694920+00:00"
+}

@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_1075",
+  "category": "teacher_suspect",
+  "summary": "只答总8片而正确应2ROM+7RAM共9，第二问整段复述题干，没有任何片选表达式；教师2+2=4缺少有效给分证据。",
+  "teacher_issue": "第二问2分尤其可疑：文字仅说用若干ROM、RAM和译码器，并未完成任何地址或CS关系；错误总片数也无计算过程。",
+  "model_issue": "模型称‘需要查看图像’但原图没有隐藏的线路图，应明确为复述题目，而非推断遗漏图像答案。",
+  "original_image_observations": "教师4，1:2、2:2红叉。①需要基本芯片数量8块；②逐行写每个基本芯片ROM1/ROM2/RAM1等的片选信号CS1/CS2、用若干4K×16ROM和8K×16RAM以及3-8译码器，未给具体值或图。",
+  "evidence": [
+    "8片总数不能证明分别正确计算2和7。",
+    "重复题目要求不等同于实际完成片选方法。",
+    "没有可核验关系支撑第二问2分，建议优先人工复核。"
+  ],
+  "uncertainties": [
+    "不把字数或形式完整当作正确过程；若另有续页需提供新证据。"
+  ],
+  "evidence_strength": "wrong_total_and_restatement_without_select_logic",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1aad8ca9cc750d10298cf687be7d306d914511e6d3e26808865e0cd61c2edbe5",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:10:40.637124+00:00"
+}

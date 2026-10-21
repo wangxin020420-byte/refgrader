@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1263",
+  "category": "uncertain",
+  "summary": "R32和J4正确但过程简略，I31未留J前缀；教师5+4+5=14中的I4需核部分分，不能按旧模型2分直接认标签错。",
+  "teacher_issue": "I只有31结果与泛泛指令功能说明，没有明确的预留J过程；错I获4/5是否按差一个前缀局部扣1处理需确认。",
+  "model_issue": "原题求条数未另要求逐项参数/公式，R32与J4不能机械各只给结果1；也不能把正确结果反推出未写过程。",
+  "original_image_observations": "页眉14，1:5、2:4、3:5。文字描述R寄存器运算、J将PC数据加imm等，左有数量改写；右最终R32、I31、J4清楚，没有具体2^5等算式。",
+  "evidence": [
+    "R末5位32与J2位扩展4数值正确，教师对结果充分的口径有可能接受。",
+    "I31与必须存在J不兼容，确有漏留一个前缀错误，教师已经扣1但局部过程证据少。",
+    "官方I项只有总5，没有错误前缀/结果的细分，当前不能确定4分是否过宽。"
+  ],
+  "uncertainties": [
+    "需确认该题裸正确答案满分及错误I31的部分分政策；不认模型2或4为应替换分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b3194a9107ef6e867dc800c5a66e700aed22445285c3a0acc39e3be471269f53",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:37:26.852430+00:00"
+}

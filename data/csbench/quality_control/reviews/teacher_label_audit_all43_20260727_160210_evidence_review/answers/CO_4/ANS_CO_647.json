@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_647",
+  "category": "model_or_extraction_issue",
+  "summary": "主存8/4/11在原图正确，Cache格式部分缺失；两次tag提取正确但错误忽略组约束。教师5+3+2+4=14可解释，转录和模型额外误扣主存格式。",
+  "teacher_issue": "",
+  "model_issue": "原图主存块内11位被读成12位，另把23位读成2^3；不能据错误转录否认正确格式。",
+  "original_image_observations": "主存标记8、组号4、块内11；Cache两格4/1，后有2KB=2^11与组数推导；2D07FF写命中块2+2，7F0057写命中块3+4，教师总14。",
+  "evidence": [
+    "tag01011010位于块2却不在组0，第一命中判断错；教师仅给2分。",
+    "FE tag在块1和块3均出现，学生忽略set选了块3，但能访问结论正确，教师部分扣分可成立。",
+    "模型11.5/7/8还包含对原图正确字段的误读。"
+  ],
+  "uncertainties": [
+    "第二问部分分尺度不是唯一值，保留标签不表示块3定位正确。"
+  ],
+  "transcript_conflicts": [
+    "主存图块内字段原图11位，转录12位。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2ede176474a7797d757af10a71ce504de5a43d5230265d997f8e3da8f73587e8",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:42:55.745548+00:00"
+}

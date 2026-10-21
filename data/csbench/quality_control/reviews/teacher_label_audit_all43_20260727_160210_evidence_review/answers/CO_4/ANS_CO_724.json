@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_724",
+  "category": "label_supported",
+  "summary": "主存图tag错误为12位，Cache图还混入有效位，但参数推导及两个访问结论、转换有部分正确；教师2+3+3+3=11可成立，旧模型8～20的极大差异不是可靠标签证据。",
+  "teacher_issue": "",
+  "model_issue": "首轮漏评两幅图，后续若给20又忽视主存tag12/4/11共27位及Cache有效位混用，存在低估与高估两方向。",
+  "original_image_observations": "前文组16、偏移11、组内1，主存块数2^12；左Cache图有效位/4/1/11+2，右主存图12/4/11+3；两个地址正确二进制和不能/能，各+3。",
+  "evidence": [
+    "正确主存tag8位，图中12位确错误，不是完全正确的作答被无故扣9分。",
+    "原图有图形字段内容，不能仅以转录‘如图’归零。",
+    "教师对两正确访问结论给实质部分分，未将缺比较过程给满分。"
+  ],
+  "uncertainties": [
+    "错误格式中保留方法分的精确权重未由官方细化。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "21c34ae2635a759c4378a2c9c1086675aade725235e105cca3c82b168d90e3ee",
+  "teacher_score": 11.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:47:19.236675+00:00"
+}

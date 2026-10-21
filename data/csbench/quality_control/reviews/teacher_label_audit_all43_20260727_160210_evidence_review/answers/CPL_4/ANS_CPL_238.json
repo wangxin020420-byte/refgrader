@@ -1,0 +1,61 @@
+{
+  "question_id": "CPL_4",
+  "answer_id": "ANS_CPL_238",
+  "category": "teacher_suspect",
+  "summary": "仅第二数错为18，三组明示各2的外对正确，教师5可能低给。",
+  "teacher_issue": "至少19/16、20/15、24/24三对正确，各2已达6，且中部无交换；教师5低于这部分明示分，应复核低给。",
+  "model_issue": "三次全空白不符原图；第二数错误不能清掉三组正确外对。",
+  "original_image_observations": "原图5；第二数清楚为18，其他九位置与参考一致。",
+  "evidence": [
+    "按原图最终有效行手工读取：19 18 20 24 5 22 24 15 23 16。",
+    "对照程序实际输出，差异位置（1起算）：2。",
+    "位置1/10、3/8、4/7三对均正确，原说明各2，已至少6；无中心交换扣分。"
+  ],
+  "uncertainties": [
+    "需核第二数字迹或原题版本，不自动把5改8或9。"
+  ],
+  "verified_output": {
+    "manually_read_final_sequence": [
+      19,
+      18,
+      20,
+      24,
+      5,
+      22,
+      24,
+      15,
+      23,
+      16
+    ],
+    "program_output": [
+      19,
+      28,
+      20,
+      24,
+      5,
+      22,
+      24,
+      15,
+      23,
+      16
+    ],
+    "mismatching_positions_1_based": [
+      2
+    ],
+    "only_middle_swap": false,
+    "method": "manual_original_image_inspection_then_offline_position_check"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3c7e09d58913b2f56d2cf2f10cd820bfce2bb14ad837646d0bfb710092a5e43e",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:51:59.158038+00:00"
+}

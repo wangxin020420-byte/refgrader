@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_192",
+  "category": "label_supported",
+  "summary": "分类正确且树结构正确，属性仅部分公式与底层值，教师6有部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "把右子树A→S→c误接成b→c，不能据此否定结构。",
+  "original_image_observations": "左旧字划掉后答S属性；右完整树根x=A.x+1，中A的x=A1.x+S.x，左S标x=0，右A附近箭头写x=S.x，底S标x=0，没有根及中间节点最终数值。教师6。",
+  "evidence": [
+    "结构符合标准，部分语义公式正确。",
+    "右侧中间S自身属性未清晰标完，各节点数值未全部求出，因此并非完整标注答案。"
+  ],
+  "uncertainties": [
+    "属性表达式与数值要求的细分分值、箭头定位需统一，不自动按未化简全扣。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c6e88aa1a49862e47687c3d4a22ab295f00a912f6a0188ee95fd03e0c1067d34",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:46:45.608833+00:00"
+}

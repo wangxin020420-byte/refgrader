@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1626",
+  "category": "label_supported",
+  "summary": "首保存PC/送PC/返回有过程但关中断时序与开中断缺失获3；表8正确、图漏B后A获6，教师17有明确扣分依据。",
+  "teacher_issue": "",
+  "model_issue": "图不能仅由纵轴D/C/B/A和同时到来就判满7；实际B直接上D，官方应先回A。首先入栈再关中断且未写开中断，模型全5亦不充分。",
+  "original_image_observations": "页眉17，1:3、2:8、3:6。首得到信号、先断点压栈再关中断、服务地址送PC、结束出栈续原程序，无明确开中断。MDMCMBMA表四行0001/1011/1111/1001。图用户→A→B→C→B→D→A→用户，B上D红圈，局部白块不遮主要转换。",
+  "evidence": [
+    "首有实质PC保存跳转恢复，3合理保留方法；时序和允许条件/再开中断未完整，应扣。",
+    "图初次A/B/C和C回B正确，只漏B后回A的短段，教师6有依据。",
+    "表8完整，合17与可见局部扣分吻合，不按模型19.5或20判教师低给。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "75e1019502d801c869dc32c818f38a447780f832343b49646d3790665f8636e4",
+  "teacher_score": 17.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:28:03.680187+00:00"
+}

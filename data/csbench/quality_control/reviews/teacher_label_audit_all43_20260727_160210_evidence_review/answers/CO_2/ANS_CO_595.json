@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_595",
+  "category": "uncertain",
+  "summary": "B00001与其余掩码可由统一交换B/E列解释，且改正后的图正确；教师20是否接受未声明列序需确认。",
+  "teacher_issue": "若默认ABCDE则B错；若按A/E/C/D/B列序，所有行都对应正确关系。没有列表头，暂不认满分标签必错。",
+  "model_issue": "把原本A全1、C/D/E标准值各只给1是无依据的归一惩罚；不能仅说B‘位串反转’，应验证整张表统一映射。",
+  "original_image_observations": "教师20红勾。A11111、B00001、C01101、D01111、E01001，没有位列名；右上旧图斜划掉，下方有效A峰后B-C-D-C-B过渡-E-B回用户。",
+  "evidence": [
+    "列序AECD B下B自身位移到末列，C和E都同时含B/E故位串不变，D也不变；统一解释成立。",
+    "不能据此自动证明学生就是采用该列序，但足以否定必然概念错误的结论。",
+    "新图抢占与返回正确，不拿旧废图扣分。"
+  ],
+  "uncertainties": [
+    "需确认隐含列序是否可接受；当前只能保留条件性判断。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "8ddeccf141b695b6b72a0c650af4c9a87fb2e7ac6c7bb5fad942a452a28f9a86",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:54:02.778720+00:00"
+}

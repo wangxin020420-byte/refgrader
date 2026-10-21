@@ -1,0 +1,46 @@
+{
+  "version": "assisted-label-review-v1",
+  "stage_sha256": "15d1d0eaeeb96784e658a0307020470e3fe14b4b0c9dffc2ec29cb04cc73c743",
+  "input_sha256": "3415700f304af70195f2b7ca296c30f761debf76e55ad453f0279f49c9c95db0",
+  "created_at": "2026-10-20T08:09:48.560368+00:00",
+  "request_url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+  "model": "glm-5.2",
+  "response_id": "20261020160918b7ba4b6c597144ab",
+  "usage": {
+    "completion_tokens": 1422,
+    "prompt_tokens": 7292,
+    "total_tokens": 8714,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 714,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 0
+    }
+  },
+  "review": {
+    "category": "label_supported",
+    "score_min": 6,
+    "score_max": 11,
+    "confidence": 0.6,
+    "teacher_issue": "",
+    "model_issue": "最终校准分4.55偏低：step_1按strict_atomic判0可成立，但step_7(旧ID)在学生给出正确二进制展开(0111 1111 0000 0000 0101 0111，与7F0057H完全一致)且结论'命中'正确的情况下，旧轨迹三次评分为0/1/0，未给任何结论分或部分过程分，与准则中step_7c(结论命中即1分)冲突；旧模型还称该二进制'多出一位'，验算24位写法前补0后为标准24位，属于模型自身计数错误。step_6判0正确（结论'命中'与未命中相反）。",
+    "evidence": [
+      "7F0057H = 0111 1111 0000 0000 0101 0111B（24位），学生转录内容与标准展开逐位一致，且结论'命中'与参考答案一致",
+      "2D07FFH = 0010 1101 0000 0111 1111 1111B，学生写'010101'部分有误且结论'能访问'与参考'未命中'相反，step_6给0分合理",
+      "学生(1)给出'标记8位|组地址4位|块内地址11位'，step_2/step_4应得满分；'32÷2=8组'为算术错误（应16组），step_3结果4位正确但过程矛盾，给1-2分均属合理区间",
+      "学生未写出23位物理地址总位数（仅写'8MB/2KB'），step_1给0-1分均合理",
+      "学生未写Cache地址格式，step_5为0分",
+      "step_7学生在无tag比较过程下仅凭结论可给1-4分，结合step_1~step_5的2+2+2+0~1+0，总分区间约6-11，教师11分处于宽松端但在可辩区间"
+    ],
+    "uncertainties": [
+      "2D07FFH二进制处有涂改痕迹，可能存在转录遗漏的中间过程",
+      "step_7未说明理由时教师给分严格程度无原细则权重，无法确定教师各子项分配，只能按区间判断",
+      "step_3'8组'与'4位'自相矛盾，教师可能按结果宽松给满2分或按过程扣至1分"
+    ],
+    "summary": "教师11分位于合理评分区间(6-11)的上端：学生(1)问主存地址格式全对(约6-7分)、Cache地址格式未写(0分)，(2)问2D07FFH结论错误(0-1分)、7F0057H二进制展开正确且结论命中(1-4分)。旧模型最终分4.55明显低估step_7，并存在二进制位数计数错误；教师分可成立但偏宽松，判为label_supported。"
+  }
+}

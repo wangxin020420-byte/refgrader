@@ -1,0 +1,23 @@
+{
+  "question_id": "CO_13",
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "question_image": {"path": "data/csbench/reference_images/questions/CO_13.png", "sha256": "c0e0bd185ffb7e5c333bd9a6d7d98d38cd2b46ebaee32469dd11c6372f5900c7", "observation": "仅提供用户程序及A/B/C/D纵轴、ABCD同时到达横轴；无学生轨迹的空坐标本身不是完整答案。"},
+  "reference_image": {"path": "data/csbench/reference_images/standard_answers/CO_13.png", "sha256": "6610944ffcde2feb2af6fabc53a7854947e45d6ad47ef1e336ecd70a9ca8759a", "observation": "官方阶梯轨迹含用户→A→B→C→B→A→D→A→用户，包括初始A/B短段与B完成后回A短段。"},
+  "mask_order": ["D", "C", "B", "A"],
+  "one_means": "屏蔽",
+  "canonical_masks": {"A": "0001", "B": "1011", "C": "1111", "D": "1001"},
+  "alternate_order_ABCD": {"A": "1000", "B": "1101", "C": "1111", "D": "1001"},
+  "hardware_priority": ["A", "B", "C", "D"],
+  "service_priority": ["C", "B", "D", "A"],
+  "expected_trace": ["user", "A", "B", "C", "B", "A", "D", "A", "user"],
+  "review_rules": [
+    "按原图明确列标题统一换序核对，不逐行任意重排。无列标题且偏离题设固定列序时保留位序不确定性。",
+    "不能把行标题MA等同位列顺序声明，不能用行内1数量相同就认整表相同。",
+    "原图轨迹实线需逐段检查，纵轴标签和OCR无法提取不是学生未作答。",
+    "区分最终处理/完成顺序CBD A与初次硬件响应A/B/C嵌套。",
+    "未画初始B或B完成后回A等短段时，指出缺失及其原因；对是否可省略短段的满分政策不明则保留复核，不把任意局部错误自动判0。",
+    "第一响应过程按实际请求、响应时机、关中断、保存断点、入口转移、恢复与返回等内容保留部分分；泛泛中断概念不是全部5分的充分证据。",
+    "不改变人工决定、教师原分、现有实验检查点或冻结任务指纹。"
+  ]
+}

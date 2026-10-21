@@ -1,0 +1,34 @@
+{
+  "question_id": "ML_2",
+  "answer_id": "ANS_ML_88",
+  "category": "teacher_suspect",
+  "summary": "原图最终式保留整条取反线，实为正确函数的等价德摩根形式；模型漏外层取反判错，教师仅2分需复核是否仅因未写最简与或式扣分过多。",
+  "teacher_issue": "有完整电路推导且最终函数等价，按接受等价结果的政策不应因‘逻辑不正确’扣分；若题目严格要求最简与或形式，应明确形式扣分依据，不能把其当取反错误。",
+  "model_issue": "模型按转录的无外层反相的ĀB+ĀC+ĀD+...判根本错误；原图外层长横线及每字母反相未被正确保留。",
+  "original_image_observations": "教师2分红叉。第一式电路外层NAND反相完整；中间为外反相下(Ā+B̄C̄D̄)(B̄+C̄+D̄)；末式仍有覆盖全和式的长取反线，内部为ĀB̄+ĀC̄+ĀD̄+B̄C̄D̄。",
+  "evidence": [
+    "对原图末式NOT[(NOT A AND NOT B) OR (NOT A AND NOT C) OR (NOT A AND NOT D) OR (NOT B AND NOT C AND NOT D)]枚举全部16组输入，与参考函数无不一致。",
+    "该形式可化为(A+B)(A+C)(A+D)(B+C+D)=A(B+C+D)+BCD。",
+    "正确函数等价与题目最简与或形式是两个不同判断，建议优先人工确认2分的实际扣分原因。"
+  ],
+  "uncertainties": [
+    "题干明确要求最简与或式，原图最终仍是带外反相的式子；是否允许等价形式直接满分需统一政策，本记录不自动把2改4。"
+  ],
+  "transcript_conflicts": [
+    "覆盖末式全体的外层反相线漏失，内部多个取反及C字母也错读。"
+  ],
+  "evidence_strength": "verified_boolean_equivalence_with_form_requirement_caveat",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "06f7eeb2c6d165309fb3392825c1293bb3375fbba918bd8c5076f2bae6031506",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:13:37.692604+00:00"
+}

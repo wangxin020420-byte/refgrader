@@ -1,0 +1,37 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1320",
+  "category": "model_or_extraction_issue",
+  "summary": "三个结果及R占前缀、J留一前缀扩2位的逻辑完整正确，教师15合理；历史24/30/24同时重复父子计分，不能用作标签异常依据。",
+  "teacher_issue": "",
+  "model_issue": "J‘有一条’结合后文前5位固定和2^2=4表示一个预留前缀，不是与J4矛盾；公式指数已给字段位数，不必重复参数标签。父子累计令总分超15。",
+  "original_image_observations": "页眉15，三项各5。R前5位00000，I不能用且J存在，I2^5−1−1=30；J预留一条位置、前5位固定、最多2^2=4；R Opcode不受限制2^5=32，红勾。",
+  "evidence": [
+    "I32−2与逐一减R/J两个前缀等价。",
+    "J不是另开五位自由前缀，而是固定前5再扩2，符合图中7位Opcode。",
+    "probe列各sub分又列同一步父分，24/30/24超过15，分差不可解释为教师低给。"
+  ],
+  "uncertainties": [],
+  "historical_score_contract_issue": {
+    "max_score": 15,
+    "recorded_scores": [
+      24,
+      30,
+      24
+    ],
+    "observation": "父项汇总和子项在历史probe并存重复累计。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "45c5cc3ef53eff4bcdc68815e3703d77b301a6d132bec7b1c6f9ef7424d9d280",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:37:26.853427+00:00"
+}

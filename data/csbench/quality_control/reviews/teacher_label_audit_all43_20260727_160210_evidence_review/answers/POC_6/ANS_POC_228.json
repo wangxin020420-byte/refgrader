@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_228",
+  "category": "label_supported",
+  "summary": "类型答成乔姆斯基1型，树与属性公式有尝试但缺节点和数值，教师2有部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "模型补造学生写了仅综合及无继承等完整说明，原图没有；不能据历史9.2反推教师低给。",
+  "original_image_observations": "左写乔姆斯基1型文法；中树S到a,A,b，A分A1及S，左A1到S到c，右S到a,A,b后A直接到c缺一层S。右列语义规则与产生式编号，底S.x=0，未完成根及中间数值。教师2。",
+  "evidence": [
+    "有正确A→AS和S→aAb的主体过程，可给部分分。",
+    "遗漏右下S节点且只抄公式未标全部值，不支持满分。"
+  ],
+  "uncertainties": [
+    "具体2分的过程权重未给，不精确重评分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b15107d1bb695215d97ec2ff1a10aeeb4d5e00a1a0f41625ec6d8bd9d8932d16",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:46:45.593025+00:00"
+}

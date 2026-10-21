@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_288",
+  "category": "model_or_extraction_issue",
+  "summary": "原图4-10-16位扩展、保留窗口和两结果255、128均正确，教师满15合理；转录的加12、错指数及额外10是提取失真。",
+  "teacher_issue": "",
+  "model_issue": "部分模型轮次依据转录的(2^4+12)、2^16-4及底数10解释为笔误或扣分，原图实际有效公式无这些问题。",
+  "original_image_observations": "教师15红勾。写4-10-16扩展编码，(2^4-12)×2^(10-4)-1=255；第二问pre=(2^4-12)×2^(10-4)-254=2，最后2×2^(16-10)=128，2前有被划掉小笔迹。",
+  "evidence": [
+    "两处均为减12，不是转录加12。",
+    "指数10-4表示6位扩展，第二末指数16-10也是6，均物理及数值正确。",
+    "完整过程支持正确结果，无教师过给证据。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "减号读成加号，指数范围丢失，末式划掉笔迹被识别为额外10。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "55b08c93a009271d484f08c42eea07d038206320b9101f910ea3a3fc645d5394",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:33:52.191264+00:00"
+}

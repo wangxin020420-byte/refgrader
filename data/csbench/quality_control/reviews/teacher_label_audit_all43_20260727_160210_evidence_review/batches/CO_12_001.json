@@ -1,0 +1,123 @@
+[
+  {
+    "question_id": "CO_12",
+    "answer_id": "ANS_CO_1334",
+    "category": "model_or_extraction_issue",
+    "summary": "教师16可由寄存器部分分、正确a/b图号取指通路、读写部分分及正确格式构成；模型把图中a/b标签当错误寄存器名，大幅低估。",
+    "teacher_issue": "",
+    "model_issue": "取指M→a→b→控制器按题图就是M→DR→IR→CU，不应仅给1分；容量虽未算出，但格式3/4/4/2、3、8完整。",
+    "original_image_observations": "教师16，分项约3/4/3/0/1/5。a缩写似DR、bIR、cDB、d草写PC；第二问主存经a再b到控制器；第三问M→a→ALU→AC→a；第四空；后面推13+3+8并画格式。",
+    "evidence": [
+      "题图a、b本是合法引用，第二问路径完整，不受第一问缩写辨字连带全扣。",
+      "第三问读路径已完整，写仅到a缺M，可合理保留部分分。",
+      "下址8推导正确但未写256×24，教师只给容量1分、格式5分有依据。"
+    ],
+    "uncertainties": [
+      "a及d缩写字形接近DB/PL，但结合图号和后续路径可理解，不能只按转录三项错得1分。"
+    ]
+  },
+  {
+    "question_id": "CO_12",
+    "answer_id": "ANS_CO_1456",
+    "category": "model_or_extraction_issue",
+    "summary": "原图格式图及控存2^8×24=6144bit正确，主要轻微缺失为读数据路径未单独写最后ALU→AC；教师24合理，模型漏图及错读24导致扣到16～19。",
+    "teacher_issue": "",
+    "model_issue": "容量式原图乘24而非16；第六问3/4/4/2/3/8框图真实存在却被当泛泛如图、BLANK，重复遗漏5分。",
+    "original_image_observations": "教师总24清楚，页眉分项靠近正文，未据此确定具体扣1分位置。寄存器和取指完整，写ALU→AC→DR→M、读M→DR→ALU；ADD执行两输入、加法、ALU→AC齐全；右下容量2^8×24=6144bit，底框六段3/4/4/2/3/8。",
+    "evidence": [
+      "六段位数和总24完整，不可当未书写。",
+      "原图容量和6144均精确正确。",
+      "即使对读路径末边或格式标注扣少量分，也不能解释旧模型漏图式大幅低分；教师24有支持。"
+    ],
+    "uncertainties": [
+      "教师扣1分的具体分项未可靠辨清；读路径末边或格式细节可人工复核，不自动要求改25。"
+    ],
+    "transcript_conflicts": [
+      "容量乘数原图24，转录16；第六问图未转写。"
+    ]
+  },
+  {
+    "question_id": "CO_12",
+    "answer_id": "ANS_CO_1422",
+    "category": "teacher_suspect",
+    "summary": "准备标签为25，但原图红叉且可辨分项非满分，寄存器、数据通路和判断字段也有实质错误；优先核查标签与原图评分的关联，不直接当教师真的满给。",
+    "teacher_issue": "现有teacher_scores记录25与原图非满分分项冲突，可能是原始标签关联或转入错误；即使不依赖遮挡的总分，多项未完成也不支持整题满分。",
+    "model_issue": "模型首轮声称b=DR、c=IR正确，与题图a=DR/b=IR/c=AR锚点相反；它的4～14也不可直接用来替代标签。",
+    "original_image_observations": "页眉总分部分被黑笔遮盖，仍可辨至少1:2、3:2等非满分红色分项，末有红叉。a写通用寄存器、bDR、cIR、dPC；取指/读写多缺节点；容量外部条件按2位导致9位地址，2^9×24；第六写执行微操作而非格式。",
+    "evidence": [
+      "data/csbench/teacher_scores.json及冻结任务均给ANS_CO_1422的CO_12为25，非当前UI临时计算。",
+      "原图有明确非满分评分痕迹，25标签需先查来源，不能误报为教师全部放过错误。",
+      "条件采用直接控制应3位，按2位算9位下址并非正确容量。"
+    ],
+    "uncertainties": [
+      "图上总分受墨迹遮盖，不指定原教师实际总分；尚未定位原始外部数据导入的具体环节。"
+    ],
+    "evidence_strength": "prepared_label_full_mark_conflicts_with_visible_partial_marks",
+    "source_score_observation": {
+      "prepared_teacher_score": 25,
+      "image_total": null,
+      "visible_partial_marks": true
+    }
+  },
+  {
+    "question_id": "CO_12",
+    "answer_id": "ANS_CO_1417",
+    "category": "teacher_suspect",
+    "summary": "准备标签25与原图明确12分不一致；前3问正确、后面未完成，属于优先核查的标签来源冲突，不能把25当原教师实际满分。",
+    "teacher_issue": "data/csbench/teacher_scores.json记录25，原图页眉‘评分12’及大号得分12清楚，需核对分数导入或样本关联。保留现有文件，不自动覆盖为12。",
+    "model_issue": "模型把中文程序计数器当缺PC而扣1分也不合理，前三问实际完整；但它指出后两问空白有原图支持。",
+    "original_image_observations": "原图教师12红叉，前3问各4、后面0。aDR、bIR、cAR、d程序计数器PC；取指及存取两路径齐全；ADD仅标题和划掉句子，容量草稿划掉后只剩AX进缓冲器叙述，未给容量和格式。",
+    "evidence": [
+      "前三问4+4+4=12与原图总分相符。",
+      "后两问并非提取漏掉完整图，而是原图确未完成。",
+      "已有标签25与原图12构成直接数值冲突，应列标签问题并追溯来源，而非直接指控教师满给。"
+    ],
+    "uncertainties": [
+      "尚未确认冲突源于上游原始评分字段、数据关联还是人工修改历史；本次不改原始标签。"
+    ],
+    "evidence_strength": "confirmed_prepared_25_vs_image_12",
+    "source_score_observation": {
+      "prepared_teacher_score": 25,
+      "image_total": 12,
+      "visible_partial_marks": true
+    }
+  },
+  {
+    "question_id": "CO_12",
+    "answer_id": "ANS_CO_1381",
+    "category": "model_or_extraction_issue",
+    "summary": "原图顶部四寄存器名称正确而转录漏掉，前3问已可支持12分，ADD及格式还有部分分；教师17合理，模型漏读首问压低。",
+    "teacher_issue": "",
+    "model_issue": "把‘需要查看图像’当学生原话并将首问空白；另称ALU→AC→DR→M没回AC，实际上路径明确先回AC，可扣额外写主存但不能否认AC结果。",
+    "original_image_observations": "教师17，分项4/4/4/2/2/1。顶部手写a数据缓冲、b指令、c地址、d程序计数器；取指与存取齐全；ADD有DR和AC入ALU、加法并ALU→AC再写M；容量14×24=336错误；末格式草图部分位数。",
+    "evidence": [
+      "第一问4个中文名称实际在图顶，不能按无转录归零。",
+      "容量把命令数当微指令条数，最终错误，但乘字长24的关系可给少量过程分。",
+      "17可由前3问12、ADD2、容量2、格式1解释，不支持教师严重过给。"
+    ],
+    "uncertainties": [
+      "格式图第二字段有改写不清，教师仅1分已体现不完整，未视其全对。"
+    ],
+    "transcript_conflicts": [
+      "顶部首问四寄存器整段未进入文本转录。"
+    ]
+  },
+  {
+    "question_id": "CO_12",
+    "answer_id": "ANS_CO_1424",
+    "category": "teacher_suspect",
+    "summary": "教师14中取指路径和ADD有明显错误、格式空白仍似获分，疑似部分分过给；同时模型把正确存取路径归零也错，不能直接采纳其3～4分。",
+    "teacher_issue": "原图取指绕到地址寄存器再回M而获4分，ADD未写两输入及ALU回AC，格式无设计却页眉第六有1分，需核查具体给分依据。",
+    "model_issue": "第三问连续写M→DR→ALU→AC→DR→M，已经含正确读写两段，模型称写路径反向是错误；c‘指令地址寄存器’也可视AR而非必错。",
+    "original_image_observations": "教师14，页眉约2/4/3/2/2/1。a数据、b指令、c指令地址、d数据缓冲错误；第二问M→缓冲→指令地址→M→IR→控制器；第三问含完整读写链；第四M→地址寄存器→IR→ADD→DR→AX；容量24×30=720，末无格式。",
+    "evidence": [
+      "正确第三问应保留实质分，不能把所有题都按模型低分否定。",
+      "第六未设计任何位数字段，1分没有可见支持。",
+      "第五把30条微命令当控存条数，虽有容量乘字长的形式，仍非正确下址容量计算。"
+    ],
+    "uncertainties": [
+      "页眉题号有重复印写，分项辨识需人工核对；若原教师14按其它分配给分，仍需解释错误取指和空白格式。"
+    ],
+    "evidence_strength": "possible_overcredit_wrong_fetch_and_unwritten_format"
+  }
+]

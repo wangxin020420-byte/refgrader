@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_4",
+  "answer_id": "ANS_POC_92",
+  "category": "label_supported",
+  "summary": "多位数位置约束基本正确，但用星号宏且漏一位数，教师2有部分分支持。",
+  "teacher_issue": "",
+  "model_issue": "C为末位，能取0不意味着前导零；D为正号也不能据此抹掉首非0和末偶数的正确结构。",
+  "original_image_observations": "上部写+非零数字组、数字组星号、偶数字组；下写S→DAB*C，A非零数字，B全数字，C含0的偶数，D→+。教师2。",
+  "evidence": [
+    "A限制首个数字非0，C限制末位偶数，B星号意图任意中间串。",
+    "最短仍A和C两数字，一位正偶数未覆盖，且未用普通产生式展开星号。"
+  ],
+  "uncertainties": [
+    "显式正号是否作为可接受正数表示，需统一语言约定，不将该约定争议当核心算法错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f4009c1ebb69f62bbd2a7e94b6405dddd1a4ac1358605d568cd29fc625aadf8c",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:05:35.709081+00:00"
+}

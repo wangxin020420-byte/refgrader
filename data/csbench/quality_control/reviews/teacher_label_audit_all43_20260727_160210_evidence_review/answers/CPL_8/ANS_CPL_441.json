@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_8",
+  "answer_id": "ANS_CPL_441",
+  "category": "teacher_suspect",
+  "summary": "sizeof(float(*)[5])*100取指针大小而非一行大小，第9空满2及总10需复核。",
+  "teacher_issue": "第9空指针类型含(*)，sizeof得到指针大小；100倍仍非100×5个float，原图红2。",
+  "model_issue": "前两次模型把sizeof指针误称20字节，错误支持满分；第三次8较能反映该空问题。",
+  "original_image_observations": "前3空及第10空为正确形式；第9空清楚sizeof(float(*)[5])*100，五空均红2，总10。",
+  "evidence": [
+    "正确按行申请可写100*sizeof(float[5])或100*sizeof *player，不能写sizeof(float(*)[5])。",
+    "按常见32/64位指针分别4/8字节，该式通常400/800，均不是官方2000。"
+  ],
+  "uncertainties": [
+    "具体应保留多少容量计算过程分需细则；不能自动确定最终8或9。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0ad611329feccca8fc688a4105ef2d43171500fe157306f34c6753d6c2fe3755",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T02:02:59.108565+00:00"
+}

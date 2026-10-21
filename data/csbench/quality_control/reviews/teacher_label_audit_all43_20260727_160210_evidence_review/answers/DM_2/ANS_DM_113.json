@@ -1,0 +1,28 @@
+{
+  "question_id": "DM_2",
+  "answer_id": "ANS_DM_113",
+  "category": "label_supported",
+  "summary": "自反和传递完整，对称误用坐标交换；教师8可对应正确两项7分加对称思路1分，模型三轮满分漏扣概念错误。",
+  "teacher_issue": "",
+  "model_issue": "将a+b=b+a及(a,b)R(b,a)视为一般对称证明，遗漏任意(a,b)R(c,d)推出(c,d)R(a,b)的要求。",
+  "original_image_observations": "教师8红叉。自反任意(a,b)自身相R；第二只(a,b)R(b,a)；第三明确任意(e,f)，双前提和等式链及(a,b)R(e,f)齐全。",
+  "evidence": [
+    "3分自反、4分传递均有完整证据，应保留。",
+    "对称须交换R的两个参数，不是一个参数的两个坐标。",
+    "教师扣2与这一缺陷相容，不能按三次10分认定教师少给。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2c32bbe524b4648f81df65c502d2cb710785324d1accf6a6f3b9706906817c87",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:42:06.392906+00:00"
+}

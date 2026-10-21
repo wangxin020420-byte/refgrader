@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_1",
+  "answer_id": "ANS_ISC_405",
+  "category": "uncertain",
+  "summary": "资金需求上升是有效经济挑战，其他内容宽泛，教师3的开放题权重待确认。",
+  "teacher_issue": "若仅经济一点加巨型化、网络化就给3是否过宽需原始评分口径。",
+  "model_issue": "技术突破困难、资金增加具有可认部分分，模型0.55的等分权重不能作为原始唯一标准。",
+  "original_image_observations": "挑战技术革新瓶颈、突破困难缓慢、资金需求增加；应对巨型化、网络化，教师3。",
+  "evidence": [
+    "资金需求增加对应经济性挑战。",
+    "巨型化网络化只列趋势，没有展开工程方法，不能自动补成新架构技术。"
+  ],
+  "uncertainties": [
+    "宏观趋势认可范围和经济一点权重未给，不自动改分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e9a9a7d63de4fdc605e2da559c4c260fc1e3dd4150ee8f7c63f02e6fef9188e0",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:24:18.645951+00:00"
+}

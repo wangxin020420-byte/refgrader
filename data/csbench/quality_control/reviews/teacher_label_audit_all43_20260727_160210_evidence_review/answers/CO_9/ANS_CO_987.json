@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_987",
+  "category": "teacher_suspect",
+  "summary": "数量正确6分，ROM两个片选同为三变量000而没有A12，RAM式也只给抽象输入及极性约定不清；教师第二问7/9需优先复核实现条件。",
+  "teacher_issue": "ROM两片完全同选已明确错误；若按原图低有效CS横线理解，右侧正最小项又会在非目标地址低，需确认是否给RAM过多分，不能仅列状态就满。",
+  "model_issue": "首轮15直接称CS1/CS2同为000符合Y0/Y1，逻辑上矛盾；其余7/14说明该模型证据判断不稳定。",
+  "original_image_observations": "教师13，1:6、2:7。设译码输入x/y/z，左边各CS有横线；CS1和CS2同x̄ȳz̄，CS3～CS9依次三位001至111乘积；没有A12分ROM或实际地址输入说明。",
+  "evidence": [
+    "两ROM即使同属最低8K，也要区分两4K段，不能同选。",
+    "七RAM状态列举有方法价值，可保留相应部分分。",
+    "缺少地址映射及低有效转换使其不是完整正确实现，7/9是否只扣同选而忽略这些条件需人工核查。"
+  ],
+  "uncertainties": [
+    "学生横线CS可能作为有效性记号而非运算反相，需要统一符号解释；本记录不按极性争议直接给全零。"
+  ],
+  "evidence_strength": "possible_overcredit_missing_ROM_split_and_signal_definition",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4b6edfc70f7b3727344d747ca8feabd5e2774c21968dc2073ba1f0beb4542a02",
+  "teacher_score": 13.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:17:15.786487+00:00"
+}

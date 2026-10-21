@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_620",
+  "category": "teacher_suspect",
+  "summary": "没有五掩码，教师15超过排序与图的最高10，需核对漏裁或标签来源。",
+  "teacher_issue": "所有可见有效内容只有处理排序和服务图，缺独立10分掩码项。",
+  "model_issue": "上方及左部旧图有划线，不能把作废峰拼入有效图；模型图满8也无法支持教师15。",
+  "original_image_observations": "教师15红勾叉。ADC EB；右上旧图斜线作废，左下旧峰阴影划掉；保留右下A-D-C-E-B附近矩形服务段，无屏蔽字表或集合。",
+  "evidence": [
+    "无论有效图给4、6或8，排序2加图仍不超10。",
+    "不能从排序推测未写的五个掩码全对。",
+    "疑点包括原答案裁切不全，当前标签证据需要复核。"
+  ],
+  "uncertainties": [
+    "应查整卷是否另有掩码页，不改动或删除现有人工记录。"
+  ],
+  "evidence_strength": "strong_score_evidence_gap_missing_mask_table",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "659f5c9e42736a76d289ca6dde7c1664b7378f120f372c1733ad335861466e10",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:37:34.034290+00:00"
+}

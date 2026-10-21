@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_279",
+  "category": "uncertain",
+  "summary": "两问公式完整正确，第二问128正确；第一问手写末值255与225存在辨字歧义，教师满15是否需扣一次算术分取决于原字确认，不能据转录225直接定教师错。",
+  "teacher_issue": "如果末值确为225，则应按正确过程加错误末步的政策复核结果分；如果是255，满分完全有依据。",
+  "model_issue": "模型部分轮次除第一结果外还漏评完整过程；首轮将2^7=128称算术笔误也不成立，说明理由有误。",
+  "original_image_observations": "教师15分红勾。第一式(2^4-12)×2^6-1正确，末三位数写得相近，转录225，原图中间字形接近2或草写5；第二问((2^4-12)×2^6-254)×2^6=2^7=128清楚。",
+  "evidence": [
+    "第一公式精确等于255，第二公式精确等于128，全部关键扩展关系正确。",
+    "疑点限第一末值的一个数字，不应把整条正确过程归零。",
+    "教师15与模型5～10的差异不能证明严重错标，须先解决图文冲突。"
+  ],
+  "uncertainties": [
+    "第一问中间数字需更清晰图或人工确认；明显笔误是否容许满分也需统一政策。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f1a6bcd31c56be7cb3d9fc06366e8b404036f54b109f213bf97a646af5371a4b",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:18:17.553272+00:00"
+}

@@ -1,0 +1,38 @@
+{
+  "question_id": "CO_1",
+  "answer_id": "ANS_CO_24",
+  "category": "uncertain",
+  "summary": "字段37H和第一次查表34H均正确，但末仍把34H当内容；教师2与现行过程3.5有差异，是否漏过程需确认旧分配。",
+  "teacher_issue": "原图明确写37H中存储内容34H，正确上游比仅裸答34更充分，若按当前步骤权重应不只2；旧官方未公开细分，保留待核。",
+  "model_issue": "三轮3.5的依据能对应正确上游，但不能直接把优化后拆分权重当原教师唯一分配。",
+  "original_image_observations": "教师2红勾叉。I=1、地址字段110111=37H；第二句将旧数划掉改其地址内存内容34H；末访问的操作数内容34H。",
+  "evidence": [
+    "第一次访问M[37H]=34H在文字题面下正确。",
+    "少最后访问M[34H]，不能满分；上游已有证据不应随错误最终一并抹去。",
+    "2是否少给1.5取决于原评分部分分规则，需区分新准则与历史教师标签。"
+  ],
+  "uncertainties": [
+    "旧官方只有一个5分结果项，未规定字段和有效地址的精确分配。",
+    "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+  ],
+  "question_source_conflict": {
+    "question_id": "CO_1",
+    "text_source": "data/csbench/exam_database.json",
+    "question_image": "data/csbench/reference_images/questions/CO_1.png",
+    "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+    "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "fbbed5637b363414da7f24a056424c2728874c3120f0dfda9220d72fce792080",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:08:38.233786+00:00"
+}

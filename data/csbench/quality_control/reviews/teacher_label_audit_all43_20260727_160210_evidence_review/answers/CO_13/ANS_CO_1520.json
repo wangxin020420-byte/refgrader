@@ -1,0 +1,42 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1520",
+  "category": "teacher_suspect",
+  "summary": "准备标签记20，但原图总分及页眉均为18、分项4+8+6；优先归类标签来源/关联冲突，不能说原教师给了满20。",
+  "teacher_issue": "冻结任务及teacher_scores.json给20，与原图18不一致，需要核分数导入或样本对应。原图教师已扣首1与图1，不属于明显未扣错的满分卷。",
+  "model_issue": "四行屏蔽字完全正确，模型却把D1001说成错误；轨迹真实存在，未提取连线不能直接低给。",
+  "original_image_observations": "原图红色得分18，页眉评分18且1:4、2:8、3:6。首关中断、置屏蔽、保护现场、开中断、服务、关中断、恢复现场。表MDMCMBMA四行0001/1011/1111/1001。图A后上C缺B短段，C后回A再上B、B后A上D、D后A再用户，入C红圈。",
+  "evidence": [
+    "标签20与原图18为直接分数冲突，原图4+8+6也恰好18。",
+    "屏蔽表8正确，图局部缺B嵌套且教师只给6，原教师18有具体部分分依据。",
+    "不把模型3至9当新教师分，也不直接改底层标签，先保留冲突供人工确认。"
+  ],
+  "uncertainties": [
+    "20产生于提取、关联、历史更改还是其他来源尚未定位，不能推断为原教师打错。"
+  ],
+  "score_source_conflict": {
+    "prepared_teacher_score": 20,
+    "visible_original_total": 18,
+    "visible_original_subscores": [
+      4,
+      8,
+      6
+    ],
+    "prepared_source": "data/csbench/teacher_scores.json",
+    "automatic_correction": false
+  },
+  "evidence_strength": "direct_prepared20_vs_original18_score_source_conflict",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f09c374f883e2eb9081fc856a2ebb2bcb78792ab79d999ecbe2fc77f4ca52aaf",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:11:46.590196+00:00"
+}

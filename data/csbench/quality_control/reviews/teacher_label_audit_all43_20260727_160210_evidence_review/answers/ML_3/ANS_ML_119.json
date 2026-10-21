@@ -1,0 +1,28 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_119",
+  "category": "model_or_extraction_issue",
+  "summary": "三组函数正确，教师6分成立；旧模型将y1下标视作列举逗号，误判没有AND表达式。",
+  "teacher_issue": "",
+  "model_issue": "把K2=y1x、J2=y1x读为y,x并以此扣整组分。",
+  "original_image_observations": "逐行K1=x、J1=x、K2=y1x、J2=y1x、z=y1y2x；右上另有已划掉的次态草稿；教师6。",
+  "evidence": [
+    "K2/J2的y后为下标1，旁接x表示逻辑与。",
+    "已划掉的草稿不构成保留答案的矛盾。",
+    "旧模型4/4/6分低分的具体原因可由图像反证。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "cb379b0bd6c4c076bce288b7f17d1fc05c939042c5824035319e23a89526ef6f",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:34:40.496943+00:00"
+}

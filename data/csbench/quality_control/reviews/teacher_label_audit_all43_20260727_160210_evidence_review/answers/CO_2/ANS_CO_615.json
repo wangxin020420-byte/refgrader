@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_615",
+  "category": "uncertain",
+  "summary": "掩码可能按处理优先级ADC EB列位而等价，图却多画一次C及回用户；18是否合适取决于列位约定和图形部分分。",
+  "teacher_issue": "若按未声明的ABCDE位序三行错，18过宽；若按ADC EB位序掩码全对，仅图扣2可能成立，暂不定教师错误。",
+  "model_issue": "逐串比较前未核列位；又把真实画图说成文字描述，未识别图中多余C峰。",
+  "original_image_observations": "教师18红勾叉。按A/D/C/E/B次序列掩码11111/01111/00111/00011/00001，无列表头；图A后回用户，B-C-D-C-B后又一C峰、再E峰回B与用户。",
+  "evidence": [
+    "在ADC EB列序下，五掩码正是按优先级逐层屏蔽的完整集合。",
+    "没有列序明示，不能直接将其强按ABCDE判三个概念错，也不能无条件当全对。",
+    "图正确含D打断C和返回C，但重复处理C、过早回用户属需扣的部分。"
+  ],
+  "uncertainties": [
+    "需确认教师是否接受按处理优先级排位及该图缺陷的部分分，18暂不自动修改。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ccba481a4543d4fa35aeb6b77bd842e17ede96880c47eb50404cb719f45762aa",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:21:22.908241+00:00"
+}

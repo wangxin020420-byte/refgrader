@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_951",
+  "category": "uncertain",
+  "summary": "最终另写ROM2、RAM7正确，但左侧式子仍用16K与48K并改末数，教师数量题满6是否按末答案或有效过程给分需确认。",
+  "teacher_issue": "若要求公式自洽，16K/4K≠2、48K/8K≠7应扣对应过程；若原数量项允许裸正确结论，则右侧2和7能支持6分，当前不自动判教师错。",
+  "model_issue": "模型事实漏读原图右侧ROM2并称有16^2个；实际是改写数字2。将错误48K/8K等于7称算术恰好正确也不成立。",
+  "original_image_observations": "教师6，1:6、2:0。开头写低8KW；左ROM分子改16K×16、RAM分子48K×16，结果改2和7；右侧独立汇总ROM2个、RAM7个。第二问仅复述题干后‘片选信号逻辑表达式：’空白。",
+  "evidence": [
+    "最终数量有明确正确文字，不能按原模型0～3说完全未作答。",
+    "左侧两错误容量与最终值不一致，不能忽略为完整有效计算。",
+    "第二问空白给0正确，争议限定第一问的过程与结论政策。"
+  ],
+  "uncertainties": [
+    "末结果改写是否代表纠正了错误容量但未同步修改公式，无法仅凭图定案。"
+  ],
+  "transcript_conflicts": [
+    "ROM末数字是修改为2，并非16^2；右侧RAM7被转录为1。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "db8f8117333cbfb3583985aaa4c0c4d25fdadffabff0818b9beb5f36d092187b",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:17:15.783483+00:00"
+}

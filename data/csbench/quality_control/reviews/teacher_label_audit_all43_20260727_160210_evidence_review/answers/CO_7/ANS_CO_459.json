@@ -1,0 +1,29 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_459",
+  "category": "model_or_extraction_issue",
+  "summary": "频率GHz转Hz错误，但周期数及时间关系明确正确；教师各给4分已扣结果分，8分可保留。旧模型零分和低方法分不能证明教师错。",
+  "teacher_issue": "",
+  "model_issue": "把一个频率指数错误传播到整体判零；解释还将1000倍误差说成百万倍，将0.05s混称50秒。",
+  "original_image_observations": "写1/(4×10^6)×2×10×10^4=0.05s和1/(6×10^6)×1×10×10^4=0.017s；教师各+4。",
+  "evidence": [
+    "10×10^4=10^5、CPI乘指令数及除以频率的关系正确。",
+    "原模型0/2.5/0分，没有一致保留正确过程；教师已非满分。"
+  ],
+  "uncertainties": [
+    "官方未细化方法/结果分权重，不另给精确更正分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5112a9985b858975c3df38e68284b4764b60de91fe2832bd45b562fcfd4faeec",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:17:36.431848+00:00"
+}

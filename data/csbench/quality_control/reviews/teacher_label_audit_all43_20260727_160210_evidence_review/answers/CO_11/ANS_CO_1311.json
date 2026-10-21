@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1311",
+  "category": "label_supported",
+  "summary": "学生按错误R11/I9/J7位变长操作码分配算出4/507/1，未解决本题实际编码资源，教师0有依据；模型将4强行当32、11当其他位数是无证据宽容。",
+  "teacher_issue": "",
+  "model_issue": "不能把明确4解释成移位后的32，也不能将11位说成7位笔误。通用扩展公式对错误格式的数学计算自洽，不等于本题R5/I5/J7结构正确。",
+  "original_image_observations": "页眉0，三项各0，红叉。设R x为11位、I y9位、J z7位；x=[(2^7−z)×2^(9−7)−y]×2^(11−9)，约束后取z1/y507/x4，最终R4/I507/J1。",
+  "evidence": [
+    "实际R操作码在末5位且前5固定，不是11位独立扩展层。",
+    "I操作码只有5位，507超出32个前缀的资源上限，非等价计数。",
+    "三项目标与公式结构都不适用，0可解释；模型6.5至15来自把错误答案想象成正确值，不能当教师低给证据。"
+  ],
+  "uncertainties": [
+    "J全操作码7位的识别是局部正确信息，但最终扩展方法与所求数量完全错，是否给极少准备分需原细项；不足以判0标签异常。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ef173f8642e67258658460fd950cdf5d049c11c76f8e4d28ffdb147869631d27",
+  "teacher_score": 0.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:44:41.012872+00:00"
+}

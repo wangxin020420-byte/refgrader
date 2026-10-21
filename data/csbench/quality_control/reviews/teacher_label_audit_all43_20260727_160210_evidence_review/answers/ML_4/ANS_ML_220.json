@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_220",
+  "category": "model_or_extraction_issue",
+  "summary": "有完整五状态图表且主体检测链正确，教师扣1有局部错误依据；模型0分过严。",
+  "teacher_issue": "",
+  "model_issue": "将五状态和下方已划掉的草稿当根本性错误，未保留正确主链的部分分。",
+  "original_image_observations": "最终表A:B/0,A/0；B:A/0,C/0；C:D/0,A/0；D:A/0,E/0；E:A/1,A/0。左侧对应图，下方另一草图被整段划掉。教师5并有红叉。",
+  "evidence": [
+    "输入01010仍能检测输出1，主链A-B-C-D-E成立。",
+    "B的0和D的0应保留末尾0，检测后也应保留010重叠后缀，原答均重置A，确有局部转移错误。"
+  ],
+  "uncertainties": [
+    "扣1是否充分取决于各回退分支权重，现有官方仅给总6分，无法确定精确重评分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "90d4a96a24656a80f26130037b26af96cc075b61a39f85844ea3439fa50e9d09",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:29:16.634306+00:00"
+}

@@ -1,0 +1,39 @@
+{
+  "question_id": "CO_1",
+  "answer_id": "ANS_CO_79",
+  "category": "teacher_suspect",
+  "summary": "六位地址及二/十六进制换算正确，I=1正确，最终38H错误；教师0疑似漏给独立过程分。",
+  "teacher_issue": "原图有未作废的110111₂=55、37H=55，不受未知存储表影响，现行地址项2分有直接证据，零分需复核。",
+  "model_issue": "后两轮3.5可能对有效地址补分过多，不能将37H换算当得到34H；本次只确认字段过程值得部分分。",
+  "original_image_observations": "教师0红叉。上方旧式划掉；保留(110111)₂=55、(37)H=55、I=1，末内容38H。",
+  "evidence": [
+    "二进制110111确为十进制55、十六进制37。",
+    "38H不等于参考37H，不能全分；中间34未写不能补出。",
+    "疑点限定零分漏过程，不采用旧模型3.5自动改标签。"
+  ],
+  "uncertainties": [
+    "原官方未规定地址过程分具体权重，需复核应给多少。",
+    "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+  ],
+  "evidence_strength": "possible_undercredit_correct_address_parse_zero_total",
+  "question_source_conflict": {
+    "question_id": "CO_1",
+    "text_source": "data/csbench/exam_database.json",
+    "question_image": "data/csbench/reference_images/questions/CO_1.png",
+    "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+    "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "57b1934a87e94091af42688328eaa2005bd29edce384c779959b635c0994f1b6",
+  "teacher_score": 0.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:08:38.224736+00:00"
+}

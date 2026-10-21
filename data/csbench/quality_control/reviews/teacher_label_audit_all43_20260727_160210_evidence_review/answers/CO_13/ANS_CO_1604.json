@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1604",
+  "category": "label_supported",
+  "summary": "屏蔽表仅自身屏蔽位四个对角线为0、源间优先关系正确，教师给6/8可解释；图按完成顺序但漏嵌套/返回获5，首3，合14有部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "不能把B1001称标准B，也不能把D0001当标准D；应看到全表统一漏自身位，而非只碰巧两行对。轨迹实线清楚，不能因为转录模糊记空。",
+  "original_image_observations": "页眉14，1:3、2:6、3:5。首关中断→执行→解除→新中断再关。表列MD MC MB MA，行C1011/B1001/A0000/D0001。图用户直接C→B→D→A，未回用户，起始与B/D及末A红圈。",
+  "evidence": [
+    "参考各行清掉自身位后恰为该表，其他中断源屏蔽关系均正确；给6可对应四个自身位各扣部分。",
+    "题设1为屏蔽，未设自身位仍有重入保护疑点，不自动当全8。",
+    "图主要完成顺序正确但缺短响应/返回，5为局部得分，教师未判全对。"
+  ],
+  "uncertainties": [
+    "是否强制自身屏蔽与每位扣分需教师政策确认；首概念链3略宽但不足以确定14必错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "35751e53e47f5dc20a25ebb60169be8d9dd634b44c36fd1e71e0d3dfdf04ab68",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:11:46.591196+00:00"
+}

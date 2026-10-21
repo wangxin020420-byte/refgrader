@@ -1,0 +1,40 @@
+{
+  "question_id": "CO_1",
+  "answer_id": "ANS_CO_28",
+  "category": "model_or_extraction_issue",
+  "summary": "原图最后明确37，字段37、有效地址34及二次查表思想齐全，教师5合理；转录把最终37读34导致扣1.5。",
+  "teacher_issue": "",
+  "model_issue": "全部三轮3.5依赖错转录的最后34，实际学生最后写操作数内容37。",
+  "original_image_observations": "教师5红勾。按110111|1|0分字段，I=1间接，37地址存操作数地址34；最后一行‘所以操作数内容为37’。",
+  "evidence": [
+    "中间34和最终37在原图两行分明，不能混作同一数。",
+    "过程和结果都支持现行正确链，最终省H有题目语境。",
+    "教师满分应保留。"
+  ],
+  "uncertainties": [
+    "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+  ],
+  "transcript_conflicts": [
+    "最终有效答案是37，不是转录34。"
+  ],
+  "question_source_conflict": {
+    "question_id": "CO_1",
+    "text_source": "data/csbench/exam_database.json",
+    "question_image": "data/csbench/reference_images/questions/CO_1.png",
+    "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+    "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "725d472fc5f4380e80ddd915b5c11739d007f6589cfe668a41d6a3dbbd99bcb3",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:08:38.235263+00:00"
+}

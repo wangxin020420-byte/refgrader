@@ -1,0 +1,7 @@
+{
+ "question_id":"CPL_6","basis":"existing_experiment_only","new_experiment":false,
+ "offline_checks":["在52个ASCII字母上，ch>'Z'与小写范围条件完全一致；本题Upper两个调用点均在IsAlpha为真后执行，若学生IsAlpha正确，可接受受限输入域等价条件。","('a'<=ch||ch<='z')&&('A'<=ch||ch<='Z')在0至127的全部字符上均为真，不是模型所称不可能满足。","C链式比较'a'<=ch<='z'先得0或1，再与z比较，在0至127全真；不是数学区间表达式的代码等价。","在Upper中ch>=A&&ch<=z会将大写也减32；ch-a+A<ch同样恒真，不能用仅输入字母的前置条件辩护。","a[n]的n是数组长度，不是循环下标i，访问越界不能作为变量名替换容忍。"],
+ "rubric_limitations":"原始备注多括号分号不扣分、严格边界扣0.5；不能据此放行if语句嵌入return表达式、非法函数调用或数组整体比较。多个边界的扣分累计方式、小项方法分需要人工统一。",
+ "teacher_suspect_ids":["ANS_CPL_352","ANS_CPL_321"],"uncertain_ids":["ANS_CPL_346","ANS_CPL_360"],
+ "automatic_policy_change":false
+}

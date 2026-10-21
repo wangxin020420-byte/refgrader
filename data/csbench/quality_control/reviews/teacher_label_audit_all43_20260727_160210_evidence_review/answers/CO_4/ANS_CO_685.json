@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_685",
+  "category": "uncertain",
+  "summary": "格式6/12/5及偏移、组号均错，访问部分只转换并划字段而未判断；教师8分来自四处各2分的方法分。是否过宽需原评分细则确认，不以模型2～4分直接判标签错。",
+  "teacher_issue": "错误格式和未完成访问判断仍各给2分，需确认这些方法分对应的原评分要求。",
+  "model_issue": "原模型也未稳定区分二进制转换与tag提取，不能笼统按最终结果未写就否认所有过程。",
+  "original_image_observations": "写8MB=2^23，错把32作5位块内地址、2KB×2作12位；23-12-5=6，格式6/12/5；右侧两个地址都写二进制并画切分线，无能否访问结论；四处各+2。",
+  "evidence": [
+    "容量23位及部分算术存在，但字段语义错误。",
+    "访问地址转换展示了有限过程，未给出命中判断。",
+    "不存在教师对错误结果给满分的明确证据，8分只是部分分尺度尚不能确定。"
+  ],
+  "uncertainties": [
+    "需确认原课堂对错误前提后的字段分配和单独二进制转换的部分分政策。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0104eb857e83888ceee059817bc4f996e484535634a5ea07a747cfeccb97375f",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:45:30.449171+00:00"
+}

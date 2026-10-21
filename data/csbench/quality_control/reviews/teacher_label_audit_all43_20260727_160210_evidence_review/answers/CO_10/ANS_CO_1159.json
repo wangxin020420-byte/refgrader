@@ -1,0 +1,34 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1159",
+  "category": "teacher_suspect",
+  "summary": "完整正确字段及计数已覆盖首题两项6分，却只给首5；容量仅位转字节关系另错、第二四套正确，教师10疑似低给。",
+  "teacher_issue": "原图1:5、2:5。首Cache8/2/2、主存6/8/2及1024块完整，单字段两项已应6，不能因后续容量换算错倒扣正确地址部分。",
+  "model_issue": "容量末乘2将bit当字乘字长得到14336B，转换确错，不应把整个公式判完全正确；第二‘以组为单位4套’已有选组含义，无需苛求共享字样。",
+  "original_image_observations": "页眉10，1:5、2:5。1024块、Q256组、R4块，两张图8/2/2与6/8/2；旧容量式划掉，保留(6×4+1×4)×2^8×2=14336字节。第二每块需此功能、4路每组4块、以组为单位配置4套。",
+  "evidence": [
+    "容量前半(6+1)×4×256=7168bit正确，末尾应÷8而非×2，换算为独立错误。",
+    "首5低于原官方地址两项共6，且尚有正确tag+valid及总块数乘法，需优先核教师扣分归属。",
+    "第二说的是系统选中组内4套，未像其他样本再乘组数，不能误判其主张1024套。"
+  ],
+  "uncertainties": [
+    "须确认教师第一5是否录入或分项错误；不按历史模型10/12.5/14直接选一个替换。"
+  ],
+  "transcript_conflicts": [
+    "第一旧容量行已划掉，最终14336字节及末乘2是有效答案。"
+  ],
+  "evidence_strength": "possible_undercredit_correct_address_fields_five_below_official_six",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "df7de2bb6226a79f887a078e56b1172ca9c5368b74df9927b7fa896cd00657ce",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:57:52.337517+00:00"
+}

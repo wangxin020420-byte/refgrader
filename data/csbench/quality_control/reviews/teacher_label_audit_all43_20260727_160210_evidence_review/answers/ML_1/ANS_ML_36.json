@@ -1,0 +1,39 @@
+{
+  "question_id": "ML_1",
+  "answer_id": "ANS_ML_36",
+  "category": "model_or_extraction_issue",
+  "summary": "只有0111行一处错误，其余15格正确，教师3.5可支持部分分。",
+  "teacher_issue": "",
+  "model_issue": "抽取18项并重复多0后错误计数；实际与12一样只有0111一处错，教师部分分有依据。",
+  "original_image_observations": "原图3.5；0111行0错误，1000行0及其他15格正确，末七格1。",
+  "evidence": [
+    "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1。",
+    "与冻结参考逐格核对：正确15/16；不同输入：0111。"
+  ],
+  "uncertainties": [
+    "原始总4无每错一格硬扣多少；正确格数不是擅设新的逐格计分标准。"
+  ],
+  "verified_truth_table": {
+    "input_order": "0000..1111",
+    "manually_read_F": "0000000001111111",
+    "frozen_reference_F": "0000000101111111",
+    "matching_cells": 15,
+    "mismatching_inputs": [
+      "0111"
+    ],
+    "method": "manual_original_image_inspection_then_offline_count"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "89672c1acfd77af8a035a093e345d6184cd42b9a46764bc4fe1de4299770d5cf",
+  "teacher_score": 3.5,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:31:21.021597+00:00"
+}

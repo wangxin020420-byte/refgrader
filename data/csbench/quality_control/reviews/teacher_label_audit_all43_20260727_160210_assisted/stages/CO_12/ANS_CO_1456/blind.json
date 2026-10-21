@@ -1,0 +1,87 @@
+{
+  "version": "assisted-label-review-v1",
+  "stage_sha256": "3ef30f9a25893789485d781984773fc8489b94124208217e90fa7d51063e128d",
+  "input_sha256": "28e844d819185a5ab43edc6bc43e935a29d3016e4df49ccd5311337fa24c4648",
+  "created_at": "2026-10-20T08:10:50.835609+00:00",
+  "request_url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+  "model": "glm-4.6v",
+  "response_id": "202610201610035343044091ab4e04",
+  "usage": {
+    "completion_tokens": 1503,
+    "prompt_tokens": 3927,
+    "total_tokens": 5430,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 1215
+    }
+  },
+  "review": {
+    "observed_answer": "(1) a: 数据缓冲寄存器（DR）\nb: 指令寄存器（IR）\nc: 地址寄存器（AR）\nd: 程序计数器（PC）\n\n(2) ① 主存储器M→数据缓冲寄存器DR\n把指令从主存中取到数据寄存器中\n② DR→IR\n再把指令从数据寄存器送到指令寄存器中\n③ IR→操作控制器\n最后把指令从指令寄存器送到控制器中\n\n(3) 数据存到主存中：① ALU→AC\n把ALU中的数据送到累加器中\n② AC→DR 把累加器中的数据送到数据寄存器中\n③ DR→M 把数据寄存器中的数据送到主存中\n从主存中取数据：① M→DR 送到数据寄存器中\n② DR→ALU 再从数据寄存器送到ALU中\n\n(4) （一）取指\nPC→AR\nAR→主存储器M\nM→DR\nDR→IR\n（二）取数\nOD→AR\nAR→M\nM→DR\n（三）执行\nDR→ALU\nAC→ALU\nALU进行加操作\nALU→AC\n\n(5) 包含5个微命令的控制表：5+1=6＜2³\n∴占3位\n同理，其他3个字段的16个信号，4位、4位\n∴3+4+4+2=13位\n外部条件3位\n∴24-13-3=8位\n下址字段8位\n∴容量为2^8×16=6144bit\n\n控制字段（6段）图如图所示。",
+    "transcript_conflicts": [
+      "第(4)问中'执行'部分写为'ALU进行加操作'，与图像中'ALU进行加操作'一致，转录正确；第(5)问计算容量时写为'2^8×16=6144bit'，与图像中'2^8×24=6144bit'不符，图像应为24位（微指令字长），转录可能漏掉'24'"
+    ],
+    "checks": [
+      {
+        "criterion": "标明图中四个寄存器的名称",
+        "student_evidence": "a: 数据缓冲寄存器（DR）；b: 指令寄存器（IR）；c: 地址寄存器（AR）；d: 程序计数器（PC）",
+        "expected": "a为数据寄存器DR，b为指令寄存器IR，c为地址寄存器AR，d为程序计数器PC",
+        "assessment": "学生答案与参考答案完全一致，正确标明了四个寄存器的名称",
+        "score_min": 4,
+        "score_max": 4
+      },
+      {
+        "criterion": "简述指令从主存取到控制器的数据通路",
+        "student_evidence": "主存储器M→数据缓冲寄存器DR→IR→操作控制器",
+        "expected": "主存M -> 数据寄存器DR -> 指令寄存器IR -> 操作控制器",
+        "assessment": "学生答案与参考答案逻辑一致，数据通路描述正确",
+        "score_min": 4,
+        "score_max": 4
+      },
+      {
+        "criterion": "简述数据在运算器和主存之间进行存/取访问的数据通路",
+        "student_evidence": "存储器写：ALU→AC→DR→M；存储器读：M→DR→ALU",
+        "expected": "存储器读：M -> DR -> ALU -> AC；存储器写：AC -> DR -> M",
+        "assessment": "学生答案与参考答案逻辑一致，存/取访问的数据通路描述正确",
+        "score_min": 4,
+        "score_max": 4
+      },
+      {
+        "criterion": "描述指令ADD AX, OD执行过程的相关数据通路",
+        "student_evidence": "取指：PC→AR→M→DR→IR；取数：OD→AR→M→DR；执行：DR→ALU，AC→ALU，ALU进行加操作，ALU→AC",
+        "expected": "AC -> ALU，DR -> ALU，'+' -> ALU，ALU -> AC",
+        "assessment": "学生答案详细描述了取指、取数、执行三个阶段的数据通路，逻辑正确，符合指令执行过程",
+        "score_min": 4,
+        "score_max": 4
+      },
+      {
+        "criterion": "控制存储器的容量应为多少",
+        "student_evidence": "包含5个微命令的控制表：5+1=6＜2³，占3位；其他3个字段16个信号，4位、4位，共13位；外部条件3位；24-13-3=8位（下址字段）；容量为2^8×16=6144bit",
+        "expected": "微指令字长24位，下址字段8位，可寻址2^8=256条微指令，容量为256×24位",
+        "assessment": "学生计算下址字段位数正确（8位），但容量计算错误（应为2^8×24=6144bit，而非2^8×16），存在算术错误",
+        "score_min": 2,
+        "score_max": 3
+      },
+      {
+        "criterion": "设计出微指令的具体格式",
+        "student_evidence": "控制字段分为4组：3位（5个微命令）、4位（8个微命令）、4位（14个微命令）、2位（3个微命令）；判断测试字段3位；下地址字段8位",
+        "expected": "操作字段分为4组：第1组3位（5个微命令）、第2组4位（8个微命令）、第3组4位（14个微命令）、第4组2位（3个微命令）；判断测试字段3位；下地址字段8位",
+        "assessment": "学生答案与参考答案一致，正确设计了微指令格式及各字段位数",
+        "score_min": 5,
+        "score_max": 5
+      }
+    ],
+    "score_min": 23,
+    "score_max": 24,
+    "confidence": 0.9,
+    "uncertainties": [
+      "第(5)问控制存储器容量计算中，学生答案写为'2^8×16=6144bit'，与图像中'2^8×24=6144bit'不符，图像应为24位（微指令字长），转录可能漏掉'24'，需确认图像是否明确显示'24'"
+    ],
+    "summary": "学生答案在寄存器名称、数据通路描述、微指令格式设计等方面均正确，第(5)问容量计算存在算术错误（应为2^8×24=6144bit，而非2^8×16），其他部分逻辑正确。"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1377",
+  "category": "label_supported",
+  "summary": "寄存器和取指正确，读写及ADD有较充分部分过程；容量1GB和格式未完成，教师16可解释为前四问及少量格式分，无明确错标依据。",
+  "teacher_issue": "",
+  "model_issue": "模型首轮把有文字‘AX与OD相加回AX’及DR→ALU→AC的ADD归零，忽略有效执行信息；不能只因AC输入箭头未单列否定全部部分分。",
+  "original_image_observations": "教师16红叉。DR/IR/MAR/PC正确，M→DR→IR→CU；存ALU→AC→DR→M、取M→DR→ALU；ADD文字说明两操作数相加送AX并画M→DR→ALU→AC旁IR分支；容量2^30=1GB；末仅外部条件3个、24位及中间控制3位。",
+  "evidence": [
+    "MAR与AR语义等价，前三问大量正确内容。",
+    "ADD不能满分但也不是空白或无加法目的，适合部分分。",
+    "后两问明显错误限制总分，16可由前四问及局部条件位分构成。"
+  ],
+  "uncertainties": [
+    "读通路末AC未在第三问单独写出但第四出现，是否合并证据可由统一政策决定，不据模型10判教师多给。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "fbf3638f8649803c803e2d1595bece4735a8d4039240761cac6db9d552670ccf",
+  "teacher_score": 16.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:39:38.654992+00:00"
+}

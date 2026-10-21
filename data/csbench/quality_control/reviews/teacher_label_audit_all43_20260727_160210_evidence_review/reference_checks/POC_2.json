@@ -1,0 +1,13 @@
+{
+ "question_id":"POC_2","basis":"existing_experiment_only","new_experiment":false,
+ "grammar":{"S":["(AS)","(b)"],"A":["(SaA)","(a)"]},
+ "rightmost_derivation":["S","(AS)","(A(AS))","(A(A(b)))","(A((SaA)(b)))"],
+ "phrases":["(A((SaA)(b)))","((SaA)(b))","(SaA)","(b)"],
+ "direct_phrases":["(SaA)","(b)"],"handle":"(SaA)",
+ "review_rules":["句柄为此右句型最左直接短语，不是任意直接短语，更不是所有直接短语集合。","短语、直接短语、句柄三栏应分别判断；学生明确答无不能用别栏出现同一子串补成分类正确。","只包含全部正确项而额外加入不正确项不等于集合答案全对。","(a)是文法可能的产生式右部，但在该目标符号串中不是带括号连续子串，不能列作其短语。","正向展开的子树根及叶前沿可验证四个短语，括号层级不能当无意义格式全部删除。"],
+ "source_conflicts":[{"answer_id":"ANS_POC_32","prepared_score":5,"original_image_score":4},{"answer_id":"ANS_POC_53","prepared_score":5,"original_image_score":4}],
+ "source_check":"POC32已核teacher_scores.json为5，原图页眉及大得分4；POC53原图页眉放大确认4，保留只读裁切放大检查图inspections/POC_2_ANS_POC_53_header.png，未修改原图。",
+ "teacher_suspect_ids":["ANS_POC_37","ANS_POC_32","ANS_POC_41","ANS_POC_53"],
+ "historical_contract_issue":"ANS_POC_26首轮总4.5但明细和5，原始输出保留并标注。",
+ "automatic_policy_change":false
+}

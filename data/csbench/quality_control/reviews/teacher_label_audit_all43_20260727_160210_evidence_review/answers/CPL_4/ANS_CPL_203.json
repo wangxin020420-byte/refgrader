@@ -1,0 +1,63 @@
+{
+  "question_id": "CPL_4",
+  "answer_id": "ANS_CPL_203",
+  "category": "model_or_extraction_issue",
+  "summary": "中间四数正确，外侧错位，教师4有部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "历史0忽略四个正确中部位置，并按倒数第4为15的错误期望扣；部分分应保留。",
+  "original_image_observations": "原图4；前三28/19/15及末20/16/23错位，中间24/5/22/24保留正确。",
+  "evidence": [
+    "按原图最终有效行手工读取：28 19 15 24 5 22 24 20 16 23。",
+    "对照程序实际输出，差异位置（1起算）：1, 2, 3, 8, 9, 10。"
+  ],
+  "uncertainties": [],
+  "verified_output": {
+    "manually_read_final_sequence": [
+      28,
+      19,
+      15,
+      24,
+      5,
+      22,
+      24,
+      20,
+      16,
+      23
+    ],
+    "program_output": [
+      19,
+      28,
+      20,
+      24,
+      5,
+      22,
+      24,
+      15,
+      23,
+      16
+    ],
+    "mismatching_positions_1_based": [
+      1,
+      2,
+      3,
+      8,
+      9,
+      10
+    ],
+    "only_middle_swap": false,
+    "method": "manual_original_image_inspection_then_offline_position_check"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7b8eb1b8f0003255dc533a387d6507e51e89084aeaa9abdc84830b0e13d986e3",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:51:59.171102+00:00"
+}

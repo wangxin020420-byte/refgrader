@@ -1,0 +1,14 @@
+{
+  "verified_at": "2026-10-20T08:08:42.592071+00:00",
+  "method": "offline_httpx_mock_transport",
+  "requests": [
+    {
+      "url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+      "model": "glm-5.2"
+    },
+    {
+      "url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+      "model": "glm-4.6v"
+    }
+  ]
+}

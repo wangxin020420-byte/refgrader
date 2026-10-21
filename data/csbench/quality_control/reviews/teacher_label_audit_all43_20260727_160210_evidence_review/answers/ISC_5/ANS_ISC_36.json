@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_5",
+  "answer_id": "ANS_ISC_36",
+  "category": "teacher_suspect",
+  "summary": "只写换算与错误Hello,world!，未答分类，教师3.5超过解码项3分需复核。",
+  "teacher_issue": "分类项没有对应答案；即使解码过程给满3，也不能在当前3+3结构下总3.5。",
+  "model_issue": "二进制转换多数正确，不能因最终串错误完全忽略过程给0；但这些过程不能自动补成分类答案。",
+  "original_image_observations": "上部十进制列表未完全转换，后列11个二进制代码，末解码Hello,world!；没有字母/标点/数字分类，教师3.5。",
+  "evidence": [
+    "题目原始两项分别3分，现有显式证据仅第一项。",
+    "正确逐码二进制转换是第一项方法证据，不等价已指出字符类别。"
+  ],
+  "uncertainties": [
+    "若教师允许转换步骤另加跨项方法分需给原始依据；当前准则没有该项。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "bca5233f27bec02e950ce6a7c44df3d8ae4fa9a958afcb34911d64e4317aa03a",
+  "teacher_score": 3.5,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:18:12.021766+00:00"
+}

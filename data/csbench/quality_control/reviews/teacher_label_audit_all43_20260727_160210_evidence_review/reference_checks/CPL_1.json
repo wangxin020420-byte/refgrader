@@ -1,0 +1,7 @@
+{
+ "question_id":"CPL_1","basis":"existing_experiment_only","new_experiment":false,
+ "verified_output":"3 4 5 4",
+ "evaluation":"i++使用3后变4；j++使用4后变5；--k先变4再使用，表达式3-4+4=3，后续变量4、5、4。三个变量彼此不同，不存在同一对象的未定序读写冲突。",
+ "review_rules":["学生把两次printf结果合写一行是题目要求的实际输出，不能将首3当第二项多余值或称第一项空白。","原图3454有数字间隔时不能按一个整数解析，末值漏识别也不能归咎学生。","原规则明确若3与454分两行扣0.5，ANS_CPL_01涉及此小额格式口径，应与数值错误区别。","原始只给总5，优化后两个printf各2.5不自动成为判断教师原部分分错误的硬性依据。"],
+ "teacher_suspect_ids":["ANS_CPL_01"],"uncertain_ids":["ANS_CPL_06"],"automatic_policy_change":false
+}

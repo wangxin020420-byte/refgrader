@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_523",
+  "category": "teacher_suspect",
+  "summary": "优先级和执行轮廓正确，但五个所谓屏蔽字都是单1编码，教师18疑似将级别编码误当屏蔽字给分。",
+  "teacher_issue": "A=10000无法屏蔽其它四级，D/C/E也只是单比特，无任一列排列能把它们变成所需多1屏蔽集；18明显需复核。",
+  "model_issue": "一轮对图给8可有依据，另轮漏图；真正疑点是掩码单1而非优先级或图顺序。",
+  "original_image_observations": "教师18红勾叉。优先级ADC EB；A10000、D01000、C改00100、E改00010、B00001；图清楚A-C-D-C-E-B并回底。",
+  "evidence": [
+    "列序置换不改变1的个数，A必须全五1、D四1、C三1、E两1；单1不可等价。",
+    "B单1可能在ADC EB列序下正确，但其余四行仍不支持满分。",
+    "即便优先级2、图8与B2均给满，也只有12，教师18有强证据缺口。"
+  ],
+  "uncertainties": [
+    "若另有单1编码与真正掩码映射的未裁入说明需补核；当前图无此定义。"
+  ],
+  "evidence_strength": "strong_overcredit_one_hot_codes_not_interrupt_masks",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "dffe20030df4f1928e9960aede0bfb17cac7972cc76824b4343a888711bc0f4a",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:21:22.926635+00:00"
+}

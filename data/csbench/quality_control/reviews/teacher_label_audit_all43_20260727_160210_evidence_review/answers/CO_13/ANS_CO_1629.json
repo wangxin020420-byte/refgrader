@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1629",
+  "category": "model_or_extraction_issue",
+  "summary": "明确ABCD列屏蔽表全对，轨迹省略初始A/B及B后A获5，首保存恢复概述2，教师15可解释；模型将位序差异误判逻辑反转。",
+  "teacher_issue": "",
+  "model_issue": "原图有MA MB MC MD表头，1000/1101/1111/1001经统一反序就是标准；不需假设1为允许，更不存在D错为1000。轨迹也不是未画。",
+  "original_image_observations": "页眉15，1:2、2:8、3:5。首请求、CPU审核、保留现场、服务、返回现场解除封锁。表头MA MB MC MD且四行1000/1101/1111/1001。图用户直接C→B→D→A→用户，起始两圈和B上D一圈。",
+  "evidence": [
+    "表列明确，按题目指定MDMCMBMA重排四行完全匹配，8合理。",
+    "图完成顺序对但缺初次A/B与B完成回A，5为局部内容分而非满。",
+    "首包含实际保存/恢复概念但缺关中断/断点等，2有依据；模型分差不证明教师错。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d72b115b64d0e31881ebb73fd1b4750331f088b4f9d436047ef0b330291926fe",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:11:46.612433+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_578",
+  "category": "model_or_extraction_issue",
+  "summary": "他级屏蔽集合正确，图含D返C却漏E后B恢复，教师15可对应表示与图扣分；模型两轮20忽略真实返回缺陷。",
+  "teacher_issue": "",
+  "model_issue": "图并非文字ADC EB，也未包含最终B；不能先自动补自身、再凭正确排序给未画的图满分。",
+  "original_image_observations": "教师15红勾叉。排序ADC EB；A:D/C/E/B、B无、C:E/B、D:C/E/B、E:B，均不列自身。图A-C-D-C-E后直接回用户，末B段没有。",
+  "evidence": [
+    "其它级屏蔽对象与题意相符，应给相关内容分，不因不写位串全清零。",
+    "漏B返回是可指认图错误，教师非满分有依据。",
+    "若对自屏蔽/非位串扣若干分、对图漏B再扣，15可解释，模型20并不更可靠。"
+  ],
+  "uncertainties": [
+    "具体扣5如何分配没有教师记录，不将15认作唯一标准。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "192ddd23543a3fcd33b3d0cb89c9cf355eb8eed37a0fc94aaf19e54949369b93",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:54:02.781720+00:00"
+}

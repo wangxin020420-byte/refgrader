@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1318",
+  "category": "label_supported",
+  "summary": "I30及预留逻辑正确，R多减3与J按I大于J而非最大化I求24均错，但有五位/两位及资源方法，教师4+5+2=11可解释。",
+  "teacher_issue": "",
+  "model_issue": "k−1来自减去R前缀后留给J的数量，并非毫无来源；真正错误是以I>J替代I最大目标，不能把整个变量式都当无关。历史附加parent_override也不能视作独立新得分。",
+  "original_image_observations": "页眉11，1:4、2:5、3:2。R2^5−3比I少，I除00000和J位置2^5−2=30；设I2^5−k，(k−1)×2^2<2^5−k，k≤7，J取(7−1)×4=24，末29/30/24。",
+  "evidence": [
+    "I正确应保留5。",
+    "R5位编码基础有，但比I少的额外减法错；J乘4和扣R一前缀正确，但选k7不符合I最大时k2。",
+    "教师未给错误J满分，2可方法分；R4的宽松局部扣法亦非满分，11不因模型0或7就异常。"
+  ],
+  "uncertainties": [
+    "R4是否只扣最终1需原权重确认，不确认11唯一正确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1b17917e075d15877f7e6ea7b8411baa1b4687567f5e615a75c74d239d747458",
+  "teacher_score": 11.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:44:41.016373+00:00"
+}

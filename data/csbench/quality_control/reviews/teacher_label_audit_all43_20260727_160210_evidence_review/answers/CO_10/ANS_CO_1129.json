@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1129",
+  "category": "uncertain",
+  "summary": "tag6和主要地址参数正确，但容量把7位变2^7且漏块数，第二1024套错误；教师8+1=9中首容量部分分需核。",
+  "teacher_issue": "首前两项最多6，容量仅6+1正确、主体公式和算术错，给到8是否过宽取决于该4分的局部权重。",
+  "model_issue": "主存布局6/8/2完整正确，不因Cache额外7位元数据图混淆而全清字段方法；第二有每组4块前提可少量分但不应满。",
+  "original_image_observations": "教师9红勾叉，1:8、2:1。组8/偏移2、主存tag6，6+1=7；接着2^7/2^3=2^4=64B。第二256组×4=1024块，便答1024套。",
+  "evidence": [
+    "容量缺总1024块且把位数7指数化，是独立公式错误；2^4=64又算术错误。",
+    "组内4块前提正确但必须复用比较器，1024结论错。",
+    "首是否还能给容量2分需要原步骤细分，不能据模型6或7.5直接认教师错误。"
+  ],
+  "uncertainties": [
+    "原4分容量项中加有效位与除8等局部尝试各占多少未列。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "715aff3a31b9fc2d603cc62b24a74e4cdcf8759a1e9feddfa124cbe282ac21a4",
+  "teacher_score": 9.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:42:30.106459+00:00"
+}

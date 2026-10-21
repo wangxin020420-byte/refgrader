@@ -1,0 +1,37 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1299",
+  "category": "model_or_extraction_issue",
+  "summary": "R32/I30/J4和一般资源式均正确，教师15合理；预留00000与11111无矛盾，历史18.5/21/30则存在父子重复累计。",
+  "teacher_issue": "",
+  "model_issue": "32−2留R和J各一前缀正是正确逻辑，不是应只减1的错误；(31−x)×2^2=y也明确存在，不应标扩展方法未写。",
+  "original_image_observations": "页眉15，三项各5。设I x、J y，(31−x)×2^2=y，I32−2=30并注明留00000及11111，此时y4。末列R2^5=32、I30、J4，红勾。",
+  "evidence": [
+    "两个前缀分别用于R/J且不重叠，I最大30正确。",
+    "y随I占用后的剩余前缀乘4，x30即y4，步骤自洽。",
+    "历史probe又列step_1/2/3汇总又列sub项，总18.5/21/30均超15，属于评分输出而非教师标签错误。"
+  ],
+  "uncertainties": [],
+  "historical_score_contract_issue": {
+    "max_score": 15,
+    "recorded_scores": [
+      18.5,
+      21,
+      30
+    ],
+    "observation": "父项与子项合并重复计分，且正确留码方法被误判。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c0417b20c877470dc74780481587c0c9b926d26457d8e7b3a21c189b6c0f7255",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:37:26.861427+00:00"
+}

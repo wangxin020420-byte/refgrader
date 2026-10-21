@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_373",
+  "category": "teacher_suspect",
+  "summary": "只写63和256两个错误最终数，没有任何过程，原图教师仍8分，缺少可见给分依据。",
+  "teacher_issue": "两问结果及方法均无可支持的正确证据，8/15需优先复核。",
+  "model_issue": "旧模型三轮0与图中错误裸答案相符；不以模型一致性为主要依据，主要依据图像内容。",
+  "original_image_observations": "教师页眉8红叉。整页仅①一地址最多63条、②零地址最多256条两行，无公式、编码图或补充说明。",
+  "evidence": [
+    "第一63与255不同，第二256与128不同。",
+    "不能从数字63反推学生曾正确使用2^6-1的完整适用过程。",
+    "8分在原图也可见，非导入文件单独发生重复值。"
+  ],
+  "uncertainties": [
+    "如存在另页作答需另核，当前图内没有对应过程。"
+  ],
+  "evidence_strength": "strong_two_wrong_bare_results",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b501bcd4f8768ea482bec94ceed298164170b983cba5609f94849bf64c3a2663",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:24:51.894133+00:00"
+}

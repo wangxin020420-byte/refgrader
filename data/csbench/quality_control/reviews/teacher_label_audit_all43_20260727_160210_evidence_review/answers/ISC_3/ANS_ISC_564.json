@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_3",
+  "answer_id": "ANS_ISC_564",
+  "category": "teacher_suspect",
+  "summary": "组成答成设计阶段，SQL答成OLAP/挖掘，只有重要性明确正确，教师4需优先复核。",
+  "teacher_issue": "近满分与两大问点的实质错位不相称，应说明4对应的有效内容。",
+  "model_issue": "历史1至2反映部分分方向，但无原始三问权重，不能直接自动改为其中某分。",
+  "original_image_observations": "原图4；需求分析到运行维护六阶段作为组成；重要性低冗余共享独立正确；SQL写OLAP、数据挖掘和预计算分析集。",
+  "evidence": [
+    "数据库设计生命周期不是系统实体组成。",
+    "把SQL主要定义成分析数据组织用途，未回答关系库定义、操作、查询和控制的基础作用。"
+  ],
+  "uncertainties": [
+    "原题图缺失，先核题干来源及教师细分口径再调分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "8c5a48a233cf69cf071abaeec9b7f7df25a1c60c49565cb8b63b5dee98805c51",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:42:52.051191+00:00"
+}

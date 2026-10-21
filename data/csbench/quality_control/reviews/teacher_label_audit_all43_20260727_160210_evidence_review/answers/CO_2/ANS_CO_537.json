@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_537",
+  "category": "uncertain",
+  "summary": "掩码全都省去自身位但其它级关系一致正确，图完整；教师20是否接受硬件隐含自屏蔽约定需确认，不能五项重复当独立概念错。",
+  "teacher_issue": "标准五位字要求自身1而此表对角全0，若表示实际屏蔽寄存器则20不成立；若只表示屏蔽其它级、同级由硬件阻断则可解释。",
+  "model_issue": "将系统性同一约定差异当五个致命错抹10分，又漏图中C返回与B，导致4分总评缺事实基础。",
+  "original_image_observations": "教师20红勾。ABCDE表A01111、B00000、C01001、D01101、E01000，全部本级位0、其它级关系正确；图A-C-D-C-E-B后回用户。",
+  "evidence": [
+    "非对角各位与题意完全相符，差异集中自屏蔽一个规则。",
+    "当前参考含自屏蔽，必须明确约定，不直接自动归一或认全错。",
+    "标准图含D返C、E返B，学生均画出；图8不受掩码自身位争议连带扣。"
+  ],
+  "uncertainties": [
+    "需教师说明此题屏蔽字是否必须含本级，及同级硬件屏蔽是否隐含。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a7ddd502a23c030e31ebdead9630dba9d0288cee8d8560a063672d797cca7bf7",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:29:03.387314+00:00"
+}

@@ -1,0 +1,36 @@
+{
+  "question_id": "POC_2",
+  "answer_id": "ANS_POC_53",
+  "category": "teacher_suspect",
+  "summary": "原图教师4而数据5，分数来源冲突；原答短语额外(a)是实际错误。",
+  "teacher_issue": "页眉放大可明确红色评分4，与teacher_scores.json及冻结任务5不一致，不能说原教师漏扣给满。",
+  "model_issue": "有些判读只查包含正确元素就给满，忽略额外(a)；但原图教师已给4。",
+  "original_image_observations": "短语列四个正确项外加(a)且未删除；直接短语行旧(a)被划掉，最终仅(SaA)、(b)；句柄(SaA)。页眉红4可辨，教师红叉。",
+  "evidence": [
+    "(a)并非目标串的带括号连续子串，不能把文法可能产生(a)当本句型短语。",
+    "已放大原图页眉确认4，数据5应先查来源；直接短语中删除的(a)不再扣。"
+  ],
+  "uncertainties": [
+    "若数据5来自后续复评分需提供对应依据；暂不改写准备数据。"
+  ],
+  "score_source_conflict": {
+    "prepared_teacher_score": 5,
+    "visible_original_teacher_score": 4,
+    "prepared_source": "data/csbench/teacher_scores.json",
+    "inspection_image": "inspections/POC_2_ANS_POC_53_header.png",
+    "action": "保留输入并核对来源"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3a3fff66d4ec2339b1c2f13dc6ec41a9ee73dc8f1f2284283a1921e3842419eb",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:48:58.316585+00:00"
+}

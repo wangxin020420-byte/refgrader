@@ -1,0 +1,40 @@
+{
+  "question_id": "POC_4",
+  "answer_id": "ANS_POC_107",
+  "category": "teacher_suspect",
+  "summary": "规则没有递归，最多三位，至少缺四位及以上全部偶数，教师满5需复核。",
+  "teacher_issue": "E=AB|C，B为一个数字加单个B'，没有任何增加长度的递归；最长三位，满分不成立。",
+  "model_issue": "斜杠是学生的可辨替代分支记号，不应当数学除法；真实缺陷是生成长度受限。",
+  "original_image_observations": "E=AB/C，A=1/2/…/9，B=0B'/1B'/…9B'，B'=0/2/4/6/8，C=2/4/6/8，无递归产生式。教师5。",
+  "evidence": [
+    "A正常取单数字时AB三位、C一位；A末重笔是否另含ε不清，但无论如何1234都不能生成。",
+    "已有首非0、末偶数的正确部分可给分，但不能因结构相似而满分。"
+  ],
+  "uncertainties": [
+    "A末尾有重笔，不将其猜作额外递归或ε；即使允许ε，也仍无任意长度机制。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4456478ca677558d56b1c099f2cf198196050d976b38b2b85b946e837a5fb95e",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:05:35.715513+00:00",
+  "review_amendment": {
+    "reason": "将反例收紧为不依赖A末重笔是否ε的四位数1234，避免对两位覆盖作过强判断。",
+    "previous_fields": {
+      "summary": "规则没有递归，只能生成一位或三位数，教师满5需复核。",
+      "teacher_issue": "E=AB|C，A单数字、B为数字B'、B'为单偶数字，故缺两位和四位以上全部偶数，满分不成立。",
+      "evidence": [
+        "AB恒三位，C恒一位；例如10和1234均无法生成。",
+        "已有首非0、末偶数的正确部分可给分，但不能因结构相似而满分。"
+      ]
+    }
+  }
+}

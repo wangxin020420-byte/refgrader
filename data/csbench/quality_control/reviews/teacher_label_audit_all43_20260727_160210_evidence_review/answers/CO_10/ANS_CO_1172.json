@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1172",
+  "category": "label_supported",
+  "summary": "首问正确求出1024块和256组但当容量256B，次按错误18/4位字段得到tag6并答6套；教师4+2=6可作局部给分。",
+  "teacher_issue": "",
+  "model_issue": "2^13B/8B得1024块、再除四得256组本身正确，模型称该换算完全错误混淆了过程与其被错误当容量的用途；18−8−4=6也不能仅因最终tag6给完整推导分。",
+  "original_image_observations": "页眉6，1:4、2:2。4KW=2^13B，除8得2^10、除4得2^8，直接称标记容量2^8字节。下段编号2，块内地址4位、组8、主存tag18−8−4=6，需6套因为tag6位。",
+  "evidence": [
+    "块大小4字=8B，块/组计数有效，第一有独立正确准备。",
+    "把组数当元数据容量、漏有效位与每块乘法需扣；第二以tag位宽作电路数亦错。",
+    "教师只给局部4+2而非错误结论满分；6可解释，不能因模型4或2直接认标签错误。"
+  ],
+  "uncertainties": [
+    "第二的少量2可来自tag/地址相减尝试，详细权重不公开；不确认6为唯一评分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b2b04825e8e5782008f42aa6e716a9d8d8b9de4a689ea115ab333b8ec0798b47",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:57:52.315395+00:00"
+}

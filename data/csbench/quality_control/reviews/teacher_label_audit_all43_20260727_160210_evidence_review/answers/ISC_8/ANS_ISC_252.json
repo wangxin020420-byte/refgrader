@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_8",
+  "answer_id": "ANS_ISC_252",
+  "category": "teacher_suspect",
+  "summary": "只答三种码，没有X-Y运算，却给2.5，超过原始第一部分上限2。",
+  "teacher_issue": "第二部分原图空白，不能从第一问给出高于2的总分；且Y反补有错。",
+  "model_issue": "第三次将Y仅正确一个字段的一部分分四舍五入成满1过宽，但也不能一错抹掉Y正确原码。",
+  "original_image_observations": "原图2.5；X三种码正确；Y原00001010、反01110101、补01110110；没有减法过程与结果，余白。",
+  "evidence": [
+    "原始评分明确码制2、减法2，未作答减法时第一部分再宽也不超过2。",
+    "teacher_scores.json的2.5与原图一致，属于内容与分数不相符，不是模型可自动代改的依据。"
+  ],
+  "uncertainties": [
+    "需核是否有图外续答或特殊加分，当前图片不支持2.5。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "84ce798c73dbd8ad8ee98d70df7c6cba91f67bc6918b18192d34279ccf9e03ce",
+  "teacher_score": 2.5,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:53:01.550123+00:00"
+}

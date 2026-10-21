@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_3",
+  "answer_id": "ANS_POC_267",
+  "category": "model_or_extraction_issue",
+  "summary": "箭头右侧准确给出三类所求串，模型因附S→记号全部判零过严。",
+  "teacher_issue": "",
+  "model_issue": "未将关系说明与所求串分开识别，尽管右侧aacb、ac、ε及两次ε均正确仍全0。",
+  "original_image_observations": "短语栏S→aacb、S→ac、S→ε；直接短语S→ε，句柄S→ε。教师4。",
+  "evidence": [
+    "三栏右侧目标串与参考一致，意图清楚，应保留对应内容分。",
+    "短语栏多步推导用单箭头不够严谨，可核轻扣符号；不能把正确串当完全无答案。"
+  ],
+  "uncertainties": [
+    "教师扣1是否针对推导箭头与串表达的格式未标明，暂不据等价内容直接改满5。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d531a052d5b316b221e7becd79b90fa23681f6054702c77edace36d21f5870d9",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:53:29.788531+00:00"
+}

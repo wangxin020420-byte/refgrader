@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_8",
+  "answer_id": "ANS_ISC_284",
+  "category": "model_or_extraction_issue",
+  "summary": "原图16位计算尾部为00111且真值-25正确，转录和模型错判了加法；教师3.5可支持字长扣分。",
+  "teacher_issue": "",
+  "model_issue": "转录把16位和读成1111111111110111；放大原图结果尾部是00111。还有模型竟称-15-10=-25数值错误，理由本身错误。",
+  "original_image_observations": "原图3.5；X和Y均用长于8位表示，X补末0001、-Y补末0110，相加结果末00111，最后Z=-25。",
+  "evidence": [
+    "离线整数核算：(0xfff1+0xfff6)&0xffff=0xffe7，即1111111111100111，对应-25。",
+    "指定8位未遵守是独立要求，可扣字长表现，不能把整个正确映射/计算方法清零。"
+  ],
+  "uncertainties": [
+    "长串前导位手写间距不匀，未把每一串逐位长度都断言为严格16位；字长扣多少需统一。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "af126d6a20b309c8052075584675a1d5975a466799c93091915f42b327944fcb",
+  "teacher_score": 3.5,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:53:01.530984+00:00"
+}

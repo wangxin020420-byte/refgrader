@@ -1,0 +1,30 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_126",
+  "category": "model_or_extraction_issue",
+  "summary": "原图J2/K2的y1下标清楚存在，三式均正确，教师6分保留。",
+  "teacher_issue": "",
+  "model_issue": "旧模型认为第二组漏下标1，但该遗漏来自转录而非学生。",
+  "original_image_observations": "两列写J1=X、K1=X；J2=xy1、K2=xy1；右侧z=xy1y2；教师6。",
+  "evidence": [
+    "下标1在两处第二触发器函数中都可见。",
+    "原模型5/5/4分的扣分依据不符合原图。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "J2/K2中的y1被转录为y加逗号。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1bbe6bff9652a197f002152b66b0b36d21961955c23c658a2b26d745fd6c9b79",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:35:54.986789+00:00"
+}

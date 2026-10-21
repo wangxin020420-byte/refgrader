@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1614",
+  "category": "model_or_extraction_issue",
+  "summary": "屏蔽表明确ABCD列且全对；首简略1、轨迹初始B及C返回层级错误获6，教师15可解释，模型因位序误判表0。",
+  "teacher_issue": "",
+  "model_issue": "MA MB MC MD列下1000/1101/1111/1001是正确表，不应当未声明的反向逻辑。图完整主要阶梯可见，不止用户/D/A碎片。",
+  "original_image_observations": "页眉15，1:1、2:8、3:6。首开中断、遇中断、关、服务、再开，无保存恢复。表头MA MB MC MD，四行正确。图用户短A→C→A短段→B→A→D→A→用户，入C与回B附近红圈。",
+  "evidence": [
+    "表8由明确列标题确认，非模型所谓严重概念错。",
+    "图主要服务/返回存在但C应回B、初始B应先响应，教师扣1可视一个B嵌套源错。",
+    "首仅1合理未满5，原15不是对第一泛链过度给分。"
+  ],
+  "uncertainties": [
+    "图同一B嵌套问题扣几分需原政策；未把6当图完全正确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "044e072394501597179f9df176ae1eedc8e4daf8468021ade26d1051ed8ea2fe",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:21:17.219605+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_1",
+  "answer_id": "ANS_ISC_441",
+  "category": "teacher_suspect",
+  "summary": "用慢、差错、磨损描述摩尔挑战，方向多为目标，当前题干下3分可能过宽。",
+  "teacher_issue": "未描述器件缩放限制；扩大存储、加速或研发超级计算机也未说明技术机制，3需核给分点。",
+  "model_issue": "模型0不是唯一标准，超级计算机有一定主题关联，但不能自动替其补并行、异构等具体路线。",
+  "original_image_observations": "挑战计算速度慢、易差错、消耗磨损大；新技术提高总存储、速度精度、研发超级计算机，教师3。",
+  "evidence": [
+    "磨损不是此题所要求晶体管缩放的主要限制解释。",
+    "答案主要重述性能改进目标，没有对如何延续性能给出可核具体方法。"
+  ],
+  "uncertainties": [
+    "原题图不可用，且宏观巨型化的给分政策需教师确认，不直接判0。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c5e26aad25545a1432d881f07550ce81a9dce29249bc9fdd513364131879f8a9",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:24:18.644949+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1145",
+  "category": "label_supported",
+  "summary": "第一问tag定义和存储字段错，但块/组数与总容量乘法及换字节正确；第二用同一组四行比较得到4套，教师5+5=10可解释。",
+  "teacher_issue": "",
+  "model_issue": "Tag错误不应抹去正确总块数及乘法/换算方法；‘块内四行’虽术语混用，结合先定位目标集合、再四行比较可识别组内四路意图。",
+  "original_image_observations": "教师10红勾叉，1:5、2:5。首tag误16，组8，单块元数据8+16+1=25，25×2^10位换25×2^7B。次先找对应Cache块/集合，四Cache行中tag和Valid比较，共4套。",
+  "evidence": [
+    "首容量值错来自tag及字段重复计入，但乘1024与除8正确，保留方法分合理。",
+    "第二4套对应目标集合的四行，不是遍历全Cache或比较256组。",
+    "没有字面‘并行’不必额外扣，四行各有套数的说明足以支持关系，教师10非明显异常。"
+  ],
+  "uncertainties": [
+    "‘遍历’也可被理解顺序扫描，若课程明确限制表述可讨论少量第二分，不支持模型总4.25。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d166ea8bcb136e1e5b1d1e4bb1a54878307375996e32c62e392c4c2a2d847b64",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:42:30.102408+00:00"
+}

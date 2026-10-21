@@ -1,0 +1,34 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_880",
+  "category": "teacher_suspect",
+  "summary": "两问四个关键时间都正确，错误集中在最后把CPU耗时加进分母；教师每问仅2分，总4，按保留正确过程的政策疑似扣分过重，建议优先复核。",
+  "teacher_issue": "查询已求4μs与2μs，DMA已求40μs与4ms，教师均2/5。若按用户要求只扣对应错误结果或比例组装部分，正确时间过程不应一并大幅扣除。",
+  "model_issue": "模型也错误否认单次时间法；另有原始评分12.5超过本题10分上限，说明旧模型分数契约存在异常，不用它直接确定替代分数。",
+  "original_image_observations": "教师4分、1:2、2:2。查询32/(8×10^6)=4×10^-6、100/(50×10^6)=2×10^-6，最终2/(2+4)=1/3；DMA2000/(50×10^6)=4×10^-5、4KB/1MB=.004，最终4×10^-5/(4×10^-5+.004)=1/101。",
+  "evidence": [
+    "原图DMA分母确为10^-5加10^-3，转录误将两项都写成10^-3。",
+    "四个中间时间包含题目关键换算和开销关系，并非简单抄参数。",
+    "两个最终比例确错，不能判整题满分；需复核的是过程分是否不足。"
+  ],
+  "uncertainties": [
+    "两问的比例模型错误是否应扣超过单个结果分，官方没有细化；故仅列可疑，不指定新总分。"
+  ],
+  "evidence_strength": "possible_undercredit_correct_timing_setup",
+  "transcript_conflicts": [
+    "DMA分母第一时间原图4×10^-5，转录4×10^-3。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b470413d03b7dc5ca39bd1ccf978a60878aa8e7d5da512d99f359b5746902e06",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:04:57.957680+00:00"
+}

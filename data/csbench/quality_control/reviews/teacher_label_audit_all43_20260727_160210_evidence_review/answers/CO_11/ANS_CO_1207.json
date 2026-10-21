@@ -1,0 +1,37 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1207",
+  "category": "model_or_extraction_issue",
+  "summary": "R/I/J三项计数、扩展逻辑和具体范围全部正确，教师满15合理；历史30分及明细ID混排属于评分结果问题。",
+  "teacher_issue": "",
+  "model_issue": "明确预留00000与11111正是正确I30方法，不能reason承认正确却score0；历史两次30超15，不能与教师15比较。",
+  "original_image_observations": "页眉15，三项各5。R高5固定、低5区分32；I排除R00000及J11111得30；J高7Opcode、前5固定11111余2位得4。又列R低5范围、I00001至11110、J1111100至1111111及数量，红勾。",
+  "evidence": [
+    "全部方法与结果相符，J7位在原图格式表可验证。",
+    "范围含首尾个数与32/30/4一致，没有额外未分配前缀。",
+    "probe把I/J评分写入step_1_sub_4至9又填空正常ID，历史30亦超分值上限，反映输出契约混乱。"
+  ],
+  "uncertainties": [],
+  "historical_score_contract_issue": {
+    "max_score": 15,
+    "recorded_scores": [
+      12.5,
+      30,
+      30
+    ],
+    "observation": "两次总分30越上限，首probe子项ID归属异常且理由与分数矛盾。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "eccb5ff8ac4f25b54ee48c17c95e3ef098123ee3324660876a280b9adb696b22",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:37:26.856428+00:00"
+}

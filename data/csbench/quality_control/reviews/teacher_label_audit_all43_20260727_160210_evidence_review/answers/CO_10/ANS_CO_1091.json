@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1091",
+  "category": "teacher_suspect",
+  "summary": "学生明确将所有组的比较器相加答1024套，第二仍满5；教师3+5=8的主要疑点在错误第二问。",
+  "teacher_issue": "每组四套再乘256组得到1024，漏掉选组后跨组复用的核心机制；数量和原理都错，第二全5值得优先复核。",
+  "model_issue": "首问4KW/4W=1024块、4KW=8KB是具体正确过程，历史模型把地址部分全空且几乎总0，不能反过来认首题应完全无分。",
+  "original_image_observations": "页眉8，1:3、2:5。首有1024块和8KB，旧总容量式划除，保留8K+2^8=8448B。次写四路每组配置4套、共1K/4组、一共1024套，最后1024为有效修改值。",
+  "evidence": [
+    "第一问数据区容量加组数不是标记区容量，少量准备分可保留。",
+    "第二1024不是OCR误读，原图数字及逐组相加的推导均清楚。",
+    "不能因为包含‘四路、每组4套’就忽略最终硬件总数和复用理解错误。"
+  ],
+  "uncertainties": [
+    "教师首题3分的细项未公布，但本次疑点不依赖首题精确权重。"
+  ],
+  "evidence_strength": "wrong_total_1024_comparators_awarded_full_five",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d3be96fd4addd125e43e798d813fc434ae3a556f47c633faf48024468063921f",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:53:59.191042+00:00"
+}

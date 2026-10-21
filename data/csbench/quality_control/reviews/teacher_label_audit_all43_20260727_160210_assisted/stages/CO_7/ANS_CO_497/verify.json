@@ -1,0 +1,44 @@
+{
+  "version": "assisted-label-review-v1",
+  "stage_sha256": "8cf1435eefa59feac87bc9bd54a0ba73b71a2591890fe696722207bb7c1b60ef",
+  "input_sha256": "2d28eac3fc8ac96361a8b6b0d1fcdcbdf14077defee504b452441e7210211f72",
+  "created_at": "2026-10-20T08:10:02.870390+00:00",
+  "request_url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+  "model": "glm-4.6v",
+  "response_id": "20261020160938758da030b383456f",
+  "usage": {
+    "completion_tokens": 648,
+    "prompt_tokens": 5843,
+    "total_tokens": 6491,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 260
+    }
+  },
+  "review": {
+    "category": "teacher_suspect",
+    "score_min": 4,
+    "score_max": 7,
+    "confidence": 0.9,
+    "original_image_observations": "学生手写解答：F1=4GHz=4×10⁹Hz，F2=6GHz=6×10⁹Hz；IC=10×10⁵=1×10⁶；CPI1=2，CPI2=1；推导Te=(CPI×IC)/F；Te1=(2×1×10⁶)/(4×10⁹)=5×10⁻⁴s，Te2=(1×1×10⁶)/(6×10⁹)=1.667×10⁻⁴s；教师批改痕迹：每小问右侧标注'+5'，右上角'得分：10 满分：10'，右下角红色对勾",
+    "teacher_issue": "教师给满分10分，但学生将指令数IC误写为1×10⁶（题目为10万条=1×10⁵），导致Te1=5×10⁻⁴s（正确5×10⁻⁵s）、Te2=1.667×10⁻⁴s（正确1.67×10⁻⁵s）均错一个数量级，两问最终结果均不满足'正确计算出运行时间'的满分条件，满分超出合理区间",
+    "model_issue": "旧模型评分（3–4分）识别出IC错误并保留方法分，区间合理但具体权重无细则支持，属合理估计",
+    "evidence": [
+      "图像中IC明确写为10×10⁵=1×10⁶，题目为10万条=1×10⁵，IC错误10倍",
+      "Te1=(2×1×10⁶)/(4×10⁹)=5×10⁻⁴s，正确值应为5.0×10⁻⁵s（50μs）",
+      "Te2=(1×1×10⁶)/(6×10⁹)=1.667×10⁻⁴s，正确值应为1.67×10⁻⁵s（16.7μs）",
+      "公式推导Te=(CPI×IC)/F及CPI、主频代入均正确，方法分应保留",
+      "三个模型探针一致判定PARTIAL_MATCH并给部分分（3.0–4.0），与教师满分矛盾"
+    ],
+    "uncertainties": [
+      "原官方评分细则未规定IC错误时过程分与结果分的精确权重，合理区间为估计值（每小问约2–3.5分）"
+    ],
+    "summary": "学生公式和方法正确，但IC误用1×10⁶（应为1×10⁵），两问最终结果均错一个数量级，不满足满分条件；教师10分超出合理区间，旧模型3–4分方向合理，合理分数区间约4–7分"
+  }
+}

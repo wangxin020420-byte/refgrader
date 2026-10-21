@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_1",
+  "answer_id": "ANS_ISC_403",
+  "category": "teacher_suspect",
+  "summary": "只描述数据需求和像人思维的愿望，未答摩尔限制或新技术，教师2需复核。",
+  "teacher_issue": "应用需求不等于半导体缩放技术挑战，且没有具体应对方向，现有2缺可对应评分内容。",
+  "model_issue": "模型0基于当前题意有理由，但不能代替教师明确开放题相关性分。",
+  "original_image_observations": "仅挑战要处理数据日趋庞大、希望计算机具有人思维，下面空白，教师2。",
+  "evidence": [
+    "未解释任何物理、能耗、经济或架构约束。",
+    "像人思维是目标，不等于已经提出仿生计算电路等具体路线。"
+  ],
+  "uncertainties": [
+    "原题图不可用，应先确认题干与原卷一致，再人工核分，不自动改0。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b436e6607703c6befddbbd87cda4c2c80d6991fa9e7b14d621564ed52e77c85c",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:24:18.651949+00:00"
+}

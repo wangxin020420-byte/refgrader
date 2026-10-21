@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_601",
+  "category": "uncertain",
+  "summary": "集合恰好是允许抢占者、未声明极性；第二问仅文字说明且未明确D后恢复C。教师12可解释为格式扣分，不能直接归教师错误。",
+  "teacher_issue": "若按屏蔽集理解全部反向会高给；若按允许集取补则第一问关系正确，未画图可扣较多，12有解释空间。",
+  "model_issue": "对A/C/D/E集合的位转译本身还错加位，不能拿错误规范化结果判五项致命；文字虽相关也不自动等于所要求图全8。",
+  "original_image_observations": "教师12红勾叉。排序正确，A无、B:A/C/D/E、C:A/D、D:A、E:A/C/D；旧文字划去，新文字从ABC响应说明A后B被C抢占，DE到来先D再E最后B，无实际图。",
+  "evidence": [
+    "统一解释为允许抢占集合可还原正确屏蔽关系。",
+    "文字提供一定推理思路，但缺严格图和D返回C服务段，不能全题20。",
+    "12与格式和图缺失扣分相容，不按模型4至10自动下调。"
+  ],
+  "uncertainties": [
+    "集合极性未说明、文字可抵多少图过程分未规定，需人工确认。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "25e7e30a8b371998c7db97565fa742a1c5d4f3ba85097a574b1d7e5269b3750c",
+  "teacher_score": 12.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:54:02.779718+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_9",
+  "answer_id": "ANS_ISC_340",
+  "category": "label_supported",
+  "summary": "图像数量和像素数正确，灰度级数误作位数，教师3作为少量过程分有据。",
+  "teacher_issue": "",
+  "model_issue": "理由称4096位=1.5字节错误，正确应12位=1.5字节；1000是题设图像数，不能称意外插入。",
+  "original_image_observations": "写1000×2048×2048×4096=1.6×10^4 GB，教师3。",
+  "evidence": [
+    "4096是可取灰度级总数，需log2=12位，不能直接作每像素存储量。",
+    "正确三个规模因子仍有过程价值，但最终量级错误不能满分。"
+  ],
+  "uncertainties": [
+    "该类方法分无细分，3是可支持的部分分而非唯一标准。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2ea6122d1c4cba831bbe0b2d1b3f7be884dce51b43a3672fec77dc97e02df4e5",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:43:52.338848+00:00"
+}

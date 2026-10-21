@@ -1,0 +1,30 @@
+{
+  "question_id": "DM_2",
+  "answer_id": "ANS_DM_117",
+  "category": "uncertain",
+  "summary": "三个证明均有范围缺陷，但模型把受限传递中的合法消元误判为代数错误；教师6是否过宽需细项记录，暂保留人工判断。",
+  "teacher_issue": "自反只覆盖对角元，对称只坐标交换，传递只覆盖相邻共享坐标的特殊情形；6分较宽松但现有标准不足以确定应扣多少。",
+  "model_issue": "由a+b=b+c得到a=c本身正确，不能称致命代数错误；应指出所选三有序对未覆盖一般情形。",
+  "original_image_observations": "教师6红叉。自反以a=b=c=d为前提；对称(a,b)R(b,a)；传递(a,b)R(b,c)、(b,c)R(c,d)，消去共享项得a=c、b=d后结论(a,b)R(c,d)。",
+  "evidence": [
+    "受限前提下结论可由合法代数得到，但这不是所有A×A元素的传递性证明。",
+    "不能因范围不足把已有正确代数全判错，也不能因此给完整性质分。",
+    "历史1.5/1.5/3与教师6差异同时含模型错误和未定义部分分。"
+  ],
+  "uncertainties": [
+    "需要确认教师是否按每个性质给思路分以及各自权重，不能自动用模型低分替换。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2524fa8ffc498cfc5739be4ec37a7514303403a827db78bf5d41170bc786626d",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:42:06.380322+00:00"
+}

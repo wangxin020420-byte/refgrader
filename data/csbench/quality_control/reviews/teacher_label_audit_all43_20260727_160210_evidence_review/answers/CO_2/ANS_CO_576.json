@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_576",
+  "category": "model_or_extraction_issue",
+  "summary": "排序、五掩码和按时间排列的A-C-D-C-E-B服务块正确，教师20有依据；一轮12未认可图。",
+  "teacher_issue": "",
+  "model_issue": "服务矩形之间画回基线用于分段不必表示用户实际执行；程序名和D返回C、E后B的块序列明确，不能因非连续阶梯而整图清零。",
+  "original_image_observations": "教师20红勾。表ABCDE列全部标准值并注明1屏蔽0不屏蔽；右图依次标A、C、D、C、E、B矩形，C与D连接处稍涂改，返回块顺序清楚。",
+  "evidence": [
+    "图块按时间表示同一正确执行关系，形式可以与参考连续阶梯不同。",
+    "五字明确极性，消除位序/语义歧义。",
+    "教师20能由全部有效内容解释，不应因旧12认定高给。"
+  ],
+  "uncertainties": [
+    "若严格要求连续轨迹，可讨论小额格式分；不构成缺8分图内容。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "860e2154211cb09378f85f6e914f4d3db0fe484af168914b01c634bca19a29a1",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:37:34.040290+00:00"
+}

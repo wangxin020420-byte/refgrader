@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_1",
+  "answer_id": "ANS_POC_323",
+  "category": "uncertain",
+  "summary": "a*(b|c)*只给出形状，未给长度关联，教师4是否合理需统一部分分。",
+  "teacher_issue": "无法仅凭总5确定该漏项应扣1还是更多。",
+  "model_issue": "模型0过于整项判定，未分析正确的a前缀和混排后缀。",
+  "original_image_observations": "原图一行a*(b|c)*，教师页眉及大得分4。",
+  "evidence": [
+    "允许aab等前后数量不等串，而标准不允许。",
+    "非等价明确，但正确部分仍应保留分值。"
+  ],
+  "uncertainties": [
+    "未提供计数约束的细分评分政策。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "eeab9a89926df446f8ec0acddd22176a4bc7804a7ff61f812aff00e225510f26",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:54:14.504856+00:00"
+}

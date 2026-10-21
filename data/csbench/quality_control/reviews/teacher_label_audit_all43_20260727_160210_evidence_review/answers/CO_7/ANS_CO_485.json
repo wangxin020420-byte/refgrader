@@ -1,0 +1,29 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_485",
+  "category": "label_supported",
+  "summary": "程序周期数、公式均正确，错误是将GHz换算成10^30；教师各扣1分给8分可解释，未见明确标签异常。",
+  "teacher_issue": "",
+  "model_issue": "旧模型8/2/7分对同样的过程证据给分极不稳定；第一轮本身就给8分。",
+  "original_image_observations": "CPI定义、m=CPI×10^5=2×10^5清楚；t=周期数×(1/f)，两分母写4×10^30和6×10^30，末值5×10^-26和1.67×10^-26s；各+4。",
+  "evidence": [
+    "正确公式和周期数在原图存在，不能因单位转换错误全抹过程。",
+    "教师对两问一致扣结果分，无违背明确官方细分权重的证据。"
+  ],
+  "uncertainties": [
+    "具体扣分权重由人工统一政策决定。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "948e8586cf507fd2884c3e9d32f3397e14123797d25590363ca9aaddd673b7aa",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:19:06.691429+00:00"
+}

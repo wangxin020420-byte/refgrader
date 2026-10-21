@@ -1,0 +1,65 @@
+{
+  "question_id": "CPL_4",
+  "answer_id": "ANS_CPL_191",
+  "category": "uncertain",
+  "summary": "部分输出正确但外侧有实错，教师5的局部分配需确认。",
+  "teacher_issue": "三外对都不符合，5的额外局部分需确认。",
+  "model_issue": "历史错把倒数第二预期15且忽略正确中部，不能按模型0认教师应0。",
+  "original_image_observations": "原图5；首16末19，第二19倒数第二16，中部四数正确，缺28/23目标。",
+  "evidence": [
+    "按原图最终有效行手工读取：16 19 15 24 5 22 24 20 16 19。",
+    "对照程序实际输出，差异位置（1起算）：1, 2, 3, 8, 9, 10。"
+  ],
+  "uncertainties": [
+    "原总10的未明确余分及不完整互换得分待统一，暂不认5已确认错误。"
+  ],
+  "verified_output": {
+    "manually_read_final_sequence": [
+      16,
+      19,
+      15,
+      24,
+      5,
+      22,
+      24,
+      20,
+      16,
+      19
+    ],
+    "program_output": [
+      19,
+      28,
+      20,
+      24,
+      5,
+      22,
+      24,
+      15,
+      23,
+      16
+    ],
+    "mismatching_positions_1_based": [
+      1,
+      2,
+      3,
+      8,
+      9,
+      10
+    ],
+    "only_middle_swap": false,
+    "method": "manual_original_image_inspection_then_offline_position_check"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e6e0c62761c267cc143ff62317878d99a34f8800a68ec09dbd13d4e2c9a5d79b",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:51:59.174099+00:00"
+}

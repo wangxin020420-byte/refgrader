@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1119",
+  "category": "model_or_extraction_issue",
+  "summary": "首tag8错误传播到1152B，但1024×(tag+1)/8完整；次四路组内全相联比较正确。教师7+5=12可解释，模型重复扣源错并苛求共享关键词。",
+  "teacher_issue": "",
+  "model_issue": "容量乘法、加有效位及位转字节均正确，不应因为上游tag8而把+1也清零；第二已限定一组内四块，四套比较的解释充分。",
+  "original_image_observations": "页眉12，1:7、2:5。Cache12位、将四路当组号2位，tag反复改后保留8；行数1024，原896划去改1152，分子1K×(8+1)、分母8。第二每组4块、组内全相联、对一组内四块都比较，配置四套。",
+  "evidence": [
+    "错误tag来自地址层级与组字段混用，首应扣该源错及最终结果，但容量方法有实据。",
+    "1152不是896的等价形式，不能因方法正确给数值结果分。",
+    "第二解释已支持选定组内四路，无需再强制出现不同组共享字样。"
+  ],
+  "uncertainties": [
+    "教师首7的精确分配未公布，但属于有完整正确下游方法的宽松部分分，不是显著无据给分。"
+  ],
+  "transcript_conflicts": [
+    "原图896为作废值，最终1152清楚；不能因曾写896就判首题全对。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "69fcff4aee9eb4fa5ec81d69decca87f0f2b038774c3684768e1786d96847d9f",
+  "teacher_score": 12.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:57:52.318394+00:00"
+}

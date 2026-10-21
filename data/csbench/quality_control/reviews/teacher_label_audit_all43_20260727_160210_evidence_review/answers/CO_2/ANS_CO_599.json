@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_599",
+  "category": "teacher_suspect",
+  "summary": "图正确，但B00001与E01010无法在同一列序下同时表达正确屏蔽集合，教师20疑似漏扣掩码错误。",
+  "teacher_issue": "不能仅以换列顺序解释：B唯一1在第5列要求B在第5列，而E01010第5列为0、不屏蔽B，违反E应屏蔽B。",
+  "model_issue": "只按默认ABCDE比较不够严谨，本次额外检验统一列序仍不能等价；图8有实际依据，不因错掩码连带扣图。",
+  "original_image_observations": "教师20红勾。优先级正确，A11111、B00001、C01101、D01111、E01010；图A-短B-C-D-C-E-B返用户，主要结构完整。",
+  "evidence": [
+    "任意统一列置换都保留B唯一1对应的那一列，E必须也含该列1；原图违反此包含关系。",
+    "因此不是ADC EB等价编码问题，至少B/E之一有真实关系错误。",
+    "完整图与其它正确项保留分，只将教师满分列可疑。"
+  ],
+  "uncertainties": [
+    "无列名不影响上述集合包含关系检验；如有额外不同位含义说明应核原整卷。"
+  ],
+  "evidence_strength": "strong_overcredit_no_consistent_mask_column_mapping",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7a20ec0af87bac62484bcfb85c452a73c0dc40962922459f55d8cce6a674474e",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:37:34.032290+00:00"
+}

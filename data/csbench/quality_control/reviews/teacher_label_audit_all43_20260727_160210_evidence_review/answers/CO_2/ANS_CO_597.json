@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_597",
+  "category": "teacher_suspect",
+  "summary": "图正确但五个所谓掩码只写四位且除A外内容无法还原屏蔽关系，教师18疑似给掩码分过多。",
+  "teacher_issue": "B1001、C1100、D1110、E1010非简单省略自身后的正确四位；仅图8加排序2，第一问剩余需有8分才能18，现掩码不支持。",
+  "model_issue": "把1111二进制变10001、1100变00000均错误；应按实际四位串分析，不能由归一错误定总分。",
+  "original_image_observations": "教师18红勾叉。优先序A.D.C.E.B；A1111、B1001、C1100、D1110、E1010；图A后短B-C-D-C-B过渡-E-B回用户，结束节点清楚。",
+  "evidence": [
+    "若各级都省略本级，B应全不屏蔽其它四级即0000，原1001仍错。",
+    "A四1可解释为只列其它级，但不能用同样规则解释其它四行。",
+    "图应独立保留8，不能因错误掩码连带扣；疑点限18所要求的掩码高分。"
+  ],
+  "uncertainties": [
+    "若四位是特殊编码而非五个屏蔽位，需额外定义；当前无映射说明。"
+  ],
+  "evidence_strength": "possible_overcredit_four_bit_codes_not_valid_masks",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "150cbb2df4ffa83a579eeb1e5b07ecd8adcb66766d865db8a6af0f1a6d82ae97",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:42:24.734474+00:00"
+}

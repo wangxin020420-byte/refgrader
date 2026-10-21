@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_619",
+  "category": "teacher_suspect",
+  "summary": "只写排序并画图，没有掩码，教师15超当前可见项目上限10，需核图源与标签。",
+  "teacher_issue": "五掩码独立10分没有作答，任何图部分分都不足以将总分推至15。",
+  "model_issue": "静态ADC EB不是正确时间轨迹，模型将它作图的正确核心依据不严谨；仍不能据此补缺失表分。",
+  "original_image_observations": "教师15红勾叉。顶部排序ADC EB，下方两幅阶梯尝试左图有斜线，右图A-C/D附近平台及E峰直接落底；全区域无掩码数或屏蔽集合。",
+  "evidence": [
+    "图尝试保留部分理解，但不替代所问屏蔽字。",
+    "按题给分独立上界排序2+图8=10，现15有强缺口。",
+    "应优先排查是否整卷另页内容未入此裁图。"
+  ],
+  "uncertainties": [
+    "原整卷可能有其它作答，当前不断言原教师一定高给5。"
+  ],
+  "evidence_strength": "strong_score_evidence_gap_missing_mask_table",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3091c354ba8414470491d1937024b2eaefca445f3827caa869801d4967b60b91",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:37:34.039290+00:00"
+}

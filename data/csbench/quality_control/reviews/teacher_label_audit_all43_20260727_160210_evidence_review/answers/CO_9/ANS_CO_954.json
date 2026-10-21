@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_954",
+  "category": "label_supported",
+  "summary": "数量与RAM七个低有效或式正确，ROM两式却相同且缺A12分片。教师12恰可对应数量6加RAM6，ROM逻辑失分有依据。",
+  "teacher_issue": "",
+  "model_issue": "部分轮次将正确RAM或式错误说成AND/OR混淆而扣分，另轮15又只看正确地址表忽略ROM同选，均不能替代原图核查。",
+  "original_image_observations": "教师12，1:6、2:6。CS1、CS2都A13+A14+A15；CS3～CS9逐项正确枚举三高位低有效或式；右侧九段地址表全部正确。",
+  "evidence": [
+    "ROM表中两4K范围正确，但最后明确片选式未区分A12，两片同时有效，不能只摘地址表判全对。",
+    "RAM1在001、RAM7在111时分别唯一为0，中间五式亦正确。",
+    "12分有清楚的6+6依据，无需列教师少给或多给。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1cf4ca1b6a10dfb43944a892f392bfc45c8e800a24c4d0a24ec56846345dccd9",
+  "teacher_score": 12.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:10:40.635125+00:00"
+}

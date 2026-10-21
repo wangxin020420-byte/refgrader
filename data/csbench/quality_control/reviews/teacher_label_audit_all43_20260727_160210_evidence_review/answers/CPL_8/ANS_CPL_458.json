@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_8",
+  "answer_id": "ANS_CPL_458",
+  "category": "teacher_suspect",
+  "summary": "第10空player[i]+j是正确元素地址却给0，教师总4疑似漏给明确正确项。",
+  "teacher_issue": "第10空与&player[i][j]严格等价，应按该空2分标准复核。",
+  "model_issue": "第8空score+i为float(*)[5]，不能直接称为float*；第9空float,500也不是合法字节数表达式，不能据模型8.5补总分。",
+  "original_image_observations": "(6)sum+=*(score+i)、(7)比较正确，各红2；(8)score+i,5、(9)float,500、(10)player[i]+j，三项均红0，总4。",
+  "evidence": [
+    "player[i]在此表达式中退化成第i行float*，加j即正确scanf地址。",
+    "正确性来自同一player及i、j，属于实际等价表达，不是任意变量替换。"
+  ],
+  "uncertainties": [
+    "第8、第9空可能的过程分另需细则；不据此自动修改总分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "06050cf3b0099a99dcb14e367fecb286cbff3974b693f41020f0c2f7880a19ce",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T02:02:59.087543+00:00"
+}

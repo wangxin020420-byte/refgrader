@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_981",
+  "category": "uncertain",
+  "summary": "错误假设ROM:RAM=2:1导致8片和4片，第二问又把两ROM与一RAM共用选择码；教师2+4=6是否过程分过高需核对，不能仅按模型零分定案。",
+  "teacher_issue": "第二问4/9给分依据偏弱：仅四组选择码且多片同时选通，没有区分ROM内部与RAM地址。第一问仍有总容量配平关系，可保留少量方法分。",
+  "model_issue": "模型首轮0忽略总容量方程及2片4K对应一片8K的容量关系，后两轮1.5/2也不等于唯一标准。",
+  "original_image_observations": "教师6，1:2、2:4。方程(2×4K·a+8K·a)/64K=1，a4，8ROM/4RAM。四行每行ROM两片和RAM一片，共用CS:000、001、010、100。",
+  "evidence": [
+    "容量总计64K的方程成立，但ROM分配32K而非低8K，比例假设来源错误。",
+    "共用码使同一组的ROM/RAM同时选通，且两ROM未区分A12。",
+    "4分可能是粗略译码尝试分，缺少具体部分分规则，当前保留待确认。"
+  ],
+  "uncertainties": [
+    "教师第二问过程分权重和是否另计图外连接信息不明。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9b71be210293db3e5d0a279d0a953be978996a5e7c3b723b4358bb447bc6b73c",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:56:13.446116+00:00"
+}

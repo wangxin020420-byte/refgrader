@@ -1,0 +1,34 @@
+{
+  "question_id": "CO_6",
+  "answer_id": "ANS_CO_441",
+  "category": "teacher_suspect",
+  "summary": "最终有效控制153、BCF3、BAF9及容量关系清楚，主要错误为互斥组未留空操作码；教师12疑似对同一源错误多扣，需复核正确后续方法分。",
+  "teacher_issue": "153到165、512×165=84480、÷8=10560均正确，且BCF3/BAF9成立。12分可能未充分保留这些独立正确关系，建议核对扣分是否重复。",
+  "model_issue": "模型将BAF9读4，又因153错误对多个后续步骤归零；原图顶部153也被下方未同步改掉的40干扰。",
+  "original_image_observations": "教师12红叉。最上另写(4+3+4+2)+140=153；正文仍有控制40旧值，但最终总式3+9+153=165；BAF为9；第二问512×165=84480，84480/8=10560。",
+  "evidence": [
+    "三组未留空码导致总153，这是同一类源错误，可扣对应组分。",
+    "最终和式明确使用153，前面40不是最终代入，不能据此增加后续错误。",
+    "按用户保留正确过程政策，多个正确容量关系应有相应分，低于模型高分或高于低分均不能代替这个核查。"
+  ],
+  "uncertainties": [
+    "未删40造成表述冲突，互斥三组错误具体合计扣分需统一，因此仅可疑不自动升分。"
+  ],
+  "transcript_conflicts": [
+    "BAF原图9，转录4。"
+  ],
+  "evidence_strength": "possible_repeated_deduction_after_group_encoding_error",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "45033f77eaaabf78de0e8d9d24f1ade925984a3c34658c1bf6dcd95b2cf0982f",
+  "teacher_score": 12.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:48:58.101024+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1517",
+  "category": "model_or_extraction_issue",
+  "summary": "首简述2、屏蔽字8、轨迹漏B嵌套及C返回B扣至6，教师16可解释；模型将实际轨迹全判0。",
+  "teacher_issue": "",
+  "model_issue": "主图不是乱码：A、C、A、B、A、D、A与用户的路径可辨，需局部分析B嵌套错误，不该因为无结构化转录判0。",
+  "original_image_observations": "页眉16，1:2、2:8、3:6。首旧DMA文字划去，保留外设接口满、请求、CPU响应执行服务。屏蔽字0001/1011/1111/1001。图用户→A→C→A→B→A→D→A→用户，A上C、C下A两处红圈。",
+  "evidence": [
+    "表完全正确，8无异常。",
+    "图主要处理完成顺序与返回用户成立，但C应嵌套于B而不是直接A，不能满7。",
+    "教师6可将两处B层级问题视同一嵌套源错；首2为请求服务骨架，未给满。"
+  ],
+  "uncertainties": [
+    "图源错的具体扣分量需一致口径；不能据模型9至10将教师16定为错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7cbc5d11419107edcbf0556dc83147e44d2da50510811504f72d6e2e5cec6b69",
+  "teacher_score": 16.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:07:47.902771+00:00"
+}

@@ -1,0 +1,79 @@
+{
+  "version": "assisted-label-review-v1",
+  "stage_sha256": "0034deba287c66a81a74f860376cbd468e850db5fc5b0293db3c909a6d95c4d2",
+  "input_sha256": "2d28eac3fc8ac96361a8b6b0d1fcdcbdf14077defee504b452441e7210211f72",
+  "created_at": "2026-10-20T08:09:22.368425+00:00",
+  "request_url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+  "model": "glm-4.6v",
+  "response_id": "2026102016084392aa955588b647c2",
+  "usage": {
+    "completion_tokens": 1129,
+    "prompt_tokens": 1868,
+    "total_tokens": 2997,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 5
+    }
+  },
+  "review": {
+    "observed_answer": "解：F1=4GHz=4×10^9Hz  F2=6GHz=6×10^9Hz\nIC=10×10⁵=1×10⁶\nCPI1=2  CPI2=1\nTe=m×T\nT=1/F      \nCPI=m/IC\n⇒ Te= (CPI×IC)/F\n程序P在M1上的运行时间Te1= (2×1×10⁶)/(4×10⁹)=5×10⁻⁴s\n程序P在M2上的运行时间Te2= (1×1×10⁶)/(6×10⁹)=1.667×10⁻⁴s",
+    "transcript_conflicts": [
+      "图像中F1和F2的表示为4×10^9Hz和6×10^9Hz，转录中误写为4×10^-9Hz和6×10^-9Hz；图像中IC的表示为10×10⁵=1×10⁶，转录中误写为10×10⁵=1×10⁶（实际数值一致但表述有误，应为10万=1×10⁵，此处图像中IC计算正确但转录中数值正确但表述有误）；图像中CPI1的表示为2，转录中误写为Z；图像中Te1的计算结果为5×10⁻⁴s，转录中误写为5×10⁻⁴s（实际数值一致但表述有误，应为5×10⁻⁵s）；图像中Te2的计算结果为1.667×10⁻⁴s，转录中误写为1.667×10⁻⁴s（实际数值一致但表述有误，应为1.67×10⁻⁵s）"
+    ],
+    "checks": [
+      {
+        "criterion": "M1运行时间计算公式及数值",
+        "student_evidence": "Te1= (2×1×10⁶)/(4×10⁹)=5×10⁻⁴s",
+        "expected": "Te1= (2×10⁵)/(4×10⁹)=5×10⁻⁵s",
+        "assessment": "公式正确（Te=(CPI×IC)/F），但IC数值错误（将10万条误写为1×10⁶条），导致结果错误（5×10⁻⁴s vs 正确5×10⁻⁵s）",
+        "score_min": 0,
+        "score_max": 2
+      },
+      {
+        "criterion": "M2运行时间计算公式及数值",
+        "student_evidence": "Te2= (1×1×10⁶)/(6×10⁹)=1.667×10⁻⁴s",
+        "expected": "Te2= (1×10⁵)/(6×10⁹)≈1.67×10⁻⁵s",
+        "assessment": "公式正确（Te=(CPI×IC)/F），但IC数值错误（将10万条误写为1×10⁶条），导致结果错误（1.667×10⁻⁴s vs 正确1.67×10⁻⁵s）",
+        "score_min": 0,
+        "score_max": 2
+      },
+      {
+        "criterion": "公式推导过程",
+        "student_evidence": "Te=m×T, T=1/F, CPI=m/IC ⇒ Te= (CPI×IC)/F",
+        "expected": "Te= (CPI×IC)/F",
+        "assessment": "公式推导正确，逻辑清晰",
+        "score_min": 1,
+        "score_max": 1
+      },
+      {
+        "criterion": "数值代入与计算",
+        "student_evidence": "IC=10×10⁵=1×10⁶",
+        "expected": "IC=10万=1×10⁵",
+        "assessment": "IC数值错误（10万条误写为1×10⁶条），导致后续计算结果错误",
+        "score_min": 0,
+        "score_max": 1
+      },
+      {
+        "criterion": "单位与科学计数法",
+        "student_evidence": "结果为5×10⁻⁴s和1.667×10⁻⁴s",
+        "expected": "结果为5×10⁻⁵s和1.67×10⁻⁵s",
+        "assessment": "单位正确，但科学计数法数值错误（因IC数值错误导致）",
+        "score_min": 0,
+        "score_max": 1
+      }
+    ],
+    "score_min": 2,
+    "score_max": 6,
+    "confidence": 0.8,
+    "uncertainties": [
+      "IC数值错误是否因转录笔误导致（图像中IC为10×10⁵=1×10⁶，实际应为10万=1×10⁵，可能学生将10万误写为10×10⁵）"
+    ],
+    "summary": "学生公式推导正确，但IC数值错误（将10万条误写为1×10⁶条），导致M1和M2的运行时间计算结果均错误（数值大10倍）。公式部分得分，数值计算部分因错误传播扣分。"
+  }
+}

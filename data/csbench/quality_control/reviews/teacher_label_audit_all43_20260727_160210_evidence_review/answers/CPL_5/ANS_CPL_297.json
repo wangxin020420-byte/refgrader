@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_5",
+  "answer_id": "ANS_CPL_297",
+  "category": "teacher_suspect",
+  "summary": "原图四项实质修复正确，教师6可能漏给一项，应复核是否应为8。",
+  "teacher_issue": "初始化、读模式、循环N改N-1、去&四项都明确，题设每处2，只有新增头文件不计分。",
+  "model_issue": "也按学生列举顺序漏认循环及去&，甚至把去&错归循环项；行号23与22差一不应盖过明确修复内容。",
+  "original_image_observations": "第1条result0改1并解释原为0；第2条w改r；第3条标23把N改N-1使循环6次；第4条标24把&c改c使传入数组首地址；第5条加stdlib.h。教师6。",
+  "evidence": [
+    "循环文本描述N改N-1且六次与参考完全一致，虽行号23有偏差，实际修复目标无歧义。",
+    "传c和初始化、读模式均是独立2分项，不依赖答题顺序。"
+  ],
+  "uncertainties": [
+    "需教师确认是否因行号偏差额外扣了整项；保持原分，不自动补8。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c5ab8d192f6f7cb6ca8eeff11836f42931f0a79f5c2c6629c8707b73fa4bac80",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:17:28.216321+00:00"
+}

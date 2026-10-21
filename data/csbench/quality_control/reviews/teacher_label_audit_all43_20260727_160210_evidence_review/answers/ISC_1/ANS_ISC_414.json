@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_1",
+  "answer_id": "ANS_ISC_414",
+  "category": "model_or_extraction_issue",
+  "summary": "挑战答偏专家系统，但量子、光、生物计算给出具体替代方向，教师3有部分分支持。",
+  "teacher_issue": "",
+  "model_issue": "仅量子计算在参考中就只认一个，其余具体计算范式不能因为未列举而直接视为无关；参考是示例不是封闭清单。",
+  "original_image_observations": "挑战知识获取、知识库构建和推理机制；方向提高集成度、研究生物/光/量子计算机、网络化智能化。教师3。",
+  "evidence": [
+    "知识库与推理困难并非摩尔缩放的主要器件挑战，应扣该部分。",
+    "后半明确给出不同计算范式，不能仅剩0.83的关键词交集当唯一得分依据。"
+  ],
+  "uncertainties": [
+    "生物/光计算作为延续性能的程度和总题各问分值需教师统一，未据此补满。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "371bde700cccdb68c53a481d0ce49831bb43538b29cff0c0edf8feee29c8886d",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:24:18.627525+00:00"
+}

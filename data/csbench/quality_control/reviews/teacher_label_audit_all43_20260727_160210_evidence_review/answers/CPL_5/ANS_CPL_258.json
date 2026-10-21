@@ -1,0 +1,30 @@
+{
+  "question_id": "CPL_5",
+  "answer_id": "ANS_CPL_258",
+  "category": "uncertain",
+  "summary": "初始化正确被模型错位漏认；教师4可能含有源参考错误接受的&&修改，需先统一题干口径。",
+  "teacher_issue": "若仅把||改&&获得2分，属于参考本身的逻辑问题，不能直接归因教师；没有逐项得分无法确认。",
+  "model_issue": "按学生列举顺序绑定评分项，漏认第2条result=1；不能因它排在第二条就判初始化未改。",
+  "original_image_observations": "第1条将||换&&；第2条第4行改float result=1；第3条循环从N到大于0；第4条删main参数；第5条printf末实参有改写及c旁空括号形笔迹。教师4。",
+  "evidence": [
+    "result=1是正确幂函数初始化，应给对应正确项而非按答题序号扣掉。",
+    "i=N;i>0仍首访c[N]并遗漏c[0]；删除main参数也破坏命令行文件输入。",
+    "源准则错误接受argc!=2&&fopen失败，无法保证参数合法或正常打开文件。"
+  ],
+  "uncertainties": [
+    "题干return位置和fopen括号转录与源参考不一致，原题图缺失；&&给分及第5条笔迹需人工确认。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b431cb13fbd953f815ae1127de448d1ab268cb48314be8119982edd1a8101198",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:17:28.201285+00:00"
+}

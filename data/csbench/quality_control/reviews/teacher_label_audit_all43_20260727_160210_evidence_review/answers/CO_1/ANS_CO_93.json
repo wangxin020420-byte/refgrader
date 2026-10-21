@@ -1,0 +1,38 @@
+{
+  "question_id": "CO_1",
+  "answer_id": "ANS_CO_93",
+  "category": "label_supported",
+  "summary": "有效作答字段仍多一位、最终05H错，但I=1间接正确，教师1可为方法尝试分；模型0遗漏这种局部内容。",
+  "teacher_issue": "",
+  "model_issue": "上方旧过程全作废应剔除；模型称字段空白也不准确，下面有‘去除后两位’尝试，只是未得到正确六位。",
+  "original_image_observations": "教师1红勾叉。上半三行都划掉；有效下半11011110去除后两位后得1101110，I=1间接寻址，末A指定地址内容05H。",
+  "evidence": [
+    "去低两位的方向正确，实际写出的位串仍不对，应给局部而非全字段分。",
+    "I=1对应间接识别正确，非完全空白。",
+    "最终05H无正确访存链，不给最终分合理。"
+  ],
+  "uncertainties": [
+    "末位有涂改，但不能清楚认成正确六位；不借作废上文补齐。",
+    "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+  ],
+  "question_source_conflict": {
+    "question_id": "CO_1",
+    "text_source": "data/csbench/exam_database.json",
+    "question_image": "data/csbench/reference_images/questions/CO_1.png",
+    "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+    "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2ae3b743d03f7ebcf3358733e86c2d473262f2968d7c6ba5df334176358eeacc",
+  "teacher_score": 1.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:08:38.249630+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_596",
+  "category": "uncertain",
+  "summary": "掩码位串可对应ADC EB列序但未标列名，图有额外C服务段；教师18需结合列序和图扣分政策人工确认。",
+  "teacher_issue": "18可能是接受等价列序、只扣额外C图形错误2分；若默认ABCDE则不应如此高，现有证据不能选定。",
+  "model_issue": "把掩码位串直接判三行全错，又把静态处理优先级当图路径判满8，未按实际平台检查。",
+  "original_image_observations": "教师18红勾叉。行A/B/C/D/E分别11111/00001/00111/01111/00011，无位列表头；图A后回用户、B-C-D-C-B-C-B-E-B后用户，D/E到达标记在C初段。",
+  "evidence": [
+    "按ADC EB列序可把每行转换成正确屏蔽集合，行序ABCDE本身不决定列序。",
+    "实际图不是A→D→C→E→B；C有不应重复的第二服务峰。",
+    "应把等价编码歧义和真实额外服务分开，不能据模型14直接判教师高给4。"
+  ],
+  "uncertainties": [
+    "原图未说明列位序，部分图分未细分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "78cd91c737cc15f7d00ca86e3edff4bc942a4d6b013961ed99537df4edbd00b8",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:21:22.910442+00:00"
+}

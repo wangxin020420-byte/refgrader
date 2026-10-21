@@ -1,0 +1,35 @@
+{
+  "question_id": "POC_1",
+  "answer_id": "ANS_POC_299",
+  "category": "teacher_suspect",
+  "summary": "准备标签5与原图4冲突，原答又确缺长度等式，需查标签来源。",
+  "teacher_issue": "原图页眉和大得分均4，teacher_scores.json却5；不应称原教师给了满分。",
+  "model_issue": "首轮指出计数独立成立，但全0未保留形状部分分。",
+  "original_image_observations": "左旧表达式被划掉，最终{a^m(b∪c)^n |m≥0,n≥0}，原图教师4，准备标签5。",
+  "evidence": [
+    "最终m与n独立，不能等价于标准语言。",
+    "同一原图两处可见4，与数据5矛盾。"
+  ],
+  "uncertainties": [
+    "需追溯准备标签5是否后续复评分，暂不改写原标签。"
+  ],
+  "score_source_conflict": {
+    "prepared_teacher_score": 5,
+    "visible_original_teacher_score": 4,
+    "prepared_source": "data/csbench/teacher_scores.json",
+    "action": "保留输入并核对来源"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9ad8a2f4253aadccae4052d568b1d28f7a69a4c71664e74173efa0b6ee65265a",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:54:14.513879+00:00"
+}

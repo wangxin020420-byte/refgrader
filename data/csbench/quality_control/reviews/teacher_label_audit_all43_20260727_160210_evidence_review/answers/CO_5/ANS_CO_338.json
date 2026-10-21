@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_338",
+  "category": "label_supported",
+  "summary": "三种格式及剩主码2^4-12识别正确，但预留与窗口合并方式错误，最终192和512；教师8分可以对应格式和扩展部分过程，不能据模型近0认定错标。",
+  "teacher_issue": "",
+  "model_issue": "首轮因整个方程错误连明确正确的2^4-12也归零，且漏评三种格式图；不应将不同错误同时抹掉所有部分分。",
+  "original_image_observations": "教师8红叉。画二地址4/6/6、一地址10/6、零地址16；设x，用(2^4-12)(2^6-x)×2^6=1，解写192；第二问(2^4-12)(2^8-254)×2^6=512。",
+  "evidence": [
+    "格式字段和剩4主码是真实有效知识，不是无关参数抄写。",
+    "第一问将x在每个窗口内扣并要求所有零地址编码只有1，第二问对256总空间再多乘4，均有核心错误，不能满分。",
+    "扩展6位和扣已用名额的意图存在，8分可作为部分分解释。"
+  ],
+  "uncertainties": [
+    "未提供精确部分分配，当前仅说明教师分有一定依据，不确认每个点的权重。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ff1e3e6444a3b0b6b9d78b92c712a1be6fc320d25fa66c208b4a1e7ace032e19",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:24:51.889963+00:00"
+}

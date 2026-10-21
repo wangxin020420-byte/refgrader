@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1135",
+  "category": "uncertain",
+  "summary": "有4路及块偏移等准备过程，但位/字坐标混用、组号和tag及容量多错；教师首6第二0的过程分范围需核，不能直接按模型0至1认教师错误。",
+  "teacher_issue": "第一问没有正确完整字段或容量，6分是否偏高需依据原始方法权重确认；第二无正确数量获0一致。",
+  "model_issue": "20是总位坐标而非‘字节地址20’，真正问题是其与偏移2字坐标混用；正确识别4字偏移2及四路r2应保留局部过程，不能全清。",
+  "original_image_observations": "页眉6，1:6、2:0。主存64K×16=2^20称20位，Cache除块长公式后写2^12、再除4得10位行号；字块4×16/16=4得偏移2；tag20−10−2=8、容量2^8/8=32B。第二仅写tag7位、有效位1位，没有套数。",
+  "evidence": [
+    "若统一位坐标应偏移6、组8、tag6；当前20/10/2不一致，不能接受为等价坐标变换。",
+    "容量位数指数化且没乘块数是独立错误，不能由上游错误一并豁免。",
+    "存在块偏移、路数及字段相减的方法尝试，具体是否足以6分无公开原细项。"
+  ],
+  "uncertainties": [
+    "部分Cache分母和指数涂改，但有效10位行号、tag8和32B清楚；仍需核教师对方法尝试的权重。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c93374002013cfbbd5e6f2fef8a84f38573e07eb30f6a2c8ceb86df1918a2f9a",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:53:59.207246+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_955",
+  "category": "label_supported",
+  "summary": "数量正确；第二问列出3位译码的8个低有效或式，但混合4K和8K片并用未定义CS4单独选RAM7，尚未完成实际地址映射。教师6+4=10可作部分分。",
+  "teacher_issue": "",
+  "model_issue": "两轮15将抽象3位状态直接等同9片不等大小的正确映射，忽略地址线定义、ROM二次译码和RAM7使能；低分轮次较能体现实现不完整。",
+  "original_image_observations": "教师10，1:6、2:4。写‘片选总有4位CS1～4’，CS4直接控RAM7、RAM7=¬CS4；其余8片接3-8，按000～111依次列ROM两片和RAM1～6的或式，无实际地址高位对应。",
+  "evidence": [
+    "正确的3位低有效最大项列举值得部分方法分。",
+    "同一直接3位地址译码各区等大，不能未经额外逻辑同时给两4K ROM与六8K RAM各一个区。",
+    "RAM7仅¬CS4没有低区屏蔽或地址范围定义，不构成完整七RAM选择。"
+  ],
+  "uncertainties": [
+    "若CS1～4是另外预处理信号需补充定义，当前图未给；不据此认整题满分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "52eb8809baffdf55873af2a0dd3eb5c88f2c0329091cd0f6ad13589aaa583102",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:10:40.633128+00:00"
+}

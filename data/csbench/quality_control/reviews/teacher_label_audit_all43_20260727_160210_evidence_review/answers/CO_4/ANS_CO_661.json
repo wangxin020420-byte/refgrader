@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_661",
+  "category": "label_supported",
+  "summary": "主存格式正确，Cache写成有效位/tag/偏移而缺组、路选择；访问两结论及字段正确但比较表的展开有限。教师5+2+4+3=14有依据，不用旧模型高分判其少给。",
+  "teacher_issue": "",
+  "model_issue": "首轮将第一个地址名的书写笔误作为主要扣分点，却未充分反映Cache格式错误；部分轮次对简略查表理由近乎全给，属于尺度分歧。",
+  "original_image_observations": "主存8/4/11+5；Cache1有效位/8标记/11偏移+2；2D07FF取tag5A、set0、块0或1未访问+4；7F0057取tagFE、set0、块0或1访问+3，总14。",
+  "evidence": [
+    "Cache图是元数据与数据布局，不是所要求4/1/11地址格式。",
+    "两个访问没有详细写组内tag逐一匹配，教师保留大部分但未全给可解释。",
+    "旧模型18.5/15/19分不能单独证明原14分错误。"
+  ],
+  "uncertainties": [
+    "访问理由简写可接受到何种程度需统一政策；当前没有足够独立证据把其列为优先教师错例。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "efa99f0ab24e25063c2ea450495cdba4e03d472a8f73fd8e0b8f592d50feddd0",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:47:19.238557+00:00"
+}

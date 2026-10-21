@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1597",
+  "category": "model_or_extraction_issue",
+  "summary": "D末位墨团更像竖笔1，不能确定为0；其余表正确且图有主要服务阶段，教师3+8+5=16可解释，模型表2、图7均缺依据。",
+  "teacher_issue": "",
+  "model_issue": "即使D真错其余三行已可保留6，不应只2；‘D1000导致不能屏蔽B/C’也错误，因为B/C本就应允许抢占D。图有多次错回用户，不能仅据完成顺序给满7。",
+  "original_image_observations": "页眉16，1:3、2:8、3:5。首申请、进入中断周期、保护现场、服务。表列MDMCMBMA，A0001/B1011/C1111，D为100加末位实心竖笔，未见清楚0环。图用户→短A→C→用户附近→B→用户附近→D→用户附近→A→用户，三圈指初始/返回。",
+  "evidence": [
+    "D末位识别有实质歧义，不能把OCR0当确定教师漏判；原末竖笔与其他1相容。",
+    "图完成顺序正确但将嵌套返回画成回用户，必须局部扣；教师只5并未满图。",
+    "首有保护现场，3可以部分给分，主要分差来自模型读表与图满分/零分摇摆。"
+  ],
+  "uncertainties": [
+    "D最后一位需更高清原卷才能完全确定，不确认全表8为唯一正确；也不据不清墨团认教师错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e1e92d211daeb199c222922c50622707121dfeb25eec9ffef1fdd378c8f26fb1",
+  "teacher_score": 16.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:15:25.129467+00:00"
+}

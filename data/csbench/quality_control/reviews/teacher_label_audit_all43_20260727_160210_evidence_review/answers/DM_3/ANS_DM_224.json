@@ -1,0 +1,31 @@
+{
+  "question_id": "DM_3",
+  "answer_id": "ANS_DM_224",
+  "category": "teacher_suspect",
+  "summary": "翻译和量词严重不规范，但局部拒取及析取消去方向正确；教师0可能漏给方法部分分，建议复核而非按模型3至5直接改分。",
+  "teacher_issue": "从¬D与B↔D得¬B、再从B∨C得C确有正确局部推理，按过程部分分政策全0可能过严。",
+  "model_issue": "首轮给翻译3错误：全总域下受限量词乱写、B↔D过强且无存在结论，均不能称等价完整翻译。",
+  "original_image_observations": "教师0红叉。顶端大量A(x)≡x等错误记号；第二行写∀x∈A(x)、B↔D及A且¬D→C；表列A、B∨C、¬D、B↔D，再5引用3/4得¬B，6引2/5得C，无最终EG。",
+  "evidence": [
+    "不能满分，前提翻译及存在对象保证均未完成。",
+    "命题局部两步逻辑正确且有引用，属于能与上游错误区分的方法证据。",
+    "疑点是零分是否遗漏局部过程，非认可错误双条件翻译或自动采用模型分。"
+  ],
+  "uncertainties": [
+    "若教师按严格不可比整体不给方法分，0可被解释；需复核与其它同题部分分的一致性。"
+  ],
+  "evidence_strength": "possible_undercredit_valid_local_rules_despite_bad_translation",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "04a63ebc8577f65982db36ef1bfcec60da5505213975d549d52f6a3a39dd9789",
+  "teacher_score": 0.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:52:46.945480+00:00"
+}

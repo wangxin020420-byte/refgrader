@@ -1,0 +1,27 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_229",
+  "category": "model_or_extraction_issue",
+  "summary": "完整正确树与分类理由均有据，模型错把相邻子树的a接到A下。",
+  "teacher_issue": "",
+  "model_issue": "捏造A→Sa并据此打折结构与数值；分类已有综合属性说明却称未书写。",
+  "original_image_observations": "左S属性及两属性综合；右标注树根2、中A1、左A0/S0到c，右S1向a,A0,b，A0经S0到c，双箭头表示求值向上，教师10。",
+  "evidence": [
+    "a属于右S的子节点，不是左A的额外子节点。",
+    "全部值与参考一致，双箭头方向不改变树的父子层级。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "8db9aefc1f4cef7d53b2a908e3644351f083a79ab59703e2e1177f1a60fdb861",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:46:45.600367+00:00"
+}

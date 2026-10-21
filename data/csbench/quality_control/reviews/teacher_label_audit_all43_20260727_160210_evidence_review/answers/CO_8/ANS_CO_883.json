@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_883",
+  "category": "model_or_extraction_issue",
+  "summary": "查询按每字传输间隔对应200周期，100/200=50%完全正确；DMA两周期数正确但求补比99%，教师5+4=9符合保留过程、扣结果。",
+  "teacher_issue": "",
+  "model_issue": "模型把200周期/字的等价路径称概念错误，认为缺每秒次数；对DMA中间关系也不应因未写250再次扣分。",
+  "original_image_observations": "教师总9、1:5、2:4。第一问32/(8×10^6)=4×10^-6，乘50×10^6得200周期，100/200=50%。第二问.004s×50×10^6=2×10^5周期，500+1500=2000，最终(2×10^5-2×10^3)/(2×10^5)=99%。",
+  "evidence": [
+    "按一次传输计算占用比与参考的每秒总量法等价。",
+    "DMA唯一主要错误为取了非CPU占用的补比，教师未给最终满分。",
+    "模型3.75～7.5的变化体现路径识别和过程权重问题，非教师标签证据。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "cf36cef2350671b8733b8d71f3b9ec378c3d0948b6e7c61dab9565b9e66f094b",
+  "teacher_score": 9.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:59:03.586898+00:00"
+}

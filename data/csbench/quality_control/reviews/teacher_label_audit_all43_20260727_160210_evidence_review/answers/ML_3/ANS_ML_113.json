@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_113",
+  "category": "uncertain",
+  "summary": "转录中的π等符号明显来自涂改误读，但原图保留的第二组函数及输出含n+1时标，是否只是统一状态标记还是误把次态用于现态激励，需进一步确认；暂不判教师6分必错。",
+  "teacher_issue": "若J2确为当前激励却取xy1^(n+1)，则满分有问题；若为同一时刻状态的记号约定，则不能机械扣分。",
+  "model_issue": "将涂改内容读取为ⓝ、5π/4并作为正式答案，不能支持其严重错误判定。",
+  "original_image_observations": "K1=J1=x清楚；第二行K2=J2后有多处涂改，最终右侧y1^(n+1)x；输出写z=y2^(n+1)y1^(n+1)x；教师6。",
+  "evidence": [
+    "电路的J2/K2取第一触发器现态y1与x，标准输出取同一时刻y1y2x。",
+    "原图不是旧模型描述的无关π表达式，但时态标记仍需区分。"
+  ],
+  "uncertainties": [
+    "原题和学生均未对n+1标记统一解释；不把所有带n+1表达式自动视为等价。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f4d4391cb842fdcd5df5332795fd410dc530d7ddf20e26e46e49159f9a458888",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:34:40.062269+00:00"
+}

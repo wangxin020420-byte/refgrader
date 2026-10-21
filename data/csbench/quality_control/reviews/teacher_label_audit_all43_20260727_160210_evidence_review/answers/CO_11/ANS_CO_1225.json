@@ -1,0 +1,39 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1225",
+  "category": "label_supported",
+  "summary": "I30方法完整正确、R先32又改30、J资源式正确但优化目标错误求24，教师4+5+2=11可解释；模型有两次超15且抓了作废J120。",
+  "teacher_issue": "",
+  "model_issue": "作废(32−2)×4=120不是最终J方法，后面有效(31−a)×4=b有正确扩展结构；18/20总分超15不能用于标签分差。",
+  "original_image_observations": "页眉11，1:4、2:5、3:2。R2^5=32后称保证I最多R30。I逐一减R00000和J扩展前缀得30。旧J120整行划去，设I a/J b，(31−a)×4=b，a>b且b最多选a25/b24，最终R30/I30/J24。",
+  "evidence": [
+    "I完整正确可满5，R掌握五位容量但错误限制为30应扣结果。",
+    "J乘4及扣R1是方法部分，错把I最大化换成I>J，最终24不合条件，教师只2。",
+    "原11比模型18/20更符合总分上限与可见错误，不因模型高给认教师低给。"
+  ],
+  "uncertainties": [
+    "R4、J2的方法权重未细分，11非唯一可证；未给错J满分。"
+  ],
+  "historical_score_contract_issue": {
+    "max_score": 15,
+    "recorded_scores": [
+      7.5,
+      18,
+      20
+    ],
+    "observation": "后两次总分越15，首probe还包含dummy额外项，历史保留不作标签依据。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "71084b71077c6f30d351c559f624280614554c0f157c40ced79556728c7d1d8c",
+  "teacher_score": 11.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:50:54.636943+00:00"
+}

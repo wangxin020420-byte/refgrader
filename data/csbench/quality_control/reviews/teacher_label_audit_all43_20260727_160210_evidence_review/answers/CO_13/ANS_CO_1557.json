@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1557",
+  "category": "model_or_extraction_issue",
+  "summary": "四个屏蔽字及轨迹完整正确，首过程概括过简获2，教师2+8+7=17合理；模型漏图且有一次将简略首链给满5。",
+  "teacher_issue": "",
+  "model_issue": "应分别识别首题缺关中断/入口/恢复断点的细节与第三完整图；不能首题泛链满分却因图OCR空缺把第三0。",
+  "original_image_observations": "页眉17，1:2、2:8、3:7。首请求→同意→现场保存→服务→恢复现场。表MD MC MB MA，A0001/B1011/C1111/D1001。图用户→A→B→C→B→A→D→A→用户，A/B短段与B后回A下凹清楚。",
+  "evidence": [
+    "表的位序与题设一致，8分正确。",
+    "实际图与标准轨迹层级一致、返回未丢失，7分有依据。",
+    "首概述可保留2，不自动要求教师对未写细节也给满；总17有明确分项支持。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7e65c5915eabcf30c095ae8054af947ea20c4a43d09e7259c5d8961f452e267f",
+  "teacher_score": 17.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:07:47.900766+00:00"
+}

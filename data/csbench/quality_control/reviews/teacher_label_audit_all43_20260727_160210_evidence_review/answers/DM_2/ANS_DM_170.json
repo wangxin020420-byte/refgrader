@@ -1,0 +1,33 @@
+{
+  "question_id": "DM_2",
+  "answer_id": "ANS_DM_170",
+  "category": "model_or_extraction_issue",
+  "summary": "原图有枚举与矩阵尝试，旧模型全项抽成空白导致0分；学生实际混淆关系定义，教师2是否思路分需保留人工确认。",
+  "teacher_issue": "",
+  "model_issue": "三轮0的首轮证据全写‘未书写’，与原图和转录中明显存在的作答矛盾，不能用空白判决认定教师高给。",
+  "original_image_observations": "教师2红叉。列A×A的16对，又写一个删除部分元素的R，画4×4矩阵左上0其余1，末声称自反对称可传递。",
+  "evidence": [
+    "真正关系的底集有16个有序对，若用关系矩阵应16×16；4×4矩阵未表示题设R。",
+    "左上0的自述矩阵本身还不自反；对称也不能证明题设关系。",
+    "确有枚举和方法尝试，必须与完全未答区分；教师2可能为方法分，不自动改分。"
+  ],
+  "uncertainties": [
+    "教师2的细项给分没有记录，无法确认是否过宽，暂不当作可靠教师异常。"
+  ],
+  "transcript_conflicts": [
+    "评分所用事实全部标空白，与原图有字、有矩阵、有结论相冲突。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "8bd061d2435fd430acff9ec4f4f72720163af56b72ca90d5a64429b53ed0c955",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:42:06.394900+00:00"
+}

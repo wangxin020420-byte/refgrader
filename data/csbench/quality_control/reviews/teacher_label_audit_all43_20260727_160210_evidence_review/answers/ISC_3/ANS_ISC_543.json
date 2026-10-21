@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_3",
+  "answer_id": "ANS_ISC_543",
+  "category": "model_or_extraction_issue",
+  "summary": "全篇含DB、DBMS和应用系统概念，重要性及SQL完整，模型按段落关键词漏评。",
+  "teacher_issue": "",
+  "model_issue": "组成句列DBMS/应用系统，后句明确DB为有组织可共享数据集合；不能只因DB定义在重要性段就称完全未涉及DB。",
+  "original_image_observations": "原图5；第一句DBMS和数据库应用系统，后段DB集合定义、低冗余高共享；SQL非过程、模式及记录操作、两用、面向集合、易学。",
+  "evidence": [
+    "跨段合并可见三个不同核心实体及其概念，不能只计DBMS一项。",
+    "重要性和SQL都有具体正确描述，历史2.5至3.5并非原始唯一标准。"
+  ],
+  "uncertainties": [
+    "数据库没有在组成句中明确并列列举；若教师要求严格枚举仍需统一说明，不自动指定新分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e4c54824628748b016956f4043d25b4a0d006f703a957bd85cd373acf1529b9b",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:42:52.047723+00:00"
+}

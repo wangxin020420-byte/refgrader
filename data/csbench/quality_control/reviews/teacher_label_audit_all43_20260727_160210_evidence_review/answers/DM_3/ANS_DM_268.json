@@ -1,0 +1,31 @@
+{
+  "question_id": "DM_3",
+  "answer_id": "ANS_DM_268",
+  "category": "teacher_suspect",
+  "summary": "翻译正确，使用等价演算和合并推理得到C及存在结论，教师5疑似扣分过重；旧模型首轮所称缺失¬D实际已在第10行。",
+  "teacher_issue": "至少翻译3和存在实例化及核心演算有明确证据；原图推导可验证，扣至5缺乏已知实质错误支持，需核对是否机械要求标准行序。",
+  "model_issue": "第10行A(a)且¬D(a)已同时含两属性，首轮却因未独立拆行扣ES分，并称后续缺失¬D依据，忽略被引用合取。",
+  "original_image_observations": "教师5红叉。两全称和存在前提、目标正确；3=¬A∨B∨C，7=¬D→¬B∨¬A，8=¬D→¬A∨C；10=A且¬D；11=¬D→C；13=D∨C；14引10/13合成A且C，15EG。",
+  "evidence": [
+    "3与7在¬D条件下可消B，得8，等价推理有效。",
+    "10提供A与¬D，故11及由13析取D得到C均有条件，非凭空假设。",
+    "13与10再合取为14包含隐式化简和析取消去，能合并表达；不能为未单列步骤累计大扣。"
+  ],
+  "uncertainties": [
+    "a在US行早于ES出现，可通过把ES提前满足更严格的新符号行序；若课程据此扣形式分，需确认幅度，但并非核心命题推理错误。"
+  ],
+  "evidence_strength": "possible_undercredit_valid_equivalent_inferences",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c52f57550e80df5d4a1a9697a4867f54b6dff6095e40488241b42c57a23e459f",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:52:46.937478+00:00"
+}

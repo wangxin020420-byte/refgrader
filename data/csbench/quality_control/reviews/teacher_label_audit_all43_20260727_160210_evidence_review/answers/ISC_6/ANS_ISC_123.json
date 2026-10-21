@@ -1,0 +1,27 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_123",
+  "category": "model_or_extraction_issue",
+  "summary": "小数字段101、001和完整合并值正确，不需另抄整数0才认首问。",
+  "teacher_issue": "",
+  "model_issue": "同样由合并式承认第二数整数10，却对首数合并式0.101中的0判空白，取证口径不一致。",
+  "original_image_observations": "原图6；0.625小数部分101、表示0.101；2.125整数0010、小数001、表示0010.001。",
+  "evidence": [
+    "小数部分标题限定了位串含义，不能当整数。",
+    "前导零的0010与10完全等值，两个整式均正确。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "442e51a64296ab54fb198d6e2edcc78f60ac7d0927d89e769031a9d006786e03",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.401213+00:00"
+}

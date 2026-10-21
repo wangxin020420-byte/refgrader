@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_276",
+  "category": "model_or_extraction_issue",
+  "summary": "前置空间关系正确、第一问每前缀多预留得252，第二问完整正确128；教师10与官方前置5加第二结果5相符，模型错误否认第二问。",
+  "teacher_issue": "",
+  "model_issue": "模型把题目给定254称为学生虚构，甚至把4×64=256与256-254=2的正确推导判概念矛盾，导致三轮只5～6.25。",
+  "original_image_observations": "教师10红叉。左列逐步16-6-6=4、2^4=16、16-12=4、10-4=6、2^6=64，最终4(64-1)=252；右列4×64=256、减254=2、16-10=6、2×2^6=2^7=128。",
+  "evidence": [
+    "第二问254来自题设，与第一问错误最大值252无需一致，不应连带扣分。",
+    "主码和总名额在左、右都有清楚证据，不能因第一末值错而抹去。",
+    "原10有明确可解释的官方分项构成，非教师标签问题。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "773e880e308c6933f997b43bfb5c70f574837d04f016a2640d6f1dffb107ac52",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:33:52.195442+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_8",
+  "answer_id": "ANS_CPL_471",
+  "category": "teacher_suspect",
+  "summary": "第6空对float再解引用、第10空传值代地址，却均给满2，教师6需复核。",
+  "teacher_issue": "sum+=*score[i]在Average中非法，*(player[i]+j)是float值非scanf地址；原图两空均红2。",
+  "model_issue": "第6空确有sum+=，模型称缺累加不对；第10空按原说明少&类错误应核部分分，不能只用语义致命全扣。",
+  "original_image_observations": "(6)sum+=*score[i]红2，(7)正确比较红2，(8)*score[5],98红0，(9)score,4红0，(10)*(player[i]+j)红2，总6。",
+  "evidence": [
+    "score[i]已经float，前置*无法合法解引用，不等价*(score+i)。",
+    "第10空最后一次*取出元素值，应该用player[i]+j或&player[i][j]；满分2不成立。"
+  ],
+  "uncertainties": [
+    "第10空按缺&近似是否给1.5、其余方法分如何给需教师统一。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ab07f3a46240f06460845c7783bdc130adc1a46a965ae29196242d277eb6d755",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T02:02:59.107565+00:00"
+}

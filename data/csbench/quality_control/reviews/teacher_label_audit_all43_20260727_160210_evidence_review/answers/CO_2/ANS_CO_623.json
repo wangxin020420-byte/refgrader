@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_623",
+  "category": "uncertain",
+  "summary": "集合统一列屏蔽其它级，顺序正确；图只有A/C/D/E/B五个分离平台，缺D返C及完整返回，教师15依赖自屏蔽和图部分分政策。",
+  "teacher_issue": "若自身隐含且第一问12、图设置及部分次序3，总15可解释；若必须完整自身位则需更多扣分，暂不定错。",
+  "model_issue": "同一约定下只对E补自身、对其它行全判错不一致；‘标准01101中B/D未屏蔽’也颠倒实际位语义。",
+  "original_image_observations": "教师15红勾叉。ADC EB；A屏蔽B/C/D/E，B无，C屏蔽B/E，D屏蔽B/C/E，E屏蔽B。图仅A、C、D、E、B五条孤立横线，无连接和D后的C线。",
+  "evidence": [
+    "与题意关于屏蔽其它级的叙述一致，不能说完全不理解中断屏蔽。",
+    "图缺核心抢占恢复，不能因标签五级齐全自动给8。",
+    "本题自身约定在多个样本构成共同争议，应统一政策再判断教师部分分。"
+  ],
+  "uncertainties": [
+    "是否按他级集合认第一问全对、孤立平台可给多少图分均未明。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ed355741cca547864aa247f420c0d6bf757443bb5eb4b214c6f976927fe277d3",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:54:02.775719+00:00"
+}

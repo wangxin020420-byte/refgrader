@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_609",
+  "category": "model_or_extraction_issue",
+  "summary": "排序、掩码、图均正确，教师20合理；模型把已出现的末B漏掉并抹掉图中返回C/B。",
+  "teacher_issue": "",
+  "model_issue": "证据本身A>D>C>E>B却说漏B，逻辑矛盾；图不是只有ABCDE上升，标准图可直接核验。",
+  "original_image_observations": "教师20红勾。明确ADC EB，五字标准值；图A-C-D-C-E-B返用户，C恢复段和末B平台明显。",
+  "evidence": [
+    "排序末B清楚可见，句号不改变最后元素。",
+    "D在C后进入并返回C；E后回B，符合参考图。",
+    "模型13/15.5/9的大波动是提取与评价问题，无教师异常依据。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3ef60b49537ec38e15dd4fd8a4a0387e623d2c3f89fbf96215b834109fde8572",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:37:34.035290+00:00"
+}

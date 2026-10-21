@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1516",
+  "category": "model_or_extraction_issue",
+  "summary": "屏蔽表全对，第一流程大体完整但初始关中断/断点表述有遗漏，图少短状态获6，教师4+8+6=18可解释；模型只读作废草图及OCR残片。",
+  "teacher_issue": "",
+  "model_issue": "上方旧轨迹已斜线划去，下方才是有效图；不能把乱码当成没有图。首仅出现后期关中断，不应自动认完整硬件响应全5。",
+  "original_image_observations": "页眉18，1:4、2:8、3:6。首外设请求、CPU响应、停止设置断点、置屏蔽、开中断、服务、关、返回、再开；开关文字有改写，首红圈。表C/B/D/A行1111/1011/1001/0001。上方草图划去；下方有效图用户直接C→B→D→A→用户，起始C/A处红圈，B后A短段未画。",
+  "evidence": [
+    "表8直接可核，原题未要求行按ABCD顺序排列。",
+    "有效图有主处理阶段与返回用户，模型0不能代表实际图质量。",
+    "教师首4图6均非满，与流程和短状态问题可相容。"
+  ],
+  "uncertainties": [
+    "有效图少初次A/B与B后A仅扣1较宽，须统一图部分分政策；不从此直接判18必错。"
+  ],
+  "transcript_conflicts": [
+    "上方已划去旧轨迹不属于有效作答；应核下方最终图。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e552d05a5908ef48d11c596d72ee4aa12ea2d61ea1f3c060319a80348c8f3cf4",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:21:17.232535+00:00"
+}

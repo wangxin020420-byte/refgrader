@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_1",
+  "answer_id": "ANS_POC_306",
+  "category": "uncertain",
+  "summary": "最终式漏等长条件，教师4的部分分尺度需确认。",
+  "teacher_issue": "不能验证仅扣1是否符合原始评分口径。",
+  "model_issue": "模型0忽略形状正确部分；非等价结论本身成立。",
+  "original_image_observations": "左侧旧表达式被划掉，右侧最终a*(b|c)*，无保留的计数条件。教师4。",
+  "evidence": [
+    "应只评最终保留式，不能从删除草稿补条件。",
+    "该式允许aa而无b/c，目标语言不允许。"
+  ],
+  "uncertainties": [
+    "数量依赖条件的分值未明确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6694fbdbd4fe5360fd35773a8729d197565b3d49a9f81ea25b869c77412537f2",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:54:14.500780+00:00"
+}

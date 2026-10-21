@@ -1,0 +1,44 @@
+{
+  "version": "assisted-label-review-v1",
+  "stage_sha256": "bb9753d44acfddd3719add14728cbcd7e3e4420cfb92602695173155ea6ae705",
+  "input_sha256": "2d28eac3fc8ac96361a8b6b0d1fcdcbdf14077defee504b452441e7210211f72",
+  "created_at": "2026-10-20T08:09:37.928965+00:00",
+  "request_url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+  "model": "glm-5.2",
+  "response_id": "2026102016092202042f7b4ace4075",
+  "usage": {
+    "completion_tokens": 809,
+    "prompt_tokens": 4363,
+    "total_tokens": 5172,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 221,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 448
+    }
+  },
+  "review": {
+    "category": "teacher_suspect",
+    "score_min": 4,
+    "score_max": 7,
+    "confidence": 0.85,
+    "teacher_issue": "教师给满分10分，但图像审核确认学生将指令数IC误写为1×10⁶（10万条应为1×10⁵），导致M1和M2的最终运行时间（5×10⁻⁴s、1.667×10⁻⁴s）均比正确值（5×10⁻⁵s、1.67×10⁻⁵s）大10倍。两个小问的最终结果均错误，不满足'正确计算出运行时间'的给满分条件，满分明显超出合理区间。",
+    "model_issue": "旧模型评分（3–4分）整体方向合理，均识别出IC数值错误并保留方法分；三次评分分别为1.75/1.75、2/2、1.5/1.5，区间基本落在合理范围，但具体权重无评分细则支持，只能视为合理估计。",
+    "evidence": [
+      "学生原式：IC=10×10⁵=1×10⁶，题目为10万条=1×10⁵条，IC错误10倍",
+      "Te1=(2×1×10⁶)/(4×10⁹)=5×10⁻⁴s，正确值应为5.0×10⁻⁵s（50μs）",
+      "Te2=(1×1×10⁶)/(6×10⁹)=1.667×10⁻⁴s，正确值应为1.67×10⁻⁵s（16.7μs）",
+      "独立图像审核确认图中IC即为10×10⁵=1×10⁶，非转录笔误；最终结果图中同为10⁻⁴量级",
+      "公式推导Te=(CPI×IC)/F及CPI、主频代入均正确，方法分应保留",
+      "三个模型探针一致判定PARTIAL_MATCH并给部分分（3.0–4.0），与教师满分10分矛盾"
+    ],
+    "uncertainties": [
+      "原官方评分细则只按小问整体给5分，未规定IC错误时过程分与结果分的精确权重，故合理区间为估计值（每小问约2–3.5分）"
+    ],
+    "summary": "学生公式和方法正确，但指令数IC误用1×10⁶（应为1×10⁵），两问最终结果均错一个数量级，按细则不满足满分条件；教师10分超出合理区间，旧模型3–4分方向合理，合理分数区间约4–7分。"
+  }
+}

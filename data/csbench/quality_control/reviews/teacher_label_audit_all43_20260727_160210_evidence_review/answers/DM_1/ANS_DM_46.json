@@ -1,0 +1,28 @@
+{
+  "question_id": "DM_1",
+  "answer_id": "ANS_DM_46",
+  "category": "model_or_extraction_issue",
+  "summary": "前三问完整正确、第四答24和3错误，教师6恰当；模型漏图底1并据此连带否认正确极小/最小元，还声称题集不含1。",
+  "teacher_issue": "",
+  "model_issue": "题目A明确含1，原图底点也标1。应独立评文字正确答案，不能基于一次漏图把两项1判致命错误。",
+  "original_image_observations": "教师6红叉。图底1接2/3，中4/6/9、顶24/54及全部正确边；第二极大24/54极小1、第三最大不存在最小1；第四最小上界24、最大下界3。",
+  "evidence": [
+    "前三问每问2分，共6；第四两个结果确错，不应满分。",
+    "3不整除4，不是B共同下界；24不被9整除，不是共同上界。",
+    "旧模型4/6/0的大波动来自错误读集与图，并非教师6可疑。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d59da163102a39ee0f5a10e9955cf601085ce6cbccc1a2970e43d0a579e0d4e8",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T11:00:24.027117+00:00"
+}

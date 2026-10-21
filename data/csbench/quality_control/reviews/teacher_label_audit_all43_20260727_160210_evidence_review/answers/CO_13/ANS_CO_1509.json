@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1509",
+  "category": "model_or_extraction_issue",
+  "summary": "表MDMCMBMA四行完全正确，图有CBD A主路径但省略多个响应返回短段，教师2+8+5=15有依据；模型漏图并错判D。",
+  "teacher_issue": "",
+  "model_issue": "D1001正是标准，不存在第四行错；三行若正确也不应只给2/8。原图有完整主要阶梯，‘只写ABCD同时到来’不实。",
+  "original_image_observations": "页眉15，1:2、2:8、3:5。首收到请求、关中断、服务、开中断继续，未写保存恢复。屏蔽字四行0001/1011/1111/1001。图用户直接C、回B、上D、回A再用户，初始A/B和B上D三处圈。",
+  "evidence": [
+    "屏蔽表8直接可核，不能把相同位串判错。",
+    "主要完成顺序对，但没有A/B初次响应及B结束回A，应局部扣图分。",
+    "教师已对首和图扣分；模型3至11变化来自读表/读图失败，不能当教师15高给证据。"
+  ],
+  "uncertainties": [
+    "首‘运行周期完成’不一定等于完整指令结束，不额外反推未写的准确响应条件。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9c8866a988569a7ce790f54eec08bb8168e3af8da7ff31709f4820a63168a105",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:11:46.608257+00:00"
+}

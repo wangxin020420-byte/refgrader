@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_957",
+  "category": "teacher_suspect",
+  "summary": "数量正确6分；片选把8个低有效译码输出相或并仅反相其中一项，结果恒高，ROM两片又同式，教师第二问5/9疑似过给。",
+  "teacher_issue": "译码器图只有输入I1/I2/I3未接实际地址，各片最终或式无法选中目标；5分不能仅由列齐芯片和画译码器支持，需核对给分依据。",
+  "model_issue": "模型首轮把输出O0～O7误称地址线，诊断不准；实际可由低有效译码器各有效输入必有7个高输出直接证明或式恒1。",
+  "original_image_observations": "教师11，1:6、2:5。ROM2/RAM7数量正确；画3-8输入I1/I2/I3、输出O0～O7。RAM1式含反O0及其余7路正O，逐行反不同一路；ROM1=ROM2并用反O7的同一式。",
+  "evidence": [
+    "无论哪一路译码输出为0，式中至少有多个其它输出为1，或值始终1，不能产生低有效选择。",
+    "ROM两个4K片未用A12或另一独立输出区分。",
+    "可保留芯片计数6分和少量译码意图，当前5/9选择题过程分过高可疑。"
+  ],
+  "uncertainties": [
+    "若O不是题设低有效输出需学生另定义转换，原图没有。"
+  ],
+  "evidence_strength": "constant_high_select_expressions_with_substantial_credit",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b4a64f96d28d4a16836411d2b23b9bee122c267ddc8e8146ebf6d8a1112a7298",
+  "teacher_score": 11.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:06:04.615149+00:00"
+}

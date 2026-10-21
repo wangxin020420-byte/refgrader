@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_791",
+  "category": "teacher_suspect",
+  "summary": "原图两问末写50%和1%，但前面核心公式和数值均不能推出这些结果，教师各5分满分疑似过给；不是单纯换一种等价计算路径。",
+  "teacher_issue": "两问都有明显维度与算术矛盾却各5分。查询把4×10^-6s乘100再除50MHz×4称50%；DMA把传输时间乘2000得8s后除50MHz称1%，应优先核对满分依据。",
+  "model_issue": "旧模型对时间法本身的否定过宽，应保留32bit=4B及传输间隔等有效中间分；但指出中间错误并非全由转录造成。",
+  "original_image_observations": "教师10分、1:5、2:5。查询4B/1MB=.000004s，后写t=4×10^-6×100=4×10^-4s，比率4×10^-4/(50MHz×4)=50%；DMA4×10^-3×(1500+500)=8s，下行可见8除50MHz后等1%。",
+  "evidence": [
+    "查询100周期应除CPU频率后与字间隔比较，实际式子不是这个关系的等价变形。",
+    "DMA2000周期应除50MHz得40μs，实际乘了传输间隔得8s；8/(50×10^6)也不等1%。",
+    "正确末值不能消除可见核心过程矛盾，不满足有有效过程且结果正确的满分条件。"
+  ],
+  "uncertainties": [
+    "保留已正确换算的两传输间隔及字节关系分，具体替代总分需人工按统一权重确认。"
+  ],
+  "evidence_strength": "visible_core_formula_contradictions_with_full_marks",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "dcd9d2dbc94cafc1d280c78f4541f06e3178643e717223a855599246d9a3ff7d",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:00:36.300228+00:00"
+}

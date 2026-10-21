@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1632",
+  "category": "model_or_extraction_issue",
+  "summary": "ABCD列屏蔽表全对，图B嵌套处错误但主要服务与返回存在获5，首保存断点概述2，教师15可解释。",
+  "teacher_issue": "",
+  "model_issue": "列标题MA MB MC MD是合法声明，不是标反了就只能一半分。学生明确从保存断点继续运行已表达返回含义，不能额外因没写‘恢复’二字全否。图也不是无序字母。",
+  "original_image_observations": "页眉15，1:2、2:8、3:5。首保存断点、服务后从断点继续。表MA MB MC MD，四行1000/1101/1111/1001。图用户→A→C→A→B→A→D→A→用户，A上C和C后回A红圈。",
+  "evidence": [
+    "表按声明换序与标准一致，8正确。",
+    "图C应由B抢占并返回B，现有直接A/C/A是局部层级错，教师已扣图2。",
+    "首内容不完整但保存返回具体存在，2合理，总15无明显教师异常。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d46ab12bba24544690ea5d6b960a76bf1614f5535ca70af8057a82c66cde178b",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:21:17.243216+00:00"
+}

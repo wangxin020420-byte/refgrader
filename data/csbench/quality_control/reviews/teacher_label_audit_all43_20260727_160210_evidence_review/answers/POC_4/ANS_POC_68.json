@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_4",
+  "answer_id": "ANS_POC_68",
+  "category": "label_supported",
+  "summary": "递归主体正确，但S→A允许单独0，教师扣1给4有支持。",
+  "teacher_issue": "",
+  "model_issue": "C→CC正是任意长度机制，不存在固定长度要求；单数分支也不妨碍另一路多位生成。",
+  "original_image_observations": "A→2|4|6|8|0；B旧式划掉后非零数字；C→0|B|CC|ε；S→BCA|A。教师4。",
+  "evidence": [
+    "多位路径首位B非零，中间C任意数字串，末A偶数，正确。",
+    "额外S→A→0不是正数，应扣这一过生成项，不应整题归零。"
+  ],
+  "uncertainties": [
+    "原总分未细分，扣1是可支持的零排除错误处理。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "24817eef259df8012a232578fdfe458e7fc2ebe62b8a7baa47a3876894963b45",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:06:56.562168+00:00"
+}

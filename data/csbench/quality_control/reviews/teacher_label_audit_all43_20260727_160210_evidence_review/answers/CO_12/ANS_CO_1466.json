@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1466",
+  "category": "label_supported",
+  "summary": "寄存器缩写有错但自用DB/GB的通路顺序有正确结构，ADD有加法和回写，格式13/3/8与四组位数齐全；容量未算，教师17可作为部分分。",
+  "teacher_issue": "",
+  "model_issue": "将第六字段总和与第五已写3+4+4+2割裂，称没组别展开而扣1；又在多个路径重复对同一DB命名错误扣分，造成9～12偏低。",
+  "original_image_observations": "教师17红叉。aDB、bGB、cIR、dPC；M→DB→GB→控制器；读M→DB→ALU，写ALU→AC→DB→M；ADD先OD后AX经DB进ALU，有+、ALU→AC、AC→DB→AX；第五3+4+4+2=13；第六13/3/8。",
+  "evidence": [
+    "错误缩写应在命名题扣分，后续实际数据流结构仍可保留，不能把每个DB出现都当独立错误。",
+    "ADD确有加法和结果流，不是只有取指。",
+    "没有容量表达式，教师没有满给；给1分下址准备过程亦可解释，不支持严重错标。"
+  ],
+  "uncertainties": [
+    "DB/GB可能是学生错误缩写而非总线专名，不能据此宣称路径全部正确；当前只支持部分分总量。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5de91cf95f559515f67b6a121a91cb2a62232adb447e44401627b41a6194d2bd",
+  "teacher_score": 17.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:39:38.656995+00:00"
+}

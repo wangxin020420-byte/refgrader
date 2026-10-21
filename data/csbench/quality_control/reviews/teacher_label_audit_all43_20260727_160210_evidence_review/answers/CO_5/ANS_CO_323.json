@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_323",
+  "category": "model_or_extraction_issue",
+  "summary": "原图n=255，且两问扩展公式正确，教师满15分成立；转录把255写成256，模型又误解预留零地址空间的方程。",
+  "teacher_issue": "",
+  "model_issue": "((16-12)×2^6-n)×2^6=2^6表示预留一个一地址窗口，并非把总名额算成64；模型把这一正确方程判概念错误并按错误转录256扣结果分。",
+  "original_image_observations": "教师15红勾。有效首问((16-12)×2^6-n)×2^6=2^6，随后n=255条，最后两位为草写5；第二问((16-12)×2^6-254)×2^6=128。",
+  "evidence": [
+    "方程消去共同2^6得到256-n=1，精确推出255。",
+    "两问均有有效代入过程与正确结果，无需重复写16-12=4。",
+    "旧模型5～10分不能证明教师满分错误。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "原图n=255，转录256。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4bc1559e8b9ab69c6263425a3431131d60bac47faee82d0d6b72942afdd1190b",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:22:35.213623+00:00"
+}

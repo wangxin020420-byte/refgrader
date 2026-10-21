@@ -1,0 +1,30 @@
+{
+  "question_id": "DM_2",
+  "answer_id": "ANS_DM_177",
+  "category": "uncertain",
+  "summary": "三个标题下都未形成相应一般证明；教师3和模型5至7的差异涉及局部等式给分，缺少细项标准，暂不判教师错误。",
+  "teacher_issue": "教师3可包含局部思路分，但原图不能还原各项给分，需人工确认宽松部分分政策。",
+  "model_issue": "模型把首段反向等式宽松算为自反3分，混淆证明目标；给未证明传递的断言结论分也缺依据。",
+  "original_image_observations": "教师3红叉。自反标题后a+b=c+d、c+d=a+b、b+a=c+d；对称段-a-c=-c-d；传递设e属于A×A却直接加到和式上；末仅断言等价。",
+  "evidence": [
+    "首段反向等式可支持对称的局部思路，应跨标题找证据，但没有任意pRp。",
+    "最后只有等式两边加e，未设pRq与qRr，不能证明传递。",
+    "符号类型混乱，不能按标准答案替写证明；也不能仅据旧模型高分指认教师低分。"
+  ],
+  "uncertainties": [
+    "题目只列3/3/4分，错误目标下的局部等式应给多少未规定。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "71062d00f3233254a1ac215e3392cfbc354d7b24e2a8a5869e9f4a519274dd8e",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:42:06.378316+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_5",
+  "answer_id": "ANS_ISC_54",
+  "category": "model_or_extraction_issue",
+  "summary": "SPACE明确表示空格，字母集合及无数字正确，教师6有支持。",
+  "teacher_issue": "",
+  "model_issue": "既将SPACE识别为正确空格，又在解码项当额外单词并说字母缺S，内在矛盾。",
+  "original_image_observations": "Hello,SPACE AHU!；字母Hello AHU；标点逗号、SPACE、叹号；数字字符无，教师6。",
+  "evidence": [
+    "不把SPACE五字母列字母正说明其是空格的可见注记。",
+    "HelloAHU紧写依然明确识别全部字母，无须拆成逗号分隔字符列表。"
+  ],
+  "uncertainties": [
+    "空格归入特殊标点是教师采用的宽类别，若后续统一细分可另行规定，不据此否定现有完整解码。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a125dc98e7df38eb51006b86055d7f71a75e16844ac7455e329389f34e2c2c0f",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:18:12.015246+00:00"
+}

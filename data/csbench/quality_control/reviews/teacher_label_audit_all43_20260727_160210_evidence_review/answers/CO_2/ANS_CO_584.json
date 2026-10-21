@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_584",
+  "category": "model_or_extraction_issue",
+  "summary": "A行实际五个1，所有掩码及标准轨迹均正确，教师20合理；转录漏位且旧模型说未画图，与原图相反。",
+  "teacher_issue": "",
+  "model_issue": "A11111被提为四1扣分；图有清楚A-C-D-C-E-B平台，却称物理图缺失或不可比。",
+  "original_image_observations": "教师20红勾。左表ABCDE，A有五个1，其余四行标准；右大图A-C-D-C-E-B后用户，D恢复C和E恢复B完整。",
+  "evidence": [
+    "按表头五列数A位，末E列的1清楚，不是隐含补位。",
+    "图与参考服务时序相同，缺机器可读锚点是模型限制。",
+    "保留教师20，不用旧13/18/9校正正确答案。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "A行漏读一个1；评分称图缺失与原图大幅图矛盾。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1943550a4d03d2f67f1542cd881b86c9ea5a3aab185e57bde1ef562ce2fb890c",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:37:34.042290+00:00"
+}

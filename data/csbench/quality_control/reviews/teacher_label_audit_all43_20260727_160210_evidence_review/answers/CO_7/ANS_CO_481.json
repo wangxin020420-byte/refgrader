@@ -1,0 +1,29 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_481",
+  "category": "label_supported",
+  "summary": "两问周期数和除以GHz的完整式子正确，仅最后单位/数值换算错误；教师4+4符合保留正确过程、扣结果分的逻辑。",
+  "teacher_issue": "",
+  "model_issue": "旧模型6/7/8分反映部分分尺度不同，最后一次也认可8分。",
+  "original_image_observations": "IC=100000、m1=200000、m2=100000，Te1=m1/4GHz，Te2=m2/6GHz；最终5ms与约1.66ms，若干旧结果已划掉；各+4。",
+  "evidence": [
+    "两个正确完整的未求值表达式足以证明核心方法和代入正确。",
+    "最终换算不正确，教师已经扣分而非给满分。"
+  ],
+  "uncertainties": [
+    "原图有已划掉的旧单位值，应以保留的最终值和正确代入式综合判断。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "76b5e84644e8a9914fc5cc9a9e63da8cc04b69822b94aff8c86248901f78c697",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:19:06.689689+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_902",
+  "category": "label_supported",
+  "summary": "两问比例式均错误，但含每字一次查询、DMA前后开销相加和传输时间关系；教师各2分是过程部分分，不能依据模型近零分认定教师多给。",
+  "teacher_issue": "",
+  "model_issue": "旧模型0/0/1.25未充分保留已写出的部分有效关系；同时学生的最终两比例错误是真实问题。",
+  "original_image_observations": "教师总4、1:2、2:2。查询h分母另加100，算2/3=66.67%；DMA把传输段周期数放分子，分母加入1500+500，得100/101。",
+  "evidence": [
+    "第一问明确写每传一字查询一次，使用100周期，但比例组装不对。",
+    "第二问4×10^3/10^6×50×10^6和1500+500展示部分正确量之间关系，未获满分。",
+    "两问结果均不能接受为50%或1%，教师各2分符合部分过程而非结果分。"
+  ],
+  "uncertainties": [
+    "官方只有每问5分，对错误比例中有效关系的精确分配未细化。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2e759ecdfeedd48791b607507bbd6362ce9208fb6dcb2c355a23b367b83c685d",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:56:39.924268+00:00"
+}

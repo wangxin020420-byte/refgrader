@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_188",
+  "category": "label_supported",
+  "summary": "有完整图表尝试但输出及回退多处有误，教师3作为部分分有依据。",
+  "teacher_issue": "",
+  "model_issue": "模型声称图未书写与右侧实际状态图矛盾，六状态不是硬性要求。",
+  "original_image_observations": "左边旧表整段划掉，中间最终五行表，右边五状态图。多条前进边的输出位置重涂，表C在1输入C/0、D在0输入D/0、E在0输入A/1；教师3。",
+  "evidence": [
+    "目标串前进主链和最后输出1存在。",
+    "失配时停留C、D及检测后回A不符合最长有效后缀规则；部分前进输出疑似1还会过早报警。"
+  ],
+  "uncertainties": [
+    "多处输出被涂黑，不能只据OCR逐项断言最终笔迹是1，需人工辨认。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1d1a2fda8866253623c45da146c656fd420181f1c714980ecbe43d3fd4ff03d5",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:33:45.578088+00:00"
+}

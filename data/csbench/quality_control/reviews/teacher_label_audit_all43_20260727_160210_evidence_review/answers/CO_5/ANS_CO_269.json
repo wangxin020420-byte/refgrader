@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_269",
+  "category": "label_supported",
+  "summary": "第一问不等式设置正确但取整数边界失误答256，第二问编码区间完整正确128，教师12分可作为正确过程保留、扣第一结果。",
+  "teacher_issue": "",
+  "model_issue": "部分轮次忽略第二问图示和第一不等式，只按最终原子项机械扣到5～6.25；不能据此判教师12过高。",
+  "original_image_observations": "教师12红叉。第一问[(2^(16-12)-12)×2^(10-4)-a]×2^(16-10)≥1，后写a≤2^8、最多256；第二问画12个二地址前缀、254个一地址编码，两个剩前缀各扩展6位，2×2^6=128。",
+  "evidence": [
+    "起始不等式已正确表达预留零地址条件，错误发生在解出最大整数。",
+    "第二问图示实际有完整过程，不是只裸答128。",
+    "教师扣3分可对应第一结果及边界处理错误，正确过程应保留。"
+  ],
+  "uncertainties": [
+    "第一边界错误扣3分的精确权重未细化，但总12有可见方法依据。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ae0e71e5dd485f3e3fa94e45099cdb1944ea7a73cc2c1e184699d018959ba8b4",
+  "teacher_score": 12.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:33:52.193263+00:00"
+}

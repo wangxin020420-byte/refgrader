@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_221",
+  "category": "model_or_extraction_issue",
+  "summary": "图表并未缺失，主体转移正确且有局部错误，教师5较模型0.5至1.5更有原图依据。",
+  "teacher_issue": "",
+  "model_issue": "漏读实际图表，只用状态定义给分。",
+  "original_image_observations": "上中部五行表，下右五状态图；按表S0对应空前缀，S1在0输入回S0，S4在0输入到S2/1；其他主链存在。左侧定义把初态称输入0，存在不严谨。教师5及红叉。",
+  "evidence": [
+    "表和图含完整主体链S0-S1-S2-S3-S4，并在最后0输入输出1。",
+    "S1的0应留S1，S4的0应回S3以保留010，原表有局部回退错误。"
+  ],
+  "uncertainties": [
+    "5分的精确扣分权重未提供；不据此直接替换教师分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5f1bb61592a917270cb47b206a6ea80c52468c829e7a227e07535523c435fb65",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:31:22.515514+00:00"
+}

@@ -1,0 +1,27 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_458",
+  "category": "label_supported",
+  "summary": "错误把频率4/6GHz转为周期4/6ns，但IC×CPI×T关系和指令数正确；教师每问2分、总4分作为方法分有依据。",
+  "teacher_issue": "",
+  "model_issue": "旧模型首轮错误声称4×10^-9、6×10^-9是正确周期；另有一次完全给0，原评分解释自身矛盾。",
+  "original_image_observations": "顶部写T1=4×10^-9s、T2误标F2=6×10^-9s；后续100000×2×4×10^-9及100000×1×6×10^-9，结果8×10^-4和6×10^-4s；教师各+2。",
+  "evidence": [
+    "周期应是1/(4×10^9)、1/(6×10^9)，学生参数换算错误。",
+    "时间=IC×CPI×周期的核心关系仍正确，教师保留40%过程分并非给错最终结果满分。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3a1e8463b5fad1d17cda739bcc82dc16875a045c0dd5723d1b4b91fb8626bb3d",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:19:06.694093+00:00"
+}

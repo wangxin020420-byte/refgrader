@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_5",
+  "answer_id": "ANS_CPL_282",
+  "category": "label_supported",
+  "summary": "读模式和传c正确，条件括号有修复意图但不完整，其余改动错误，教师5有部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "正确r修改不应因另外括号错误被连带只给一半；跨序号匹配应分别识别。",
+  "original_image_observations": "N改5；if写argc!=2||(pf=fopen(argv[1],r))==NULL但末尾条件括号欠缺；return1改return；polynomial(x,c)；循环从N到i>0。教师5。",
+  "evidence": [
+    "模式r和数组实参c可独立给分，赋值括号顺序的修复意图存在。",
+    "N改5仍不能解决访问c[N]，且破坏六个系数要求；main中无值return也不是修复。"
+  ],
+  "uncertainties": [
+    "条件末括号按书写缺漏扣分及定位部分分细则未明，不精确重评分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "aed1e579d200079416990f01e678a100481088e065a93d6113e7d863a3c752fd",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:17:28.213629+00:00"
+}

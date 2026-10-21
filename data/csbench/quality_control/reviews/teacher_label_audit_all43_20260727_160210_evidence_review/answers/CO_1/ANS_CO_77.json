@@ -1,0 +1,38 @@
+{
+  "question_id": "CO_1",
+  "answer_id": "ANS_CO_77",
+  "category": "uncertain",
+  "summary": "已从37H指向34H，但末又把34H作为内容，教师2是否少给第一次查表分需核实。",
+  "teacher_issue": "正确字段和第一次查表都有独立证据，现行3.5与教师2有分配差异；暂不认定教师错误。",
+  "model_issue": "模型3.5可解释当前步骤分，但转录对字段抄写和‘访问操作数内容’不清，不能机械等同旧教师标准。",
+  "original_image_observations": "教师2红勾叉。I=1间址，A=110111B=37H；指向内存34H；末行旧数划掉改34H并称访问操作数内容。",
+  "evidence": [
+    "正确字段与第一次间接取址值得保留，不因最终漏访问重扣。",
+    "最后34H是有效地址非所问内容37H，结果分不能给。",
+    "差异主要是上游部分分权重，需按原政策核对。"
+  ],
+  "uncertainties": [
+    "原官方单项5分未说明是否第一次查表单独给1.5。",
+    "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+  ],
+  "question_source_conflict": {
+    "question_id": "CO_1",
+    "text_source": "data/csbench/exam_database.json",
+    "question_image": "data/csbench/reference_images/questions/CO_1.png",
+    "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+    "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "69409b0152e004d149971c3bcd94b6f0677290bb6bb41d278dc9605c4eedb5c5",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:08:38.236578+00:00"
+}

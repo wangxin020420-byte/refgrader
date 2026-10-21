@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1218",
+  "category": "label_supported",
+  "summary": "I2^5−2=30正确获5，R误减2得30部分3、J误扩3位得8为0，教师8可解释；模型主要漏给正确I方法。",
+  "teacher_issue": "",
+  "model_issue": "I公式和结果同时正确，不能仅因未写预留一句将方法压半并清参数。R与J确实错，但保留R5位指数准备分可解释教师3。",
+  "original_image_observations": "页眉8，1:3、2:5、3:0。R旧式划去改2^5−2=30，I2^5−2=30，J2^3=8，无其他过程。",
+  "evidence": [
+    "R末5位不应减2，J只剩2位扩展不是3，二者结果需扣。",
+    "I减2有计算过程与正确结果，按题目计数任务可满5。",
+    "教师总8未对错结果满分，不因模型3.5或6低给就可疑。"
+  ],
+  "uncertainties": [
+    "R3与J0对不同错误的局部方法权重未列，是否保留泛化2^n公式需要一致政策，不据此认标签错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1d3e228af9505f396982ecc95cdb49d52b7a43f96b3593252dc42f48761354f3",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:44:41.019383+00:00"
+}

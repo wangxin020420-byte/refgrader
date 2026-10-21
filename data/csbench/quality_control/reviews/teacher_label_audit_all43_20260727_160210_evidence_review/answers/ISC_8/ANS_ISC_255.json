@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_8",
+  "answer_id": "ANS_ISC_255",
+  "category": "teacher_suspect",
+  "summary": "Y码制和二进制加法存在多处独立错误，教师3.5接近满分需核依据。",
+  "teacher_issue": "Y原码写成6、正数补码另加1，最终二进制也错误，不能仅因末尾真值-25正确而抹掉独立码制项错误。",
+  "model_issue": "X三种码及补码减法公式正确，必须保留这些部分分；错误-Y与已有Y的关系应按过程评价，不一错全扣。",
+  "original_image_observations": "原图3.5；X三种码正确；Y原反00000110、补00000111，-Y补改为11111010；相加结果改写01110011，最后y=-25。",
+  "evidence": [
+    "Y=+10应三码均00001010，原图非该值，且正数三种码不应不同。",
+    "0xf1+0xfa低8位是11101011，并非01110011；加法是除上游误值外的新增错误。"
+  ],
+  "uncertainties": [
+    "原始两部分各2但内部字段/方法/结果无细权重，不自动指定替代分数；应先核原卷题干一致性。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "75f0ba5650567995d9fd03a34ebe63b1b663bf685dc7a081cbcfed7b89b57188",
+  "teacher_score": 3.5,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:53:01.533334+00:00"
+}

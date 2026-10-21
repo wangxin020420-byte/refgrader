@@ -1,0 +1,31 @@
+{
+  "question_id": "ML_2",
+  "answer_id": "ANS_ML_101",
+  "category": "model_or_extraction_issue",
+  "summary": "原图末行AB+AC+AD+BCD完整正确，教师4分合理；C字形被转成括号，模型拆项时又把其它正确项当成污染。",
+  "teacher_issue": "",
+  "model_issue": "模型仅提AB，忽略原图AC、AD；对已出现的BCD也因同段有A项而扣一半，机械拆分改变了整体函数含义。",
+  "original_image_observations": "教师4分红勾。首行嵌套取反，第二行A(B+C+D)+BCD，末行AB+AC+AD+BCD，C左开口较大。",
+  "evidence": [
+    "中间因子式和最终与或式均与参考相同。",
+    "即便按转录A(C+AD)，用分配律及A幂等性也能得到AC+AD，不能仅据括号拒绝正确项。",
+    "BCD项旁出现其它正确项不是扣其分数的依据。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "AC中C被读成括号，模型把整体解答错误拆成事实。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "23c70adcf7ee47bf12c0357b08e9a739c475ecef402d95ba674b495ece872fa0",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:13:37.687766+00:00"
+}

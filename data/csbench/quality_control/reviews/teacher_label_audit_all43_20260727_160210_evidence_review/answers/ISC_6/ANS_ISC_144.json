@@ -1,0 +1,27 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_144",
+  "category": "model_or_extraction_issue",
+  "summary": "两数完整正确且有乘除过程，模型因未单列0扣分过硬。",
+  "teacher_issue": "",
+  "model_issue": "首数整式0.101直接给出整数0，不能视为未书写。",
+  "original_image_observations": "原图6；顶部改后0.101及10.001，下方两组乘2取101/001，中间2连续除2取10。",
+  "evidence": [
+    "结果和对应过程一致。",
+    "平凡0的重复形式不应成为正确首问少一半的原因。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b26c7ceda298c05cb238cf145d19e0fedb22d685b03ea5ec288c8f5c01605aee",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.406212+00:00"
+}

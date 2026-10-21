@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_676",
+  "category": "label_supported",
+  "summary": "23位、偏移11位和组4位有依据，tag计算和格式不完整，第一地址转换还有错误；教师8分有对应部分分依据，模型一次20分明显过给。",
+  "teacher_issue": "",
+  "model_issue": "原模型有一次整题20分，忽略错误tag及缺失Cache格式；首轮又称第一地址进制转换正确，实际首字节错误。",
+  "original_image_observations": "8M=2^23、2K=2^11、Cache2^16；tag写23-16=11，组16-11-1=4；无独立Cache格式；第一地址二进制开头0000 1101，不能；第二地址正确展开并说可取到；四处+2。",
+  "evidence": [
+    "23-16实际为7，正确tag应23-4-11=8，原图该推导错误。",
+    "命中两个结论正确，但第一地址转换错且缺组内tag比较。",
+    "教师没有将这些不完整过程给满分，不能据20分判其少给12分。"
+  ],
+  "uncertainties": [
+    "原官方参数子项与教师按小问标记的分配不完全一致，保留现标签而不另定精确总分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ab4aa8233f490ff5744f25b21ab265727e5e65d60f0cfcef36b43142571e8bcb",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:45:30.453524+00:00"
+}

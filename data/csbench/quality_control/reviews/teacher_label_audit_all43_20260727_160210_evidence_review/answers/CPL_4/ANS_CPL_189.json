@@ -1,0 +1,60 @@
+{
+  "question_id": "CPL_4",
+  "answer_id": "ANS_CPL_189",
+  "category": "model_or_extraction_issue",
+  "summary": "仅5/22交换，原说明只扣1，教师9正确；模型或拆分口径导致低给。",
+  "teacher_issue": "",
+  "model_issue": "三轮都判空白，原图与转录均有完整输出；外侧不能随中心错误清零。",
+  "original_image_observations": "原图9；十数一行完整，只有位置5/6写22、5。",
+  "evidence": [
+    "按原图最终有效行手工读取：19 28 20 24 22 5 24 15 23 16。",
+    "对照程序实际输出，差异位置（1起算）：5, 6。",
+    "原始评分明示5和22互换位置扣1，正确外侧保留，10-1=9；活动两个中间项各2会把此例压成6，不能反推教师错。"
+  ],
+  "uncertainties": [],
+  "verified_output": {
+    "manually_read_final_sequence": [
+      19,
+      28,
+      20,
+      24,
+      22,
+      5,
+      24,
+      15,
+      23,
+      16
+    ],
+    "program_output": [
+      19,
+      28,
+      20,
+      24,
+      5,
+      22,
+      24,
+      15,
+      23,
+      16
+    ],
+    "mismatching_positions_1_based": [
+      5,
+      6
+    ],
+    "only_middle_swap": true,
+    "method": "manual_original_image_inspection_then_offline_position_check"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5666a0103dc6a9a41bfa5b60b0713cefbc5d93e358f9c228279e7589921a7d6c",
+  "teacher_score": 9.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:51:59.136037+00:00"
+}

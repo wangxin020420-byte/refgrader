@@ -1,0 +1,27 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_122",
+  "category": "model_or_extraction_issue",
+  "summary": "原图两组整数、小数过程及结果完整，提取乱码造成部分轮次扣分。",
+  "teacher_issue": "",
+  "model_issue": "第二整数有连续除2取余0、1及顶部10.001，不应只拿输入2判未转换；也不能因局部乱码6.5漏掉正确结果。",
+  "original_image_observations": "原图6；顶部0.101和10.001；左整数0与小数乘2，右整数2除2及.125乘2取001。",
+  "evidence": [
+    "原图实际有分开整数转换，而非需要宽容把十进制2视二进制10。",
+    "两数正确完整结果是优先证据，历史4.5并非教师错证据。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4eaef63af50d7fb40e723f24f532d2bd711e9a916b9fe039ec457bed1d4ad450",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.386943+00:00"
+}

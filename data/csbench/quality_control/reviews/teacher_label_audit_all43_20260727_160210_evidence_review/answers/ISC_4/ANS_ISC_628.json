@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_4",
+  "answer_id": "ANS_ISC_628",
+  "category": "label_supported",
+  "summary": "协议定义准确，后半三要素解释不严谨，教师3可支持部分分。",
+  "teacher_issue": "",
+  "model_issue": "HTTP缩写拆分不等价严格语法语义，但三要素非全然无关；不能只因没报文四段就认整个例子毫无价值。",
+  "original_image_observations": "原图3；规则标准约定定义；HT超文本对应语法、T传输对应语义、事件同步对应时序，并提WWW服务。",
+  "evidence": [
+    "定义与题意明确对应。",
+    "缩写字母不是协议各要素正式说明，HTTP同步陈述也过泛，不据此认完整满分。"
+  ],
+  "uncertainties": [
+    "原题基本构成范围待核；3为可支持部分分而非唯一精确标准。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "aecced4f00108bb70b1026be004e74c1989ab4a68989c0561a11d12de261dcf9",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:46:52.951546+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_204",
+  "category": "label_supported",
+  "summary": "主链与检测输出正确，三个0输入回退用了同一错误规则，教师5作为部分分有依据。",
+  "teacher_issue": "",
+  "model_issue": "误称状态图未提供，实际左侧图完整，不宜另扣缺图分。",
+  "original_image_observations": "左图六状态，右表S1、S3、S5在0输入均回S0/0；S4在0输入为S5/1，所有1输入分支对应标准。教师5及红叉。",
+  "evidence": [
+    "这三处应回S1，错误均源于未保留末尾0，可按共同根因审查扣分。",
+    "原图图表均存在，模型3至4.5分理由混入缺图错误。"
+  ],
+  "uncertainties": [
+    "共同回退错误应扣1还是更多，官方未细分，不能确定教师5为唯一分值。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f3c25c88a1a77e531aa1b453844d677744baa74e16e5598537d6304a18c79fd7",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:33:45.565983+00:00"
+}

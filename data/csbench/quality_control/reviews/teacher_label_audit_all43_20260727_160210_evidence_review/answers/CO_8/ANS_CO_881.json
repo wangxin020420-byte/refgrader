@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_881",
+  "category": "label_supported",
+  "summary": "已正确建立单次查询CPU时间、字传输间隔及DMA开销时间，但两次比例的分子或分母错误；教师2+3=5有过程依据。",
+  "teacher_issue": "",
+  "model_issue": "模型称32位字长是假设错误，实际上题目明确32位；把按单次时间计算本身判错，也丢失有效过程。",
+  "original_image_observations": "教师总5、1:2、2:3。查询Ta=100/(50×10^6)，由Ta内传2B推Tc=2Ta，随后Ta/(Ta+Tc)=33.3%；DMA传输.004s、开销4×10^-5s，最终用了传输/(传输+开销)≈99%。",
+  "evidence": [
+    "第一问前两时间关系有效，错误是又把已含CPU工作的传输间隔与CPU时间相加。",
+    "第二问最终求近99%的数据传输占比，非1%CPU开销，但2000周期及两时间仍有过程分。",
+    "教师均未满分，不足以仅凭旧模型1.25～2.5的分差归为标签错误。"
+  ],
+  "uncertainties": [
+    "DMA频率指数原图有涂改，最终开销4×10^-5清楚；不据转录的10^4重复扣过程分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "252039ce4b318d918b3271cf31b501da7495e9f30649eeebcedebb7750bf5a6a",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:56:39.925286+00:00"
+}

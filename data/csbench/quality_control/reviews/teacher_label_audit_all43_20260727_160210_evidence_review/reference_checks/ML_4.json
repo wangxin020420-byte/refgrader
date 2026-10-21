@@ -1,0 +1,14 @@
+{
+ "question_id":"ML_4",
+ "basis":"existing_experiment_only",
+ "new_experiment":false,
+ "question_image_sha256":"94807bb3863749b3859669125f524681073cdad4625b9ad7436453cecb95a868",
+ "standard_image_sha256":"ea356caa5523386934973404da65228aa4e8d65b5b2078956d94772fbb33abe0",
+ "verified_reference":"六状态Mealy表与标准答案图一致；S3与S5两个输入的次态和输出完全相同。",
+ "equivalent_five_state_table":{"S0":["S1/0","S0/0"],"S1":["S1/0","S2/0"],"S2":["S3/0","S0/0"],"S3":["S1/0","S4/0"],"S4":["S3/1","S0/0"]},
+ "offline_validation":{"method":"枚举长度0至15的全部二进制串，比较标准六状态表、合并五状态表与后缀01010直接匹配器的逐位输出。","cases":65535,"result":"全部一致；不是模型评分实验。"},
+ "review_rules":["不能仅因五个状态或状态改名判错，必须验证初态、两输入分支、检测输出时刻与重叠。","0101010应在第5及第7位输出1，检测后清零可能破坏重叠。","图表漏读不能解释为学生未书写；表正确也不能自动证明图正确。","题目要求原始状态形式及图表缺项的具体分值未细分，涉及格式扣分时保留不确定性。","部分分不根据正确单元格比例机械推算，共同根因的回退错误需统一扣分口径。"],
+ "teacher_suspect_ids":["ANS_ML_181","ANS_ML_194","ANS_ML_219","ANS_ML_205"],
+ "uncertain_ids":["ANS_ML_199","ANS_ML_172"],
+ "automatic_policy_change":false
+}

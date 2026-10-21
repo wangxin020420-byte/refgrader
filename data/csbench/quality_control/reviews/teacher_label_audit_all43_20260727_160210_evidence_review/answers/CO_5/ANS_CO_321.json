@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_321",
+  "category": "model_or_extraction_issue",
+  "summary": "两问原图均在涂改后保留2^4-12的正确空间关系，并得255、128，教师满15合理；转录把指数4读2、第二式基数及指数漏掉。",
+  "teacher_issue": "",
+  "model_issue": "模型以负操作码名额批评学生，实际上负数来自失真转录(2^2-12)和(4-12)，原图不是这些式子。",
+  "original_image_observations": "教师15红勾。第一问(2^4-12)×2^6-1=255，基数旁有涂写但指数4可见；第二问[(2^4-12)×2^6-254]×2^6=128，同一前项也有改写。",
+  "evidence": [
+    "两处展开遵循正确剩余主码再扩展6位关系。",
+    "结果255与128均有正确公式支撑，不是猜中后忽视错误过程。",
+    "模型5/12.5/10的不一致应先排除提取问题，不能认教师过给。"
+  ],
+  "uncertainties": [
+    "基数字迹有涂改，若人工逐字符核对可看同页两处相同结构；现有可辨内容支持正确关系。"
+  ],
+  "transcript_conflicts": [
+    "第一指数4误读2；第二2^4误成4。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4800b52543bca77df8a711dd0be76bc520631ec5dd52220e9efc1313c96d7629",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:22:35.215654+00:00"
+}

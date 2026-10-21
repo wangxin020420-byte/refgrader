@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_8",
+  "answer_id": "ANS_CPL_454",
+  "category": "label_supported",
+  "summary": "仅比较条件正确，教师2有支持；模型滥用变量替换与地址形式容忍。",
+  "teacher_issue": "",
+  "model_issue": "将未定义a当score、将main内未定义score当player，并忽略第i行偏移，不能判为等价代码。",
+  "original_image_observations": "(6)sum+=a[i]，(7)正确比较，(8)score,5，(9)score，(10)旧答案划掉后&(*score)[j]，player字被划掉上方写score；红分0、2、0、0、0。",
+  "evidence": [
+    "填空不能擅自更名既有参数或引入未定义局部变量。",
+    "&(*score)[j]即使有score也只涉及首行，无当前i；并非正确player[i][j]仅少符号。"
+  ],
+  "uncertainties": [
+    "已表现部分寻址形状的过程分需统一，但不能如模型直接给满。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b927bb554bc5345ab5b6491c89f98fabbec887be00f3c8b502597fa53a5c51ef",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T02:02:59.103569+00:00"
+}

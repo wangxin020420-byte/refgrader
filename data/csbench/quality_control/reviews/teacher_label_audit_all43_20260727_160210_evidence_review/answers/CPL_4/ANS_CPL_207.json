@@ -1,0 +1,58 @@
+{
+  "question_id": "CPL_4",
+  "answer_id": "ANS_CPL_207",
+  "category": "label_supported",
+  "summary": "仅孤立24无位置对应，教师0有支持。",
+  "teacher_issue": "",
+  "model_issue": "模型称未提供所需序列有依据；单24无法建立任何一对端点匹配，不擅自安到正确位置给分。",
+  "original_image_observations": "原图0；仅单独写24，其余大片空白，无序列或位置说明。",
+  "evidence": [
+    "按原图最终有效行手工读取：24。",
+    "对照程序实际输出，差异位置（1起算）：1, 2, 3, 4, 5, 6, 7, 8, 9, 10。"
+  ],
+  "uncertainties": [],
+  "verified_output": {
+    "manually_read_final_sequence": [
+      24
+    ],
+    "program_output": [
+      19,
+      28,
+      20,
+      24,
+      5,
+      22,
+      24,
+      15,
+      23,
+      16
+    ],
+    "mismatching_positions_1_based": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "only_middle_swap": false,
+    "method": "manual_original_image_inspection_then_offline_position_check"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "73ae1f14420f7aa1ed9ad64b55ee84fc4d2ef7e8932e1345b5e91fdc69fa5be9",
+  "teacher_score": 0.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:51:59.195644+00:00"
+}

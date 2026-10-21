@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1111",
+  "category": "teacher_suspect",
+  "summary": "第二虽答4套，但分析理由为主存需4位定位，没有组内四路比较依据，却获完整5分；教师总8需核第二满分。",
+  "teacher_issue": "题目要求数量并简述依据；‘主存还需要4位不同的数来定位’既不等于四路，也与实际tag6位不符，第二5疑似只看数值给满。",
+  "model_issue": "第一问有正确块数/组数计算，不能仅凭14+1=5把全部准备忽略；但模型对第二不能满分的定位有原图支持。",
+  "original_image_observations": "教师8红勾叉，1:3、2:5。首保留主存2^14块、Cache2^10块和除4到2^8，后14+1=5位、总2^5字节。第二明确4套，因主存需4位不同的数定位。",
+  "evidence": [
+    "首3可解释为正确块/组准备步骤，容量结论确错。",
+    "第二理由没有引用同组4块，且四位编码能表示16种而非4套，概念依据不成立。",
+    "不要求机械出现并行/共享关键词，但需有正确关系；当前不能从4这个数字反推其方法。"
+  ],
+  "uncertainties": [
+    "若原教师数量占全部5则可解释，但与题目明确要求分析依据不一致，应人工核对。"
+  ],
+  "evidence_strength": "possible_overcredit_correct_count_with_wrong_explanation_full_five",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "60aaaee00942a6cbfb5eabe6f4004b3a57d09d610b78073eb4b28808286aea04",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:42:30.099151+00:00"
+}

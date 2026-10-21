@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_9",
+  "answer_id": "ANS_ISC_329",
+  "category": "uncertain",
+  "summary": "只写两倍于正确值的分数，教师2给了多少结果或隐含过程分需确认。",
+  "teacher_issue": "裸错误结果没有可核过程，2分的依据不明，但原始允许酌情给分。",
+  "model_issue": "375/32=11.71875，恰为正确值两倍，不能因宽松政策就当完整正确给5。",
+  "original_image_observations": "仅375/32GB，无其他推导，教师2。",
+  "evidence": [
+    "正确分数为375/64，当前缺2倍除数。",
+    "无法只凭分母猜测学生到底用了24bit、漏除2还是其他过程，不能自行补方法证据。"
+  ],
+  "uncertainties": [
+    "是否对接近比例的错误裸结果给少量分，需教师明确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "977cf39d239928ca6d7c0f172a99453dcfb2102d95e1b8724f4b5b24d7ec1720",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:43:52.358421+00:00"
+}

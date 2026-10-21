@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_348",
+  "category": "label_supported",
+  "summary": "上游将主操作码空间多乘2^6导致全链数值错，但正确画4/6/6并保留扩展、预留1及扣254再扩展关系；教师8分可以是传播错误下的部分分。",
+  "teacher_issue": "",
+  "model_issue": "旧准则将两个最终结果视为严格原子项，模型1.25～3.75几乎不给下游方法分，不能据此直接判教师8过高。",
+  "original_image_observations": "教师8。保留作答有4/6/6图；[(2^4×2^6)-12]×2^6，一问再减1得64767；第二问用同一总名额减254再乘2^6，无最终数值。",
+  "evidence": [
+    "真正起始错误是应先2^4-12却提前扩展，不能把其巨大数值偏差拆成多个独立错误重复扣。",
+    "一问预留一个位置及二问剩余名额扩展6位的形式均写出。",
+    "教师未给满分，8可以反映已写的格式和后续正确计数操作。"
+  ],
+  "uncertainties": [
+    "8分的精确权重需统一，但现有证据不足列优先教师错例。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2c27a7aeaa28b1f22cb70fa696ae1c20960558bdbe02536ea2560023f464fef2",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:18:17.538877+00:00"
+}

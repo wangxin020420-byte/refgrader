@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1123",
+  "category": "model_or_extraction_issue",
+  "summary": "第二问原图为四路、每组四块、四套，转录将四读10使模型误判；第一问用组数代块数得224，教师9+5=14可体现局部扣错。",
+  "teacher_issue": "",
+  "model_issue": "第二的‘回路、10个块’源于四的识别冲突；另一方面模型将224B判MATCH仅因符合学生自身公式，也错误放过了最终数值。",
+  "original_image_observations": "页眉14，1:9、2:5。表给Cache8/2/2、主存组8偏移2，tag16−8−2=6、每块6+1=7；总容量7×2^8/8=224B。第二写映射到固定组、四路组相联、一组中有四个块、最多比较四次，结论四套。",
+  "evidence": [
+    "容量应乘2^10块而非2^8组，224不是896的等价形式，首题扣分有实质依据。",
+    "第二组定位后只需比较该组四块，未明确只用一套串行；不能把‘四次’单独当致命错误。",
+    "教师第一问仅扣1可能按单一因子漏乘4处理，缺详细原始权重时不足以认定标签错误。"
+  ],
+  "uncertainties": [
+    "首题把少乘4仅扣1的宽松权重需与同题政策保持一致，但不能以此直接修改14分。"
+  ],
+  "transcript_conflicts": [
+    "第二原图的四路/四个块被转录为回路/10个块，结合四次及四套可确认四的语义。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c5d32763ea1d3436961fbc6f0ad9d370f70cbd7189295bff2a2402b565e04f98",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:53:59.188049+00:00"
+}

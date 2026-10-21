@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_758",
+  "category": "label_supported",
+  "summary": "格式和tag提取均有错误，但组数16/组索引4位正确，且教师对两个访问判断均只给部分分；9分可由有效计算框架与转换部分分解释，不能据模型3～5分认定标签错。",
+  "teacher_issue": "",
+  "model_issue": "原模型主要按结果项全零，对错误上游数值后的比较尝试给分较少；分差缺少确定权重依据。",
+  "original_image_observations": "块内误写2KB=2^10、tag12位，组索引4位正确；主存12/4/10+2、Cache有效位1/tag12/偏移10+1；第一地址取tag=2D判断未命中+3；第二取tag=7F判断不能+3。",
+  "evidence": [
+    "第一地址未命中结论正确，第二地址结论错误，教师并未将错误第二问给满分。",
+    "主存块数8MB/2KB=2^12计算正确但误称tag，原图显示了部分计算而非全部空白。",
+    "Cache表还包含有效位，不能将该辅助信息误作满足完整Cache地址格式。"
+  ],
+  "uncertainties": [
+    "多处错误下9分是否偏宽取决于方法分政策，当前无明确细则足以否定。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9b0fcbaed1f153bbf319592367c232a7ff1e7a8e4c82940f4379d94d19407945",
+  "teacher_score": 9.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:42:55.744025+00:00"
+}

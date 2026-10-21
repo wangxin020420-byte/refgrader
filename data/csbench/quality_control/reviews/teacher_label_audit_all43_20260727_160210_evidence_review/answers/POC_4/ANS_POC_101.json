@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_4",
+  "answer_id": "ANS_POC_101",
+  "category": "model_or_extraction_issue",
+  "summary": "B递归确可生成任意中间数字串，教师5有正数表示约定下的支持，模型称最多三位错误。",
+  "teacher_issue": "",
+  "model_issue": "B→BB'|ε可重复任意次，不是只允许一个B'；空串终止也不产生无效字符。",
+  "original_image_observations": "S→+ABC|+D，A非零数字，B→BB'|ε，B'为全数字或ε，C为偶数字，D为2|4|6|8。教师5。",
+  "evidence": [
+    "B迭代生成任意长度数字串，A与C保证非零首位和偶数末位，D覆盖一位数。",
+    "没有生成0单独或前导0，核心数值集合正确。"
+  ],
+  "uncertainties": [
+    "每个数强制带+，若目标按无符号字符语言则不与参考逐串相等；题干未明确禁止正号，教师显然接受该正数表示约定，暂不因此判错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "cc16fe28619a3cf590d542d57b13ecf69f5f411ac81868c0ca7bb8a8f88f6e30",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:05:35.710081+00:00"
+}

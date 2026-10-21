@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1543",
+  "category": "model_or_extraction_issue",
+  "summary": "未写屏蔽表获0、首概念说明获1，但轨迹实际有完整主要嵌套和返回，教师给6而非模型0有依据。",
+  "teacher_issue": "",
+  "model_issue": "提取到轴标签和‘需查看图像’不能等同学生未画线；原图有用户、A/B/C/B/A/D/A/用户的实际阶梯轨迹，应与标准图核对。",
+  "original_image_observations": "页眉7，1:1、2:0、3:6。首描述外设发请求，无断点等细节；无屏蔽字表。图含起始用户、A短段、B段、C段、下到B再A、上D、回A后用户；B结束回A处红圈，部分转折连接较毛糙。",
+  "evidence": [
+    "第一与第二的低分相符，不因图形正确倒推没写的屏蔽字。",
+    "图的主要程序状态和返回均可辨，无法支持模型轨迹0。",
+    "教师轨迹6保留了主要正确内容，具体一分扣在连接/表达处需原细项，不构成明显标签异常。"
+  ],
+  "uncertainties": [
+    "B结束处线条和红圈重合，未据此认定7分全对或6分必低。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f7f852d8c5b9d23f5f1ba57a2477479617b6c19275b3bdaa5b5da0c18d160b3e",
+  "teacher_score": 7.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:07:47.893273+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1553",
+  "category": "model_or_extraction_issue",
+  "summary": "表四行全对，图虽缺初始A/B及B后A却保留主处理返回，教师3+8+6=17有局部依据；模型表理由全对但0分、图也0。",
+  "teacher_issue": "",
+  "model_issue": "score0与reason‘数值完全匹配’直接矛盾；原图实际有C→B→D→A阶梯，不是未画，不能把提取失败充作学生空白。",
+  "original_image_observations": "页眉17，1:3、2:8、3:6。首关中断、寄存状态、开中断、服务、保存状态，末保存而非恢复处红圈。表MDMCMBMA四行0001/1011/1111/1001。图用户直接C→B→D→A→用户，入C和B上D红圈。",
+  "evidence": [
+    "表8正确且独立于首流程措辞。",
+    "首有开关及寄存状态，但末恢复不明确，只3可部分给分。",
+    "图缺若干短状态而主要阶段与末返回成立，6可能宽松但未给满7，模型全0不构成标签问题证据。"
+  ],
+  "uncertainties": [
+    "多个短段遗漏只扣1的政策需同题统一，但目前无逐转折权重，不能确定17应改。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6f7da53738bc022268fc47277fdd9c6881ed1e2d4154a661f7280f3dc2e3813e",
+  "teacher_score": 17.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:15:25.146551+00:00"
+}

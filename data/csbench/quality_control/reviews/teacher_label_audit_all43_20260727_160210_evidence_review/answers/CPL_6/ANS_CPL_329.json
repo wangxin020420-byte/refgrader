@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_6",
+  "answer_id": "ANS_CPL_329",
+  "category": "model_or_extraction_issue",
+  "summary": "第一空旧条件被划掉，第四空正确减计数；教师6与三项正确相符，模型漏读导致低分。",
+  "teacher_issue": "",
+  "model_issue": "把第一空删除的A<=ch与最终条件拼接，并把Upper(ch)手写左括号漏掉，错误判两项0。",
+  "original_image_observations": "第一空左侧旧A条件划掉，保留'a'<=ch&&ch<='z'；第二空正确大小写或；第三a[i]==0相反；第四words[Upper(ch)-'A']--可辨；末空旧words==0划掉后仍是直接比较words==0。教师6。",
+  "evidence": [
+    "第一、第二、第四各2，合计6；第三逻辑相反、第五未遍历数组，不计完整分。",
+    "不能用已划掉草稿或漏括号的OCR取消正确保留式。"
+  ],
+  "uncertainties": [
+    "第四空括号紧连函数名字，按原图整体识别，不依据转录Upperch)定错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1f26272f69cbdeb940a98f0d9a9a51c3fd30d2ad374d5a1975dc950c5d08de2c",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:22:01.483057+00:00"
+}

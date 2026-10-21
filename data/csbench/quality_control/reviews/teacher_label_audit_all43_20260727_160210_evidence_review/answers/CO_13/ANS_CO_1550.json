@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1550",
+  "category": "uncertain",
+  "summary": "无列标题的1000/1101/1111/1001可按ABCD解释，但题设默认反序下A/B不对；教师表8需确认位序政策，首1与图6可解释。",
+  "teacher_issue": "屏蔽字未声明位列，不能凭四行数值符合某个反序就确认满8；需要核教师是否统一接受ABCD方式。",
+  "model_issue": "模型把上游表直接反转认全对缺声明证据，但也不应整表判0。图初A/B/C/B/A/D/A基本正确，唯末A结束未回用户，不能因模糊只当无图。",
+  "original_image_observations": "页眉15，1:1、2:8、3:6。首开中断、立即中断、准备工作及高优先嵌套，没有实际断点保存。只列新屏蔽字A1000/B1101/C1111/D1001，无位标题。图用户→A→B→C→B→短A→D→A，末A横线止于红圈没有返回用户。",
+  "evidence": [
+    "四行可由统一ABCD位序解释，不等于各行独立凑正确。",
+    "图初始和B后短A均存在，教师只扣末返回1有具体依据。",
+    "首1只给开中断/嵌套概念，与没写具体准备内容相容；整卷唯一未定在屏蔽位序。"
+  ],
+  "uncertainties": [
+    "位序接受政策确认前，不把15归已验证教师合理或直接认错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "316318d1c74f751027c0face1c509516d707426531698fee24345065f7cb9095",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:27:13.232276+00:00"
+}

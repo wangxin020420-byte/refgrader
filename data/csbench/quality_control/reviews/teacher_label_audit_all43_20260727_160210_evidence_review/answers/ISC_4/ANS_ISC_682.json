@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_4",
+  "answer_id": "ANS_ISC_682",
+  "category": "label_supported",
+  "summary": "协议三要素及HTTP提供WWW服务相关但未充分展开，教师2可支持部分分。",
+  "teacher_issue": "",
+  "model_issue": "历史把三要素直接视定义满2.5与其他样本0的口径不一致；需统一语义部分分，不用模型2.5反推教师2错误。",
+  "original_image_observations": "原图2；协议由语法、语义、时序组成；HTTP可提供WWW服务，余白。",
+  "evidence": [
+    "首句为有效协议概念，不能视空白。",
+    "没有进一步用HTTP具体说明各要素，也没有请求报文四段，故非完整答案。"
+  ],
+  "uncertainties": [
+    "无原始细分权重，部分分2与活动2.5差异不是明确标签错证据。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d1b41a1256313853dc03d6e5752cfd52ea9fb639fd169291baf06460470e160b",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:46:52.955812+00:00"
+}

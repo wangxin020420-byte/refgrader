@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_95",
+  "category": "teacher_suspect",
+  "summary": "两小数用逐位十进制编码替代数值转换，教师5需核是否混淆BCD与二进制数。",
+  "teacher_issue": ".011000100101及.000100100101均非目标小数，接近满分缺足够数值转换内容。",
+  "model_issue": "历史6凭空称位串含正确乘2轨迹；原图只有逐位编码，无那些乘法过程。",
+  "original_image_observations": "原图5；整数0=0000、2=0010正确；.625写0000.0110 0010 0101，.125写0000.0001 0010 0101。",
+  "evidence": [
+    "四位组分别对应十进制6、2、5和1、2、5，是编码数字而非转换整个数。",
+    "整数转换可部分计分，但不能将错误小数当.101/.001的同义表达。"
+  ],
+  "uncertainties": [
+    "需核原题是否另有编码要求；当前准备题干只要求二进制数，不自动改分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "838174a6eac34d5e6d5224ff237320320dc8cb196a38a05df984a3a8bc1082d5",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.397206+00:00"
+}

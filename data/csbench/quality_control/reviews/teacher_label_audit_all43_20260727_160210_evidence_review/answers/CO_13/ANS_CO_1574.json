@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1574",
+  "category": "model_or_extraction_issue",
+  "summary": "首保存恢复等流程4、有效屏蔽表全对8、轨迹缺短状态5，教师17可解释；模型把已划去旧表和有效轨迹混为不完整。",
+  "teacher_issue": "",
+  "model_issue": "右侧最终表与左侧明确屏蔽对象都正确，不能被上方作废位串污染；原图用户/C/B/D/A有完整主阶梯，不是C/D行缺失的表格残片。",
+  "original_image_observations": "页眉17，1:4、2:8、3:5。首判断允许、关中断、封存位置、入栈转区块、出栈恢复再开，转区块处红圈。上旧位串划去；右MDMCMBMA表四行正确，左写C屏蔽CBDA、B屏蔽BDA、D屏蔽DA、A屏蔽A。图用户直接C→B→D→A→用户，入C及B上D红圈。",
+  "evidence": [
+    "屏蔽对象文字与最终四行数值互相印证，8有强证据。",
+    "图主要处理完成及返回正确，但缺初次A/B和B后A，教师5有扣分依据。",
+    "首有具体保存断点与出栈恢复但入口描述泛，4可解释，不因模型满5就改教师。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "最终右表完整，作废旧位串不能解释为有效C/D行缺值。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "789924946e95d3648982c2a0c32e188ddcd4e394ba5d89ccfc7737d1b0e5044d",
+  "teacher_score": 17.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:27:13.224046+00:00"
+}

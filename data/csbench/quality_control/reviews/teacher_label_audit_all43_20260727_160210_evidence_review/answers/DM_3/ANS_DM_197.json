@@ -1,0 +1,33 @@
+{
+  "question_id": "DM_3",
+  "answer_id": "ANS_DM_197",
+  "category": "label_supported",
+  "summary": "首句误写合取，证明x/a混用且属性来源不严谨，教师6作为部分分有依据；模型9.5把过强前提当等价表达。",
+  "teacher_issue": "",
+  "model_issue": "∀(A且(B∨C))蕴含标准第一句但并不等价，不能以‘能推出所需条件’给翻译满分；第8行实际引用2/5/7，转录又漏5。",
+  "original_image_observations": "教师6红叉。首句∀(A且(B∨C))；2把A(x)称暗含前提；5从存在句取¬D(a)；7=¬(A(x)且B(x))∨D(x)；8引2/5/7得¬B(a)，9由3/8得C(a)，10存在合取。",
+  "evidence": [
+    "全总个体域下合取句把所有对象都断言为参赛者，属真实翻译错误。",
+    "有正确的¬D→¬B→C思想和存在目标，不能因形式不严谨全部判0。",
+    "x/a统一及A(a)显式来源未做好，教师扣4可对应翻译和证明形式。"
+  ],
+  "uncertainties": [
+    "6的精确部分分无法从两大评分项完全重建。"
+  ],
+  "transcript_conflicts": [
+    "原图第8行引用含第5行，不能说完全未使用¬D；仍有x/a统一问题。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5f6bee85b66f220be8bca02fdcf2ba5fa0443dc604a1b2000914904f98810bae",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:52:46.942483+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_149",
+  "category": "model_or_extraction_issue",
+  "summary": "分隔线两侧分别转换，历史只取左栏导致无依据扣半题。",
+  "teacher_issue": "",
+  "model_issue": "右侧整数除2、小数取001及10.001都漏读；左侧整数0可由完整0.101识别。",
+  "original_image_observations": "原图6；左0.625乘2取101并写0.101；右除2取10、.125乘2取001并写10.001。",
+  "evidence": [
+    "右侧有独立完整过程，不是从标准答案推填。",
+    "原图两栏布局与转录覆盖范围不一致，教师高分不能仅按分差怀疑。"
+  ],
+  "uncertainties": [
+    "右侧十进制原数的基数下标写法不规范，正确过程和值可明确识别，不作为实质数值错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "023fdf72facebe50902293cc003087932f08d1a26100d0634807fbb127ce9e08",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.379637+00:00"
+}

@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_372",
+  "category": "teacher_suspect",
+  "summary": "正确识别二地址4位主码及剩4个编码，但未继续扩展到256，更没有255或128两问结果，教师8分疑似过给。",
+  "teacher_issue": "实际完成的仅主码与剩余编码这一前置部分，8/15超过其已见证据，建议核对是否误把未完成作答当半题以上完成。",
+  "model_issue": "模型把log12当精确4或只看参数有细节问题，但图中明确写‘4个编码未使用’，应保留这一正确部分；不能因此支持8分。",
+  "original_image_observations": "教师8红叉。前半复述16位、6位、扩展编码等；后半二地址2×6=12位、16-12=4位、12条约4位，最后16-12=4个编码未使用，作答到此停止。",
+  "evidence": [
+    "没有任何乘2^6或256名额计算，也无两问最终结果。",
+    "正确的4主码空间不是完成整个第一问或第二问的证据。",
+    "应保留正确前置分，同时将总8列为可疑。"
+  ],
+  "uncertainties": [
+    "原图未见其它页内容，若存在续页需另核。"
+  ],
+  "evidence_strength": "strong_unfinished_after_first_prerequisite",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "88f65f3e79de4b621e1dbbe405a87ba23c87f3c53bdaef79e0ff88c8693fa3fe",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:28:21.520239+00:00"
+}

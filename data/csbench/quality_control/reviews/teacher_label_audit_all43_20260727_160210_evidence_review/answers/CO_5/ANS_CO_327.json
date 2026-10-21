@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_327",
+  "category": "label_supported",
+  "summary": "格式、主码剩4及6位扩展关系正确，但每前缀都多预留窗口，结果252和512错误；教师8可作为正确部分与错误预留逻辑区分后的部分分。",
+  "teacher_issue": "",
+  "model_issue": "转录把第二问16-12漏成6-12，模型部分轮次归零还忽略格式图；首轮6分也应定位预留错误而非纯笔误。",
+  "original_image_observations": "教师8红叉。二地址4/6/6、一地址改10/6；第一问(16-12)(2^6-1)=252；第二问写254=4(2^6-2)，再(16-12)×2×2^6，结果由384改512。",
+  "evidence": [
+    "核心错误是把全局预留的1或2个名额按4个前缀重复预留。",
+    "正确16-12和逐层扩展关系仍存在，不能每处受影响都独立归零。",
+    "教师没有把两个错误结果全给，8分可解释为较宽松部分分。"
+  ],
+  "uncertainties": [
+    "官方未说明此类重复预留错误具体扣分权重，当前不直接改教师分。"
+  ],
+  "transcript_conflicts": [
+    "第二问原图16-12，转录6-12。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "87df844a3151cdd800bed89570615532ecc9bc279beae80edd0f123db99d9cce",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:24:51.898011+00:00"
+}

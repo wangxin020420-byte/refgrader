@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_908",
+  "category": "model_or_extraction_issue",
+  "summary": "查询推导确有错误；DMA完整得到1%后又取补比99%，教师2+4=6符合保留过程、扣最终结论，模型把DMA有效中间量误判概念错误。",
+  "teacher_issue": "",
+  "model_issue": "模型将50M×1/250=2×10^5误认为在计算CPU开销，其实是在算每次传输间隔内的总周期；后式(1500+500)/(2×10^5)=1/100已建立正确占用关系。",
+  "original_image_observations": "教师1:2、2:4。查询从50M/100得5×10^5次，随后乘2并和8×10^6bit比较得1/8；DMA4KB/1MB=1/250s，乘50M=2×10^5，2000/2×10^5=1/100，最后写1-1/100=99/100。",
+  "evidence": [
+    "查询未按字传输率决定实际次数，1/8确错，教师只给部分分。",
+    "DMA1/250秒及对应周期数都是正确的替代路径，非错误目标量。",
+    "最终99%错误，不能直接全给DMA，也不能抹去之前正确关系。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "cd21f6dc759490a95b2a604dbd5e08d1514f9bca3b4868424946fa2afd29085c",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:02:45.183020+00:00"
+}

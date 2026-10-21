@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_197",
+  "category": "label_supported",
+  "summary": "类型答LR(0)，完整树未标属性值，教师2有部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "复制的规则被模型扩写为学生明确的无继承说明；同时错误把正确树结构判0。",
+  "original_image_observations": "左仅LR(0)型；中抄四条产生式及语义动作、句子acacbb；右完整标准树，无具体节点属性值，教师2。",
+  "evidence": [
+    "正确树的结构可给过程分，属性数值缺失不能给全部第二问分。",
+    "原图没有额外写无继承属性或S属性结论，模型第一问2.5证据不实。"
+  ],
+  "uncertainties": [
+    "结构过程分权重未细化。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "86830b3659278986c0ae4efe5c507d14cf83e958bd6381c5bdef73f00876fdba",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:46:45.602377+00:00"
+}

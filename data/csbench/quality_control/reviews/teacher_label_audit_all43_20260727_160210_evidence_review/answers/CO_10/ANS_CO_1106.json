@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1106",
+  "category": "model_or_extraction_issue",
+  "summary": "第一问块数、组数、tag6及896公式完整，第二误将功能拆成3套获部分分，教师10+2=12可解释；模型漏读tag并苛求非题设额外字段。",
+  "teacher_issue": "",
+  "model_issue": "表中tag数字结合(6+1)为6而非0；题问容量，已推1024块/256组并得896，不必额外列Cache的路选择位才能取得方法分。",
+  "original_image_observations": "教师12红勾叉，1:10、2:2。数据位容量除64位得1024块，除4得256组，主存2^16，布局tag6/组8/偏移2，[(6+1)×2^10]/8=896B。第二3套分别有效位、tag和偏移比较。",
+  "evidence": [
+    "第一问完整正确，不能因OCR对6/0歧义再扣tag和地址两遍。",
+    "第二识别有效位与tag功能有局部内容，但偏移不参与命中、数量与四路无关，须扣。",
+    "12可由第一问10加第二少量方法2解释，无明显教师标签异常。"
+  ],
+  "uncertainties": [
+    "第二2分权重未细列，不主张其必须得2；差异核心是模型少认第一问。"
+  ],
+  "transcript_conflicts": [
+    "布局tag6被读0，计算式6+1及图字支持6。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "da9fefbad37d30e71779fc67dde46049c5b7c2881464be286e917df4891de84b",
+  "teacher_score": 12.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:42:30.098150+00:00"
+}

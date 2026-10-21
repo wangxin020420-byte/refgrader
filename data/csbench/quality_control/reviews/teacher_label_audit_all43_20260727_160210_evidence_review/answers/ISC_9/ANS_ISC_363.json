@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_9",
+  "answer_id": "ANS_ISC_363",
+  "category": "label_supported",
+  "summary": "单图错误12MB，但数量乘法和二进制单位换算正确，教师3作为部分分有依据。",
+  "teacher_issue": "",
+  "model_issue": "首轮把12000MB当正确中间值，另一理由又说二进制1024错、标准用1000，均不符合参考。",
+  "original_image_observations": "直接由2048平方写单图12MB，1000张12000MB，再用1GB=1024MB得375/32GB，教师3。",
+  "evidence": [
+    "12MB是正确6MiB的两倍，缺少位深解释，不能给完整中间分。",
+    "沿12MB设定乘1000、除1024均正确，375/32也精确，不能连带再次全扣。"
+  ],
+  "uncertainties": [
+    "为何单图12MB没有过程，不能自行补24bit推导；过程分份额未明。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "5c81e681cb90c07b04fe132f8804e75921799d440f8e1a3a1ca311ed501322de",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:43:52.363520+00:00"
+}

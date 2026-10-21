@@ -1,0 +1,27 @@
+{
+  "question_id": "CPL_8",
+  "answer_id": "ANS_CPL_473",
+  "category": "label_supported",
+  "summary": "前两空正确、单行空间给1，其余错误，教师5有据。",
+  "teacher_issue": "",
+  "model_issue": "较高历史分对错误传行和元素地址过度宽容，首轮5与原图相符。",
+  "original_image_observations": "(6)sum+=*(score+i)红2；(7)最终改为<及min红2；(8)score,5红0；(9)5*sizeof(float)红1；(10)*(player+j)红0，总5。",
+  "evidence": [
+    "第7空保留的<、min正确，不按旧涂改判错。",
+    "*(player+j)指第j行首而非第i行第j元素；空间缺100按原说明给1合理。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "be3bc3fd1dc9b1829ce0051c716309606b0ab5cf2e7e8eea926524a4c78e2032",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T02:02:59.104565+00:00"
+}

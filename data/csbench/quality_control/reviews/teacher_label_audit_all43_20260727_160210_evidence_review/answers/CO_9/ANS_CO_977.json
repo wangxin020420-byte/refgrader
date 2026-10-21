@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_977",
+  "category": "teacher_suspect",
+  "summary": "数量正确，但宣称字扩展片选相同，ROM两片同选、RAM组合逆序且未做低有效转换；教师第二问7/9疑似过给。",
+  "teacher_issue": "低8K ROM没有按A12拆成两片，RAM也未说明地址高位如何对应译码输入，不能仅因列出7个不同乘积项就近满分。",
+  "model_issue": "第三轮15忽视同选冲突，前两轮6虽指出结构错，但最终部分分仍应按可见译码形式证据确认。",
+  "original_image_observations": "教师13，1:6、2:7。原图写‘用字扩展时基本芯片的片选信号相同’，随后CS1=CS2=A2A1A0，RAM从A2A1Ā0逐次列到Ā2Ā1Ā0，无连接到A15～A13或A12说明。",
+  "evidence": [
+    "字扩展应不同地址选不同芯片，与原图相同片选结论相反。",
+    "ROM两片同式必同时响应，不能覆盖两个互斥4K段。",
+    "七路乘积列举体现有限译码方法，但没有完成题设低位ROM及低有效要求，7分需复核。"
+  ],
+  "uncertainties": [
+    "对抽象3位输入的部分分尺度未细化，保留一定形式分而不自动定总6。"
+  ],
+  "evidence_strength": "shared_ROM_select_and_missing_low_address_mapping",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c1207f0d1028de57aba686ea6d64ec4ea4cef32448438c109c8899d7a158a5ad",
+  "teacher_score": 13.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:06:04.616150+00:00"
+}

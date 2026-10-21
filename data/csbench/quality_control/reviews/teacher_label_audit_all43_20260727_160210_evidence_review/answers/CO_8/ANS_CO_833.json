@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_833",
+  "category": "model_or_extraction_issue",
+  "summary": "查询正确，DMA先算对1%又明确以99%作为最后结论；教师5+4=9合理保留过程并扣结论分，模型部分轮次挑中先前1%而忽视最终冲突。",
+  "teacher_issue": "",
+  "model_issue": "首轮把正确查询时间法归零，同时对DMA只摘录中途1%给满而遗漏末行‘需要99%’，错误来源并非教师评分。",
+  "original_image_observations": "教师1:5、2:4。查询32b/1MB=.000004、100/50MHz=.000002，比率50%；DMA2000/50MHz=40×10^-6、4KB/1MB=.004，先得1%，其后写(间隔-开销)/间隔=99%，右侧‘需要99%’未划掉。",
+  "evidence": [
+    "查询隐含bit到B换算后的4μs正确，实际关系清楚。",
+    "DMA中正确1%存在，但最终指定99%，不能只挑对的一个值恢复满分。",
+    "教师只扣最后1分与用户要求的过程保留逻辑一致。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1c6375ede287dd889517cbd4ae5333c2149b07e22053d011d3c82626139392e2",
+  "teacher_score": 9.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:00:36.305916+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1481",
+  "category": "model_or_extraction_issue",
+  "summary": "首问名称错，但按题图a/b写出的取指与读写路径有效，ADD过程也有双输入和加法；测试字段误用2位造成9位地址。教师15可解释，模型低分含连带扣分。",
+  "teacher_issue": "",
+  "model_issue": "仅因a被误命名CU，就把后续M→a→b→控制器及M→a→ALU→AC路径判错，混淆命名题与图号通路题。",
+  "original_image_observations": "教师15红叉。aCU、b指令译码器、cIR、dPC；第二问M→a→b→控制器；第三问M→a→ALU→AC，AC→a→M；ADD依OD与AX取数、a和AC入ALU加法回AC再AX；字段3/4/4/2/2/9、容量2^9×24。",
+  "evidence": [
+    "a、b是题图已有节点标号，通路顺序与参考实际相同，不应随第一问名词错而全部归零。",
+    "直接控制3外部条件需3位而非编码2位，这是第五六问共同源错误，后续容量方法仍正确。",
+    "教师未给满分，15具有有效数据流与格式部分分支撑。"
+  ],
+  "uncertainties": [
+    "ADD额外AX回送和首段取数叙述可另扣细节，不宣称所有通路完全正确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "56e209caedb59d2f76544d1263544c6a7a6287fd0583593f4bf3f0a4967c227d",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:30:46.042927+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1083",
+  "category": "uncertain",
+  "summary": "混用字节和字地址且13−2−2错算7、tag8、容量512及8套均错；教师6+2=8可能方法分偏宽，缺细项不能确认为标签问题。",
+  "teacher_issue": "首6面对错误组/tag/容量，需核给分是否仅承认字段相减的方法；第二8套是错结论但只获2，不是满分异常。",
+  "model_issue": "应区分正确16位字=2B、8KB/128KB换算和错误的地址拼接；有正确局部单位与方法，不宜因核心错误把所有过程判0。",
+  "original_image_observations": "页眉8，1:6、2:2。字长2B、Cache8KB=2^13、主存128KB=2^17，块4字偏移2，组13−2−2=7、tag17−7−2=8、容量2^(8+1)=512B。次主存tag16、Cachetag9，2^(16−9)=32、除4答8套。",
+  "evidence": [
+    "统一字节坐标应块偏移3、组8、tag6；当前偏移2与17/13混用不是等价写法。",
+    "首容量用位宽作指数并漏总块数，与最终512错误独立于字段源错。",
+    "第二用tag取值数除路数得硬件套数无依据，2分只能解释为局部尝试；原细项未列，无法确定应少于8的严格上限。"
+  ],
+  "uncertainties": [
+    "需要教师原始部分分政策判断第一6是否过宽；历史1/6/1也显示模型自身对过程判定不稳定。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "69f95ec710f34a08d0bc10ba3c0ec50d876df47812acc1d8cc3756a47cb158ba",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:53:59.209246+00:00"
+}

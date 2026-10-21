@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_7",
+  "answer_id": "ANS_CPL_375",
+  "category": "label_supported",
+  "summary": "上三角交换正确，但数字转字符及缓冲区存在实质错误，教师10比模型满15更有支持。",
+  "teacher_issue": "",
+  "model_issue": "把全部输出缺陷只当分号、拼写细节，忽略a[i][j]+48仅适用单个非负数字及缓冲区越界。",
+  "original_image_observations": "读入正确，j从i到4的交换正确；fopen文件名未加引号，Null大小写错误；char cun[29]={0}，25个元素逐个加48存字符，每行补换行，fputs及fclose。教师10。",
+  "evidence": [
+    "j=i仅对角自交换，其余每对只换一次，转置过程正确。",
+    "每行5字符加换行共30字符，29容量不足且还需终止NUL；多位或负整数不能用加48表示，属算法输出错误。"
+  ],
+  "uncertainties": [
+    "原规则不扣缺换行，扣分应针对格式值/容量及语法，而非行换行本身；精确部分分未知。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "8ba3ed81dca7b4f1b44dd009bd35c33cba6962fe89a2a067f2ba7b9be283f7f3",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:25:02.003138+00:00"
+}

@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_888",
+  "category": "model_or_extraction_issue",
+  "summary": "查询把32bit作32B导致6.25%；DMA两时间正确但分母多加CPU耗时得.99%。教师2+3=5保留过程可解释，转录和模型理由另有多处失真。",
+  "teacher_issue": "",
+  "model_issue": "转录将CPU开销500写成50、带宽10^6写成10^8；模型据此否定有效过程，又把方法错误产生的.99%仅按四舍五入当正确，不应这样归因。",
+  "original_image_observations": "教师1:2、2:3。查询T=2×10^-6，T'=32B/(1×10^6B/s)=32×10^-6，1/16=6.25%；DMA分子原图1500+500，T=4×10^-5、T'=.004，最后T/(T+T')=.99%。",
+  "evidence": [
+    "查询错误是字长换算而非时间法本身。",
+    "DMA原图前两时间均正确，实际错误在占用比分母加总，不宜将它伪装为纯舍入差异。",
+    "教师未给两个结果满分；旧模型0～3.75的波动不能支持标签错误。"
+  ],
+  "uncertainties": [
+    "DMA正确中间量应分配3还是4分需统一部分分权重，当前不据此自动提高教师总分。"
+  ],
+  "transcript_conflicts": [
+    "DMA原图500非50；查询带宽原图10^6非10^8。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "42868e3d0c40d63490469e48859e4ccf1e26443ed244ac69d7dce56263f67652",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:02:45.188021+00:00"
+}

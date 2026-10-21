@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1322",
+  "category": "model_or_extraction_issue",
+  "summary": "寄存器、取指、存取、加法及容量格式均有正确过程，容量3×2^8Byte是准确等价值；教师满25合理，模型因额外正确取指步骤和跨问字段重复要求扣分。",
+  "teacher_issue": "",
+  "model_issue": "PC→AR等合法前置步骤不构成错误；第五问已写3/4/4/2，第六汇总13/3/8，不能再称缺四组；AX按题干通用寄存器参与加法不应只因符号非AC机械扣分。",
+  "original_image_observations": "教师25红勾。四寄存器正确，取指含PC/AR再M→DR→IR→CU；存取两方向有；ADD取数后DR/AX进ALU、+、ALU回AX；第五字段3/4/4/2、3、8，容量2^8×24位=3×2^8Byte；第六13/3/8。",
+  "evidence": [
+    "3×256B=768B与256×24bit精确等价，无需十进制展开才能满分。",
+    "同一作答中第五问详细字段和第六汇总相互补充，证据真实写出，不是反推。",
+    "额外地址发送与取指阶段合法，不能因参考答案更短而扣分。"
+  ],
+  "uncertainties": [
+    "题图是累加器结构而题干AX为通用寄存器，若课程要求写明AX与AC搬运可单独规范；现有给分认可该表达并有完整加法关系。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "10466b428b4bd68e680e4d6e1fc1d9636e5412b6e26352e1fe1f9a651d1a5efd",
+  "teacher_score": 25.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:39:38.652986+00:00"
+}

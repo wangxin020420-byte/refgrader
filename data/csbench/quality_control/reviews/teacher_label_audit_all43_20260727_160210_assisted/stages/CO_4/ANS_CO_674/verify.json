@@ -1,0 +1,46 @@
+{
+  "version": "assisted-label-review-v1",
+  "stage_sha256": "335e49f10feb8217723305015813d4891463d5a180dc0f6d1eab18ecb9c3a1e5",
+  "input_sha256": "3415700f304af70195f2b7ca296c30f761debf76e55ad453f0279f49c9c95db0",
+  "created_at": "2026-10-20T08:09:59.269142+00:00",
+  "request_url": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+  "model": "glm-4.6v",
+  "response_id": "2026102016094854a2255c2f0749a7",
+  "usage": {
+    "completion_tokens": 812,
+    "prompt_tokens": 9413,
+    "total_tokens": 10225,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 5
+    }
+  },
+  "review": {
+    "category": "label_supported",
+    "score_min": 8,
+    "score_max": 12,
+    "confidence": 0.8,
+    "original_image_observations": "学生作答手写内容：解：(1)32÷2=8组。主存单元按字节编址则8MB/2KB 标记 组地址 块内地址 8位 4位 11位。(2) 2D07FFH=0010 1101 0000 010101 1111 1111B 时能在Cache中访问到该单元数据；7F0057H=0111 1111 0000 0000 0101 0111时能在Cache中访问到该单元的数据。教师痕迹：2D07FFH二进制转换中'010101'部分有涂改痕迹（可见修改痕迹），7F0057H二进制表示无涂改；教师评分11分（满分20），右上角有红色'×'标记。",
+    "teacher_issue": "教师评分11分处于合理区间上端：学生(1)问主存地址格式正确（标记8位/组地址4位/块内地址11位）但未写Cache地址格式，(2)问2D07FFH结论错误（应未命中）且过程有涂改，7F0057H结论正确（命中）但未说明理由。教师可能对7F0057H的结论给分较宽松（未要求过程），对2D07FFH的涂改未完全扣分。",
+    "model_issue": "旧模型最终校准分4.55明显低估：step_7中7F0057H二进制展开0111 1111 0000 0000 0101 0111（24位）与标准一致，结论'命中'正确，但模型三次评分均为0/1/0，未给结论分（step_7c应1分），且错误称'多出一位'（实际24位标准写法前补0后正确）。",
+    "evidence": [
+      "学生(1)问主存地址格式标注'标记8位|组地址4位|块内地址11位'，与参考答案一致，应得满分（约4分）",
+      "学生未写Cache地址格式（Cache组号4位|组内块号1位|块内偏移11位），此部分0分",
+      "2D07FFH二进制转换有涂改且结论'能访问'（命中）与参考'未命中'相反，此部分0-1分",
+      "7F0057H二进制0111 1111 0000 0000 0101 0111（24位）正确且结论'命中'正确，此部分1-4分（教师可能按结论给分）",
+      "教师11分在6-12分合理区间内"
+    ],
+    "uncertainties": [
+      "2D07FFH涂改痕迹是否隐含正确过程未知，可能影响部分分",
+      "教师对7F0057H未说明理由的扣分标准无细则，无法确定具体分值",
+      "step_3'32÷2=8组'与'4位'自相矛盾，教师可能按结果给2分或按过程扣至1分"
+    ],
+    "summary": "学生正确给出主存地址格式（标记8位/组地址4位/块内地址11位），未写Cache地址格式；2D07FFH结论错误（应未命中），7F0057H结论正确（命中）。教师11分处于合理区间（6-12分），旧模型因二进制计数错误和未给结论分导致低估，故判为label_supported。"
+  }
+}

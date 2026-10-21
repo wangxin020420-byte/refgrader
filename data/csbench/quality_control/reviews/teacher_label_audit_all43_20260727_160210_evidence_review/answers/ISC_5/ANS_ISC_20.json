@@ -1,0 +1,27 @@
+{
+  "question_id": "ISC_5",
+  "answer_id": "ANS_ISC_20",
+  "category": "label_supported",
+  "summary": "ADU中D应H，其余译码和分类大体正确，教师扣1给5有据。",
+  "teacher_issue": "",
+  "model_issue": "把一处字母错扩大成解码全0，随后又对同一D的上游错误再次大扣分类。",
+  "original_image_observations": "旧串划掉后Hello,ADU!；箭头标space；字母HelloADU，标点逗号叹号，数字字符无，教师5。",
+  "evidence": [
+    "0x48应H而非D，是明确译码错误。",
+    "D仍为字母，分类判断没有独立新错，其他正确字符应保留分。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "edf51fd242d6b283948fd1417ea072b577be5e0f49f3d49d4fdcd71be7fb9b27",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:18:12.023773+00:00"
+}

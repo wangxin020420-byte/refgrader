@@ -1,0 +1,41 @@
+{
+  "question_id": "CO_1",
+  "answer_id": "ANS_CO_118",
+  "category": "label_supported",
+  "summary": "字段110111与I=1正确，最终误称34H为内容，教师2可作字段过程分；模型3.5额外把错结果当有效地址。",
+  "teacher_issue": "",
+  "model_issue": "转录还把末句‘操作数内容’读成‘十进制数’，旧模型判最后空白忽略了学生实际给错最终答案。",
+  "original_image_observations": "教师2红勾叉。写I=1、A=110111为操作数的存储地址，下一行‘操作数内容为34H’，无明确有效地址34的独立步骤。",
+  "evidence": [
+    "字段2分有证据；称A本身是真正存储地址反映间接含义仍混淆。",
+    "34仅出现作最终内容，不能同时当一个明示正确有效地址而完全忽略错误角色。",
+    "较宽松的上游推断政策可另给部分分，不足以认定教师2少给。"
+  ],
+  "uncertainties": [
+    "现行拆分1.5额外给分与旧教师未公开细分可能不同。",
+    "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+  ],
+  "transcript_conflicts": [
+    "末行文字是操作数内容，非十进制数。"
+  ],
+  "question_source_conflict": {
+    "question_id": "CO_1",
+    "text_source": "data/csbench/exam_database.json",
+    "question_image": "data/csbench/reference_images/questions/CO_1.png",
+    "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+    "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "81de3760892afd9f073b300a678a2fbd6f14d34e388012bcb14e7d4c033f34ef",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:08:38.230781+00:00"
+}

@@ -1,0 +1,37 @@
+{
+  "question_id": "CO_1",
+  "answer_id": "ANS_CO_98",
+  "category": "model_or_extraction_issue",
+  "summary": "字段37、有效地址34、最终37十六进制完整，教师5合理；两轮3.5未认可显式最终结果。",
+  "teacher_issue": "",
+  "model_issue": "虽有一轮正确5，后两轮未对‘37(十六进制)’作等价归一或事实映射，错误少给最终1.5；有效改写应优先于划掉内容。",
+  "original_image_observations": "教师5红勾。先I=1间接，字段改为110111=37；中说明真正操作地址34；下方按34地址得37内容，最终箭头操作数内容37(十六进制)。",
+  "evidence": [
+    "最终文字明确十六进制，不是无单位的歧义数字。",
+    "完整两级访问与当前文字题表一致，过程和结果都正确。",
+    "保留教师5，不因历史模型波动把正确标签归为可疑。"
+  ],
+  "uncertainties": [
+    "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+  ],
+  "question_source_conflict": {
+    "question_id": "CO_1",
+    "text_source": "data/csbench/exam_database.json",
+    "question_image": "data/csbench/reference_images/questions/CO_1.png",
+    "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+    "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6cfb9e3e7ef87c07aa5d27ad1be1ed3eec74cc0dd91678d3ecd0fc2e97d79066",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:08:38.253762+00:00"
+}

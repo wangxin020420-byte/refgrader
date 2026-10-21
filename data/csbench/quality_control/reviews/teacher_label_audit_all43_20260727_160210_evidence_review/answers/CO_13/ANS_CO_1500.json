@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1500",
+  "category": "label_supported",
+  "summary": "表及反序摘要均正确8，首指令后响应与返回概述2，图缺初次A/B和B后A且末返回不准获5，教师15可解释；模型图7过宽。",
+  "teacher_issue": "",
+  "model_issue": "主完成顺序CBD A不足以推出严格嵌套完整，原图从用户直接C且B直接D；不能依据文字拓扑说所有返回已具备。",
+  "original_image_observations": "页眉15，1:2、2:8、3:5。首写完成一条指令后响应、跳服务结束返回原程序，无保存/开关。ABCD列表1000/1101/1111/1001，下另列默认反序0001/1011/1111/1001。图用户直接C→B→D→A，末下降到低于原用户线，初始及末红圈。",
+  "evidence": [
+    "两种位序表达一致，表8无歧义。",
+    "图主要阶段正确但响应及B后回A缺失，末用户高度表达不稳，5可部分给分。",
+    "首2保留指令结束与返回，缺硬件机制不应满5；教师总15有分项支撑。"
+  ],
+  "uncertainties": [
+    "末高度误差是否单独扣分需原图政策，不因其形状将全图判0。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "164098ac928ceac2e62b96fa5f9cb54aa5a754b644c165eaf841ed9172184312",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:28:03.679187+00:00"
+}

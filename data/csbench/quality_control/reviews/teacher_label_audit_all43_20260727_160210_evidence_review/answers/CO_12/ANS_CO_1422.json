@@ -1,0 +1,36 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1422",
+  "category": "teacher_suspect",
+  "summary": "准备标签为25，但原图红叉且可辨分项非满分，寄存器、数据通路和判断字段也有实质错误；优先核查标签与原图评分的关联，不直接当教师真的满给。",
+  "teacher_issue": "现有teacher_scores记录25与原图非满分分项冲突，可能是原始标签关联或转入错误；即使不依赖遮挡的总分，多项未完成也不支持整题满分。",
+  "model_issue": "模型首轮声称b=DR、c=IR正确，与题图a=DR/b=IR/c=AR锚点相反；它的4～14也不可直接用来替代标签。",
+  "original_image_observations": "页眉总分部分被黑笔遮盖，仍可辨至少1:2、3:2等非满分红色分项，末有红叉。a写通用寄存器、bDR、cIR、dPC；取指/读写多缺节点；容量外部条件按2位导致9位地址，2^9×24；第六写执行微操作而非格式。",
+  "evidence": [
+    "data/csbench/teacher_scores.json及冻结任务均给ANS_CO_1422的CO_12为25，非当前UI临时计算。",
+    "原图有明确非满分评分痕迹，25标签需先查来源，不能误报为教师全部放过错误。",
+    "条件采用直接控制应3位，按2位算9位下址并非正确容量。"
+  ],
+  "uncertainties": [
+    "图上总分受墨迹遮盖，不指定原教师实际总分；尚未定位原始外部数据导入的具体环节。"
+  ],
+  "evidence_strength": "prepared_label_full_mark_conflicts_with_visible_partial_marks",
+  "source_score_observation": {
+    "prepared_teacher_score": 25,
+    "image_total": null,
+    "visible_partial_marks": true
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0b00e2cf4badef04ba15933a3d0861be01e15bb6e7767eb5c5d157f6ab6789c6",
+  "teacher_score": 25.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:26:08.483797+00:00"
+}

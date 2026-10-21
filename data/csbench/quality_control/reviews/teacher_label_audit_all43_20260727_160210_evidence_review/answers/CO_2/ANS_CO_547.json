@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_547",
+  "category": "teacher_suspect",
+  "summary": "第一问正确，但图把各级画成独立递增响应服务峰，缺D打断C和D返C、E返B等嵌套，教师18疑似对图仅扣2过宽。",
+  "teacher_issue": "要达到18需图至少6/8；原图没有题设的关键抢占恢复关系，应核图6分是否有足够依据。",
+  "model_issue": "首轮把每次都回用户的ABCDE五峰称标准嵌套并给8不成立；末轮2又漏了完整正确第一问12。",
+  "original_image_observations": "教师18红勾叉。表五字与排序正确；有效上图为五个各自回基线的窄矩形，高度依次升高，DE标记在中间峰附近，无C恢复块或最终B块；下方旧坐标斜线作废。",
+  "evidence": [
+    "标准图必含D后恢复C以及E后恢复B，独立按响应顺序执行不能替代。",
+    "图有轴、各级和响应时间的尝试可部分给分，不是完全空白。",
+    "本次只疑图接近满分过宽，保留正确第一问12。"
+  ],
+  "uncertainties": [
+    "图8分无细目；若教师将缺嵌套视单一错误只扣2，可解释18，需人工核实评分一致性。"
+  ],
+  "evidence_strength": "possible_overcredit_independent_pulses_without_nesting",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ea09161c7311dd0b38cc59a4f31f51bc9361f746292296c049bbc055e6d65533",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:54:02.772197+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_8",
+  "answer_id": "ANS_CPL_431",
+  "category": "label_supported",
+  "summary": "教师2+1+2=5与原图正确项和官方空间部分分相符。",
+  "teacher_issue": "",
+  "model_issue": "把sum+=*score误当正确；第7空转录括号有误但原图最终比较可辨为正确min对象。",
+  "original_image_observations": "(6)sum+=*score红0；(7)当前元素与min比较红2；(8)score,3红0；(9)5*sizeof(float)红1；(10)*(player+i)+j红2，总5。",
+  "evidence": [
+    "*score不能随循环i累加不同元素。",
+    "只分配一行缺100，官方明确允许该类缺维度给部分分；第10空正确。"
+  ],
+  "uncertainties": [
+    "第7空笔迹括号紧密，依据原图整体关系而非残缺转录判断。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d0e9190a18eb5894d9b703a7b6dd721b95bf2605d807cf3dc7bf9e7fee306068",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T02:02:59.094542+00:00"
+}

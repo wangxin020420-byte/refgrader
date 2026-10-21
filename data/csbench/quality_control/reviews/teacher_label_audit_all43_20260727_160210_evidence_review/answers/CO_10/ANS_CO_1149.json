@@ -1,0 +1,34 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1149",
+  "category": "teacher_suspect",
+  "summary": "第一问正确，第二明确算256+4=260套并说明错误的组间比较，却获5/5、总15，属于优先复核标签。",
+  "teacher_issue": "组号直接定位唯一组，不需要256套相等比较器先找组；第二数值260与原因均错，满5无足够依据。",
+  "model_issue": "原图后补写16−2−8=6，转录漏该式，模型不应少给第一问；但第一问10不能替代错误第二问的5分。",
+  "original_image_observations": "教师15红勾，1:10、2:5。首1024块/256组、16位主存、偏移2、tag6、896B。第二260套，需256套找组再4套找组内Cache块。",
+  "evidence": [
+    "当前题给电路已经比较整条tag并与有效位相与，组号用译码选择而不是额外同类比较。",
+    "4路意味着所选组中4套，跨组可复用。",
+    "错误不是一处末算术，核心硬件解释亦错，第二不能凭4路前提全分。"
+  ],
+  "uncertainties": [
+    "若标签关联或裁图版本异常需核原卷，当前图和页眉均确为总15。"
+  ],
+  "transcript_conflicts": [
+    "原图有后补tag=16−2−8=6，主转录未呈现。"
+  ],
+  "evidence_strength": "strong_overcredit_wrong_260_comparators_full_marks",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b8e04463d8b91f8cb621ebf253c3ce450fe0412036565fb24f32fde3f70571a2",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:42:30.100749+00:00"
+}

@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_967",
+  "category": "teacher_suspect",
+  "summary": "数量正确，但从A16向上选片，用A17～A19且高有效乘积直接作低有效CS，教师第二问7/9疑似过给。",
+  "teacher_issue": "原图明确把片选地址放在16位总线之外，ROM两片也未限定低8K；即使保留七路译码的形式分，7/9需核对是否漏看地址位与极性。",
+  "model_issue": "首轮仅因有七个不同乘积式就给RAM满6，未检验实际地址位和低有效性；后两轮6说明原模型并非稳定可靠裁判。",
+  "original_image_observations": "教师13，1:6、2:7。写64K=2^16故地址总线从16位开始往上为片选；ROM CS1=A16反相附近数字连笔、CS2=A16；RAM七项由A17、A18、A19正反乘积组成。",
+  "evidence": [
+    "64K字地址应A0～A15，ROM分片用A12且限定A15～A13=000，RAM用A15～A13。",
+    "七种3位组合结构可以保留少量方法分，实际信号却来自不存在的高位，不能判RAM全对。",
+    "选中为1的乘积项也没有转为题设低有效，属于另一必要实现条件。"
+  ],
+  "uncertainties": [
+    "不把所有七式判作完全无方法，最终部分分需人工统一。"
+  ],
+  "evidence_strength": "possible_overcredit_invalid_address_bits_and_polarity",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6c9b6f1169724ea20b87be970743e341b9ed58b0ff0e78791aa5818374668563",
+  "teacher_score": 13.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:56:13.459406+00:00"
+}

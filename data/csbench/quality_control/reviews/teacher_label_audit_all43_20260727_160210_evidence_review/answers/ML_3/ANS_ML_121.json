@@ -1,0 +1,30 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_121",
+  "category": "model_or_extraction_issue",
+  "summary": "原图三组表达式均与参考等价，教师6分保留；转录把K、等号及y下标读错，导致旧模型误扣。",
+  "teacher_issue": "",
+  "model_issue": "把K1=x识别为I1=zX，xy1的下标遗漏，z=xy2y1识别成x2y1。",
+  "original_image_observations": "第一行J1=X、K1=X、J2=xy1、K2=xy1；第二行z=xy2y1；教师6分对勾。",
+  "evidence": [
+    "逻辑与可交换，xy2y1=y1y2x。",
+    "图像存在各函数，旧模型1/2/3分建立在错误的符号提取上。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "I1、zX、x2均非原图对应的有效变量读法。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "71445fcbc39b89407f1ee7cdff98e4fb74659cee45414aecfee9e1b1ffc059fb",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:34:40.060252+00:00"
+}

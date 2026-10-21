@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_6",
+  "answer_id": "ANS_CO_406",
+  "category": "label_supported",
+  "summary": "控制156及BAF9正确，只有BCF用8位而非3位，后续173位、88576bit、11072B计算一致；教师17分体现源错误扣分并保留后续方法。",
+  "teacher_issue": "",
+  "model_issue": "旧模型每经过长度、位容量、字节容量又扣部分分，最低8.5，重复压低同一BCF源错误造成的后续结果。",
+  "original_image_observations": "教师17红叉。140+4+4+5+3=156，BCF8、log2(512)=9，总156+8+9=173；512×173=88576，下一行11072字节。",
+  "evidence": [
+    "88576÷8=11072，后续没有新增运算错误。",
+    "应扣BCF的概念错误，但不应把每个错误末值当新错误反复扣。",
+    "17与只扣源错误及少量结果分相容，不能据旧模型低分列教师问题。"
+  ],
+  "uncertainties": [
+    "源错误应扣2或3的精确尺度未细化，当前不自动改17为18。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3d24ca3ea55661d8353e4e20b105993242307c593d39fdad6d167ff70da2547d",
+  "teacher_score": 17.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:48:58.100016+00:00"
+}

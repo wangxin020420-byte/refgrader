@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_3",
+  "answer_id": "ANS_ISC_613",
+  "category": "model_or_extraction_issue",
+  "summary": "完整定义含DB、DBMS和应用软件，历史模型只抓分布式组件段而漏掉前文。",
+  "teacher_issue": "",
+  "model_issue": "不能只以本地/全局DBMS等后一句判没有DB；前文定义明确，低冗余/共享/独立和SQL五特征也完整。",
+  "original_image_observations": "原图5；开头DB核心、DBMS支持完成存储管理的应用软件系统；后列分布式软件构成；重要性及SQL非过程、一体、两用、集合、易用。",
+  "evidence": [
+    "同一回答前后段应合并取证，定义中三类实体满足活动组成项核心范围。",
+    "参考六类是展开方式，活动规则也只要求至少三类含DB和DBMS，不应另行要求全六类。"
+  ],
+  "uncertainties": [
+    "分布式组件是特定分解方式，应与通用组成区分，不把它单独当完整通用清单。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "969adeb208e014487b519dcbc61d6e47a42b394a5ccaf1db94b5c8bc99ace88c",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:42:52.038684+00:00"
+}

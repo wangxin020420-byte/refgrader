@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_193",
+  "category": "label_supported",
+  "summary": "序列前缀分析有分，但初态缺失、若干回退错误，教师2有依据。",
+  "teacher_issue": "",
+  "model_issue": "部分输出1属于OCR误读，图表实际存在，模型不能因识别乱序把全答判零。",
+  "original_image_observations": "左侧最终定义A0、B01、C010、D0101、E01010、F11；图中有涂改。右表只完成A至E五行，F仅写名无分支；D0为E/1，E0为B/0，C1为D/0。教师2及红叉。",
+  "evidence": [
+    "B0到C/0、C1到D/0、D0到E/1构成部分正确检测过程。",
+    "完成态E遇0应回A而非B；无有效前缀F的转移缺失，不能完整处理失配。"
+  ],
+  "uncertainties": [
+    "部分回退行有重涂，具体细分分数不能据OCR确定。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "64f7abcb70af7856d17b02103e650f2ab3d41431d965863e5df134ff20c71285",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:33:45.581288+00:00"
+}

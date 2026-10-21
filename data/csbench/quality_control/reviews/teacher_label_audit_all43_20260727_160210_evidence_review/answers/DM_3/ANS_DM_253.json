@@ -1,0 +1,30 @@
+{
+  "question_id": "DM_3",
+  "answer_id": "ANS_DM_253",
+  "category": "uncertain",
+  "summary": "正确存在前提和部分化简有分，但首个全称句过强、中间漏否定并凭空引重复目标，教师5是否过宽缺少细项标准。",
+  "teacher_issue": "总5包含多少翻译、ES及思路分无法核实；不能把证明认完整，也不宜直接按首轮0.5替换。",
+  "model_issue": "以字母x作实例参数本身不必自动致命，模型全抹ES部分分过严；另一方面首轮给仅出现的目标0.5不代表完成EG。",
+  "original_image_observations": "教师5红叉。首句写∀((A且B)∨(A且C))；1=∃(A且¬D)，2去量词，3/4取A和¬D；6从拒取却写A且B无否定；7重复(A且C)∨(A且C)称前提，8取A且C。",
+  "evidence": [
+    "首句等价于∀(A且(B∨C))，不等价于题设∀(A→B∨C)。",
+    "6不能从否定后件推出肯定前件；7把目标放进前提是独立缺陷，不是同一上游错的传播。",
+    "存在实例与化简体现部分方法，具体给分需教师分配规则。"
+  ],
+  "uncertainties": [
+    "5分是否已对无效核心过宽，需对照细项分，不自动判教师异常。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "82b97e0eb3e1e0956755fe86d9e0b7ef4dea0c440fba283cbd7e65889e3dd11d",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:52:46.939479+00:00"
+}

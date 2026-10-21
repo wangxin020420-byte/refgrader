@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_5",
+  "answer_id": "ANS_CPL_251",
+  "category": "model_or_extraction_issue",
+  "summary": "原图有初始化、循环N-1、传c三项正确修改，教师6有据；模型错位和OCR造成低分。",
+  "teacher_issue": "",
+  "model_issue": "将N-1误读N-i、自减误读i-；还因初始化列在第2项就只给半分或不给。",
+  "original_image_observations": "第1条宏后加分号错误；第2条result0改1；第3条fopen删除argv下标且仍w，未修正确；第4条最终for(int i=N-1;i>=0;i--)；第5条&c改c。教师6。",
+  "evidence": [
+    "第4条原图末减号与1清楚，不能用OCR的未初始化i判错。",
+    "三个独立正确修改各2，其他错误不应取消已修对项。"
+  ],
+  "uncertainties": [
+    "共同题干转录与源参考冲突仍存在，但不影响这三项正确性的核验。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "110eed4988c63bcec3e7b9be5dd0a5b4535ebc19b497cd050a3af52da2cc4203",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:17:28.203808+00:00"
+}

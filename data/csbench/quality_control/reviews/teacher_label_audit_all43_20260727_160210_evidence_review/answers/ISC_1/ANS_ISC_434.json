@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_1",
+  "answer_id": "ANS_ISC_434",
+  "category": "teacher_suspect",
+  "summary": "把摩尔定律说成随时代淘汰，方法仅一般发展趋势，教师2需核题意对应。",
+  "teacher_issue": "没有具体瓶颈原因，四个化是趋势分类而非如何突破缩放限制的技术说明，部分分依据待复核。",
+  "model_issue": "一般趋势有主题相关性，不能仅列表未出现量子等词就否定；但原图也没有进一步技术解释。",
+  "original_image_observations": "挑战随着时代发展逐步淘汰；通过巨型化、微型化、网络化、智能化提升性能，教师2。",
+  "evidence": [
+    "没有解释性能增长放缓为何发生。",
+    "没有具体器件、封装、材料、架构或算法方案，不应把趋势清单补成未写出的技术。"
+  ],
+  "uncertainties": [
+    "教师是否对宏观方向单列部分分需确认，当前仅标可疑。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "446e318556b03ad50ed2f992113edc137d1efefe280f1d502837682bc1372728",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:24:18.652949+00:00"
+}

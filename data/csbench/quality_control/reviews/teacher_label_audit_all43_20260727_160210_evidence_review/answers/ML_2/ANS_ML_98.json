@@ -1,0 +1,31 @@
+{
+  "question_id": "ML_2",
+  "answer_id": "ANS_ML_98",
+  "category": "model_or_extraction_issue",
+  "summary": "未划掉的有效末式AB+AC+AD+BCD正确，随后一个被划掉的尝试不改变该式；教师4分合理，模型把涂改残笔拼成乱码。",
+  "teacher_issue": "",
+  "model_issue": "转录‘A(+AD)、÷A、B(+)’由C字形及已划掉的右端草稿产生；模型据此认为函数污染，没有核对原图有效末式。",
+  "original_image_observations": "教师4分红勾。左侧从嵌套取反电路式推导，中间等号后清楚写AB+AC+AD+BCD；其右另有A+B...式被横线划去。",
+  "evidence": [
+    "有效答案没有附加未划掉的÷A或B(+)项。",
+    "四项正确与或式完整，并非仅含部分正确项的错误函数。",
+    "原模型0/0/1.5不足以将教师满分认定为可疑。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "涂改后作废的右侧式被并入有效答案，C被读成括号。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4a1eaa0d250ab69bf2927e1351cc7a7401c46796c9eb5c79830656e256ba14c3",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:09:06.468179+00:00"
+}

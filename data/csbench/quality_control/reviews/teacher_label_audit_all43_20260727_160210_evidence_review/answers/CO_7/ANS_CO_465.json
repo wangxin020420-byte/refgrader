@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_465",
+  "category": "model_or_extraction_issue",
+  "summary": "原图M1清楚写5×10^-5s，M2为(1/6)×10^-4=1.667×10^-5s，教师10分成立；转录漏掉M1指数负号造成模型扣分。",
+  "teacher_issue": "",
+  "model_issue": "两次把转录的5×10^5当原答案而扣M1；中间一次给10分，与原图吻合。",
+  "original_image_observations": "两问均写Te=CPI×IC/F；M1指数在5前有明确短横线；M2中间及最终式正确；各+5。",
+  "evidence": [
+    "图像M1结果为5×10^-5而不是正五次方。",
+    "M2两种形式数学等价，符合参考结果。",
+    "旧模型7.5/10/7.5分差异源于负号读法，不能归教师错。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "raw_text写5×10^5S，原图为5×10^-5S。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "dfb2ebbbfe950ef38550a85422070b247f8b491a285f6a307a64d544015ad9f6",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:19:06.695710+00:00"
+}

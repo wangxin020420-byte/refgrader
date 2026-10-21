@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_1",
+  "answer_id": "ANS_ISC_440",
+  "category": "model_or_extraction_issue",
+  "summary": "影响完整，光与生物计算是具体探索方向，模型因清单不同全部判方向0过严。",
+  "teacher_issue": "",
+  "model_issue": "源参考也含量子等替代范式，不能又称仅限现有架构而完全排除光、生物计算；需按解释相关性给分。",
+  "original_image_observations": "影响体积小、成本低、速度快、可靠性高；挑战只说与社会节奏有差距；方向提高集成度及生物、光计算机研究。教师4。",
+  "evidence": [
+    "影响部分实质完整。",
+    "挑战薄弱应扣，但具体计算范式探索不等价泛泛应用目标，教师4有部分内容支持。"
+  ],
+  "uncertainties": [
+    "开放题原总5无细分，4可能偏宽但不以模型硬性三等分认定教师错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b42108d4ce730243f651f443f6343c5538ecefdb183f05d1705f2eb34fdc8cc5",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:24:18.639949+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_130",
+  "category": "model_or_extraction_issue",
+  "summary": "两正确完整值都写出，模型只把首数整数0视空白，判断不一致。",
+  "teacher_issue": "",
+  "model_issue": "0.101与10.001都包含各自整数，不应只从第二整式认可10而漏掉第一整式0。",
+  "original_image_observations": "原图6；仅两行：0.625二进制形式(0.101)₂、2.125二进制形式(10.001)₂，无展开竖式。",
+  "evidence": [
+    "两个值与参考精确相同，不存在算错。",
+    "原始各数3没有额外1.5的平凡整数单列门槛，历史拆分过硬。"
+  ],
+  "uncertainties": [
+    "未展示分开转换细节；若原卷需过程扣分应对两个数统一，不能只扣首整数0。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "96bc39640cf7b2e87f689d1f06e5dce210f0413f8b1d5cc954c897a1a757665e",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.404213+00:00"
+}

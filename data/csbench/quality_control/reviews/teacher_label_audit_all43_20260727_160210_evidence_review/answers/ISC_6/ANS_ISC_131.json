@@ -1,0 +1,27 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_131",
+  "category": "model_or_extraction_issue",
+  "summary": "原图第二数为完整10.001，转录漏尾1造成错误扣分。",
+  "teacher_issue": "",
+  "model_issue": "原图最后001清楚，不能把错读00当学生数值错误。",
+  "original_image_observations": "原图6；左0.101及10.001；右分开写整数除2、0.625及0.125乘2取101和001。",
+  "evidence": [
+    "整体和小数过程均支持.001，而不是转录.00。",
+    "两数过程和结果正确，教师满6有原图依据。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "af3147a333b950e35392555c74c4c8ed7fb6bdb12b8b49e29e0b424f5a442e27",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.405212+00:00"
+}

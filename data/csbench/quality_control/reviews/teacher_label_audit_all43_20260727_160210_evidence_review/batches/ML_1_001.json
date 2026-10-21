@@ -1,0 +1,763 @@
+[
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_35",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "把删除痕和新1合成81/01，及把圆0读D；不存在空末格，不能把改写当额外数字。",
+    "original_image_observations": "原图4；F列前七0、第8格1、第9格0；后七格改前的0被划去，右侧1是最终值。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_45",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "将延伸至格线附近的1错对行并漏掉下半格，所谓缺失并非原图空白。",
+    "original_image_observations": "原图4；上七个圈0、第8竖1、第9圈0、下七竖1均按行填满。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_48",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "提取仅14项且把1读一、尾格判空；原图没有缺末三行。",
+    "original_image_observations": "原图4；F列16格均有笔画，首七0、0111行1、1000行0，最后七格1。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_50",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "第三格0被读6，多出第17项并错行；竖1不是空白占位符，不能按乱码扣分。",
+    "original_image_observations": "原图4；第三行是带回勾的0，与其他圈0同形；第8和第10至16行竖1，1000行0。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_39",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "把0读D、1读一或二后当语义错；原图按16输入行对齐即完整正确。",
+    "original_image_observations": "原图4；首七与第9格均小圈0，其余1；最后一格一个竖1，未写二。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_54",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "圈0的O/6及手写1的一是提取错误；不能把17项的提取串当学生表有17格。",
+    "original_image_observations": "原图4；第3格大圈、第5格略带钩，均为0；第8格1，第9格0，下七1。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_04",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "历史串多插0及一，使第10格被误判0；需读该格手写1而非重排噪声序列。",
+    "original_image_observations": "原图4；F列各输入行均有值，1001、1010行都是1，下方七1完整。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_22",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "模型称一不能表示1而扣；原图实际竖1清楚，即便提取一也应核图，不机械按字面判非法。",
+    "original_image_observations": "原图4；前七与1000行圆0，0111及1001至1111行均竖1，16格完整。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_29",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "提取只有13项，称后七没完成；下七个1均在原图，不能由短转录推断学生漏填。",
+    "original_image_observations": "原图4；F列下七行每格各有1，末格位于表内而不是缺失。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_40",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "抽取多出空第17项和一/异或解释，图中不存在对应空行或异或符号。",
+    "original_image_observations": "原图4；较斜的0和细1均按行可辨，末1111行的1在下边线以上。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_53",
+    "category": "model_or_extraction_issue",
+    "summary": "前15格0、末格1，仍有9格正确，教师2有部分分支持，模型全零过严。",
+    "teacher_issue": "",
+    "model_issue": "参考本有8个0，这些以及末1应计部分分；将整个映射视核心错误清零，抹掉9个正确格。",
+    "original_image_observations": "原图2；F前15行均0，唯末1111行1；不是全表空白。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1。",
+      "与冻结参考逐格核对：正确9/16；不同输入：0111, 1001, 1010, 1011, 1100, 1101, 1110。"
+    ],
+    "uncertainties": [
+      "原始总4无每错一格硬扣多少；正确格数不是擅设新的逐格计分标准。"
+    ],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000000000001",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 9,
+      "mismatching_inputs": [
+        "0111",
+        "1001",
+        "1010",
+        "1011",
+        "1100",
+        "1101",
+        "1110"
+      ],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_32",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "O与一是OCR形状替换，18项串是提取错位，不代表原表逻辑错误。",
+    "original_image_observations": "原图4；7个0后1，再0，最后七个细竖1全部可见。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_38",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "把划去0和1拼为81/a1/6.1等再判数值错，忽略修改符号及格子边界。",
+    "original_image_observations": "原图4；0111及1001至1111行的0已划去，旁边新1为最终值；1000行未改0。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_03",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "把该格划改拼为Q1并漏相邻细1，后按乱码判0；原图无缺失输出。",
+    "original_image_observations": "原图4；F列齐全，1100行旧0划掉改1，其余1细而连贯，首七0及1000行0明确。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_09",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "小圈被读C/D/2，细1读一或空，不能以这些转录字符证明学生逻辑错误。",
+    "original_image_observations": "原图4；上方小圈0多呈开口形，0111行长1、1000行圈0，下七格1。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_47",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "D和missing源于笔形及淡墨提取；并非学生只填两三个正确格，原图16格完整。",
+    "original_image_observations": "原图4；前七0较像D，第8格竖1、第9圈0，下七1部分很淡但逐格存在。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_37",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "提取17项使第8格错成0；卡诺图/最小项又交叉证明0111输出1及下七1。",
+    "original_image_observations": "原图4；F列正确，右另画卡诺图并列最小项7、9、10、11、12、13、14、15。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_13",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "将圆0当字母O并额外插一格后称转折遗漏；原表0111行1并未漏。",
+    "original_image_observations": "原图4；首七大圈0，第8格1、第9圈0，下七1清楚。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_12",
+    "category": "model_or_extraction_issue",
+    "summary": "只有0111行一处错误，其余15格正确，教师3.5可支持部分分。",
+    "teacher_issue": "",
+    "model_issue": "历史提取18项且把多个1判一，另有11/16乘4等于1的算术错；实际只有一个错误，不是多数未答。",
+    "original_image_observations": "原图3.5；仅0111行误填0，其余15格符合参考，1001起七格1。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确15/16；不同输入：0111。"
+    ],
+    "uncertainties": [
+      "原始总4无每错一格硬扣多少；正确格数不是擅设新的逐格计分标准。"
+    ],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000001111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 15,
+      "mismatching_inputs": [
+        "0111"
+      ],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_14",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "模型串把0110/0111转折错位并多出一项，所谓第7行1不是原图该格值。",
+    "original_image_observations": "原图4；0110行0、0111行1、1000行0清楚，下方1001至1111各1。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_26",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "将下半细1标字迹模糊、甚至student_blank；不能因取证不可靠就清零完整可读表。",
+    "original_image_observations": "原图4；上七0、第8格1、第9格0、下七细1，最后1110与1111都填1。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_41",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "O/一及多余空项为提取产物，不应把只有三个数字的文本当实际学生作答。",
+    "original_image_observations": "原图4；上七圈0、0111行1、1000行0，下七1清楚无空行。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_49",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "输出靠格左仍属F列，不能错丢一行并将多个1作未答；第一问对应格仍齐全。",
+    "original_image_observations": "原图4；F填在格左侧，上七0、0111行1、1000行0，下七竖1。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_21",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "历史串在1000后重复插0使第10格错，后七1也被改一/空；按输入行定位并无这些错误。",
+    "original_image_observations": "原图4；1001行1在其格中部，下六1连续，0111为1、1000为0。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_05",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "17项串额外0和空造成后半错位，不能将这些噪声当学生少答六格。",
+    "original_image_observations": "原图4；首七圈0及1000行圈0，0111和下七竖1；1101格虽细仍有1。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_25",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "14项提取漏格，右侧文字还支持关键转折，不应因D/一和短序列扣大半。",
+    "original_image_observations": "原图4；F上七0较淡，0111行1、1000行0、后七1；右注A不赞成需BCD全赞成、A赞成需BCD至少一人。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_34",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "所谓缺失和第8格0与原图相反；取证按行后不能只认4或8格正确。",
+    "original_image_observations": "原图4；F小圈0带钩，第8长1、第9圈0，下七1均存在。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_43",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "跨近格线的1被漏，后七斜1也判missing；原图并非下半空表。",
+    "original_image_observations": "原图4；第7圈0靠下边线，第8长1跨近格线但属于0111，1000为0，下七斜1。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_19",
+    "category": "model_or_extraction_issue",
+    "summary": "F列16格全对，教师满4有原图支持，历史低分来自读格或取证错误。",
+    "teacher_issue": "",
+    "model_issue": "历史说后11111与11111发生偏差自相矛盾，且17项提取多一尾项，不能据此扣分。",
+    "original_image_observations": "原图4；F各格明确，前七0、0111为1、1000为0，最后七1。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_36",
+    "category": "model_or_extraction_issue",
+    "summary": "只有0111行一处错误，其余15格正确，教师3.5可支持部分分。",
+    "teacher_issue": "",
+    "model_issue": "抽取18项并重复多0后错误计数；实际与12一样只有0111一处错，教师部分分有依据。",
+    "original_image_observations": "原图3.5；0111行0错误，1000行0及其他15格正确，末七格1。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确15/16；不同输入：0111。"
+    ],
+    "uncertainties": [
+      "原始总4无每错一格硬扣多少；正确格数不是擅设新的逐格计分标准。"
+    ],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000001111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 15,
+      "mismatching_inputs": [
+        "0111"
+      ],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_08",
+    "category": "label_supported",
+    "summary": "F列逐格与参考相反，教师0有支持。",
+    "teacher_issue": "",
+    "model_issue": "模型总0与逐行核对一致；其理由粗称前半全0/后半全1不够准确，但不影响此份0正确。",
+    "original_image_observations": "原图0；前七1、0111行0、1000行1、最后七0，16格恰好与参考相反。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0。",
+      "与冻结参考逐格核对：正确0/16；不同输入：0000, 0001, 0010, 0011, 0100, 0101, 0110, 0111, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "1111111010000000",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 0,
+      "mismatching_inputs": [
+        "0000",
+        "0001",
+        "0010",
+        "0011",
+        "0100",
+        "0101",
+        "0110",
+        "0111",
+        "1000",
+        "1001",
+        "1010",
+        "1011",
+        "1100",
+        "1101",
+        "1110",
+        "1111"
+      ],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_17",
+    "category": "label_supported",
+    "summary": "F列16格正确，教师4与模型满分一致。",
+    "teacher_issue": "",
+    "model_issue": "三次4与原图及参考完全一致，无需以归一化not_comparable怀疑教师满分。",
+    "original_image_observations": "原图4；F列16格清楚，上七0、第8格1、第9格0，下七1；转录亦按整行列全。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  },
+  {
+    "question_id": "ML_1",
+    "answer_id": "ANS_ML_56",
+    "category": "label_supported",
+    "summary": "F列16格正确，教师4与模型满分一致。",
+    "teacher_issue": "",
+    "model_issue": "历史三次4正确，但一属于提取转写而非原图真的写中文横一；17项串不应取代16格行定位。",
+    "original_image_observations": "原图4；F首七圈0、0111竖1、1000圈0、最后七竖1清楚。",
+    "evidence": [
+      "按原图A/B/C/D从0000至1111的输入行读取F：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。",
+      "与冻结参考逐格核对：正确16/16；不同输入：无。"
+    ],
+    "uncertainties": [],
+    "verified_truth_table": {
+      "input_order": "0000..1111",
+      "manually_read_F": "0000000101111111",
+      "frozen_reference_F": "0000000101111111",
+      "matching_cells": 16,
+      "mismatching_inputs": [],
+      "method": "manual_original_image_inspection_then_offline_count"
+    }
+  }
+]

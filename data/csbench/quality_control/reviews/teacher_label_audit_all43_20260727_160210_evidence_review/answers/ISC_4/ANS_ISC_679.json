@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_4",
+  "answer_id": "ANS_ISC_679",
+  "category": "label_supported",
+  "summary": "定义正确，构成误答OSI七层，教师2可支持概念部分分。",
+  "teacher_issue": "",
+  "model_issue": "历史按2.5/2.5得2.5是活动分配，不证明原总5下教师2必然低给。",
+  "original_image_observations": "原图2；网络数据交换规则、标准或约定完整；后列物理到应用七层，没有HTTP例子。",
+  "evidence": [
+    "定义完整应给相应概念分。",
+    "OSI分层不是HTTP消息构成，也不等同协议语法语义时序，后半未正确响应题意。"
+  ],
+  "uncertainties": [
+    "原总5无两部分等权的原始明确说明，不为0.5差值直接标教师错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7a194bc4bdefd7b2c54ab4d15f4e95960f6b4e04d9ab7aeb00eb95b6801e63cd",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:46:52.953542+00:00"
+}

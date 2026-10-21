@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_530",
+  "category": "uncertain",
+  "summary": "用集合完整表达五级屏蔽对象，第一问可有12分；第二问仅画坐标轴，教师15是否给设置图形3分需核实。",
+  "teacher_issue": "图无任何执行轨迹，15意味着第一问全12之外给图至少3；是否合理取决于图形方法分细则，暂不直接定错。",
+  "model_issue": "把文字集合全提为空白，漏掉第一问正确10分；图没有顺序线才是真正不足，不是整题只有优先级2。",
+  "original_image_observations": "教师15红勾叉。A屏蔽A/D/C/E/B，D屏蔽D/C/E/B，C屏蔽E/B/C，E屏蔽B/E，B涂改后屏蔽B；下方仅服务层级轴、用户/t轴和题目标题。",
+  "evidence": [
+    "五集合与标准位串逐对象一致，不必只接受二进制串。",
+    "图仅坐标和标签，没有中断进入、抢占、返回或请求时点。",
+    "应保留第一问实得内容，另核图轴能给多少分，不机械取旧模型2。"
+  ],
+  "uncertainties": [
+    "图8分无细分，若轴和程序层级最多2则15偏高，若允许3则可解释。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "541d89336c7bc4c8cc7c6b720a7789b8b11dd95701b2bcbcfc74a9315515ed80",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:29:03.378630+00:00"
+}

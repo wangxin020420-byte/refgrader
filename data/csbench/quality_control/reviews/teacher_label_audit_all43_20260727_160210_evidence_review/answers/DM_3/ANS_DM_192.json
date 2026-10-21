@@ -1,0 +1,30 @@
+{
+  "question_id": "DM_3",
+  "answer_id": "ANS_DM_192",
+  "category": "label_supported",
+  "summary": "翻译与存在实例化正确，但中段由三项析取直接消去C并重新得到C，证明断裂；教师6有部分分依据，模型8至9过宽。",
+  "teacher_issue": "",
+  "model_issue": "首轮主要盯第6行括号量词范围，却漏看第12行无依据删C、第13行直接断言C；最终EG正确形式不能使上游推导成立。",
+  "original_image_observations": "教师6红叉。四句翻译正确；第9行A(a)且¬D(a)；第11行¬A(a)∨¬B(a)；第12行从第3行写¬A(a)∨B(a)，第13行从第3行直接写C(a)，后才第14行提取A(a)。",
+  "evidence": [
+    "第3行¬A∨B∨C不能单独推出¬A∨B，也不能单独推出C。",
+    "可通过A和¬D补成正确证明，但现有行号没有完成这一消元，不应替学生重写。",
+    "翻译3、ES及局部等价演算足以解释教师6，缺陷不只是括号形式。"
+  ],
+  "uncertainties": [
+    "中段部分分无教师逐行记录，6为可解释总分，并非精确重建。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "bdd525c88bb02ba5a186a17b1f02c0a6b71f51ece14c4ed4e7c765699d13b6f1",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:52:46.919601+00:00"
+}

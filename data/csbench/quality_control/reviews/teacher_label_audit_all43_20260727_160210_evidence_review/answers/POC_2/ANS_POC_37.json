@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_2",
+  "answer_id": "ANS_POC_37",
+  "category": "teacher_suspect",
+  "summary": "句柄明确答右侧(b)，教师满5需复核。",
+  "teacher_issue": "句柄应最左直接短语(SaA)，(b)虽是直接短语却不是句柄，不能给该项1分满分。",
+  "model_issue": "把缺外层括号的短语与两个分隔基础短语混同，部分历史还把教师实际句柄错误扩大到其他正确项。",
+  "original_image_observations": "原图说明四个相关短语及(SaA)、(b)两个直接短语；最右写(b)是句柄，教师5并红勾。",
+  "evidence": [
+    "句柄判断必须选择(SaA)，不能把任一直接短语当句柄。",
+    "即使短语及直接短语全对，错误句柄1分也应单独扣，不应满5。"
+  ],
+  "uncertainties": [
+    "部分短语外层括号拥挤，是否另扣格式分需人工辨认，不影响句柄错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "293c3dde89ada0f51304ba95331a69416a07dce0e0deb31d18d5baf0e0679701",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:48:58.306585+00:00"
+}

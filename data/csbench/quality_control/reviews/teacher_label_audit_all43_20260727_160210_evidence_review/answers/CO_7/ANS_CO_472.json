@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_472",
+  "category": "label_supported",
+  "summary": "学生时钟频率指数写错，但总周期数、时间公式及后续推算可识别；教师每问扣1分给8分，可解释为保留方法分，不据旧模型低分判教师错误。",
+  "teacher_issue": "",
+  "model_issue": "旧模型虽识别最终数量级错误，却自行按30%～50%给方法分；与教师4+4属于部分分尺度分歧。",
+  "original_image_observations": "两问均列T=1/f、CPI×10^5得到2×10^5和10^5；最终写5×10^-26和1.6×10^-26；教师各+4，总8。",
+  "evidence": [
+    "正确周期数和T×周期数关系在原图完整存在。",
+    "错误来自频率指数，后续方法并非空白或概念关系完全错误。",
+    "原模型5/4/3分，教师8分；官方每问5分但无细化扣分权重，不能只凭分差归为标签错。"
+  ],
+  "uncertainties": [
+    "部分分具体权重无官方细则；保留8分不表示学生最终结果正确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "dd757c8902b5df607f043a4c05fb84d14dd84b18ae2dd0b0f570db76afda26aa",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:16:19.422282+00:00"
+}

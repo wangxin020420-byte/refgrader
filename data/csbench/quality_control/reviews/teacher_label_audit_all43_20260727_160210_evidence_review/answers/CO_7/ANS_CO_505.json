@@ -1,0 +1,29 @@
+{
+  "question_id": "CO_7",
+  "answer_id": "ANS_CO_505",
+  "category": "label_supported",
+  "summary": "正确求出两台机器总周期数并写t=m/F，仅将G误作10^12导致结果错；教师4+4符合保留过程分逻辑。",
+  "teacher_issue": "",
+  "model_issue": "旧模型5/7.5/7分均承认方法正确，与教师8分差异为扣分尺度，不足以认定标签错误。",
+  "original_image_observations": "CPI=m/IC，m1=100000×2=2×10^5，m2=100000×1=10^5；旁写G=10^12；t1=2×10^5/4G=0.5×10^-7s，t2=10^5/6G=(1/6)×10^-7s；各+4。",
+  "evidence": [
+    "以GHz符号书写的t=m/F与周期数均正确。",
+    "只有G数值换算及其传播结果错误，教师已扣每问1分。"
+  ],
+  "uncertainties": [
+    "部分分权重需统一政策。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1c471e6cdd9be9d738732d818148a045bd7b3014403cfa7e9633f7f2edd4763c",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:21:02.644675+00:00"
+}

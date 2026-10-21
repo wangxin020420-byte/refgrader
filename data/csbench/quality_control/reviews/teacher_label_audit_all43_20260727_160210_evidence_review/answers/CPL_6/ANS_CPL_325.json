@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_6",
+  "answer_id": "ANS_CPL_325",
+  "category": "label_supported",
+  "summary": "各空均未形成正确C逻辑，教师0有支持，模型凭数学意图给分过宽。",
+  "teacher_issue": "",
+  "model_issue": "将链式比较当少等号格式问题，而非C的实际不同求值语义。",
+  "original_image_observations": "前两空最终为a<ch<z式链比较；第三a[i]=0；第四words[upper(ch)-A]++；末空旧比较划掉后words=words。教师0。",
+  "evidence": [
+    "第三空赋0后条件假，第四又加计数而非抵消，均改变算法。",
+    "数组不能整体赋值words=words，链式比较也不能筛选字母，非仅语法细节。"
+  ],
+  "uncertainties": [
+    "可以讨论范围识别等方法分，但原规则未明示，不能据模型2至3断言教师低给。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b37c9364c7bd902036b70d5f1e71cb79c774f1eca00f0f751efff1a1f306a6a0",
+  "teacher_score": 0.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:22:01.478058+00:00"
+}

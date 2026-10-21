@@ -1,0 +1,15 @@
+{
+ "question_id":"POC_1",
+ "basis":"existing_experiment_only",
+ "new_experiment":false,
+ "grammar":"S→aSb | aSc | ε",
+ "verified_language":"{a^n w | n≥0, w∈{b,c}*, |w|=n}",
+ "equivalent_expression":"形状a*(b|c)*，同时约束a的数量=b的数量+c的数量；星已包含空串。",
+ "proof":"每次递归在前端加一个a，在末端独立选b或c，n次后得到n个a和n个任意混排b/c；反向按后缀最后字符逐层移除即可归约到ε。",
+ "offline_validation":{"method":"文法生成至5层，与形状加计数条件在长度0至10的全部abc串比较。","cases":88573,"generated_words":63,"result":"一致；仅离线数学核验，没有模型实验。"},
+ "counterexamples":{"fixed_b_then_c":"aacb可由S→aSb→aaScb→aacb生成，却不在a^n b^m c^k中。","missing_count":"a满足a*(b|c)*，但文法不能生成。","model_false_counterexample":"aabc可由S→aSc→aaSbc→aabc生成，是合法串。"},
+ "source_conflicts":[{"answer_id":"ANS_POC_336","prepared_score":5,"original_image_score":2},{"answer_id":"ANS_POC_344","prepared_score":5,"original_image_score":1},{"answer_id":"ANS_POC_299","prepared_score":5,"original_image_score":4}],
+ "source_conflict_check":"逐份目视原图页眉和大得分，并核对data/csbench/teacher_scores.json中对应ANS键的POC_1值，均为5；不能把数据5描述成原卷教师给5。",
+ "partial_credit_limitation":"9份4分答卷遗漏长度条件，但已有正确形状，官方只有总5未细分权重，保留uncertain而非机械认定教师错或用模型0替换。",
+ "automatic_policy_change":false
+}

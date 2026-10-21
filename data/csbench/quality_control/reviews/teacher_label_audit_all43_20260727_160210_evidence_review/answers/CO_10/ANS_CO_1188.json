@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1188",
+  "category": "teacher_suspect",
+  "summary": "正确主存6/8/2图及全部块/组数推导仅获首2，教师总3疑似低给；错容量和256套可扣，但不能清空正确地址部分。",
+  "teacher_issue": "原图1:2、2:1。即使Cache图10/2未单列路位，主存6/8/2与正确计数已至少支撑主存字段3及部分Cache字段，首2过低值得核。",
+  "model_issue": "模型将明确tag6图当缺乏tag映射、仅给1.5，也漏掉计数与字段的联合证据；总3偶然接近教师不能认标签已验证。",
+  "original_image_observations": "页眉3，1:2、2:1。主存64K×16/(4×16)=2^14块，Cache4KW/4=2^10块，组2^8；主存图tag6/组8/块偏移2。Cache画总块号10位/偏移2位，容量2^10×2=2^11，单位字迹似位/字节混写。第二共需2^8套、因为组号8位。",
+  "evidence": [
+    "主存图正确且与正确块/组数相互印证，不能因未单写16−8−2再降低其3分。",
+    "容量错误用每块偏移2代tag+valid，缺有效位，不能给容量结果分。",
+    "256套按组数配置错误，第二仅得1合理；优先复核第一2与已正确地址内容不匹配。"
+  ],
+  "uncertainties": [
+    "容量单位笔迹不用于断定额外单位扣分；具体修订分须人工确认原始细项。"
+  ],
+  "evidence_strength": "possible_undercredit_correct_main_address_layout_awarded_two",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c284ec6e874da9d6c648299c997ae7d838801f9ef4eb00e6c258ba90b3e447d9",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:00:16.616482+00:00"
+}

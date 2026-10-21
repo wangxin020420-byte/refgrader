@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1381",
+  "category": "model_or_extraction_issue",
+  "summary": "原图顶部四寄存器名称正确而转录漏掉，前3问已可支持12分，ADD及格式还有部分分；教师17合理，模型漏读首问压低。",
+  "teacher_issue": "",
+  "model_issue": "把‘需要查看图像’当学生原话并将首问空白；另称ALU→AC→DR→M没回AC，实际上路径明确先回AC，可扣额外写主存但不能否认AC结果。",
+  "original_image_observations": "教师17，分项4/4/4/2/2/1。顶部手写a数据缓冲、b指令、c地址、d程序计数器；取指与存取齐全；ADD有DR和AC入ALU、加法并ALU→AC再写M；容量14×24=336错误；末格式草图部分位数。",
+  "evidence": [
+    "第一问4个中文名称实际在图顶，不能按无转录归零。",
+    "容量把命令数当微指令条数，最终错误，但乘字长24的关系可给少量过程分。",
+    "17可由前3问12、ADD2、容量2、格式1解释，不支持教师严重过给。"
+  ],
+  "uncertainties": [
+    "格式图第二字段有改写不清，教师仅1分已体现不完整，未视其全对。"
+  ],
+  "transcript_conflicts": [
+    "顶部首问四寄存器整段未进入文本转录。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a252de8aef7bef1d39b71056835021774a476e7fd6fc16f96866b5fb607138b2",
+  "teacher_score": 17.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:26:08.496661+00:00"
+}

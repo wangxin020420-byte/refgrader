@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_8",
+  "answer_id": "ANS_CPL_433",
+  "category": "label_supported",
+  "summary": "仅最小值比较明确正确，教师2有支持，模型将不合法解引用当正确。",
+  "teacher_issue": "",
+  "model_issue": "Average参数score为float*，(*score)[i]对float再下标非法；main中score未定义，不能随意替换player。",
+  "original_image_observations": "(6)sum+=(*score)[i]，(7)标准比较，(8)&score,5且5前有重笔，(9)float score[100][5]，(10)&score[i][j]，红分0、2、0、0、0。",
+  "evidence": [
+    "(*score)[i]不等价于score[i]，必须依所在函数参数类型判断。",
+    "第9空在malloc参数内需字节数，不是数组声明；第10空引用不在main作用域的score。"
+  ],
+  "uncertainties": [
+    "部分正确形状的过程分口径未另给。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e5f275e4d2e068fb86d3ae8a31bbafa2306d1f46edce61ab74cd8d5e644305b7",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T02:02:59.089542+00:00"
+}

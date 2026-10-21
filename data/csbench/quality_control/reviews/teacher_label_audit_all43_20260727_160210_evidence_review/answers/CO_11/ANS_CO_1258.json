@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1258",
+  "category": "label_supported",
+  "summary": "R30/I31/J24都不符最大化I的解，但R/I5位与J乘4的局部准备存在，教师4+4+1=9可解释为部分分；模型还错配了R/I结果。",
+  "teacher_issue": "",
+  "model_issue": "原I31、R30不能互换映射；J资源式漏R且用I>J替代最大化I，应扣但乘2^2仍是正确局部，不宜泛称全无过程。",
+  "original_image_observations": "页眉9，1:4、2:4、3:1。I操作码5位，2^5−1=31；R操作码5位且I最多，R30。设I x，32−x≥1、x≥1、(32−x)×4≤x，解25.6≤x≤31，x26时J24；末30/31/24。",
+  "evidence": [
+    "I31漏保留J前缀，R受I大于R约束的额外减法错误，均应扣。",
+    "J少扣R前缀且选I最小以放大J，不符合I取最大30，但扩2位的乘4可少量分。",
+    "教师三项均未满，4/4/1属宽松局部给分，不因旧模型3.5低给就确定教师9偏高。"
+  ],
+  "uncertainties": [
+    "R4对只有位宽和错误最终减法的权重可能较宽，需原细项一致性，不确认9唯一。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b890fd074ca232d50d3b7a3bb5afeea71863b0dd76abb085d04385452eeb56b0",
+  "teacher_score": 9.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:50:54.624812+00:00"
+}

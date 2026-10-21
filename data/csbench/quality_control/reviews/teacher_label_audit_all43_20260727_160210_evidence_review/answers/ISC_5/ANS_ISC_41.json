@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_5",
+  "answer_id": "ANS_ISC_41",
+  "category": "label_supported",
+  "summary": "m替l及连字符替逗号是解码错，但对这些字符的类别判断正确，教师5有部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "把上游错误m再次当字母分类致命错误，忽略m本来就是字母；同理连字符是标点，不能所有项目重复全扣。",
+  "original_image_observations": "Hemmo - AHU!，字母H,e,m,m,o,A,H,U；空格、-、!列特殊标点，教师5。",
+  "evidence": [
+    "0x6C应l、0x2C应逗号，具体解码错误要扣。",
+    "学生正确区分其译码结果的字母和符号，错误数值传递不应抹除独立分类方法分。"
+  ],
+  "uncertainties": [
+    "空格类别及单字符扣分未细化，不精确重评分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a5be216dd1242cecc2609efae178b8a100f73ce8c6a2b930d5c750525dface21",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:18:12.013662+00:00"
+}

@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_375",
+  "category": "teacher_suspect",
+  "summary": "仅改写两个最终答案192、120，二者均错且无过程，教师8分缺少可见支持。",
+  "teacher_issue": "没有正确编码空间或扩展过程，8/15不能解释为正确过程分。",
+  "model_issue": "三轮0可由原图独立核实，不依赖分差自动分类。",
+  "original_image_observations": "教师8红叉。第一问原数字涂黑后上写192；第二问同样涂黑后上写120；页面其余为空白。",
+  "evidence": [
+    "改写后的有效结果不是255、128。",
+    "涂黑的旧答案无法辨认，不能假设含有正确方法。",
+    "与其它8分样本不同，其本身没有可核验过程，应单独列优先教师可疑。"
+  ],
+  "uncertainties": [
+    "第二末字草写圆圈接近0，若人工确认其实为8，只能支持第二问正确结果分，仍不能自动支持总8。"
+  ],
+  "evidence_strength": "strong_no_process_first_wrong_second_needs_digit_check",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e0f6347d9b4a8e2b256fb59249a75f1b1ec1b65a6e4e72fdfcc569cdf8ee1f70",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:24:51.895874+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_8",
+  "answer_id": "ANS_CPL_479",
+  "category": "teacher_suspect",
+  "summary": "第8空保留*score,5只取首行，却给满2；教师9需复核。",
+  "teacher_issue": "第8空不含当前选手i，循环i>0时仍计算第0行，红2不符合传当前行要求。",
+  "model_issue": "第10空旧的双重解引用已划掉，最终*(player+i)+j正确；模型仍评旧值，且错误称sizeof指针类型是整行大小。",
+  "original_image_observations": "(6)(7)各2，(8)float字被划掉后*score,5红2；(9)sizeof(float(*player)[5])红1；(10)旧*(*(player+i)+j)划掉，右侧最终*(player+i)+j红2，总9。",
+  "evidence": [
+    "Calculate内*score只能指向首行，不能视为score[i]简写。",
+    "最终第10空已修正为地址，应保留其2分，不能把历史转录错误作为扣分依据。"
+  ],
+  "uncertainties": [
+    "第9空把声明放sizeof内的记号和指针大小问题需统一部分分，不自动精确重评分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "55a51ef403a144f4e3b7114001bee9dc199960e7d45307e49b6c54f8d2a14bb8",
+  "teacher_score": 9.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T02:02:59.097542+00:00"
+}

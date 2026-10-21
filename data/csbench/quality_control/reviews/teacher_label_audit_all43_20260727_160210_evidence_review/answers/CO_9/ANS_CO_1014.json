@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_1014",
+  "category": "uncertain",
+  "summary": "芯片数2与7正确；片选只列四个16K区间，既不对应4K ROM也不对应8K RAM，教师第二问4/9的部分分依据需确认。",
+  "teacher_issue": "四个16K范围不能表示所需9片芯片选择，第二问4分是否过宽需统一部分分细则，不自动沿用模型满分。",
+  "model_issue": "模型将0000～7FFF当低8KW、8000～FFFF当两片8KW RAM，均是明确容量错误，三轮13.5～15显著过给。",
+  "original_image_observations": "教师10，1:6、2:4。两ROM及56/8=7RAM过程正确，56K已改写；片选仅CS1:0000～3FFF、CS2:4000～7FFF、CS3:8000～BFFF、CS4:C000～FFFF。",
+  "evidence": [
+    "每一区间含16384字，不是ROM4096或RAM8192字。",
+    "首两区间总32KW，不是ROM低8KW。",
+    "正确计数6分明确，余4分只能来自一般地址分区思路，不能据错误模型结论认教师少给。"
+  ],
+  "uncertainties": [
+    "官方未给一般地址分区但芯片划分全错时的部分分额度。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "54fc395ee07f442f99475d4945795cf115f56fe338a1247aad2d75b595faa2e6",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:56:13.450192+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1580",
+  "category": "uncertain",
+  "summary": "首未答0、图省略多处短状态获5可解释；屏蔽表按ABCD才全对但未写列标题，教师表满8需确认是否接受反向位序。",
+  "teacher_issue": "题设指定MDMCMBMA，无表头的A1000/B1101/C1111/D1001按默认位序A/B错；若作者实际采用ABCD则全对，教师8需要核这一约定。",
+  "model_issue": "原图有清楚C/B/D/A阶梯，不能将轨迹判成未画；同时模型把无表头反序屏蔽字直接判全对也缺少声明证据。",
+  "original_image_observations": "页眉13，1:0、2:8、3:5。第一只有答字。上方旧屏蔽写法划去，下方有效四行MA1000/MB1101/MC1111/MD1001，无位列标题。图用户直接C、回B、直接D、回A、回用户，起始A/B及B后回A三处红圈。",
+  "evidence": [
+    "四行存在一个统一ABCD列换序可得到正确屏蔽关系，不是各行随意改序。",
+    "题设既给固定MDMCMBMA，不能擅自假设学生已声明反序，需人工确定格式政策。",
+    "图有完成顺序且缺响应返回短段，教师5/7与局部扣分相容；模型连续总8漏掉实际图。"
+  ],
+  "uncertainties": [
+    "无表头位序的接受政策未明；不把表8直接归教师错，也不认13为已验证正确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6823f2da3927a2c0e1f161e1964d3c0c82bff859357a28f75d4de6752f6d0d03",
+  "teacher_score": 13.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:07:47.905771+00:00"
+}

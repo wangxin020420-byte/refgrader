@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_674",
+  "category": "label_supported",
+  "summary": "主存8/4/11格式正确、Cache格式缺失；2D07FF误判命中但有地址转换，7F0057命中结论正确。教师5+3+3=11分可以由已完成要素与转换过程解释，不据旧均分认定教师错。",
+  "teacher_issue": "",
+  "model_issue": "原模型一轮对正确7F0057结论给0，并将未单写23位直接判无证据，未充分考虑8+4+11已给总位数。",
+  "original_image_observations": "顶部32÷2=8组与下表组地址4位矛盾；表为8/4/11，教师+5；两地址均写能访问，分别+3/+3；未单列Cache格式。",
+  "evidence": [
+    "16组才需4位，原图8组确是算术错误，但主存格式终值正确。",
+    "2D07FF的命中结论错，不排除正确转换可得部分分；7F0057的命中结论正确。",
+    "原模型5/7/7与11差异含结论分及过程分尺度，不构成标签错误证据。"
+  ],
+  "uncertainties": [
+    "官方细项分值与教师按小问标分方式不完全一致，无法据此精确重定11分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3415700f304af70195f2b7ca296c30f761debf76e55ad453f0279f49c9c95db0",
+  "teacher_score": 11.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:40:57.322335+00:00"
+}

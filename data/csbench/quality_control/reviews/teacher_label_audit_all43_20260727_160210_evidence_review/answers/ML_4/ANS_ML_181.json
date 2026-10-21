@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_181",
+  "category": "teacher_suspect",
+  "summary": "原图有完整图表，但检测输出被延迟到完成态之后，且完成态回退错误；教师满分6需复核。",
+  "teacher_issue": "表中e在X=0时为f/0，应为f/1；f在X=1时为a/1，应为e/0，不能把此Mealy输出错误视为仅状态改名。",
+  "model_issue": "模型三次0分且转录只保留状态定义，漏掉了实际存在的图表和正确的前部转移。",
+  "original_image_observations": "原图左侧六节点图，右侧表头X=1、X=0；a至d行基本正确，e行为a/0、f/0，f行为a/1、b/1；顶部教师6并打勾。",
+  "evidence": [
+    "按a至f对应空前缀、0、01、010、0101、01010，输入01010结束时表中输出仍0。",
+    "完成态f的X=1应保留0101后缀，原表却回a且输出1。"
+  ],
+  "uncertainties": [
+    "具体应扣多少分需教师明确图表及局部错误的分值。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3759d27567e171ebb4191d55807252810fd4b830e13b28dfe30d0cd3b2f288e8",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:29:16.607467+00:00"
+}

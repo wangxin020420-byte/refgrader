@@ -1,0 +1,30 @@
+{
+  "question_id": "DM_3",
+  "answer_id": "ANS_DM_190",
+  "category": "model_or_extraction_issue",
+  "summary": "存在句误用蕴含、见证属性无合法来源，但两全称前提及后续条件推导有方法内容；教师5可为部分分，模型首轮全0重复抹除正确步骤。",
+  "teacher_issue": "",
+  "model_issue": "把翻译错误向全部步骤传播判0，连正确的全称实例化、逆否方向及析取消去思路也不给分；历史0/3.4/4.5不能作为精确校正。",
+  "original_image_observations": "教师5红叉。存在前提和结论都用A→而非A且；第2行额外写A(x0)；第4行全称代入正确，6写¬D→¬(A且B)，7得¬B，8得C，末仍存在蕴含。",
+  "evidence": [
+    "∃x(A→¬D)不保证参赛者存在，不能直接分离出A，是真实起始错误。",
+    "在补出的A与¬D条件下，逆否和析取链方向正确，应与第一次错误分开评价。",
+    "两正确全称前提及独立方法步骤支持非零部分分；不主张全题正确或自动改为模型4.5。"
+  ],
+  "uncertainties": [
+    "教师5的具体分配未记录，但不足以因首轮0认定高给。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d92a24895e3dc84b2d8fd05863d40a23e2bd78ac824711510a65f456f8778045",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:52:46.933486+00:00"
+}

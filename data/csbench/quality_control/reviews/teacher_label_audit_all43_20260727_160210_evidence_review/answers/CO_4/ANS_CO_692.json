@@ -1,0 +1,34 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_692",
+  "category": "teacher_suspect",
+  "summary": "原图两种地址格式完整正确且各得5分；两个访问也已取正确tag、组0、限定块0/1并给正确结论，教师只给2+3分，总15，疑似少给已有映射分析分。",
+  "teacher_issue": "第二地址tag=FE、组0000、明确对应块1及能访问，仍只给3/5；第一地址也有组限制和不匹配理由，仅2/5，需复核是否过扣。",
+  "model_issue": "转录漏掉Cache组内块号1位，原模型首轮因此扣2分；但另两轮19/20也不能替代人工确定扣分。",
+  "original_image_observations": "主存8/4/11+5；Cache图含组4、组内1、偏移11+5；第一tag01011010、组0000、只在块0/1查、未匹配+2；第二tag11111110、组0000、即块1、能访问+3。",
+  "evidence": [
+    "Cache图确有1位组内块号，不能按转录缺失解释教师已给满分为错。",
+    "两个访问题均非仅写‘能/不能’，都有题目核心tag和set过程。",
+    "根据有有效过程且结论正确的审核政策，15分的主要疑点为第二问少给，而非第一问多给。"
+  ],
+  "uncertainties": [
+    "第一访问文中又写tag52且十六进制题号似有笔误，可考虑少量扣分；不能据此否认第二访问完整正确。"
+  ],
+  "transcript_conflicts": [
+    "转录中Cache仅4/11，原图中间单独1位字段清楚。"
+  ],
+  "evidence_strength": "possible_undercredit_mapping_process",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6a96d373ebc986e96e430480872d5e66ab7964fd64b6cb7f613b68013da53266",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:47:19.235677+00:00"
+}

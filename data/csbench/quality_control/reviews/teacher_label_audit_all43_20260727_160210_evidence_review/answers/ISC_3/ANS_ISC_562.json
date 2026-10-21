@@ -1,0 +1,35 @@
+{
+  "question_id": "ISC_3",
+  "answer_id": "ANS_ISC_562",
+  "category": "teacher_suspect",
+  "summary": "标签5与原图教师3明确不一致，优先核对分数来源。",
+  "teacher_issue": "teacher_scores.json及冻结任务均为5，原图页眉评分和右上得分均3，属于标签/来源冲突。",
+  "model_issue": "模型2有部分内容依据，但不能用模型分替代原图3或自动修改标签；SQL两种使用模式确有作答。",
+  "original_image_observations": "原图页眉评分3、右上得分3；组成划改后为编译/运行/维护程序，重要性概括有效管理，SQL独立及嵌入两种模式。",
+  "evidence": [
+    "直接读取data/csbench/teacher_scores.json：ANS_ISC_562对应ISC_3为5。",
+    "原图两个教师分数字段均为3，非从答题文本推测的分数。"
+  ],
+  "uncertainties": [
+    "需确认是否来自后续调分版本，当前不覆盖任何教师标签。"
+  ],
+  "score_source_conflict": {
+    "prepared_teacher_score": 5,
+    "visible_original_teacher_score": 3,
+    "prepared_source": "data/csbench/teacher_scores.json",
+    "action": "人工核对原卷及后续调分来源，保留当前文件"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b32fb262d1fcc4b68ee08ae3f60f23c89d14fbb2d7fe3a5748bf061876b97068",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:42:52.037677+00:00"
+}

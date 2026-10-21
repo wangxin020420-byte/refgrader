@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_720",
+  "category": "model_or_extraction_issue",
+  "summary": "地址格式及两地址tag与命中判断正确，教师满分可按题目要求解释；末句Cache块号0有术语混用疑点，但不能据此把整个正确命中小问判0。",
+  "teacher_issue": "",
+  "model_issue": "原模型首轮第二地址整项0，忽视已正确取tag=11111110并判断可访问；第一地址也过度要求复述参考的块2比较。",
+  "original_image_observations": "主存8/4/11、Cache4/1/11完整；第一地址tag01011010、不能；第二tag11111110、能找到，随后写Cache块号为0；四处各+5。",
+  "evidence": [
+    "两地址set均为0，实际FE tag命中块1，题目只问能否访问。",
+    "末句0可疑似将组号称为块号，需区别术语笔误与命中结论错误。",
+    "前面取tag与最终命中均有过程，旧评分13/14.5/17.5不能自动证明教师20分错。"
+  ],
+  "uncertainties": [
+    "若课程严格扣末句‘块号0’的术语错误可另作人工确认；当前不将该点扩大为整小问错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0cb4a64902a1671c25ec05f9499328589bf34f58d5e258acf29e8664d6d34fcb",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:40:57.326776+00:00"
+}

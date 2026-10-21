@@ -1,0 +1,34 @@
+{
+  "question_id": "ISC_7",
+  "answer_id": "ANS_ISC_173",
+  "category": "teacher_suspect",
+  "summary": "最大空间答32GB错误，机器字长未答，教师2/4疑似多给完整小问分。",
+  "teacher_issue": "两小问各2分，空间32GB不符参考4GB，另一问64位无作答；未见可支持完整2分的正确小问。",
+  "model_issue": "转录比原图多一个2^10因子，原图三因子32×2^30=2^35算术自洽，但这是32GB换算，不是由32位地址得可寻址空间。",
+  "original_image_observations": "教师2红勾叉。上方32GB，左下32GB=32×2^10×2^10×2^10=2^35B；其余区空白，无64位。",
+  "evidence": [
+    "按本题参考默认字节编址，2^32B=4GB，不是32GB。",
+    "把错误32GB正确换算为2^35B不能构成正确地址空间推导。",
+    "没有字长64的证据，不能把数值换算等同另一小问正确。"
+  ],
+  "uncertainties": [
+    "教师是否对错误结果的正确单位换算给方法分需核实；现行空间strict_atomic不支持完整2分。"
+  ],
+  "transcript_conflicts": [
+    "原图只有三个2^10因子；不应额外制造乘方算术错误。"
+  ],
+  "evidence_strength": "possible_overcredit_wrong_capacity_word_length_blank",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "505a1b99c5b6f4e7b74e454acccfdd33e082062ea9109d1566f932e8c490341f",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:14:59.901964+00:00"
+}

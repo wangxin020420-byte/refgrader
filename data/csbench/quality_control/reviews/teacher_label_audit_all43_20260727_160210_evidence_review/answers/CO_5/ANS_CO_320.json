@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_320",
+  "category": "teacher_suspect",
+  "summary": "第二问裸写128正确可按原准则给相应结果分，但第一问核心空间、扩展关系及结果156均错，教师总10意味着第一问给了较多分，疑似过给。",
+  "teacher_issue": "除第二问128外，第一问没有4位主码、剩4前缀或6位扩展的正确推导；2^n=13不是合法固定二进制位宽，10分缺少足够有效过程支持。",
+  "model_issue": "模型理由把2^n=13另误说成n=13/2，也过宽地把错误乘法视为扩展方法；其5～6.25只作辅助，不直接采用为新分数。",
+  "original_image_observations": "教师总10红叉。第一问2^n-1=12、2^n=13，再[(2^n-1)×2^n]-1=12×13-1=156条；第二问仅128条。",
+  "evidence": [
+    "第一问既未确定4位主操作码，也没有使用6位字段的2^6扩展。",
+    "12×13-1本身算术也应155，但主要问题是关系错误，不止最后算术。",
+    "保留第二问正确结论分，不应把该问正确扩展为整题10分合理性。"
+  ],
+  "uncertainties": [
+    "教师可能对预留1给少量方法分，具体替代总分需确认；本记录不把第二问裸答强制归零。"
+  ],
+  "evidence_strength": "possible_overcredit_in_first_subquestion",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9c128bcc4f9c7582ab806a75ee8e4a4868752e9dbf3f43ff2bbda11a66c18ecd",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:18:17.542264+00:00"
+}

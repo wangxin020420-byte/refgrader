@@ -1,0 +1,62 @@
+{
+  "question_id": "CO_3",
+  "answer_id": "ANS_CO_185",
+  "category": "teacher_suspect",
+  "summary": "两题既有错误中间值又有额外补码转换、位宽和最终表示错误，教师首4次3疑似宽松过度，需复核实际给分。",
+  "teacher_issue": "首题错误倍增后还将0E再错误求补成F2；次题x÷4=9、最后扩为多位D4C并判溢出，多项独立错误却总7，需核部分分。",
+  "model_issue": "‘x÷4=9H’不是‘4=9H’，公式字迹不应误读成除以Y；但正确写公式不等于数值和转换都正确。",
+  "original_image_observations": "教师7红勾叉，首+4次+3。正确三初值与−y=AC后，首加数用D8得0E，再称符号位溢出、把0E改求补为F2；右x÷4=9H、2z写9位，累加后转成12位D4CH并写OF1。",
+  "evidence": [
+    "8位下2(−84)低位应58，不是D8，首倍增有源错。",
+    "从所得正0E再求补不是源错自然传播，是额外表示错误。",
+    "次题商错误、8位结果扩成12位及误判OF均独立于首问OF口径争议。",
+    "正确初值和公式可给部分分，本次不按模型3直接替换教师7。"
+  ],
+  "uncertainties": [
+    "两大项无过程细目，需人工确定具体扣分与宽松方法分是否一致。",
+    "共同参考口径冲突：原式真值-114、低8位8E；先8位求2y再减的中间及末指令OF可为1，而连减x-y-y最终OF为0。题图、文字参考和活动准则未统一求值/溢出范围，不能仅凭首问OF差异改教师标签。"
+  ],
+  "evidence_strength": "possible_overcredit_multiple_independent_representation_errors",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a8e8816ebf7aaadd9ffba38e155386aa296a7be1e1aedc5d7bfcadfeee3b85bd",
+  "teacher_score": 7.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:03:56.792023+00:00",
+  "question_reference_conflict": {
+    "question_id": "CO_3",
+    "question_image": "data/csbench/reference_images/questions/CO_3.png",
+    "question_image_sha256": "4a56942fac9b1359df1b7a2996bf83a00a441268c8406d847a467b1f4ff67496",
+    "active_rubric": "data/csbench/rubrics/optimized/CO/CO_3_rubric_standard.json",
+    "active_rubric_sha256": "8badc61da616930290902670c48f1bb3938e226f299af9f92ca1892c52c37b41",
+    "observation": "题图要求判断结果OF；文字参考指定先在8位计算2y并将中间溢出计入。活动准则又将已截断的2y=-88用于54-(-88)=142的说明，未明确区分原式真值、中间值与最后机器指令的OF。",
+    "verified_values": {
+      "x": 54,
+      "y": 84,
+      "z": -43,
+      "exact_x_minus_2y": -114,
+      "low8_x_minus_2y": "8E",
+      "trunc_x_over_4": 13,
+      "two_z": -86,
+      "second_expression": -73,
+      "low8_second_expression": "B7"
+    },
+    "verified_paths": [
+      "完整真值54-2*84=-114，在[-128,127]内；不能说原y=-88或原式真值142。",
+      "若先用8位计算84+84，结果168越界、低8位A8表示-88，中间OF=1；再执行8位54-(-88)=142，低8位8E而该减法指令OF也为1。",
+      "若使用(x-y)-y等价求值路径，54-84=-30，-30-84=-114，两步都不越界，最后OF=0；9位扩展最终双符号11同样可表示-114。",
+      "第二题向0取整54/4为13，2z=-86，和-73=B7，所述路径无8位带符号溢出。"
+    ],
+    "review_policy": "数值/算术/表示错误逐份独立审查；只因首问OF=0与口径=1不一致不直接归教师已错，不自动改题面、准则或教师分。",
+    "basis": "existing_experiment_only",
+    "new_experiment": false,
+    "automatic_score_change": false
+  }
+}

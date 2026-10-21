@@ -1,0 +1,33 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1522",
+  "category": "label_supported",
+  "summary": "学生将正确目标屏蔽字划去改回硬件优先级，图重复C/D且错返回，教师4.5+1.5+2=8有依据；模型误称取反等价给表满8。",
+  "teacher_issue": "",
+  "model_issue": "1111/1110/1100/1000不是题设目标屏蔽字的逐位取反，也不能实现CBDA。原图旧0001/1011/1111/1001明确划去，不能挑作废正确答案给分。",
+  "original_image_observations": "页眉8，1:4.5、2:1.5、3:2。首关中断、设置断点保护、置屏蔽、开、服务、关、后处理、返回断点、开，流程较完整。右旧正确目标四行划去，最终A1111/B1110/C1100/D1000。图用户直接C→B→C→短D→A→再D→用户，多次服务与标记错。",
+  "evidence": [
+    "第一较完整给4.5与题意相符，非整卷毫无正确内容。",
+    "第二最终设计仍原硬件顺序，目标错误，1.5可为表结构尝试分，不应8。",
+    "第三实际多峰和错返回只能少量2，不能由完成标签或标准缺文本反推图半分/全分。"
+  ],
+  "uncertainties": [
+    "具体1.5与2权重未单列，但8的低分有可见错误支持，不按模型16.5认低给。"
+  ],
+  "transcript_conflicts": [
+    "旧正确目标屏蔽字已划除；有效最终四行是1111/1110/1100/1000。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c75e5d55168b8b9e8d6db9cfbd9a8544073f045602a599904a1b83f7ac9ab91f",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:27:13.235285+00:00"
+}

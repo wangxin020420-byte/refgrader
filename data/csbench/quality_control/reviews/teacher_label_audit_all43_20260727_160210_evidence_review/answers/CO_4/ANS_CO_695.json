@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_695",
+  "category": "model_or_extraction_issue",
+  "summary": "学生已划掉错误二进制，正确重画字段；明确写组0查块0/1、无命中和第二地址命中。Cache少一位，教师19分已扣分，标签可保留。",
+  "teacher_issue": "",
+  "model_issue": "旧模型把第一地址最终‘无命中’遗漏成命中；又把合法23位物理地址少写最高补零当tag错误。",
+  "original_image_observations": "主存8/4/11；Cache4/11，教师分别+5/+4。第一地址旧二进制被划掉，重写分8/4/11位，写0组块0/1经比对无命中；第二地址标8/4/11且0组经比对命中，各+5。",
+  "evidence": [
+    "8MB物理地址23位，7F0057表示为23位并不丢有效tag位，不能因未写第24个补零扣分。",
+    "原图第一问末句为‘无命中’，不是其转录半句‘经比对命中’。",
+    "遗漏组内块号已由教师扣1分，没有把缺失格式全给满分。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "涂改前后第一地址二进制被混合；最终‘无命中’未进入原模型对应证据。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "6e4ef5d36b82721d968435c86b1ef9af762e22b0abca0874c09c98c733d96469",
+  "teacher_score": 19.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:40:57.324802+00:00"
+}

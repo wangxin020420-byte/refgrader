@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1259",
+  "category": "label_supported",
+  "summary": "R把一个前缀误作一种指令只1条；I给15/30两方案未选最大，J两方案均4，教师1+4+4=9可解释为部分分。",
+  "teacher_issue": "",
+  "model_issue": "I答案列两种分配不能只挑正确30就判全对，也不能忽略2^5−2正确分支；J整体Opcode7与自由扩展2不同，不能把7当学生未识别2。",
+  "original_image_observations": "页眉9，1:1、2:4、3:4。先列R/I/J Opcode5/5/7，I只能占4位或5位。I2^4−1=15或2^5−2=30；R2^1−1=1或1；J2^2=4重复两次。最终列1/15/4或1/30/4。",
+  "evidence": [
+    "R1不是32，识别总位宽5可保留准备1但方法和结果错。",
+    "I正确方案30及错误15并存，最大化要求未作唯一选择，教师4而非5有依据。",
+    "J2^2=4方法/数值正确，原教师给4可能因未明确一个前缀配置或两方案歧义，缺细项不足以判标签低给。"
+  ],
+  "uncertainties": [
+    "J扣1的具体理由未公开；总9与正确/错误分布相容，但不确定每项唯一分数。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "eb5ebae14d6ec881078416e08b85a528fd94b4c1a6f3ef3ea09a5fede07517a3",
+  "teacher_score": 9.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:50:54.626812+00:00"
+}

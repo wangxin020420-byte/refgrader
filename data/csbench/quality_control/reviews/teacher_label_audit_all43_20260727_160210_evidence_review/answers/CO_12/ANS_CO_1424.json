@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_12",
+  "answer_id": "ANS_CO_1424",
+  "category": "teacher_suspect",
+  "summary": "教师14中取指路径和ADD有明显错误、格式空白仍似获分，疑似部分分过给；同时模型把正确存取路径归零也错，不能直接采纳其3～4分。",
+  "teacher_issue": "原图取指绕到地址寄存器再回M而获4分，ADD未写两输入及ALU回AC，格式无设计却页眉第六有1分，需核查具体给分依据。",
+  "model_issue": "第三问连续写M→DR→ALU→AC→DR→M，已经含正确读写两段，模型称写路径反向是错误；c‘指令地址寄存器’也可视AR而非必错。",
+  "original_image_observations": "教师14，页眉约2/4/3/2/2/1。a数据、b指令、c指令地址、d数据缓冲错误；第二问M→缓冲→指令地址→M→IR→控制器；第三问含完整读写链；第四M→地址寄存器→IR→ADD→DR→AX；容量24×30=720，末无格式。",
+  "evidence": [
+    "正确第三问应保留实质分，不能把所有题都按模型低分否定。",
+    "第六未设计任何位数字段，1分没有可见支持。",
+    "第五把30条微命令当控存条数，虽有容量乘字长的形式，仍非正确下址容量计算。"
+  ],
+  "uncertainties": [
+    "页眉题号有重复印写，分项辨识需人工核对；若原教师14按其它分配给分，仍需解释错误取指和空白格式。"
+  ],
+  "evidence_strength": "possible_overcredit_wrong_fetch_and_unwritten_format",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "12e6448d3fc85a27bc0b7a5b52bc7dda0956109ff7180a28ac00ce0e04d8508e",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_12_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:26:08.498656+00:00"
+}

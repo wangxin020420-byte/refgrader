@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_5",
+  "answer_id": "ANS_CPL_267",
+  "category": "uncertain",
+  "summary": "多数修改不正确，教师3的部分分可能受错误源参考影响，不能据模型0至1直接定教师错。",
+  "teacher_issue": "没有清晰完整的正确修复；总3是否包括错误接受&&或仅定位过程分需确认。",
+  "model_issue": "把每条修改按顺序机械映射，未分别分析修改实质；只因指出printf所在行就给半分也无充分依据。",
+  "original_image_observations": "N6改5；float result0改int result0；多项式项改c[i]*x；if中||改&&仍w且括号不完整；printf保留&c仅加/n。教师3。",
+  "evidence": [
+    "幂函数初值仍0，改整数类型不能修正；统一c[i]*x也不能计算一般高阶多项式。",
+    "||改&&非正确参数/开文件失败检查，但源参考把该方案列为可接受，需先解决依据冲突。"
+  ],
+  "uncertainties": [
+    "教师未标小项分，现有数据不能确定3的分配；源参考需核对原题。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "33d0b0685d2dfd3ae1cc590ce77cf0ae69121b23a9c88a19a1e74740e99fd7ca",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:17:28.205580+00:00"
+}

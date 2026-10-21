@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_1",
+  "answer_id": "ANS_ISC_397",
+  "category": "teacher_suspect",
+  "summary": "主要谈定律应用和AI验证，未答缩放挑战或具体提升路线，当前题干下3分依据需优先复核。",
+  "teacher_issue": "摩尔定律不是靠其他定律佐证即可提升算力；答卷未给主要技术障碍及对应方法，半数以上分缺明确依据。",
+  "model_issue": "模型三次0与偏题方向一致，但不能将0当原始标准分；仍需教师说明一般相关论述是否给分。",
+  "original_image_observations": "挑战写定律拓展、实际应用和解决问题能力；方向用AI验证性能、其他定律佐证、实际场景应用，教师3。",
+  "evidence": [
+    "没有物理/工艺、能耗、经济挑战的具体描述。",
+    "没有说明AI如何改进芯片、算法或计算结构，仅性能验证与应用不构成明确提升技术。"
+  ],
+  "uncertainties": [
+    "原题图不可用；若原卷实际要求不同，应先核题干对齐，不自动降0。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0fc80bd007510c84029fddbbd0436d11fecfed78bedb93ce9a75027a76e49e5f",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:24:18.640948+00:00"
+}

@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_890",
+  "category": "model_or_extraction_issue",
+  "summary": "原图查询用正确CPU时间但把32bit当32B，得1/16；DMA时间比完整正确为1/100。教师2+5=7有依据，转录遗漏第一问时钟频率倒数。",
+  "teacher_issue": "",
+  "model_issue": "查询100×1/50MHz被转成100×50MHz，夸大方法错误；另有一轮总0忽略完全正确的DMA。",
+  "original_image_observations": "教师1:2、2:5。查询式中100乘1/(50MHz)可见，除32/(1MB/s)=1/16；DMA[(1500+500)×1/(50MHz)]除(4×10^3/10^6)=1/100。",
+  "evidence": [
+    "查询结果错误来自缺bit到B换算，仍有正确CPU耗时关系。",
+    "DMA所写一条复合式已含完整过程，不需另列250次。",
+    "教师没有把查询满分，也没有少给正确DMA。"
+  ],
+  "uncertainties": [],
+  "transcript_conflicts": [
+    "查询原图乘的是时钟周期1/50MHz，转录遗漏倒数。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "bdb200fa4bd6b6f4ed2856e433463fbd4b9063bb7afdd0d1eef7b9540b6559cf",
+  "teacher_score": 7.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:02:45.179021+00:00"
+}

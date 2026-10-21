@@ -1,0 +1,42 @@
+{
+  "question_id": "CO_1",
+  "answer_id": "ANS_CO_130",
+  "category": "teacher_suspect",
+  "summary": "改正后的地址字段110111=37H与I=1正确，最终58H错；教师0疑似漏给有效过程，模型某轮5也属明显误判。",
+  "teacher_issue": "正确字段换算清楚保留，零分可能遗漏现行地址项的独立过程分。",
+  "model_issue": "转录把有效六位110111读成101111；首轮以88、55、ASCII等无关关系把58H认成37H触发满分，数学错误。",
+  "original_image_observations": "教师0红叉。顶端旧式划掉，下一行保留110111=37(十六进制)，I=1；末内容58(十六进制)。",
+  "evidence": [
+    "58H为88十进制，37H为55十进制，二者不等价。",
+    "不能全分但正确字段步骤仍在；不因最终错把过程一并清零。",
+    "疑点是教师漏过程，不依据模型5给最终加分。"
+  ],
+  "uncertainties": [
+    "地址项具体部分分应按教师实际政策复核。",
+    "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+  ],
+  "transcript_conflicts": [
+    "原图有效地址位为110111，而非转录101111。"
+  ],
+  "evidence_strength": "possible_undercredit_correct_corrected_address_zero_total",
+  "question_source_conflict": {
+    "question_id": "CO_1",
+    "text_source": "data/csbench/exam_database.json",
+    "question_image": "data/csbench/reference_images/questions/CO_1.png",
+    "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+    "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "88d3cc370c57f8eb618e3471fe112e84c2bbbe0d983075bbf1f8205289e1f0b9",
+  "teacher_score": 0.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:08:38.228657+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1164",
+  "category": "label_supported",
+  "summary": "首正确1024块、256组但将每块字长16用于元数据，次漏偏移而tag8、逐位比较答8套；教师4+2=6可保留正确计数与比较功能分。",
+  "teacher_issue": "",
+  "model_issue": "不能把明确块/组数计算标空。第二按位配置错误，但确有主存tag对Cachetag的比较概念，少量过程分不等于承认8套正确。",
+  "original_image_observations": "页眉6，1:4、2:2。4K×16/(4×16)=2^10块、除四得2^8组；容量2^8×4×16/8=2KB。第二主存64K=2^16，tag16−8=8，Cachetag8，每一位都比较故需8套。",
+  "evidence": [
+    "首乘法含正确总块数，但16机器字长不是每块元数据位数，且漏有效位，2KB错。",
+    "tag应再减块内偏移2，第二逐位比较套数也与整组四路电路不同。",
+    "教师未对错结论满分，4+2与正确准备、tag比较内容相容。"
+  ],
+  "uncertainties": [
+    "局部4/2权重未细列，不据模型2至5确定唯一应得分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0d2901407f83f272c6a2637a1c0827616ec36e0536f87088e1c9cca534c43118",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:57:52.321396+00:00"
+}

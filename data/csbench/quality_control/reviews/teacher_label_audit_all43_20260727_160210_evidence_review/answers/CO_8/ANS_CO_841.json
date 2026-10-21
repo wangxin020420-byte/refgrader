@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_841",
+  "category": "label_supported",
+  "summary": "查询错误把32位按32个字乘2B得64B，但之后按该错误字长计算一致；DMA完整正确为1%。教师2+5=7有依据，不把两个小问连带否定。",
+  "teacher_issue": "",
+  "model_issue": "部分轮次总分低于完整正确DMA的5分，可能受查询错误及已划掉的64B旁式牵连；首轮保留DMA满分较符合原图。",
+  "original_image_observations": "教师7分、1:2、2:5。查询1W=2B、32×2B=64B，10^6/64=5^6次、乘100除50M=3.125%；DMA1500+500=2000、1MB/4KB=250、250×2000=5×10^5、除50M=1%，中途4KB/64B式已划去。",
+  "evidence": [
+    "5^6=15625，查询后续算术与错误64B一致，部分方法分可以保留。",
+    "DMA采用正确块长频率，查询的64B错误并未进入其最终有效解法。",
+    "教师未将错误查询满分，正确DMA已全给，无充分教师错误证据。"
+  ],
+  "uncertainties": [
+    "字长错误后查询方法分2或更多属于统一部分分尺度问题，不自动改标签。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "61d0512612a109a75632726e5a599ee3e8efc27dc85dddea995eaabcb9b0aba3",
+  "teacher_score": 7.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:07:06.929916+00:00"
+}

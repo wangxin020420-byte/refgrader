@@ -1,0 +1,8 @@
+{
+ "question_id":"ISC_3","basis":"existing_experiment_only","new_experiment":false,
+ "review_rules":["原始仅总5，不能把历史三等分或活动2.5/2.5反推成原教师必须遵守的既定权重。","活动组成项至少三类含DB和DBMS可满；DB、DBMS及应用软件的连贯定义可提供实体证据，不强求全部硬件人员。","划去的定义不得补成最终答案；关系数据库是DB子类，不自动算第三类实体。","编译、运行控制和维护程序是DBMS内部结构，设计阶段是生命周期，均不等同通用数据库系统全部组成。","本地/全局DBMS、字典和通信属于特定分布式分解，认可相关部分分但不自动当通用完整组成。","重要性、SQL功能与特征按全篇语义匹配；不因标题位置或缺CRUD缩写而漏掉具体操作、控制及独立性说明，也不重复计分。","SQL语言不等同OLAP服务器；分析用途不能替代基础定义/操作/查询/控制概念。","标签与原图教师数字冲突先核版本与来源，不据模型分自动改写。"],
+ "teacher_suspect_ids":["ANS_ISC_562","ANS_ISC_564","ANS_ISC_572","ANS_ISC_577","ANS_ISC_607"],
+ "direct_score_source_conflicts":[{"answer_id":"ANS_ISC_562","prepared":5,"original":3},{"answer_id":"ANS_ISC_577","prepared":5,"original":4}],
+ "source_limitations":"准备数据库无原始题目图；不同课程组成分类是否被认可需教师确认。ANS_ISC_560的SQL第二项字迹不清，ANS_ISC_542首行有删除线，均保留不确定。",
+ "automatic_policy_change":false
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_5",
+  "answer_id": "ANS_ISC_67",
+  "category": "model_or_extraction_issue",
+  "summary": "逐码转换正确，SPACE已由0x20定义，教师满分有支持，模型过度字面匹配。",
+  "teacher_issue": "",
+  "model_issue": "将SPACE当插词；独特字母列表只列一次l并非解码缺l，原最终Hello有两个l。",
+  "original_image_observations": "逐代码二进制及ASCII H,e,l,o、逗号、SPACE、A,H,U、叹号均正确；最终Hello,SPACE AHU!；字母栏HeloAHU；标点逗号叹号。教师6。",
+  "evidence": [
+    "字母列表可以列字符种类，不能强制把每次出现重复列出。",
+    "20映射SPACE与二进制0100000正确，证明空格不是新增单词。"
+  ],
+  "uncertainties": [
+    "未另写无数字是否轻扣是分类完整性口径，不将其扩大为3分解码错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b250e70969a444e8038ab64aad0027de0f3908eb659e85105af8ff4dfdcff2a1",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:18:12.016356+00:00"
+}

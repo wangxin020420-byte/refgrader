@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1260",
+  "category": "teacher_suspect",
+  "summary": "R32、I30正确，J虽误把最少1当最多结果，但正确J容量式已写出；教师J整项0疑似清空正确过程分。",
+  "teacher_issue": "J明确写(31−n)×2^2并称J指令数，n取30后应4；最后选1错在最少/最多结论，不能据该错把具体扩展方法全清0。",
+  "model_issue": "R2^5、I约束及30不是缺参数/无意义n，完整上界推导存在；模型只3.5漏掉R/I实际方法。",
+  "original_image_observations": "页眉10，1:5、2:5、3:0。R2^5条；设I n，则(2^5−1−n)×2^2为J数，为I最多令J最少存在，式≥1得n≤30.75，最终J1条、I30条。",
+  "evidence": [
+    "整数n最大30的上界推导正确，R/I各5可保留。",
+    "在该n下J容量表达式等于4，已明确2位扩展和剩余前缀关系，J有具体方法证据。",
+    "J选1是把存在的最少数量当所求最多，扣结果合理，但现有过程保分规则下整5清零应复核。"
+  ],
+  "uncertainties": [
+    "若旧教师只按J最终数量原子给分，0可能符合旧口径；当前审核按已有过程准则提出复核，不自动提高总10。"
+  ],
+  "evidence_strength": "possible_undercredit_explicit_correct_J_capacity_method_awarded_zero",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "43fbceae4e6286741109f8ee05e75c26d7bdfcedc6ac3d68a2476796e67f2e69",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:44:41.025846+00:00"
+}

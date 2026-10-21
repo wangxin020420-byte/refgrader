@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_5",
+  "answer_id": "ANS_CO_353",
+  "category": "label_supported",
+  "summary": "格式和总名额256正确，第一问多预留一窗口得254，第二问依题给254计算128完整正确。教师12分可解释为仅对第一问预留错误扣部分分。",
+  "teacher_issue": "",
+  "model_issue": "模型把第一问错预留2传播到第二问并只给第二问半分，实际上第二问254是题目独立给定，128推导完全正确。",
+  "original_image_observations": "教师12红叉。三格式16、10/6、4/6/6完整；第一问4×2^(10-4)-2=254；第二问[(2^4-12)×2^(10-4)-254]×2^(16-10)=2×2^6=128。",
+  "evidence": [
+    "已写的4×2^6和位数关系支持主过程分。",
+    "第一问错误集中预留2而非1，存在方法部分分，不必严格结果项全零。",
+    "第二问未依赖第一错误结论，是给定254的独立正确计算，应完整保留。"
+  ],
+  "uncertainties": [
+    "第一问具体扣3分的权重未细化，但总12有明确部分分支持。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "743499421584c87fd27fa06403da140e874b8c19ba99e94ce8f58cb0932fa0fe",
+  "teacher_score": 12.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:28:21.516240+00:00"
+}

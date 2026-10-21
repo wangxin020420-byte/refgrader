@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_1",
+  "answer_id": "ANS_ISC_386",
+  "category": "uncertain",
+  "summary": "有具体物理限制、材料和封装互联路线，但摩尔周期表述错误，教师3是否低给需核权重。",
+  "teacher_issue": "多个有效方向不应因一个定义错误全部丢分；但每六个月性能翻倍、成本减半也不应视作完全正确。",
+  "model_issue": "首轮满5把时间周期实错一笔带过，另将一般多芯片互联直接等同3D封装也过强。",
+  "original_image_observations": "写每六个月芯片性能翻倍成本减半；半导体发展受阻及硅原子尺度极限；GAAFin替FinFin、碳基、封装多芯片互联提高密度、算法效率，教师3。",
+  "evidence": [
+    "物理极限、新材料、器件结构、封装及算法方向均有具体可评内容。",
+    "错误周期不是无意义格式，且没提功耗成本挑战，需要正误分别计分。"
+  ],
+  "uncertainties": [
+    "原总5没有定义额外错误及多个新方向的权重，3可能偏低但暂不以模型5定教师错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3802f37dfe80445f41e016c291bef2b40742bba7695e60d9767baaf9d7759568",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:24:18.655951+00:00"
+}

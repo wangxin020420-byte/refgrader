@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_528",
+  "category": "uncertain",
+  "summary": "集合一致表达允许抢占的高级中断，未说明为何称屏蔽字；图有C-D-C但末缺B恢复，教师15需核编码与部分分。",
+  "teacher_issue": "若按允许集取补可保留较多第一问分，若按屏蔽集则概念反向；15是否恰当不能单据模型2至6决定。",
+  "model_issue": "A无是明确空集回答非空白；B的A/D/C/E是允许集不是‘所有级’，不能忽略全表互补一致性。",
+  "original_image_observations": "教师15红勾叉。排序正确；A无，B:A/D/C/E，C:A/D，D:A，E:A/D/C。图A独峰、B独峰、C-D-C组合峰、E独峰均回基线，E后没有补B。",
+  "evidence": [
+    "五集合恰好为高于本级的处理优先级对象，取补后关系正确。",
+    "分块图有D抢占C再回C，不是单纯ABCDE顺排；但B在E前完成、末未恢复仍需扣。",
+    "应区分表示约定和真实返回错误，不把所有位全0或整题满分。"
+  ],
+  "uncertainties": [
+    "未明确集合代表允许还是禁止，且图分块可能只是视觉分段，须人工确认含义和扣分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a9f5b7519fd73fb8eeea0d1dbdf2bc50c93505a3e020c047832e478a82172e5f",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:42:24.721457+00:00"
+}

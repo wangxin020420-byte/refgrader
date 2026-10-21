@@ -1,0 +1,28 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1598",
+  "category": "model_or_extraction_issue",
+  "summary": "首主要保存恢复流程4、表四行全对8、图仅缺B后A短段6，教师18有分项依据；模型D1001误判并漏图。",
+  "teacher_issue": "",
+  "model_issue": "D1001就是标准，不是应0001；所谓三行正确给2也不符合每行2分。实际轨迹清楚，‘需看图’不是未作答。",
+  "original_image_observations": "页眉18，1:4、2:8、3:6。首关中断、保护现场、开中断、执行服务、关中断、恢复现场、开中断。表MDMCMBMA四行正确。图用户→A→B→C→B→D→A→用户，B后直接上D红圈，初始A/B两短段可见。",
+  "evidence": [
+    "表8完全匹配；首流程较完整但无明确入口/时机，4可解释。",
+    "图缺B完成后回A再上D，教师只6，与原图局部错误相符。",
+    "旧模型5至9的主要差距是读图与表判定，不构成教师高给证据。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "39ac7b8bed6de1db3af2d0f8f552e63c146636e670e1a7c6ce7fc44050ddb3e9",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:15:25.132457+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1181",
+  "category": "label_supported",
+  "summary": "首仅准备过程得1、次正确4套；前文已写每组4块，可在简答口径下支持教师1+5=6，不足以认定教师异常。",
+  "teacher_issue": "",
+  "model_issue": "应结合全卷前文的每组4块理解四套结论，不因第二没有重复长篇原理直接认教师5必错；首16位地址准备也是真实证据而非全空。",
+  "original_image_observations": "页眉6，1:1、2:5。首64K=2^16，每组4块、块4字、每组16字，旧一行划去；未写tag/容量。第二单行需配置4套这样的相等比较电路。",
+  "evidence": [
+    "第一未完成所求，只获1分与可见内容相符。",
+    "第二结论正确，组内四块前提在第一已出现，跨小问背景可引用但不能虚构未写公式。",
+    "教师6与宽松接受四块对应四套相容；模型三次2并非教师错的充分证据。"
+  ],
+  "uncertainties": [
+    "若原题说明分明确要求独立完整阐述，应复核第二裸答给分；当前只作为部分分口径差异保留。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "4e265011e764d54a6c8d17b5cca7581b02bb5897714080ce39ef74783b7b181c",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:57:52.324394+00:00"
+}

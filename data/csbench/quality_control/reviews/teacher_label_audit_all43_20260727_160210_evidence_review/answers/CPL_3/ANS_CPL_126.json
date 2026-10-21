@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_3",
+  "answer_id": "ANS_CPL_126",
+  "category": "model_or_extraction_issue",
+  "summary": "最终改写数值被OCR混入旧值，原图8分有支持。",
+  "teacher_issue": "",
+  "model_issue": "把第一行40读90、第五行17读117，未分开被划掉的151与最终值。",
+  "original_image_observations": "第一行row40 col30；第二行row30 col24，col有重涂；第三行row25 col33；第四行row30 col24；第五行旧151划掉后row21、col17；额外第6行151草稿整段删除。教师8。",
+  "evidence": [
+    "第一、四、五行完整正确，第二第三行各row正确，按每行两分及单值部分分可支持8。",
+    "只有第二列40误24、第三列35误33两处明确数值错误，不能用OCR多读两个错值再扣。"
+  ],
+  "uncertainties": [
+    "第二行col重笔，最终24的识别需人工精确重评分时再次确认。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2738cf405f457d4b6c4c2f64b1df1cf6a2bf5b5395c3babcd024d50b0e8a66a5",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:37:05.297949+00:00"
+}

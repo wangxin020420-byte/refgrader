@@ -1,0 +1,9 @@
+{
+ "question_id":"ML_1","basis":"existing_experiment_only","new_experiment":false,
+ "input_row_order":"0000至1111，A为最高位，D为最低位，按实际打印的每一行读F列。",
+ "frozen_reference_vector":"0000000101111111",
+ "one_inputs":["0111","1001","1010","1011","1100","1101","1110","1111"],
+ "individual_manual_vectors":"batches/ML_1_001.json的verified_truth_table；由inspections/ML_1_review_ledger.py记录手工读图结果，代码只计不同格数，不做OCR或自动分类。",
+ "review_rules":["忽略打印输入列与格线，只读对应F格；不能把16格OCR成17/18项后再对齐定错。","原图竖1与圈0优先，O/D/6及一等OCR文字不能直接当非法逻辑值；淡墨也须看图，而非自动空白。","划去旧0后右侧1为最终修改，不把涂改和新值合为81/a1等多位数。","部分格错不清空整表，正确格仍可部分分；不把格数比例另立为原教师必须遵守的硬扣分。","12和36仅0111行错，15/16正确，教师3.5可支持；53前15格0末1，9/16正确，教师2可支持；08为参考逐位取反，0/16正确，教师0有支持。","37的卡诺图和最小项清单、25的决策说明可作为表格内容的交叉证据，但不替学生补空格。"],
+ "teacher_suspect_ids":[],"automatic_policy_change":false
+}

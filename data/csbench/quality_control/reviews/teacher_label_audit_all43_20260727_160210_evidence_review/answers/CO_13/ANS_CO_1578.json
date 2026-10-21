@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1578",
+  "category": "teacher_suspect",
+  "summary": "新表明确标ABCD列但A写0001，只屏蔽D未屏蔽自身，教师仍表满8；与同表其他行不能按同一标注位序成立，需复核15分。",
+  "teacher_issue": "原图1:3、2:8、3:4。新表ABCD列下A应1000却0001；B1101/C1111/D1001正确，不能只对A换位后全表满分。",
+  "model_issue": "模型表0也过度，B/C/D在实际列序下正确；图实际用户/A/C/B后多次跌时间轴再进入D/A，不能因OCR不全记0。",
+  "original_image_observations": "页眉15，1:3、2:8、3:4。首请求、判优、服务后继续运行。表原/新两栏上均写MA MB MC MD，原栏A1111/B0111/C0011/D0001，新栏A0001/B1101/C1111/D1001。图初始用户短A后C，C回B，B/D/A结束多次下探横轴，四红圈。",
+  "evidence": [
+    "同一列标题必须适用于全表，不能给A采用反序、给B采用正序。",
+    "若列标题为笔误，存在其他统一位序可解释数值，但原图没有声明，应人工确认，不能直接当标准满8。",
+    "图4与可见多个嵌套/返回问题相符，疑点集中第二表满分而非图低分。"
+  ],
+  "uncertainties": [
+    "需区分A行填写错误与整张表位标题笔误；无论哪种，都不能靠模型表0自动改成零分。"
+  ],
+  "evidence_strength": "possible_full_mask_credit_despite_A_row_conflicting_with_explicit_columns",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f885e07587163075a84762a6bba1c26605c8ee43b5f94c29bfccc373627988d2",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:11:46.593196+00:00"
+}

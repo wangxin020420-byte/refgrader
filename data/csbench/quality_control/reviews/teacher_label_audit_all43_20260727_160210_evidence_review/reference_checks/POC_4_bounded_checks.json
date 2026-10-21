@@ -1,0 +1,49 @@
+{
+  "basis": "offline_grammar_validation",
+  "new_experiment": false,
+  "checks": {
+    "109": {
+      "length_limit": 4,
+      "matched_positive_even_strings": 4999,
+      "note": "97和101仅为核验数值结构，在此比较时剥离固定正号；字符语言的正号约定仍保留不确定性。"
+    },
+    "121": {
+      "length_limit": 4,
+      "matched_positive_even_strings": 4999,
+      "note": "97和101仅为核验数值结构，在此比较时剥离固定正号；字符语言的正号约定仍保留不确定性。"
+    },
+    "73": {
+      "length_limit": 4,
+      "matched_positive_even_strings": 4999,
+      "note": "97和101仅为核验数值结构，在此比较时剥离固定正号；字符语言的正号约定仍保留不确定性。"
+    },
+    "71": {
+      "length_limit": 4,
+      "matched_positive_even_strings": 4999,
+      "note": "97和101仅为核验数值结构，在此比较时剥离固定正号；字符语言的正号约定仍保留不确定性。"
+    },
+    "97": {
+      "length_limit": 4,
+      "matched_positive_even_strings": 4999,
+      "note": "97和101仅为核验数值结构，在此比较时剥离固定正号；字符语言的正号约定仍保留不确定性。"
+    },
+    "101": {
+      "length_limit": 4,
+      "matched_positive_even_strings": 4999,
+      "note": "97和101仅为核验数值结构，在此比较时剥离固定正号；字符语言的正号约定仍保留不确定性。"
+    },
+    "62": {
+      "missing": [
+        "2",
+        "4",
+        "6",
+        "8"
+      ],
+      "generated": 4995
+    },
+    "107": {
+      "counterexample": "1234",
+      "valid_with_or_without_A_epsilon": true
+    }
+  }
+}

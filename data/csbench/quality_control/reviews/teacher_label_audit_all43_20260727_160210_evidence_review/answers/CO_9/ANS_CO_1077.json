@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_9",
+  "answer_id": "ANS_CO_1077",
+  "category": "label_supported",
+  "summary": "错误将主存减成16K，仍正确得ROM2；其它映射与RAM1都受该源错误并有地址位、极性错误。教师3+2=5可作正确计数及少量分选方法分。",
+  "teacher_issue": "",
+  "model_issue": "首轮将A15/A16两位式认作低4K ROM正确映射，不符合16位字地址的范围；后两轮3也不能自动否认所有分片意图分。",
+  "original_image_observations": "教师5，1:3、2:2。64K/4=16K，低8K ROM2、高8K RAM1，译码器1片；ROM两式为A15/A16正反乘积，RAM1只A16。",
+  "evidence": [
+    "ROM数量正确可明确3分，RAM应7而非1。",
+    "两ROM用一位区分的意图可有限保留，但实际4K应A12且需低区使能，A16也超16位总线。",
+    "教师未给这些式子满分，5可解释为低额度部分分。"
+  ],
+  "uncertainties": [
+    "第二问2分具体分配未细化，当前不足以优先列错标。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "08ca0b997fe8f6d61139dd3b2c73a06523b8a3d5f819ea9c745c86878f9cab36",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T10:17:15.780482+00:00"
+}

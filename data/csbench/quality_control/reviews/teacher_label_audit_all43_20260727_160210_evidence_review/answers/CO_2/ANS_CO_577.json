@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_577",
+  "category": "uncertain",
+  "summary": "其它级屏蔽关系正确，D还列自身，图缺D回C和最终B回用户；教师15可为若干局部扣分，具体分配待核。",
+  "teacher_issue": "自身是否隐含与图两处缺返回的扣分均未列，15有合理解释但不能精确验证。",
+  "model_issue": "图不是完整A-B-C-D-E-A，最高E后只落B且无回C；模型20无依据，模型12又把可见图判不可比过严。",
+  "original_image_observations": "教师15红勾叉。排序正确；A:BCDE、B无、C:BE、D:BCDE（D有加写）、E:B。图A-短B-C-D-E后B，D与E之间没有回C下降段，末也无回用户。",
+  "evidence": [
+    "D写自身而其它行省自身，表示不统一可讨论扣分，但他级关系仍正确。",
+    "D后直接上E违背C须恢复完成的服务关系，是图的实际缺陷。",
+    "图有多数程序平台和E回B，不能整个8抹去。"
+  ],
+  "uncertainties": [
+    "需统一自身约定及两个返回缺项各占多少分，不据旧分任选总分替换。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c46c60aa0300b653244b12d489fbebdfb5f3907a9a711508dac96ba9facda0bc",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:54:02.794748+00:00"
+}

@@ -1,0 +1,9 @@
+{
+ "question_id":"CPL_8","basis":"existing_experiment_only","new_experiment":false,
+ "type_contracts":{"Average.score":"float*，*score是score[0]，score[i]或*(score+i)才随i取元素","Calculate.score":"float(*)[5]，score[i]或*(score+i)退化为第i行float*；*score只首行，score+i为行指针，&score为局部指针变量地址","main.player":"float(*)[5]，player[i]+j、*(player+i)+j、&player[i][j]均为当前元素地址；*(player[i]+j)则为元素值"},
+ "allocation":"100*5*sizeof(float)或100*sizeof(float[5])或100*sizeof *player；sizeof(player)和sizeof(float(*)[5])均为指针大小，不是行/总空间。",
+ "partial_credit":"原说明明确允许第8空额外&扣0.5、第10空少&扣0.5、第9空少维度酌扣0.5至1；应先确认对象、偏移与主要形式正确，不能将该规则泛化为容忍未定义score或局部指针地址。",
+ "teacher_suspect_ids":["ANS_CPL_458","ANS_CPL_479","ANS_CPL_471","ANS_CPL_441"],
+ "uncertain_ids":["ANS_CPL_423"],
+ "automatic_policy_change":false
+}

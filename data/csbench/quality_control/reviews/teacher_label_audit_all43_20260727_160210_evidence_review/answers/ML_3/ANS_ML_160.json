@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_160",
+  "category": "uncertain",
+  "summary": "第二组激励原图为x·y1^n，实际符合现态关系；输出两状态量的上标似为n+1，是否只是输出时标约定需确认，暂不认定教师6分错。",
+  "teacher_issue": "输出若混用次态与当前x可能不满足标准，但原图时标含义未明确。",
+  "model_issue": "转录漏掉y1的下标1，将明确的y1^n说成无定义y^n；因此旧模型两次4分的部分理由不成立。",
+  "original_image_observations": "K1=J1=x；K2=x y1^n、J2=x y1^n；输出写Z=y1带上标·y2带上标·X，上标字形近n+1；教师6。",
+  "evidence": [
+    "激励函数中y1下标可读，不应按泛指y扣分。",
+    "必须先解释输出时标，不能仅按有n就扣，也不能不加核对给等价结论。"
+  ],
+  "uncertainties": [
+    "输出上标需进一步放大/人工确认，正确输入关系并不自动证明输出时态正确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "95c61c9834807c64277157b350085b45c03cf2ad7ed35dd970443f6afef52169",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:34:40.499945+00:00"
+}

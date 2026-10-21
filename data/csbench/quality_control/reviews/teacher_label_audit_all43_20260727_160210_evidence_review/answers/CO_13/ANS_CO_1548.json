@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1548",
+  "category": "model_or_extraction_issue",
+  "summary": "屏蔽表全对，轨迹缺两处短状态教师给5；模型主要漏读表和图。首用屏蔽字保存恢复代替现场内容给4偏宽，但不足以仅据总分认标签错。",
+  "teacher_issue": "",
+  "model_issue": "表理由称完全匹配却score0，且将可见A/C/B/D/A轨迹判0；两个明显模型证据问题解释主要分差。",
+  "original_image_observations": "页眉17，1:4、2:8、3:5。首竖链请求→关中断→保留屏蔽字→开中断→中断响应→关中断→恢复屏蔽字→开中断，两保存恢复词旁红圈。表MDMCMBMA四行正确。图用户→A→C→B→D→A→用户，A上C和B上D红圈。",
+  "evidence": [
+    "表8正确且独立于首流程，应保留。",
+    "图有完整主服务阶段，但少B初始与B结束后A短段，教师扣2有实际依据。",
+    "首已包含开关与保存/恢复屏蔽字，仍未明确断点/现场和返回，教师4可能宽松但未给满5，不据模型2替换。"
+  ],
+  "uncertainties": [
+    "第一4是否足够扣除缺断点、入口和返回需原分点政策，不能确认17为唯一正确分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c59e840863003ba91226a353137f84e6acdbfbbbb82af08a84e0120c215677f5",
+  "teacher_score": 17.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:11:46.610256+00:00"
+}

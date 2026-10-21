@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_6",
+  "answer_id": "ANS_CO_393",
+  "category": "teacher_suspect",
+  "summary": "控制字段156正确，但将BCF+BAF合计9从而BAF6，总165；字节又独立写512×8=4096B，教师18疑似漏扣第二个独立错误。",
+  "teacher_issue": "BAF错误和bit到B方法错误不能只视为同一传播错误。即便保留165位后的正确位容量方法，18分仍需核对4096B的给分依据。",
+  "model_issue": "模型漏读明确140+4+4+5+3=156，错误扣控制字段过程；首轮10.5也过度压低总分，但这不使18自动合理。",
+  "original_image_observations": "教师18红叉。四组及140完整，控制156；BCF+BAF=9、BCF3、BAF6，总165；容量2^9×165=84480bit，字节2^9×8B=2^12=4096B，末重复两结果。",
+  "evidence": [
+    "控制156在原图独立写出，须完整保留。",
+    "错误BAF导致165和84480可以按源错误保留后续方法。",
+    "4096B不是84480÷8，也不是正确容量÷8，是新增单位转换错误，应单独扣对应分。"
+  ],
+  "uncertainties": [
+    "教师可能使用不同部分分尺度，但对字节错误扣分是否遗漏需人工确认。"
+  ],
+  "evidence_strength": "possible_under_deduction_of_independent_byte_conversion_error",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2b6c142ef385485f2657fa2d8e6259ebc04cddd834d06b224b0c3697c5e962b8",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:41:39.878404+00:00"
+}

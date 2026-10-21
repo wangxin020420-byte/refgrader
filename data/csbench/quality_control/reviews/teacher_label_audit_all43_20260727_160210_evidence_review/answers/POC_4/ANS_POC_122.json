@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_4",
+  "answer_id": "ANS_POC_122",
+  "category": "label_supported",
+  "summary": "可生成任意非零数字前缀加非零偶数，但全部0缺失，教师2为部分分有据。",
+  "teacher_issue": "",
+  "model_issue": "右递归不造成数字顺序错误，且31不能由末E生成；模型错误反例不能支持全0。",
+  "original_image_observations": "S→1S|2S|…|9S，另S→E，E→2|4|6|8，教师2。",
+  "evidence": [
+    "终止E保证末位非零偶数，S反复前缀非零数字，像1234可生成。",
+    "所有0均无产生式，20、102等无法生成，因此非完整语言。"
+  ],
+  "uncertainties": [
+    "缺0各位置的部分分权重未明。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ff4e1843d9235743e0a2f2af7e00fc3ec744a9219c066febef69d71213f2eed0",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:06:56.574214+00:00"
+}

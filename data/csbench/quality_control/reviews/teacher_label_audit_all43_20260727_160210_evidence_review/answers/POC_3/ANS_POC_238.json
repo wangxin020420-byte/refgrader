@@ -1,0 +1,27 @@
+{
+  "question_id": "POC_3",
+  "answer_id": "ANS_POC_238",
+  "category": "model_or_extraction_issue",
+  "summary": "原图三个短语及两项ε正确，模型将字母间排版空隙当串被拆散。",
+  "teacher_issue": "",
+  "model_issue": "aacb、ac书写有间隔但各作为一项，没有列成四个独立字符；不能据此整项0。",
+  "original_image_observations": "短语aacb、ac、ε，以逗号分项；直接短语ε、句柄ε。教师5及红勾。",
+  "evidence": [
+    "每个词组和分隔符都支持三个完整短语，不是a,a,c,b四项。",
+    "两处ε清楚，与标准完全一致，历史0或3/4分不反映原图。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "aa097fb7e1dbccc7930787d35d71e8e5b46d6511f796e9b2aa6dbbd74c530b60",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:53:29.775578+00:00"
+}

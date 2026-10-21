@@ -1,0 +1,30 @@
+{
+  "question_id": "DM_2",
+  "answer_id": "ANS_DM_126",
+  "category": "uncertain",
+  "summary": "混淆R与A×A并以结合律代替传递，三项证明均不完整；教师3可能为思路分，是否偏高缺乏细项依据。",
+  "teacher_issue": "教师3分的具体来源无法核实，原图尚无完整性质证明，需确认局部方法与结论可给分范围。",
+  "model_issue": "把坐标交换给对称部分分、未成立的传递断言给结论分可以讨论，但不能据此断言教师3必错。",
+  "original_image_observations": "教师3红叉。对称把(a,b)写作属于R，再由a+b=c+d写b+a=d+c；传递是(a+x)+b=a+(x+b)等结合式；另加封闭性；自反又写(b,a)也在R成立。",
+  "evidence": [
+    "R是A×A上的关系，R的关系成员应为两个有序对组成的序偶；学生多处对象层次混淆。",
+    "结合律公式没有建立pRq和qRr的假设，不能证明传递。",
+    "原图有作答，不应按空白处理；但一般自反与对称均未证明。"
+  ],
+  "uncertainties": [
+    "历史2/2/4.5也不稳定，不能直接选其中一次作为标签校正。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0005454c8e14c68d39e035f37d193455a71d94187abe1038caa41e4760ea17f1",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_dm1_dm2_dm3_all\\runs\\teacher_audit_dm_1_3_20260725_192008\\DM_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T13:42:06.390898+00:00"
+}

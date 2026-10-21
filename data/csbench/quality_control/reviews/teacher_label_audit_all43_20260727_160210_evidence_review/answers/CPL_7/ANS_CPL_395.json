@@ -1,0 +1,29 @@
+{
+  "question_id": "CPL_7",
+  "answer_id": "ANS_CPL_395",
+  "category": "label_supported",
+  "summary": "读入、转置、输出遍历主体正确，文件指针赋值错误且缺关闭，教师10有部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "将i<=4与i<5、scanf末无空格列作扣分理由均无依据；未看完整main就扣结构也不当。",
+  "original_image_observations": "两数组、读入和转置双循环清楚；if(f=fopen(matrix.txt,w)!=NULL)缺赋值括号；循环fprintf输出b，putchar换行到控制台，没有fclose。教师10。",
+  "evidence": [
+    "f会被赋布尔0或1而非文件指针，属于真实文件逻辑错误，不能只当可忽略格式。",
+    "读入遍历和转置完全正确应保留分；无换行或未检查NULL按原规则本身不扣，但本例主动写错赋值另当别论。"
+  ],
+  "uncertainties": [
+    "具体扣5如何分配需原教师口径，不用模型13推断必须升分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "ee307cab9ccdf27db0ed3e4377a50e1bbb84484ebe9f003a1a4f41839e104b58",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_7_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:25:02.000137+00:00"
+}

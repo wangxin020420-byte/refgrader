@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_6",
+  "answer_id": "ANS_CO_418",
+  "category": "teacher_suspect",
+  "summary": "四互斥组及BCF3明确正确，已有至少两类正确独立证据；教师仅4分疑似少给，容量方法和除8也有实际过程。",
+  "teacher_issue": "四组4/4/5/3本身对应4分，BCF3又是独立正确字段，原4分可能漏给后者；应再核对容量部分分，不能因BAF最终8而全题抹去。",
+  "model_issue": "原模型对字节除8因结果错误全部归零，也不够合理；但其四互斥组和BCF的正确证据可由原图独立确认。",
+  "original_image_observations": "教师4红叉。先写512需9位、8条件需3位；四组4/4/5/3合16；后BAF写8、BCF3，总28；第二问2^9×180=92160位，92160÷8=11520，单位末写字。",
+  "evidence": [
+    "BAF有先9后8的冲突，不据前面9直接给该字段满分。",
+    "互斥组及BCF无此冲突，正确部分不应合计只按四组4分处理。",
+    "容量180并非前面28的传播，需扣该宽度来源错误；乘条数及除8关系仍可保留过程。"
+  ],
+  "uncertainties": [
+    "字与字节单位不严谨及容量新错需扣对应分，最终新总分不自动指定。"
+  ],
+  "evidence_strength": "clear_correct_independent_fields_undercredited",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "97cf57ccbd13e5f51fe3a1d3f4ed6bbc8147043ac74602f0ce412a4aff0ea04e",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:48:58.105024+00:00"
+}

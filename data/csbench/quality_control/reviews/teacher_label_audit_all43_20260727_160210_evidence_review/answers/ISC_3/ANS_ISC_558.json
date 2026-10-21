@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_3",
+  "answer_id": "ANS_ISC_558",
+  "category": "uncertain",
+  "summary": "组成与重要性核心明确，SQL主要举定义和建对象，满5的概括接受范围需确认。",
+  "teacher_issue": "SQL未展开操作查询控制，5是否将定义等例子视为足够概述需教师确认。",
+  "model_issue": "不能以未列硬件/人员否定DB核心、DBMS支持及应用软件三类组成；低冗余高共享独立性也不应只算很少。",
+  "original_image_observations": "原图5；A完整DB/DBMS/应用软件定义，B低冗余高共享独立，C关系数据库语言、关系模式定义和对象创建等一系列操作。",
+  "evidence": [
+    "组成不是只有用途而完全没有实体，历史对此扣分偏硬。",
+    "SQL有正确具体DDL内容，但不能自行补上未写的完整DML/DCL。"
+  ],
+  "uncertainties": [
+    "简述题举部分代表功能即可满还是需覆盖四类功能，原始总5未明确。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "143483fef1143ecca1c8c6da621b42c4778ec92c6590bb5dbb5e9af68f55257b",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:42:52.049366+00:00"
+}

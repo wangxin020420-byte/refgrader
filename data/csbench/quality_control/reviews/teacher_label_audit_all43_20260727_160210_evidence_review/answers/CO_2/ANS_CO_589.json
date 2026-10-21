@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_589",
+  "category": "teacher_suspect",
+  "summary": "五掩码完全缺失，只有优先级和不完整阶梯图，教师15超过可见独立项总上限10分，需优先核图源和标签。",
+  "teacher_issue": "即使排序2和图8全给也只有10，当前图中不存在可补足5分的屏蔽字或集合。",
+  "model_issue": "图平台与轴标签不完全对应，应具体读图，不用笼统ABCDE描述；但不存在的表不能被图分替代。",
+  "original_image_observations": "教师15红勾叉。旧顺序划掉后保留ADC EB；中上空白无表。底部小图有A/D附近平台、一次低位返回、E附近峰及低位平台，没有掩码信息。",
+  "evidence": [
+    "与551/627一样，独立10分掩码内容缺失的证据明确。",
+    "图可能有部分或更多分，不影响可见总分不能超过10。",
+    "需要区分教师原卷高给与裁图/标注关联错，本次先归标签证据可疑。"
+  ],
+  "uncertainties": [
+    "可能另页作答未裁入，需原整卷确认；不删除现有记录。"
+  ],
+  "evidence_strength": "strong_score_evidence_gap_missing_mask_table",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0fef32f516298635cfe288651e9162d949c03a8c30565864fc77c27ba82289ca",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:29:03.396812+00:00"
+}

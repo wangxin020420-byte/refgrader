@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1300",
+  "category": "label_supported",
+  "summary": "R3/I6结果错为0，J裸4正确按原题数量回答给5，教师5具有结果评分口径依据；模型强制拆参数/公式只给1不足以证明标签错。",
+  "teacher_issue": "",
+  "model_issue": "题目要求分别多少条，J正确裸数量是否满分须按父项口径，不应直接把缺公式视成只值1分。也不能把前文R32位误当R正确32条，最终R3明确。",
+  "original_image_observations": "页眉5，1:0、2:0、3:5。顶部R32位、I32位、J16位；底部最终R最多3条、I6条、J最多4条，无计算式。",
+  "evidence": [
+    "R3/I6错误，与正确32/30不等价，前面32位不能覆盖最终数量。",
+    "J4数值正确，官方该项5仅写计算最多条数，未明确强制单独过程分点。",
+    "原5可按结果充分口径解释；旧模型三次1只是特定拆分政策，不是教师错误证据。"
+  ],
+  "uncertainties": [
+    "若题目另有必须写出J扩展过程的正式口径，则裸4满5需复核；当前未有该附加要求。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7f1a429be9aed7955bbd0d7a423a1871626ef4c7cb15d8942399a6971709bc42",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:50:54.644942+00:00"
+}

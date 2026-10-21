@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_9",
+  "answer_id": "ANS_ISC_336",
+  "category": "label_supported",
+  "summary": "全部错误草稿已划掉，转录为空合理，教师0有支持。",
+  "teacher_issue": "",
+  "model_issue": "把删除整段推导继续算分，并称2^11×1000MB等于6000MB，算术错误。",
+  "original_image_observations": "上部2048×2048×2^12×1000b及bit到MB推导有贯穿横线，第二行结果也划掉；无保留最终答案。教师0。",
+  "evidence": [
+    "被划掉式把灰度级数当位数，本来就不正确。",
+    "2^11×1000MB为2048000MB，既非正确中间6000MB，也不能证明完成有效作答。"
+  ],
+  "uncertainties": [
+    "若原教师允许删除草稿作为方法分需另明，当前按最终保留作答审核。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "33cc88117071f8d4d822ad229f5a95fdacd30dda662cd3855b2619bd905fe5f2",
+  "teacher_score": 0.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_9_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:43:52.344292+00:00"
+}

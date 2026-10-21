@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_8",
+  "answer_id": "ANS_ISC_246",
+  "category": "teacher_suspect",
+  "summary": "原图Y补码写00001001而非10，独立码制项有错，教师整题满4需核。",
+  "teacher_issue": "Y=+10的补码不能变成9，即使减法末结果正确，也不免除第一问该字段错误。",
+  "model_issue": "原图X原码首位1，转录00001111错读，不能再扣X原码；也不能把Y数值9当纯格式而给第一问全分。",
+  "original_image_observations": "原图4；X原10001111、反11110000、补11110001；Y原反00001010、补00001001；减法短串相加末11100111。",
+  "evidence": [
+    "原图左上X原码与转录首位不同，应回原图纠偏，避免额外误扣。",
+    "正Y三种码相同是独立要求，原图补码最后两位01而非10，整题满分需说明。"
+  ],
+  "uncertainties": [
+    "减法操作数手写省位的接受标准另需统一，不因省位将正确最终结果全部清零。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "14b73e5e63fd96f121dc752cf98764a5ec9f50f032363adaa7e6a284d7fa5974",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:53:01.555119+00:00"
+}

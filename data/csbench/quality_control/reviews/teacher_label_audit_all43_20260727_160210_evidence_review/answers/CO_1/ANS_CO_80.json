@@ -1,0 +1,38 @@
+{
+  "question_id": "CO_1",
+  "answer_id": "ANS_CO_80",
+  "category": "label_supported",
+  "summary": "字段位型正确但错换算为36H，最终35H也错；教师1可为部分方法分，模型2忽略换算矛盾。",
+  "teacher_issue": "",
+  "model_issue": "抽出110111给字段全2，却把同一步错误36H当独立有效地址错误，未呈现解析正确、换算错误这一实际结构。",
+  "original_image_observations": "教师1红勾叉。OP=0、I=1、A旧位型划掉后110111；右上110111=36H；最终旧数划掉改35H。",
+  "evidence": [
+    "字段位选对但数值换算错，同一过程项给部分分合理。",
+    "35H非现行最终37，不应因有正确位型给满分。",
+    "教师1可解释为地址项未全对，区别于完全正确字段换算样本。"
+  ],
+  "uncertainties": [
+    "具体半分比例未给，但无明显教师标签异常。",
+    "共同题面来源冲突：文字有34H至37H存储表，题图只有04H至07H；依赖前者的取址判断有条件，需原始完整试卷核对，不能据本题历史模型差异直接改标签。"
+  ],
+  "question_source_conflict": {
+    "question_id": "CO_1",
+    "text_source": "data/csbench/exam_database.json",
+    "question_image": "data/csbench/reference_images/questions/CO_1.png",
+    "observation": "文字题面额外含34H至37H四地址映射，题图仅04H至07H四列；高六位110111解析一致，但题图本身不足以确定37H的访存内容。",
+    "evaluation_basis": "对照冻结文字题面、当前参考37H与现行契约分析；未确认其与原始试卷是否同版本，不更改题面/参考/教师分。"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "c1ea5a70afcaffd60fc2365ab6a2253ba61b9a9f1ca9f83734030d31b9c0e9e3",
+  "teacher_score": 1.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:08:38.248623+00:00"
+}

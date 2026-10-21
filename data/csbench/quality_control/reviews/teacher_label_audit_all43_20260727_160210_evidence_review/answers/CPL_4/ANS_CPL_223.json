@@ -1,0 +1,56 @@
+{
+  "question_id": "CPL_4",
+  "answer_id": "ANS_CPL_223",
+  "category": "label_supported",
+  "summary": "最终十数全部正确，教师满10与历史结果一致。",
+  "teacher_issue": "",
+  "model_issue": "三轮10对应完整正确结果。",
+  "original_image_observations": "原图10；十数宽间距书写，两个24和中央5/22均正确。",
+  "evidence": [
+    "按原图最终有效行手工读取：19 28 20 24 5 22 24 15 23 16。",
+    "对照程序实际输出，差异位置（1起算）：无。"
+  ],
+  "uncertainties": [],
+  "verified_output": {
+    "manually_read_final_sequence": [
+      19,
+      28,
+      20,
+      24,
+      5,
+      22,
+      24,
+      15,
+      23,
+      16
+    ],
+    "program_output": [
+      19,
+      28,
+      20,
+      24,
+      5,
+      22,
+      24,
+      15,
+      23,
+      16
+    ],
+    "mismatching_positions_1_based": [],
+    "only_middle_swap": false,
+    "method": "manual_original_image_inspection_then_offline_position_check"
+  },
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b8222c66306a7d43c50fdedf995138c1f7a26bcdc423be25a9a75ae3b8cdc305",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:51:59.207629+00:00"
+}

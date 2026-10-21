@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_102",
+  "category": "model_or_extraction_issue",
+  "summary": "原图第二数含完整10.001，模型把输入0.125当转换输出而漏分。",
+  "teacher_issue": "",
+  "model_issue": "取证不应止于小数输入0.125，乘2取001及右上10.001已经给出转换结果。",
+  "original_image_observations": "原图6；左乘2取101、0.101；中间除2取10，右边乘2取001、右上10.001，两处基数下标有颠倒。",
+  "evidence": [
+    "步骤、位串和整体值彼此对应正确。",
+    "个别下标不规范不使整个小数结果消失，历史4.5的输出缺失理由不成立。"
+  ],
+  "uncertainties": [
+    "基数下标颠倒是否有独立表达扣分需统一；未把格式问题当核心转换错误。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "82bcac96dc86b2b7fc05bf446a2a5e7c876e12ad0d3e9dfba72bc95924e6f001",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.383646+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_150",
+  "category": "label_supported",
+  "summary": "首数正确，第二数整数转成1但小数正确，教师5可支持只扣相关错误。",
+  "teacher_issue": "",
+  "model_issue": "0010作为小数位等于.001，不是整数2；模型3连带抹掉正确小数过严，模型6又放过整数实错。",
+  "original_image_observations": "原图5；0.101；2转0001，.125转.001；合0001.0010及1.001，均把整数2误为1。",
+  "evidence": [
+    "第二数错误集中在整数部分，.0010=0.125仍正确。",
+    "第一数和第二数正确小数应保留，不能因整数错整个第二数清零。"
+  ],
+  "uncertainties": [
+    "原各数3无内部权重，教师5是有依据的部分分，不认定唯一标准。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "32ba6e034a5bcd095d6e1d89442e0c729f00cbb3a1f628d57dcd319acdca00e8",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.394950+00:00"
+}

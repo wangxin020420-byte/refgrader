@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1153",
+  "category": "uncertain",
+  "summary": "字段和tag正确，容量16×7=112B错；第二14套错。教师8+2=10是否过宽取决于容量与比较器局部方法分，暂不据分差定教师错误。",
+  "teacher_issue": "首容量用16而非1024且漏位转字节；第二把主存块指数14当套数。原图只有局部过程，没有支持满分的答案。",
+  "model_issue": "模型将Cache字段标未写，但原图有偏移2、组8及其计算；不能清零。同时容量乘法只是结构相似，不能把错误代入评价为完全正确。",
+  "original_image_observations": "页眉10，1:8、2:2。字块2位、4K/(4×4)=2^8、主存16、tag16−8−2=6；容量16×(6+1)=112字节。第二4K/4=2^10却称10块、64K/4=2^14却称14块，答14套。",
+  "evidence": [
+    "第一有正确地址关系和+有效位，也有乘每块位数的形式，保留部分过程合理。",
+    "两个小问结果均错，第二无选组后四路比较的解释。",
+    "首8可对应地址6加容量局部2，是否给够/给多需要官方细分；第二2也缺明确拆分，不能确定唯一总分。"
+  ],
+  "uncertainties": [
+    "需核容量四分与比较器五分中对错误结构/参数的局部给分政策；当前证据不足以判10必错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7653bed341e3f4409c889691c2dabd7a1740450d4a996a12ebff2a90315a4da5",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:53:59.204248+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_216",
+  "category": "uncertain",
+  "summary": "综合属性分类和完整树均正确，未标属性值；教师3与同类答卷差异需核部分分口径。",
+  "teacher_issue": "总3可能低估正确分类及完整树，但未给小题分，无法确定漏给在哪项。",
+  "model_issue": "将左子A识别为S，捏造A→SS及需要消左递归中间节点的要求。",
+  "original_image_observations": "左写属于综合属性文法；右完整S(a,A,b)、A(A,S)、两处A→S→c，无属性数值，教师3。",
+  "evidence": [
+    "综合属性文法与S属性文法在此语境等价，不能只因没写S字否定结论。",
+    "树的结构正确但标注缺失，支持部分分，具体应否超过3需细则。"
+  ],
+  "uncertainties": [
+    "需统一正确类型结论和未标值树形的权重，与同题同类样本对照后人工确认。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "01a0eae2017fe1d5d9e1c83c85dbdb2b5457eeb4e17508d86f56ac9450100687",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:46:45.609844+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_139",
+  "category": "uncertain",
+  "summary": "第一组激励正确；其余原图引入次态y1^(n+1)并作展开，不能只按多写过程直接判满分，也不能按转录中的h/Ī符号直接判错。需人工确认学生时态记号及激励函数是否用错时刻。",
+  "teacher_issue": "若将J2(n)写成x·y1(n+1)，与电路现态关系不同，教师满分可疑；当前记号解释尚不确定。",
+  "model_issue": "把J2写为h等明显转录问题放大；旧判决3/4/6分没有稳定区分时态记号与真实依赖错误。",
+  "original_image_observations": "左上J1=K1=x，第二组写J2/K2=x·y1^(n+1)；下部列JK次态公式，右上z=x·y1^(n+1)·y2^(n+1)；教师6。",
+  "evidence": [
+    "题目要求激励和输出，不要求次态展开。",
+    "J2应取正相当前y1，不能未经时标解释将次态表达自动等同现态。"
+  ],
+  "uncertainties": [
+    "需区分同一输出时刻改名和真正使用上一/下一状态；原图右下部分展开接近边界，不能凭转录补全。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "bfe16d5df54e0be85128152bba12f99b880d0d5dcd9f52e392243f21c8b8ccd4",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:34:40.076567+00:00"
+}

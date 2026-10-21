@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_767",
+  "category": "label_supported",
+  "summary": "查询误用100MB/s并取反比，DMA两CPU时间和传输间隔正确但最终比率组装错误；教师3+2=5可解释为保留中间分。",
+  "teacher_issue": "",
+  "model_issue": "模型把单次时间法作为错误，另把原图无百分号的1.01误解释成1.01%并据此给结果部分分，理由不可靠。",
+  "original_image_observations": "教师5分、1:3、2:2。查询32bit/(100MB/s)=4×10^-8s、100/(50MHz)=2×10^-6s，取t1/t2=.02；DMA分别3×10^-5、10^-5、.004s，最终(t1+t3)/(t2+t3)=1.01，无百分号。",
+  "evidence": [
+    "查询带宽写错两个数量级且比例方向也反，结果确实不正确。",
+    "DMA三时间均有效，应给过程分；最后比例不代表CPU开销。",
+    "教师未将错误末值满分，原模型1.25～2.5与教师5之差主要是部分分尺度，不足确认标签错。"
+  ],
+  "uncertainties": [
+    "查询3分与DMA2分是否应重新分配可统一尺度复核，但总分5尚有有效过程支持。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d20baa088df91a5f79d3708f3df5d6878188e27f182996c32dbd4d7fb9309d0d",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:00:36.301225+00:00"
+}

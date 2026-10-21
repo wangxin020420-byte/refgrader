@@ -1,0 +1,7 @@
+{
+ "question_id":"POC_3","basis":"existing_experiment_only","new_experiment":false,
+ "grammar":"S→aSb | aSc | ε","derivation":["S","aSb","aaScb","aacb"],
+ "phrases":["ε","ac","aacb"],"direct_phrases":["ε"],"handle":"ε",
+ "review_rules":["aεc与ac、aaεcb与aacb完全相同，ε连接不增加字符。","S→ε是给定文法的原始产生式，不能幻造文法只允许A→ε。","最内层S→ε决定直接短语与句柄；ac需两步推导，不是直接短语。","正确短语集合不能忽略ε，也不能加入a、b、c等不由S正步推出的单字母。","书写间距、附S→根关系标记不等于目标串未作答，应按内容核对并单独考虑记号严谨性。"],
+ "teacher_suspect_ids":[],"automatic_policy_change":false
+}

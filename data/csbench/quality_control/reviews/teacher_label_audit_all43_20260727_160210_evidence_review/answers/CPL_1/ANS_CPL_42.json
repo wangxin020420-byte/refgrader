@@ -1,0 +1,27 @@
+{
+  "question_id": "CPL_1",
+  "answer_id": "ANS_CPL_42",
+  "category": "model_or_extraction_issue",
+  "summary": "四值完整正确，教师5有据，模型将一行答案误判成缺首结果。",
+  "teacher_issue": "",
+  "model_issue": "转录3454丢空格后，模型把它当第二项三值错误，未整体核对原图。",
+  "original_image_observations": "一行3 4 5 4，教师5及红勾，无被删除的正确首项。",
+  "evidence": [
+    "两个printf实际连续输出，学生合在一行正符合题意。",
+    "不要求学生另列每个评分子项，完整序列可同时满足两项。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1ab6fd0f06536e7e81b3a9a38d7f535466ffb4de115fb7e3e30abd6f07353230",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_cpl1_cpl2_cpl3_cpl4_cpl5_cpl6_cpl7_cpl8_all\\runs\\teacher_audit_cpl_1_8_20260725_192008\\CPL_1_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T04:32:41.086979+00:00"
+}

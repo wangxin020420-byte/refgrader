@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_828",
+  "category": "label_supported",
+  "summary": "查询正确为50%；DMA三时间均正确，但把一次传输时间与CPU开销相加再除1秒，得到.404%，教师5+3=8是保留过程、扣错误比率。",
+  "teacher_issue": "",
+  "model_issue": "旧模型称周期数除频率得到时间是单位错误，实际公式正确；真正问题在最后将一次传输耗时当每秒CPU占用并包含设备传输段。",
+  "original_image_observations": "教师1:5、2:3。查询1MB/4B=2.5×10^5，字间隔1/(2.5×10^5)、查询1/(5×10^5)，50%。DMA.004s、1500/(50×10^6)=3×10^-5、500/(50×10^6)=10^-5，末(.004+.00003+.00001)/1s=.404%。",
+  "evidence": [
+    "查询有足够过程且结果正确，应独立满分。",
+    "DMA已正确完成各关键时间换算，不能按没写250而仅保留很少分。",
+    "最终式还混入非CPU传输段且没按间隔归一，教师3分而非满分合理。"
+  ],
+  "uncertainties": [
+    "官方未细分最终比例构造分，当前部分分无明确错标证据。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3e317d368345f91655d5c3f2c10926d1ba2676ce0ff1c9eb4d2bf7661f10506c",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:07:06.927916+00:00"
+}

@@ -1,0 +1,27 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_209",
+  "category": "model_or_extraction_issue",
+  "summary": "图表真实存在且正确，模型因仅抽取文字定义而低估。",
+  "teacher_issue": "",
+  "model_issue": "明确写出图表未书写，与原图右侧表和左下图矛盾。",
+  "original_image_observations": "左上六状态定义，左下六节点状态图，右侧完整表；S4在0输入S5/1，S5在1输入S4/0，顶部6和红勾。",
+  "evidence": [
+    "表中所有六状态的两个输入分支与标准一致。",
+    "历史1.5/1/2主要建立在图表缺失的错误前提上。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "328483737ee3eba4bc441f220fc45f2cdbe131c32bb6c129c0d79b9e2ff7a4de",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:29:16.628885+00:00"
+}

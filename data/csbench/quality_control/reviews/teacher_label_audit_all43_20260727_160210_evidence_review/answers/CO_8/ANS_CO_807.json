@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_8",
+  "answer_id": "ANS_CO_807",
+  "category": "label_supported",
+  "summary": "查询完整正确；DMA每秒250次正确，但只将500周期乘250、1500仅加一次，得.253%，教师5+3=8是合理部分分。",
+  "teacher_issue": "",
+  "model_issue": "原模型首轮6.25偏严格，另有0与9的极大波动；原图已经明确改成250，不能按转录‘2.5×250’另造次数错误。",
+  "original_image_observations": "教师总8、1:5、2:3。查询10^6/4=2.5×10^5，乘100除50×10^6得50%；DMA10^6/(4×10^3)改写250，比例(250×500+1500)/(50×10^6)，末改为.253%。",
+  "evidence": [
+    "DMA正确每秒次数值得过程分，错误是每次启动1500未乘次数。",
+    "教师未将DMA错误结果给满分；3分可对应正确次数及部分开销关系。",
+    "第一问有完整有效过程，不应受第二问错误连带扣分。"
+  ],
+  "uncertainties": [
+    "精确部分分权重未细化，但不构成明确教师错标。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "78bd1245bf30842c0815dae76854fbe216d583daadf656bb72a44bf93847bc96",
+  "teacher_score": 8.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T09:04:57.964504+00:00"
+}

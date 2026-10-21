@@ -1,0 +1,34 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_550",
+  "category": "teacher_suspect",
+  "summary": "掩码大体按处理优先级列位，但C行实际00011与E相同，漏C自身位，教师20疑似漏扣；转录把C补成00111。",
+  "teacher_issue": "即便认可M0至M4对应ADC EB，C也应00111而原图00011；其它行约定一致时C单行缺自身，不宜不核就满分。",
+  "model_issue": "A全1和D四1不能判全错，列序可能为ADC EB；另一方面原转录C多补一个1，把真实局部缺陷隐藏。",
+  "original_image_observations": "教师20红勾。表M0/M1/M2/M3/M4，A11111、B00001、C00011、D01111、E00011；图A峰后B-C-D-C-B-E-B返底，嵌套主体正确。",
+  "evidence": [
+    "五行1的数量应A5、D4、C3、E2、B1，不受列位置换影响；原图C仅2个1。",
+    "C中间第三位画的是0，与E行相同，不能自动补1。",
+    "疑点限C掩码，图与其它可等价列序仍保留分。"
+  ],
+  "uncertainties": [
+    "如果第三位字形被人工读1可消除疑点，需优先确认该格；不采用模型整表0。"
+  ],
+  "transcript_conflicts": [
+    "C原图00011，主转录写00111。"
+  ],
+  "evidence_strength": "possible_overcredit_C_mask_missing_one_required_bit",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "f9d2e00d3f64a89be25c380a5cd4c9fb7d1b0854582469f6ab6ffc6967dcab24",
+  "teacher_score": 20.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:37:34.029284+00:00"
+}

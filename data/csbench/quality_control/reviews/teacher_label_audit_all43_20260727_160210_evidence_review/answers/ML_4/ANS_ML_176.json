@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_176",
+  "category": "label_supported",
+  "summary": "存在状态定义与表的错位及多处回退错误，教师3作为部分分有依据。",
+  "teacher_issue": "",
+  "model_issue": "原图有完整五节点图和五行表，不能只据状态定义判几乎未作答。",
+  "original_image_observations": "定义A收到0至E收到01010，但表A在0输入去B，实际把A当无匹配初态；表B、D的0输入回A，E在0输入A/1。右侧完整五节点图，下方另有未完成草表。教师3。",
+  "evidence": [
+    "表和图的主链按A空前缀理解能检测01010，具有过程分。",
+    "定义与实现含义不一致且重叠回退错误，不支持满分。"
+  ],
+  "uncertainties": [
+    "定义笔误与功能错误如何分别扣分缺乏细则。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "7122ecd97323678de6cb31bfb9f871f789fadaaeb1e55b2ee62c7fb16b349e9f",
+  "teacher_score": 3.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:33:45.569850+00:00"
+}

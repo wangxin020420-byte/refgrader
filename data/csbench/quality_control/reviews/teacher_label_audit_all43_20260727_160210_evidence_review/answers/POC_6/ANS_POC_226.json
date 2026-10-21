@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_226",
+  "category": "label_supported",
+  "summary": "第一问偏句法分类，第二问树缺节点且未标数值，教师2有部分分依据。",
+  "teacher_issue": "",
+  "model_issue": "从一个综合字推断属性判断，并对未显示属性计算凭空奖励两次同类分，无有效依据。",
+  "original_image_observations": "左列多条产生式类型、改写文法及Select集、不为LL(1)结论；右树根a,A,b，A分A1和S，A1直接到c缺S，右S经a,A,b及S到c，没有属性值。教师2。",
+  "evidence": [
+    "局部A→AS与S→aAb过程成立。",
+    "左A1→c不在原文法，且没有数值，不能当正确完整标注树。"
+  ],
+  "uncertainties": [
+    "原答综合字处属于对单条产生式分类的表述，不足认定所有属性综合。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "676ccdf6c23e5f5750c9b864846b6173af1cb75a51df8ac391cbaa2e868b81d6",
+  "teacher_score": 2.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:46:45.607823+00:00"
+}

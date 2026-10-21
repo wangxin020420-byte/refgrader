@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_628",
+  "category": "uncertain",
+  "summary": "文字屏蔽关系大体正确但自身约定未统一，图交换时间与程序轴、线条浅且返回含义不清，教师12与模型20分歧暂不能归教师漏分。",
+  "teacher_issue": "若图只是坐标旋转且程序轨迹可完整对应，12可能漏图分；目前图内服务层位置和返回关系不足以确定，需人工细看。",
+  "model_issue": "图非明确A-C-D-C-E-B文本，不能凭意图给满8；前面集合有的含自身D、有的不含，补自屏蔽应说明而非无条件匹配。",
+  "original_image_observations": "教师12红勾叉。排序正确；A:BCDE、B无、C:BE、D:BCDE、E:B。下方浅色图竖轴t、横轴程序A/B/C/D/E，若干横条与竖边，未清楚标每一服务块和恢复关系。",
+  "evidence": [
+    "时间轴旋转本身不扣分，仍须按程序标签读服务顺序。",
+    "浅图不能仅因不熟悉形式判0，也不能从泛化描述补成完美标准图。",
+    "12可解释为主要给第一问，但是否还应有图方法分需确认。"
+  ],
+  "uncertainties": [
+    "图线很浅，部分横边重叠，需更清晰原始整卷才能判所有返回段；本次不强行给新总分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "784befa4cc96f33915d6a2012f5c630d1fe0586c4628959abd7e586e8039e232",
+  "teacher_score": 12.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:54:02.773198+00:00"
+}

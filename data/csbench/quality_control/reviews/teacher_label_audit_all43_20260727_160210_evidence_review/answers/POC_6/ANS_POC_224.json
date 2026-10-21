@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_224",
+  "category": "model_or_extraction_issue",
+  "summary": "公式求值树完整，根与中A已修改为2、1，模型使用旧笔迹或漏读最终值。",
+  "teacher_issue": "",
+  "model_issue": "声称未得根2，忽略上方最终修订数值，并用低结构指标否定正确图。",
+  "original_image_observations": "左答S属性；右用S.x、A.x公式作节点标签，根旧计算被划掉上方补2，中A旧值划掉上方补1，左A/S0，右S1及A/S0，叶子acacbb完整，教师10。",
+  "evidence": [
+    "属性标签替代单独符号名仍可确定节点身份，不属于非法产生式。",
+    "最终保留值正确，已划掉旧值不应继续扣分。"
+  ],
+  "uncertainties": [
+    "类型理由详略需统一。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "adb6ba477030d213a166883c1cb23b6c3402f292888ef4f67efd889b46ce48c5",
+  "teacher_score": 10.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:46:45.598033+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_197",
+  "category": "label_supported",
+  "summary": "图表实现的是四状态计数式转换，不符合01010检测，教师1作为少量方法分有依据。",
+  "teacher_issue": "",
+  "model_issue": "声称未画图与左上四节点图矛盾；应通过实际行为判错而不是仅要求六状态。",
+  "original_image_observations": "左上00、01、10、11四节点，1输入循环前进、0多自环；右表有整段斜划线，左下保留对应真值表，01在0输入输出1。教师1及红叉。",
+  "evidence": [
+    "从00输入10即可到01后输出1，尚未出现01010，功能明显不符。",
+    "有状态编码、转移及表格尝试，但不足以给主体结果分。"
+  ],
+  "uncertainties": [
+    "右表划线是否表示整表作废不明确，左下真值表仍有同类逻辑；不改变主要错误结论。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "9223601ff6a98337e522ae930bbf8e2fb8da0b8eb07356cf10cd1fc8ecc37453",
+  "teacher_score": 1.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:35:33.862070+00:00"
+}

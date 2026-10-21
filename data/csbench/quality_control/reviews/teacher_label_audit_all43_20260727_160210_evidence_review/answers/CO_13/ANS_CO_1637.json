@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_13",
+  "answer_id": "ANS_CO_1637",
+  "category": "label_supported",
+  "summary": "屏蔽字仍按原硬件优先级，轨迹有重复C/D和错误返回，教师2+1+2=5有依据；模型仅凭手写CBDA目标顺序误给图满7。",
+  "teacher_issue": "",
+  "model_issue": "表ABC D列的D0001/C0011/B0111/A1111是硬件A>B>C>D的旧关系，不是目标CBDA。图真实路径反复进入C/D，不能由一句‘顺序CBDA’替代实际作图满分。",
+  "original_image_observations": "页眉5，1:2、2:1、3:2。首暂停原程序、服务后回断点。表明确列A/B/C/D，行D0001/C0011/B0111/A1111，旁写优先级A>B>C>D。图用户直接短C→B→长C→短D→A→长D→用户，红叉指出中段。",
+  "evidence": [
+    "表主要给的是原响应优先级，目标表应A1000/B1101/C1111/D1001。",
+    "轨迹未按目标正确嵌套返回，也未完整完成C/B/D/A一次各一个服务过程。",
+    "首有返回断点的概念可少量2，表图仅准备/结构分，原5不因模型10至17反而高给就可疑。"
+  ],
+  "uncertainties": [
+    "图中个别极短竖线不清，不影响多次C/D且终止层级错误的主要判断。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "42d5a3be1ecc02fa3849162ff7f74752770ed0c69484d434a23f95fd14321b8f",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_13_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:15:25.122513+00:00"
+}

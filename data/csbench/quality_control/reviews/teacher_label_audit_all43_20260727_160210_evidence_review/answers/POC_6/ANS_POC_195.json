@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_195",
+  "category": "uncertain",
+  "summary": "第一问答成LR分类，第二问树结构正确但一处A属性写1而非0；教师5的分配需确认。",
+  "teacher_issue": "若5分全部给第二问则可能漏扣局部属性错误，但原图没有小题分不能确定。",
+  "model_issue": "原图根S标2，模型称根未标、末端展开缺失均不成立。",
+  "original_image_observations": "左侧写左递归、LR(0)并画项目集；右树完整，根S标2，中A1，左下A标1、其子S0，右S1及下A0、S0。教师5。",
+  "evidence": [
+    "左A经A→S、S→c应为0，原图却写A.x=1。",
+    "其余结构和局部值大部分正确，应保留过程分，模型0至1过低。"
+  ],
+  "uncertainties": [
+    "第一问是否给了其他文法分类的部分分未知；小题得分分配与局部笔误口径待确认。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3bd2f48bb4614bb99b2db12a9538f107c33686e302078041ea0e5e5f5828715a",
+  "teacher_score": 5.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:41:34.375989+00:00"
+}

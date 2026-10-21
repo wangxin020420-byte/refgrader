@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_558",
+  "category": "teacher_suspect",
+  "summary": "B全0、C和E屏蔽关系不符，图又直接跳D并缺初始C服务，教师18疑似对多个独立错误扣分不足。",
+  "teacher_issue": "不只有一个自屏蔽位：C末两位与参考不同，E多屏蔽C；即使图大部给分，18仍需核实掩码和图的扣分。",
+  "model_issue": "首轮称C有4/5位对但01110对01101实为3/5；又将静态ADC EB当正确图路径给8，缺乏实际图证据。",
+  "original_image_observations": "教师18红勾叉。A11111、B00000、C可辨01100附近（末两笔不清但非01101）、D01111、E01101；图A峰后从底直接到D，D回C后又回底，E后回B，再用户。",
+  "evidence": [
+    "E=01101额外屏蔽C与题意相反，非列位排列就能消除。",
+    "图D出现前没有可辨C平台，与D/E在处理C时到达的条件不符。",
+    "应承认正确A/D/优先级与部分返回关系，但不能据正确排序给全图或全题近满。"
+  ],
+  "uncertainties": [
+    "C末两位字形需人工再看，疑点并不只依赖该歧义；B/E与图初始C缺失清楚。"
+  ],
+  "evidence_strength": "possible_overcredit_mask_errors_and_missing_C_before_D",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "3fdcd7667b3a59cd3ad0cb1af0cad2814018467e5235c9c61d9111bc0f8bb1f0",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:29:03.398813+00:00"
+}

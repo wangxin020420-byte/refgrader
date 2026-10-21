@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1232",
+  "category": "model_or_extraction_issue",
+  "summary": "I/J给出合法不重叠范围与30/4，R末5位识别正确但指数写乱已扣1，教师4+5+5=14有部分分依据；模型漏范围方法。",
+  "teacher_issue": "",
+  "model_issue": "I00001至11110和J1111100至1111111已同时展示预留及两位扩展，不是方法空白。R原图指数不稳定不能只提取2就把其五位判断也抹掉。",
+  "original_image_observations": "页眉14，1:4、2:5、3:5。R文字前1位固定0、最后5位操作码，首次只写2条；末总结写R2^9条，I30、J4。I范围00001~11110、J1111100~1111111清楚。",
+  "evidence": [
+    "I范围含30且留11111给J，J范围含4，二者有完整方法。",
+    "R字段末5位正确，但结果指数/前缀位数写法冲突不能满5，教师已扣。",
+    "教师R4可按已知5位方法、结果笔误扣1解释，模型6不能说明教师14偏高。"
+  ],
+  "uncertainties": [
+    "R最终上标似9、首次无清楚上标，需高清确认是否5的潦草写法；不据OCR2^9单独认教师漏判。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "a6272ce95c4c87a0b24c1e90902e58b9f359807df65e678fb771e372d56fdea8",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:44:41.022379+00:00"
+}

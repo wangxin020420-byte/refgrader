@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_8",
+  "answer_id": "ANS_ISC_290",
+  "category": "uncertain",
+  "summary": "减法过程与真值正确，Y正码未单列且末码制名称误写，教师4需核独立要求。",
+  "teacher_issue": "第一问要求Y=+10三种码，原图列的是-Y=-10；是否允许据此隐含认可正码需教师说明，满分暂不确认。",
+  "model_issue": "-Y用于X-Y是正确操作，不是看错符号；九位和的最高进位可舍弃，模型把X+(-Y)当错误运算及把正确-25判错均不成立。",
+  "original_image_observations": "原图4；X三种码正确，-Y三种码正确，竖式和111100111，随后反码11100110、标成补码的10011001、真值-25。",
+  "evidence": [
+    "241+246=487=二进制111100111，丢弃最高进位得到11100111，减法算法正确。",
+    "10011001是-25原码，写补码属名称混淆；正Y三种码未直接给出，不能由正确计算自动补齐全部独立问。"
+  ],
+  "uncertainties": [
+    "需核原题第一问和教师对隐含正码、码制名称笔误的接受标准，不以模型1至2直接认教师错。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "0265762a03ff4fda5ee96c52cffd4618fb7591394c60f413c0789a0b4094428d",
+  "teacher_score": 4.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_8_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T06:53:01.544661+00:00"
+}

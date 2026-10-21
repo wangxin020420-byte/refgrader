@@ -1,0 +1,217 @@
+[
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_82",
+    "category": "label_supported",
+    "summary": "除末位不能为0外生成机制基本正确，教师扣1给4有部分分依据。",
+    "teacher_issue": "",
+    "model_issue": "将数值偶数混成偶数长度，称首位B缺0错误；非零首位本来就不能0。",
+    "original_image_observations": "S→C|BDC，A为0至9，B为1至9，D→A|AD|ε，C→2|4|6|8，教师4。",
+    "evidence": [
+      "D可生成任意长度任意数字，B保证首非0，C保证偶数。",
+      "缺C→0会漏10、20等，但左/右递归或奇数长度并非错误，不能因此全0。"
+    ],
+    "uncertainties": [
+      "原总5未细分，扣1是可支持的缺末零处理。"
+    ]
+  },
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_85",
+    "category": "uncertain",
+    "summary": "单符号自循环不能增加数字，文法最多三位，教师4的扣分尺度需确认。",
+    "teacher_issue": "遗漏全部四位及以上偶数，4是否偏宽取决于生成机制部分分。",
+    "model_issue": "D第一项原图为1，不是ε；B→B、C→C、D→D虽然冗余但不使CFG非法，也不会自动产生前导零。",
+    "original_image_observations": "旧S规则划掉，保留S→B|DA|DCA；A为偶数字，B非零偶数字或B，C数字或C，D非零数字或D。教师4。",
+    "evidence": [
+      "单符号自循环只停留当前非终结符，不能拼接出任意长度，最长DCA三位。",
+      "首位和末位约束正确，一至三位有完整覆盖，应保留部分分。"
+    ],
+    "uncertainties": [
+      "长度递归缺失的权重未明，无法据模型0直接判教师错。"
+    ]
+  },
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_90",
+    "category": "label_supported",
+    "summary": "宏式表示多位正偶数有正确思路，但漏全部一位偶数，教师2为部分分有依据。",
+    "teacher_issue": "",
+    "model_issue": "三次满5忽略开始式必须先出1至9再至少一个末偶数，最短两位。",
+    "original_image_observations": "最终S→1A|2A|…|9A；A→(0,1,…,9)*B，B→0|2|4|6|8，旧S数字规则已划掉。教师2。",
+    "evidence": [
+      "把星号作为重复宏可解释任意中间串，但开始式没有直接2、4、6、8分支。",
+      "还需将宏展开为正式CFG递归，不能声称原写法已完整符合全部目标。"
+    ],
+    "uncertainties": [
+      "宏式记号作为方法分的尺度未给，2有部分内容支持。"
+    ]
+  },
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_93",
+    "category": "label_supported",
+    "summary": "能递归且无前导零、末偶数，但中间位只来自非零偶数，教师3有部分分依据。",
+    "teacher_issue": "",
+    "model_issue": "左递归B→BC是合法CFG，不等于无法生成；真正问题是C的数字覆盖。",
+    "original_image_observations": "A作开始，A→BC|B0|C，B→BC及1至9，C主要为2|4|6|8，末笔迹不清。教师3。",
+    "evidence": [
+      "B递归增加C数字，终止于1至9，故能生成多位数。",
+      "如1234所需中间3不能由C产生，缺完整覆盖；末位0由B0分支已有，不能仅因C无0扣掉这一能力。"
+    ],
+    "uncertainties": [
+      "C末尾附加墨迹是否0不明确，但中间奇数字缺失不受影响。"
+    ]
+  },
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_119",
+    "category": "label_supported",
+    "summary": "非零前缀递归与末偶数思路成立，但无一位分支、缺中间0，教师2有依据。",
+    "teacher_issue": "",
+    "model_issue": "转录漏页眉处开始式到DME；D每次可独立选择数字，不是只能33或444同数字重复。",
+    "original_image_observations": "顶端被红页眉遮挡的开始式右部DME可辨；D→1至9，M→DM|ε，E→0|2|4|6|8。教师2。",
+    "evidence": [
+      "DME最短两位，漏2、4、6、8。",
+      "M只能产生非零数字，不能生成102等含中间0的数；但可以生成不同的非零数字组合，不能全0。"
+    ],
+    "uncertainties": [
+      "开始非终结符名称受页眉遮挡，不据此另扣；过程分权重未给。"
+    ]
+  },
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_92",
+    "category": "label_supported",
+    "summary": "多位数位置约束基本正确，但用星号宏且漏一位数，教师2有部分分支持。",
+    "teacher_issue": "",
+    "model_issue": "C为末位，能取0不意味着前导零；D为正号也不能据此抹掉首非0和末偶数的正确结构。",
+    "original_image_observations": "上部写+非零数字组、数字组星号、偶数字组；下写S→DAB*C，A非零数字，B全数字，C含0的偶数，D→+。教师2。",
+    "evidence": [
+      "A限制首个数字非0，C限制末位偶数，B星号意图任意中间串。",
+      "最短仍A和C两数字，一位正偶数未覆盖，且未用普通产生式展开星号。"
+    ],
+    "uncertainties": [
+      "显式正号是否作为可接受正数表示，需统一语言约定，不将该约定争议当核心算法错误。"
+    ]
+  },
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_101",
+    "category": "model_or_extraction_issue",
+    "summary": "B递归确可生成任意中间数字串，教师5有正数表示约定下的支持，模型称最多三位错误。",
+    "teacher_issue": "",
+    "model_issue": "B→BB'|ε可重复任意次，不是只允许一个B'；空串终止也不产生无效字符。",
+    "original_image_observations": "S→+ABC|+D，A非零数字，B→BB'|ε，B'为全数字或ε，C为偶数字，D为2|4|6|8。教师5。",
+    "evidence": [
+      "B迭代生成任意长度数字串，A与C保证非零首位和偶数末位，D覆盖一位数。",
+      "没有生成0单独或前导0，核心数值集合正确。"
+    ],
+    "uncertainties": [
+      "每个数强制带+，若目标按无符号字符语言则不与参考逐串相等；题干未明确禁止正号，教师显然接受该正数表示约定，暂不因此判错。"
+    ]
+  },
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_109",
+    "category": "model_or_extraction_issue",
+    "summary": "保留文法完整等价，教师5有据，模型把递归末项误当中间数字限制。",
+    "teacher_issue": "",
+    "model_issue": "B→CB可先产生任意C再终止于偶数，不能只看B的终止分支就说中间仅偶数。",
+    "original_image_observations": "左侧旧文法划掉，右侧最终S→AB|E，B→CB及0|2|4|6|8，A非零数字，C全数字，E非零偶数字。教师5。",
+    "evidence": [
+      "10可由S→AB→1B→10，1234可逐步取C为2、3后B终止4。",
+      "一位E分支、首位A及末位B均正确，不能基于错误反例判半分。"
+    ],
+    "uncertainties": []
+  },
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_97",
+    "category": "model_or_extraction_issue",
+    "summary": "转录漏掉保留的C→DC，实际存在完整递归，教师5有核心逻辑支持。",
+    "teacher_issue": "",
+    "model_issue": "将C仅读0|B导致误认为最多两位，漏读删除旧规则右侧未删除的新C→DC。",
+    "original_image_observations": "S→+AC|+B；第二行左旧规则划掉，右清楚保留C→DC；B为2/4/6/8，C→0|B，A非零数字，D→0|A。教师5。",
+    "evidence": [
+      "C→DC可反复添加任意数字D，最终由0或B结束，故支持任意多位偶数。",
+      "一位由+B覆盖，不能把未删除的递归与左侧删除范围混同。"
+    ],
+    "uncertainties": [
+      "与ANS_POC_101相同，强制+符号是否纳入目标表示需统一，暂不凭符号约定判教师错。"
+    ]
+  },
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_107",
+    "category": "teacher_suspect",
+    "summary": "规则没有递归，最多三位，至少缺四位及以上全部偶数，教师满5需复核。",
+    "teacher_issue": "E=AB|C，B为一个数字加单个B'，没有任何增加长度的递归；最长三位，满分不成立。",
+    "model_issue": "斜杠是学生的可辨替代分支记号，不应当数学除法；真实缺陷是生成长度受限。",
+    "original_image_observations": "E=AB/C，A=1/2/…/9，B=0B'/1B'/…9B'，B'=0/2/4/6/8，C=2/4/6/8，无递归产生式。教师5。",
+    "evidence": [
+      "A正常取单数字时AB三位、C一位；A末重笔是否另含ε不清，但无论如何1234都不能生成。",
+      "已有首非0、末偶数的正确部分可给分，但不能因结构相似而满分。"
+    ],
+    "uncertainties": [
+      "A末尾有重笔，不将其猜作额外递归或ε；即使允许ε，也仍无任意长度机制。"
+    ],
+    "review_amendment": {
+      "reason": "将反例收紧为不依赖A末重笔是否ε的四位数1234，避免对两位覆盖作过强判断。",
+      "previous_fields": {
+        "summary": "规则没有递归，只能生成一位或三位数，教师满5需复核。",
+        "teacher_issue": "E=AB|C，A单数字、B为数字B'、B'为单偶数字，故缺两位和四位以上全部偶数，满分不成立。",
+        "evidence": [
+          "AB恒三位，C恒一位；例如10和1234均无法生成。",
+          "已有首非0、末偶数的正确部分可给分，但不能因结构相似而满分。"
+        ]
+      }
+    }
+  },
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_115",
+    "category": "uncertain",
+    "summary": "可辨C只递归不终止，若无被涂改的ε则语言为空，教师4需先确认笔迹。",
+    "teacher_issue": "若最终只有C→0C|AC，S→ACB永远保留C而无法产生完整数字串，4可能明显偏高。",
+    "model_issue": "C→AC不是左递归，CFG允许递归；真正该核的是有无终止分支，不是递归方向。",
+    "original_image_observations": "S→ACB，A非零数字，B偶数字；C行箭头后旧符号重涂，可辨0C|AC，没有清晰保留的ε或其他终止规则。教师4。",
+    "evidence": [
+      "没有C的基例时所有推导都剩一个C，无法输出终结串。",
+      "若涂改处实际上保留ε，则多位生成成立，但仍没有独立一位偶数分支；不能在未辨清前直接判教师错。"
+    ],
+    "uncertainties": [
+      "必须人工核对C行首部旧符号是否ε及删除范围，当前留uncertain。"
+    ]
+  },
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_118",
+    "category": "label_supported",
+    "summary": "首非0、任意中间串、末偶数正确，但至少三位，教师4作为漏短数扣分有支持。",
+    "teacher_issue": "",
+    "model_issue": "凭空说T可推E产生前导零，原图T仅1至9；E→EE可生成任意非空数字串，是合法CFG。",
+    "original_image_observations": "旧S规则划掉后S→TED，T→1至9，E→EE|0|1|…|9，D偶数字含0。教师4。",
+    "evidence": [
+      "T、E、D均至少一个数字，最短三位，漏所有一位和两位正偶数。",
+      "长度三以上的首位和尾位都正确，也不产生前导零，不能全0。"
+    ],
+    "uncertainties": [
+      "缺短数的部分分权重未给，不认定4为唯一标准。"
+    ]
+  },
+  {
+    "question_id": "POC_4",
+    "answer_id": "ANS_POC_121",
+    "category": "model_or_extraction_issue",
+    "summary": "完整等价文法，教师5有据，历史0没有生成语言依据。",
+    "teacher_issue": "",
+    "model_issue": "中间B→0B|AB|ε允许任意数字串，不能因与参考命名和递归位置不同判错。",
+    "original_image_observations": "S→ABC|AB0|C，A为1至9，B→0B|AB|ε，C→2|4|6|8。教师5。",
+    "evidence": [
+      "ABC覆盖末2/4/6/8多位数，AB0覆盖末0，C覆盖一位非零偶数。",
+      "B的A分支可独立选任意非零数字，与0分支合起来完整覆盖中间位。"
+    ],
+    "uncertainties": []
+  }
+]

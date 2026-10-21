@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_575",
+  "category": "teacher_suspect",
+  "summary": "多个掩码错误，图仅轮廓线，文字虽有A-C-D-C-B主链却漏E；教师15疑似过多给分。",
+  "teacher_issue": "B全0、C01010、D10001、E01000与屏蔽要求多处不符，且无正确完整图与E服务，15需复核哪些内容得分。",
+  "model_issue": "文字中D打断C再返回C是正确局部思路，不能因图提取泛化把其全部清零；同时不可将这几步补成含E的完整8分。",
+  "original_image_observations": "教师15红勾叉。排序ADC EB，A11111、B00000、C01010、D10001、E01000；图斜线升至D/E附近后落，无平台；右文字说明A后C、D抢C、D回C、C后B，未写E服务。",
+  "evidence": [
+    "D10001无论按常见列序或统一取反都不能与其它四行共同构成正确屏蔽集合。",
+    "图不明确程序执行段，文字可补部分正确嵌套但漏E是独立缺陷。",
+    "疑似高给不建立在模型4或12某一轮上，而是原图正确内容明显不足以近满。"
+  ],
+  "uncertainties": [
+    "无教师细项分，不自动指定应得总分；应保留右侧正确过程部分。"
+  ],
+  "evidence_strength": "possible_overcredit_multiple_mask_errors_and_E_omitted",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d1571a66883147f67ab640a5ac7e5f1ebff2fefa8d7b213970669839db6a6427",
+  "teacher_score": 15.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:37:34.025283+00:00"
+}

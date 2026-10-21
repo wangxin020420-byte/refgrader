@@ -1,0 +1,30 @@
+{
+  "question_id": "ML_3",
+  "answer_id": "ANS_ML_154",
+  "category": "model_or_extraction_issue",
+  "summary": "K1和输出前缀均有涂改，保留的函数关系与参考一致；教师6分可保留。旧模型不仅误处理涂改，还否认布尔幂等律。",
+  "teacher_issue": "",
+  "model_issue": "声称xy1y1y2与xy1y2不等价，而布尔代数y1·y1=y1；又把xy1与y1x说成矛盾。",
+  "original_image_observations": "J1=x，K1的x前有删除/涂改痕迹；J2=xy1、K2=xy1；下方输出最终可读xy1y2，前有涂改字迹；另写两条次态展开；教师6。",
+  "evidence": [
+    "即便把输出前多写y1算入保留表达式，幂等律也使整体仍等价。",
+    "原图并无清楚保留的K1=反x；下方y1次态展开与J1=K1=x相吻合。",
+    "三次2/4/5分存在明显逻辑等价判断错误。"
+  ],
+  "uncertainties": [
+    "K1局部涂改需按保留的最终x解释，不将黑迹直接作反相符号。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "e31d454d44c4fc83b180e03f512a793adac3106698ea479c587c7ac4c81d3d90",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_3_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:34:40.502946+00:00"
+}

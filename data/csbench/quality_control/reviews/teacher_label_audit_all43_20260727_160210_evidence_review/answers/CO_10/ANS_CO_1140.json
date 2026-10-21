@@ -1,0 +1,31 @@
+{
+  "question_id": "CO_10",
+  "answer_id": "ANS_CO_1140",
+  "category": "teacher_suspect",
+  "summary": "第一问正确地址和每块7位之后直接答256B，没有总容量乘法却得9/10；教师11分疑点在首题容量过度给分。",
+  "teacher_issue": "即使字段两项全6，加有效位仅支持容量的一部分；未写1024×7/8且最终256错误，首9意味着容量4分中给3，需核依据。",
+  "model_issue": "模型把明确的12−2−2=8和四路/块4字字段当未写，也从错误256逆推出未书写的正确容量公式，证据使用两端都不可靠。",
+  "original_image_observations": "页眉11，1:9、2:2。组内块4=2^2、块内字4=2^2，组12−2−2=8、tag16−8−2=6，6+1=7位后写共256个字节。次写每组tag和有效位均相同、每组验证一次，最终2^10套。",
+  "evidence": [
+    "首地址推导完整，应保留6分，不能以历史模型4至5.5替代。",
+    "容量从每块7位直接跳256B，非仅把896抄错或正确公式算术错误；未观察到总块数乘入。",
+    "次问确有错误，但只获2分属部分分；可疑点是首题近满。"
+  ],
+  "uncertainties": [
+    "若教师允许为容量尝试给3/4需核同题一致性，不自动改11；学生未列的公式不能靠反推补写。"
+  ],
+  "evidence_strength": "possible_overcredit_nine_of_ten_without_total_capacity_relation",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "401c6f73ca7ce8422b8dbdcd5d22b3cc7e640c30780370fc7239ca11453bbdb6",
+  "teacher_score": 11.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_10_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T15:53:59.203249+00:00"
+}

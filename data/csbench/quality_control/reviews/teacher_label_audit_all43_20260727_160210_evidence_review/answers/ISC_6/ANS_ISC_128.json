@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_6",
+  "answer_id": "ANS_ISC_128",
+  "category": "model_or_extraction_issue",
+  "summary": "原图两最终值正确，模型漏判整数0，过程末次取位有笔误须分开记录。",
+  "teacher_issue": "",
+  "model_issue": "三次4.5均因首整数0空白，原图完整0.101已有该值，不是实际数值转换错。",
+  "original_image_observations": "原图6；左乘2得到1.250、.5、1，末次旁标0但最终0.101；右整数除2得10、小数.001及10.001。",
+  "evidence": [
+    "最终两目标值均正确且有分开转换过程。",
+    "末次旁取位0与最终101不一致，但不应改述为整数部分没答。"
+  ],
+  "uncertainties": [
+    "末次取位笔误应按统一过程细则处理；依用户正确结果且有过程原则不机械扣整项。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "b93a403febe2e2544c66c2eafeb4cd18afbaf1795a722f2b4b4e39268e01448e",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T07:15:28.402212+00:00"
+}

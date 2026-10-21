@@ -1,0 +1,27 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_174",
+  "category": "model_or_extraction_issue",
+  "summary": "原图六状态图表正确，教师6分有据，模型误判未书写。",
+  "teacher_issue": "",
+  "model_issue": "转录只保留定义，模型把未抽取图表当成学生未作答。",
+  "original_image_observations": "左侧S0至S5定义，中间完整六状态图，右边六行表；S4的0为S5/1，S5的1为S4/0，其他回退分支与参考相同。教师6。",
+  "evidence": [
+    "完整图和表同时可见，满足题目两项输出要求。",
+    "历史1.5/2/1.5的核心缺失理由不成立。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "d1d9e8451aa80cf3ffdff126f35fc290859dd45c2607a777498413e7bac4a72d",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:29:16.629885+00:00"
+}

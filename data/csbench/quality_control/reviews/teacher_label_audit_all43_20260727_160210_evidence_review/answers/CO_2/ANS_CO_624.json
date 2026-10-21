@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_2",
+  "answer_id": "ANS_CO_624",
+  "category": "uncertain",
+  "summary": "所列集合恰是允许抢占本级的中断，取补后等价正确屏蔽关系，但标题称屏蔽字、未声明极性；教师18需人工核实等价表示政策。",
+  "teacher_issue": "若把集合解释为实际屏蔽对象则全部反向；若解释允许中断对象，关系全对，可只扣表示分。现有18不能单凭位串比较定错。",
+  "model_issue": "一面承认A/D是允许抢占C的对象，一面称‘漏B’；B本应被屏蔽而不应列在允许集合，模型逻辑错。",
+  "original_image_observations": "教师18红勾叉。优先级正确；A无、D:A、C:A/D、E:A/D/C、B:A/D/C/E；图A-B-C-D-C-E-B返用户，底部请求字母标注不够规范。",
+  "evidence": [
+    "五集合依次为各本级以上的所有中断，结构一致，可确定是允许集合而非随机错答。",
+    "题目虽要求屏蔽字，允许集与屏蔽集互补可表达同一关系，但应说明约定。",
+    "图平台关系基本正确，不能以‘分组BCD’替代其实际嵌套结构。"
+  ],
+  "uncertainties": [
+    "需确认教师18是否因非位串及请求标注扣分；不自动把集合全0或全10。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "479971c0229d1a4054255c6783016b1a8c2ae7ef433de84069f1763734d830ef",
+  "teacher_score": 18.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_2_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T14:21:22.933387+00:00"
+}

@@ -1,0 +1,34 @@
+{
+  "question_id": "CO_11",
+  "answer_id": "ANS_CO_1222",
+  "category": "teacher_suspect",
+  "summary": "R先列32上界后最终改29、I30正确，原图最终J写24而非转录4，教师J仍全5需复核；不能据模型看到4认整项正确。",
+  "teacher_issue": "页眉1:4、2:5、3:5，原末行J最多24条与I最大30不兼容，J方法式中x又最初定义R数；若有效24无误，不应J全5。",
+  "model_issue": "I已说明取31会使J无法标识，保留J前缀逻辑完整，不应只部分方法。需先纠正最终J24被转录为4的冲突，不能用错误证据推满分。",
+  "original_image_observations": "页眉14，1:4、2:5、3:5。R范围[1,2^5]=[1,32]设x，I不能00000范围至31，J范围公式修改为(2^5−x−1)×2^2；旧总结果整体划去。末有效总结I最多30、R最多29、J最多24条，末24前有清楚2笔。",
+  "evidence": [
+    "I最大30应只留一个J前缀、J最多4，24需要六个J前缀并迫使I降到25。",
+    "R29已由教师扣1，但J最终24却仍5是独立疑点。",
+    "不以模型某次12或11.75直接替换；先人工确认末行24及变量对应。"
+  ],
+  "uncertainties": [
+    "末数字需人工再次核对是否24或潦草4；当前原图读24，与汇总转录冲突，故优先复核而非自动改标签。"
+  ],
+  "transcript_conflicts": [
+    "汇总转录最终J为4；原图有效末行读24，旧上方被划去结果不能作为最终答案。"
+  ],
+  "evidence_strength": "possible_full_J_credit_despite_original_final_twenty_four_vs_transcribed_four",
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "1aa19b9d1b90c605a65f5d5e942b0626ff1389e4a5eb8a1f10974ee2efad3611",
+  "teacher_score": 14.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co10_co11_co12_co13_co8_co9_all\\runs\\teacher_audit_co_8_13_20260725_192008\\CO_11_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T16:44:41.033436+00:00"
+}

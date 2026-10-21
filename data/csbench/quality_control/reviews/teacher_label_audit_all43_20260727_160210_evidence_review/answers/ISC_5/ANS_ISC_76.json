@@ -1,0 +1,29 @@
+{
+  "question_id": "ISC_5",
+  "answer_id": "ANS_ISC_76",
+  "category": "teacher_suspect",
+  "summary": "译码标点与目标不符，末写百分号却满6，教师标签需复核。",
+  "teacher_issue": "0x21应!而非%，0x2C应逗号；至少末字符明显错误不能满分。",
+  "model_issue": "一个或两个标点错误不应使全部解码归零；字母代码、标点类别与无数字部分基本正确应保留。",
+  "original_image_observations": "首行Hello后有重笔及!，末AHU后写百分号形；字母代码48/65/6C/6C/6F/41/48/55；2C、20、21列标点，写无数字字符。教师6。",
+  "evidence": [
+    "原图末符号为斜线配上下点的%形，不是叹号，ASCII两者不同。",
+    "分类层面2C、21仍被标为符号，不应就译码结果再全扣字母与分类分。"
+  ],
+  "uncertainties": [
+    "首行逗号处重笔需人工确认，末符号也宜核书写；不自动改分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "8a027c575fb727c8a49e63214527b2a44266baf7cc87c1c77c85179b07b2e95c",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_isc1_isc2_isc3_isc4_isc5_isc6_isc7_isc8_isc9_all\\runs\\teacher_audit_isc_1_9_20260725_192008\\ISC_5_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T05:18:12.030772+00:00"
+}

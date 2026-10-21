@@ -1,0 +1,30 @@
+{
+  "question_id": "CO_4",
+  "answer_id": "ANS_CO_727",
+  "category": "label_supported",
+  "summary": "第一问仅少量容量推算，第二问两个能否访问结论均正确；教师1+3+3=7体现结论部分分，与原模型低权重结论项差异不能证明标签错。",
+  "teacher_issue": "",
+  "model_issue": "旧模型将8M=2^23也仅给1分，命中两个正确结论各限制为1分；这是优化规则权重选择，不是教师分已被否定。",
+  "original_image_observations": "写8M=2^23、32×2K=2^15，后句字段位数为6；无具体格式图；第二问分别不能访问、能访问；红字+1/+3/+3。",
+  "evidence": [
+    "第一问明显不完整，教师并未给该问高分。",
+    "第二问题面未明确要求逐行推导，两个结论正确可获得实质性部分分。",
+    "原模型3/2/4与7分主要是结论权重不同。"
+  ],
+  "uncertainties": [
+    "教师每个判断3分的尺度需统一政策，当前无证据要求结论只值1分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "24036a5e1d58dc5bf71281d700c9bff3c80562cf0be0a1e5ece52b1d776c4c94",
+  "teacher_score": 7.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_co1_co2_co3_co4_co5_co6_co7_all\\runs\\teacher_audit_all7_20260725_000621\\CO_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-20T08:40:57.328776+00:00"
+}

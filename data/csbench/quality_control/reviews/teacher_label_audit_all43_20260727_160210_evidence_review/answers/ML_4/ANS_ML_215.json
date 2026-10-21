@@ -1,0 +1,27 @@
+{
+  "question_id": "ML_4",
+  "answer_id": "ANS_ML_215",
+  "category": "model_or_extraction_issue",
+  "summary": "原图检测输出1清楚，图表完整，模型把1识别成斜杠造成扣分。",
+  "teacher_issue": "",
+  "model_issue": "把S5/1识别为S5//并声称缺图。",
+  "original_image_observations": "左侧定义，中部六行表，右侧完整图；表S4在0输入为S5/1，右图同边标0/1，其余转移与标准一致。教师6。",
+  "evidence": [
+    "关键输出位在图和表两处一致，不能认为缺少输出。",
+    "历史3/4.5/5.5来自抽取与缺图误判。"
+  ],
+  "uncertainties": [],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "93f0b8906eb6baf7eb5010cff4ce8118400b66f659380245e40e228a6246930c",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_ml1_ml2_ml3_ml4_all\\runs\\teacher_audit_ml_1_4_20260725_192008\\ML_4_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:33:45.571012+00:00"
+}

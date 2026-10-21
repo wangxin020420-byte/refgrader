@@ -1,0 +1,29 @@
+{
+  "question_id": "POC_6",
+  "answer_id": "ANS_POC_227",
+  "category": "label_supported",
+  "summary": "类型正确且树结构正确，但未标属性值，教师6作为部分分有依据。",
+  "teacher_issue": "",
+  "model_issue": "把A的左子A误识别为S，错误否定完整树结构。",
+  "original_image_observations": "左答S属性文法；右树S(a,A,b)，A分左A→S→c和右S→a,A,b，右A→S→c；叶子a1、b2等下标表示出现次序，没有A.x、S.x标值。教师6。",
+  "evidence": [
+    "树结构确实符合acacbb推导，不是A→SS。",
+    "缺少综合属性数值是实际缺项，不能给整题满分。"
+  ],
+  "uncertainties": [
+    "未提供小题分及树形/属性的原始细分权重，不精确重评分。"
+  ],
+  "schema_version": 1,
+  "version": "existing-evidence-review-v1",
+  "review_run_id": "teacher_label_audit_all43_20260727_160210_evidence_review",
+  "status": "completed",
+  "input_sha256": "2ef21bacff39fd5da5393f0b30fa994b879452c51eadace0c99d4f9284fae354",
+  "teacher_score": 6.0,
+  "basis": "existing_experiment_only",
+  "new_experiment": false,
+  "reviewer": "codex_existing_evidence",
+  "source_checkpoint": "results_runs\\csbench_poc1_poc2_poc3_poc4_poc5_poc6_all\\runs\\teacher_audit_poc_1_6_20260725_192008\\POC_6_grading_checkpoint.json",
+  "not_a_human_decision": true,
+  "automatic_policy_change": false,
+  "created_at": "2026-10-21T01:41:34.391336+00:00"
+}

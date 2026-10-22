@@ -1,0 +1,56 @@
+{
+  "optimized": {
+    "n": 2675,
+    "single": {
+      "global_qwk": 0.9013214307788011,
+      "macro_qwk": 0.6803109308352256,
+      "weighted_qwk": 0.688050906318176,
+      "n_valid_questions": 45
+    },
+    "avg": {
+      "global_qwk": 0.9115973038021674,
+      "macro_qwk": 0.6946345051607958,
+      "weighted_qwk": 0.7027450208328598,
+      "n_valid_questions": 45
+    },
+    "3WD-Core": {
+      "global_qwk": 0.9158377694543532,
+      "macro_qwk": 0.7068225025945575,
+      "weighted_qwk": 0.7142131001882456,
+      "n_valid_questions": 45
+    },
+    "3WD": {
+      "global_qwk": 0.9232131473135644,
+      "macro_qwk": 0.7307756383708901,
+      "weighted_qwk": 0.7381778344588468,
+      "n_valid_questions": 45
+    }
+  },
+  "historical": {
+    "n": 2723,
+    "single": {
+      "global_qwk": 0.8907550979849126,
+      "macro_qwk": 0.6581035219607345,
+      "weighted_qwk": 0.6676114268494678,
+      "n_valid_questions": 45
+    },
+    "avg": {
+      "global_qwk": 0.9019734754025384,
+      "macro_qwk": 0.6774443918488232,
+      "weighted_qwk": 0.6877024252005739,
+      "n_valid_questions": 45
+    },
+    "3WD-Core": {
+      "global_qwk": 0.9074341260825978,
+      "macro_qwk": 0.6850268169201205,
+      "weighted_qwk": 0.6950387085936455,
+      "n_valid_questions": 45
+    },
+    "3WD": {
+      "global_qwk": 0.9145929615755208,
+      "macro_qwk": 0.7113350882565089,
+      "weighted_qwk": 0.7188906594328377,
+      "n_valid_questions": 45
+    }
+  }
+}

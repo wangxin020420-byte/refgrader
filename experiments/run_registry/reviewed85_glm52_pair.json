@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "pair_id": "reviewed85_glm52_optimized_vs_initial",
+  "frozen_review_records": 85,
+  "expected_counts": {
+    "questions": 45,
+    "calibration": 340,
+    "validation": 339,
+    "test": 2675
+  },
+  "pc1": {
+    "run_id": "reviewed45_glm52_20261019_221414_317274",
+    "arm": "optimized",
+    "status": "frozen_verified",
+    "artifact_path": "csbench/frozen_baselines/reviewed45_glm52_20261019_221414_317274",
+    "manifest_sha256": "49748a89b9e1fcec014cfc71e8723b3540e97fca3a72ac3470e9a3f0ffd8a357",
+    "result_class": "experimental",
+    "deployment_gate_passed": false
+  },
+  "pc2": {
+    "run_id": "initial85_glm52_20261020_pc2",
+    "arm": "initial",
+    "status": "awaiting_pc2_export_and_pair_check",
+    "expected_artifact_path": "csbench/frozen_baselines/initial85_glm52_20261020_pc2"
+  },
+  "pair_verified": false,
+  "note": "Terminal summary is not a replacement for the PC2 snapshot. Ongoing review decisions are not added to these baselines."
+}

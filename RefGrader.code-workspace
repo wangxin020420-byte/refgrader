@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {"name": "01 代码与输入", "path": "."},
+    {"name": "02 冻结实验历史", "path": "../refgrader-artifacts"},
+    {"name": "03 上游数据（仅导入时使用）", "path": "../CSBench_new"}
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/__pycache__": true,
+      "venv": true,
+      ".venv-ocr": true,
+      "ocr_cache": true,
+      ".local-maintenance": true
+    },
+    "search.exclude": {
+      "**/results_runs/**": true,
+      "**/logs/**": true,
+      "**/ocr_cache/**": true,
+      "**/.local-maintenance/**": true
+    }
+  }
+}

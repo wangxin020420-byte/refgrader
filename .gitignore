@@ -12,6 +12,7 @@ ocr_cache/
 .vscode/
 .idea/
 *.code-workspace
+!/RefGrader.code-workspace
 
 # OS
 Thumbs.db

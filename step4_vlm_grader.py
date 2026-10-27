@@ -2335,6 +2335,7 @@ def grade_student_3wd_pipeline(
     student_transcription=None,
     answer_metadata=None,
     evidence_first_grading=False,
+    label_free_probe_only=False,
 ):
     student_id = os.path.splitext(os.path.basename(student_img_path))[0]
     def _pipeline_failure(error_type, reason):
@@ -2512,6 +2513,11 @@ def grade_student_3wd_pipeline(
                 model_scores.append(score)
                 strict_cots.append(cot) 
     
+    if label_free_probe_only and len(model_scores) != 3:
+        return _pipeline_failure(
+            "label_free_incomplete_probes",
+            f"Label-free probe mode requires 3 valid probes, got {len(model_scores)}",
+        )
     if len(model_scores) == 0:
         return _pipeline_failure("stage2_failed", "all semantic grading probes failed or returned unparsable scores")
 
@@ -2600,6 +2606,23 @@ def grade_student_3wd_pipeline(
     risk_profile["fatal_points_ratio"] = calibrated_fatal_ratio
     risk_profile["risk_features"]["fatal_points_ratio"] = calibrated_fatal_ratio
     primary_risks = post_calibration.get("primary_risks", {})
+    if label_free_probe_only:
+        # Return before loading any A3WA configuration, boundary arbitration or
+        # validation residual table. The caller supplies an independently
+        # audited label-free policy and must audit the inputs/cache provenance.
+        from label_free_a3wa import equal_weight_membership
+        risks = {name: primary_risks.get(name) for name in ("U_E", "U_S", "U_R")}
+        try:
+            equal_weight_membership(risks, valid_probe_count=len(model_scores))
+            if not all(np.isfinite(float(score)) and 0 <= float(score) <= MAX_SCORE for score in model_scores):
+                raise ValueError("Probe score outside rubric bounds")
+        except (TypeError, ValueError) as exc:
+            return _pipeline_failure("label_free_invalid_probe", exc)
+        return {
+            "baseline_score": avg_model_score,
+            "risks": risks,
+            "valid_probe_count": len(model_scores),
+        }
     risk_profile["risk_features"].update({
         "U_E": primary_risks.get("U_E", None),
         "U_S": primary_risks.get("U_S", None),

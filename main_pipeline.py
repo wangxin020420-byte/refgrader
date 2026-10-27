@@ -440,6 +440,14 @@ def parse_args():
         ),
     )
     parser.add_argument(
+        "--sample-policy-root",
+        default=None,
+        help=(
+            "Prepared dataset root used to locate the sample-quality policy. "
+            "When omitted, legacy behavior uses the teacher database parent."
+        ),
+    )
+    parser.add_argument(
         "--raw-sample-policy",
         action="store_true",
         help="Ignore any active sample-quality policy for a raw-data run.",
@@ -2306,7 +2314,9 @@ if __name__ == "__main__":
     TEACHER_DB_PATH = args.teacher_db
     ANSWER_METADATA_PATH = args.answer_metadata
     SAMPLE_QUALITY_POLICY = SampleQualityPolicy.load(
-        Path(args.teacher_db).expanduser().resolve().parent,
+        Path(args.sample_policy_root).expanduser().resolve()
+        if args.sample_policy_root
+        else Path(args.teacher_db).expanduser().resolve().parent,
         explicit_path=args.sample_policy,
         force_raw=args.raw_sample_policy,
     )

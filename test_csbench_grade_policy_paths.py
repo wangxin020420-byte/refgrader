@@ -12,7 +12,7 @@ from scripts import run_csbench
 
 
 class CSBenchGradePolicyPathTests(unittest.TestCase):
-    def test_validation_and_test_pass_dataset_teacher_path_before_model_calls(self):
+    def test_validation_and_test_resolve_policy_from_dataset_root(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             teacher = root / 'teacher_scores.json'
@@ -48,8 +48,9 @@ class CSBenchGradePolicyPathTests(unittest.TestCase):
                     command = execute.call_args.args[0]
                     with patch('sys.argv', command[1:]):
                         parsed = main_pipeline.parse_args()
-                    self.assertEqual(Path(parsed.teacher_db), teacher)
-                    policy = SampleQualityPolicy.load(Path(parsed.teacher_db).parent,
+                    self.assertNotIn('--teacher-db', command)
+                    self.assertEqual(Path(parsed.sample_policy_root), root)
+                    policy = SampleQualityPolicy.load(Path(parsed.sample_policy_root),
                         explicit_path=policy_path, force_raw=False)
                     self.assertEqual(policy.policy_id, 'reviewed-test')
 

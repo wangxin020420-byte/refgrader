@@ -30,6 +30,7 @@ from calibration_utils import (
     compute_evidence_verifier_directional_risks,
     compute_extraction_quality_counts,
     compute_extraction_risk_features,
+    compute_three_way_primary_risks,
     close_evidence_verification_contract,
     is_blank_extraction,
     is_low_quality_extraction,
@@ -2474,16 +2475,17 @@ def grade_student_3wd_pipeline(
                         "      [Stage 2 contract recovery] "
                         f"probe={idx + 1}, total_score={parsed_json['total_score']}"
                     )
-                parsed_json = apply_canonical_score_floor(parsed_json, canonical_context)
-                parsed_json = apply_hierarchical_scoring_policy(
-                    parsed_json,
-                    json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json,
-                    canonical_context,
-                )
-                parsed_json = apply_role_weighted_scoring_policy(
-                    parsed_json,
-                    json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json,
-                )
+                if not label_free_probe_only:
+                    parsed_json = apply_canonical_score_floor(parsed_json, canonical_context)
+                    parsed_json = apply_hierarchical_scoring_policy(
+                        parsed_json,
+                        json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json,
+                        canonical_context,
+                    )
+                    parsed_json = apply_role_weighted_scoring_policy(
+                        parsed_json,
+                        json.loads(rubrics_json) if isinstance(rubrics_json, str) else rubrics_json,
+                    )
                 return (idx, parsed_json['total_score'], parsed_json)
             response_text = str(res_text or "")
             digest = hashlib.sha256(response_text.encode("utf-8")).hexdigest()[:12]
@@ -2521,6 +2523,14 @@ def grade_student_3wd_pipeline(
     if len(model_scores) == 0:
         return _pipeline_failure("stage2_failed", "all semantic grading probes failed or returned unparsable scores")
 
+    if label_free_probe_only:
+        try:
+            if any(isinstance(score, bool) or not math.isfinite(float(score)) for score in model_scores):
+                raise ValueError("Probe scores must be finite numbers")
+            model_scores = [float(score) for score in model_scores]
+        except (TypeError, ValueError, OverflowError) as exc:
+            return _pipeline_failure("label_free_invalid_probe", exc)
+
     # 计算三次评分均分与标准差（Self-Consistency）。
     avg_model_score = round(float(np.mean(model_scores)), 1)
     std_dev = round(float(np.std(model_scores)), 4)
@@ -2531,11 +2541,39 @@ def grade_student_3wd_pipeline(
         rubrics_data = prepare_rubrics_for_calibration(rubrics_data)
         TOTAL_ITEMS = len(rubrics_data) if isinstance(rubrics_data, list) else max(len(rubrics_data.keys()), 1)
         MAX_SCORE = sum(float(item.get('points', 0)) for item in rubrics_data) if isinstance(rubrics_data, list) else 100.0
-    except:
+    except Exception as exc:
+        if label_free_probe_only:
+            return _pipeline_failure("label_free_invalid_probe", exc)
         TOTAL_ITEMS, MAX_SCORE = 10, 10.0
     
     # 解析 Stage 1 提取的 JSON 事实，逐条检查 value。
     facts_dict = evidence_facts
+
+    if label_free_probe_only:
+        # Use the direct, unfused risk definitions. This does not establish
+        # label-free provenance of their heuristics or the model prompt.
+        from label_free_a3wa import equal_weight_membership
+        try:
+            if not isinstance(rubrics_data, list) or not rubrics_data or MAX_SCORE <= 0:
+                raise ValueError("Invalid rubric for label-free probe")
+            if not all(
+                not isinstance(score, bool) and np.isfinite(float(score))
+                and 0 <= float(score) <= MAX_SCORE for score in model_scores
+            ):
+                raise ValueError("Probe score outside rubric bounds")
+            primary = compute_three_way_primary_risks(
+                facts_dict=facts_dict, rubrics_data=rubrics_data,
+                strict_cots=strict_cots, model_scores=model_scores, max_score=MAX_SCORE,
+            )
+            risks = {name: primary.get(name) for name in ("U_E", "U_S", "U_R")}
+            equal_weight_membership(risks, valid_probe_count=len(model_scores))
+        except (TypeError, ValueError, KeyError) as exc:
+            return _pipeline_failure("label_free_invalid_probe", exc)
+        return {
+            "baseline_score": avg_model_score,
+            "risks": risks,
+            "valid_probe_count": len(model_scores),
+        }
 
     risk_rubrics_data = project_rubric_for_risk(rubrics_data, strict_cots)
     hierarchical_full_credit_locked = has_deterministic_hierarchical_full_credit(
@@ -2606,23 +2644,6 @@ def grade_student_3wd_pipeline(
     risk_profile["fatal_points_ratio"] = calibrated_fatal_ratio
     risk_profile["risk_features"]["fatal_points_ratio"] = calibrated_fatal_ratio
     primary_risks = post_calibration.get("primary_risks", {})
-    if label_free_probe_only:
-        # Return before loading any A3WA configuration, boundary arbitration or
-        # validation residual table. The caller supplies an independently
-        # audited label-free policy and must audit the inputs/cache provenance.
-        from label_free_a3wa import equal_weight_membership
-        risks = {name: primary_risks.get(name) for name in ("U_E", "U_S", "U_R")}
-        try:
-            equal_weight_membership(risks, valid_probe_count=len(model_scores))
-            if not all(np.isfinite(float(score)) and 0 <= float(score) <= MAX_SCORE for score in model_scores):
-                raise ValueError("Probe score outside rubric bounds")
-        except (TypeError, ValueError) as exc:
-            return _pipeline_failure("label_free_invalid_probe", exc)
-        return {
-            "baseline_score": avg_model_score,
-            "risks": risks,
-            "valid_probe_count": len(model_scores),
-        }
     risk_profile["risk_features"].update({
         "U_E": primary_risks.get("U_E", None),
         "U_S": primary_risks.get("U_S", None),

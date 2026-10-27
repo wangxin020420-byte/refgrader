@@ -46,6 +46,28 @@ class LabelFreeProbeTests(unittest.TestCase):
         self.assertTrue(result["_pipeline_failed"])
         self.assertEqual(result["error_type"], "label_free_incomplete_probes")
 
+    def test_raw_probes_bypass_legacy_score_and_risk_postprocessing(self):
+        reply = json.dumps({"total_score": 1, "details": [
+            {"id": "s1", "score_given": 1, "error_category": "MATCH"}
+        ]})
+        with (
+            patch("step4_vlm_grader.stage1_extract_with_backend", return_value=('{"s1":"42H"}', {})),
+            patch("step4_vlm_grader.stage2_logic_grading", return_value=reply),
+            patch("step4_vlm_grader.apply_canonical_score_floor", side_effect=AssertionError("legacy floor")),
+            patch("step4_vlm_grader.apply_hierarchical_scoring_policy", side_effect=AssertionError("legacy hierarchy")),
+            patch("step4_vlm_grader.apply_role_weighted_scoring_policy", side_effect=AssertionError("legacy role policy")),
+            patch("step4_vlm_grader.build_post_grading_calibration", side_effect=AssertionError("legacy risk fusion")),
+            patch("step4_vlm_grader.build_risk_profile", side_effect=AssertionError("legacy risk profile")),
+        ):
+            result = grade_student_3wd_pipeline(
+                "A1.png", "question", json.dumps(self.rubric),
+                blind_checklist="checklist", extraction_backend="text_only",
+                student_transcription="42H", label_free_probe_only=True,
+            )
+        self.assertEqual(result["baseline_score"], 1)
+        self.assertEqual(result["valid_probe_count"], 3)
+        self.assertEqual(set(result["risks"]), {"U_E", "U_S", "U_R"})
+
     def test_mocked_extraction_and_probes_reach_separate_three_way_policy(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

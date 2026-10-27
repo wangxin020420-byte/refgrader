@@ -64,6 +64,30 @@ class LabelFreeScoringTests(unittest.TestCase):
             score_question_with_grader(root, "Q_1", "test", grader, m=0.5, loss_parameters=loss)
             self.assertEqual(sizes, [1, 1, 1])
 
+    def test_boundary_evidence_is_diagnostic_and_does_not_release_score(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.fixture(root)
+            (root / "rubrics/initial/Q/Q_1_rubric_standard.json").write_text(
+                '[{"id":"s1","points":10,"answer_type":"base_number","standard_answer_text":"42H"}]', encoding="utf-8")
+            records = [{"answer_id": name, "question_id":"Q_1", "raw_text":"42H"} for name in ("A1", "A2", "A3")]
+            (root / "answer_metadata.jsonl").write_text("\n".join(json.dumps(x) for x in records), encoding="utf-8")
+            calls = []
+            def grader(context, answer):
+                risk = {"A1":0.05, "A2":0.4, "A3":0.8}[answer["answer_id"]]
+                return {"baseline_score":4, "risks":{"U_E":risk,"U_S":risk,"U_R":risk}, "valid_probe_count":3}
+            def evidence(context, answer):
+                calls.append(answer["answer_id"])
+                return {"item_id":"s1", "start":0, "end":3}
+            loss = {"lambda1":5, "lambda2":1, "mu1":3, "mu2":7}
+            result = score_question_with_grader(root, "Q_1", "test", grader, m=0.5, loss_parameters=loss, boundary_evidence_fn=evidence)
+            self.assertEqual(calls, ["A2"])
+            boundary = result["results"][1]
+            self.assertTrue(boundary["boundary_evidence"]["canonical_match"])
+            self.assertFalse(boundary["boundary_evidence"]["score_change_authorized"])
+            self.assertIsNone(boundary["automatic_score"])
+            self.assertTrue(boundary["requires_human_review"])
+
 
 if __name__ == "__main__":
     unittest.main()

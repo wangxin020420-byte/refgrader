@@ -7,10 +7,11 @@ BND/NEG remain deferred under the conservative action policy.
 from copy import deepcopy
 
 from label_free_action import decide_action
+from label_free_boundary import assess_boundary_evidence
 from label_free_inputs import load_unlabeled_question
 
 
-def score_question_with_grader(root, question_id, split, grader, *, m, loss_parameters):
+def score_question_with_grader(root, question_id, split, grader, *, m, loss_parameters, boundary_evidence_fn=None):
     """Grade validated inputs with a caller-provided grader and fixed policy.
 
     Only the initial rubric is loaded; no teacher score or review policy is
@@ -19,6 +20,8 @@ def score_question_with_grader(root, question_id, split, grader, *, m, loss_para
     """
     if not callable(grader):
         raise ValueError("grader must be callable")
+    if boundary_evidence_fn is not None and not callable(boundary_evidence_fn):
+        raise ValueError("boundary_evidence_fn must be callable")
     inputs = load_unlabeled_question(root, question_id, split)
     context = {
         "question_id": inputs["question_id"],
@@ -40,6 +43,20 @@ def score_question_with_grader(root, question_id, split, grader, *, m, loss_para
             risks=grade["risks"], valid_probe_count=grade["valid_probe_count"],
             m=m, loss_parameters=loss_parameters,
         )
+        if result["route"] == "BND" and boundary_evidence_fn is not None:
+            claim = boundary_evidence_fn(deepcopy(context), deepcopy(answer))
+            try:
+                result["boundary_evidence"] = assess_boundary_evidence(
+                    answer_text=answer.get("raw_text", ""),
+                    rubric=inputs["initial_rubric"], claim=claim,
+                )
+            except ValueError:
+                # Preserve human review without logging untrusted claim content.
+                result["boundary_evidence"] = {
+                    "status": "invalid_or_unavailable",
+                    "score_change_authorized": False,
+                    "requires_human_review": True,
+                }
         results.append({"answer_id": answer["answer_id"], **result})
     return {
         "question_id": question_id,

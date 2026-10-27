@@ -7,6 +7,8 @@
 - `scripts/run_csbench.py grade` 通过 `--sample-policy-root` 指定数据集目录，不再仅为定位策略而传递 `--teacher-db`。`main_pipeline.py` 未传该选项时保留旧的路径回退行为；审核策略本身仍可能读取教师分或筛选样本，因此旧流程不是无标签模式。
 - `label_free_a3wa.py` 提供独立计算：等权风险隶属度、A3WA双阈值和三域判定、给定无标签隶属度及先验系数和网格下的信息损失搜索。拒绝缺失评分、非法风险、非法参数；输出不是真实评分正确概率。该模块尚未接到批改入口。
 - 不更改教师分审核记录和既有实验，不训练或调用模型。
+- `scripts/preflight_label_free.py` 对已准备数据做只读结构核验，并明确返回 `ready_for_live_scoring: false`；它不是评分入口，也不能证明文本与图片中不存在教师标记。
+- `label_free_action.py` 为独立保守基线：POS接受基础分；BND和NEG保留暂存分并交人工。BND证据改分门禁与端到端评分尚未接入，也未用目标评分标签验证有效性。
 
 ## 离线检查
 

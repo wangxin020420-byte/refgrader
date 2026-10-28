@@ -6,7 +6,7 @@ import unittest
 
 import httpx
 
-from label_free_model import BASE_URL, create_client, grade_one
+from label_free_model import BASE_URL, _content, create_client, grade_one
 
 
 class LabelFreeModelTests(unittest.TestCase):
@@ -60,6 +60,28 @@ class LabelFreeModelTests(unittest.TestCase):
         self.assertEqual(len(self.requests), 5)
         self.assertEqual(result["reference_image_transcription"], "42")
         self.assertEqual(result["probe_scores"], [2, 2, 2])
+
+    def test_json_code_fence_is_accepted_without_repair(self):
+        response = SimpleNamespace(choices=[SimpleNamespace(
+            finish_reason="stop", message=SimpleNamespace(content='```json\n{"items": []}\n```'))])
+        self.assertEqual(_content(response, stage="student_image"), {"items": []})
+
+    def test_invalid_json_reports_stage_and_metadata_without_answer_content(self):
+        response = SimpleNamespace(choices=[SimpleNamespace(
+            finish_reason="length", message=SimpleNamespace(content='private student text {'))])
+        with self.assertRaises(ValueError) as error:
+            _content(response, stage="text_probe_2")
+        message = str(error.exception)
+        self.assertIn("text_probe_2", message)
+        self.assertIn("finish_reason=length", message)
+        self.assertIn("chars=", message)
+        self.assertNotIn("private student text", message)
+
+    def test_invalid_nontext_content_is_not_silently_accepted(self):
+        response = SimpleNamespace(choices=[SimpleNamespace(
+            finish_reason="stop", message=SimpleNamespace(content=None))])
+        with self.assertRaisesRegex(ValueError, "content_type=NoneType"):
+            _content(response, stage="student_image")
 
 
 if __name__ == "__main__":

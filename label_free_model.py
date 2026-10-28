@@ -5,10 +5,12 @@ validate image contents. Loss parameters and routing are supplied separately.
 """
 
 import base64
+import hashlib
 import json
 import math
 import mimetypes
 from pathlib import Path
+import re
 
 import httpx
 from openai import OpenAI
@@ -27,14 +29,31 @@ def create_client(api_key, *, http_client=None):
     return OpenAI(api_key=api_key, base_url=BASE_URL, http_client=transport, max_retries=2)
 
 
-def _content(response):
+def _content(response, *, stage):
+    """Parse one JSON object, allowing an enclosing Markdown code fence.
+
+    Diagnostics intentionally omit the model content and any answer text.
+    """
+    value = None
+    finish = None
     try:
-        value = response.choices[0].message.content
-        result = json.loads(value)
+        choice = response.choices[0]
+        value = choice.message.content
+        finish = getattr(choice, "finish_reason", None)
+        if not isinstance(value, str):
+            raise TypeError("non-text content")
+        text = value.strip().lstrip("\ufeff").strip()
+        fenced = re.fullmatch(r"```(?:json)?[ \t]*\r?\n([\s\S]*?)\r?\n```", text, re.IGNORECASE)
+        if fenced:
+            text = fenced.group(1).strip()
+        result = json.loads(text)
     except (AttributeError, IndexError, TypeError, json.JSONDecodeError) as exc:
-        raise ValueError("Model returned invalid JSON") from exc
+        safe_finish = finish if finish in {"stop", "length", "content_filter", "tool_calls"} else "unknown"
+        chars = len(value) if isinstance(value, str) else 0
+        digest = hashlib.sha256(value.encode("utf-8")).hexdigest()[:12] if isinstance(value, str) else "none"
+        raise ValueError(f"{stage}: model returned invalid JSON (finish_reason={safe_finish}, content_type={type(value).__name__}, chars={chars}, sha256={digest})") from exc
     if not isinstance(result, dict):
-        raise ValueError("Model response must be a JSON object")
+        raise ValueError(f"{stage}: model response must be a JSON object")
     return result
 
 
@@ -132,9 +151,9 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
                 {"type": "text", "text": "Transcribe the reference-answer image faithfully. Do not infer missing text. Return JSON exactly as {\"reference_text\":\"...\"}."},
                 _image(reference_image),
             ]}], temperature=0, response_format={"type": "json_object"})
-        reference_payload = _content(reference_response)
+        reference_payload = _content(reference_response, stage="reference_image")
         if set(reference_payload) != {"reference_text"} or not isinstance(reference_payload["reference_text"], str) or not reference_payload["reference_text"].strip():
-            raise ValueError("Invalid visual reference transcription")
+            raise ValueError("reference_image: invalid visual reference transcription")
         reference_transcription = reference_payload["reference_text"]
     extract_instruction = (
         "Extract only what the student visibly wrote for each requested item. "
@@ -149,7 +168,12 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
         images += [{"type": "text", "text": "Question image:"}, _image(question_image)]
     response = client.chat.completions.create(model=VISION_MODEL, messages=[{"role": "user", "content": images}],
                                                temperature=0, response_format={"type": "json_object"})
-    facts = _validate_facts(_content(response), [r["id"] for r in rubric])
+    try:
+        facts = _validate_facts(_content(response, stage="student_image"), [r["id"] for r in rubric])
+    except ValueError as exc:
+        if str(exc).startswith("student_image:"):
+            raise
+        raise ValueError(f"student_image: {exc}") from exc
     instruction = (
         "Grade each rubric item only from the supplied evidence and reference. "
         "Do not use teacher scores or infer unwritten work. Return JSON only: "
@@ -161,11 +185,17 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
         + "\nEvidence: " + json.dumps(facts, ensure_ascii=False)
     )
     probes = []
-    for _ in range(3):
+    for index in range(3):
         response = client.chat.completions.create(model=TEXT_MODEL, messages=[{"role": "user", "content": instruction}],
                                                    temperature=0.35, response_format={"type": "json_object"},
                                                    extra_body={"thinking": {"type": "disabled"}})
-        probes.append(_validate_probe(_content(response), rubric))
+        stage = f"text_probe_{index + 1}"
+        try:
+            probes.append(_validate_probe(_content(response, stage=stage), rubric))
+        except ValueError as exc:
+            if str(exc).startswith(stage + ":"):
+                raise
+            raise ValueError(f"{stage}: {exc}") from exc
     scores = [sum(item["score"] for item in probe.values()) for probe in probes]
     evidence_risk = sum(r["points"] * (1 if facts[r["id"]]["status"] != "present" else 0) for r in rubric) / total
     stability_risk = min(1.0, (max(scores) - min(scores)) / total)

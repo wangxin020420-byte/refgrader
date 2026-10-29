@@ -1,0 +1,1440 @@
+{
+  "approved_for_formal_experiment": false,
+  "questions": [
+    {
+      "max_score": 5.0,
+      "question_id": "CO_1",
+      "question_images": [
+        {
+          "path": "images/27713f42bc437214f55c61930249323f3fed230188d3c40fade8397167de0500.png",
+          "sha256": "27713f42bc437214f55c61930249323f3fed230188d3c40fade8397167de0500",
+          "source_path": "images/question/25CO/CO_1.png"
+        }
+      ],
+      "question_text": "某计算机采用如下机器指令格式（共 8 位）：A（地址字段）占6位，I（间址位）占1位，OP（操作码）占1位。其中，I=0 表示直接寻址，I=1 表示间接寻址（地址字段 A 所指定的地址中存放的是真正的操作数地址）。部分存储器内容如下：地址04H内容05H，地址05H内容06H，地址06H内容07H，地址07H内容08H；地址34H内容37H，地址35H内容36H，地址36H内容35H，地址37H内容34H。现有一条指令其机器码为 DEH，求出该指令访问的操作数内容是多少？",
+      "rubric": [
+        {
+          "description": "正确计算并得出操作数内容",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "37H"
+        }
+      ]
+    },
+    {
+      "max_score": 15.0,
+      "question_id": "CO_10",
+      "question_images": [
+        {
+          "path": "images/d7132d73e20f5ce615daf92bb04c5e0a5d9f5ca29970aa6bea540a368cec59c8.png",
+          "sha256": "d7132d73e20f5ce615daf92bb04c5e0a5d9f5ca29970aa6bea540a368cec59c8",
+          "source_path": "images/question/24CO/CO_10.png"
+        }
+      ],
+      "question_text": "计算机M的机器字长为16位，主存按字编址（一个字16位），共64K个存储单元。为了减少CPU获取指令和数据的时间，在主存和CPU之间配置Cache高速缓存，Cache存储器数据区容量为4KW，块大小为4个字，采用4路组相联映像（即每组有4块）。假设Cache标记区包含tag标记和1位有效位。\n1) Cache标记区的总容量有多少字节？（10分）\n2) 某同学进行Cache实验时，设计了如下图所示的电路，该电路实现一个Cache标记与主存地址tag字段比较以及有效位是否为1的比较，其输出为1表示当前Cache块内存储的内容是CPU要访问的主存块。请问该Cache存储系统需要配置几套这样的相等比较电路？简要说明分析依据。（5分）",
+      "rubric": [
+        {
+          "description": "正确划分Cache地址字段",
+          "id": "step_1",
+          "points": 3.0,
+          "reference_image": null,
+          "reference_text": "Cache数据区容量4KW，块大小4W，因此共有1024块；4路组相联，每组4块，所以共有256组。Cache地址字段为：组号8位、组内块号2位、块内字偏移2位。"
+        },
+        {
+          "description": "正确划分主存地址字段并得到tag位数",
+          "id": "step_2",
+          "points": 3.0,
+          "reference_image": null,
+          "reference_text": "主存64KW=2^16W，主存字地址16位；块内字偏移2位，组号8位，所以主存地址中的标记tag为16-8-2=6位。"
+        },
+        {
+          "description": "计算Cache标记区总容量",
+          "id": "step_3",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "Cache每块需要tag标记6位和有效位1位，共7位；共有1024块，因此标记区容量为1024×(6+1)/8=896字节。"
+        },
+        {
+          "description": "判断相等比较电路数量并说明依据",
+          "id": "step_4",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "Cache采用4路组相联，每组有4块；访问某一组时需要把主存地址tag与该组4个Cache块的tag并行比较，且不同组之间比较电路可共享。因此总共需要4套相等比较电路。"
+        }
+      ]
+    },
+    {
+      "max_score": 15.0,
+      "question_id": "CO_11",
+      "question_images": [
+        {
+          "path": "images/88f82abed187177a90e584bedf4fc28c6fb2c013eb5e18245c987570a1dc23aa.png",
+          "sha256": "88f82abed187177a90e584bedf4fc28c6fb2c013eb5e18245c987570a1dc23aa",
+          "source_path": "images/question/24CO/CO_11.png"
+        }
+      ],
+      "question_text": "计算机M的CPU机器字长16位，采用16位定长指令，主存地址16位，具有R型、I型和J型三种指令类型，各类型指令格式及其功能说明如下表所示，表中Opcode为操作码字段，rs、rt、rd代表寄存器编号，imm代表立即数或地址偏移量。在R、I、J型指令均存在且保证I型指令最多的情况下，请计算R型、I型指令和J型指令分别最多有多少条。\n\n| 格式 | 5位 | 2位 | 2位 | 2位 | 5位 | 指令功能及类型说明 |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n| R型 | 00000 | rs | rt | rd | Opcode | Reg[rd] <- Reg[rs] Op Reg[rt] |\n| I型 | Opcode | rs | rt | imm |  | 含ALU运算、条件分支和访存操作(load/store)等类型指令，imm通过signextend符号扩展模块扩展为16位。 |\n| J型 | Opcode | imm |  |  |  | PC <- (PC+2)15:10 || imm || 0，其中||表示拼接 |",
+      "rubric": [
+        {
+          "description": "计算R型指令最多条数",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "R型指令Opcode字段占5位，因此R型指令最多有2^5=32条。"
+        },
+        {
+          "description": "在保证I型最多且J型存在的条件下计算I型指令最多条数",
+          "id": "step_2",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "I型Opcode字段中，00000已被R型占用，最多还剩31个操作码编码；由于J型也必须存在，且要保证I型最多，只能留一个I型操作码作为J型指令的扩展编码，因此I型最多有30条。"
+        },
+        {
+          "description": "计算J型指令最多条数",
+          "id": "step_3",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "留给J型扩展的1个I型操作码后，J型可由后续2位字段扩展得到2^2=4条，因此J型最多有4条。"
+        }
+      ]
+    },
+    {
+      "max_score": 25.0,
+      "question_id": "CO_12",
+      "question_images": [
+        {
+          "path": "images/0799835aa1ee969593af93fac88a457151cacb3e5707ad1a8d036fa025f9570b.png",
+          "sha256": "0799835aa1ee969593af93fac88a457151cacb3e5707ad1a8d036fa025f9570b",
+          "source_path": "images/question/24CO/CO_12.png"
+        }
+      ],
+      "question_text": "计算机M的CPU结构如图所示，其中有一个累加寄存器AC、一个状态寄存器和其他四个寄存器。各部分之间的连线表示数据通路，箭头表示信息传送方向。该控制器采用微程序控制方式，微指令字长24位，采用水平型编码控制的微指令格式，下址字段直接给出，且可在整个控制存储器中跳转。控制器共有微命令30个，构成4个互斥类，各包含5个、8个、14个和3个微命令，采用字段直接编译法，外部条件共3个，采用直接控制方式。\n1) 标明图中四个寄存器的名称。（4分）\n2) 简述指令从主存取到控制器的数据通路。（4分）\n3) 简述数据在运算器和主存之间进行存/取访问的数据通路。（4分）\n4) 描述指令ADD AX, OD执行过程的相关数据通路，其中AX表示某个通用寄存器，OD表示数据在主存中的单元地址。（4分）\n5) 控制存储器的容量应为多少？（4分）\n6) 设计出微指令的具体格式。（5分）",
+      "rubric": [
+        {
+          "description": "标明图中四个寄存器名称",
+          "id": "step_1",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "a为数据寄存器DR，b为指令寄存器IR，c为地址寄存器AR，d为程序计数器PC。"
+        },
+        {
+          "description": "写出取指令到控制器的数据通路",
+          "id": "step_2",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "主存M -> 数据寄存器DR -> 指令寄存器IR -> 操作控制器。"
+        },
+        {
+          "description": "写出运算器和主存之间存/取访问的数据通路",
+          "id": "step_3",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "存储器读：M -> DR -> ALU -> AC；存储器写：AC -> DR -> M。"
+        },
+        {
+          "description": "写出ADD AX, OD执行过程相关数据通路",
+          "id": "step_4",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "AC -> ALU，DR -> ALU，'+' -> ALU，ALU -> AC。"
+        },
+        {
+          "description": "计算控制存储器容量",
+          "id": "step_5",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "微指令字长24位，下址字段8位，因此可寻址2^8=256条微指令，控制存储器容量为256×24位。"
+        },
+        {
+          "description": "设计微指令格式并给出各字段位数",
+          "id": "step_6",
+          "points": 5.0,
+          "reference_image": {
+            "path": "images/e9adab4136c3a94dafdce286a4e9f4d3660891a883fffefa4894d9b726b04cb2.png",
+            "sha256": "e9adab4136c3a94dafdce286a4e9f4d3660891a883fffefa4894d9b726b04cb2",
+            "source_path": "images/standard_answers/CO_12_standard.png"
+          },
+          "reference_text": "操作字段分为4组：第1组3位（5个微命令）、第2组4位（8个微命令）、第3组4位（14个微命令）、第4组2位（3个微命令）；判断测试字段3位；下地址字段8位。"
+        }
+      ]
+    },
+    {
+      "max_score": 20.0,
+      "question_id": "CO_13",
+      "question_images": [
+        {
+          "path": "images/c0e0bd185ffb7e5c333bd9a6d7d98d38cd2b46ebaee32469dd11c6372f5900c7.png",
+          "sha256": "c0e0bd185ffb7e5c333bd9a6d7d98d38cd2b46ebaee32469dd11c6372f5900c7",
+          "source_path": "images/question/24CO/CO_13.png"
+        }
+      ],
+      "question_text": "计算机M中，CPU和外设通过中断方式进行数据输入和输出，共有4个中断源A、B、C、D，每个中断源对应一个外设。\n1) 简述CPU响应中断的过程。（5分）\n2) 设中断请求硬件优先级从高到低分别是A、B、C、D。在A、B、C、D四个中断源同时发出请求时，希望CPU处理中断的顺序为C、B、D、A。要求为每个中断源设计对应屏蔽字MDMCMBMA（Mi=1表示屏蔽），并画出CPU执行程序的轨迹（假设中断请求前，CPU在执行用户程序）。（15分）",
+      "rubric": [
+        {
+          "description": "简述CPU响应中断的基本过程",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "中断源发出中断请求后，在该请求未被屏蔽且CPU允许中断时，CPU在一条指令执行结束时响应；进入中断周期后先关中断、保存断点、识别中断源，并将中断服务子程序入口地址送PC，转入中断服务程序；若允许更高级中断嵌套，可在服务程序开始后开中断；服务结束后恢复断点，再开中断并返回原程序。"
+        },
+        {
+          "description": "设计满足C、B、D、A处理顺序的屏蔽字",
+          "id": "step_2",
+          "points": 8.0,
+          "reference_image": null,
+          "reference_text": "屏蔽字MDMCMBMA如下：A=0001，B=1011，C=1111，D=1001。"
+        },
+        {
+          "description": "画出CPU执行用户程序和处理中断的轨迹图",
+          "id": "step_3",
+          "points": 7.0,
+          "reference_image": {
+            "path": "images/6610944ffcde2feb2af6fabc53a7854947e45d6ad47ef1e336ecd70a9ca8759a.png",
+            "sha256": "6610944ffcde2feb2af6fabc53a7854947e45d6ad47ef1e336ecd70a9ca8759a",
+            "source_path": "images/standard_answers/CO_13_standard.png"
+          },
+          "reference_text": ""
+        }
+      ]
+    },
+    {
+      "max_score": 20.0,
+      "question_id": "CO_2",
+      "question_images": [
+        {
+          "path": "images/e6330c54394446ef9eb23716c7442b922862b0f3579c5723ce6fb200e5d3d2f0.png",
+          "sha256": "e6330c54394446ef9eb23716c7442b922862b0f3579c5723ce6fb200e5d3d2f0",
+          "source_path": "images/question/25CO/CO_2.png"
+        }
+      ],
+      "question_text": "某台计算机有5级中断，中断响应优先级为A＞B＞C＞D＞E，中断处理优先级规定如下：处理A级中断时可屏蔽其它级中断，处理B级中断时不能屏蔽其它中断，处理C级中断时可屏蔽B、E级，处理D级中断时除了A级中断其它都可屏蔽，处理E级中断时可屏蔽B级中断。（1）请判断中断处理优先级的排列顺序，写出各级中断源的中断屏蔽字。（2）如果在运行用户程序时，同时出现A、B、C级中断请求，而在处理C级中断时，又同时出现了D、E级中断请求，请画出CPU执行程序和处理中断的顺序图。",
+      "rubric": [
+        {
+          "description": "写出正确的中断处理优先级排列顺序",
+          "id": "step_1",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "A → D → C → E → B"
+        },
+        {
+          "description": "写出A级中断屏蔽字",
+          "id": "step_2",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "A：11111"
+        },
+        {
+          "description": "写出B级中断屏蔽字",
+          "id": "step_3",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "B：01000"
+        },
+        {
+          "description": "写出C级中断屏蔽字",
+          "id": "step_4",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "C：01101"
+        },
+        {
+          "description": "写出D级中断屏蔽字",
+          "id": "step_5",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "D：01111"
+        },
+        {
+          "description": "写出E级中断屏蔽字",
+          "id": "step_6",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "E：01001"
+        },
+        {
+          "description": "画出正确的CPU执行程序和处理中断顺序图",
+          "id": "step_7",
+          "points": 8.0,
+          "reference_image": {
+            "path": "images/c5b20d22cbd052853bf40bb63d850fd8696a9b3d64652192396ebc96755194ea.png",
+            "sha256": "c5b20d22cbd052853bf40bb63d850fd8696a9b3d64652192396ebc96755194ea",
+            "source_path": "images/standard_answers/CO_02_standard.png"
+          },
+          "reference_text": ""
+        }
+      ]
+    },
+    {
+      "max_score": 10.0,
+      "question_id": "CO_3",
+      "question_images": [
+        {
+          "path": "images/4a56942fac9b1359df1b7a2996bf83a00a441268c8406d847a467b1f4ff67496.png",
+          "sha256": "4a56942fac9b1359df1b7a2996bf83a00a441268c8406d847a467b1f4ff67496",
+          "source_path": "images/question/25CO/CO_3.png"
+        }
+      ],
+      "question_text": "某 8 位计算机系统中，所有整数均采用补码表示，每个数由 1 位符号位和 7 位数值位组成。已知某三个整数的补码如下：x 的补码为 36H，y 的补码为 54H，z 的补码为 D5H。请计算表达式 x - 2y 和 (x ÷ 4) + 2z 的结果，其中除法为带符号整数除法（向 0 取整）。写出计算过程、补码结果（十六进制），并判断结果是否发生溢出。",
+      "rubric": [
+        {
+          "description": "正确计算 x - 2y 的补码及判断溢出",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "按本题教师评分口径，先在8位补码中计算2y：54H+54H=A8H。两个正数相加得到符号位为1，2y阶段OF=1，发生溢出。继续按8位补码计算，[-2y]补=58H，36H+58H=8EH。因此x-2y的8位补码结果为8EH，本题判定发生溢出（OF=1）。"
+        },
+        {
+          "description": "正确计算 (x ÷ 4) + 2z 的补码及判断溢出",
+          "id": "step_2",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "补码运算：(x÷4)+2z = 0DH + AAH = B7H = -73；十进制运算：(x÷4)+2z = 13 + (-86) = -73，在表示范围内，未发生溢出。"
+        }
+      ]
+    },
+    {
+      "max_score": 20.0,
+      "question_id": "CO_4",
+      "question_images": [
+        {
+          "path": "images/dfd22108f736b4207584d8716d9c311204c7996d01cc6854aa50dba9f608ddbb.png",
+          "sha256": "dfd22108f736b4207584d8716d9c311204c7996d01cc6854aa50dba9f608ddbb",
+          "source_path": "images/question/25CO/CO_4.png"
+        }
+      ],
+      "question_text": "某计算机的主存为8MB，主存单元按字节编址。数据Cache中最多放32个主存块，采用组相联方式进行主存-Cache地址映像，Cache每组2块， 每块2KB。要求：（1）分别设计主存和Cache地址各个字段的位置和位数。（2）若CPU送出的地址为2D07FFH时，能否在Cache中访问到该单元的数据；若CPU送出的地址为7F0057H时，能否在Cache中访问到该单元的数据？",
+      "rubric": [
+        {
+          "description": "明确指出物理地址总位数",
+          "id": "step_1",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "主存容量 8MB = 2^23 B，物理地址为 23 位。"
+        },
+        {
+          "description": "明确指出块内偏移位数",
+          "id": "step_2",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "块大小 2KB = 2^11 B，块内偏移为 11 位。"
+        },
+        {
+          "description": "明确指出Cache组号位数",
+          "id": "step_3",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "Cache总块数32块，2路组相联，16组 = 2^4，Cache组号需要 4 位。"
+        },
+        {
+          "description": "得出正确的主存地址格式",
+          "id": "step_4",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "字块标记 8 位 | Cache组号 4 位 | 块内偏移 11 位。"
+        },
+        {
+          "description": "得出正确的Cache地址格式",
+          "id": "step_5",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "Cache组号 4 位 | 组内块号 1 位 | 块内偏移 11 位。"
+        },
+        {
+          "description": "正确判断2D07FFH是否命中并说明理由",
+          "id": "step_6",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "地址 2D07FFH 访问字块标记位 0101 1010B，Cache该位置存放块编号为块2，而主存地址中Cache组号字段为0000，若命中则存放的块编号应为块0或块1，因此未命中。"
+        },
+        {
+          "description": "正确判断7F0057H是否命中并说明理由",
+          "id": "step_7",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "地址 7F0057H 的字块标记为 1111 1110B，Cache组号字段为0000，对应检查Cache块0和块1；其中块1的标记为1111 1110B，因此命中Cache块1，可以访问。"
+        }
+      ]
+    },
+    {
+      "max_score": 15.0,
+      "question_id": "CO_5",
+      "question_images": [
+        {
+          "path": "images/cfa8868a16d746f20f96b1a4a43295dff66119860ded901c0f1faf0285660253.png",
+          "sha256": "cfa8868a16d746f20f96b1a4a43295dff66119860ded901c0f1faf0285660253",
+          "source_path": "images/question/25CO/CO_5.png"
+        }
+      ],
+      "question_text": "设计某指令系统时，假设采用16位定长指令字格式，操作码使用扩展编码方式，地址码为6位，包含零地址、一地址和二地址3种格式的指令。（1）若二地址指令有12条，且至少有一条零地址指令，则一地址指令最多有多少条？（2）若二地址指令有12条，一地址指令有254条，则零地址指令的条数最多有多少条？",
+      "rubric": [
+        {
+          "description": "计算出主操作码及一地址总名额",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "主操作码总数 2^4=16，剩给一/零地址操作码数16-12=4，一地址总名额 = 4×2^6 = 256。"
+        },
+        {
+          "description": "得出第一问的最终结果",
+          "id": "step_2",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "至少让出 1 条一地址位置提供扩展，一地址指令最多为 255 条。"
+        },
+        {
+          "description": "得出第二问的最终结果",
+          "id": "step_3",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "已使用 254 条一地址，剩下 256-254=2 条位置可让出，零地址指令最多为 2×2^6 = 128 条。"
+        }
+      ]
+    },
+    {
+      "max_score": 20.0,
+      "question_id": "CO_6",
+      "question_images": [
+        {
+          "path": "images/9ce5802f80798caad6eb6b45dbb9c642460a65f763afa13b8c9facb0c1baf70c.png",
+          "sha256": "9ce5802f80798caad6eb6b45dbb9c642460a65f763afa13b8c9facb0c1baf70c",
+          "source_path": "images/question/25CO/CO_6.png"
+        }
+      ],
+      "question_text": "某微程序控制器采用水平微指令格式，其控制字段采用直接编码方式，并针对控制信号划分为若干互斥组与非互斥信号组。已知：总共需控制 180 条微操作控制信号，有4个互斥组（第1组12个，第2组8个，第3组16个，第4组4个），支持最多 8 种条件转移，能够寻址512条微指令。（1）控制字段，BCF 和 BAF 分别需要多少位？每条微指令的总长度为多少位？（2）控制存储器总容量为多少位？多少字节？",
+      "rubric": [
+        {
+          "description": "计算4个互斥组所需的位数",
+          "id": "step_1",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "四组互斥信号分别需要4位、4位、5位、3位，一共 4+4+5+3 = 16位。"
+        },
+        {
+          "description": "计算非互斥信号位数及控制字段总长",
+          "id": "step_2",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "非互斥信号 180-(12+8+16+4)=140条，控制字段总数：140 + 16 = 156位。"
+        },
+        {
+          "description": "计算BCF和BAF位数",
+          "id": "step_3",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "BCF 最多8种条件转移需 3位；BAF 可寻址512条需 9位。"
+        },
+        {
+          "description": "计算微指令总长度",
+          "id": "step_4",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "总长度 = 156 + 3 + 9 = 168位。"
+        },
+        {
+          "description": "计算控制存储器总容量（位）",
+          "id": "step_5",
+          "points": 3.0,
+          "reference_image": null,
+          "reference_text": "512条微指令 × 168位 = 86016位。"
+        },
+        {
+          "description": "计算控制存储器总容量（字节）",
+          "id": "step_6",
+          "points": 3.0,
+          "reference_image": null,
+          "reference_text": "86016 ÷ 8 = 10752字节。"
+        }
+      ]
+    },
+    {
+      "max_score": 10.0,
+      "question_id": "CO_7",
+      "question_images": [
+        {
+          "path": "images/31ee9b772b7d729bb24ae5632c467b4aeb61046cc88c97342c18ed33f926e79b.png",
+          "sha256": "31ee9b772b7d729bb24ae5632c467b4aeb61046cc88c97342c18ed33f926e79b",
+          "source_path": "images/question/25CO/CO_7.png"
+        }
+      ],
+      "question_text": "假定计算机M1和M2具有相同的指令集体系结构（ISA），主频分别为4GHz和6GHz。基准程序P共有指令数10万条，在M1和M2上运行该基准程序P，CPI分别为2和1，求程序P在M1和M2上的运行时间。",
+      "rubric": [
+        {
+          "description": "正确计算出M1的运行时间",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "M1总周期数 = 10^5 × 2 = 2.0×10^5，时间 T_M1 = (2.0×10^5) / (4×10^9) = 5.0×10^-5 s = 50 μs。"
+        },
+        {
+          "description": "正确计算出M2的运行时间",
+          "id": "step_2",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "M2总周期数 = 10^5 × 1 = 1.0×10^5，时间 T_M2 = (1.0×10^5) / (6×10^9) ≈ 1.67×10^-5 s = 16.7 μs。"
+        }
+      ]
+    },
+    {
+      "max_score": 10.0,
+      "question_id": "CO_8",
+      "question_images": [],
+      "question_text": "假设磁盘传输数据以32位的字为单位，传输速率为1MB/s（此处1M=10^6），CPU的时钟频率为50MHz。回答以下问题：\n1) 采取程序查询方式，假设查询操作需要100个时钟周期，求CPU为I/O查询所花费的时间比率（假设进行足够的查询以避免数据丢失）。（5分）\n2) 采用DMA的方式，假定DMA的启动需要1500个时钟周期，DMA完成时后处理需要500个时钟周期。若平均传输的数据长度为4KB（此处1K=10^3），试问硬盘工作时CPU将用多少时间比率进行输入/输出操作？忽略DMA申请总线的开销。（5分）",
+      "rubric": [
+        {
+          "description": "计算程序查询方式下每秒查询次数、总时钟周期数和CPU时间比率",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "一个字为32bit=4B；每秒查询次数为1MB/4B=2.5×10^5次；每秒查询总时钟周期数为2.5×10^5×100=2.5×10^7；CPU时钟频率50MHz=5×10^7Hz；I/O查询所花费时间比率为2.5×10^7/(5×10^7)=50%。"
+        },
+        {
+          "description": "计算DMA方式下每秒DMA次数、CPU开销周期数和CPU时间比率",
+          "id": "step_2",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "每次DMA传输CPU开销为1500+500=2000个时钟周期；平均传输长度4KB=4×10^3B；每秒DMA次数为1MB/s/(4×10^3B)=250次；CPU为DMA所花时间比率为2000×250/50M=1%。"
+        }
+      ]
+    },
+    {
+      "max_score": 15.0,
+      "question_id": "CO_9",
+      "question_images": [],
+      "question_text": "计算机M的主存按字编址，一个字占16位，主存共64K个存储单元。假设主存低8KW采用ROM，其余部分采用RAM。现用若干4K×16的ROM、8K×16的RAM以及3-8译码器（输出为低电平时有效）和或门构造目标主存储器，各芯片的片选信号均低电平有效。\n1) 计算需要的基本芯片的数量。（6分）\n2) 给出每个基本芯片（ROM1、ROM2、...、RAM1、RAM2、...）的片选信号（CS1、CS2、...）的逻辑表达式。（9分）",
+      "rubric": [
+        {
+          "description": "计算ROM芯片数量",
+          "id": "step_1",
+          "points": 3.0,
+          "reference_image": null,
+          "reference_text": "低8KW采用ROM，每片ROM为4K×16，需要8K/4K=2片ROM芯片。"
+        },
+        {
+          "description": "计算RAM芯片数量",
+          "id": "step_2",
+          "points": 3.0,
+          "reference_image": null,
+          "reference_text": "主存共64KW，除低8KW外其余56KW采用RAM；每片RAM为8K×16，需要56K/8K=7片RAM芯片。"
+        },
+        {
+          "description": "给出ROM区片选信号或对应译码输出",
+          "id": "step_3",
+          "points": 3.0,
+          "reference_image": {
+            "path": "images/6b584b4765d5acb2196a30c05f95ed8b3eed5585469ba484f8cf9a52a6b9f6ea.png",
+            "sha256": "6b584b4765d5acb2196a30c05f95ed8b3eed5585469ba484f8cf9a52a6b9f6ea",
+            "source_path": "images/standard_answers/CO_9_standard.png"
+          },
+          "reference_text": "ROM1对应高位地址0000（低4KW），ROM2对应高位地址0001（次低4KW）。可写为使用地址高位和译码器输出形成的低有效片选信号，或等价地写为译码输出Y0、Y1分别选通ROM1、ROM2。"
+        },
+        {
+          "description": "给出RAM区片选信号或对应译码输出",
+          "id": "step_4",
+          "points": 6.0,
+          "reference_image": {
+            "path": "images/6b584b4765d5acb2196a30c05f95ed8b3eed5585469ba484f8cf9a52a6b9f6ea.png",
+            "sha256": "6b584b4765d5acb2196a30c05f95ed8b3eed5585469ba484f8cf9a52a6b9f6ea",
+            "source_path": "images/standard_answers/CO_9_standard.png"
+          },
+          "reference_text": "RAM1-RAM7分别对应高位地址001、010、011、100、101、110、111（8KW为一段）。可写为3-8译码器输出Y1-Y7分别经低有效片选连接RAM1-RAM7，或写出由地址高位形成的等价逻辑表达式。"
+        }
+      ]
+    },
+    {
+      "max_score": 5.0,
+      "question_id": "CPL_1",
+      "question_images": [],
+      "question_text": "阅读程序，请写出程序运行的输出结果。\n1. #include <stdio.h>\nint main(){\nint i = 3, j = 4, k = 5;\nprintf(\"%d \", i++ - j++ + --k);\nprintf(\"%d %d %d\", i, j, k);\nreturn 0;\n}",
+      "rubric": [
+        {
+          "description": "写出程序的正确输出结果（注：若 3 和 4 5 4 分两行填写，即多加了换行，扣 0.5 分）",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "3 4 5 4"
+        }
+      ]
+    },
+    {
+      "max_score": 5.0,
+      "question_id": "CPL_2",
+      "question_images": [],
+      "question_text": "阅读程序，请写出程序运行的输出结果。\n2. #include <stdio.h>\nint main(){\nint sum = 0;\nfor (int i = -2; i < 10; i++){\nif (i>0 && i%2)\ncontinue;\nsum += i;\n}\nprintf(\"%d\\n\", sum);\nreturn 0;\n}",
+      "rubric": [
+        {
+          "description": "写出程序的正确输出结果",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "17"
+        }
+      ]
+    },
+    {
+      "max_score": 10.0,
+      "question_id": "CPL_3",
+      "question_images": [],
+      "question_text": "阅读程序，请写出程序运行的输出结果。\n#include <stdio.h>\nint main(){\nint a[5][5] = {{8, 11, 9, 2, 10},\n{3, 5, 17, 3, 2},\n{2, 8, 6, 7, 2},\n{5, 7, 3, 12, 3},\n{12, 9}};\nfor(int i=0; i<5; i++){\nint row=0, column=0;\nfor(int j=0; j<5; j++){\nrow += a[i][j];\ncolumn += a[j][i];\n}\nprintf(\"%d, row:%d, col:%d\\n\", i+1, row, column);\n}\nreturn 0;\n}",
+      "rubric": [
+        {
+          "description": "写出第 1 行的正确输出结果（注：行和列的值写反扣 1 分）",
+          "id": "step_1",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "1, row:40, col:30"
+        },
+        {
+          "description": "写出第 2 行的正确输出结果（注：行和列的值写反扣 1 分）",
+          "id": "step_2",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "2, row:30, col:40"
+        },
+        {
+          "description": "写出第 3 行的正确输出结果（注：行和列的值写反扣 1 分）",
+          "id": "step_3",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "3, row:25, col:35"
+        },
+        {
+          "description": "写出第 4 行的正确输出结果（注：行和列的值写反扣 1 分）",
+          "id": "step_4",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "4, row:30, col:24"
+        },
+        {
+          "description": "写出第 5 行的正确输出结果（注：行和列的值写反扣 1 分）",
+          "id": "step_5",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "5, row:21, col:17"
+        }
+      ]
+    },
+    {
+      "max_score": 10.0,
+      "question_id": "CPL_4",
+      "question_images": [],
+      "question_text": "阅读程序，请写出程序运行的输出结果。\n4. #include <stdio.h>\nint main() {\nint a[10] = {16, 23, 15, 24, 5, 22, 24, 20, 28, 19};\nint *p = &a[0], *q = &a[9], temp;\nwhile (p<q&&*p<*q) {\ntemp=*p;\n*p++=*q;\n*q-- = temp;\n}\nfor(int i=0; i<10; i++)\nprintf(\"%d \", a[i]);\nreturn 0;\n}",
+      "rubric": [
+        {
+          "description": "写出程序的正确输出结果（注：前4和后4个数字中，每互换一对得2分，5和22互换位置扣1分）",
+          "id": "step_1",
+          "points": 10.0,
+          "reference_image": null,
+          "reference_text": "19 28 20 24 5 22 24 15 23 16"
+        }
+      ]
+    },
+    {
+      "max_score": 10.0,
+      "question_id": "CPL_5",
+      "question_images": [],
+      "question_text": "二、程序改错题(10分,共5处、每处2分)\n编写函数计算最高阶为5的多项式的值,调用该函数计算多项式的值。要求 main函数从文件输入两行数据(例如,main.exe arg.txt),第一行是未知数x的值(x属于[-10.0,10.0]),第二行是多项式从高阶到低阶的系数。请指出下面代码中的错误,并加以改正。\n#include <stdio.h>\n#define N 6\nfloat power(float x, int n) {\nfloat result = 0;\nfor(int i=0; i<n; i++)\nresult *= x;\nreturn result;\n}\nfloat polynomial(float x, int c[]) {\nfloat result = 0;\nfor(int i=0; i<N; i++)\nresult += c[i] * power(x, i);\nreturn result;\n}\nint main(int argc, char *argv[]) {\nFILE *pf = NULL;\nreturn 1;\nif (argc!=2 || (pf=fopen(argv[1],\"w\"))==NULL)\nfloat x; //未知数x的值\nint c[N]; //存放多项式系数\nfscanf(pf, \"%f\", &x);\nfor(int i=N; i>=0; i--)\nfscanf(pf, \"%d\", &c[i]);\nprintf(\"%.2f\", polynomial(x, &c));\nfclose(pf);\nreturn 0;\n}",
+      "rubric": [
+        {
+          "description": "指出并改正第1处错误",
+          "id": "step_1",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "第4行，将0改为1；即改为 float result = 1;"
+        },
+        {
+          "description": "指出并改正第2处错误（注：与第3处错误合一起参考答案为 if (argc!=2 && (pf=fopen(argv[1], \"r\"))==NULL) 或者 if (argc!=2 || ((pf=fopen(argv[1],\"r\"))==NULL))）",
+          "id": "step_2",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "第17行，将w改为r或r+;"
+        },
+        {
+          "description": "指出并改正第3处错误",
+          "id": "step_3",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "第17行，确保fopen 返回值先赋值给pf再判断是否为NULL。"
+        },
+        {
+          "description": "指出并改正第4处错误",
+          "id": "step_4",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "第22行，将N改为N-1；即改为 for(int i=N-1; i>=0; i--)"
+        },
+        {
+          "description": "指出并改正第5处错误",
+          "id": "step_5",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "第24行，去掉&，即改为 printf(\"%.2f\", polynomial(x, c));"
+        }
+      ]
+    },
+    {
+      "max_score": 10.0,
+      "question_id": "CPL_6",
+      "question_images": [],
+      "question_text": "三、分析填空题(20分,每空2分)\n1. 两个单词中的字母及其个数均相同称之为变位词,即相同字母的重新排列,例如:smartest 和 mattress是变位词。下面代码的功能为测试两个单词是否为变位词,请将空白处代码补充完整。\n#include <stdio.h>\nchar Upper(char ch){ //将小写字母ch转换为大写字母\nreturn (1) ? ch-'a'+'A': ch;\n}\nint IsAlpha(char ch){//判断字符ch是否介于a~z或A~Z\nreturn (2);\n}\nint EqualArray(int a[], int n) {//判断数组a中元素是否全为0\nfor(int i=0; i<n; i++)\nif( (3) )\nreturn 0;\nreturn 1;\n}\nint main() {\nchar ch;\nint words[26]={0};\nprintf(\"Enter first word: \");\nwhile((ch = getchar())!='\\n' && IsAlpha(ch))\nwords[Upper(ch)-'A']++;\nprintf(\"Enter second word: \");\nwhile((ch=getchar())!='\\n' && IsAlpha(ch))\n(4);\nprintf(\"%s\", (5) ? \"YES\": \"NO\");\nreturn 0;\n}",
+      "rubric": [
+        {
+          "description": "填写空白处(1)（注：多写()或;等不扣分。>=写成>、<=写成<扣0.5分）",
+          "id": "step_1",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "ch>='a'&&ch<='z'"
+        },
+        {
+          "description": "填写空白处(2)（注：同上）",
+          "id": "step_2",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "(ch>='a'&&ch<='z') || (ch>='A'&&ch<='Z')"
+        },
+        {
+          "description": "填写空白处(3)（注：同上）",
+          "id": "step_3",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "a[i]!=0 或 a[i]"
+        },
+        {
+          "description": "填写空白处(4)（注：同上）",
+          "id": "step_4",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "words[Upper(ch)-'A']--"
+        },
+        {
+          "description": "填写空白处(5)（注：同上）",
+          "id": "step_5",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "EqualArray(words, 26)"
+        }
+      ]
+    },
+    {
+      "max_score": 15.0,
+      "question_id": "CPL_7",
+      "question_images": [],
+      "question_text": "四、程序设计题(40分,第1题15分,第2题25分)\n1. 给定一个5*5的矩阵,由用户输入矩阵中每个元素的值,并计算该矩阵的转置矩阵(将矩阵的行列互换得到的新矩阵称为转置矩阵,即 b_ij=a_ji ,例如:3*3的矩阵和其转置矩阵如下所示: a=[1 2 3; 4 5 6; 7 8 9] -> b=[1 4 7; 2 5 8; 3 6 9]),之后将转置矩阵按多行保存到文本文件 matrix.txt中。",
+      "rubric": [
+        {
+          "description": "读入和输出矩阵的每个元素时，正确写出循环（注：若学生仅使用一个二维数组在同数组实现元素交换，有错误情况下按读入数据循环、置换两项总分5分处理；没有判断fp指针是否为空或输出时没换行均不扣分；语法错误整体酌情扣0.5-2分）",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": {
+            "path": "images/d0cf9b8e279a57f841381e234266c7ebd1c2cb872d81d3ff81a57e52e09856d7.png",
+            "sha256": "d0cf9b8e279a57f841381e234266c7ebd1c2cb872d81d3ff81a57e52e09856d7",
+            "source_path": "images/standard_answers/CPL_07_standard.png"
+          },
+          "reference_text": "正确写出读写循环"
+        },
+        {
+          "description": "正确写出打开文件、向文件写数据、关闭文件",
+          "id": "step_2",
+          "points": 5.0,
+          "reference_image": {
+            "path": "images/d0cf9b8e279a57f841381e234266c7ebd1c2cb872d81d3ff81a57e52e09856d7.png",
+            "sha256": "d0cf9b8e279a57f841381e234266c7ebd1c2cb872d81d3ff81a57e52e09856d7",
+            "source_path": "images/standard_answers/CPL_07_standard.png"
+          },
+          "reference_text": "正确实现文件操作"
+        },
+        {
+          "description": "元素转置正确，以及程序的其他结构",
+          "id": "step_3",
+          "points": 5.0,
+          "reference_image": {
+            "path": "images/d0cf9b8e279a57f841381e234266c7ebd1c2cb872d81d3ff81a57e52e09856d7.png",
+            "sha256": "d0cf9b8e279a57f841381e234266c7ebd1c2cb872d81d3ff81a57e52e09856d7",
+            "source_path": "images/standard_answers/CPL_07_standard.png"
+          },
+          "reference_text": "正确实现转置逻辑及整体结构"
+        }
+      ]
+    },
+    {
+      "max_score": 10.0,
+      "question_id": "CPL_8",
+      "question_images": [],
+      "question_text": "2. 某项比赛有5个评委,评判规则采用去掉一个最高分和一个最低分,然后计算平均分的形式。下面代码中,读取100名选手的成绩,并存放在动态分配的二维数组中,然后按照评判规则计算选手们的平均分,请将空白处代码补充完整。\n#include <stdio.h>\n#include <stdlib.h>\nfloat Average(float *score, int n){//计算去掉一个最高、最低分后的平均分\nfloat sum = 0;\nfor(int i=0; i<n; i++)\n(6);\nreturn sum / (n-2);\n}\nvoid Calculate(float (*score) [5], int m){\nfor (int i=0; i<m; i++){\nint max=0, min=0;\nfor(int j=0; j<5; j++){\nif (*(*(score+i)+j)>*(*(score+i)+max))\nmax = j;\nif ( (7) )\nmin=j;\n}\n*(*(score+i)+max)=*(*(score+i)+min)=0;\nprintf(\"%.2f\\n\", Average( (8) ));\n}\n}\nint main() {\nfloat (*player) [5] = (float (*)[5])malloc( (9) );\nfor(int i=0; i<100; i++)\nfor(int j=0; j<5; j++)\nscanf(\"%f\", (10) );\nCalculate(player, 100);\nfree(player);\nreturn 0;\n}",
+      "rubric": [
+        {
+          "description": "填写空白处(6)（注：不使用复合赋值运算符亦可）",
+          "id": "step_1",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "sum += *(score+i) 或 sum+=score[i]"
+        },
+        {
+          "description": "填写空白处(7)",
+          "id": "step_2",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "*(*(score+i)+j)<*(*(score+i)+min) 或 score[i][j]<score[i][min]"
+        },
+        {
+          "description": "填写空白处(8)（注：此时多写&扣0.5分）",
+          "id": "step_3",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "*(score+i), 5 或 score[i], 5"
+        },
+        {
+          "description": "填写空白处(9)（注：其它情况如100*sizeof(float)、5*sizeof(float)等，可酌情扣0.5-1分）",
+          "id": "step_4",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "100*5*sizeof(float)、100*5*4 或 2000均正确"
+        },
+        {
+          "description": "填写空白处(10)（注：此时缺少&扣0.5分）",
+          "id": "step_5",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "*(player+i)+j 或 &player[i][j]"
+        }
+      ]
+    },
+    {
+      "max_score": 8.0,
+      "question_id": "DM_1",
+      "question_images": [
+        {
+          "path": "images/4b7c4dac9ebc11580e2de74703ab20c887cd3740f39d635e7ea95914917fc010.png",
+          "sha256": "4b7c4dac9ebc11580e2de74703ab20c887cd3740f39d635e7ea95914917fc010",
+          "source_path": "images/question/DM/DM_01.png"
+        }
+      ],
+      "question_text": "16. 设<A, R>为偏序集，其中，A={1, 2, 3, 4, 6, 9, 24, 54}，R是A上的整除关系。\n（1）画出此偏序集的哈斯图；\n（2）求出A的极大元和极小元，如果不存在，则指出不存在；\n（3）求出A的最大元和最小元，如果不存在，则指出不存在；\n（4）求集合A的子集B={4, 6, 9}的最小上界和最大下界。",
+      "rubric": [
+        {
+          "description": "画出偏序集的哈斯图",
+          "id": "step_1",
+          "points": 2.0,
+          "reference_image": {
+            "path": "images/2a44909b37339d3563b24dbd62873db2c9e8465557448ec69c8eb29075618ecc.png",
+            "sha256": "2a44909b37339d3563b24dbd62873db2c9e8465557448ec69c8eb29075618ecc",
+            "source_path": "images/standard_answers/DM_01_standard.png"
+          },
+          "reference_text": "此偏序集的哈斯图如右上图。"
+        },
+        {
+          "description": "求出A的极大元和极小元",
+          "id": "step_2",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "A的极大元是24和54，极小元是1。"
+        },
+        {
+          "description": "求出A的最大元和最小元",
+          "id": "step_3",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "A的没有最大元，最小元是1。"
+        },
+        {
+          "description": "求子集B的最小上界和最大下界",
+          "id": "step_4",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "集合A的子集B={4, 6, 9}的最小上界没有，最大下界是1。"
+        }
+      ]
+    },
+    {
+      "max_score": 10.0,
+      "question_id": "DM_2",
+      "question_images": [
+        {
+          "path": "images/1314b3b292d472e9b1af75d100d03d36ea66e25a052eeea91b8606cce8309de6.png",
+          "sha256": "1314b3b292d472e9b1af75d100d03d36ea66e25a052eeea91b8606cce8309de6",
+          "source_path": "images/question/DM/DM_02.png"
+        }
+      ],
+      "question_text": "18. 设 A={1, 2, 3, 4}, R 是 A×A 上的二元关系，∀<a, b>, <c, d>∈A×A, <a, b>R<c, d> ⇔ a+b=c+d。请证明 R 是等价关系。",
+      "rubric": [
+        {
+          "description": "证明关系 R 满足自反性",
+          "id": "step_1",
+          "points": 3.0,
+          "reference_image": null,
+          "reference_text": "（1）∀<a, b>∈A×A, a+b=a+b ⇔ <a, b>R<a, b>, 因此 R 是自反的；"
+        },
+        {
+          "description": "证明关系 R 满足对称性",
+          "id": "step_2",
+          "points": 3.0,
+          "reference_image": null,
+          "reference_text": "（2）∀<a, b>, <c, d>∈A×A, <a, b>R<c, d> ⇔ a+b=c+d ⇒ c+d=a+b ⇒ <c, d>R<a, b>, 因此 R 是对称的；"
+        },
+        {
+          "description": "证明关系 R 满足传递性",
+          "id": "step_3",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "（3）∀<a, b>, <c, d>, <e, f>∈A×A, <a, b>R<c, d> ∧ <c, d>R<e, f> ⇔ a+b=c+d ∧ c+d=e+f ⇒ a+b=e+f ⇒ <a, b>R<e, f>, 因此 R 是传递的。"
+        }
+      ]
+    },
+    {
+      "max_score": 10.0,
+      "question_id": "DM_3",
+      "question_images": [
+        {
+          "path": "images/af50319418e0870a317b095a7f75e15f36692965a4bd31e9aee56f4cdffeaa3b.png",
+          "sha256": "af50319418e0870a317b095a7f75e15f36692965a4bd31e9aee56f4cdffeaa3b",
+          "source_path": "images/question/DM/DM_03.png"
+        }
+      ],
+      "question_text": "21. 在自然推理系统中，构造下面的推理：\n“每个参赛者或者跑完全程或者提前退赛。每个跑完全程的参赛者都将得到奖励。有些参赛者没有得到奖励。所以，有些参赛者提前退赛了。”（个体域是全总个体域）\n请把该推理翻译成谓词公式，然后用推理规则严格证明它。\n设 A(x) = x 是参赛者；B(x) = x 跑完全程；C(x) = x 提前退赛；D(x) = x 得到奖励。",
+      "rubric": [
+        {
+          "description": "正确将自然语言翻译为谓词逻辑公式",
+          "id": "step_1",
+          "points": 3.0,
+          "reference_image": {
+            "path": "images/da750e783463b4b4748ce616a67fdce9703daba4bac732227c57315638d1e5c8.png",
+            "sha256": "da750e783463b4b4748ce616a67fdce9703daba4bac732227c57315638d1e5c8",
+            "source_path": "images/standard_answers/DM_03_standard_1.png"
+          },
+          "reference_text": "$\\forall x(A(x) \\rightarrow B(x) \\vee C(x)) \\wedge \\forall x(A(x) \\wedge B(x) \\rightarrow D(x)) \\wedge \\exists x(A(x) \\wedge \\neg D(x)) \\Rightarrow \\exists x(A(x) \\wedge C(x))$"
+        },
+        {
+          "description": "给出严格的自然推理证明过程",
+          "id": "step_2",
+          "points": 7.0,
+          "reference_image": {
+            "path": "images/5d21e65bf5e217f6b3e2245d202f13721b2a4d2684c4db8ad2ec7bf3b1ef77f9.png",
+            "sha256": "5d21e65bf5e217f6b3e2245d202f13721b2a4d2684c4db8ad2ec7bf3b1ef77f9",
+            "source_path": "images/standard_answers/DM_03_standard_2.png"
+          },
+          "reference_text": "步骤 | 断言 | 根据\n---|---|---\n1 | $\\exists x(A(x) \\wedge \\neg D(x))$ | P\n2 | $A(c) \\wedge \\neg D(c)$ | T, 1, ES\n3 | $A(c)$ | T, 2, 简化式\n4 | $\\neg D(c)$ | T, 2, 简化式\n5 | $\\forall x(A(x) \\rightarrow B(x) \\vee C(x))$ | P\n6 | $A(c) \\rightarrow B(c) \\vee C(c)$ | T, 5, US, 同一 c\n7 | $B(c) \\vee C(c)$ | T, 3, 6, 假言推理\n8 | $\\forall x(A(x) \\wedge B(x) \\rightarrow D(x))$ | P\n9 | $A(c) \\wedge B(c) \\rightarrow D(c)$ | T, 8, US, 同一 c\n10 | $\\neg (A(c) \\wedge B(c))$ | T, 4, 9, 拒取式\n11 | $\\neg A(c) \\vee \\neg B(c)$ | T, 10, 德摩根律\n12 | $\\neg B(c)$ | T, 3, 11, 析取三段论\n13 | $C(c)$ | T, 7, 12, 析取三段论\n14 | $A(c) \\wedge C(c)$ | T, 3, 13 合取式\n15 | $\\exists x(A(x) \\wedge C(x))$ | T, 14, EG"
+        }
+      ]
+    },
+    {
+      "max_score": 5.0,
+      "question_id": "ISC_1",
+      "question_images": [],
+      "question_text": "集成电路和摩尔定律对计算机发展带来的革命性影响。简述目前摩尔定律面临哪些主要挑战？业界正在通过哪些新的技术方向来延续计算性能的提升？",
+      "rubric": [
+        {
+          "description": "简述革命性影响、主要挑战及新技术方向",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "革命性影响：推动计算机性能指数级增长，使得计算机更小型化、高效化，降低成本 [cite: 467]。主要挑战：物理限制（量子效应和热效应）、功耗和散热问题、经济性问题 [cite: 469, 470]。新技术方向：量子计算、异构计算（CPU、GPU、TPU结合）、垂直集成电路（3D封装）、新型半导体材料（石墨烯、氮化镓等） [cite: 472]。"
+        }
+      ]
+    },
+    {
+      "max_score": 5.0,
+      "question_id": "ISC_2",
+      "question_images": [],
+      "question_text": "简述操作系统的主要功能，并以进程管理为例说明操作系统如何实现多任务调度。",
+      "rubric": [
+        {
+          "description": "简述操作系统的主要功能及进程管理实现多任务调度的方式",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "主要功能：进程管理、处理器管理、存储器管理、设备管理、文件管理、网络与通信管理、用户接口 [cite: 475]。多任务调度实现：进程切换（时间片轮转）、优先级调度、同步与互斥（信号量、锁） [cite: 476, 477, 478, 479]。"
+        }
+      ]
+    },
+    {
+      "max_score": 5.0,
+      "question_id": "ISC_3",
+      "question_images": [],
+      "question_text": "简述数据库系统的组成及其在现代信息系统中的重要性，并说明SQL语言的作用。",
+      "rubric": [
+        {
+          "description": "简述组成、重要性及SQL语言的作用",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "组成：数据库(DB)、数据库管理系统(DBMS)、硬件平台、软件工具、数据库管理员(DBA)和用户 [cite: 482]。重要性：解决数据冗余和不一致问题，实现数据集中管理、共享和安全控制 [cite: 483]。SQL作用：结构化查询语言，用于定义、操作、查询与管理关系型数据库，减轻用户负担，提高数据独立性与安全性 [cite: 484]。"
+        }
+      ]
+    },
+    {
+      "max_score": 5.0,
+      "question_id": "ISC_4",
+      "question_images": [],
+      "question_text": "简述计算机网络中“协议”的概念，并以HTTP为例说明协议的基本构成。",
+      "rubric": [
+        {
+          "description": "简述协议概念及HTTP协议的基本构成",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "概念：为在计算机网络中进行数据交换而建立的规则、标准或约定 [cite: 487]。HTTP基本构成：请求行（方法、URL、版本）、请求头（客户端信息）、空行、请求体（发送的数据内容） [cite: 489, 490, 491, 492]。"
+        }
+      ]
+    },
+    {
+      "max_score": 6.0,
+      "question_id": "ISC_5",
+      "question_images": [],
+      "question_text": "一段文本在内存中以ASCII码存储，其十六进制序列如下：\n48 65 6C 6C 6F 2C 20 41 48 55 21\n请将其解码为对应的字符串，并指出其中的字母、标点和数字字符。",
+      "rubric": [
+        {
+          "description": "写出解码后的字符串",
+          "id": "step_1",
+          "points": 3.0,
+          "reference_image": null,
+          "reference_text": "Hello, AHU! [cite: 498]"
+        },
+        {
+          "description": "指出字母、标点和数字字符",
+          "id": "step_2",
+          "points": 3.0,
+          "reference_image": null,
+          "reference_text": "字母：H, e, l, l, o, A, H, U；标点符号：, !；空格；数字：无 [cite: 500]。"
+        }
+      ]
+    },
+    {
+      "max_score": 6.0,
+      "question_id": "ISC_6",
+      "question_images": [],
+      "question_text": "将十进制数0.625和2.125分别转换为二进制数，请将小数部分和整数部分分开转换。",
+      "rubric": [
+        {
+          "description": "将十进制数0.625转换为二进制数",
+          "id": "step_1",
+          "points": 3.0,
+          "reference_image": null,
+          "reference_text": "0.101（整数部分：0，小数部分：0.625=0.101） [cite: 503, 505, 506]"
+        },
+        {
+          "description": "将十进制数2.125转换为二进制数",
+          "id": "step_2",
+          "points": 3.0,
+          "reference_image": null,
+          "reference_text": "10.001（整数部分：10，小数部分：0.125=0.001） [cite: 507, 508, 509]"
+        }
+      ]
+    },
+    {
+      "max_score": 4.0,
+      "question_id": "ISC_7",
+      "question_images": [],
+      "question_text": "某CPU的地址总线宽度为32位，数据总线宽度为64位。请计算该CPU的最大可寻址内存空间是多少GB？其字长是多少位？",
+      "rubric": [
+        {
+          "description": "计算最大可寻址内存空间",
+          "id": "step_1",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "最大可寻址空间：4GB [cite: 513]"
+        },
+        {
+          "description": "写出CPU的机器字长",
+          "id": "step_2",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "机器字长：64位 [cite: 515]"
+        }
+      ]
+    },
+    {
+      "max_score": 4.0,
+      "question_id": "ISC_8",
+      "question_images": [],
+      "question_text": "已知在8位机器字长下，有两个十进制数：X = -15， Y = +10。请分别写出X和Y的原码、反码和补码表示。使用补码进行计算X-Y，结果用二进制表示。",
+      "rubric": [
+        {
+          "description": "写出X和Y的原码、反码和补码",
+          "id": "step_1",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "X=-15：原码 10001111，反码 11110000，补码 11110001；Y=+10：原码 00001010，反码 00001010，补码 00001010 [cite: 520, 521, 522, 523]"
+        },
+        {
+          "description": "使用补码计算X-Y，并写出结果",
+          "id": "step_2",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "X-Y的结果（补码）：11100111 [cite: 526]"
+        }
+      ]
+    },
+    {
+      "max_score": 10.0,
+      "question_id": "ISC_9",
+      "question_images": [],
+      "question_text": "某医院希望利用AI辅助诊断心脏病，需要处理大量心脏X光片。已知每张X光片分辨率为2048×2048，灰度深度为12位（即4096级灰度）。请计算存储1000张此类未经压缩的原始图像需要多少GB的存储空间。",
+      "rubric": [
+        {
+          "description": "写出计算过程及最终存储空间结果（注：根据计算过程酌情给分）",
+          "id": "step_1",
+          "points": 10.0,
+          "reference_image": null,
+          "reference_text": "单像素大小：1.5字节；单图像大小：2048×2048×1.5字节≈6.00MB；1000张图像：6.00MB×1000≈5.86GB（最终结果5.86GB） [cite: 543, 544, 545, 546, 547]"
+        }
+      ]
+    },
+    {
+      "max_score": 4.0,
+      "question_id": "ML_1",
+      "question_images": [
+        {
+          "path": "images/f90a15889136bddd27ecfd67cbd5009ef0fcce10d61c58eae1be73e3b8eefb88.png",
+          "sha256": "f90a15889136bddd27ecfd67cbd5009ef0fcce10d61c58eae1be73e3b8eefb88",
+          "source_path": "images/question/ML/ML_01.png"
+        }
+      ],
+      "question_text": "2. 填写真值表：（4分）",
+      "rubric": [
+        {
+          "description": "正确填写真值表的输出结果（F列）",
+          "id": "step_1",
+          "points": 4.0,
+          "reference_image": {
+            "path": "images/ca6f202f777378231d40d728d00ca6890e821094c65c4a1c0eba35977a6ff209.png",
+            "sha256": "ca6f202f777378231d40d728d00ca6890e821094c65c4a1c0eba35977a6ff209",
+            "source_path": "images/standard_answers/ML_01_standard.png"
+          },
+          "reference_text": "F列输出从上到下依次为：0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1。"
+        }
+      ]
+    },
+    {
+      "max_score": 4.0,
+      "question_id": "ML_2",
+      "question_images": [
+        {
+          "path": "images/000daf04d65f28e12f2a8c58d4b4609deeaf2f22d9b1eb4eb563be65427582f3.png",
+          "sha256": "000daf04d65f28e12f2a8c58d4b4609deeaf2f22d9b1eb4eb563be65427582f3",
+          "source_path": "images/question/ML/ML_02.png"
+        }
+      ],
+      "question_text": "已知实现某功能的组合逻辑电路如图所示：\n1. 写出 F 的最简与或表达式。（4分）",
+      "rubric": [
+        {
+          "description": "写出 F 的最简与或表达式",
+          "id": "step_1",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "F = AB + AC + AD + BCD"
+        }
+      ]
+    },
+    {
+      "max_score": 6.0,
+      "question_id": "ML_3",
+      "question_images": [
+        {
+          "path": "images/dcb70767e8661ce33cfc062950ce978e0592bd5f1b1dd38bad259c7e581a5dff.png",
+          "sha256": "dcb70767e8661ce33cfc062950ce978e0592bd5f1b1dd38bad259c7e581a5dff",
+          "source_path": "images/question/ML/ML_03.png"
+        }
+      ],
+      "question_text": "已知同步时序逻辑电路如下图所示，回答图后的问题：\n1. 写出激励函数以及输出函数表达式（6分）",
+      "rubric": [
+        {
+          "description": "写出各触发器的激励函数以及电路的输出函数表达式",
+          "id": "step_1",
+          "points": 6.0,
+          "reference_image": null,
+          "reference_text": "J1 = K1 = x\nJ2 = K2 = y1·x\nz = y1·y2·x"
+        }
+      ]
+    },
+    {
+      "max_score": 6.0,
+      "question_id": "ML_4",
+      "question_images": [
+        {
+          "path": "images/94807bb3863749b3859669125f524681073cdad4625b9ad7436453cecb95a868.png",
+          "sha256": "94807bb3863749b3859669125f524681073cdad4625b9ad7436453cecb95a868",
+          "source_path": "images/question/ML/ML_04.png"
+        }
+      ],
+      "question_text": "设计一个 Mealy 型序列检测时序电路，输入 X 按顺序输入时，当序列中出现 01010 时，电路输出 Z 为 1，其他时刻 Z 为 0。\n\n1. 作出该电路的原始状态图和原始状态表；（6分）",
+      "rubric": [
+        {
+          "description": "作出该电路的原始状态图和原始状态表",
+          "id": "step_1",
+          "points": 6.0,
+          "reference_image": {
+            "path": "images/ea356caa5523386934973404da65228aa4e8d65b5b2078956d94772fbb33abe0.png",
+            "sha256": "ea356caa5523386934973404da65228aa4e8d65b5b2078956d94772fbb33abe0",
+            "source_path": "images/standard_answers/ML_04_standard.png"
+          },
+          "reference_text": "状态表如下：\n现态 | 次态/输出(X=0) | 次态/输出(X=1)\nS0 | S1/0 | S0/0\nS1 | S1/0 | S2/0\nS2 | S3/0 | S0/0\nS3 | S1/0 | S4/0\nS4 | S5/1 | S0/0\nS5 | S1/0 | S4/0\n原始状态图详见标准答案图片。"
+        }
+      ]
+    },
+    {
+      "max_score": 20.0,
+      "question_id": "OS_1",
+      "question_images": [],
+      "question_text": "4. 现在有一个私人信箱mbox，其中最多可以存放N封邮件，信箱主人可以从信箱中读邮件，且每读1封邮件该信箱就会将其自动删除；其他用户可以向这个信箱发送邮件。任何时刻最多只能有一个人操作邮箱。请设计邮箱主人读邮件与其他用户发邮件操作的同步互斥算法。",
+      "rubric": [
+        {
+          "description": "正确分析同步互斥关系并初始化信号量",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "semaphore mutex=1, empty=N, full=0;"
+        },
+        {
+          "description": "正确编写其他用户发送邮件的进程",
+          "id": "step_2",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "Sender() {\n    do {\n        wait(empty);\n        wait(mutex);\n        发邮件;\n        signal(mutex);\n        signal(full);\n    } while (TRUE);\n}"
+        },
+        {
+          "description": "正确编写信箱主人读取并自动删除邮件的进程",
+          "id": "step_3",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "Reader() {\n    do {\n        wait(full);\n        wait(mutex);\n        读邮件并自动删除;\n        signal(mutex);\n        signal(empty);\n    } while (TRUE);\n}"
+        },
+        {
+          "description": "进程结构完整且P、V操作顺序正确",
+          "id": "step_4",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "Sender与Reader在循环中并发执行；先等待资源计数信号量，再申请mutex进入临界区，操作完成后先释放mutex，再通知另一类资源。该顺序既保证邮箱互斥访问，又避免在持有mutex时等待empty或full而造成死锁。"
+        }
+      ]
+    },
+    {
+      "max_score": 20.0,
+      "question_id": "OS_2",
+      "question_images": [
+        {
+          "path": "images/168bb1be3b6aefb266eb3fa15ad539a02708083ead0d9eae3655d038bf0f643c.png",
+          "sha256": "168bb1be3b6aefb266eb3fa15ad539a02708083ead0d9eae3655d038bf0f643c",
+          "source_path": "images/question/OS/OS_2.png"
+        }
+      ],
+      "question_text": "6. 假设某系统以非抢占式单道批处理方式运行，现有 4 道作业，它们进入系统的时间及运行时间如下表所示，试采用短作业优先调度算法和高响应比优先调度算法分别进行调度，请给出两种调度算法下这组作业的调度顺序，并计算平均周转时间和平均带权周转时间。（给出计算过程）\n\n| 作业号 | 进入系统时间 | 运行时间（分钟） |\n| :---: | :---: | :---: |\n| 1 | 7:00 | 85 |\n| 2 | 7:50 | 40 |\n| 3 | 8:00 | 20 |\n| 4 | 8:20 | 30 |",
+      "rubric": [
+        {
+          "description": "短作业优先调度算法（SJF）的调度顺序及分析过程",
+          "id": "step_1",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "因为 4 道作业并不是同时到达，所以在 7:00 时刻，系统只能调度作业 1，作业 1 在 8:25 时刻运行完成，此时其余 3 道作业都已到达，按照短作业优先进行调度，所以整个调度顺序为：1, 3, 4, 2。"
+        },
+        {
+          "description": "计算短作业优先（SJF）下各作业的周转时间、带权周转时间以及平均值",
+          "id": "step_2",
+          "points": 6.0,
+          "reference_image": null,
+          "reference_text": "作业1：周转时间85，带权周转时间1；\n作业2：周转时间125，带权周转时间3.125；\n作业3：周转时间45，带权周转时间2.25；\n作业4：周转时间55，带权周转时间1.833；\n平均周转时间：77.5；平均带权周转时间：2.052。"
+        },
+        {
+          "description": "高响应比优先调度算法（HRRN）的调度顺序及响应比计算过程",
+          "id": "step_3",
+          "points": 4.0,
+          "reference_image": null,
+          "reference_text": "同样在 7:00 时刻，系统只能调度作业 1，作业 1 在 8:25 时刻运行完成，此时其余 3 道作业都已到达，按照响应比优先进行调度。\nRP2= (35+40) /40=1.875；\nRP3= (25+20) /20=2.25；\nRP4= (5+30) /30=1.1667；\n所以选择作业 3。作业 3 在 8:45 完成，再计算此时作业 2 和作业 4 的响应比：\nRP2= (55+40) /40=2.375；\nRP4= (25+30) /30=1.8333，所以调度作业 2，最后执行作业 4。\n整个调度顺序为：1, 3, 2, 4。"
+        },
+        {
+          "description": "计算高响应比优先（HRRN）下各作业的周转时间、带权周转时间以及平均值",
+          "id": "step_4",
+          "points": 6.0,
+          "reference_image": {
+            "path": "images/4d4a277cb69e166828a077237d8e3fcaad7ebd1c4f88107fb3316305debedf15.png",
+            "sha256": "4d4a277cb69e166828a077237d8e3fcaad7ebd1c4f88107fb3316305debedf15",
+            "source_path": "images/standard_answers/OS_02_standard_2.png"
+          },
+          "reference_text": "作业1：周转时间85，带权周转时间1；\n作业2：周转时间95，带权周转时间2.375；\n作业3：周转时间45，带权周转时间2.25；\n作业4：周转时间95，带权周转时间3.1667；\n平均周转时间：80；平均带权周转时间：2.198。"
+        }
+      ]
+    },
+    {
+      "max_score": 5.0,
+      "question_id": "POC_1",
+      "question_images": [],
+      "question_text": "已知文法G1[S]:\nS → aSb | aSc | ε\n4. 根据文法G1写出其描述的语言。",
+      "rubric": [
+        {
+          "description": "写出文法G1描述的语言（注：三种表述任写一种均可满分）",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "{anw|w∈b,c*∧w=n} 或 前面有 n 个 a，后面紧跟着 n 个由 b 或 c 组成的字符（n>=0） 或 {anβ1⋯βn|βi∈b,c}"
+        }
+      ]
+    },
+    {
+      "max_score": 5.0,
+      "question_id": "POC_2",
+      "question_images": [],
+      "question_text": "已知文法 G1[S]:\nS→ (AS) | (b)\nA→(SaA)|(a)\n2. 根据文法 G1找出符号串 (A((SaA)(b))) 的短语、直接短语和句柄。",
+      "rubric": [
+        {
+          "description": "找出该符号串的所有短语",
+          "id": "step_1",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "短语有 (A((SaA)(b)))、((SaA)(b))、(SaA)、(b)"
+        },
+        {
+          "description": "找出该符号串的直接短语",
+          "id": "step_2",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "直接短语为 (SaA)、(b)"
+        },
+        {
+          "description": "找出该符号串的句柄",
+          "id": "step_3",
+          "points": 1.0,
+          "reference_image": null,
+          "reference_text": "句柄为 (SaA)"
+        }
+      ]
+    },
+    {
+      "max_score": 5.0,
+      "question_id": "POC_3",
+      "question_images": [],
+      "question_text": "已知文法G1[S]:\nS → aSb | aSc | ε\n3. 根据文法G1找出符号串aacb的短语、直接短语和句柄。",
+      "rubric": [
+        {
+          "description": "找出该符号串的短语",
+          "id": "step_1",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "ε, ac, aacb"
+        },
+        {
+          "description": "找出该符号串的直接短语",
+          "id": "step_2",
+          "points": 2.0,
+          "reference_image": null,
+          "reference_text": "ε"
+        },
+        {
+          "description": "找出该符号串的句柄",
+          "id": "step_3",
+          "points": 1.0,
+          "reference_image": null,
+          "reference_text": "ε"
+        }
+      ]
+    },
+    {
+      "max_score": 5.0,
+      "question_id": "POC_4",
+      "question_images": [],
+      "question_text": "4. 构造一个产生“非0开头的正偶数”的2型文法。",
+      "rubric": [
+        {
+          "description": "构造符合要求的2型文法（注：其他符合要求的文法同样给分）",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "S -> ME | 2 | 4 | 6 | 8\nE -> 0 | 2 | 4 | 6 | 8\nM -> MN | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9\nN -> 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9"
+        }
+      ]
+    },
+    {
+      "max_score": 5.0,
+      "question_id": "POC_5",
+      "question_images": [],
+      "question_text": "5. 构造文法 G4 的 LR1 项目集规范族。\n文法 G4[S]:\n(1) S -> AaA\n(2) S -> bBa\n(3) A -> ε\n(4) B -> a",
+      "rubric": [
+        {
+          "description": "写出拓广文法并构造初始 LR(1) 项目集 I0",
+          "id": "step_1",
+          "points": 1.0,
+          "reference_image": {
+            "path": "images/c930eddb753ad6dc3a48a5d4e3ac4e235624e411ba2c4a5cec665fa02cc816f2.png",
+            "sha256": "c930eddb753ad6dc3a48a5d4e3ac4e235624e411ba2c4a5cec665fa02cc816f2",
+            "source_path": "images/standard_answers/POC_5_standard.png"
+          },
+          "reference_text": "拓广文法: S' -> S\nI0:\nS' -> · S, {#}\nS -> · A a A, {#}\nS -> · b B a, {#}\nA -> ·, {a}"
+        },
+        {
+          "description": "由 I0 和 I1 构造主要后继项目集",
+          "id": "step_2",
+          "points": 1.5,
+          "reference_image": {
+            "path": "images/c930eddb753ad6dc3a48a5d4e3ac4e235624e411ba2c4a5cec665fa02cc816f2.png",
+            "sha256": "c930eddb753ad6dc3a48a5d4e3ac4e235624e411ba2c4a5cec665fa02cc816f2",
+            "source_path": "images/standard_answers/POC_5_standard.png"
+          },
+          "reference_text": "I1 = GOTO(I0, b):\nS -> b · B a, {#}\nB -> · a, {a}\n\nI2 = GOTO(I0, S):\nS' -> S ·, {#}\n\nI3 = GOTO(I0, A):\nS -> A · a A, {#}\n\nI4 = GOTO(I1, B):\nS -> b B · a, {#}\n\nI5 = GOTO(I1, a):\nB -> a ·, {a}"
+        },
+        {
+          "description": "继续构造剩余项目集，尤其注意 A -> ε 的展望符",
+          "id": "step_3",
+          "points": 1.5,
+          "reference_image": {
+            "path": "images/c930eddb753ad6dc3a48a5d4e3ac4e235624e411ba2c4a5cec665fa02cc816f2.png",
+            "sha256": "c930eddb753ad6dc3a48a5d4e3ac4e235624e411ba2c4a5cec665fa02cc816f2",
+            "source_path": "images/standard_answers/POC_5_standard.png"
+          },
+          "reference_text": "I6 = GOTO(I3, a):\nS -> A a · A, {#}\nA -> ·, {#}\n\nI7 = GOTO(I4, a):\nS -> b B a ·, {#}\n\nI8 = GOTO(I6, A):\nS -> A a A ·, {#}"
+        },
+        {
+          "description": "完整标出 LR(1) 项目集规范族的状态转移关系",
+          "id": "step_4",
+          "points": 1.0,
+          "reference_image": {
+            "path": "images/c930eddb753ad6dc3a48a5d4e3ac4e235624e411ba2c4a5cec665fa02cc816f2.png",
+            "sha256": "c930eddb753ad6dc3a48a5d4e3ac4e235624e411ba2c4a5cec665fa02cc816f2",
+            "source_path": "images/standard_answers/POC_5_standard.png"
+          },
+          "reference_text": "状态转移关系:\nI0 --b--> I1\nI0 --S--> I2\nI0 --A--> I3\nI1 --B--> I4\nI1 --a--> I5\nI3 --a--> I6\nI4 --a--> I7\nI6 --A--> I8"
+        }
+      ]
+    },
+    {
+      "max_score": 10.0,
+      "question_id": "POC_6",
+      "question_images": [],
+      "question_text": "四、语义分析题。\n已知属性文法 G5[S]:\n(1) S -> a A b    {S.x := A.x + 1}\n(2) S -> c        {S.x := 0}\n(3) A -> A1 S     {A.x := A1.x + S.x}\n(4) A -> S        {A.x := S.x}\n1. 判断属性文法 G5 的类型。\n2. 根据属性文法 G5 给出 acacbb 的标注语法树。",
+      "rubric": [
+        {
+          "description": "判断属性文法 G5 的类型并说明理由",
+          "id": "step_1",
+          "points": 5.0,
+          "reference_image": null,
+          "reference_text": "G5 是 S 属性文法。理由: S.x 和 A.x 均为综合属性；各产生式的语义动作只用产生式右部符号的属性或常数计算左部非终结符的属性，不含继承属性。"
+        },
+        {
+          "description": "给出 acacbb 的标注语法树，并正确标注各结点属性值",
+          "id": "step_2",
+          "points": 5.0,
+          "reference_image": {
+            "path": "images/197a6751c7d1c6e118f46fc539000029eef8d7d3abf046b07abfe512cd4a7c14.png",
+            "sha256": "197a6751c7d1c6e118f46fc539000029eef8d7d3abf046b07abfe512cd4a7c14",
+            "source_path": "images/standard_answers/POC_6_step2_standard.png"
+          },
+          "reference_text": "acacbb 的标注语法树可表示为:\nS.x=2 -> a A.x=1 b\nA.x=1 -> A1.x=0 S.x=1\nA1.x=0 -> S.x=0 -> c\nS.x=1 -> a A.x=0 b\nA.x=0 -> S.x=0 -> c\n\n等价的括号表示:\nS[2](a, A[1](A[0](S[0](c)), S[1](a, A[0](S[0](c)), b)), b)\n\n其中最内层 S -> c 得 S.x=0，A -> S 得 A.x=0；中间 S -> a A b 得 S.x=1；左侧 A -> S 得 A.x=0；外层 A -> A1 S 得 A.x=1；根结点 S -> a A b 得 S.x=2。"
+        }
+      ]
+    }
+  ],
+  "reference_with_teacher_word_questions": [
+    "CO_3"
+  ],
+  "schema": "label_free_question_candidate_v1",
+  "source_provenance_audited": false,
+  "source_question_hashes": {
+    "question/question_CO.json": "6de23cf41e74177eea2c47263de1e451fdc90dbbbe6ca0e55565711a0e478d84",
+    "question/question_CPL.json": "9de2b4c726da35f7ca23526fdb0b7475aedd9fbc9186a581c1a141547bae6cb9",
+    "question/question_DM.json": "91ed922e4e6f39f320958736cf499540ab4a23e1eb67b8a26d03d59e8ba7470d",
+    "question/question_ISC.json": "85f09d37f94cc7ce4dffde687e8195a17882016af1639053dd0c1509deabc5ad",
+    "question/question_ML.json": "8bd7d4fb3e2cbcc327376472212bcdb5efc8da9ed65f704bde3c7df32f240342",
+    "question/question_POC_24.json": "f268c955a248342f036f70ea43bddb9830667ea0119517e779526bde5a2a6b41",
+    "question/question_POC_25.json": "860167c9d88b9b29d6317e09ea120416be72e22fef0a83fb596a6fef1dbadf16",
+    "question/question_POC_26.json": "914ad70e7d844db56838a4f9a34e8d3620c54ebc80b59b5bf3863cd50295eab9"
+  },
+  "source_revision": "35317320d4a1e4980a7fef9f028601eb44084cf4",
+  "teacher_scores_opened": false
+}

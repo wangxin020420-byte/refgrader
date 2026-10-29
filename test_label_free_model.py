@@ -61,6 +61,27 @@ class LabelFreeModelTests(unittest.TestCase):
         self.assertEqual(result["reference_image_transcription"], "42")
         self.assertEqual(result["probe_scores"], [2, 2, 2])
 
+    def test_multiple_reference_images_keep_item_mapping(self):
+        second = Path(self.tmp.name) / "second.png"
+        second.write_bytes(b"fixture2")
+        mappings = [{"path": self.image, "item_ids": ["s1"]},
+                    {"path": second, "item_ids": ["s1"]}]
+        with self.client() as client:
+            result = grade_one(client, self.context, self.image, reference_images=mappings)
+        self.assertEqual(len(self.requests), 6)
+        self.assertEqual(result["reference_image_transcriptions"], [
+            {"item_ids": ["s1"], "reference_text": "42"},
+            {"item_ids": ["s1"], "reference_text": "42"}])
+        scoring_body = json.loads(self.requests[-1].content)
+        self.assertIn('"item_ids": ["s1"]', scoring_body["messages"][0]["content"])
+
+    def test_invalid_image_mapping_fails_before_calls(self):
+        with self.client() as client:
+            with self.assertRaisesRegex(ValueError, "item IDs"):
+                grade_one(client, self.context, self.image,
+                          reference_images=[{"path": self.image, "item_ids": ["unknown"]}])
+        self.assertEqual(len(self.requests), 0)
+
     def test_json_code_fence_is_accepted_without_repair(self):
         response = SimpleNamespace(choices=[SimpleNamespace(
             finish_reason="stop", message=SimpleNamespace(content='```json\n{"items": []}\n```'))])

@@ -133,7 +133,7 @@ def _validate_probe(payload, rubric):
     return details
 
 
-def grade_one(client, context, image_path, *, question_image=None, reference_image=None):
+def grade_one(client, context, image_path, *, question_image=None, reference_image=None, reference_images=None):
     """Extract visual evidence once and grade it three times with no labels.
 
     Inputs must be separately audited; evidence and model judgments can be wrong.
@@ -143,6 +143,32 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
     total = sum(item["points"] for item in rubric)
     if not math.isfinite(float(context["total_score"])) or abs(total - float(context["total_score"])) > 1e-6:
         raise ValueError("Rubric total differs from question total")
+    if reference_image is not None and reference_images is not None:
+        raise ValueError("Choose one reference image interface")
+    multi_references = []
+    if reference_images is not None:
+        if not isinstance(reference_images, list):
+            raise ValueError("reference_images must be a list")
+        valid_ids = {item["id"] for item in rubric}
+        for entry in reference_images:
+            if not isinstance(entry, dict) or set(entry) != {"path", "item_ids"}:
+                raise ValueError("Invalid reference image mapping")
+            item_ids = entry["item_ids"]
+            if not isinstance(item_ids, list) or not item_ids or any(not isinstance(i, str) or i not in valid_ids for i in item_ids) or len(set(item_ids)) != len(item_ids):
+                raise ValueError("Invalid reference image item IDs")
+            # Validate all paths before issuing any model request.
+            _image(entry["path"])
+        for entry in reference_images:
+            response = client.chat.completions.create(
+                model=VISION_MODEL,
+                messages=[{"role": "user", "content": [
+                    {"type": "text", "text": "Transcribe the reference-answer image faithfully for the listed rubric items. Do not infer missing text. Return JSON exactly as {\"reference_text\":\"...\"}. Item IDs: " + json.dumps(entry["item_ids"])},
+                    _image(entry["path"]),
+                ]}], temperature=0, response_format={"type": "json_object"})
+            payload = _content(response, stage="reference_image")
+            if set(payload) != {"reference_text"} or not isinstance(payload["reference_text"], str) or not payload["reference_text"].strip():
+                raise ValueError("reference_image: invalid visual reference transcription")
+            multi_references.append({"item_ids": list(entry["item_ids"]), "reference_text": payload["reference_text"]})
     reference_transcription = ""
     if reference_image is not None:
         reference_response = client.chat.completions.create(
@@ -181,6 +207,7 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
         "Include each item once; score must be between 0 and its points.\nQuestion: "
         + str(context.get("question_text", "")) + "\nReference: " + str(context.get("reference_text", ""))
         + "\nReference image transcription: " + reference_transcription
+        + "\nItem-linked reference image transcriptions: " + json.dumps(multi_references, ensure_ascii=False)
         + "\nRubric: " + json.dumps(rubric, ensure_ascii=False)
         + "\nEvidence: " + json.dumps(facts, ensure_ascii=False)
     )
@@ -200,7 +227,10 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
     evidence_risk = sum(r["points"] * (1 if facts[r["id"]]["status"] != "present" else 0) for r in rubric) / total
     stability_risk = min(1.0, (max(scores) - min(scores)) / total)
     mapping_risk = sum(r["points"] * (1 - max(sum(p[r["id"]]["category"] == category for p in probes) for category in _CATEGORIES) / 3) for r in rubric) / total
-    return {"baseline_score": sum(scores) / 3, "valid_probe_count": 3,
+    result = {"baseline_score": sum(scores) / 3, "valid_probe_count": 3,
             "risks": {"U_E": evidence_risk, "U_S": stability_risk, "U_R": mapping_risk},
             "probe_scores": scores, "probes": probes, "facts": facts,
             "reference_image_transcription": reference_transcription}
+    if reference_images is not None:
+        result["reference_image_transcriptions"] = multi_references
+    return result

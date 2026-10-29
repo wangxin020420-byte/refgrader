@@ -9,6 +9,37 @@ from test_label_free_scoring import LabelFreeScoringTests
 
 
 class LabelFreeRunTests(unittest.TestCase):
+    def test_candidate_bnd_records_diagnostics_without_releasing_grade(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "data"
+            root.mkdir()
+            LabelFreeScoringTests().fixture(root)
+            images = root / "student_images/Q_1"
+            images.mkdir(parents=True)
+            (images / "A1.png").write_bytes(b"image")
+            candidate = {"context": {"question_id": "Q_1", "question_text": "q", "reference_text": "r",
+                "total_score": 10, "initial_rubric": [{"id": "s1", "item": "answer", "points": 10,
+                 "answer_type": "base_number", "standard_answer_text": "42H"}]},
+                "question_image": None, "reference_images": []}
+            loss = {"lambda1": 1, "lambda2": 1, "mu1": 1, "mu2": 1}
+            manifest = {"run_config": {"question_ids": ["Q_1"], "split": "test", "m": 0.5,
+                "loss_parameters": loss, "risk_policy": "candidate_max_v1", "candidate_snapshot_sha256": "hash"}}
+            def grader(client, context, image, **kwargs):
+                return {"baseline_score": 4, "risks": {"U_E": 0, "U_S": .4, "U_R": 0},
+                        "valid_probe_count": 3, "facts": {"s1": {"status": "present", "evidence": "42H"}},
+                        "probes": [{"s1": {"score": score, "category": "match"}} for score in (2, 4, 6)]}
+            run_dir = Path(temporary) / "run"
+            with patch("label_free_run.verify", return_value={"snapshot_sha256_normalized": "hash"}), \
+                 patch("label_free_run.load_candidate_question", return_value=candidate):
+                run_questions(root, ["Q_1"], "test", run_dir, manifest, None, m=.5, loss_parameters=loss,
+                    grader=grader, max_new=1, candidate_snapshot="snapshot", risk_policy="candidate_max_v1")
+            decision = Checkpoint(run_dir, manifest).load("Q_1_A1")["decision"]
+            self.assertEqual(decision["route"], "BND")
+            self.assertIsNone(decision["automatic_score"])
+            self.assertTrue(decision["bnd_diagnostic"]["checks"][0]["canonical_match"])
+            self.assertFalse(decision["bnd_diagnostic"]["score_change_authorized"])
+            self.assertEqual(decision["bnd_diagnostic"]["projection"]["score_interval"], {"lower": 0, "upper": 10})
+
     def test_candidate_policy_defers_unverified_missing_and_preserves_resume(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / "data"

@@ -14,6 +14,7 @@ from label_free_checkpoint import Checkpoint
 from label_free_inputs import load_unlabeled_answers, load_unlabeled_question
 from label_free_model import grade_one
 from label_free_risk_candidates import evidence_availability_risk, item_score_range_risk
+from label_free_bnd_diagnostic import diagnose_bnd
 from label_free_question_snapshot import load_candidate_question
 from scripts.verify_label_free_question_snapshot import verify
 
@@ -110,6 +111,9 @@ def run_questions(root, question_ids, split, checkpoint_dir, manifest, client, *
             if evidence_states is not None:
                 action["candidate_risks"] = risks
                 action["evidence_states"] = evidence_states
+                if action["route"] == "BND":
+                    action["bnd_diagnostic"] = diagnose_bnd(decision=action, observation=observation,
+                                                            rubric=context["initial_rubric"])
             checkpoint.save(key, {"question_id": question_id, "answer_id": answer_id,
                                   "observation": observation, "decision": action})
             counts["completed_now"] += 1

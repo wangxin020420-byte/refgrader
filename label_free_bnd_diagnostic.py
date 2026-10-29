@@ -5,6 +5,7 @@ relevance. All constraints stay unknown until a future audited verifier exists.
 """
 from label_free_boundary import assess_boundary_evidence
 from label_free_evidence_projection import propose_evidence_projection
+from label_free_risk_candidates import item_score_range_risk
 
 
 def diagnose_bnd(*, decision, observation, rubric):
@@ -42,5 +43,17 @@ def diagnose_bnd(*, decision, observation, rubric):
     constraints = {item_id: {"state": "unknown"} for item_id in limits}
     projection = propose_evidence_projection(core_score=decision["provisional_score"],
         item_limits=limits, constraints=constraints)
+    priorities = []
+    probes = observation.get("probes")
+    if probes is not None:
+        item_score_range_risk(probes, limits)  # validate complete, finite rubric-bounded probes
+        for item_id, cap in limits.items():
+            scores = [float(probe[item_id]["score"]) for probe in probes]
+            spread = max(scores) - min(scores)
+            priorities.append({"item_id": item_id, "score_range": spread,
+                               "item_normalized_range": spread / float(cap)})
+        priorities.sort(key=lambda item: (-item["item_normalized_range"], item["item_id"]))
     return {"scope": "diagnostic_only", "checks": checks, "projection": projection,
+            "review_priority": priorities, "priority_signal": "item_score_range_over_item_cap",
+            "priority_is_error_probability": False,
             "score_change_authorized": False, "requires_human_review": True}

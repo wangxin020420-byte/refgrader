@@ -37,6 +37,7 @@ class LabelFreeRunTests(unittest.TestCase):
             self.assertEqual(decision["route"], "BND")
             self.assertIsNone(decision["automatic_score"])
             self.assertTrue(decision["bnd_diagnostic"]["checks"][0]["canonical_match"])
+            self.assertEqual(decision["bnd_diagnostic"]["review_priority"][0]["score_range"], 4)
             self.assertFalse(decision["bnd_diagnostic"]["score_change_authorized"])
             self.assertEqual(decision["bnd_diagnostic"]["projection"]["score_interval"], {"lower": 0, "upper": 10})
 

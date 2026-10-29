@@ -26,6 +26,24 @@ class LabelFreeDevelopmentTests(unittest.TestCase):
                 development.main(["--check", "--run-id", "test1", "--split", "test"])
         self.assertEqual(result.exception.code, 2)
 
+    def test_explicit_exploratory_test_is_never_formal(self):
+        manifest = {"scope": "exploratory_test_not_formal"}
+        with patch.object(development, "_inputs", return_value=manifest), \
+             patch.object(development, "create_client", side_effect=AssertionError("model called")), \
+             patch("sys.stdout", new_callable=io.StringIO) as output:
+            code = development.main(["--check", "--run-id", "test1", "--split", "test", "--exploratory-test"])
+        self.assertEqual(code, 0)
+        report = json.loads(output.getvalue())
+        self.assertEqual(report["manifest"]["scope"], "exploratory_test_not_formal")
+        self.assertFalse(report["ready_for_formal_experiment"])
+        self.assertEqual(report["live_calls"], 0)
+
+    def test_exploratory_flag_does_not_change_validation_scope(self):
+        with patch("sys.stderr", new_callable=io.StringIO):
+            with self.assertRaises(SystemExit) as result:
+                development.main(["--check", "--run-id", "test1", "--split", "validation", "--exploratory-test"])
+        self.assertEqual(result.exception.code, 2)
+
     def test_single_writer_lock_is_released(self):
         with tempfile.TemporaryDirectory() as temporary:
             directory = Path(temporary)

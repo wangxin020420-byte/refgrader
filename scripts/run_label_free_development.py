@@ -1,8 +1,8 @@
 """Development-only label-free scoring entry point, not a formal test runner.
 
-Use --check for an offline preflight. The real development run is foreground
-and deliberately supports calibration/validation only. Never provide teacher
-scores to this script. Existing source-data provenance is not yet established.
+Use --check for an offline preflight. Runs are foreground. Test split requires
+an explicit exploratory flag and is never a formal confirmation. Never provide
+teacher scores to this script. Source-data provenance is not yet established.
 """
 import argparse
 import contextlib
@@ -104,7 +104,7 @@ def _inputs(question_ids, split, candidate_snapshot=None, risk_policy="baseline"
         "source": {"git_commit": revision, "source_sha256": _source_hash(),
                    "python": platform.python_version(), "openai": importlib.metadata.version("openai"),
                    "httpx": importlib.metadata.version("httpx")},
-        "scope": "development_only_not_formal", "teacher_scores_used": False,
+        "scope": "exploratory_test_not_formal" if split == "test" else "development_only_not_formal", "teacher_scores_used": False,
         "limitations": report["checks_pending"],
     }
     if candidate_report is not None:
@@ -120,11 +120,17 @@ def main(argv=None):
     actions.add_argument("--status", action="store_true")
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--questions", nargs="+", default=["CO_1"])
-    parser.add_argument("--split", choices=["calibration", "validation"], default="calibration")
+    parser.add_argument("--split", choices=["calibration", "validation", "test"], default="calibration")
+    parser.add_argument("--exploratory-test", action="store_true",
+                        help="Explicitly allow exploratory use of the historical test split; not a formal holdout")
     parser.add_argument("--max-new", type=int, default=1, help="Maximum new answers in this invocation")
     parser.add_argument("--candidate-snapshot", help="Unapproved candidate snapshot for development only")
     parser.add_argument("--risk-policy", choices=["baseline", "candidate_max_v1"], default="baseline")
     args = parser.parse_args(argv)
+    if args.split == "test" and not args.exploratory_test:
+        parser.error("test split requires --exploratory-test; this does not establish a formal holdout")
+    if args.exploratory_test and args.split != "test":
+        parser.error("--exploratory-test is only valid with --split test")
     if not re.fullmatch(r"[A-Za-z0-9_-]+", args.run_id):
         parser.error("Invalid run ID")
     if len(set(args.questions)) != len(args.questions) or args.max_new < 1:
@@ -166,7 +172,7 @@ def main(argv=None):
             counts = run_questions(PREPARED, args.questions, args.split, run_dir, manifest, client,
                                    m=M, loss_parameters=LOSS, max_new=args.max_new,
                                    candidate_snapshot=args.candidate_snapshot, risk_policy=args.risk_policy)
-        print(json.dumps({"run_id": args.run_id, "scope": "development_only_not_formal", **counts}, indent=2))
+        print(json.dumps({"run_id": args.run_id, "scope": manifest["scope"], **counts}, indent=2))
         return 0
     except (OSError, ValueError, KeyError, TypeError, subprocess.CalledProcessError) as exc:
         print(f"Development run failed: {exc}", file=sys.stderr)

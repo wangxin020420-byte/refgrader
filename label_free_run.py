@@ -13,6 +13,7 @@ from label_free_action import decide_action
 from label_free_checkpoint import Checkpoint
 from label_free_inputs import load_unlabeled_answers, load_unlabeled_question
 from label_free_model import grade_one
+from label_free_risk_candidates import evidence_availability_risk, item_score_range_risk
 from label_free_question_snapshot import load_candidate_question
 from scripts.verify_label_free_question_snapshot import verify
 
@@ -34,7 +35,7 @@ def _image(root, subdir, question_id, basename, *, required):
 
 
 def run_questions(root, question_ids, split, checkpoint_dir, manifest, client, *, m, loss_parameters,
-                  grader=grade_one, max_new=None, candidate_snapshot=None):
+                  grader=grade_one, max_new=None, candidate_snapshot=None, risk_policy="baseline"):
     """Run with one writer; resume completed answers from the same manifest.
 
     A scoring failure is propagated and leaves that answer uncommitted. The next
@@ -48,6 +49,10 @@ def run_questions(root, question_ids, split, checkpoint_dir, manifest, client, *
     if max_new is not None and (isinstance(max_new, bool) or not isinstance(max_new, int) or max_new < 1):
         raise ValueError("max_new must be a positive integer")
     expected_config = {"question_ids": question_ids, "split": split, "m": m, "loss_parameters": loss_parameters}
+    if risk_policy not in {"baseline", "candidate_max_v1"}:
+        raise ValueError("Unsupported risk policy")
+    if risk_policy != "baseline":
+        expected_config["risk_policy"] = risk_policy
     candidates = {}
     if candidate_snapshot is not None:
         snapshot_report = verify(candidate_snapshot)
@@ -82,8 +87,29 @@ def run_questions(root, question_ids, split, checkpoint_dir, manifest, client, *
             observation = grader(client, context, image, question_image=q_image, **ref_args)
             if not isinstance(observation, dict) or observation.get("valid_probe_count") != 3:
                 raise ValueError("Invalid scoring observation")
+            risks = observation["risks"]
+            evidence_states = None
+            if risk_policy == "candidate_max_v1":
+                limits = {item["id"]: item["points"] for item in context["initial_rubric"]}
+                states = {"present": "readable", "missing": "unlocated", "unclear": "unreadable"}
+                facts = observation["facts"]
+                if set(facts) != set(limits):
+                    raise ValueError("Evidence/rubric item mismatch")
+                evidence_states = {}
+                for item, fact in facts.items():
+                    if fact.get("status") not in states:
+                        raise ValueError("Unexpected extractor evidence state")
+                    evidence_states[item] = {"state": states[fact["status"]], "source": "model_extraction",
+                                             "description": "Model report; absence is not independently verified"}
+                risks = {"U_E": evidence_availability_risk(evidence_states, limits),
+                         "U_S": item_score_range_risk(observation["probes"], limits),
+                         "U_R": observation["risks"]["U_R"]}
             action = decide_action(baseline_score=observation["baseline_score"], max_score=context["total_score"],
-                                   risks=observation["risks"], valid_probe_count=3, m=m, loss_parameters=loss_parameters)
+                                   risks=risks, valid_probe_count=3, m=m, loss_parameters=loss_parameters,
+                                   fusion="equal_mean" if risk_policy == "baseline" else "noncompensatory_max")
+            if evidence_states is not None:
+                action["candidate_risks"] = risks
+                action["evidence_states"] = evidence_states
             checkpoint.save(key, {"question_id": question_id, "answer_id": answer_id,
                                   "observation": observation, "decision": action})
             counts["completed_now"] += 1

@@ -4,10 +4,49 @@ import unittest
 from unittest.mock import patch
 
 from label_free_run import run_questions
+from label_free_checkpoint import Checkpoint
 from test_label_free_scoring import LabelFreeScoringTests
 
 
 class LabelFreeRunTests(unittest.TestCase):
+    def test_candidate_policy_defers_unverified_missing_and_preserves_resume(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "data"
+            root.mkdir()
+            LabelFreeScoringTests().fixture(root)
+            images = root / "student_images/Q_1"
+            images.mkdir(parents=True)
+            for ident in ("A1", "A2", "A3"):
+                (images / (ident + ".png")).write_bytes(b"image")
+            candidate = {"context": {"question_id": "Q_1", "question_text": "q", "reference_text": "r",
+                "total_score": 10, "initial_rubric": [{"id": "s1", "item": "i", "points": 10}]},
+                "question_image": None, "reference_images": []}
+            loss = {"lambda1": 1, "lambda2": 1, "mu1": 1, "mu2": 1}
+            manifest = {"run_config": {"question_ids": ["Q_1"], "split": "test", "m": 0.5,
+                "loss_parameters": loss, "risk_policy": "candidate_max_v1", "candidate_snapshot_sha256": "hash"}}
+            calls = []
+            def grader(client, context, image, **kwargs):
+                calls.append(image.stem)
+                return {"baseline_score": 0, "risks": {"U_E": 1, "U_S": 0, "U_R": 0},
+                        "valid_probe_count": 3, "facts": {"s1": {"status": "missing", "evidence": ""}},
+                        "probes": [{"s1": {"score": 0, "category": "missing"}} for _ in range(3)]}
+            run_dir = Path(temporary) / "candidate_run"
+            with patch("label_free_run.verify", return_value={"snapshot_sha256_normalized": "hash"}), \
+                 patch("label_free_run.load_candidate_question", return_value=candidate):
+                first = run_questions(root, ["Q_1"], "test", run_dir, manifest, None, m=0.5,
+                    loss_parameters=loss, grader=grader, max_new=1, candidate_snapshot="snapshot", risk_policy="candidate_max_v1")
+                second = run_questions(root, ["Q_1"], "test", run_dir, manifest, None, m=0.5,
+                    loss_parameters=loss, grader=grader, max_new=1, candidate_snapshot="snapshot", risk_policy="candidate_max_v1")
+                with self.assertRaisesRegex(ValueError, "Manifest"):
+                    run_questions(root, ["Q_1"], "test", run_dir, manifest, None, m=0.5,
+                        loss_parameters=loss, grader=grader, candidate_snapshot="snapshot", risk_policy="baseline")
+            self.assertEqual(first["completed_now"], 1)
+            self.assertEqual(second, {"completed_before": 1, "completed_now": 1})
+            result = Checkpoint(run_dir, manifest).load("Q_1_A1")
+            self.assertEqual(result["decision"]["route"], "NEG")
+            self.assertEqual(result["decision"]["evidence_states"]["s1"]["state"], "unlocated")
+            self.assertIsNone(result["decision"]["automatic_score"])
+            self.assertEqual(calls, ["A1", "A2"])
     def test_resume_and_teacher_independence_with_mock_grader(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / "data"

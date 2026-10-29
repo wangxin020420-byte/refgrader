@@ -9,6 +9,7 @@ from unittest.mock import patch
 import httpx
 
 from label_free_model import BASE_URL, create_client
+from label_free_checkpoint import Checkpoint
 from label_free_run import run_questions
 from scripts.verify_label_free_question_snapshot import verify
 from test_label_free_scoring import LabelFreeScoringTests
@@ -68,18 +69,27 @@ class CandidateEndToEndTests(unittest.TestCase):
                     raise AssertionError("forbidden input read")
                 return original_open(path, *args, **kwargs)
             run_dir = root / "run"
+            candidate_manifest = {**manifest, "run_config": {**config, "risk_policy": "candidate_max_v1"}}
+            candidate_run = root / "candidate_run"
             with patch.object(Path, "open", guard), create_client("fake", http_client=httpx.Client(
                     transport=httpx.MockTransport(respond), trust_env=False)) as client:
                 first = run_questions(prepared, ["Q_1"], "test", run_dir, manifest, client,
                     m=0.5, loss_parameters=loss, max_new=1, candidate_snapshot=snapshot_root)
                 second = run_questions(prepared, ["Q_1"], "test", run_dir, manifest, client,
                     m=0.5, loss_parameters=loss, max_new=1, candidate_snapshot=snapshot_root)
+                alternative = run_questions(prepared, ["Q_1"], "test", candidate_run, candidate_manifest, client,
+                    m=0.5, loss_parameters=loss, max_new=1, candidate_snapshot=snapshot_root,
+                    risk_policy="candidate_max_v1")
             self.assertEqual(first, {"completed_before": 0, "completed_now": 1})
             self.assertEqual(second, {"completed_before": 1, "completed_now": 1})
-            self.assertEqual(len(calls), 12)
+            self.assertEqual(alternative, {"completed_before": 0, "completed_now": 1})
+            self.assertEqual(len(calls), 18)
             self.assertTrue(all(str(call.url) == BASE_URL + "/chat/completions" for call in calls))
             self.assertTrue(all(b"teacher-private" not in call.content for call in calls))
             self.assertEqual(len(list((run_dir / "answers").glob("*.json"))), 2)
+            decision = Checkpoint(candidate_run, candidate_manifest).load("Q_1_A1")["decision"]
+            self.assertEqual(decision["policy"], "candidate_max_bnd_defer_v1")
+            self.assertEqual(decision["route"], "POS")
 
 
 if __name__ == "__main__":

@@ -75,7 +75,7 @@ def _single_writer(directory):
                 fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
 
 
-def _inputs(question_ids, split, candidate_snapshot=None):
+def _inputs(question_ids, split, candidate_snapshot=None, risk_policy="baseline"):
     report = preflight(PREPARED)
     database = json.loads((PREPARED / "exam_database.json").read_text(encoding="utf-8-sig"))
     available = {item["question_id"] for item in database}
@@ -84,6 +84,8 @@ def _inputs(question_ids, split, candidate_snapshot=None):
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     split_manifest = (PREPARED / "manifest.json").read_text(encoding="utf-8-sig").replace("\r\n", "\n")
     run_config = {"question_ids": question_ids, "split": split, "m": M, "loss_parameters": LOSS}
+    if risk_policy != "baseline":
+        run_config["risk_policy"] = risk_policy
     candidate_report = None
     if candidate_snapshot is not None:
         candidate_root = Path(candidate_snapshot).resolve(strict=True)
@@ -121,6 +123,7 @@ def main(argv=None):
     parser.add_argument("--split", choices=["calibration", "validation"], default="calibration")
     parser.add_argument("--max-new", type=int, default=1, help="Maximum new answers in this invocation")
     parser.add_argument("--candidate-snapshot", help="Unapproved candidate snapshot for development only")
+    parser.add_argument("--risk-policy", choices=["baseline", "candidate_max_v1"], default="baseline")
     args = parser.parse_args(argv)
     if not re.fullmatch(r"[A-Za-z0-9_-]+", args.run_id):
         parser.error("Invalid run ID")
@@ -147,7 +150,10 @@ def main(argv=None):
             print(json.dumps({"run_id": args.run_id, "running": running, "verified_answer_files": len(files),
                               "scope": manifest.get("scope"), "run_config": manifest.get("run_config")}, indent=2))
             return 0
-        manifest = _inputs(args.questions, args.split, args.candidate_snapshot) if args.candidate_snapshot else _inputs(args.questions, args.split)
+        if args.risk_policy == "baseline":
+            manifest = _inputs(args.questions, args.split, args.candidate_snapshot) if args.candidate_snapshot else _inputs(args.questions, args.split)
+        else:
+            manifest = _inputs(args.questions, args.split, args.candidate_snapshot, args.risk_policy)
         if args.check:
             print(json.dumps({"offline_check": "passed", "run_id": args.run_id,
                               "manifest": manifest, "live_calls": 0,
@@ -159,7 +165,7 @@ def main(argv=None):
         with _single_writer(run_dir), create_client(key) as client:
             counts = run_questions(PREPARED, args.questions, args.split, run_dir, manifest, client,
                                    m=M, loss_parameters=LOSS, max_new=args.max_new,
-                                   candidate_snapshot=args.candidate_snapshot)
+                                   candidate_snapshot=args.candidate_snapshot, risk_policy=args.risk_policy)
         print(json.dumps({"run_id": args.run_id, "scope": "development_only_not_formal", **counts}, indent=2))
         return 0
     except (OSError, ValueError, KeyError, TypeError, subprocess.CalledProcessError) as exc:

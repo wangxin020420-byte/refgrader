@@ -53,6 +53,52 @@ class LabelFreeRunTests(unittest.TestCase):
                               None, m=0.5, loss_parameters={})
             self.assertFalse((Path(temporary) / "run").exists())
 
+    def test_candidate_path_uses_original_context_and_does_not_open_old_rubric(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "data"
+            root.mkdir()
+            LabelFreeScoringTests().fixture(root)
+            images = root / "student_images/Q_1"
+            images.mkdir(parents=True)
+            for ident in ("A1", "A2", "A3"):
+                (images / (ident + ".png")).write_bytes(b"image")
+            candidate = {"context": {"question_id": "Q_1", "question_text": "original",
+                "reference_text": "original reference", "total_score": 10,
+                "initial_rubric": [{"id": "official", "item": "original", "points": 10}]},
+                "question_image": None, "reference_images": [{"path": Path("ref.png"), "item_ids": ["official"]}]}
+            loss = {"lambda1": 5, "lambda2": 1, "mu1": 3, "mu2": 7}
+            manifest = {"run_config": {"question_ids": ["Q_1"], "split": "test", "m": 0.5,
+                "loss_parameters": loss, "candidate_snapshot_sha256": "candidate-hash"}}
+            calls = []
+            def grader(client, context, image, **kwargs):
+                calls.append((context, kwargs))
+                return {"baseline_score": 4, "risks": {"U_E": 0, "U_S": 0, "U_R": 0}, "valid_probe_count": 3}
+            original = Path.open
+            def guard(path, *args, **kwargs):
+                if path.name in {"teacher_scores.json", "exam_database.json"} or "rubrics" in path.parts:
+                    raise AssertionError("old rubric or teacher data read")
+                return original(path, *args, **kwargs)
+            with patch.object(Path, "open", guard), \
+                 patch("label_free_run.verify", return_value={"snapshot_sha256_normalized": "candidate-hash"}), \
+                 patch("label_free_run.load_candidate_question", return_value=candidate):
+                result = run_questions(root, ["Q_1"], "test", Path(temporary) / "run", manifest, None,
+                    m=0.5, loss_parameters=loss, grader=grader, max_new=1, candidate_snapshot="snapshot")
+            self.assertEqual(result["completed_now"], 1)
+            self.assertEqual(calls[0][0]["initial_rubric"][0]["id"], "official")
+            self.assertEqual(calls[0][1]["reference_images"][0]["item_ids"], ["official"])
+
+    def test_candidate_question_rejection_precedes_any_grading(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            calls = []
+            with patch("label_free_run.verify", return_value={"snapshot_sha256_normalized": "hash"}), \
+                 patch("label_free_run.load_candidate_question", side_effect=ValueError("unresolved teacher")):
+                with self.assertRaisesRegex(ValueError, "unresolved teacher"):
+                    run_questions(temporary, ["Q_1"], "test", Path(temporary) / "run", {}, None,
+                                  m=0.5, loss_parameters={}, candidate_snapshot="snapshot",
+                                  grader=lambda *args, **kwargs: calls.append(1))
+            self.assertEqual(calls, [])
+            self.assertFalse((Path(temporary) / "run").exists())
+
 
 if __name__ == "__main__":
     unittest.main()

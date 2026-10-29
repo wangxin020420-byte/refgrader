@@ -56,6 +56,32 @@ def load_unlabeled_metadata(path):
     return answers
 
 
+def load_unlabeled_answers(root, question_id, split):
+    """Load IDs and allowlisted metadata without opening prepared rubrics or references."""
+    root = Path(root).resolve(strict=True)
+    if not isinstance(question_id, str) or not re.fullmatch(r"[A-Za-z0-9_]+", question_id):
+        raise ValueError("Invalid question ID")
+    if split not in {"calibration", "validation", "test"}:
+        raise ValueError("Unsupported answer split")
+    metadata = load_unlabeled_metadata(root / "answer_metadata.jsonl")
+    path = root / "splits" / "by_question" / f"{question_id}.json"
+    if path.is_symlink() or not path.resolve().is_relative_to(root):
+        raise ValueError("Unsafe split path")
+    splits = json.loads(path.read_text(encoding="utf-8-sig"))
+    if splits.get("question_id") != question_id:
+        raise ValueError("Split question mismatch")
+    groups = [splits.get(name) for name in ("calibration", "validation", "test")]
+    if any(not isinstance(group, list) for group in groups):
+        raise ValueError("Missing answer split")
+    ids = [answer_id for group in groups for answer_id in group]
+    if any(not isinstance(answer_id, str) for answer_id in ids) or len(set(ids)) != len(ids):
+        raise ValueError("Invalid or overlapping answer splits")
+    available = {answer_id for answer_id, item in metadata.items() if item["question_id"] == question_id}
+    if set(ids) != available:
+        raise ValueError("Split answers do not match question metadata")
+    return [metadata[answer_id] for answer_id in splits[split]]
+
+
 def load_unlabeled_question(root, question_id, split):
     """Load initial rubric and the exact unreviewed ID split for one question.
 
@@ -93,22 +119,7 @@ def load_unlabeled_question(root, question_id, split):
         raise ValueError("Invalid rubric score range")
     if abs(sum(points) - total) > 1e-6:
         raise ValueError("Initial rubric total does not match question total")
-    metadata = load_unlabeled_metadata(root / "answer_metadata.jsonl")
-    path = root / "splits" / "by_question" / f"{question_id}.json"
-    if path.is_symlink() or not path.resolve().is_relative_to(root):
-        raise ValueError("Unsafe split path")
-    splits = json.loads(path.read_text(encoding="utf-8-sig"))
-    if splits.get("question_id") != question_id:
-        raise ValueError("Split question mismatch")
-    groups = [splits.get(name) for name in ("calibration", "validation", "test")]
-    if any(not isinstance(group_ids, list) for group_ids in groups):
-        raise ValueError("Missing answer split")
-    ids = [answer_id for group_ids in groups for answer_id in group_ids]
-    if any(not isinstance(answer_id, str) for answer_id in ids) or len(set(ids)) != len(ids):
-        raise ValueError("Invalid or overlapping answer splits")
-    available = {answer_id for answer_id, item in metadata.items() if item["question_id"] == question_id}
-    if set(ids) != available:
-        raise ValueError("Split answers do not match question metadata")
+    answers = load_unlabeled_answers(root, question_id, split)
     return {
         "question_id": question_id,
         "question_text": question.get("question_text", ""),
@@ -116,7 +127,7 @@ def load_unlabeled_question(root, question_id, split):
         "total_score": total,
         "initial_rubric": rubric,
         "answer_split": split,
-        "answers": [metadata[answer_id] for answer_id in splits[split]],
+        "answers": answers,
         "teacher_labels_loaded": False,
         "content_provenance_audited": False,
     }

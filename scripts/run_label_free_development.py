@@ -21,6 +21,8 @@ sys.path.insert(0, str(ROOT))
 from label_free_model import BASE_URL, TEXT_MODEL, VISION_MODEL, create_client
 from label_free_checkpoint import Checkpoint
 from label_free_run import run_questions
+from label_free_question_snapshot import load_candidate_question
+from scripts.verify_label_free_question_snapshot import verify
 from scripts.preflight_label_free import preflight
 
 PREPARED = ROOT / "data/csbench"
@@ -73,7 +75,7 @@ def _single_writer(directory):
                 fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
 
 
-def _inputs(question_ids, split):
+def _inputs(question_ids, split, candidate_snapshot=None):
     report = preflight(PREPARED)
     database = json.loads((PREPARED / "exam_database.json").read_text(encoding="utf-8-sig"))
     available = {item["question_id"] for item in database}
@@ -81,8 +83,18 @@ def _inputs(question_ids, split):
         raise ValueError("Unknown question ID")
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     split_manifest = (PREPARED / "manifest.json").read_text(encoding="utf-8-sig").replace("\r\n", "\n")
-    return {
-        "run_config": {"question_ids": question_ids, "split": split, "m": M, "loss_parameters": LOSS},
+    run_config = {"question_ids": question_ids, "split": split, "m": M, "loss_parameters": LOSS}
+    candidate_report = None
+    if candidate_snapshot is not None:
+        candidate_root = Path(candidate_snapshot).resolve(strict=True)
+        if not candidate_root.is_relative_to(ROOT.resolve()):
+            raise ValueError("Candidate snapshot must be inside the repository")
+        candidate_report = verify(candidate_root)
+        for question_id in question_ids:
+            load_candidate_question(candidate_root, question_id)
+        run_config["candidate_snapshot_sha256"] = candidate_report["snapshot_sha256_normalized"]
+    result = {
+        "run_config": run_config,
         "input_groups": report["input_groups"],
         "split_manifest_sha256": hashlib.sha256(split_manifest.encode("utf-8")).hexdigest(),
         "model": {"text": TEXT_MODEL, "vision": VISION_MODEL, "base_url": BASE_URL,
@@ -93,6 +105,9 @@ def _inputs(question_ids, split):
         "scope": "development_only_not_formal", "teacher_scores_used": False,
         "limitations": report["checks_pending"],
     }
+    if candidate_report is not None:
+        result["candidate_snapshot"] = candidate_report
+    return result
 
 
 def main(argv=None):
@@ -105,6 +120,7 @@ def main(argv=None):
     parser.add_argument("--questions", nargs="+", default=["CO_1"])
     parser.add_argument("--split", choices=["calibration", "validation"], default="calibration")
     parser.add_argument("--max-new", type=int, default=1, help="Maximum new answers in this invocation")
+    parser.add_argument("--candidate-snapshot", help="Unapproved candidate snapshot for development only")
     args = parser.parse_args(argv)
     if not re.fullmatch(r"[A-Za-z0-9_-]+", args.run_id):
         parser.error("Invalid run ID")
@@ -131,7 +147,7 @@ def main(argv=None):
             print(json.dumps({"run_id": args.run_id, "running": running, "verified_answer_files": len(files),
                               "scope": manifest.get("scope"), "run_config": manifest.get("run_config")}, indent=2))
             return 0
-        manifest = _inputs(args.questions, args.split)
+        manifest = _inputs(args.questions, args.split, args.candidate_snapshot) if args.candidate_snapshot else _inputs(args.questions, args.split)
         if args.check:
             print(json.dumps({"offline_check": "passed", "run_id": args.run_id,
                               "manifest": manifest, "live_calls": 0,
@@ -142,7 +158,8 @@ def main(argv=None):
             raise ValueError("Coding Plan key is missing from this process environment")
         with _single_writer(run_dir), create_client(key) as client:
             counts = run_questions(PREPARED, args.questions, args.split, run_dir, manifest, client,
-                                   m=M, loss_parameters=LOSS, max_new=args.max_new)
+                                   m=M, loss_parameters=LOSS, max_new=args.max_new,
+                                   candidate_snapshot=args.candidate_snapshot)
         print(json.dumps({"run_id": args.run_id, "scope": "development_only_not_formal", **counts}, indent=2))
         return 0
     except (OSError, ValueError, KeyError, TypeError, subprocess.CalledProcessError) as exc:

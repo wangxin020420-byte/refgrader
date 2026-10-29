@@ -1,10 +1,28 @@
 import unittest
 
-from label_free_risk_candidates import candidate_memberships, item_score_range_risk
+from label_free_risk_candidates import candidate_memberships, evidence_availability_risk, item_score_range_risk
 from label_free_a3wa import route_membership
 
 
 class CandidateRiskTests(unittest.TestCase):
+    def test_verified_blank_differs_from_unresolved_missing(self):
+        limits = {"a": 3, "b": 7}
+        blank = {item: {"state": "verified_absent", "source": "human_image_check",
+                        "description": "answer region inspected"} for item in limits}
+        self.assertEqual(evidence_availability_risk(blank, limits), 0.0)
+        unresolved = {item: {"state": "unlocated", "source": "extractor",
+                             "description": "location not confirmed"} for item in limits}
+        self.assertEqual(evidence_availability_risk(unresolved, limits), 1.0)
+        unresolved["a"] = blank["a"]
+        self.assertAlmostEqual(evidence_availability_risk(unresolved, limits), 0.7)
+
+    def test_raw_missing_and_unproven_status_are_rejected(self):
+        for entry in ({"state": "missing", "source": "extractor", "description": "none"},
+                      {"state": "verified_absent", "source": "", "description": "none"},
+                      {"state": "verified_absent", "source": "human", "description": ""}):
+            with self.subTest(entry=entry), self.assertRaises(ValueError):
+                evidence_availability_risk({"a": entry}, {"a": 1})
+
     def test_item_disagreement_can_cancel_in_total(self):
         probes = [{"a": {"score": 3}, "b": {"score": 0}},
                   {"a": {"score": 0}, "b": {"score": 3}}]

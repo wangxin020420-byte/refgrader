@@ -104,6 +104,41 @@ class LabelFreeModelTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "content_type=NoneType"):
             _content(response, stage="student_image")
 
+    def test_invalid_json_retries_only_failed_model_request(self):
+        calls = {"glm-4.6v": 0, "glm-5.2": 0}
+        def reply(request):
+            body = json.loads(request.content)
+            model = body["model"]
+            calls[model] += 1
+            if calls[model] == 1:
+                content = "private malformed {"
+            elif model == "glm-4.6v":
+                content = json.dumps({"items": [{"id": "s1", "status": "present", "evidence": "42"}]})
+            else:
+                content = json.dumps({"items": [{"id": "s1", "score": 2, "category": "match"}]})
+            return httpx.Response(200, json={"id": "mock", "object": "chat.completion", "created": 0,
+                "model": model, "choices": [{"index": 0, "finish_reason": "stop",
+                "message": {"role": "assistant", "content": content}}]})
+        with create_client("fake", http_client=httpx.Client(transport=httpx.MockTransport(reply), trust_env=False)) as client:
+            result = grade_one(client, self.context, self.image)
+        self.assertEqual(calls, {"glm-4.6v": 2, "glm-5.2": 4})
+        self.assertEqual(result["probe_scores"], [2, 2, 2])
+
+    def test_invalid_json_exhaustion_is_bounded_and_redacted(self):
+        calls = []
+        def reply(request):
+            calls.append(request)
+            return httpx.Response(200, json={"id": "mock", "object": "chat.completion", "created": 0,
+                "model": "glm-4.6v", "choices": [{"index": 0, "finish_reason": "stop",
+                "message": {"role": "assistant", "content": "private student text {"}}]})
+        with create_client("fake", http_client=httpx.Client(transport=httpx.MockTransport(reply), trust_env=False)) as client:
+            with self.assertRaises(ValueError) as error:
+                grade_one(client, self.context, self.image)
+        self.assertEqual(len(calls), 3)
+        self.assertIn("JSON attempts exhausted=3", str(error.exception))
+        self.assertNotIn("private student text", str(error.exception))
+        self.assertTrue(all(str(r.url) == BASE_URL + "/chat/completions" for r in calls))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -11,6 +11,7 @@ import math
 import mimetypes
 from pathlib import Path
 import re
+import sys
 
 import httpx
 from openai import OpenAI
@@ -20,6 +21,7 @@ TEXT_MODEL = "glm-5.2"
 VISION_MODEL = "glm-4.6v"
 _KINDS = {"present", "missing", "unclear"}
 _CATEGORIES = {"match", "partial", "mismatch", "missing", "unclear"}
+_JSON_ATTEMPTS = 3
 
 
 def create_client(api_key, *, http_client=None):
@@ -55,6 +57,23 @@ def _content(response, *, stage):
     if not isinstance(result, dict):
         raise ValueError(f"{stage}: model response must be a JSON object")
     return result
+
+
+def _request_json(client, *, stage, **request):
+    """Retry malformed JSON only; never relax the downstream schema checks.
+
+    An unsuccessful request may still consume quota. Transport failures retain
+    the SDK's separate retry policy. No response text or credentials are logged.
+    """
+    for attempt in range(1, _JSON_ATTEMPTS + 1):
+        response = client.chat.completions.create(**request)
+        try:
+            return _content(response, stage=stage)
+        except ValueError as exc:
+            if attempt == _JSON_ATTEMPTS:
+                raise ValueError(f"{exc}; JSON attempts exhausted={_JSON_ATTEMPTS}") from exc
+            print(f"{stage}: invalid JSON; retry {attempt + 1}/{_JSON_ATTEMPTS}",
+                  file=sys.stderr, flush=True)
 
 
 def _rubric(rubric):
@@ -159,25 +178,23 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
             # Validate all paths before issuing any model request.
             _image(entry["path"])
         for entry in reference_images:
-            response = client.chat.completions.create(
+            payload = _request_json(client, stage="reference_image",
                 model=VISION_MODEL,
                 messages=[{"role": "user", "content": [
                     {"type": "text", "text": "Transcribe the reference-answer image faithfully for the listed rubric items. Do not infer missing text. Return JSON exactly as {\"reference_text\":\"...\"}. Item IDs: " + json.dumps(entry["item_ids"])},
                     _image(entry["path"]),
                 ]}], temperature=0, response_format={"type": "json_object"})
-            payload = _content(response, stage="reference_image")
             if set(payload) != {"reference_text"} or not isinstance(payload["reference_text"], str) or not payload["reference_text"].strip():
                 raise ValueError("reference_image: invalid visual reference transcription")
             multi_references.append({"item_ids": list(entry["item_ids"]), "reference_text": payload["reference_text"]})
     reference_transcription = ""
     if reference_image is not None:
-        reference_response = client.chat.completions.create(
+        reference_payload = _request_json(client, stage="reference_image",
             model=VISION_MODEL,
             messages=[{"role": "user", "content": [
                 {"type": "text", "text": "Transcribe the reference-answer image faithfully. Do not infer missing text. Return JSON exactly as {\"reference_text\":\"...\"}."},
                 _image(reference_image),
             ]}], temperature=0, response_format={"type": "json_object"})
-        reference_payload = _content(reference_response, stage="reference_image")
         if set(reference_payload) != {"reference_text"} or not isinstance(reference_payload["reference_text"], str) or not reference_payload["reference_text"].strip():
             raise ValueError("reference_image: invalid visual reference transcription")
         reference_transcription = reference_payload["reference_text"]
@@ -192,10 +209,11 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
     images = [{"type": "text", "text": extract_instruction}, {"type": "text", "text": "Student answer:"}, _image(image_path)]
     if question_image is not None:
         images += [{"type": "text", "text": "Question image:"}, _image(question_image)]
-    response = client.chat.completions.create(model=VISION_MODEL, messages=[{"role": "user", "content": images}],
-                                               temperature=0, response_format={"type": "json_object"})
+    payload = _request_json(client, stage="student_image", model=VISION_MODEL,
+                            messages=[{"role": "user", "content": images}],
+                            temperature=0, response_format={"type": "json_object"})
     try:
-        facts = _validate_facts(_content(response, stage="student_image"), [r["id"] for r in rubric])
+        facts = _validate_facts(payload, [r["id"] for r in rubric])
     except ValueError as exc:
         if str(exc).startswith("student_image:"):
             raise
@@ -213,12 +231,13 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
     )
     probes = []
     for index in range(3):
-        response = client.chat.completions.create(model=TEXT_MODEL, messages=[{"role": "user", "content": instruction}],
-                                                   temperature=0.35, response_format={"type": "json_object"},
-                                                   extra_body={"thinking": {"type": "disabled"}})
         stage = f"text_probe_{index + 1}"
+        payload = _request_json(client, stage=stage, model=TEXT_MODEL,
+                                messages=[{"role": "user", "content": instruction}],
+                                temperature=0.35, response_format={"type": "json_object"},
+                                extra_body={"thinking": {"type": "disabled"}})
         try:
-            probes.append(_validate_probe(_content(response, stage=stage), rubric))
+            probes.append(_validate_probe(payload, rubric))
         except ValueError as exc:
             if str(exc).startswith(stage + ":"):
                 raise

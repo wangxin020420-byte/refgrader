@@ -239,7 +239,7 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
                                 messages=[{"role": "user", "content": images}],
                                 temperature=0, response_format={"type": "json_object"})
     except ValueError as exc:
-        if (context.get("question_id") != "CPL_5" or
+        if (not isinstance(context.get('question_id'), str) or not context['question_id'] or
                 "student_image: model returned invalid JSON (finish_reason=stop" not in str(exc) or
                 "JSON attempts exhausted=3" not in str(exc)):
             raise

@@ -54,7 +54,7 @@ class LabelFreeRunTests(unittest.TestCase):
                 return {'baseline_score': 5, 'risks': {'U_E': 0, 'U_S': 0, 'U_R': 0}, 'valid_probe_count': 3,
                         'facts': {'s1': {'status': 'present', 'evidence': 'x'}},
                         'probes': [{'s1': {'score': 5, 'category': 'match'}} for _ in range(3)],
-                        'slot_fallback': {'protocol': 'cpl5_visible_slots_candidate_v1',
+                        'slot_fallback': {'protocol': 'whole_image_candidate_v1',
                                           'requires_human_review': True, 'score_change_authorized': False}}
             run_dir = Path(temporary)/'run'
             with patch('label_free_run.verify', return_value={'snapshot_sha256_normalized': 'hash'}), \

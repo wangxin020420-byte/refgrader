@@ -18,7 +18,8 @@ class SlotFallbackTests(unittest.TestCase):
                 if counts['vision'] <= 3:
                     content = 'invalid JSON {'
                 else:
-                    content = '\n'.join(line for i in range(1, 6) for line in
+                    marker_count = 5 if question_id == 'CPL_5' else 1
+                    content = '\n'.join(line for i in range(1, marker_count + 1) for line in
                         (f'<<<BEGIN_SLOT_{i}>>>', 'fopen("w")' if i == 1 else '', f'<<<END_SLOT_{i}>>>'))
                     if not marker_valid: content = content.replace('<<<END_SLOT_5>>>', '')
             else:
@@ -47,12 +48,21 @@ class SlotFallbackTests(unittest.TestCase):
         self.assertTrue(all(str(r.url) == BASE_URL + '/chat/completions' for r in requests))
         self.assertTrue(all(b'teacher_score' not in r.content for r in requests))
 
-    def test_bad_markers_and_other_questions_fail_closed(self):
-        for kwargs in ({'marker_valid': False}, {'question_id': 'OTHER'}):
+    def test_bad_markers_fail_closed(self):
+        for kwargs in ({'marker_valid': False},):
             client, context, _, _ = self.fixture(**kwargs)
             with tempfile.TemporaryDirectory() as tmp:
                 image = Path(tmp)/'answer.png'; image.write_bytes(b'x')
                 with client, self.assertRaises(ValueError): grade_one(client, context, image)
+
+    def test_other_questions_use_one_whole_image_region(self):
+        client, context, _, _ = self.fixture(question_id='CPL_7')
+        with tempfile.TemporaryDirectory() as tmp:
+            image = Path(tmp)/'answer.png'; image.write_bytes(b'x')
+            with client: result = grade_one(client, context, image)
+        self.assertEqual(result['slot_fallback']['protocol'], 'whole_image_candidate_v1')
+        self.assertEqual(len(result['slot_fallback']['slots']['slots']), 1)
+        self.assertTrue(all(f['status'] == 'unclear' for f in result['facts'].values()))
 
 
 if __name__ == '__main__': unittest.main()

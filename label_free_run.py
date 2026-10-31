@@ -110,7 +110,7 @@ def run_questions(root, question_ids, split, checkpoint_dir, manifest, client, *
                                    fusion="equal_mean" if risk_policy == "baseline" else "noncompensatory_max")
             if "slot_fallback" in observation:
                 fallback = observation["slot_fallback"]
-                if (not isinstance(fallback, dict) or fallback.get("protocol") != "cpl5_visible_slots_candidate_v1" or
+                if (not isinstance(fallback, dict) or fallback.get("protocol") not in {"cpl5_visible_slots_candidate_v1", "whole_image_candidate_v1"} or
                         fallback.get("requires_human_review") is not True or fallback.get("score_change_authorized") is not False):
                     raise ValueError("Invalid fallback review contract")
                 # Preserve the computed A3WA route; override only the release

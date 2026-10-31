@@ -209,15 +209,24 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
     images = [{"type": "text", "text": extract_instruction}, {"type": "text", "text": "Student answer:"}, _image(image_path)]
     if question_image is not None:
         images += [{"type": "text", "text": "Question image:"}, _image(question_image)]
-    payload = _request_json(client, stage="student_image", model=VISION_MODEL,
-                            messages=[{"role": "user", "content": images}],
-                            temperature=0, response_format={"type": "json_object"})
+    fallback = None
     try:
-        facts = _validate_facts(payload, [r["id"] for r in rubric])
+        payload = _request_json(client, stage="student_image", model=VISION_MODEL,
+                                messages=[{"role": "user", "content": images}],
+                                temperature=0, response_format={"type": "json_object"})
     except ValueError as exc:
-        if str(exc).startswith("student_image:"):
+        if (context.get("question_id") != "CPL_5" or
+                "student_image: model returned invalid JSON (finish_reason=stop" not in str(exc) or
+                "JSON attempts exhausted=3" not in str(exc)):
             raise
-        raise ValueError(f"student_image: {exc}") from exc
+        from label_free_slot_fallback import extract_fallback
+        facts, fallback = extract_fallback(client, context=context, rubric=rubric,
+                                           images=images, vision_model=VISION_MODEL)
+    else:
+        try:
+            facts = _validate_facts(payload, [r["id"] for r in rubric])
+        except ValueError as exc:
+            raise ValueError(f"student_image: {exc}") from exc
     instruction = (
         "Grade each rubric item only from the supplied evidence and reference. "
         "Do not use teacher scores or infer unwritten work. Return JSON only: "
@@ -252,4 +261,6 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
             "reference_image_transcription": reference_transcription}
     if reference_images is not None:
         result["reference_image_transcriptions"] = multi_references
+    if fallback is not None:
+        result["slot_fallback"] = fallback
     return result

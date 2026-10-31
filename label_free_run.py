@@ -108,6 +108,17 @@ def run_questions(root, question_ids, split, checkpoint_dir, manifest, client, *
             action = decide_action(baseline_score=observation["baseline_score"], max_score=context["total_score"],
                                    risks=risks, valid_probe_count=3, m=m, loss_parameters=loss_parameters,
                                    fusion="equal_mean" if risk_policy == "baseline" else "noncompensatory_max")
+            if "slot_fallback" in observation:
+                fallback = observation["slot_fallback"]
+                if (not isinstance(fallback, dict) or fallback.get("protocol") != "cpl5_visible_slots_candidate_v1" or
+                        fallback.get("requires_human_review") is not True or fallback.get("score_change_authorized") is not False):
+                    raise ValueError("Invalid fallback review contract")
+                # Preserve the computed A3WA route; override only the release
+                # action because mapped slots and crossouts are unverified.
+                action["automatic_score"] = None
+                action["requires_human_review"] = True
+                action["action"] = "defer_unverified_slot_fallback"
+                action["fallback_review_required"] = True
             if evidence_states is not None:
                 action["candidate_risks"] = risks
                 action["evidence_states"] = evidence_states

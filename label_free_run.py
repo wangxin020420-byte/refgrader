@@ -119,6 +119,15 @@ def run_questions(root, question_ids, split, checkpoint_dir, manifest, client, *
                 action["requires_human_review"] = True
                 action["action"] = "defer_unverified_slot_fallback"
                 action["fallback_review_required"] = True
+            if 'reference_fallback' in observation:
+                reference = observation['reference_fallback']
+                if (not isinstance(reference, dict) or reference.get('protocol') != 'marked_reference_transcription_v1' or
+                        reference.get('requires_human_review') is not True or reference.get('score_change_authorized') is not False):
+                    raise ValueError('Invalid reference fallback review contract')
+                action['automatic_score'] = None
+                action['requires_human_review'] = True
+                action['action'] = 'defer_unverified_reference_fallback'
+                action['reference_fallback_review_required'] = True
             if evidence_states is not None:
                 action["candidate_risks"] = risks
                 action["evidence_states"] = evidence_states

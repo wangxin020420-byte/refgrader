@@ -152,6 +152,42 @@ def _validate_probe(payload, rubric):
     return details
 
 
+def _reference_transcription(client, image, item_ids=None):
+    instruction = ('Transcribe the reference-answer image faithfully. Do not infer missing text. '
+                   'Return JSON exactly as {"reference_text":"..."}.')
+    if item_ids is not None:
+        instruction = ('Transcribe the reference-answer image faithfully for the listed rubric items. '
+                       'Do not infer missing text. Return JSON exactly as {"reference_text":"..."}. '
+                       'Item IDs: ' + json.dumps(item_ids))
+    try:
+        payload = _request_json(client, stage='reference_image', model=VISION_MODEL,
+            messages=[{'role': 'user', 'content': [{'type': 'text', 'text': instruction}, image]}],
+            temperature=0, response_format={'type': 'json_object'})
+    except ValueError as exc:
+        if ('reference_image: model returned invalid JSON (finish_reason=stop' not in str(exc) or
+                'JSON attempts exhausted=3' not in str(exc)):
+            raise
+        prompt = ('Transcribe only the visible contents of this reference-answer image faithfully, '
+                  'including program symbols and quotes. Do not infer missing content. '
+                  'Return only the transcription between two markers on their own lines: '
+                  '<<<BEGIN_REFERENCE>>> and <<<END_REFERENCE>>>. No other text.')
+        if item_ids is not None:
+            prompt += ' Item IDs: ' + json.dumps(item_ids)
+        response = client.chat.completions.create(model=VISION_MODEL, temperature=0,
+            messages=[{'role': 'user', 'content': [{'type': 'text', 'text': prompt}, image]}])
+        if not response.choices or response.choices[0].finish_reason != 'stop':
+            raise ValueError('reference_image: incomplete fallback response')
+        raw = response.choices[0].message.content
+        if not isinstance(raw, str): raise ValueError('reference_image: fallback response is not text')
+        match = re.fullmatch(r'\s*<<<BEGIN_REFERENCE>>>[ \t]*\r?\n([\s\S]*?)\r?\n<<<END_REFERENCE>>>[ \t]*\s*', raw)
+        if not match or not match.group(1).strip() or '<<<BEGIN_REFERENCE>>>' in match.group(1) or '<<<END_REFERENCE>>>' in match.group(1):
+            raise ValueError('reference_image: invalid fallback markers or empty transcription')
+        return match.group(1), True
+    if set(payload) != {'reference_text'} or not isinstance(payload['reference_text'], str) or not payload['reference_text'].strip():
+        raise ValueError('reference_image: invalid visual reference transcription')
+    return payload['reference_text'], False
+
+
 def grade_one(client, context, image_path, *, question_image=None, reference_image=None, reference_images=None):
     """Extract visual evidence once and grade it three times with no labels.
 
@@ -165,6 +201,7 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
     if reference_image is not None and reference_images is not None:
         raise ValueError("Choose one reference image interface")
     multi_references = []
+    reference_fallbacks = []
     if reference_images is not None:
         if not isinstance(reference_images, list):
             raise ValueError("reference_images must be a list")
@@ -178,26 +215,13 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
             # Validate all paths before issuing any model request.
             _image(entry["path"])
         for entry in reference_images:
-            payload = _request_json(client, stage="reference_image",
-                model=VISION_MODEL,
-                messages=[{"role": "user", "content": [
-                    {"type": "text", "text": "Transcribe the reference-answer image faithfully for the listed rubric items. Do not infer missing text. Return JSON exactly as {\"reference_text\":\"...\"}. Item IDs: " + json.dumps(entry["item_ids"])},
-                    _image(entry["path"]),
-                ]}], temperature=0, response_format={"type": "json_object"})
-            if set(payload) != {"reference_text"} or not isinstance(payload["reference_text"], str) or not payload["reference_text"].strip():
-                raise ValueError("reference_image: invalid visual reference transcription")
-            multi_references.append({"item_ids": list(entry["item_ids"]), "reference_text": payload["reference_text"]})
+            transcription, used = _reference_transcription(client, _image(entry['path']), entry['item_ids'])
+            multi_references.append({'item_ids': list(entry['item_ids']), 'reference_text': transcription})
+            if used: reference_fallbacks.append({'item_ids': list(entry['item_ids'])})
     reference_transcription = ""
     if reference_image is not None:
-        reference_payload = _request_json(client, stage="reference_image",
-            model=VISION_MODEL,
-            messages=[{"role": "user", "content": [
-                {"type": "text", "text": "Transcribe the reference-answer image faithfully. Do not infer missing text. Return JSON exactly as {\"reference_text\":\"...\"}."},
-                _image(reference_image),
-            ]}], temperature=0, response_format={"type": "json_object"})
-        if set(reference_payload) != {"reference_text"} or not isinstance(reference_payload["reference_text"], str) or not reference_payload["reference_text"].strip():
-            raise ValueError("reference_image: invalid visual reference transcription")
-        reference_transcription = reference_payload["reference_text"]
+        reference_transcription, used = _reference_transcription(client, _image(reference_image))
+        if used: reference_fallbacks.append({'item_ids': None})
     extract_instruction = (
         "Extract only what the student visibly wrote for each requested item. "
         "Do not grade, infer missing content or use any marks as scores. "
@@ -263,4 +287,8 @@ def grade_one(client, context, image_path, *, question_image=None, reference_ima
         result["reference_image_transcriptions"] = multi_references
     if fallback is not None:
         result["slot_fallback"] = fallback
+    if reference_fallbacks:
+        result['reference_fallback'] = {'protocol': 'marked_reference_transcription_v1',
+                                        'images': reference_fallbacks, 'requires_human_review': True,
+                                        'score_change_authorized': False}
     return result

@@ -9,6 +9,35 @@ from test_label_free_scoring import LabelFreeScoringTests
 
 
 class LabelFreeRunTests(unittest.TestCase):
+    def test_reference_fallback_never_releases_pos_score(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / 'data'; root.mkdir()
+            LabelFreeScoringTests().fixture(root)
+            images = root / 'student_images/Q_1'; images.mkdir(parents=True)
+            (images / 'A1.png').write_bytes(b'image')
+            candidate = {'context': {'question_id': 'Q_1', 'question_text': 'q', 'reference_text': 'r',
+                'total_score': 10, 'initial_rubric': [{'id': 's1', 'item': 'i', 'points': 10}]},
+                'question_image': None, 'reference_images': []}
+            loss = {'lambda1': 1, 'lambda2': 1, 'mu1': 1, 'mu2': 1}
+            manifest = {'run_config': {'question_ids': ['Q_1'], 'split': 'test', 'm': 0.5,
+                'loss_parameters': loss, 'risk_policy': 'candidate_max_v1', 'candidate_snapshot_sha256': 'hash'}}
+            def grader(client, context, image, **kwargs):
+                return {'baseline_score': 5, 'risks': {'U_E': 0, 'U_S': 0, 'U_R': 0}, 'valid_probe_count': 3,
+                        'facts': {'s1': {'status': 'present', 'evidence': 'x'}},
+                        'probes': [{'s1': {'score': 5, 'category': 'match'}} for _ in range(3)],
+                        'reference_fallback': {'protocol': 'marked_reference_transcription_v1',
+                            'requires_human_review': True, 'score_change_authorized': False}}
+            run_dir = Path(temporary)/'run'
+            with patch('label_free_run.verify', return_value={'snapshot_sha256_normalized': 'hash'}), \
+                 patch('label_free_run.load_candidate_question', return_value=candidate):
+                run_questions(root, ['Q_1'], 'test', run_dir, manifest, None, m=.5, loss_parameters=loss,
+                    grader=grader, max_new=1, candidate_snapshot='snapshot', risk_policy='candidate_max_v1')
+            decision = Checkpoint(run_dir, manifest).load('Q_1_A1')['decision']
+            self.assertEqual(decision['route'], 'POS')
+            self.assertIsNone(decision['automatic_score'])
+            self.assertTrue(decision['requires_human_review'])
+            self.assertEqual(decision['action'], 'defer_unverified_reference_fallback')
+
     def test_slot_fallback_never_releases_score_even_when_route_pos(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / 'data'; root.mkdir()
